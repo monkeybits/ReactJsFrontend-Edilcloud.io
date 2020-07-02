@@ -5,7 +5,8 @@ const initialState = {
 	error: {
 		username: null,
 		password: null
-	}
+	},
+	loadingLogin: false
 };
 
 const login = (state = initialState, action) => {
@@ -13,13 +14,24 @@ const login = (state = initialState, action) => {
 		case Actions.LOGIN_SUCCESS: {
 			return {
 				...initialState,
-				success: true
+				success: true,
+				loadingLogin: false,
+				error: {
+					username: null,
+					password: null
+				}
 			};
 		}
 		case Actions.LOGIN_ERROR: {
 			return {
+				loadingLogin: false,
 				success: false,
 				error: action.payload
+			};
+		}
+		case Actions.LOGIN_BEGIN: {
+			return {
+				loadingLogin: true
 			};
 		}
 		default: {

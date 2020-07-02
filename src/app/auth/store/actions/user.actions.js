@@ -6,7 +6,7 @@ import jwtService from 'app/services/jwtService';
 import * as MessageActions from 'app/store/actions/fuse/message.actions';
 import * as FuseActions from 'app/store/actions/fuse';
 import firebase from 'firebase/app';
-
+import { useHistory } from 'react-router-dom';
 export const SET_USER_DATA = '[USER] SET DATA';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
@@ -45,10 +45,10 @@ export const authUserData = {
 			},
 			customScrollbars: true,
 			theme: {
-				main: 'defaultDark',
-				navbar: 'defaultDark',
-				toolbar: 'defaultDark',
-				footer: 'defaultDark'
+				main: 'default',
+				navbar: 'mainThemeDark',
+				toolbar: 'mainThemeLight',
+				footer: 'mainThemeDark'
 			}
 		},
 		shortcuts: ['calendar', 'mail', 'contacts']
