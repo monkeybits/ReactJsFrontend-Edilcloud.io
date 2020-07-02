@@ -9,6 +9,8 @@ import * as authActions from 'app/auth/store/actions';
 import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { FormControl, FormHelperText } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function JWTLoginTab(props) {
 	const dispatch = useDispatch();
@@ -16,10 +18,14 @@ function JWTLoginTab(props) {
 
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
+	const [nonFieldError, setNonFieldError] = useState('');
 
 	const formRef = useRef(null);
 
 	useEffect(() => {
+		if (login.error?.non_field_errors) {
+			setNonFieldError(login.error.non_field_errors[0]);
+		}
 		if (login.error && (login.error.email || login.error.password)) {
 			formRef.current.updateInputsWithError({
 				...login.error
@@ -37,6 +43,7 @@ function JWTLoginTab(props) {
 	}
 
 	function handleSubmit(model) {
+		setNonFieldError('');
 		dispatch(authActions.submitLogin(model));
 	}
 
@@ -73,36 +80,37 @@ function JWTLoginTab(props) {
 					variant="outlined"
 					required
 				/>
-
-				<TextFieldFormsy
-					className="mb-16"
-					type="password"
-					name="password"
-					label="Password"
-					value="admin"
-					validations={{
-						minLength: 4
-					}}
-					validationErrors={{
-						minLength: 'Min character length is 4'
-					}}
-					InputProps={{
-						className: 'pr-2',
-						type: showPassword ? 'text' : 'password',
-						endAdornment: (
-							<InputAdornment position="end">
-								<IconButton onClick={() => setShowPassword(!showPassword)}>
-									<Icon className="text-20" color="action">
-										{showPassword ? 'visibility' : 'visibility_off'}
-									</Icon>
-								</IconButton>
-							</InputAdornment>
-						)
-					}}
-					variant="outlined"
-					required
-				/>
-
+				<FormControl error>
+					<TextFieldFormsy
+						className="mb-16"
+						type="password"
+						name="password"
+						label="Password"
+						value="admin"
+						validations={{
+							minLength: 4
+						}}
+						validationErrors={{
+							minLength: 'Min character length is 4'
+						}}
+						InputProps={{
+							className: 'pr-2',
+							type: showPassword ? 'text' : 'password',
+							endAdornment: (
+								<InputAdornment position="end">
+									<IconButton onClick={() => setShowPassword(!showPassword)}>
+										<Icon className="text-20" color="action">
+											{showPassword ? 'visibility' : 'visibility_off'}
+										</Icon>
+									</IconButton>
+								</InputAdornment>
+							)
+						}}
+						variant="outlined"
+						required
+					/>
+					{nonFieldError && <FormHelperText id="component-error-text">{nonFieldError}</FormHelperText>}
+				</FormControl>
 				<Button
 					type="submit"
 					variant="contained"
@@ -112,7 +120,7 @@ function JWTLoginTab(props) {
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Login
+					Login{"  "} {login.loadingLogin && <CircularProgress size={15} color="secondary" />}
 				</Button>
 			</Formsy>
 

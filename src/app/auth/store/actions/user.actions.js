@@ -6,11 +6,54 @@ import jwtService from 'app/services/jwtService';
 import * as MessageActions from 'app/store/actions/fuse/message.actions';
 import * as FuseActions from 'app/store/actions/fuse';
 import firebase from 'firebase/app';
-
+import { useHistory } from 'react-router-dom';
 export const SET_USER_DATA = '[USER] SET DATA';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
 
+export const authUserData = {
+	uuid: 'XgbuVEXBU5gtSKdbQRP1Zbbby1i1',
+	from: 'custom-db',
+	password: 'admin',
+	role: 'admin',
+	data: {
+		displayName: 'Abbott Keitch',
+		photoURL: 'assets/images/avatars/Abbott.jpg',
+		email: 'admin',
+		settings: {
+			layout: {
+				style: 'layout1',
+				config: {
+					scroll: 'content',
+					navbar: {
+						display: true,
+						folded: true,
+						position: 'left'
+					},
+					toolbar: {
+						display: true,
+						style: 'fixed',
+						position: 'below'
+					},
+					footer: {
+						display: true,
+						style: 'fixed',
+						position: 'below'
+					},
+					mode: 'fullwidth'
+				}
+			},
+			customScrollbars: true,
+			theme: {
+				main: 'default',
+				navbar: 'mainThemeDark',
+				toolbar: 'mainThemeLight',
+				footer: 'mainThemeDark'
+			}
+		},
+		shortcuts: ['calendar', 'mail', 'contacts']
+	}
+};
 /**
  * Set user data from Auth0 token data
  */
@@ -97,14 +140,14 @@ export function setUserData(user) {
 		/*
         Set User Settings
          */
-		dispatch(FuseActions.setDefaultSettings(user.data.settings));
+		dispatch(FuseActions.setDefaultSettings(authUserData.data.settings));
 
 		/*
         Set User Data
          */
 		dispatch({
 			type: SET_USER_DATA,
-			payload: user
+			payload: authUserData
 		});
 	};
 }

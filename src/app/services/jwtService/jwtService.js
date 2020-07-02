@@ -1,7 +1,10 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import { USER_LOGIN, USER_TOKEN_VERIFY } from '../apiEndPoints';
+import { authUserData } from 'app/auth/store/actions';
 /* eslint-disable camelcase */
+axios.defaults.baseURL = 'http://ec2-3-9-170-59.eu-west-2.compute.amazonaws.com:8000/';
 
 class JwtService extends FuseUtils.EventEmitter {
 	init() {
@@ -61,19 +64,21 @@ class JwtService extends FuseUtils.EventEmitter {
 	signInWithEmailAndPassword = (email, password) => {
 		return new Promise((resolve, reject) => {
 			axios
-				.get('/api/auth', {
-					data: {
-						email,
-						password
-					}
+				.post(USER_LOGIN, {
+					username_or_email: email,
+					password
 				})
 				.then(response => {
-					if (response.data.user) {
-						this.setSession(response.data.access_token);
-						resolve(response.data.user);
+					const { token } = response.data;
+					if (response.data) {
+						this.setSession(token);
+						resolve(response.data);
 					} else {
-						reject(response.data.error);
+						reject(response.data);
 					}
+				})
+				.catch(error => {
+					reject(error.response.data);
 				});
 		});
 	};
@@ -81,23 +86,23 @@ class JwtService extends FuseUtils.EventEmitter {
 	signInWithToken = () => {
 		return new Promise((resolve, reject) => {
 			axios
-				.get('/api/auth/access-token', {
-					data: {
-						access_token: this.getAccessToken()
-					}
+				.post(USER_TOKEN_VERIFY, {
+					token: this.getAccessToken()
 				})
 				.then(response => {
-					if (response.data.user) {
-						this.setSession(response.data.access_token);
-						resolve(response.data.user);
-					} else {
+					resolve(authUserData);
+					const currentTime = Date.now() / 1000;
+					if (response.exp < currentTime) {
 						this.logout();
-						Promise.reject(new Error('Failed to login with token.'));
+						reject(new Error('Failed to login with token.'));
+						console.warn('access token expired');
+					} else {
+						resolve(authUserData);
 					}
 				})
 				.catch(error => {
 					this.logout();
-					Promise.reject(new Error('Failed to login with token.'));
+					reject(new Error('Failed to login with token.'));
 				});
 		});
 	};
