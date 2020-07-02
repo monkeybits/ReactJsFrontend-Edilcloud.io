@@ -5,19 +5,25 @@ import * as UserActions from './user.actions';
 
 export const REGISTER_ERROR = 'REGISTER_ERROR';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_BEGIN = 'REGISTER_BEGIN';
 
-export function submitRegister({ displayName, password, email }) {
-	return dispatch =>
+export function submitRegister({ username, password, email }) {
+	return dispatch => {
+		dispatch({
+			type: REGISTER_BEGIN
+		});
 		jwtService
 			.createUser({
-				displayName,
-				password,
+				username,
+				password1: password,
+				password2: password,
 				email
 			})
-			.then(user => {
-				dispatch(UserActions.setUserData(user));
+			.then(successData => {
+				// dispatch(UserActions.setUserData(user));
 				return dispatch({
-					type: REGISTER_SUCCESS
+					type: REGISTER_SUCCESS,
+					payload: successData
 				});
 			})
 			.catch(error => {
@@ -26,6 +32,7 @@ export function submitRegister({ displayName, password, email }) {
 					payload: error
 				});
 			});
+	};
 }
 
 export function registerWithFirebase(model) {

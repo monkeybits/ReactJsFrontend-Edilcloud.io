@@ -13,13 +13,21 @@ const register = (state = initialState, action) => {
 		case Actions.REGISTER_SUCCESS: {
 			return {
 				...initialState,
-				success: true
+				success: true,
+				loadingRegister: false,
+				sucessData: action.payload
 			};
 		}
 		case Actions.REGISTER_ERROR: {
 			return {
 				success: false,
+				loadingRegister: false,
 				error: action.payload
+			};
+		}
+		case Actions.REGISTER_BEGIN: {
+			return {
+				loadingRegister: true
 			};
 		}
 		default: {
