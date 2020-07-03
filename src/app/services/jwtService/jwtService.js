@@ -1,7 +1,7 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { USER_LOGIN, USER_TOKEN_VERIFY } from '../apiEndPoints';
+import { USER_LOGIN, USER_TOKEN_VERIFY, USER_REGISTRATION } from '../apiEndPoints';
 import { authUserData } from 'app/auth/store/actions';
 /* eslint-disable camelcase */
 axios.defaults.baseURL = 'http://ec2-3-9-170-59.eu-west-2.compute.amazonaws.com:8000/';
@@ -50,14 +50,20 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	createUser = data => {
 		return new Promise((resolve, reject) => {
-			axios.post('/api/auth/register', data).then(response => {
-				if (response.data.user) {
-					this.setSession(response.data.access_token);
-					resolve(response.data.user);
-				} else {
-					reject(response.data.error);
-				}
-			});
+			axios
+				.post(USER_REGISTRATION, data)
+				.then(response => {
+					if (response.data) {
+						// this.setSession(response.data.access_token);
+						resolve(response.data);
+					} else {
+						reject(response.data);
+					}
+				})
+				.catch(error => {
+					const { username, email } = error.response.data;
+					reject({ username, email });
+				});
 		});
 	};
 

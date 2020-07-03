@@ -6,6 +6,8 @@ import * as authActions from 'app/auth/store/actions';
 import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { FormControl, FormHelperText } from '@material-ui/core';
 
 function JWTRegisterTab(props) {
 	const dispatch = useDispatch();
@@ -47,7 +49,7 @@ function JWTRegisterTab(props) {
 				<TextFieldFormsy
 					className="mb-16"
 					type="text"
-					name="displayName"
+					name="username"
 					label="Display name"
 					validations={{
 						minLength: 4
@@ -143,8 +145,13 @@ function JWTRegisterTab(props) {
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Register
+					Register {register.loadingRegister && <CircularProgress size={15} color="secondary" />}
 				</Button>
+				{register.sucessData && (
+					<FormControl>
+						<FormHelperText id="component-success-text">{register.sucessData.detail}</FormHelperText>
+					</FormControl>
+				)}
 			</Formsy>
 		</div>
 	);

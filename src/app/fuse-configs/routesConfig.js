@@ -4,6 +4,7 @@ import authRoleExamplesConfigs from 'app/main/auth/authRoleExamplesConfigs';
 import CallbackConfig from 'app/main/callback/CallbackConfig';
 import DocumentationConfig from 'app/main/documentation/DocumentationConfig';
 import LoginConfig from 'app/main/login/LoginConfig';
+import AccountActivationConfig from 'app/main/accountActivation/AccountActivationConfig';
 import LogoutConfig from 'app/main/logout/LogoutConfig';
 import pagesConfigs from 'app/main/pages/pagesConfigs';
 import RegisterConfig from 'app/main/register/RegisterConfig';
@@ -21,7 +22,8 @@ const routeConfigs = [
 	LoginConfig,
 	RegisterConfig,
 	LogoutConfig,
-	CallbackConfig
+	CallbackConfig,
+	AccountActivationConfig
 ];
 
 const routes = [
