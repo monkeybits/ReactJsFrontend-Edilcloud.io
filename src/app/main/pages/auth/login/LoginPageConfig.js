@@ -1,4 +1,5 @@
 import React from 'react';
+import { authRoles } from 'app/auth';
 
 const LoginPageConfig = {
 	settings: {
@@ -6,6 +7,7 @@ const LoginPageConfig = {
 			config: {}
 		}
 	},
+	auth: authRoles.onlyGuest,
 	routes: [
 		{
 			path: '/pages/auth/login',

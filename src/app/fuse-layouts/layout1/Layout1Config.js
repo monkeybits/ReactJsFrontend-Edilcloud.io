@@ -4,7 +4,7 @@ const config = {
 		mode: 'fullwidth',
 		scroll: 'content',
 		navbar: {
-			display: true,
+			display: false,
 			folded: false,
 			position: 'left'
 		},
