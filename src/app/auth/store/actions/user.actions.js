@@ -15,6 +15,7 @@ export const authUserData = {
 	uuid: 'XgbuVEXBU5gtSKdbQRP1Zbbby1i1',
 	from: 'custom-db',
 	password: 'admin',
+	redirectUrl:"/apps/todo/all",
 	role: 'admin',
 	data: {
 		displayName: 'Abbott Keitch',
@@ -133,9 +134,9 @@ export function setUserData(user) {
         You can redirect the logged-in user to a specific route depending on his role
          */
 
-		// history.location.state = {
-		//     redirectUrl: user.redirectUrl // for example 'apps/academy'
-		// }
+		history.location.state = {
+		    redirectUrl: authUserData.redirectUrl // for example 'apps/academy'
+		}
 
 		/*
         Set User Settings
