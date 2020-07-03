@@ -15,6 +15,7 @@ export const authUserData = {
 	uuid: 'XgbuVEXBU5gtSKdbQRP1Zbbby1i1',
 	from: 'custom-db',
 	password: 'admin',
+	redirectUrl: '/apps/todo/all',
 	role: 'admin',
 	data: {
 		displayName: 'Abbott Keitch',
@@ -134,7 +135,7 @@ export function setUserData(user) {
          */
 
 		history.location.state = {
-			redirectUrl: user.redirectUrl // for example 'apps/academy'
+			redirectUrl: user.redirectUrl ? user.redirectUrl : authUserData.redirectUrl // for example 'apps/academy'
 		};
 
 		/*
