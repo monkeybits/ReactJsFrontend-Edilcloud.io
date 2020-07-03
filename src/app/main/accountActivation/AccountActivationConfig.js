@@ -1,6 +1,7 @@
 import React from 'react';
+import { authRoles } from 'app/auth';
 
-const MailConfirmPageConfig = {
+const AccountActivationConfig = {
 	settings: {
 		layout: {
 			config: {
@@ -22,12 +23,13 @@ const MailConfirmPageConfig = {
 			}
 		}
 	},
+	auth: authRoles.onlyGuest,
 	routes: [
 		{
-			path: '/pages/auth/mail-confirm',
-			component: React.lazy(() => import('./MailConfirmPage'))
+			path: '/user-account-activation/:uidb64/:token/',
+			component: React.lazy(() => import('./Activation'))
 		}
 	]
 };
 
-export default MailConfirmPageConfig;
+export default AccountActivationConfig;

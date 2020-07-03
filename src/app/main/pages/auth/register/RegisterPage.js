@@ -25,29 +25,6 @@ const useStyles = makeStyles(theme => ({
 function RegisterPage() {
 	const classes = useStyles();
 
-	const { form, handleChange, resetForm } = useForm({
-		name: '',
-		email: '',
-		password: '',
-		passwordConfirm: '',
-		acceptTermsConditions: false
-	});
-
-	function isFormValid() {
-		return (
-			form.email.length > 0 &&
-			form.password.length > 0 &&
-			form.password.length > 3 &&
-			form.password === form.passwordConfirm &&
-			form.acceptTermsConditions
-		);
-	}
-
-	function handleSubmit(ev) {
-		ev.preventDefault();
-		resetForm();
-	}
-
 	return (
 		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32')}>
 			<div className="flex flex-col items-center justify-center w-full">

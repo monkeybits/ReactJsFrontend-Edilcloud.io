@@ -20,7 +20,7 @@ export function submitRegister({ username, password, email }) {
 				email
 			})
 			.then(successData => {
-				// dispatch(UserActions.setUserData(user));
+				dispatch(UserActions.setUserData({ redirectUrl: '/pages/auth/mail-confirm' }));
 				return dispatch({
 					type: REGISTER_SUCCESS,
 					payload: successData
