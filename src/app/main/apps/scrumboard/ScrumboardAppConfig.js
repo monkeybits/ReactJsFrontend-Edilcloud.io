@@ -3,19 +3,37 @@ import { Redirect } from 'react-router-dom';
 
 const ScrumboardAppConfig = {
 	settings: {
-		layout: {}
+		layout: {
+			config: {
+				navbar: {
+					display: true
+				},
+				toolbar: {
+					display: true
+				},
+				footer: {
+					display: false
+				},
+				leftSidePanel: {
+					display: false
+				},
+				rightSidePanel: {
+					display: false
+				}
+			}
+		}
 	},
 	routes: [
 		{
-			path: '/apps/scrumboard/boards/:boardId/:boardUri?',
+			path: '/apps/companies/:boardId/:boardUri?',
 			component: React.lazy(() => import('./board/Board'))
 		},
 		{
-			path: '/apps/scrumboard/boards',
+			path: '/apps/companies',
 			component: React.lazy(() => import('./boards/Boards'))
 		},
 		{
-			path: '/apps/scrumboard',
+			path: '/apps/companies',
 			component: () => <Redirect to="/apps/scrumboard/boards" />
 		}
 	]

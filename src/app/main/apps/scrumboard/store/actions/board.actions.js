@@ -44,7 +44,7 @@ export function getBoard(params) {
 					})
 				);
 				history.push({
-					pathname: '/apps/scrumboard/boards'
+					pathname: '/apps/companies'
 				});
 			}
 		);
@@ -224,7 +224,7 @@ export function deleteBoard(boardId) {
 	return dispatch =>
 		request.then(response => {
 			history.push({
-				pathname: '/apps/scrumboard/boards'
+				pathname: '/apps/companies'
 			});
 
 			return dispatch({

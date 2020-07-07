@@ -11,6 +11,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
+import { APPROVE_LIST } from 'app/services/apiEndPoints';
+import { METHOD, apiCall } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import { GET_BOARDS } from '../store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -42,14 +46,29 @@ const useStyles = makeStyles(theme => ({
 function Boards(props) {
 	const dispatch = useDispatch();
 	const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
-
 	const classes = useStyles(props);
 
 	useEffect(() => {
-		dispatch(Actions.getBoards());
-		return () => {
-			dispatch(Actions.resetBoards());
-		};
+		apiCall(
+			APPROVE_LIST,
+			{},
+			({ results }) => {
+				if (Array.isArray(results)) {
+					let boards = results.filter(d => d.company);
+					dispatch({
+						type: GET_BOARDS,
+						payload: boards.map(d => d.company)
+					});
+				}
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+		// dispatch(Actions.getBoards());
+		// return () => {
+		// 	dispatch(Actions.resetBoards());
+		// };
 	}, [dispatch]);
 
 	return (
@@ -72,7 +91,7 @@ function Boards(props) {
 						{boards.map(board => (
 							<div className="w-224 h-224 p-16" key={board.id}>
 								<Link
-									to={`/apps/scrumboard/boards/${board.id}/${board.uri}`}
+									to={`/apps/companies/${board.id}/${board.uri}`}
 									className={clsx(
 										classes.board,
 										'flex flex-col items-center justify-center w-full h-full rounded py-24'

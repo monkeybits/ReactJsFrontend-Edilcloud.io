@@ -25,19 +25,20 @@ export function resetBoards() {
 }
 
 export function newBoard(board) {
-	const request = axios.post('/api/scrumboard-app/board/new', {
-		board: board || new BoardModel()
-	});
+	// const request = axios.post('/api/scrumboard-app/board/new', {
+	// 	board: board || new BoardModel()
+	// });
 
-	return dispatch =>
-		request.then(response => {
-			const _board = response.data;
+	return dispatch =>{
+		// request.then(response => {
+			// const _board = response.data;
 			history.push({
-				pathname: `/apps/scrumboard/boards/${_board.id}/${_board.handle}`
+				pathname: `/create-company`
 			});
-			return dispatch({
-				type: NEW_BOARD,
-				board: _board
-			});
-		});
+			// return dispatch({
+			// 	type: NEW_BOARD,
+			// 	board: _board
+			// });
+		// });
+	}
 }

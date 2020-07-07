@@ -6,7 +6,7 @@ import jwtService from 'app/services/jwtService';
 import * as MessageActions from 'app/store/actions/fuse/message.actions';
 import * as FuseActions from 'app/store/actions/fuse';
 import firebase from 'firebase/app';
-import { useHistory } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 export const SET_USER_DATA = '[USER] SET DATA';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
@@ -129,6 +129,7 @@ export function createUserSettingsFirebase(authUser) {
  * Set User Data
  */
 export function setUserData(user) {
+	let userData = user.token && jwtDecode(user.token);
 	return dispatch => {
 		/*
         You can redirect the logged-in user to a specific route depending on his role
@@ -146,9 +147,15 @@ export function setUserData(user) {
 		/*
         Set User Data
          */
+
 		dispatch({
 			type: SET_USER_DATA,
-			payload: authUserData
+			payload: userData
+				? {
+						...authUserData,
+						data: { ...authUserData.data, displayName: userData.username, email: userData.email }
+				  }
+				: authUserData
 		});
 	};
 }

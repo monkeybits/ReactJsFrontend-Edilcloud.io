@@ -96,14 +96,14 @@ class JwtService extends FuseUtils.EventEmitter {
 					token: this.getAccessToken()
 				})
 				.then(response => {
-					resolve(authUserData);
+					
 					const currentTime = Date.now() / 1000;
 					if (response.exp < currentTime) {
 						this.logout();
 						reject(new Error('Failed to login with token.'));
 						console.warn('access token expired');
 					} else {
-						resolve(authUserData);
+						resolve(response.data);
 					}
 				})
 				.catch(error => {
