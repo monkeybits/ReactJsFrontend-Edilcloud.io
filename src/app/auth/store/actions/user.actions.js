@@ -153,7 +153,7 @@ export function setUserData(user) {
 			payload: userData
 				? {
 						...authUserData,
-						data: { ...authUserData.data, displayName: userData.username, email: userData.email }
+						data: { ...authUserData.data, displayName: userData.username, ...userData }
 				  }
 				: authUserData
 		});

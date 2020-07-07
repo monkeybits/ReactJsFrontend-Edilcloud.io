@@ -50,7 +50,7 @@ export const apiCall = (endpoint, params = {}, onSuccess, onFailure, method = ME
 						break;
 
 					default:
-						onFailure(error && typeof error === 'string' ? error : 'Something went wrong');
+						onFailure(error.response.data ? error.response.data : 'Something went wrong');
 						break;
 				}
 			} else onFailure && onFailure('Something went wrong');
