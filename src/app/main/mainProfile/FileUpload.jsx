@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input } from '@material-ui/core';
 
-export default function ProfileUpload({ setFile, file }) {
+export default function FileUpload({ setFile, file }) {
 	const getPhoto = e => {
 		e.preventDefault();
 		let fileData = e.target.files[0];

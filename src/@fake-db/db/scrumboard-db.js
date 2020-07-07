@@ -5,7 +5,7 @@ const scrumboardDB = {
 	boards: [
 		{
 			id: '32gfhaf2',
-			name: 'ACME Frontend Application',
+			name: 'ACME Frontend',
 			uri: 'acme-frontend-application',
 			settings: {
 				color: 'fuse-dark',

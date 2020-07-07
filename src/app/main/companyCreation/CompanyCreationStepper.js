@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useForm } from '@fuse/hooks';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
@@ -11,9 +11,13 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
 import { USER_MAIN_PROFILE } from 'app/services/apiEndPoints';
+import CompanyDetails from './CompanyDetails';
+import CompanyCategory from './CompanyCategory';
+import FileUpload from '../mainProfile/FileUpload';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { TYPOLOGY_LIST, TYPOLOGY_LIST_BY_CODE, USER_ADD_COMPANY } from 'app/services/apiEndPoints';
+import { getHeaderToken } from 'app/services/serviceUtils';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -32,35 +36,91 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-	return ['Basic Information', 'Upload Profile Picture'];
+	return ['Company Details', 'Company Categories', 'Company Logo'];
 }
 
 function getStepContent(step, elementProps) {
 	switch (step) {
 		case 0:
-			return 'step 1';
+			return <CompanyDetails {...elementProps} />;
 		case 1:
-			return 'step 2';
+			return <CompanyCategory {...elementProps} />;
+		case 2:
+			return <FileUpload {...elementProps} />;
 		default:
 			return 'Unknown step';
 	}
 }
 
-function CompanyCreationStepper({ user }) {
+function CompanyCreationStepper({ user, history }) {
 	const { form, handleChange, resetForm } = useForm({
-		fname: '',
-		lname: '',
-		email: user && user.email ? user.email : ''
+		name: '',
+		desc: '',
+		email: '',
+		vat_number: '',
+		url: '',
+		phone: ''
 	});
+	const [typologyList, setTypologyList] = React.useState([]);
+	const [optionList, setOptionList] = React.useState([]);
+	useEffect(() => {
+		apiCall(
+			TYPOLOGY_LIST,
+			{},
+			res => {
+				let typologyListRes = res;
+				if (Array.isArray(res)) {
+					let list = [];
+					typologyListRes.map((typology, index) => {
+						apiCall(
+							TYPOLOGY_LIST_BY_CODE(typology.code),
+							{},
+							subCategoryRes => {
+								if (Array.isArray(subCategoryRes)) {
+									subCategoryRes.map((subCate, index) => {
+										subCategoryRes[index] = {
+											...subCategoryRes[index],
+											mainTitle: index == 0 ? typology.name : undefined,
+											title: subCategoryRes[index].name
+										};
+									});
+									list = [...list, ...subCategoryRes];
+									setOptionList([...list]);
+								}
+								typologyListRes[index] = { ...typologyListRes[index], subCategory: subCategoryRes };
+								let subCategory = [];
+								setTypologyList(typologyListRes);
+							},
+							listErr => console.log({ listErr }),
+							METHOD.GET,
+							getHeaderToken()
+						);
+					});
+				}
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	}, []);
+
 	const classes = useStyles();
 	const [activeStep, setActiveStep] = React.useState(0);
 	const steps = getSteps();
 	const [value, setValue] = React.useState('English');
 	const [file, setFile] = React.useState(null);
+	const [error, setError] = React.useState({
+		name: [],
+		slug: [],
+		url: [],
+		email: [],
+		vat_number: [],
+		phone: []
+	});
 
 	const handleNext = () => {
 		setActiveStep(prevActiveStep => prevActiveStep + 1);
-		if (activeStep == 1) {
+		if (activeStep == 2) {
 			handleSubmit();
 		}
 	};
@@ -75,31 +135,54 @@ function CompanyCreationStepper({ user }) {
 	const handleSubmit = () => {
 		var formData = new FormData();
 		let values = {
-			first_name: form.fname,
-			last_name: form.lname,
-			language: value == 'English' ? 'en' : 'it',
-			photo: file && file.fileData ? file.fileData : undefined
+			name: form.name,
+			slug: form.name,
+			url: form.url,
+			vat_number: form.vat_number,
+			email: form.email,
+			phone: form.phone,
+			logo: file && file.fileData ? file.fileData : undefined
 		};
 		let token = localStorage.getItem('jwt_access_token');
 		for (let key in values) {
-			formData.append(key, values[key]);
+			if (values[key]) formData.append(key, values[key]);
 		}
 		axios
-			.post(USER_MAIN_PROFILE, formData, {
+			.post(USER_ADD_COMPANY, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 					Authorization: `JWT ${token}`
 				},
 				baseURL: 'http://ec2-3-9-170-59.eu-west-2.compute.amazonaws.com:8000/'
 			})
-			.then(res => console.log(res))
-			.catch(err => console.log(err));
+			.then(res => {
+				history.push('/apps/companies');
+			})
+			.catch(err => {
+				const { name, url, email, vat_number, phone } = err.response.data;
+				setError({
+					name: name ? name : [],
+					url: url ? url : [],
+					email: email ? email : [],
+					vat_number: vat_number ? vat_number : [],
+					phone: phone ? phone : []
+				});
+				setActiveStep(0);
+			});
+	};
+	const handleChangeAfterRemoveError = e => {
+		setError({
+			name: [],
+			slug: [],
+			url: [],
+			email: [],
+			vat_number: [],
+			phone: []
+		});
+		handleChange(e);
 	};
 	return (
 		<div className={classes.root}>
-			<Paper square elevation={0} className={classes.resetContainer}>
-				<Typography>a few more steps and you can start using Edilcloud</Typography>
-			</Paper>
 			<Stepper activeStep={activeStep} orientation="vertical">
 				{steps.map((label, index) => (
 					<Step key={label}>
@@ -108,7 +191,11 @@ function CompanyCreationStepper({ user }) {
 							<Typography>
 								{getStepContent(
 									index,
-									index == 0 ? { form, handleChange, resetForm, value, setValue } : { setFile, file }
+									index == 0
+										? { form, handleChangeAfterRemoveError, error }
+										: index == 1
+										? { typologyList, optionList }
+										: { setFile, file }
 								)}
 							</Typography>
 							<div className={classes.actionsContainer}>
