@@ -9,8 +9,9 @@ import * as authActions from 'app/auth/store/actions';
 import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormControl, FormHelperText } from '@material-ui/core';
+import { FormControl, FormHelperText, FormControlLabel, Checkbox } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Link } from 'react-router-dom';
 
 function JWTLoginTab(props) {
 	const dispatch = useDispatch();
@@ -111,6 +112,18 @@ function JWTLoginTab(props) {
 					/>
 					{nonFieldError && <FormHelperText id="component-error-text">{nonFieldError}</FormHelperText>}
 				</FormControl>
+				<div className="flex items-center justify-end">
+					{/* <FormControl>
+						<FormControlLabel
+							control={<Checkbox name="remember" checked={form.remember} onChange={handleChange} />}
+							label="Remember Me"
+						/>
+					</FormControl> */}
+
+					<Link className="font-medium" to="/pages/auth/forgot-password">
+						Forgot Password?
+					</Link>
+				</div>
 				<Button
 					type="submit"
 					variant="contained"
@@ -120,7 +133,7 @@ function JWTLoginTab(props) {
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Login{"  "} {login.loadingLogin && <CircularProgress size={15} color="secondary" />}
+					Login{'  '} {login.loadingLogin && <CircularProgress size={15} color="secondary" />}
 				</Button>
 			</Formsy>
 

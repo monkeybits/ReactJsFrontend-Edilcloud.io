@@ -1,4 +1,5 @@
 import React from 'react';
+import { authRoles } from 'app/auth';
 
 const MailConfirmPageConfig = {
 	settings: {
@@ -22,6 +23,7 @@ const MailConfirmPageConfig = {
 			}
 		}
 	},
+	auth: authRoles.onlyGuest,
 	routes: [
 		{
 			path: '/pages/auth/mail-confirm',

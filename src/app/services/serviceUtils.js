@@ -6,3 +6,5 @@ export const getHeaderToken = () => {
 		}
 	};
 };
+
+export const getTokenOnly = () => localStorage.getItem('jwt_access_token');

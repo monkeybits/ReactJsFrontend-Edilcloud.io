@@ -8,8 +8,10 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { FORGOT_PASSWORD } from 'app/services/apiEndPoints';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -18,8 +20,11 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function ForgotPasswordPage() {
+function ForgotPasswordPage({ history }) {
 	const classes = useStyles();
+	const [error, setError] = useState({
+		email: []
+	});
 	const { form, handleChange, resetForm } = useForm({
 		email: ''
 	});
@@ -30,9 +35,28 @@ function ForgotPasswordPage() {
 
 	function handleSubmit(ev) {
 		ev.preventDefault();
-		resetForm();
+		apiCall(
+			FORGOT_PASSWORD,
+			{
+				email: form.email
+			},
+			res => {
+				history.push('/pages/auth/mail-confirm');
+			},
+			err => {
+				const { email } = err;
+				setError({ email });
+			},
+			METHOD.POST
+		);
+		// resetForm();
 	}
-
+	const handleChangeAndRemoveError = e => {
+		setError({
+			email: []
+		});
+		handleChange(e);
+	};
 	return (
 		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32')}>
 			<div className="flex flex-col items-center justify-center w-full">
@@ -54,13 +78,14 @@ function ForgotPasswordPage() {
 								onSubmit={handleSubmit}
 							>
 								<TextField
+									error={error.email.length}
 									className="mb-16"
 									label="Email"
 									autoFocus
 									type="email"
 									name="email"
 									value={form.email}
-									onChange={handleChange}
+									onChange={handleChangeAndRemoveError}
 									variant="outlined"
 									required
 									fullWidth
@@ -91,4 +116,4 @@ function ForgotPasswordPage() {
 	);
 }
 
-export default ForgotPasswordPage;
+export default withRouter(ForgotPasswordPage);

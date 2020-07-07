@@ -9,7 +9,12 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
+import * as authActions from 'app/auth/store/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { RESET_PASSWORD } from 'app/services/apiEndPoints';
+import { getTokenOnly } from 'app/services/serviceUtils';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -18,28 +23,40 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function ResetPasswordPage() {
+function ResetPasswordPage({ match: { params }, history }) {
 	const classes = useStyles();
-
+	const dispatch = useDispatch();
+	const user = useSelector(({ auth }) => auth.user.data);
 	const { form, handleChange, resetForm } = useForm({
-		name: '',
-		email: '',
 		password: '',
 		passwordConfirm: ''
 	});
 
 	function isFormValid() {
-		return (
-			form.email.length > 0 &&
-			form.password.length > 0 &&
-			form.password.length > 3 &&
-			form.password === form.passwordConfirm
-		);
+		return form.password.length > 0 && form.password.length > 3 && form.password === form.passwordConfirm;
 	}
 
 	function handleSubmit(ev) {
+		const { password } = form;
+		const { uid, token } = params;
 		ev.preventDefault();
-		resetForm();
+		apiCall(
+			RESET_PASSWORD,
+			{
+				new_password1: password,
+				new_password2: password,
+				uid: uid,
+				token: token
+			},
+			res => {
+				resetForm();
+				history.push('/pages/auth/login');
+			},
+			err => {
+				console.log(err);
+			},
+			METHOD.POST
+		);
 	}
 
 	return (
@@ -60,19 +77,6 @@ function ResetPasswordPage() {
 								className="flex flex-col justify-center w-full"
 								onSubmit={handleSubmit}
 							>
-								<TextField
-									className="mb-16"
-									label="Email"
-									autoFocus
-									type="email"
-									name="email"
-									value={form.email}
-									onChange={handleChange}
-									variant="outlined"
-									required
-									fullWidth
-								/>
-
 								<TextField
 									className="mb-16"
 									label="Password"
