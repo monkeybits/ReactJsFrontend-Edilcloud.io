@@ -23,7 +23,7 @@ const MailConfirmPageConfig = {
 			}
 		}
 	},
-	auth: authRoles.onlyGuest,
+	auth: null,
 	routes: [
 		{
 			path: '/pages/auth/mail-confirm',

@@ -1,8 +1,5 @@
-import axios from 'axios';
+import axios from './axiosConfig';
 
-const config = {
-	baseURL: 'http://ec2-3-9-170-59.eu-west-2.compute.amazonaws.com:8000/'
-};
 export const METHOD = {
 	POST: 'post',
 	GET: 'get',
@@ -15,19 +12,19 @@ export const apiCall = (endpoint, params = {}, onSuccess, onFailure, method = ME
 	let request = {};
 	switch (method) {
 		case METHOD.POST:
-			request = axios.post(endpoint, params, { ...config, ...DyanamicConfig });
+			request = axios.post(endpoint, params, { ...DyanamicConfig });
 			break;
 		case METHOD.GET:
-			request = axios.get(endpoint, { ...config, ...DyanamicConfig });
+			request = axios.get(endpoint, { ...DyanamicConfig });
 			break;
 		case METHOD.DELETE:
-			request = axios.delete(endpoint, { ...config, ...DyanamicConfig });
+			request = axios.delete(endpoint, { ...DyanamicConfig });
 			break;
 		case METHOD.PUT:
-			request = axios.put(endpoint, { ...params }, { ...config, ...DyanamicConfig });
+			request = axios.put(endpoint, { ...params }, { ...DyanamicConfig });
 			break;
 		case METHOD.PATCH:
-			request = axios.patch(endpoint, { ...params }, { ...config, ...DyanamicConfig });
+			request = axios.patch(endpoint, { ...params }, { ...DyanamicConfig });
 			break;
 	}
 	request

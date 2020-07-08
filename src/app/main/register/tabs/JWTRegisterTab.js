@@ -8,8 +8,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { FormControl, FormHelperText } from '@material-ui/core';
+import { withRouter } from 'react-router';
 
-function JWTRegisterTab(props) {
+function JWTRegisterTab({ history }) {
 	const dispatch = useDispatch();
 	const register = useSelector(({ auth }) => auth.register);
 
@@ -34,7 +35,7 @@ function JWTRegisterTab(props) {
 	}
 
 	function handleSubmit(model) {
-		dispatch(authActions.submitRegister(model));
+		dispatch(authActions.submitRegister({ ...model, history }));
 	}
 
 	return (
@@ -157,4 +158,4 @@ function JWTRegisterTab(props) {
 	);
 }
 
-export default JWTRegisterTab;
+export default withRouter(JWTRegisterTab);

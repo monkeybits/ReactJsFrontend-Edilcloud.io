@@ -1,10 +1,9 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import jwtDecode from 'jwt-decode';
 import { USER_LOGIN, USER_TOKEN_VERIFY, USER_REGISTRATION } from '../apiEndPoints';
 import { authUserData } from 'app/auth/store/actions';
 /* eslint-disable camelcase */
-axios.defaults.baseURL = 'http://ec2-3-9-170-59.eu-west-2.compute.amazonaws.com:8000/';
 
 class JwtService extends FuseUtils.EventEmitter {
 	init() {
@@ -96,7 +95,6 @@ class JwtService extends FuseUtils.EventEmitter {
 					token: this.getAccessToken()
 				})
 				.then(response => {
-					
 					const currentTime = Date.now() / 1000;
 					if (response.exp < currentTime) {
 						this.logout();

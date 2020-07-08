@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../services/axiosConfig';
 import { USER_MAIN_PROFILE } from 'app/services/apiEndPoints';
 import CompanyDetails from './CompanyDetails';
 import CompanyCategory from './CompanyCategory';
@@ -152,8 +152,7 @@ function CompanyCreationStepper({ user, history }) {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 					Authorization: `JWT ${token}`
-				},
-				baseURL: 'http://ec2-3-9-170-59.eu-west-2.compute.amazonaws.com:8000/'
+				}
 			})
 			.then(res => {
 				history.push('/apps/companies');
