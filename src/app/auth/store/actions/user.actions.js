@@ -7,20 +7,21 @@ import * as MessageActions from 'app/store/actions/fuse/message.actions';
 import * as FuseActions from 'app/store/actions/fuse';
 import firebase from 'firebase/app';
 import jwtDecode from 'jwt-decode';
+import { getTokenOnly } from 'app/services/serviceUtils';
 export const SET_USER_DATA = '[USER] SET DATA';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
 
-export const authUserData = {
+const authUserData = {
 	uuid: 'XgbuVEXBU5gtSKdbQRP1Zbbby1i1',
 	from: 'custom-db',
-	password: 'admin',
+	password: 'user',
 	redirectUrl: '/apps/todo/all',
-	role: 'admin',
+	role: 'user',
 	data: {
-		displayName: 'Abbott Keitch',
-		photoURL: 'assets/images/avatars/Abbott.jpg',
-		email: 'admin',
+		displayName: '',
+		email: '',
+		photoURL: '/assets/images/avatars/Abbott.jpg',
 		settings: {
 			layout: {
 				style: 'layout1',
@@ -129,20 +130,25 @@ export function createUserSettingsFirebase(authUser) {
  * Set User Data
  */
 export function setUserData(user) {
-	let userData = user.token && jwtDecode(user.token);
+	let token = getTokenOnly();
+	let decode = token && jwtDecode(token);
+	let userData = {
+		...authUserData,
+		role: decode ? 'user' : []
+	};
 	return dispatch => {
 		/*
         You can redirect the logged-in user to a specific route depending on his role
          */
 
 		history.location.state = {
-			redirectUrl: user.redirectUrl ? user.redirectUrl : authUserData.redirectUrl // for example 'apps/academy'
+			redirectUrl: userData.redirectUrl // for example 'apps/academy'
 		};
 
 		/*
         Set User Settings
          */
-		dispatch(FuseActions.setDefaultSettings(authUserData.data.settings));
+		dispatch(FuseActions.setDefaultSettings(userData.data.settings));
 
 		/*
         Set User Data
@@ -150,12 +156,12 @@ export function setUserData(user) {
 
 		dispatch({
 			type: SET_USER_DATA,
-			payload: userData
+			payload: decode
 				? {
-						...authUserData,
-						data: { ...authUserData.data, displayName: userData.username, ...userData }
+						...userData,
+						data: { ...userData.data, displayName: decode.username, ...decode }
 				  }
-				: authUserData
+				: userData
 		});
 	};
 }

@@ -7,7 +7,7 @@ export const REGISTER_ERROR = 'REGISTER_ERROR';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_BEGIN = 'REGISTER_BEGIN';
 
-export function submitRegister({ username, password, email }) {
+export function submitRegister({ username, password, email, history }) {
 	return dispatch => {
 		dispatch({
 			type: REGISTER_BEGIN
@@ -20,7 +20,7 @@ export function submitRegister({ username, password, email }) {
 				email
 			})
 			.then(successData => {
-				dispatch(UserActions.setUserData({ redirectUrl: '/pages/auth/mail-confirm' }));
+				history.push('/pages/auth/mail-confirm');
 				return dispatch({
 					type: REGISTER_SUCCESS,
 					payload: successData

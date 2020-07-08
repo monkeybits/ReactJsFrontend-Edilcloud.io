@@ -8,10 +8,10 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_BEGIN = 'LOGIN_BEGIN';
 
 export function submitLogin({ email, password }) {
-	return dispatch =>{
+	return dispatch => {
 		dispatch({
-			type: LOGIN_BEGIN,
-		})
+			type: LOGIN_BEGIN
+		});
 		jwtService
 			.signInWithEmailAndPassword(email, password)
 			.then(user => {
@@ -22,13 +22,12 @@ export function submitLogin({ email, password }) {
 				});
 			})
 			.catch(error => {
-				console.log(error);
 				return dispatch({
 					type: LOGIN_ERROR,
 					payload: error
 				});
 			});
-		}
+	};
 }
 
 export function submitLoginWithFireBase({ username, password }) {

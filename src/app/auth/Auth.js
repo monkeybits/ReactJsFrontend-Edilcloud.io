@@ -7,6 +7,7 @@ import * as Actions from 'app/store/actions';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
 
 class Auth extends Component {
 	state = {
@@ -14,14 +15,25 @@ class Auth extends Component {
 	};
 
 	componentDidMount() {
-		return Promise.all([
-			// Comment the lines which you do not use
-			this.firebaseCheck(),
-			this.auth0Check(),
-			this.jwtCheck()
-		]).then(() => {
-			this.setState({ waitAuthCheck: false });
-		});
+		const outsidePlatformPaths = ['user-account-activation', 'reset-password-confirm'];
+		const { location } = this.props;
+		const { pathname } = location;
+		const outsidePath = outsidePlatformPaths.filter(d => String(pathname).includes(d));
+		if (outsidePath.length) {
+			this.setState({
+				waitAuthCheck: false
+			});
+			return localStorage.clear();
+		} else {
+			return Promise.all([
+				// Comment the lines which you do not use
+				// this.firebaseCheck(),
+				// this.auth0Check(),
+				this.jwtCheck()
+			]).then(() => {
+				this.setState({ waitAuthCheck: false });
+			});
+		}
 	}
 
 	jwtCheck = () =>
@@ -149,4 +161,4 @@ function mapDispatchToProps(dispatch) {
 	);
 }
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default withRouter(connect(null, mapDispatchToProps)(Auth));

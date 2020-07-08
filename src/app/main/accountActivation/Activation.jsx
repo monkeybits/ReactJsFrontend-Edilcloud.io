@@ -22,9 +22,7 @@ function Activation(props) {
 	const [isActivated, setIsActivated] = useState(false);
 	const [error, setError] = useState('');
 	const [success, setSuccess] = useState('');
-	useEffect(() => {
-		localStorage.clear();
-	}, []);
+
 	useEffect(() => {
 		const { token, uidb64 } = props.match.params;
 		apiCall(

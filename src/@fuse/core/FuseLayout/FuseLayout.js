@@ -62,13 +62,13 @@ function FuseLayout(props) {
 	const { pathname } = location;
 	const matched = matchRoutes(routes, pathname)[0];
 	const newSettings = useRef(null);
-
 	const shouldAwaitRender = useCallback(() => {
 		let _newSettings;
 		/**
 		 * On Path changed
 		 */
 		// if (prevPathname !== pathname) {
+
 		if (matched && matched.route.settings) {
 			/**
 			 * if matched route has settings

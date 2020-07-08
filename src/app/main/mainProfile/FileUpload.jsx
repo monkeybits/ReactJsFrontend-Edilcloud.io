@@ -5,7 +5,6 @@ export default function FileUpload({ setFile, file }) {
 	const getPhoto = e => {
 		e.preventDefault();
 		let fileData = e.target.files[0];
-		console.log('files', fileData);
 		let reader = new FileReader();
 		setFile({
 			...file,

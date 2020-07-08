@@ -23,7 +23,7 @@ const AccountActivationConfig = {
 			}
 		}
 	},
-	auth: authRoles.onlyGuest,
+	auth: null,
 	routes: [
 		{
 			path: '/user-account-activation/:uidb64/:token/',

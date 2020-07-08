@@ -12,7 +12,7 @@ import BasicInfo from './BasicInfo';
 import ProfileUpload from './FileUpload';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../services/axiosConfig';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { USER_MAIN_PROFILE } from 'app/services/apiEndPoints';
@@ -91,8 +91,7 @@ function VerticalLinearStepper({ user, history }) {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 					Authorization: `JWT ${token}`
-				},
-				baseURL: 'http://ec2-3-9-170-59.eu-west-2.compute.amazonaws.com:8000/'
+				}
 			})
 			.then(res => {
 				history.push('/create-company');
