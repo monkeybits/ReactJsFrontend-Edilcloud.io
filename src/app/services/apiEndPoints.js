@@ -13,3 +13,5 @@ export const USER_ADD_COMPANY = '/api/frontend/profile/company/add/';
 export const APPROVE_LIST = '/api/frontend/profile/profile/approve_list/';
 export const RESET_PASSWORD = '/api/frontend/user/password/reset/confirm/';
 export const FORGOT_PASSWORD = '/api/frontend/user/password/reset/';
+export const REFRESH_TOKEN = (id) => `/api/frontend/user/token/refresh/${id}/`;
+export const ADD_NEW_MEMBER = '/api/frontend/profile/company/profile_add/';

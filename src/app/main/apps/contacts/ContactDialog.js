@@ -11,28 +11,50 @@ import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import React, { useCallback, useEffect } from 'react';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
+import FormLabel from '@material-ui/core/FormLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import { SYSTEM_ROLES } from '../../../constants';
 
 const defaultFormState = {
-	id: '',
-	name: '',
-	lastName: '',
-	avatar: 'assets/images/avatars/profile.jpg',
-	nickname: '',
-	company: '',
-	jobTitle: '',
-	email: '',
-	phone: '',
-	address: '',
-	birthday: '',
-	notes: ''
+	first_name: '',
+	last_name: '',
+	email: ''
 };
+const GreenRadio = withStyles({
+	root: {
+		color: green[400],
+		'&$checked': {
+			color: green[600]
+		}
+	},
+	checked: {}
+})(props => <Radio color="default" {...props} />);
 
+const useStyles = makeStyles(theme => ({
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2)
+	}
+}));
 function ContactDialog(props) {
 	const dispatch = useDispatch();
+	const classes = useStyles();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
+	const [value, setValue] = React.useState('English');
+	const [role, setRole] = React.useState('');
 
 	const { form, handleChange, setForm } = useForm(defaultFormState);
 
@@ -72,17 +94,17 @@ function ContactDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.name.length > 0;
+		return form.first_name.length > 0 && form.last_name.length > 0 && form.email.length > 3 && role && value;
 	}
 
 	function handleSubmit(event) {
 		event.preventDefault();
-
-		if (contactDialog.type === 'new') {
-			dispatch(Actions.addContact(form));
-		} else {
-			dispatch(Actions.updateContact(form));
-		}
+		let newformData = { ...form, role, language: value == 'English' ? 'en' : 'it' };
+		// if (contactDialog.type === 'new') {
+			dispatch(Actions.addContact(newformData));
+		// } else {
+		// 	dispatch(Actions.updateContact(newformData));
+		// }
 		closeComposeDialog();
 	}
 
@@ -90,7 +112,12 @@ function ContactDialog(props) {
 		dispatch(Actions.removeContact(form.id));
 		closeComposeDialog();
 	}
-
+	const handleRadioChange = event => {
+		setValue(event.target.value);
+	};
+	const handleSelectChange = event => {
+		setRole(event.target.value);
+	};
 	return (
 		<Dialog
 			classes={{
@@ -127,8 +154,8 @@ function ContactDialog(props) {
 							className="mb-24"
 							label="Name"
 							autoFocus
-							id="name"
-							name="name"
+							id="first_name"
+							name="first_name"
 							value={form.name}
 							onChange={handleChange}
 							variant="outlined"
@@ -142,47 +169,14 @@ function ContactDialog(props) {
 						<TextField
 							className="mb-24"
 							label="Last name"
-							id="lastName"
-							name="lastName"
-							value={form.lastName}
+							id="last_name"
+							name="last_name"
+							value={form.last_name}
 							onChange={handleChange}
 							variant="outlined"
 							fullWidth
 						/>
 					</div>
-
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">star</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							label="Nickname"
-							id="nickname"
-							name="nickname"
-							value={form.nickname}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
-
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">phone</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							label="Phone"
-							id="phone"
-							name="phone"
-							value={form.phone}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
-
 					<div className="flex">
 						<div className="min-w-48 pt-20">
 							<Icon color="action">email</Icon>
@@ -198,90 +192,37 @@ function ContactDialog(props) {
 							fullWidth
 						/>
 					</div>
-
 					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">domain</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							label="Company"
-							id="company"
-							name="company"
-							value={form.company}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
+						<div className="min-w-48 pt-20" />
+						<FormControl className={classes.formControl}>
+							<FormLabel component="legend">Role</FormLabel>
+							<Select
+								labelId="demo-simple-select-label"
+								id="demo-simple-select"
+								value={role}
+								onChange={handleSelectChange}
+							>
+								{SYSTEM_ROLES.map(role => (
+									<MenuItem value={role.key}>{role.label}</MenuItem>
+								))}
+							</Select>
+						</FormControl>
 					</div>
-
 					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">work</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							label="Job title"
-							id="jobTitle"
-							name="jobTitle"
-							value={form.jobTitle}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
-
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">cake</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							id="birthday"
-							label="Birthday"
-							type="date"
-							value={form.birthday}
-							onChange={handleChange}
-							InputLabelProps={{
-								shrink: true
-							}}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
-
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">home</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							label="Address"
-							id="address"
-							name="address"
-							value={form.address}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
-
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">note</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							label="Notes"
-							id="notes"
-							name="notes"
-							value={form.notes}
-							onChange={handleChange}
-							variant="outlined"
-							multiline
-							rows={5}
-							fullWidth
-						/>
+						<div className="min-w-48 pt-20" />
+						<FormControl component="fieldset">
+							<FormLabel component="legend">Language</FormLabel>
+							<RadioGroup
+								row
+								aria-label="Language"
+								name="Language1"
+								value={value}
+								onChange={handleRadioChange}
+							>
+								<FormControlLabel value="English" control={<GreenRadio />} label="English" />
+								<FormControlLabel value="Italian" control={<GreenRadio />} label="Italian" />
+							</RadioGroup>
+						</FormControl>
 					</div>
 				</DialogContent>
 

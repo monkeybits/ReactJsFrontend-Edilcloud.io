@@ -60,9 +60,9 @@ function ContactsSidebarContent(props) {
 							<Icon className="list-item-icon text-16" color="action">
 								people
 							</Icon>
-							<ListItemText className="truncate" primary="All contacts" disableTypography />
+							<ListItemText className="truncate" primary="Team members" disableTypography />
 						</ListItem>
-						<ListItem
+						{/* <ListItem
 							button
 							component={NavLinkAdapter}
 							to="/apps/contacts/frequent"
@@ -86,6 +86,7 @@ function ContactsSidebarContent(props) {
 							</Icon>
 							<ListItemText className="truncate" primary="Starred contacts" disableTypography />
 						</ListItem>
+				 */}
 					</List>
 				</Paper>
 			</FuseAnimate>

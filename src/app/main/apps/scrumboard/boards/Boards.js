@@ -11,9 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-import { APPROVE_LIST } from 'app/services/apiEndPoints';
+import { APPROVE_LIST, REFRESH_TOKEN } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, getTokenOnly, saveToken } from 'app/services/serviceUtils';
 import { GET_BOARDS } from '../store/actions';
 
 const useStyles = makeStyles(theme => ({
@@ -57,7 +57,7 @@ function Boards(props) {
 					let boards = results.filter(d => d.company);
 					dispatch({
 						type: GET_BOARDS,
-						payload: boards.map(d => d.company)
+						payload: boards.map(d => d.company && { ...d.company, company_profile_id: d.id })
 					});
 				}
 			},
@@ -70,7 +70,20 @@ function Boards(props) {
 		// 	dispatch(Actions.resetBoards());
 		// };
 	}, [dispatch]);
-
+	const redirectAfterGetNewToken = company_profile_id => {
+		apiCall(
+			REFRESH_TOKEN(company_profile_id),
+			{
+				token: getTokenOnly()
+			},
+			res => {
+				saveToken(res.token);
+				props.history.push('/apps/todo/all');
+			},
+			err => console.log(err),
+			METHOD.POST
+		);
+	};
 	return (
 		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
@@ -91,7 +104,8 @@ function Boards(props) {
 						{boards.map(board => (
 							<div className="w-224 h-224 p-16" key={board.id}>
 								<Link
-									to={`/apps/companies/${board.id}/${board.uri}`}
+									// to={`/apps/companies/${board.id}/${board.uri}`}
+									onClick={() => redirectAfterGetNewToken(board.company_profile_id)}
 									className={clsx(
 										classes.board,
 										'flex flex-col items-center justify-center w-full h-full rounded py-24'

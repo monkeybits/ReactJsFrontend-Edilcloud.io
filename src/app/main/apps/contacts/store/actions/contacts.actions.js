@@ -1,5 +1,8 @@
 import { getUserData } from 'app/main/apps/contacts/store/actions/user.actions';
 import axios from 'axios';
+import { ADD_NEW_MEMBER } from 'app/services/apiEndPoints';
+import { METHOD, apiCall } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const GET_CONTACTS = '[CONTACTS APP] GET CONTACTS';
 export const SET_SEARCH_TEXT = '[CONTACTS APP] SET SEARCH TEXT';
@@ -66,17 +69,21 @@ export function addContact(newContact) {
 	return (dispatch, getState) => {
 		const { routeParams } = getState().contactsApp.contacts;
 
-		const request = axios.post('/api/contacts-app/add-contact', {
-			newContact
-		});
-
-		return request.then(response =>
-			Promise.all([
-				dispatch({
-					type: ADD_CONTACT
-				})
-			]).then(() => dispatch(getContacts(routeParams)))
+		apiCall(
+			ADD_NEW_MEMBER,
+			newContact,
+			res => console.log(res),
+			err => console.log(err),
+			METHOD.POST,
+			getHeaderToken()
 		);
+		// return request.then(response =>
+		// 	Promise.all([
+		// 		dispatch({
+		// 			type: ADD_CONTACT
+		// 		})
+		// 	]).then(() => dispatch(getContacts(routeParams)))
+		// );
 	};
 }
 
