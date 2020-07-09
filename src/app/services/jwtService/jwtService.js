@@ -3,6 +3,7 @@ import axios from '../axiosConfig';
 import jwtDecode from 'jwt-decode';
 import { USER_LOGIN, USER_TOKEN_VERIFY, USER_REGISTRATION } from '../apiEndPoints';
 import { authUserData } from 'app/auth/store/actions';
+import { saveToken } from '../serviceUtils';
 /* eslint-disable camelcase */
 
 class JwtService extends FuseUtils.EventEmitter {
@@ -119,7 +120,7 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	setSession = access_token => {
 		if (access_token) {
-			localStorage.setItem('jwt_access_token', access_token);
+			saveToken(access_token)
 			axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 		} else {
 			localStorage.removeItem('jwt_access_token');
