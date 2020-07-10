@@ -18,14 +18,21 @@ import FileUpload from '../mainProfile/FileUpload';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { TYPOLOGY_LIST, TYPOLOGY_LIST_BY_CODE, USER_ADD_COMPANY } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
+import clsx from 'clsx';
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import { darken } from '@material-ui/core/styles/colorManipulator';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		width: '100%'
+		width: '100%',
+		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`,
+		color: theme.palette.primary.contrastText
 	},
 	button: {
 		marginTop: theme.spacing(1),
-		marginRight: theme.spacing(1)
+		width: '190px'
 	},
 	actionsContainer: {
 		marginBottom: theme.spacing(2)
@@ -181,46 +188,71 @@ function CompanyCreationStepper({ user, history }) {
 		handleChange(e);
 	};
 	return (
-		<div className={classes.root}>
-			<Stepper activeStep={activeStep} orientation="vertical">
-				{steps.map((label, index) => (
-					<Step key={label}>
-						<StepLabel>{label}</StepLabel>
-						<StepContent>
-							<Typography>
-								{getStepContent(
-									index,
-									index == 0
-										? { form, handleChangeAfterRemoveError, error }
-										: index == 1
-										? { typologyList, optionList }
-										: { setFile, file }
-								)}
-							</Typography>
-							<div className={classes.actionsContainer}>
-								<div>
-									<Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-										Back
-									</Button>
-									<Button
-										variant="contained"
-										color="primary"
-										onClick={handleNext}
-										className={classes.button}
-									>
-										{activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-									</Button>
-								</div>
-							</div>
-						</StepContent>
-					</Step>
-				))}
-			</Stepper>
-			{activeStep === steps.length && (
-				<Paper square elevation={0} className={classes.resetContainer}>
-					<Typography>All steps completed - you&apos;re finished</Typography>
-				</Paper>
+		<div
+			className={clsx(
+				classes.root,
+				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 md:p-40'
 			)}
+		>
+			<div className="flex flex-col items-center justify-center w-full">
+				<FuseAnimate animation="transition.expandIn">
+					<Card className="w-full max-w-512">
+						<CardContent className="flex flex-col items-center justify-center">
+							<Stepper activeStep={activeStep} orientation="vertical">
+								{steps.map((label, index) => (
+									<Step key={label}>
+										<StepLabel>{label}</StepLabel>
+										<StepContent>
+											<Typography>
+												{getStepContent(
+													index,
+													index == 0
+														? { form, handleChangeAfterRemoveError, error }
+														: index == 1
+														? { typologyList, optionList }
+														: { setFile, file, remove: () => setFile(null) }
+												)}
+											</Typography>
+											<div
+												className={clsx(
+													classes.actionsContainer,
+													'text-center custom-btn-group mt-12'
+												)}
+											>
+												<div>
+													<Button
+														variant="contained"
+														size="large"
+														className={clsx(classes.button, 'mr-8')}
+														disabled={activeStep === 0}
+														onClick={handleBack}
+													>
+														Back
+													</Button>
+													<Button
+														size="large"
+														variant="contained"
+														color="primary"
+														className={classes.button}
+														onClick={handleNext}
+													>
+														{activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+													</Button>
+												</div>
+											</div>
+										</StepContent>
+									</Step>
+								))}
+							</Stepper>
+							{activeStep === steps.length && (
+								<Paper square elevation={0} className={classes.resetContainer}>
+									<Typography>All steps completed - you&apos;re finished</Typography>
+								</Paper>
+							)}
+						</CardContent>
+					</Card>
+				</FuseAnimate>
+			</div>
 		</div>
 	);
 }
