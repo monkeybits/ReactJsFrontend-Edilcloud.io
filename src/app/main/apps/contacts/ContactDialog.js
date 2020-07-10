@@ -24,6 +24,13 @@ import FormLabel from '@material-ui/core/FormLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { SYSTEM_ROLES } from '../../../constants';
+import Checkbox from '@material-ui/core/Checkbox';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const defaultFormState = {
 	first_name: '',
@@ -94,14 +101,18 @@ function ContactDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.first_name.length > 0 && form.last_name.length > 0 && form.email.length > 3 && role && value;
+		return form.first_name?.length > 0 && form.last_name?.length > 0 && form.email?.length > 3 && role && value;
 	}
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		let newformData = { ...form, role, language: value == 'English' ? 'en' : 'it' };
+		let newformData = {
+			...form,
+			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
+			language: value == 'English' ? 'en' : 'it'
+		};
 		// if (contactDialog.type === 'new') {
-			dispatch(Actions.addContact(newformData));
+		dispatch(Actions.addContact(newformData));
 		// } else {
 		// 	dispatch(Actions.updateContact(newformData));
 		// }
@@ -112,9 +123,9 @@ function ContactDialog(props) {
 		dispatch(Actions.removeContact(form.id));
 		closeComposeDialog();
 	}
-	const handleRadioChange = event => {
-		setValue(event.target.value);
-	};
+	// const handleRadioChange = event => {
+	// 	setValue(event.target.value);
+	// };
 	const handleSelectChange = event => {
 		setRole(event.target.value);
 	};
@@ -194,35 +205,51 @@ function ContactDialog(props) {
 					</div>
 					<div className="flex">
 						<div className="min-w-48 pt-20" />
-						<FormControl className={classes.formControl}>
-							<FormLabel component="legend">Role</FormLabel>
-							<Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
-								value={role}
-								onChange={handleSelectChange}
-							>
-								{SYSTEM_ROLES.map(role => (
-									<MenuItem value={role.key}>{role.label}</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+						<Autocomplete
+							options={SYSTEM_ROLES}
+							style={{ width: '100%' }}
+							className="mb-24"
+							disableCloseOnSelect
+							getOptionLabel={option => option.label}
+							renderOption={(option, { selected }) => (
+								<>
+									<Checkbox
+										icon={icon}
+										checkedIcon={checkedIcon}
+										style={{ marginRight: 8 }}
+										checked={selected}
+									/>
+									{option.label}
+								</>
+							)}
+							inputValue={role}
+							renderInput={params => <TextField {...params} variant="outlined" label="Role" />}
+							onInputChange={(e, value) => setRole(value)}
+						/>
 					</div>
 					<div className="flex">
 						<div className="min-w-48 pt-20" />
-						<FormControl component="fieldset">
-							<FormLabel component="legend">Language</FormLabel>
-							<RadioGroup
-								row
-								aria-label="Language"
-								name="Language1"
-								value={value}
-								onChange={handleRadioChange}
-							>
-								<FormControlLabel value="English" control={<GreenRadio />} label="English" />
-								<FormControlLabel value="Italian" control={<GreenRadio />} label="Italian" />
-							</RadioGroup>
-						</FormControl>
+						<Autocomplete
+							className="mb-24"
+							options={['English', 'Italian']}
+							style={{ width: '100%' }}
+							disableCloseOnSelect
+							getOptionLabel={option => option}
+							renderOption={(option, { selected }) => (
+								<>
+									<Checkbox
+										icon={icon}
+										checkedIcon={checkedIcon}
+										style={{ marginRight: 8 }}
+										checked={selected}
+									/>
+									{option}
+								</>
+							)}
+							inputValue={value}
+							renderInput={params => <TextField {...params} variant="outlined" label="Language" />}
+							onInputChange={(e, value) => setValue(value)}
+						/>
 					</div>
 				</DialogContent>
 

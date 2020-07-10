@@ -35,88 +35,78 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 	const handleRadioChange = event => {};
 
 	return (
-		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32')}>
-			<div className="flex flex-col items-center justify-center w-full">
-				<FuseAnimate animation="transition.expandIn">
-					<Card className="w-full max-w-384">
-						<CardContent className="flex flex-col items-center justify-center p-32">
-							<form name="registerForm" className="flex flex-col justify-center w-full">
-								<TextField
-									error={error.name.length}
-									helperText={!!error.name.length && error.name[0]}
-									className="mb-8"
-									label="Company Name"
-									autoFocus
-									type="text"
-									name="name"
-									value={form.name}
-									onChange={handleChange}
-									variant="outlined"
-									required
-									fullWidth
-								/>
-								<TextField
-									className="mb-8"
-									label="Description"
-									autoFocus
-									type="text"
-									name="desc"
-									value={form.desc}
-									onChange={handleChange}
-									variant="outlined"
-									required
-									fullWidth
-								/>
-								<TextField
-									className="mb-8"
-									label="Company Email"
-									type="email"
-									name="email"
-									value={form.email}
-									onChange={handleChange}
-									variant="outlined"
-									required
-									fullWidth
-								/>
-								<TextField
-									className="mb-8"
-									label="VAT Number"
-									type="text"
-									name="vat_number"
-									value={form.vat_number}
-									onChange={handleChange}
-									variant="outlined"
-									required
-									fullWidth
-								/>
-								<TextField
-									className="mb-8"
-									label="Website Url"
-									type="text"
-									name="url"
-									value={form.url}
-									onChange={handleChange}
-									variant="outlined"
-									required
-									fullWidth
-								/>
-								<TextField
-									className="mb-8"
-									label="Telephone number"
-									type="text"
-									name="phone"
-									value={form.phone}
-									onChange={handleChange}
-									variant="outlined"
-									required
-									fullWidth
-								/>
-							</form>
-						</CardContent>
-					</Card>
-				</FuseAnimate>
-			</div>
-		</div>
+		<form name="registerForm" className="flex flex-col justify-center w-full">
+			<TextField
+				error={error.name.length}
+				helperText={!!error.name.length && error.name[0]}
+				className="mb-8"
+				label="Company Name"
+				autoFocus
+				type="text"
+				name="name"
+				value={form.name}
+				onChange={handleChange}
+				variant="outlined"
+				required
+				fullWidth
+			/>
+			<TextField
+				className="mb-8"
+				label="Description"
+				autoFocus
+				type="text"
+				name="desc"
+				value={form.desc}
+				onChange={handleChange}
+				variant="outlined"
+				required
+				fullWidth
+			/>
+			<TextField
+				className="mb-8"
+				label="Company Email"
+				type="email"
+				name="email"
+				value={form.email}
+				onChange={handleChange}
+				variant="outlined"
+				required
+				fullWidth
+			/>
+			<TextField
+				className="mb-8"
+				label="VAT Number"
+				type="text"
+				name="vat_number"
+				value={form.vat_number}
+				onChange={handleChange}
+				variant="outlined"
+				required
+				fullWidth
+			/>
+			<TextField
+				className="mb-8"
+				label="Website Url"
+				type="text"
+				name="url"
+				value={form.url}
+				onChange={handleChange}
+				variant="outlined"
+				required
+				fullWidth
+			/>
+			<TextField
+				className="mb-8"
+				label="Telephone number"
+				type="text"
+				name="phone"
+				value={form.phone}
+				onChange={handleChange}
+				variant="outlined"
+				required
+				fullWidth
+			/>
+		</form>
 	);
 }
 

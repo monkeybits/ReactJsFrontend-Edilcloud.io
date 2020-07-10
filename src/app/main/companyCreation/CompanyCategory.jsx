@@ -21,19 +21,14 @@ export default function CompanyCategory({ optionList }) {
 			disableCloseOnSelect
 			getOptionLabel={option => option.title}
 			renderOption={(option, { selected }) => (
-				<React.Fragment>
-					{option.mainTitle && (
-						<div className="max-w-sm">
-							<Typography className="h2 mb-24">{option.mainTitle}</Typography>
-						</div>
-					)}
+				<div>
+					{option.mainTitle && <Typography className="h2 mb-8 ml-12">{option.mainTitle}</Typography>}
 					<div>
 						<Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
 						{option.title}
 					</div>
-				</React.Fragment>
+				</div>
 			)}
-			style={{ width: 500 }}
 			renderInput={params => <TextField {...params} variant="outlined" label="Company Categories" />}
 		/>
 	);

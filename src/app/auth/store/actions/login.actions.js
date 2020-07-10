@@ -2,6 +2,9 @@ import firebaseService from 'app/services/firebaseService';
 import jwtService from 'app/services/jwtService';
 import * as Actions from 'app/store/actions';
 import * as UserActions from './user.actions';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { APPROVE_LIST } from 'app/services/apiEndPoints';
+import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -15,11 +18,32 @@ export function submitLogin({ email, password }) {
 		jwtService
 			.signInWithEmailAndPassword(email, password)
 			.then(user => {
-				dispatch(UserActions.setUserData(user));
+				apiCall(
+					APPROVE_LIST,
+					{},
+					({ results }) => {
+						if (Array.isArray(results)) {
+							let boards = results.filter(d => d.is_main);
 
-				return dispatch({
-					type: LOGIN_SUCCESS
-				});
+							if (boards.length) {
+								dispatch(UserActions.setUserData({ ...user, redirectUrl: '/apps/companies' }));
+
+								return dispatch({
+									type: LOGIN_SUCCESS
+								});
+							} else {
+								dispatch(UserActions.setUserData({ ...user, redirectUrl: '/main-profile' }));
+
+								return dispatch({
+									type: LOGIN_SUCCESS
+								});
+							}
+						}
+					},
+					err => console.log(err),
+					METHOD.GET,
+					getHeaderToken()
+				);
 			})
 			.catch(error => {
 				return dispatch({

@@ -142,7 +142,7 @@ export function setUserData(user) {
          */
 
 		history.location.state = {
-			redirectUrl: userData.redirectUrl // for example 'apps/academy'
+			redirectUrl: user.redirectUrl // for example 'apps/academy'
 		};
 
 		/*
