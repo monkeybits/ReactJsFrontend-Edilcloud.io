@@ -1,6 +1,6 @@
 import { getUserData } from 'app/main/apps/contacts/store/actions/user.actions';
 import axios from 'axios';
-import { ADD_NEW_MEMBER } from 'app/services/apiEndPoints';
+import { ADD_NEW_MEMBER, GET_STAFF_LIST, UPDATE_MEMBER } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
@@ -9,7 +9,9 @@ export const SET_SEARCH_TEXT = '[CONTACTS APP] SET SEARCH TEXT';
 export const OPEN_NEW_CONTACT_DIALOG = '[CONTACTS APP] OPEN NEW CONTACT DIALOG';
 export const CLOSE_NEW_CONTACT_DIALOG = '[CONTACTS APP] CLOSE NEW CONTACT DIALOG';
 export const OPEN_EDIT_CONTACT_DIALOG = '[CONTACTS APP] OPEN EDIT CONTACT DIALOG';
+export const OPEN_VIEW_CONTACT_DIALOG = '[CONTACTS APP] OPEN VIEW CONTACT DIALOG';
 export const CLOSE_EDIT_CONTACT_DIALOG = '[CONTACTS APP] CLOSE EDIT CONTACT DIALOG';
+export const CLOSE_VIEW_CONTACT_DIALOG = '[CONTACTS APP] CLOSE VIEW CONTACT DIALOG';
 export const ADD_CONTACT = '[CONTACTS APP] ADD CONTACT';
 export const UPDATE_CONTACT = '[CONTACTS APP] UPDATE CONTACT';
 export const REMOVE_CONTACT = '[CONTACTS APP] REMOVE CONTACT';
@@ -19,18 +21,42 @@ export const TOGGLE_STARRED_CONTACTS = '[CONTACTS APP] TOGGLE STARRED CONTACTS';
 export const SET_CONTACTS_STARRED = '[CONTACTS APP] SET CONTACTS STARRED ';
 
 export function getContacts(routeParams) {
-	const request = axios.get('/api/contacts-app/contacts', {
-		params: routeParams
-	});
-
-	return dispatch =>
-		request.then(response =>
-			dispatch({
-				type: GET_CONTACTS,
-				payload: response.data,
-				routeParams
-			})
+	return (dispatch, getState) => {
+		return apiCall(
+			GET_STAFF_LIST,
+			{},
+			res => {
+				let results = [];
+				if (res.results.length) {
+					results = res.results.map(d => {
+						const { first_name, last_name, photo, company, position, email, phone } = d;
+						return {
+							...d,
+							name: first_name,
+							lastName: last_name,
+							avatar: photo ? photo : 'assets/images/avatars/profile.jpg',
+							nickname: first_name,
+							company: company?.name,
+							jobTitle: position,
+							email: email,
+							phone: phone,
+							address: ''
+						};
+					});
+				}
+				return dispatch({
+					type: GET_CONTACTS,
+					payload: results,
+					routeParams
+				});
+			},
+			err => {
+				console.log(err);
+			},
+			METHOD.GET,
+			getHeaderToken()
 		);
+	};
 }
 
 export function setSearchText(event) {
@@ -64,7 +90,18 @@ export function closeEditContactDialog() {
 		type: CLOSE_EDIT_CONTACT_DIALOG
 	};
 }
+export function openViewContactDialog(data) {
+	return {
+		type: OPEN_VIEW_CONTACT_DIALOG,
+		data
+	};
+}
 
+export function closeViewContactDialog() {
+	return {
+		type: CLOSE_VIEW_CONTACT_DIALOG
+	};
+}
 export function addContact(newContact) {
 	return (dispatch, getState) => {
 		const { routeParams } = getState().contactsApp.contacts;
@@ -72,35 +109,29 @@ export function addContact(newContact) {
 		apiCall(
 			ADD_NEW_MEMBER,
 			newContact,
-			res => console.log(res),
+			res => {
+				dispatch(getContacts(routeParams));
+			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()
 		);
-		// return request.then(response =>
-		// 	Promise.all([
-		// 		dispatch({
-		// 			type: ADD_CONTACT
-		// 		})
-		// 	]).then(() => dispatch(getContacts(routeParams)))
-		// );
 	};
 }
 
-export function updateContact(contact) {
+export function updateContact(newContact, id) {
 	return (dispatch, getState) => {
 		const { routeParams } = getState().contactsApp.contacts;
 
-		const request = axios.post('/api/contacts-app/update-contact', {
-			contact
-		});
-
-		return request.then(response =>
-			Promise.all([
-				dispatch({
-					type: UPDATE_CONTACT
-				})
-			]).then(() => dispatch(getContacts(routeParams)))
+		apiCall(
+			UPDATE_MEMBER(id),
+			newContact,
+			res => {
+				dispatch(getContacts(routeParams));
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
 		);
 	};
 }

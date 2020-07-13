@@ -2,6 +2,7 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseUtils from '@fuse/utils';
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
@@ -9,7 +10,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 import ContactsTable from './ContactsTable';
 import * as Actions from './store/actions';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 
+function sortByProperty(array, property, order = 'ASC') {
+	return array.sort((a, b) =>
+		order === 'ASC'
+			? a[property] > b[property]
+				? 1
+				: a[property] < b[property]
+				? -1
+				: 0
+			: a[property] > b[property]
+			? -1
+			: a[property] < b[property]
+			? 1
+			: 0
+	);
+}
 function ContactsList(props) {
 	const dispatch = useDispatch();
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
@@ -17,7 +34,8 @@ function ContactsList(props) {
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 
 	const [filteredData, setFilteredData] = useState(null);
-
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const columns = React.useMemo(
 		() => [
 			{
@@ -61,41 +79,43 @@ function ContactsList(props) {
 			{
 				Header: 'Email',
 				accessor: 'email',
-				sortable: true
+				sortable: true,
+				Cell: ({ row }) => <a href={`mailto:${row.original.email}`}>{row.original.email}</a>
 			},
 			{
 				Header: 'Phone',
 				accessor: 'phone',
-				sortable: true
+				sortable: true,
+				Cell: ({ row }) => <a href={`tel:${row.original.phone}`}>{row.original.phone}</a>
 			},
 			{
 				id: 'action',
 				width: 128,
 				sortable: false,
-				Cell: ({ row }) => (
-					<div className="flex items-center">
-						<IconButton
-							onClick={ev => {
-								ev.stopPropagation();
-								dispatch(Actions.toggleStarredContact(row.original.id));
-							}}
-						>
-							{user.starred && user.starred.includes(row.original.id) ? (
-								<Icon>star</Icon>
-							) : (
-								<Icon>star_border</Icon>
-							)}
-						</IconButton>
-						<IconButton
-							onClick={ev => {
-								ev.stopPropagation();
-								dispatch(Actions.removeContact(row.original.id));
-							}}
-						>
-							<Icon>delete</Icon>
-						</IconButton>
-					</div>
-				)
+				Cell: ({ row }) =>
+					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
+						<div className="flex items-center">
+							<Button
+								variant="contained"
+								color="primary"
+								type="button"
+								onClick={ev => {
+									ev.stopPropagation();
+									dispatch(Actions.openEditContactDialog(row.original));
+								}}
+							>
+								Edit
+							</Button>
+							<IconButton
+								onClick={ev => {
+									ev.stopPropagation();
+									dispatch(Actions.removeContact(row.original.id));
+								}}
+							>
+								<Icon>delete</Icon>
+							</IconButton>
+						</div>
+					)
 			}
 		],
 		[dispatch, user.starred]
@@ -111,7 +131,8 @@ function ContactsList(props) {
 		}
 
 		if (contacts) {
-			setFilteredData(getFilteredArray(contacts, searchText));
+			let results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
+			setFilteredData(results);
 		}
 	}, [contacts, searchText]);
 
@@ -136,7 +157,7 @@ function ContactsList(props) {
 				data={filteredData}
 				onRowClick={(ev, row) => {
 					if (row) {
-						dispatch(Actions.openEditContactDialog(row.original));
+						dispatch(Actions.openViewContactDialog(row.original));
 					}
 				}}
 			/>

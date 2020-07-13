@@ -61,9 +61,6 @@ export default class ImageCropper extends React.Component {
 		//A Blob() is almost a File() - it's just missing the two properties below which we will add
 		theBlob.lastModifiedDate = new Date();
 		theBlob.name = fileName;
-		console.log({
-			theBlob
-		});
 		this.props.onCrop(theBlob);
 		this.props.onHide();
 		return theBlob;

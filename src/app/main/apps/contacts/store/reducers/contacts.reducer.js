@@ -8,7 +8,8 @@ const initialState = {
 	contactDialog: {
 		type: 'new',
 		props: {
-			open: false
+			open: false,
+			view:false
 		},
 		data: null
 	}
@@ -72,6 +73,30 @@ const contactsReducer = (state = initialState, action) => {
 					type: 'edit',
 					props: {
 						open: false
+					},
+					data: null
+				}
+			};
+		}
+		case Actions.OPEN_VIEW_CONTACT_DIALOG: {
+			return {
+				...state,
+				contactDialog: {
+					type: 'view',
+					props: {
+						view: true
+					},
+					data: action.data
+				}
+			};
+		}
+		case Actions.CLOSE_VIEW_CONTACT_DIALOG: {
+			return {
+				...state,
+				contactDialog: {
+					type: 'view',
+					props: {
+						view: false
 					},
 					data: null
 				}
