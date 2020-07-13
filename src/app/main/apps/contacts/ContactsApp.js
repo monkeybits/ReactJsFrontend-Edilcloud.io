@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import ContactDialog from './ContactDialog';
+import ViewContactDialog from './ViewContactDialog';
 import ContactsHeader from './ContactsHeader';
 import ContactsList from './ContactsList';
 import ContactsSidebarContent from './ContactsSidebarContent';
@@ -64,6 +65,7 @@ function ContactsApp(props) {
 				</Fab>
 			</FuseAnimate>
 			<ContactDialog />
+			<ViewContactDialog />
 		</>
 	);
 }
