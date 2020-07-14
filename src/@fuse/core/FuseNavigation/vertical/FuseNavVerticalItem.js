@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import FuseNavBadge from '../FuseNavBadge';
+import { USER_CHATS_PATHS } from 'app/constants';
 
 const useStyles = makeStyles(theme => ({
 	item: props => ({
@@ -45,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 
 function FuseNavVerticalItem(props) {
 	const userRole = useSelector(({ auth }) => auth.user.role);
+	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const dispatch = useDispatch();
 
 	const theme = useTheme();
@@ -60,32 +62,62 @@ function FuseNavVerticalItem(props) {
 	if (!hasPermission) {
 		return null;
 	}
+	const checkHasPermissOnChat = USER_CHATS_PATHS.filter(d => String(item.url).includes(d));
 
-	return (
-		<ListItem
-			button
-			component={NavLinkAdapter}
-			to={item.url}
-			activeClassName="active"
-			className={clsx(classes.item, 'list-item')}
-			onClick={ev => mdDown && dispatch(Actions.navbarCloseMobile())}
-			exact={item.exact}
-		>
-			{item.icon && (
-				<Icon className="list-item-icon text-16 flex-shrink-0" color="action">
-					{item.icon}
-				</Icon>
-			)}
+	if (checkHasPermissOnChat.length && !company.can_access_chat) {
+		return (
+			<ListItem
+				button
+				disabled
+				component={NavLinkAdapter}
+				to={item.url}
+				activeClassName="active"
+				className={clsx(classes.item, 'list-item')}
+				// onClick={ev => mdDown && dispatch(Actions.navbarCloseMobile())}
+				exact={item.exact}
+			>
+				{item.icon && (
+					<Icon className="list-item-icon text-16 flex-shrink-0" color="action">
+						{item.icon}
+					</Icon>
+				)}
 
-			<ListItemText
-				className="list-item-text"
-				primary={item.translate ? t(item.translate) : item.title}
-				classes={{ primary: 'text-14 list-item-text-primary' }}
-			/>
+				<ListItemText
+					className="list-item-text"
+					primary={item.translate ? t(item.translate) : item.title}
+					classes={{ primary: 'text-14 list-item-text-primary' }}
+				/>
 
-			{item.badge && <FuseNavBadge badge={item.badge} />}
-		</ListItem>
-	);
+				{item.badge && <FuseNavBadge badge={item.badge} />}
+			</ListItem>
+		);
+	} else {
+		return (
+			<ListItem
+				button
+				component={NavLinkAdapter}
+				to={item.url}
+				activeClassName="active"
+				className={clsx(classes.item, 'list-item')}
+				onClick={ev => mdDown && dispatch(Actions.navbarCloseMobile())}
+				exact={item.exact}
+			>
+				{item.icon && (
+					<Icon className="list-item-icon text-16 flex-shrink-0" color="action">
+						{item.icon}
+					</Icon>
+				)}
+
+				<ListItemText
+					className="list-item-text"
+					primary={item.translate ? t(item.translate) : item.title}
+					classes={{ primary: 'text-14 list-item-text-primary' }}
+				/>
+
+				{item.badge && <FuseNavBadge badge={item.badge} />}
+			</ListItem>
+		);
+	}
 }
 
 FuseNavVerticalItem.propTypes = {

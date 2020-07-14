@@ -6,7 +6,7 @@ const chat = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_CHAT: {
 			return {
-				...action.chat
+				chats: [...action.chat]
 			};
 		}
 		case Actions.REMOVE_CHAT: {

@@ -1,18 +1,44 @@
 import axios from 'axios';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import { GET_STAFF_LIST } from 'app/services/apiEndPoints';
 
 export const GET_CONTACTS = '[CHAT APP] GET CONTACTS';
 export const SET_SELECTED_CONTACT_ID = '[CHAT APP] SET SELECTED CONTACT ID';
 export const REMOVE_SELECTED_CONTACT_ID = '[CHAT APP] REMOVE SELECTED CONTACT ID';
 
 export function getContacts() {
-	const request = axios.get('/api/chat/contacts');
-	return dispatch =>
-		request.then(response =>
-			dispatch({
-				type: GET_CONTACTS,
-				payload: response.data
-			})
+	return (dispatch, getState) => {
+		return apiCall(
+			GET_STAFF_LIST,
+			{},
+			res => {
+				let results = [];
+				if (res.results.length) {
+					results = res.results.map(d => {
+						const { first_name, last_name, photo, company, position, email, phone } = d;
+						return {
+							...d,
+							name: first_name,
+							photo: d.photo ? d.photo : 'assets/images/avatars/profile.jpg',
+							status: 'online',
+							mood: '',
+							unread: '0'
+						};
+					});
+				}
+				return dispatch({
+					type: GET_CONTACTS,
+					payload: results
+				});
+			},
+			err => {
+				console.log(err);
+			},
+			METHOD.GET,
+			getHeaderToken()
 		);
+	};
 }
 
 export function setselectedContactId(contactId) {

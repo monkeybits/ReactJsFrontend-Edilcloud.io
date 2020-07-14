@@ -16,3 +16,6 @@ export const SYSTEM_ROLES = [
 		key: 'w'
 	}
 ];
+
+// only chat related paths
+export const USER_CHATS_PATHS = ['apps/chat'];

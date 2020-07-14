@@ -11,6 +11,7 @@ import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -94,7 +95,6 @@ const useStyles = makeStyles(theme => ({
 
 function Chat(props) {
 	const dispatch = useDispatch();
-	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
 	const selectedContactId = useSelector(({ chatApp }) => chatApp.contacts.selectedContactId);
 	const chat = useSelector(({ chatApp }) => chatApp.chat);
 	const user = useSelector(({ chatApp }) => chatApp.user);
@@ -102,6 +102,8 @@ function Chat(props) {
 	const classes = useStyles(props);
 	const chatRef = useRef(null);
 	const [messageText, setMessageText] = useState('');
+	const userInfo = decodeDataFromToken();
+	const userIdFromCompany = userInfo?.extra?.profile?.id;
 
 	useEffect(() => {
 		if (chat) {
@@ -121,11 +123,11 @@ function Chat(props) {
 	}
 
 	function isFirstMessageOfGroup(item, i) {
-		return i === 0 || (chat.dialog[i - 1] && chat.dialog[i - 1].who !== item.who);
+		return i === 0 || (chat.chats[i - 1] && chat.chats[i - 1].sender.id != item.sender.id);
 	}
 
 	function isLastMessageOfGroup(item, i) {
-		return i === chat.dialog.length - 1 || (chat.dialog[i + 1] && chat.dialog[i + 1].who !== item.who);
+		return i === chat.chats.length - 1 || (chat.chats[i + 1] && chat.chats[i + 1].sender.id != item.sender.id);
 	}
 
 	function onInputChange(ev) {
@@ -138,45 +140,41 @@ function Chat(props) {
 			return;
 		}
 
-		dispatch(Actions.sendMessage(messageText, chat.id, user.id)).then(() => {
-			setMessageText('');
-		});
+		dispatch(Actions.sendMessage(messageText, setMessageText));
 	}
 
 	return (
 		<div className={clsx('flex flex-col relative', props.className)}>
 			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
-				{chat && chat.dialog.length > 0 ? (
+				{chat?.chats?.length ? (
 					<div className="flex flex-col pt-16 px-16 ltr:pl-56 rtl:pr-56 pb-40">
-						{chat.dialog.map((item, i) => {
-							const contact =
-								item.who === user.id ? user : contacts.find(_contact => _contact.id === item.who);
+						{chat.chats.map((item, i) => {
+							const contact = item.sender;
 							return (
 								<div
-									key={item.time}
+									key={item.date_create}
 									className={clsx(
 										classes.messageRow,
 										'flex flex-col flex-grow-0 flex-shrink-0 items-start justify-end relative px-16 pb-4',
-										{ me: item.who === user.id },
-										{ contact: item.who !== user.id },
+										{ me: contact.id == userIdFromCompany },
+										{ contact: contact.id != userIdFromCompany },
 										{ 'first-of-group': isFirstMessageOfGroup(item, i) },
 										{ 'last-of-group': isLastMessageOfGroup(item, i) },
-										i + 1 === chat.dialog.length && 'pb-96'
+										i + 1 === chat.length && 'pb-96'
 									)}
 								>
-									{shouldShowContactAvatar(item, i) && (
-										<Avatar
-											className="avatar absolute ltr:left-0 rtl:right-0 m-0 -mx-32"
-											src={contact.avatar}
-										/>
+									{contact.id != userIdFromCompany && (
+										<Typography color="primary">
+											{contact.first_name + ' ' + contact.last_name}
+										</Typography>
 									)}
 									<div className="bubble flex relative items-center justify-center p-12 max-w-full">
-										<div className="leading-tight whitespace-pre-wrap">{item.message}</div>
+										<div className="leading-tight whitespace-pre-wrap">{item.body}</div>
 										<Typography
 											className="time absolute hidden w-full text-11 mt-8 -mb-24 ltr:left-0 rtl:right-0 bottom-0 whitespace-no-wrap"
 											color="textSecondary"
 										>
-											{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
+											{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
 										</Typography>
 									</div>
 								</div>
@@ -196,36 +194,35 @@ function Chat(props) {
 					</div>
 				)}
 			</FuseScrollbars>
-			{chat && (
-				<form onSubmit={onMessageSubmit} className="absolute bottom-0 right-0 left-0 py-16 px-8">
-					<Paper className="flex items-center relative rounded-24" elevation={1}>
-						<TextField
-							autoFocus={false}
-							id="message-input"
-							className="flex-1"
-							InputProps={{
-								disableUnderline: true,
-								classes: {
-									root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-48 rtl:ml-48 my-8',
-									input: ''
-								},
-								placeholder: 'Type your message'
-							}}
-							InputLabelProps={{
-								shrink: false,
-								className: classes.bootstrapFormLabel
-							}}
-							onChange={onInputChange}
-							value={messageText}
-						/>
-						<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
-							<Icon className="text-24" color="action">
-								send
-							</Icon>
-						</IconButton>
-					</Paper>
-				</form>
-			)}
+
+			<form onSubmit={onMessageSubmit} className="absolute bottom-0 right-0 left-0 py-16 px-8">
+				<Paper className="flex items-center relative rounded-24" elevation={1}>
+					<TextField
+						autoFocus={false}
+						id="message-input"
+						className="flex-1"
+						InputProps={{
+							disableUnderline: true,
+							classes: {
+								root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-48 rtl:ml-48 my-8',
+								input: ''
+							},
+							placeholder: 'Type your message'
+						}}
+						InputLabelProps={{
+							shrink: false,
+							className: classes.bootstrapFormLabel
+						}}
+						onChange={onInputChange}
+						value={messageText}
+					/>
+					<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
+						<Icon className="text-24" color="action">
+							send
+						</Icon>
+					</IconButton>
+				</Paper>
+			</form>
 		</div>
 	);
 }

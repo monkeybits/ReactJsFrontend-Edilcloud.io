@@ -1,11 +1,18 @@
 import FuseNavigation from '@fuse/core/FuseNavigation';
 import clsx from 'clsx';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import * as Actions from 'app/main/apps/chat/store/actions';
 
 function Navigation(props) {
+	const dispatch = useDispatch();
 	const navigation = useSelector(({ fuse }) => fuse.navigation);
-
+	const chatAppcompany = useSelector(({ chatApp }) => chatApp?.company);
+	useEffect(() => {
+		dispatch(Actions.companyInfo());
+	}, [dispatch]);
+	
+	
 	return (
 		<FuseNavigation
 			className={clsx('navigation', props.className)}
