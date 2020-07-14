@@ -17,3 +17,6 @@ export const REFRESH_TOKEN = id => `/api/frontend/user/token/refresh/${id}/`;
 export const ADD_NEW_MEMBER = '/api/frontend/profile/company/profile_add/';
 export const GET_STAFF_LIST = '/api/frontend/profile/company/approve/staff_list/?per_page=12';
 export const UPDATE_MEMBER = id => `/api/frontend/profile/company/profile_edit/${id}/`;
+export const GET_MESSAGES_API = '/api/frontend/profile/company/message_list/all/?no_page=no_page';
+export const SEND_MESSAGE_API=(cid)=> `/api/frontend/message/message/company/${cid}/add/`;
+export const COMPANY_DETAIL = '/api/frontend/profile/company/detail/';

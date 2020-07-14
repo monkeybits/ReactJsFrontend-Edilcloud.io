@@ -21,6 +21,7 @@ import StatusIcon from './StatusIcon';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import UserSidebar from './UserSidebar';
+import { withRouter } from 'react-router';
 
 const drawerWidth = 400;
 const headerHeight = 200;
@@ -105,6 +106,7 @@ const useStyles = makeStyles(theme => ({
 function ChatApp(props) {
 	const dispatch = useDispatch();
 	const chat = useSelector(({ chatApp }) => chatApp.chat);
+	const company = useSelector(({ chatApp }) => chatApp.company);
 	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
 	const selectedContactId = useSelector(({ chatApp }) => chatApp.contacts.selectedContactId);
 	const mobileChatsSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.mobileChatsSidebarOpen);
@@ -112,13 +114,20 @@ function ChatApp(props) {
 	const contactSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.contactSidebarOpen);
 
 	const classes = useStyles(props);
-	const selectedContact = contacts.find(_contact => _contact.id === selectedContactId);
 
 	useEffect(() => {
-		dispatch(Actions.getUserData());
-		dispatch(Actions.getContacts());
+		dispatch(Actions.companyInfo());
 	}, [dispatch]);
-
+	
+	useEffect(() => {
+		if (company.can_access_chat) {
+			dispatch(Actions.getUserData());
+			dispatch(Actions.getContacts());
+			dispatch(Actions.getChat());
+		} else {
+			props.history.push('/apps/todo/all');
+		}
+	}, [dispatch, company]);
 	return (
 		<div className={clsx(classes.root)}>
 			<div className={classes.topBg} />
@@ -185,32 +194,7 @@ function ChatApp(props) {
 					</Drawer>
 
 					<main className={clsx(classes.contentWrapper, 'z-10')}>
-						{!chat ? (
-							<div className="flex flex-col flex-1 items-center justify-center p-24">
-								<Paper className="rounded-full p-48">
-									<Icon className="block text-64" color="secondary">
-										chat
-									</Icon>
-								</Paper>
-								<Typography variant="h6" className="my-24">
-									Chat App
-								</Typography>
-								<Typography
-									className="hidden md:flex px-16 pb-24 mt-24 text-center"
-									color="textSecondary"
-								>
-									Select a contact to start a conversation!..
-								</Typography>
-								<Button
-									variant="outlined"
-									color="primary"
-									className="flex md:hidden normal-case"
-									onClick={() => dispatch(Actions.openMobileChatsSidebar())}
-								>
-									Select a contact to start a conversation!..
-								</Button>
-							</div>
-						) : (
+						{
 							<>
 								<AppBar className="w-full" position="static" elevation={1}>
 									<Toolbar className="px-16">
@@ -230,18 +214,23 @@ function ChatApp(props) {
 											tabIndex={0}
 										>
 											<div className="relative mx-8">
-												<div className="absolute right-0 bottom-0 -m-4 z-10">
+												{/* <div className="absolute right-0 bottom-0 -m-4 z-10">
 													<StatusIcon status={selectedContact.status} />
-												</div>
+												</div> */}
 
-												<Avatar src={selectedContact.avatar} alt={selectedContact.name}>
-													{!selectedContact.avatar || selectedContact.avatar === ''
-														? selectedContact.name[0]
-														: ''}
+												<Avatar
+													src={
+														company.logo
+															? company.logo
+															: 'assets/images/avatars/profile.jpg'
+													}
+													alt={company.name}
+												>
+													Group Chat
 												</Avatar>
 											</div>
 											<Typography color="inherit" className="text-18 font-600 px-4">
-												{selectedContact.name}
+												{company.name}
 											</Typography>
 										</div>
 									</Toolbar>
@@ -251,7 +240,7 @@ function ChatApp(props) {
 									<Chat className="flex flex-1 z-10" />
 								</div>
 							</>
-						)}
+						}
 					</main>
 
 					<Drawer
@@ -282,4 +271,4 @@ function ChatApp(props) {
 	);
 }
 
-export default withReducer('chatApp', reducer)(ChatApp);
+export default withRouter(withReducer('chatApp', reducer)(ChatApp));

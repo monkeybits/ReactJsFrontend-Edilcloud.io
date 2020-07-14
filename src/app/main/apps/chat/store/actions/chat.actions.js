@@ -1,32 +1,31 @@
 import axios from 'axios';
 import { setselectedContactId } from './contacts.actions';
 import { closeMobileChatsSidebar } from './sidebars.actions';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
+import { GET_MESSAGES_API, SEND_MESSAGE_API, COMPANY_DETAIL } from 'app/services/apiEndPoints';
 
 export const GET_CHAT = '[CHAT APP] GET CHAT';
 export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT';
 export const SEND_MESSAGE = '[CHAT APP] SEND MESSAGE';
+export const COMPANY_INFO = '[CHAT APP] COMPANY INFO';
 
 export function getChat(contactId) {
 	return (dispatch, getState) => {
-		const { id: userId } = getState().chatPanel.user;
-		const request = axios.get('/api/chat/get-chat', {
-			params: {
-				contactId,
-				userId
-			}
-		});
-
-		return request.then(response => {
-			dispatch(setselectedContactId(contactId));
-
-			dispatch(closeMobileChatsSidebar());
-
-			return dispatch({
-				type: GET_CHAT,
-				chat: response.data.chat,
-				userChatData: response.data.userChatData
-			});
-		});
+		apiCall(
+			GET_MESSAGES_API,
+			{},
+			chat => {
+				return dispatch({
+					type: GET_CHAT,
+					chat: chat,
+					userChatData: {}
+				});
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
 	};
 }
 
@@ -36,24 +35,39 @@ export function removeChat() {
 	};
 }
 
-export function sendMessage(messageText, chatId, userId) {
-	const message = {
-		who: userId,
-		message: messageText,
-		time: new Date()
+export function sendMessage(messageText, setMessageText) {
+	return (dispatch, getState) => {
+		const userInfo = decodeDataFromToken();
+		apiCall(
+			SEND_MESSAGE_API(userInfo.extra.profile.company),
+			{
+				body: messageText
+			},
+			chat => {
+				dispatch(getChat());
+				setMessageText('');
+			},
+			err => console.log(err),
+			METHOD.POST,
+			getHeaderToken()
+		);
 	};
+}
 
-	const request = axios.post('/api/chat/send-message', {
-		chatId,
-		message
-	});
-
-	return dispatch =>
-		request.then(response => {
-			return dispatch({
-				type: SEND_MESSAGE,
-				message: response.data.message,
-				userChatData: response.data.userChatData
-			});
-		});
+export function companyInfo() {
+	return (dispatch, getState) => {
+		apiCall(
+			COMPANY_DETAIL,
+			{},
+			company => {
+				return dispatch({
+					type: COMPANY_INFO,
+					company
+				});
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 }

@@ -30,15 +30,14 @@ function ContactListItem(props) {
 			className={clsx(classes.contactListItem, 'px-16 py-12 min-h-92', {
 				active: props.selectedContactId === props.contact.id
 			})}
-			onClick={() => props.onContactClick(props.contact.id)}
 		>
 			<div className="relative">
 				<div className="absolute right-0 bottom-0 -m-4 z-10">
 					<StatusIcon status={props.contact.status} />
 				</div>
 
-				<Avatar src={props.contact.avatar} alt={props.contact.name}>
-					{!props.contact.avatar || props.contact.avatar === '' ? props.contact.name[0] : ''}
+				<Avatar src={props.contact.photo} alt={props.contact.name}>
+					{!props.contact.photo || props.contact.photo === '' ? props.contact.name : ''}
 				</Avatar>
 			</div>
 

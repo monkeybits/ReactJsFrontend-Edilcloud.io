@@ -201,20 +201,6 @@ function ChatsSidebar(props) {
 									}}
 									className="flex flex-col flex-shrink-0"
 								>
-									{chatListArr.length > 0 && (
-										<Typography className="font-300 text-20 px-16 py-24" color="secondary">
-											Chats
-										</Typography>
-									)}
-
-									{chatListArr.map(contact => (
-										<ContactListItem
-											key={contact.id}
-											contact={contact}
-											onContactClick={contactId => dispatch(Actions.getChat(contactId))}
-										/>
-									))}
-
 									{contactsArr.length > 0 && (
 										<Typography className="font-300 text-20 px-16 py-24" color="secondary">
 											Contacts
@@ -222,11 +208,7 @@ function ChatsSidebar(props) {
 									)}
 
 									{contactsArr.map(contact => (
-										<ContactListItem
-											key={contact.id}
-											contact={contact}
-											onContactClick={contactId => dispatch(Actions.getChat(contactId))}
-										/>
+										<ContactListItem key={contact.id} contact={contact} />
 									))}
 								</FuseAnimateGroup>
 							</>
