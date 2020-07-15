@@ -118,12 +118,13 @@ function ChatApp(props) {
 	useEffect(() => {
 		dispatch(Actions.companyInfo());
 	}, [dispatch]);
-	
+
 	useEffect(() => {
 		if (company.can_access_chat) {
 			dispatch(Actions.getUserData());
 			dispatch(Actions.getContacts());
-			dispatch(Actions.getChat());
+			let callMessageList = setInterval(() => dispatch(Actions.getChat()), 1000);
+			return () => clearInterval(callMessageList);
 		} else {
 			props.history.push('/apps/todo/all');
 		}
