@@ -2,15 +2,48 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { DOWNLOAD_PHOTO, DOWNLOAD_VIDEO, DOWNLOAD_DOCUMENT } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import FileSaver from 'file-saver';
+
 function DetailSidebarHeader(props) {
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
 	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
+	// useEffect(() => {
+
+	// }, [selectedItem]);
+
 	if (!selectedItem) {
 		return null;
 	}
+	const onDownload = () => {
+		if (selectedItem) {
+			let apiurl =
+				selectedItem.type == 'photo'
+					? DOWNLOAD_PHOTO(selectedItem.mainId)
+					: selectedItem.type == 'video'
+					? DOWNLOAD_VIDEO(selectedItem.mainId)
+					: DOWNLOAD_DOCUMENT(selectedItem.mainId);
+			console.log({ apiurl });
+			apiCall(
+				apiurl,
+				{},
+				res => {
+					var file = new File([res], `${selectedItem.title}${selectedItem.extension}`, {
+						type: 'image/png'
+					});
+					FileSaver.saveAs(file);
+				},
+				err => console.log(err),
+				METHOD.GET,
+				getHeaderToken()
+			);
+		}
+	};
 	const url =
 		selectedItem.type == 'photo'
 			? selectedItem.photo
@@ -26,7 +59,7 @@ function DetailSidebarHeader(props) {
 					</IconButton>
 				</FuseAnimate>
 				<FuseAnimate animation="transition.expandIn" delay={200}>
-					<IconButton onClick={() => window.open(url)}>
+					<IconButton onClick={onDownload}>
 						<Icon>cloud_download</Icon>
 					</IconButton>
 				</FuseAnimate>

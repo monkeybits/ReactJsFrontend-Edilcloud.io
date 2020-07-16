@@ -1,6 +1,10 @@
 import _ from '@lodash';
 import * as Actions from '../actions';
-import { v4 as uuidv4 } from 'uuid';
+
+const initialState = {
+	files: [],
+	searchText: ''
+};
 
 function formatBytes(a, b = 2) {
 	if (0 === a) return '0 Bytes';
@@ -13,7 +17,8 @@ function formatBytes(a, b = 2) {
 	);
 }
 
-const addTypeInArray = (arr = [], type) => arr.map(d => ({ ...d, type, size: formatBytes(d.size) }));
+const addTypeInArray = (arr = [], type) =>
+	arr.map((d, i) => ({ ...d, mainId: d.id, id: i, type, size: formatBytes(d.size) }));
 const mergeArray = (oldArr = [], newArr = []) => [...oldArr, ...newArr];
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -30,13 +35,8 @@ function sortByProperty(array, property, order = 'ASC') {
 			: 0
 	);
 }
-const chnageIds = (arr = []) => arr.map((d, i) => ({ ...d, mainId: d.id, id: i }));
-const filesReducer = (
-	state = {
-		files: []
-	},
-	action
-) => {
+const chnageIds = (arr = []) => arr.map((d, i) => ({ ...d, id: i }));
+const filesReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_FILES:
 			return _.keyBy(action.payload, 'id');
@@ -73,6 +73,12 @@ const filesReducer = (
 					return a > b ? 1 : a < b ? -1 : 0;
 				})
 			};
+		case Actions.SET_SEARCH_TEXT: {
+			return {
+				...state,
+				searchText: action.searchText
+			};
+		}
 		default:
 			return state;
 	}

@@ -33,6 +33,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
 	root: {
@@ -77,6 +79,7 @@ const DialogActions = withStyles(theme => ({
 function FileManagerApp(props) {
 	const dispatch = useDispatch();
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files);
+	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
 	const pageLayout = useRef(null);
@@ -188,10 +191,22 @@ function FileManagerApp(props) {
 							>
 								<Icon>menu</Icon>
 							</IconButton>
-							<FuseAnimate animation="transition.expandIn" delay={200}>
-								<IconButton aria-label="search">
-									<Icon>search</Icon>
-								</IconButton>
+							<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+								<Paper className="flex p-4 items-center w-full max-w-512 h-48 px-8 py-4" elevation={1}>
+									<Icon color="action">search</Icon>
+
+									<Input
+										placeholder="Search for anything"
+										className="flex flex-1 px-16"
+										disableUnderline
+										fullWidth
+										value={searchText}
+										inputProps={{
+											'aria-label': 'Search'
+										}}
+										onChange={ev => dispatch(Actions.setSearchText(ev))}
+									/>
+								</Paper>
 							</FuseAnimate>
 						</div>
 						<div className="flex flex-1 items-end">
@@ -278,9 +293,7 @@ function FileManagerApp(props) {
 										getOptionLabel={option => option.path}
 										renderOption={(option, { selected }) => <>{option.path}</>}
 										inputValue={path}
-										renderInput={params => (
-											<TextField {...params} label="Path" />
-										)}
+										renderInput={params => <TextField {...params} label="Path" />}
 										onInputChange={(e, value) => setPath(value)}
 									/>
 								</div>

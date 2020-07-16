@@ -13,6 +13,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import moment from 'moment';
+import FuseUtils from '@fuse/utils';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
 	typeIcon: {
@@ -36,17 +38,48 @@ function FileList(props) {
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
 	const selectedItemId = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
+	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
 	const [allFiles, setAllFiles] = useState([]);
-	useEffect(() => {
+	const classes = useStyles();
+	const checkData = data => (data ? data : '-');
+	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
+	const setAllFilesInit = () => {
 		let modifyfolders = folders?.filter(d => d.path.split('/').length <= 1);
 		if (modifyfolders) {
 			modifyfolders = modifyfolders.map(item => ({ ...item, title: item.path, type: 'folder' }));
 			setAllFiles([...modifyfolders, ...files]);
 		}
+	};
+	useEffect(() => {
+		setAllFilesInit();
 	}, [files, folders]);
-	const classes = useStyles();
-	const checkData = data => (data ? data : '-');
-	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
+
+	useEffect(() => {
+		function getFilteredArray(entities, _searchText) {
+			const arr = Object.keys(entities).map(id => entities[id]);
+			if (_searchText.length === 0) {
+				return arr;
+			}
+			return FuseUtils.filterArrayByString(arr, _searchText);
+		}
+
+		if (searchText && searchText.length) {
+			let results = getFilteredArray(allFiles, searchText);
+			setAllFiles(results);
+		} else {
+			setAllFilesInit();
+		}
+	}, [searchText]);
+
+	if (allFiles.length === 0) {
+		return (
+			<div className="flex flex-1 items-center justify-center h-full">
+				<Typography color="textSecondary" variant="h5">
+					There are no files!
+				</Typography>
+			</div>
+		);
+	}
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={300}>
 			<Table>

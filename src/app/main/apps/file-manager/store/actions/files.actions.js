@@ -8,6 +8,7 @@ export const GET_PHOTOS = '[FILE MANAGER APP] GET PHOTOS';
 export const GET_VIDEOS = '[FILE MANAGER APP] GET VIDEOS';
 export const GET_DOCUMENTS = '[FILE MANAGER APP] GET DOCUMENTS';
 export const GET_FOLDERS = '[FILE MANAGER APP] GET FOLDERS';
+export const SET_SEARCH_TEXT = '[FILE MANAGER APP] SET SEARCH TEXT';
 
 export function getFiles() {
 	return (dispatch, getState) => {
@@ -64,5 +65,12 @@ export function getFiles() {
 			METHOD.GET,
 			getHeaderToken()
 		);
+	};
+}
+
+export function setSearchText(event) {
+	return {
+		type: SET_SEARCH_TEXT,
+		searchText: event.target.value
 	};
 }

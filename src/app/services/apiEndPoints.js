@@ -28,3 +28,6 @@ export const PHOTO_LIST = cid => `/api/frontend/profile/company/company_photo_li
 export const DOCUMENT_LIST = cid => `/api/frontend/profile/company/company_document_list/private/?companyId=${cid}`;
 export const VIDEO_LIST = cid => `/api/frontend/profile/company/company_video_list/private/?companyId=${cid}`;
 export const FOLDER_LIST = cid => `/api/frontend/media/folder/company/${cid}/list/`;
+export const DOWNLOAD_PHOTO = did => `/api/frontend/media/photo/download/${did}`;
+export const DOWNLOAD_VIDEO = did => `/api/frontend/media/video/download/${did}`;
+export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/download/${did}`;
