@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 const useStyles = makeStyles({
 	table: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles({
 });
 
 function DetailSidebarContent(props) {
-	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files);
+	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
 	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
 
 	const classes = useStyles();
@@ -39,13 +40,16 @@ function DetailSidebarContent(props) {
 	if (!selectedItem) {
 		return null;
 	}
-
+	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
+	const checkData = data => (data ? data : '-');
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={200}>
 			<div className="file-details p-16 sm:p-24">
 				<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
 					<FuseAnimate animation="transition.expandIn" delay={300}>
-						<Icon className={clsx(classes.typeIcon, selectedItem.type, 'text-48')} />
+						<Icon className={clsx(classes.typeIcon, selectedItem.type, 'text-48')}>
+							{selectedItem.type == 'video' ? 'movie' : selectedItem.type}
+						</Icon>
 					</FuseAnimate>
 				</div>
 
@@ -63,7 +67,7 @@ function DetailSidebarContent(props) {
 					<tbody>
 						<tr className="type">
 							<th>Type</th>
-							<td>{selectedItem.type}</td>
+							<td>{checkData(selectedItem.type)}</td>
 						</tr>
 
 						<tr className="size">
@@ -73,27 +77,27 @@ function DetailSidebarContent(props) {
 
 						<tr className="location">
 							<th>Location</th>
-							<td>{selectedItem.location}</td>
+							<td>{checkData(selectedItem.location)}</td>
 						</tr>
 
 						<tr className="owner">
 							<th>Owner</th>
-							<td>{selectedItem.owner}</td>
+							<td>{checkData(selectedItem.owner)}</td>
 						</tr>
 
 						<tr className="modified">
 							<th>Modified</th>
-							<td>{selectedItem.modified}</td>
+							<td>{getdate(selectedItem.date_last_modify)}</td>
 						</tr>
 
 						<tr className="opened">
 							<th>Opened</th>
-							<td>{selectedItem.opened}</td>
+							<td>{checkData(selectedItem.opened)}</td>
 						</tr>
 
 						<tr className="created">
 							<th>Created</th>
-							<td>{selectedItem.created}</td>
+							<td>{getdate(selectedItem.date_create)}</td>
 						</tr>
 					</tbody>
 				</table>

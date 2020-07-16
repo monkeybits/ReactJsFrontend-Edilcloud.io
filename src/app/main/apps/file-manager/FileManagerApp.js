@@ -275,8 +275,8 @@ function FileManagerApp(props) {
 										options={files.folders}
 										style={{ width: '100%' }}
 										className="mb-24"
-										getOptionLabel={option => option}
-										renderOption={(option, { selected }) => <>{option}</>}
+										getOptionLabel={option => option.path}
+										renderOption={(option, { selected }) => <>{option.path}</>}
 										inputValue={path}
 										renderInput={params => (
 											<TextField {...params} label="Path" />

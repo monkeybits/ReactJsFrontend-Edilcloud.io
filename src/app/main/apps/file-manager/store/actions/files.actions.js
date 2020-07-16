@@ -20,9 +20,6 @@ export function getFiles() {
 					type: GET_PHOTOS,
 					payload: photos
 				});
-				// console.log({
-				// 	PHOTO_LIST: photos
-				// });
 			},
 			err => console.log(err),
 			METHOD.GET,
@@ -36,9 +33,6 @@ export function getFiles() {
 					type: GET_VIDEOS,
 					payload: videos
 				});
-				// console.log({
-				// 	VIDEO_LIST: videos
-				// });
 			},
 			err => console.log(err),
 			METHOD.GET,
@@ -52,9 +46,6 @@ export function getFiles() {
 					type: GET_DOCUMENTS,
 					payload: documents
 				});
-				// console.log({
-				// 	DOCUMENT_LIST: documents
-				// });
 			},
 			err => console.log(err),
 			METHOD.GET,
@@ -68,20 +59,10 @@ export function getFiles() {
 					type: GET_FOLDERS,
 					payload: folders
 				});
-				// console.log({
-				// 	FOLDER_LIST: folders
-				// });
 			},
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
-		);
-		const request = axios.get('/api/file-manager-app/files');
-		request.then(response =>
-			dispatch({
-				type: GET_FILES,
-				payload: response.data
-			})
 		);
 	};
 }
