@@ -1,10 +1,11 @@
 import _ from '@lodash';
 import * as Actions from '../actions';
 
-const initialState = {
+const initialState = () => ({
 	files: [],
-	searchText: ''
-};
+	searchText: '',
+	folderPath: ['']
+});
 
 function formatBytes(a, b = 2) {
 	if (0 === a) return '0 Bytes';
@@ -36,7 +37,7 @@ function sortByProperty(array, property, order = 'ASC') {
 	);
 }
 const chnageIds = (arr = []) => arr.map((d, i) => ({ ...d, id: i }));
-const filesReducer = (state = initialState, action) => {
+const filesReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_FILES:
 			return _.keyBy(action.payload, 'id');
@@ -78,6 +79,21 @@ const filesReducer = (state = initialState, action) => {
 				...state,
 				searchText: action.searchText
 			};
+		}
+		case Actions.SET_FOLDER_PATH:
+			return {
+				...state,
+				folderPath: [...state.folderPath, action.payload]
+			};
+		case Actions.POP_FOLDER_PATH:
+			let folderPath = state.folderPath;
+			folderPath.pop();
+			return {
+				...state,
+				folderPath
+			};
+		case Actions.RESET_FILES: {
+			return initialState();
 		}
 		default:
 			return state;

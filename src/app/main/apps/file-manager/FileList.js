@@ -37,6 +37,8 @@ function FileList(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
+	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
+	const currentFolderPath = folderPath[folderPath.length - 1];
 	const selectedItemId = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
 	const [allFiles, setAllFiles] = useState([]);
@@ -47,7 +49,7 @@ function FileList(props) {
 		let modifyfolders = folders?.filter(d => d.path.split('/').length <= 1);
 		if (modifyfolders) {
 			modifyfolders = modifyfolders.map(item => ({ ...item, title: item.path, type: 'folder' }));
-			setAllFiles([...modifyfolders, ...files]);
+			setAllFiles([...modifyfolders, ...files.filter(f => f.folder_relative_path == currentFolderPath)]);
 		}
 	};
 	useEffect(() => {
@@ -70,8 +72,23 @@ function FileList(props) {
 			setAllFilesInit();
 		}
 	}, [searchText]);
-
-	if (allFiles.length === 0) {
+	useEffect(() => {
+		let modifyfolders = folders?.filter(
+			f =>
+				f.path.includes(currentFolderPath) &&
+				f.path.split('/').length <= folderPath.length &&
+				!folderPath.includes(f.path)
+		);
+		if (modifyfolders) {
+			modifyfolders = modifyfolders.map(item => {
+				let title = item.path.split('/');
+				title = title[title.length - 1];
+				return { ...item, title, type: 'folder' };
+			});
+			setAllFiles([...modifyfolders, ...files.filter(f => f.folder_relative_path == currentFolderPath)]);
+		}
+	}, [currentFolderPath]);
+	if (allFiles.length === 0 && searchText) {
 		return (
 			<div className="flex flex-1 items-center justify-center h-full">
 				<Typography color="textSecondary" variant="h5">
@@ -95,12 +112,30 @@ function FileList(props) {
 				</TableHead>
 
 				<TableBody>
+					{currentFolderPath != '' && (
+						<TableRow>
+							<TableCell onClick={() => dispatch(Actions.popFolderPath())}>
+								<IconButton aria-label="back" size="small">
+									<Icon>more_horiz</Icon>
+								</IconButton>
+							</TableCell>
+							<TableCell></TableCell>
+							<TableCell></TableCell>
+							<TableCell></TableCell>
+							<TableCell></TableCell>
+							<TableCell></TableCell>
+						</TableRow>
+					)}
 					{Object.entries(allFiles).map(([key, n]) => {
 						return (
 							<TableRow
 								key={n.id}
 								hover
-								onClick={event => n.id != undefined && dispatch(Actions.setSelectedItem(n.id))}
+								onClick={event =>
+									n.type == 'folder'
+										? dispatch(Actions.setFolderPath(n.path))
+										: dispatch(Actions.setSelectedItem(n.id))
+								}
 								selected={n.id === selectedItemId}
 								className="cursor-pointer"
 							>

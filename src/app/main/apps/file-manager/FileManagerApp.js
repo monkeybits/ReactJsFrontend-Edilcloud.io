@@ -77,6 +77,7 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 function FileManagerApp(props) {
+	//filesfolderPath
 	const dispatch = useDispatch();
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files);
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
@@ -90,6 +91,7 @@ function FileManagerApp(props) {
 	});
 	const [radioBtnValue, setRadioBtnValue] = useState('folder');
 	const [path, setPath] = useState('');
+	const [filePath, setFilePath] = useState('');
 	const [folderName, setFolderName] = useState(undefined);
 	const [title, setTitle] = useState(undefined);
 	const [description, setDescription] = useState(undefined);
@@ -136,7 +138,7 @@ function FileManagerApp(props) {
 						name: folderName,
 						path
 				  }
-				: { [datakey]: file, title, description };
+				: { [datakey]: file, title, description, additional_path: filePath ? filePath : undefined };
 		for (let key in values) {
 			formData.append(key, values[key]);
 		}
@@ -151,7 +153,19 @@ function FileManagerApp(props) {
 		apiCall(
 			apiUrl,
 			formData,
-			res => console.log(res),
+			res => {
+				if (radioBtnValue == 'folder') {
+					dispatch(Actions.getFolders());
+				} else {
+					if (fileType == 'image') {
+						dispatch(Actions.getPhotos());
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos());
+					} else {
+						dispatch(Actions.getDocuments());
+					}
+				}
+			},
 			err => {
 				seterror({
 					fileError: err.document ? err.document[0] : '',
@@ -284,7 +298,7 @@ function FileManagerApp(props) {
 									helperText={error.nameError}
 								/>
 							</div>
-							{files.folders && files.folders.length && (
+							{files.folders && !!files.folders.length && (
 								<div>
 									<Autocomplete
 										options={files.folders}
@@ -338,6 +352,20 @@ function FileManagerApp(props) {
 									helperText={error.fileError}
 								/>
 							</div>
+							{files.folders && files.folders.length && (
+								<div>
+									<Autocomplete
+										options={files.folders}
+										style={{ width: '100%' }}
+										className="mb-24"
+										getOptionLabel={option => option.path}
+										renderOption={(option, { selected }) => <>{option.path}</>}
+										inputValue={filePath}
+										renderInput={params => <TextField {...params} label="Path" />}
+										onInputChange={(e, value) => setFilePath(value)}
+									/>
+								</div>
+							)}
 						</>
 					)}
 				</DialogContent>

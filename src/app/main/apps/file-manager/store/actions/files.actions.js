@@ -9,12 +9,22 @@ export const GET_VIDEOS = '[FILE MANAGER APP] GET VIDEOS';
 export const GET_DOCUMENTS = '[FILE MANAGER APP] GET DOCUMENTS';
 export const GET_FOLDERS = '[FILE MANAGER APP] GET FOLDERS';
 export const SET_SEARCH_TEXT = '[FILE MANAGER APP] SET SEARCH TEXT';
+export const RESET_FILES = '[FILE MANAGER APP] RESET FILES';
 
+const userInfo = decodeDataFromToken();
+const cid = userInfo.extra.profile.company;
 export function getFiles() {
 	return (dispatch, getState) => {
-		const userInfo = decodeDataFromToken();
+		dispatch(getPhotos());
+		dispatch(getVideos());
+		dispatch(getDocuments());
+		dispatch(getFolders());
+	};
+}
+export function getPhotos() {
+	return (dispatch, getState) => {
 		apiCall(
-			PHOTO_LIST(userInfo.extra.profile.company),
+			PHOTO_LIST(cid),
 			{},
 			photos => {
 				dispatch({
@@ -26,8 +36,12 @@ export function getFiles() {
 			METHOD.GET,
 			getHeaderToken()
 		);
+	};
+}
+export function getVideos() {
+	return (dispatch, getState) => {
 		apiCall(
-			VIDEO_LIST(userInfo.extra.profile.company),
+			VIDEO_LIST(cid),
 			{},
 			videos => {
 				dispatch({
@@ -39,8 +53,12 @@ export function getFiles() {
 			METHOD.GET,
 			getHeaderToken()
 		);
+	};
+}
+export function getDocuments() {
+	return (dispatch, getState) => {
 		apiCall(
-			DOCUMENT_LIST(userInfo.extra.profile.company),
+			DOCUMENT_LIST(cid),
 			{},
 			documents => {
 				dispatch({
@@ -52,8 +70,12 @@ export function getFiles() {
 			METHOD.GET,
 			getHeaderToken()
 		);
+	};
+}
+export function getFolders() {
+	return (dispatch, getState) => {
 		apiCall(
-			FOLDER_LIST(userInfo.extra.profile.company),
+			FOLDER_LIST(cid),
 			{},
 			folders => {
 				dispatch({
@@ -67,7 +89,6 @@ export function getFiles() {
 		);
 	};
 }
-
 export function setSearchText(event) {
 	return {
 		type: SET_SEARCH_TEXT,

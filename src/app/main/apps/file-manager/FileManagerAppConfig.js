@@ -9,7 +9,8 @@ const FileManagerAppConfig = {
 	routes: [
 		{
 			path: '/apps/file-manager',
-			component: React.lazy(() => import('./FileManagerApp'))
+			component: React.lazy(() => import('./FileManagerApp')),
+			exact: true
 		}
 	]
 };

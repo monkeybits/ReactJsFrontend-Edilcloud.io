@@ -78,6 +78,7 @@ function Boards(props) {
 			},
 			res => {
 				saveToken(res.token);
+				dispatch(Actions.resetFile());
 				props.history.push('/apps/todo/all');
 			},
 			err => console.log(err),
@@ -143,5 +144,4 @@ function Boards(props) {
 		</div>
 	);
 }
-
 export default withReducer('scrumboardApp', reducer)(Boards);

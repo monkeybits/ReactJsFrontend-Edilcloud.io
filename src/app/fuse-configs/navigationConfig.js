@@ -160,7 +160,7 @@ const navigationConfig = [
 				translate: 'SCRUMBOARD',
 				type: 'item',
 				icon: 'assessment',
-				url: '/apps/scrumboard'
+				url: '/apps/companies'
 			},
 			{
 				id: 'notes',

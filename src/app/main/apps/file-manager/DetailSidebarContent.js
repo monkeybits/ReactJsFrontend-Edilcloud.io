@@ -43,7 +43,7 @@ function DetailSidebarContent(props) {
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
 	const checkData = data => (data ? data : '-');
 	return (
-		<FuseAnimate animation="transition.slideUpIn" delay={200}>
+		<FuseAnimate animation="transition.slideUpIn" delay={600}>
 			<div className="file-details p-16 sm:p-24">
 				<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
 					<FuseAnimate animation="transition.expandIn" delay={300}>

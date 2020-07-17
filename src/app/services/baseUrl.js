@@ -8,7 +8,15 @@ export const METHOD = {
 	PATCH: 'patch'
 };
 
-export const apiCall = (endpoint, params = {}, onSuccess, onFailure, method = METHOD.POST, DyanamicConfig = {}) => {
+export const apiCall = (
+	endpoint,
+	params = {},
+	onSuccess,
+	onFailure,
+	method = METHOD.POST,
+	DyanamicConfig = {},
+	isNeedFullResponse = false
+) => {
 	let request = {};
 	switch (method) {
 		case METHOD.POST:
@@ -29,7 +37,9 @@ export const apiCall = (endpoint, params = {}, onSuccess, onFailure, method = ME
 	}
 	request
 		.then(response => {
-			if (response.status == 200 || response.status == 201 || response.data) {
+			if (isNeedFullResponse) {
+				onSuccess(response);
+			} else if (response.status == 200 || response.status == 201 || response.data) {
 				onSuccess(response.data);
 			} else {
 				onFailure('Something went wrong');

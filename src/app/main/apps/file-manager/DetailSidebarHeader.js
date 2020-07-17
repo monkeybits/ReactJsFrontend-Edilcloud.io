@@ -28,19 +28,22 @@ function DetailSidebarHeader(props) {
 					: selectedItem.type == 'video'
 					? DOWNLOAD_VIDEO(selectedItem.mainId)
 					: DOWNLOAD_DOCUMENT(selectedItem.mainId);
-			console.log({ apiurl });
 			apiCall(
 				apiurl,
 				{},
-				res => {
-					var file = new File([res], `${selectedItem.title}${selectedItem.extension}`, {
-						type: 'image/png'
-					});
-					FileSaver.saveAs(file);
+				({ headers, data }) => {
+					// var file = new File([data], `${selectedItem.title}`, {
+					// 	type: headers['content-type']
+					// });
+					// console.log({
+					// 	isBlob : data instanceof Blob,
+					// });
+					FileSaver.saveAs([data],`${selectedItem.title}`,{autoBom : true});
 				},
 				err => console.log(err),
 				METHOD.GET,
-				getHeaderToken()
+				getHeaderToken(),
+				true
 			);
 		}
 	};
