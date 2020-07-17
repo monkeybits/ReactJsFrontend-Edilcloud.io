@@ -12,7 +12,7 @@ export const SET_SEARCH_TEXT = '[FILE MANAGER APP] SET SEARCH TEXT';
 export const RESET_FILES = '[FILE MANAGER APP] RESET FILES';
 
 const userInfo = decodeDataFromToken();
-const cid = userInfo.extra.profile.company;
+const cid = userInfo.extra?.profile?.company;
 export function getFiles() {
 	return (dispatch, getState) => {
 		dispatch(getPhotos());
