@@ -20,7 +20,15 @@ function formatBytes(a, b = 2) {
 
 const addTypeInArray = (arr = [], type) =>
 	arr.map((d, i) => ({ ...d, mainId: d.id, id: i, type, size: formatBytes(d.size) }));
-const mergeArray = (oldArr = [], newArr = []) => [...oldArr, ...newArr];
+const mergeArray = (oldArr = [], newArr = []) =>
+	[...oldArr, ...newArr].reduce((arr, current) => {
+		const x = arr.find(item => item.mainId === current.mainId);
+		if (!x) {
+			return arr.concat([current]);
+		} else {
+			return arr;
+		}
+	}, []);
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
 		order === 'ASC'

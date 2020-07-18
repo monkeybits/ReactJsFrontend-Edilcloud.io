@@ -11,17 +11,15 @@ export const GET_FOLDERS = '[FILE MANAGER APP] GET FOLDERS';
 export const SET_SEARCH_TEXT = '[FILE MANAGER APP] SET SEARCH TEXT';
 export const RESET_FILES = '[FILE MANAGER APP] RESET FILES';
 
-const userInfo = decodeDataFromToken();
-const cid = userInfo.extra?.profile?.company;
-export function getFiles() {
+export function getFiles(cid) {
 	return (dispatch, getState) => {
-		dispatch(getPhotos());
-		dispatch(getVideos());
-		dispatch(getDocuments());
-		dispatch(getFolders());
+		dispatch(getPhotos(cid));
+		dispatch(getVideos(cid));
+		dispatch(getDocuments(cid));
+		dispatch(getFolders(cid));
 	};
 }
-export function getPhotos() {
+export function getPhotos(cid) {
 	return (dispatch, getState) => {
 		apiCall(
 			PHOTO_LIST(cid),
@@ -38,7 +36,7 @@ export function getPhotos() {
 		);
 	};
 }
-export function getVideos() {
+export function getVideos(cid) {
 	return (dispatch, getState) => {
 		apiCall(
 			VIDEO_LIST(cid),
@@ -55,7 +53,7 @@ export function getVideos() {
 		);
 	};
 }
-export function getDocuments() {
+export function getDocuments(cid) {
 	return (dispatch, getState) => {
 		apiCall(
 			DOCUMENT_LIST(cid),
@@ -72,7 +70,7 @@ export function getDocuments() {
 		);
 	};
 }
-export function getFolders() {
+export function getFolders(cid) {
 	return (dispatch, getState) => {
 		apiCall(
 			FOLDER_LIST(cid),

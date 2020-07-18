@@ -17,7 +17,7 @@ import reducer from './store/reducers';
 import { makeStyles, Button, TextField } from '@material-ui/core';
 import { ADD_PHOTO, ADD_FOLDER, ADD_VIDEO, ADD_DOCUMENT } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import { withRouter } from 'react-router';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -85,6 +85,7 @@ function FileManagerApp(props) {
 	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
 	const pageLayout = useRef(null);
 	const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+	const [isUploading, setIsUploading] = useState(false);
 	const [fileData, setFile] = useState({
 		file: null,
 		fileType: null
@@ -110,7 +111,9 @@ function FileManagerApp(props) {
 		});
 	useEffect(() => {
 		if (company.can_access_files) {
-			dispatch(Actions.getFiles());
+			const userInfo = decodeDataFromToken();
+			const cid = userInfo.extra?.profile?.company;
+			dispatch(Actions.getFiles(cid));
 		} else {
 			props.history.push('/apps/todo/all');
 		}
@@ -127,57 +130,63 @@ function FileManagerApp(props) {
 		}
 	};
 	const handleUpload = () => {
-		const { fileType, file } = fileData;
-		if (!fileType && radioBtnValue == 'file') return;
+		if (isUploading == false) {
+			setIsUploading(true);
+			const { fileType, file } = fileData;
+			if (!fileType && radioBtnValue == 'file') return;
 
-		let formData = new FormData();
-		let datakey = fileType == 'image' ? 'photo' : fileType == 'video' ? 'video' : 'document';
-		let values =
-			radioBtnValue == 'folder'
-				? {
-						name: folderName,
-						path
-				  }
-				: { [datakey]: file, title, description, additional_path: filePath ? filePath : undefined };
-		for (let key in values) {
-			formData.append(key, values[key]);
-		}
-		let apiUrl =
-			radioBtnValue == 'folder'
-				? ADD_FOLDER(company.id)
-				: fileType == 'image'
-				? ADD_PHOTO(company.id)
-				: fileType == 'video'
-				? ADD_VIDEO(company.id)
-				: ADD_DOCUMENT(company.id);
-		apiCall(
-			apiUrl,
-			formData,
-			res => {
-				if (radioBtnValue == 'folder') {
-					dispatch(Actions.getFolders());
-				} else {
-					if (fileType == 'image') {
-						dispatch(Actions.getPhotos());
-					} else if (fileType == 'video') {
-						dispatch(Actions.getVideos());
+			let formData = new FormData();
+			let datakey = fileType == 'image' ? 'photo' : fileType == 'video' ? 'video' : 'document';
+			let values =
+				radioBtnValue == 'folder'
+					? {
+							name: folderName,
+							path
+					  }
+					: { [datakey]: file, title, description, additional_path: filePath ? filePath : '' };
+			for (let key in values) {
+				formData.append(key, values[key]);
+			}
+			let apiUrl =
+				radioBtnValue == 'folder'
+					? ADD_FOLDER(company.id)
+					: fileType == 'image'
+					? ADD_PHOTO(company.id)
+					: fileType == 'video'
+					? ADD_VIDEO(company.id)
+					: ADD_DOCUMENT(company.id);
+			apiCall(
+				apiUrl,
+				formData,
+				res => {
+					const userInfo = decodeDataFromToken();
+					const cid = userInfo.extra?.profile?.company;
+					if (radioBtnValue == 'folder') {
+						dispatch(Actions.getFolders(cid));
 					} else {
-						dispatch(Actions.getDocuments());
+						if (fileType == 'image') {
+							dispatch(Actions.getPhotos(cid));
+						} else if (fileType == 'video') {
+							dispatch(Actions.getVideos(cid));
+						} else {
+							dispatch(Actions.getDocuments(cid));
+						}
 					}
-				}
-			},
-			err => {
-				seterror({
-					fileError: err.document ? err.document[0] : '',
-					titleError: err.title ? err.title[0] : '',
-					descError: err.description ? err.description[0] : '',
-					nameError: err.name ? err.name[0] : ''
-				});
-			},
-			METHOD.POST,
-			getHeaderToken()
-		);
-		setIsOpenDrawer(false);
+				},
+				err => {
+					seterror({
+						fileError: err.document ? err.document[0] : '',
+						titleError: err.title ? err.title[0] : '',
+						descError: err.description ? err.description[0] : '',
+						nameError: err.name ? err.name[0] : ''
+					});
+				},
+				METHOD.POST,
+				getHeaderToken()
+			);
+			setIsOpenDrawer(false);
+			setIsUploading(false);
+		}
 	};
 	const handleClose = () => {
 		setIsOpenDrawer(false);
