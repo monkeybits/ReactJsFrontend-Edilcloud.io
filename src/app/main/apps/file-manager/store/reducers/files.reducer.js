@@ -4,7 +4,8 @@ import * as Actions from '../actions';
 const initialState = () => ({
 	files: [],
 	searchText: '',
-	folderPath: ['']
+	folderPath: [''],
+	isUploadingFiles: false
 });
 
 function formatBytes(a, b = 2) {
@@ -52,6 +53,7 @@ const filesReducer = (state = initialState(), action) => {
 		case Actions.GET_PHOTOS:
 			return {
 				...state,
+				isUploadingFiles: false,
 				photos: action.payload,
 				files: chnageIds(
 					sortByProperty(mergeArray(state.files, addTypeInArray(action.payload.results, 'photo')), 'title')
@@ -60,6 +62,7 @@ const filesReducer = (state = initialState(), action) => {
 		case Actions.GET_VIDEOS:
 			return {
 				...state,
+				isUploadingFiles: false,
 				videos: action.payload,
 				files: chnageIds(
 					sortByProperty(mergeArray(state.files, addTypeInArray(action.payload.results, 'video')), 'title')
@@ -68,6 +71,7 @@ const filesReducer = (state = initialState(), action) => {
 		case Actions.GET_DOCUMENTS:
 			return {
 				...state,
+				isUploadingFiles: false,
 				documents: action.payload,
 				files: chnageIds(
 					sortByProperty(mergeArray(state.files, addTypeInArray(action.payload.results, 'document')), 'title')
@@ -76,6 +80,7 @@ const filesReducer = (state = initialState(), action) => {
 		case Actions.GET_FOLDERS:
 			return {
 				...state,
+				isUploadingFiles: false,
 				folders: action.payload.sort((_a, _b) => {
 					let a = _a.path.replace('/', '');
 					let b = _b.path.replace('/', '');
@@ -99,6 +104,11 @@ const filesReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				folderPath
+			};
+		case Actions.HANDLE_UPLOAD_LOADING:
+			return {
+				...state,
+				isUploadingFiles: action.payload
 			};
 		case Actions.RESET_FILES: {
 			return initialState();

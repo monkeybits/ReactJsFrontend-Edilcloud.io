@@ -14,7 +14,7 @@ import MainSidebarContent from './MainSidebarContent';
 import MainSidebarHeader from './MainSidebarHeader';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-import { makeStyles, Button, TextField } from '@material-ui/core';
+import { makeStyles, Button, TextField, CircularProgress, LinearProgress } from '@material-ui/core';
 import { ADD_PHOTO, ADD_FOLDER, ADD_VIDEO, ADD_DOCUMENT } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
@@ -81,6 +81,7 @@ function FileManagerApp(props) {
 	const dispatch = useDispatch();
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files);
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
+	const isUploadingFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files.isUploadingFiles);
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
 	const pageLayout = useRef(null);
@@ -132,6 +133,7 @@ function FileManagerApp(props) {
 	const handleUpload = () => {
 		if (isUploading == false) {
 			setIsUploading(true);
+			dispatch(Actions.onUploadHandleLoading(true));
 			const { fileType, file } = fileData;
 			if (!fileType && radioBtnValue == 'file') return;
 
@@ -180,6 +182,7 @@ function FileManagerApp(props) {
 						descError: err.description ? err.description[0] : '',
 						nameError: err.name ? err.name[0] : ''
 					});
+					dispatch(Actions.onUploadHandleLoading(true));
 				},
 				METHOD.POST,
 				getHeaderToken()
@@ -254,6 +257,7 @@ function FileManagerApp(props) {
 								</div>
 							</FuseAnimate>
 						</div>
+						{isUploadingFiles && <LinearProgress color="secondary" />}
 					</div>
 				}
 				content={<FileList pageLayout={pageLayout} />}

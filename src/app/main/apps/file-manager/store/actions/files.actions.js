@@ -9,6 +9,7 @@ export const GET_VIDEOS = '[FILE MANAGER APP] GET VIDEOS';
 export const GET_DOCUMENTS = '[FILE MANAGER APP] GET DOCUMENTS';
 export const GET_FOLDERS = '[FILE MANAGER APP] GET FOLDERS';
 export const SET_SEARCH_TEXT = '[FILE MANAGER APP] SET SEARCH TEXT';
+export const HANDLE_UPLOAD_LOADING = '[FILE MANAGER APP] HANDLE UPLOAD LOADING';
 export const RESET_FILES = '[FILE MANAGER APP] RESET FILES';
 
 export function getFiles(cid) {
@@ -91,5 +92,12 @@ export function setSearchText(event) {
 	return {
 		type: SET_SEARCH_TEXT,
 		searchText: event.target.value
+	};
+}
+
+export function onUploadHandleLoading(isUploadingFiles) {
+	return {
+		type: HANDLE_UPLOAD_LOADING,
+		payload: isUploadingFiles
 	};
 }
