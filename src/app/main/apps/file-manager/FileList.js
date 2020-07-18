@@ -46,9 +46,18 @@ function FileList(props) {
 	const checkData = data => (data ? data : '-');
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
 	const setAllFilesInit = () => {
-			let modifyfolders = folders?.filter(d => d.path.split('/').length <= 1);
+		let modifyfolders = folders?.filter(
+			f =>
+				f.path.includes(currentFolderPath) &&
+				f.path.split('/').length <= folderPath.length &&
+				!folderPath.includes(f.path)
+		);
 		if (modifyfolders) {
-			modifyfolders = modifyfolders.map(item => ({ ...item, title: item.path, type: 'folder' }));
+			modifyfolders = modifyfolders.map(item => {
+				let title = item.path.split('/');
+				title = title[title.length - 1];
+				return { ...item, title, type: 'folder' };
+			});
 			setAllFiles([...modifyfolders, ...files.filter(f => f.folder_relative_path == currentFolderPath)]);
 		}
 	};

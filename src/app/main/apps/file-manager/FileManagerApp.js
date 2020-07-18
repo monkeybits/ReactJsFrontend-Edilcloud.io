@@ -35,7 +35,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
-
+import LinearProgressWithLabel from './LinearProgressWithLabel';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -92,6 +92,7 @@ function FileManagerApp(props) {
 		fileType: null
 	});
 	const [radioBtnValue, setRadioBtnValue] = useState('folder');
+	const [progress, setProgress] = React.useState(0);
 	const [path, setPath] = useState('');
 	const [filePath, setFilePath] = useState('');
 	const [folderName, setFolderName] = useState(undefined);
@@ -133,6 +134,7 @@ function FileManagerApp(props) {
 	const handleUpload = () => {
 		if (isUploading == false) {
 			setIsUploading(true);
+			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
 			const { fileType, file } = fileData;
 			if (!fileType && radioBtnValue == 'file') return;
@@ -185,7 +187,13 @@ function FileManagerApp(props) {
 					dispatch(Actions.onUploadHandleLoading(true));
 				},
 				METHOD.POST,
-				getHeaderToken()
+				{
+					...getHeaderToken(),
+					onUploadProgress: function (progressEvent) {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						setProgress(percentCompleted);
+					}
+				}
 			);
 			setIsOpenDrawer(false);
 			setIsUploading(false);
@@ -257,7 +265,7 @@ function FileManagerApp(props) {
 								</div>
 							</FuseAnimate>
 						</div>
-						{isUploadingFiles && <LinearProgress color="secondary" />}
+						{isUploadingFiles && <LinearProgressWithLabel progress={progress} />}
 					</div>
 				}
 				content={<FileList pageLayout={pageLayout} />}
