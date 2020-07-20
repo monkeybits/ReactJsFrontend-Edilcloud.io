@@ -150,7 +150,7 @@ function FileManagerApp(props) {
 			let values =
 				radioBtnValue == 'folder'
 					? {
-							name: folderName,
+							name: title,
 							path
 					  }
 					: { [datakey]: file, title, description, additional_path: filePath ? filePath : '' };
@@ -205,6 +205,7 @@ function FileManagerApp(props) {
 			);
 			setIsOpenDrawer(false);
 			setIsUploading(false);
+			setTitle('');
 		}
 	};
 	const handleClose = () => {
@@ -322,10 +323,10 @@ function FileManagerApp(props) {
 									id="folder"
 									label="Folder"
 									className="mt-8 mb-16 w-full"
-									value={folderName}
+									value={title}
 									onChange={({ target: { value } }) => {
 										resetError();
-										setFolderName(value);
+										setTitle(value);
 									}}
 									helperText={error.nameError}
 								/>

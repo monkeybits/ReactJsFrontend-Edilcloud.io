@@ -117,7 +117,7 @@ const filesReducer = (state = initialState(), action) => {
 		case Actions.DELETE_FILE:
 			return {
 				...state,
-				files: chnageIds(
+				allFiles: chnageIds(
 					sortByProperty(
 						state.allFiles.filter(f => f.id != action.payload),
 						'title'

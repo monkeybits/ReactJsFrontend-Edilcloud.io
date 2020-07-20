@@ -19,12 +19,15 @@ import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import * as Actions from './store/actions';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
+import FileViewDialog from './FileViewDialog';
+
 function DetailSidebarHeader({ setProgress }) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+	const [isOpenViewFile, setIsOpenViewFile] = useState(false);
 
 	if (!selectedItem) {
 		return null;
@@ -88,6 +91,8 @@ function DetailSidebarHeader({ setProgress }) {
 			getHeaderToken()
 		);
 	};
+	const openViewFile = () => setIsOpenViewFile(true);
+	const closeViewFile = () => setIsOpenViewFile(false);
 	const url =
 		selectedItem.type == 'photo'
 			? selectedItem.photo
@@ -102,6 +107,7 @@ function DetailSidebarHeader({ setProgress }) {
 				onYes={handleDelete}
 				onNo={colseDeleteFileDialog}
 			/>
+			<FileViewDialog isOpenViewFile={isOpenViewFile} closeViewFile={closeViewFile} />
 			<div className="flex flex-col justify-between h-full p-4 sm:p-12">
 				<div className="toolbar flex align-center justify-end">
 					<FuseAnimate animation="transition.expandIn" delay={200}>
@@ -114,8 +120,8 @@ function DetailSidebarHeader({ setProgress }) {
 							<Icon>cloud_download</Icon>
 						</IconButton>
 					</FuseAnimate>
-					<IconButton>
-						<Icon>more_vert</Icon>
+					<IconButton onClick={openViewFile}>
+						<Icon>visibility</Icon>
 					</IconButton>
 				</div>
 
