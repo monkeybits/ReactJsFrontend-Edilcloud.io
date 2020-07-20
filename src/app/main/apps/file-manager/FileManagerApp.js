@@ -36,6 +36,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
+import TransitionAlerts from './TransitionAlerts.js';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -99,11 +100,13 @@ function FileManagerApp(props) {
 	const [folderName, setFolderName] = useState(undefined);
 	const [title, setTitle] = useState(undefined);
 	const [description, setDescription] = useState(undefined);
+	const [open, setOpen] = React.useState(false);
 	const [error, seterror] = useState({
 		fileError: '',
 		titleError: '',
 		descError: '',
-		nameError: ''
+		nameError: '',
+		apiError: ''
 	});
 	const resetError = () =>
 		seterror({
@@ -183,7 +186,8 @@ function FileManagerApp(props) {
 						fileError: err.document ? err.document[0] : '',
 						titleError: err.title ? err.title[0] : '',
 						descError: err.description ? err.description[0] : '',
-						nameError: err.name ? err.name[0] : ''
+						nameError: err.name ? err.name[0] : '',
+						apiError: err.detail ? err.detail : ''
 					});
 					dispatch(Actions.onUploadHandleLoading(false));
 					setProgress(0);
@@ -245,6 +249,7 @@ function FileManagerApp(props) {
 								</Paper>
 							</FuseAnimate>
 						</div>
+						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
 						<div className="flex flex-1 items-end">
 							<FuseAnimate animation="transition.expandIn" delay={600}>
 								<Fab
