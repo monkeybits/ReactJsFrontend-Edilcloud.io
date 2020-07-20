@@ -184,7 +184,8 @@ function FileManagerApp(props) {
 						descError: err.description ? err.description[0] : '',
 						nameError: err.name ? err.name[0] : ''
 					});
-					dispatch(Actions.onUploadHandleLoading(true));
+					dispatch(Actions.onUploadHandleLoading(false));
+					setProgress(0);
 				},
 				METHOD.POST,
 				{
@@ -310,8 +311,10 @@ function FileManagerApp(props) {
 								<TextField
 									error={!!error.nameError}
 									name="folder"
+									id="folder"
 									label="Folder"
 									className="mt-8 mb-16 w-full"
+									value={folderName}
 									onChange={({ target: { value } }) => {
 										resetError();
 										setFolderName(value);
@@ -340,8 +343,10 @@ function FileManagerApp(props) {
 								<TextField
 									error={!!error.titleError}
 									name="title"
+									id="title"
 									label="Title"
 									className="mt-8 mb-16 w-full"
+									value={title}
 									onChange={({ target: { value } }) => {
 										resetError();
 										setTitle(value);
