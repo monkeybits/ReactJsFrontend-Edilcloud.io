@@ -101,6 +101,8 @@ function FileManagerApp(props) {
 	const [title, setTitle] = useState(undefined);
 	const [description, setDescription] = useState(undefined);
 	const [open, setOpen] = React.useState(false);
+	const currentFolderPath = files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
+
 	const [error, seterror] = useState({
 		fileError: '',
 		titleError: '',
@@ -336,9 +338,9 @@ function FileManagerApp(props) {
 										className="mb-24"
 										getOptionLabel={option => option.path}
 										renderOption={(option, { selected }) => <>{option.path}</>}
-										inputValue={path}
 										renderInput={params => <TextField {...params} label="Path" />}
 										onInputChange={(e, value) => setPath(value)}
+										defaultValue={currentFolderPath?.[0]}
 									/>
 								</div>
 							)}
@@ -392,9 +394,9 @@ function FileManagerApp(props) {
 										className="mb-24"
 										getOptionLabel={option => option.path}
 										renderOption={(option, { selected }) => <>{option.path}</>}
-										inputValue={filePath}
 										renderInput={params => <TextField {...params} label="Path" />}
 										onInputChange={(e, value) => setFilePath(value)}
+										defaultValue={currentFolderPath?.[0]}
 									/>
 								</div>
 							)}

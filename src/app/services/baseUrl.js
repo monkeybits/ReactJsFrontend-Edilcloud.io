@@ -39,7 +39,7 @@ export const apiCall = (
 		.then(response => {
 			if (isNeedFullResponse) {
 				onSuccess(response);
-			} else if (response.status == 200 || response.status == 201 || response.data) {
+			} else if (response.status == 200 || response.status == 201 || response.status == 204 || response.data) {
 				onSuccess(response.data);
 			} else {
 				onFailure('Something went wrong');

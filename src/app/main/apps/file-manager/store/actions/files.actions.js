@@ -3,7 +3,8 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { PHOTO_LIST, VIDEO_LIST, FOLDER_LIST, DOCUMENT_LIST } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 
-export const GET_FILES = '[FILE MANAGER APP] GET FILES';
+export const GET_ALL_FILES = '[FILE MANAGER APP] GET ALL FILES';
+export const DELETE_FILE = '[FILE MANAGER APP] DELETE FILE';
 export const GET_PHOTOS = '[FILE MANAGER APP] GET PHOTOS';
 export const GET_VIDEOS = '[FILE MANAGER APP] GET VIDEOS';
 export const GET_DOCUMENTS = '[FILE MANAGER APP] GET DOCUMENTS';
@@ -99,5 +100,17 @@ export function onUploadHandleLoading(isUploadingFiles) {
 	return {
 		type: HANDLE_UPLOAD_LOADING,
 		payload: isUploadingFiles
+	};
+}
+export function setAllFiles(payload) {
+	return {
+		type: GET_ALL_FILES,
+		payload
+	};
+}
+export function deleteFile(payload) {
+	return {
+		type: DELETE_FILE,
+		payload
 	};
 }

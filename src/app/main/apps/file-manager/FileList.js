@@ -37,11 +37,12 @@ function FileList(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
+	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
 	const currentFolderPath = folderPath[folderPath.length - 1];
 	const selectedItemId = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
-	const [allFiles, setAllFiles] = useState([]);
+	// const [allFiles, setAllFiles] = useState([]);
 	const classes = useStyles();
 	const checkData = data => (data ? data : '-');
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
@@ -58,7 +59,12 @@ function FileList(props) {
 				title = title[title.length - 1];
 				return { ...item, title, type: 'folder' };
 			});
-			setAllFiles([...modifyfolders, ...files.filter(f => f.folder_relative_path == currentFolderPath)]);
+			dispatch(
+				Actions.setAllFiles([
+					...modifyfolders,
+					...files.filter(f => f.folder_relative_path == currentFolderPath)
+				])
+			);
 		}
 	};
 	useEffect(() => {
@@ -76,7 +82,7 @@ function FileList(props) {
 
 		if (searchText && searchText.length) {
 			let results = getFilteredArray(allFiles, searchText);
-			setAllFiles(results);
+			dispatch(Actions.setAllFiles(results));
 		} else {
 			setAllFilesInit();
 		}
@@ -94,7 +100,12 @@ function FileList(props) {
 				title = title[title.length - 1];
 				return { ...item, title, type: 'folder' };
 			});
-			setAllFiles([...modifyfolders, ...files.filter(f => f.folder_relative_path == currentFolderPath)]);
+			dispatch(
+				Actions.setAllFiles([
+					...modifyfolders,
+					...files.filter(f => f.folder_relative_path == currentFolderPath)
+				])
+			);
 		}
 	}, [currentFolderPath]);
 	if (allFiles.length === 0 && searchText) {
@@ -162,16 +173,21 @@ function FileList(props) {
 								<TableCell className="hidden sm:table-cell">
 									{n.date_last_modify ? getdate(n.date_last_modify) : '-'}
 								</TableCell>
-								<Hidden lgUp>
-									<TableCell>
-										<IconButton
-											onClick={ev => props.pageLayout.current.toggleRightSidebar()}
-											aria-label="open right sidebar"
-										>
-											<Icon>info</Icon>
-										</IconButton>
-									</TableCell>
-								</Hidden>
+								{/* <Hidden lgUp> */}
+								<TableCell>
+									<IconButton
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											props.pageLayout.current.toggleRightSidebar();
+											dispatch(Actions.setSelectedItem(n.id))
+										}}
+										aria-label="open right sidebar"
+									>
+										<Icon>info</Icon>
+									</IconButton>
+								</TableCell>
+								{/* </Hidden> */}
 							</TableRow>
 						);
 					})}

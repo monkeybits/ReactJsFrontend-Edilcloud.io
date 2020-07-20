@@ -2,6 +2,7 @@ import _ from '@lodash';
 import * as Actions from '../actions';
 
 const initialState = () => ({
+	allFiles: [],
 	files: [],
 	searchText: '',
 	folderPath: [''],
@@ -48,8 +49,11 @@ function sortByProperty(array, property, order = 'ASC') {
 const chnageIds = (arr = []) => arr.map((d, i) => ({ ...d, id: i }));
 const filesReducer = (state = initialState(), action) => {
 	switch (action.type) {
-		case Actions.GET_FILES:
-			return _.keyBy(action.payload, 'id');
+		case Actions.GET_ALL_FILES:
+			return {
+				...state,
+				allFiles: chnageIds(action.payload)
+			};
 		case Actions.GET_PHOTOS:
 			return {
 				...state,
@@ -109,6 +113,16 @@ const filesReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				isUploadingFiles: action.payload
+			};
+		case Actions.DELETE_FILE:
+			return {
+				...state,
+				files: chnageIds(
+					sortByProperty(
+						state.allFiles.filter(f => f.id != action.payload),
+						'title'
+					)
+				)
 			};
 		case Actions.RESET_FILES: {
 			return initialState();
