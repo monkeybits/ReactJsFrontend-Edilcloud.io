@@ -3,25 +3,26 @@ import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { DOWNLOAD_PHOTO, DOWNLOAD_VIDEO, DOWNLOAD_DOCUMENT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
+import * as Actions from './store/actions';
 
-function DetailSidebarHeader(props) {
+function DetailSidebarHeader({ setProgress }) {
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
 	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
-	// useEffect(() => {
-
-	// }, [selectedItem]);
+	const dispatch = useDispatch();
 
 	if (!selectedItem) {
 		return null;
 	}
 	const onDownload = () => {
 		if (selectedItem) {
+			setProgress(0);
+			dispatch(Actions.onUploadHandleLoading(true));
 			let apiurl =
 				selectedItem.type == 'photo'
 					? DOWNLOAD_PHOTO(selectedItem.mainId)
@@ -32,17 +33,24 @@ function DetailSidebarHeader(props) {
 				apiurl,
 				{},
 				({ headers, data }) => {
-					// var file = new File([data], `${selectedItem.title}`, {
-					// 	type: headers['content-type']
-					// });
-					// console.log({
-					// 	isBlob : data instanceof Blob,
-					// });
-					FileSaver.saveAs([data],`${selectedItem.title}`,{autoBom : true});
+					var file = new File([data], `${selectedItem.title}`, {
+						type: headers['content-type']
+					});
+					FileSaver.saveAs(file);
+					dispatch(Actions.onUploadHandleLoading(false));
 				},
-				err => console.log(err),
+				err => {
+					dispatch(Actions.onUploadHandleLoading(false));
+				},
 				METHOD.GET,
-				getHeaderToken(),
+				{
+					...getHeaderToken(),
+					responseType: 'blob',
+					onDownloadProgress: progressEvent => {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						setProgress(percentCompleted);
+					}
+				},
 				true
 			);
 		}

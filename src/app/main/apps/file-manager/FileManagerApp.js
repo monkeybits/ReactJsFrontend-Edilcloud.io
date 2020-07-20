@@ -80,6 +80,7 @@ function FileManagerApp(props) {
 	//filesfolderPath
 	const dispatch = useDispatch();
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files);
+	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
 	const isUploadingFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files.isUploadingFiles);
 	const company = useSelector(({ chatApp }) => chatApp.company);
@@ -257,9 +258,9 @@ function FileManagerApp(props) {
 							</FuseAnimate>
 							<FuseAnimate delay={200}>
 								<div>
-									{selectedItem && (
+									{folderPath && (
 										<Breadcrumb
-											selected={selectedItem}
+											selected={folderPath}
 											className="flex flex-1 ltr:pl-72 rtl:pr-72 pb-12 text-16 sm:text-24"
 										/>
 									)}
@@ -273,7 +274,7 @@ function FileManagerApp(props) {
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}
-				rightSidebarHeader={<DetailSidebarHeader />}
+				rightSidebarHeader={<DetailSidebarHeader setProgress={setProgress} />}
 				rightSidebarContent={<DetailSidebarContent />}
 				ref={pageLayout}
 				innerScroll
