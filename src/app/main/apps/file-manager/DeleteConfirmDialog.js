@@ -56,7 +56,7 @@ const DialogActions = withStyles(theme => ({
 	}
 }))(MuiDialogActions);
 
-function DeleteConfirmDialog({ isOpenDeleteDialog, colseDeleteFileDialog, onYes, onNo }) {
+function DeleteConfirmDialog({ isOpenDeleteDialog, colseDeleteFileDialog, onYes, onNo, text }) {
 	return (
 		<Dialog
 			onClose={colseDeleteFileDialog}
@@ -69,7 +69,7 @@ function DeleteConfirmDialog({ isOpenDeleteDialog, colseDeleteFileDialog, onYes,
 				Delete
 			</DialogTitle>
 			<DialogContent dividers>
-				<div>Are you sure want to delete ?</div>
+				<div>{text}</div>
 			</DialogContent>
 			<DialogActions>
 				<Button autoFocus onClick={onYes} variant="contained" color="secondary">

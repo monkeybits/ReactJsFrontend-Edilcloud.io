@@ -14,11 +14,10 @@ import reducer from '../store/reducers';
 import { APPROVE_LIST, REFRESH_TOKEN, REQUEST_LIST } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getTokenOnly, saveToken } from 'app/services/serviceUtils';
-import { GET_BOARDS } from '../store/actions';
-import { Button } from '@material-ui/core';
+import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import ReuestsDrawer from './ReuestsDrawer';
 import Badge from '@material-ui/core/Badge';
-
+import { Avatar } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -52,14 +51,14 @@ function Boards(props) {
 	const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
 	const classes = useStyles(props);
 	const [isShowRequests, setIsShowRequests] = useState(false);
-	const [requests, setRequests] = useState([]);
+	const [request, setRequest] = useState({});
 
 	useEffect(() => {
+		dispatch({
+			type: RESET_BOARDS
+		});
 		getcompanyList();
-		// dispatch(Actions.getBoards());
-		// return () => {
-		// 	dispatch(Actions.resetBoards());
-		// };
+		getRequest();
 	}, [dispatch]);
 	const getcompanyList = () => {
 		apiCall(
@@ -67,10 +66,12 @@ function Boards(props) {
 			{},
 			({ results }) => {
 				if (Array.isArray(results)) {
-					let boards = results.filter(d => d.company);
+					let filterdBoards = results.filter(d => d.company);
 					dispatch({
 						type: GET_BOARDS,
-						payload: boards.map(d => d.company && { ...d.company, company_profile_id: d.id })
+						payload: filterdBoards.map(
+							d => d.company && { ...d.company, company_profile_id: d.id, isApproved: true }
+						)
 					});
 				}
 			},
@@ -85,7 +86,13 @@ function Boards(props) {
 			{},
 			({ results }) => {
 				if (Array.isArray(results)) {
-					setRequests(results);
+					let filterdBoards = results.filter(d => d.company);
+					dispatch({
+						type: GET_BOARDS,
+						payload: filterdBoards.map(
+							d => d.company && { ...d.company, company_profile_id: d.id, isApproved: false }
+						)
+					});
 				}
 			},
 			err => console.log(err),
@@ -117,9 +124,6 @@ function Boards(props) {
 						Companies List
 					</Typography>
 				</FuseAnimate>
-				<Button color="secondary" onClick={() => setIsShowRequests(true)}>
-					Show requests
-				</Button>
 				<div>
 					<FuseAnimateGroup
 						className="flex flex-wrap w-full justify-center py-32 px-16"
@@ -132,23 +136,45 @@ function Boards(props) {
 							<div className="w-224 h-224 p-16" key={board.id}>
 								<Link
 									// to={`/apps/companies/${board.id}/${board.uri}`}
-									onClick={() => redirectAfterGetNewToken(board.company_profile_id)}
+									onClick={() => {
+										if (board.isApproved) {
+											redirectAfterGetNewToken(board.company_profile_id);
+										} else {
+											setIsShowRequests(true);
+											setRequest(board);
+										}
+									}}
 									className={clsx(
 										classes.board,
 										'flex flex-col items-center justify-center w-full h-full rounded py-24'
 									)}
 									role="button"
 								>
-									<Icon className="text-56">assessment</Icon>
+									<Badge
+										invisible={board.isApproved}
+										color="secondary"
+										onClick={e => {
+											e.stopPropagation();
+											e.preventDefault();
+											setIsShowRequests(true);
+											setRequest(board);
+										}}
+									>
+										<Avatar src={board.logo} variant="square">
+											{board.name.split('')[0]}
+										</Avatar>
+										{/* <Icon className="text-56">assessment</Icon> */}
+									</Badge>
 									<Typography className="text-16 font-300 text-center pt-16 px-32" color="inherit">
 										{board.name}
 									</Typography>
-									<div className="mt-10">
-										<a href="javascript:;">
-										<Badge badgeContent="Request" color="secondary">
-										</Badge>
-										</a>
-									</div>
+									{/* {!board.isApproved && (
+										<div className="mt-10">
+											<a href="javascript:;">
+												<Badge badgeContent="New request" color="secondary"></Badge>
+											</a>
+										</div>
+									)} */}
 								</Link>
 							</div>
 						))}
@@ -173,7 +199,7 @@ function Boards(props) {
 					</FuseAnimateGroup>
 				</div>
 			</div>
-			<ReuestsDrawer isShowRequests={isShowRequests} setIsShowRequests={setIsShowRequests} requests={requests} />
+			<ReuestsDrawer isShowRequests={isShowRequests} setIsShowRequests={setIsShowRequests} request={request} />
 		</div>
 	);
 }

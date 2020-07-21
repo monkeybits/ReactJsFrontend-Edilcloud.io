@@ -5,7 +5,7 @@ const initialState = [];
 const boardsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_BOARDS: {
-			return [...action.payload];
+			return [...state, ...action.payload];
 		}
 		case Actions.NEW_BOARD: {
 			return [...state, action.board];

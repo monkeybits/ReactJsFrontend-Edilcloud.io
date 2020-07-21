@@ -11,6 +11,7 @@ import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 import ContactsTable from './ContactsTable';
 import * as Actions from './store/actions';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
+import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -32,10 +33,12 @@ function ContactsList(props) {
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
-
+	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [filteredData, setFilteredData] = useState(null);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
+	const openDeleteFileDialog = () => setIsOpenDeleteDialog(true);
+	const colseDeleteFileDialog = () => setIsOpenDeleteDialog(false);
 	const columns = React.useMemo(
 		() => [
 			{
@@ -106,7 +109,8 @@ function ContactsList(props) {
 							<IconButton
 								onClick={ev => {
 									ev.stopPropagation();
-									dispatch(Actions.removeContact(row.original.id));
+									openDeleteFileDialog();
+									// dispatch(Actions.removeContact(row.original.id));
 								}}
 							>
 								<Icon>delete</Icon>
@@ -148,17 +152,31 @@ function ContactsList(props) {
 	}
 
 	return (
-		<FuseAnimate animation="transition.slideUpIn" delay={300}>
-			<ContactsTable
-				columns={columns}
-				data={filteredData}
-				onRowClick={(ev, row) => {
-					if (row) {
-						dispatch(Actions.openViewContactDialog(row.original));
-					}
-				}}
+		<>
+			<DeleteConfirmDialog
+				text={
+					<>
+						<Typography>Are you sure want to delete ?</Typography>
+						<Typography>Your account will be deactivated untill your next login!</Typography>
+					</>
+				}
+				isOpenDeleteDialog={isOpenDeleteDialog}
+				colseDeleteFileDialog={colseDeleteFileDialog}
+				onYes={colseDeleteFileDialog}
+				onNo={colseDeleteFileDialog}
 			/>
-		</FuseAnimate>
+			<FuseAnimate animation="transition.slideUpIn" delay={300}>
+				<ContactsTable
+					columns={columns}
+					data={filteredData}
+					onRowClick={(ev, row) => {
+						if (row) {
+							dispatch(Actions.openViewContactDialog(row.original));
+						}
+					}}
+				/>
+			</FuseAnimate>
+		</>
 	);
 }
 
