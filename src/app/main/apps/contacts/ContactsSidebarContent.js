@@ -62,7 +62,7 @@ function ContactsSidebarContent(props) {
 							</Icon>
 							<ListItemText className="truncate" primary="Team members" disableTypography />
 						</ListItem>
-						<ListItem
+						{/* <ListItem
 							button
 							component={NavLinkAdapter}
 							to="/apps/contacts/settings"
@@ -73,7 +73,7 @@ function ContactsSidebarContent(props) {
 								settings
 							</Icon>
 							<ListItemText className="truncate" primary="Settings" disableTypography />
-						</ListItem>
+						</ListItem> */}
 						{/* <ListItem
 							button
 							component={NavLinkAdapter}

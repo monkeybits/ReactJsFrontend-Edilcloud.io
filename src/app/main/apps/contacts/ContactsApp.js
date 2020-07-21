@@ -37,20 +37,6 @@ function ContactsApp(props) {
 		dispatch(Actions.getContacts(routeParams));
 		dispatch(Actions.getUserData());
 	}, [dispatch, routeParams]);
-	const getContentComponent = () => {
-		console.log(routeParams.id);
-		switch (routeParams.id) {
-			case 'all': {
-				return <ContactsList />;
-			}
-			case 'settings': {
-				return <ContactSettings />;
-			}
-			default: {
-				return <ContactsList />;
-			}
-		}
-	};
 	return (
 		<>
 			<FusePageSimple
@@ -62,7 +48,7 @@ function ContactsApp(props) {
 					wrapper: 'min-h-0'
 				}}
 				header={<ContactsHeader pageLayout={pageLayout} />}
-				content={getContentComponent()}
+				content={<ContactsList />}
 				leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
