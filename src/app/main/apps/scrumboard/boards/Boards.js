@@ -6,15 +6,17 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-import { APPROVE_LIST, REFRESH_TOKEN } from 'app/services/apiEndPoints';
+import { APPROVE_LIST, REFRESH_TOKEN, REQUEST_LIST } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getTokenOnly, saveToken } from 'app/services/serviceUtils';
 import { GET_BOARDS } from '../store/actions';
+import { Button } from '@material-ui/core';
+import ReuestsDrawer from './ReuestsDrawer';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -47,8 +49,17 @@ function Boards(props) {
 	const dispatch = useDispatch();
 	const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
 	const classes = useStyles(props);
+	const [isShowRequests, setIsShowRequests] = useState(false);
+	const [requests, setRequests] = useState([]);
 
 	useEffect(() => {
+		getcompanyList();
+		// dispatch(Actions.getBoards());
+		// return () => {
+		// 	dispatch(Actions.resetBoards());
+		// };
+	}, [dispatch]);
+	const getcompanyList = () => {
 		apiCall(
 			APPROVE_LIST,
 			{},
@@ -65,11 +76,21 @@ function Boards(props) {
 			METHOD.GET,
 			getHeaderToken()
 		);
-		// dispatch(Actions.getBoards());
-		// return () => {
-		// 	dispatch(Actions.resetBoards());
-		// };
-	}, [dispatch]);
+	};
+	const getRequest = () => {
+		apiCall(
+			REQUEST_LIST,
+			{},
+			({ results }) => {
+				if (Array.isArray(results)) {
+					setRequests(results);
+				}
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 	const redirectAfterGetNewToken = company_profile_id => {
 		apiCall(
 			REFRESH_TOKEN(company_profile_id),
@@ -85,6 +106,7 @@ function Boards(props) {
 			METHOD.POST
 		);
 	};
+
 	return (
 		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
@@ -93,7 +115,9 @@ function Boards(props) {
 						Companies List
 					</Typography>
 				</FuseAnimate>
-
+				<Button color="secondary" onClick={() => setIsShowRequests(true)}>
+					Show requests
+				</Button>
 				<div>
 					<FuseAnimateGroup
 						className="flex flex-wrap w-full justify-center py-32 px-16"
@@ -141,6 +165,7 @@ function Boards(props) {
 					</FuseAnimateGroup>
 				</div>
 			</div>
+			<ReuestsDrawer isShowRequests={isShowRequests} setIsShowRequests={setIsShowRequests} requests={requests} />
 		</div>
 	);
 }

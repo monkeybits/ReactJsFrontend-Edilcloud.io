@@ -11,6 +11,7 @@ export const TYPOLOGY_LIST_BY_CODE = typelogyCode =>
 	`/api/frontend/product/typology/${typelogyCode}/category_list/?no_page=no_page&order_by__name=name`;
 export const USER_ADD_COMPANY = '/api/frontend/profile/company/add/';
 export const APPROVE_LIST = '/api/frontend/profile/profile/approve_list/';
+export const REQUEST_LIST = '/api/frontend/profile/profile/request_list/';
 export const RESET_PASSWORD = '/api/frontend/user/password/reset/confirm/';
 export const FORGOT_PASSWORD = '/api/frontend/user/password/reset/';
 export const REFRESH_TOKEN = id => `/api/frontend/user/token/refresh/${id}/`;
