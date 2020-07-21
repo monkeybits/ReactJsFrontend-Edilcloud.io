@@ -71,9 +71,11 @@ function DetailSidebarHeader({ setProgress }) {
 	const openDeleteFileDialog = () => setIsOpenDeleteDialog(true);
 	const colseDeleteFileDialog = () => setIsOpenDeleteDialog(false);
 	const handleDelete = () => {
+		const userInfo = decodeDataFromToken();
+		const cid = userInfo.extra?.profile?.company;
 		const url =
 			selectedItem.type == 'folder'
-				? FOLDER_DELETE(selectedItem.path)
+				? FOLDER_DELETE(cid, selectedItem.path)
 				: selectedItem.type == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
 				: selectedItem.type == 'video'

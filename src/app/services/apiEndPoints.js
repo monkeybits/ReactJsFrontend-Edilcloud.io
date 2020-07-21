@@ -35,4 +35,4 @@ export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/downloa
 export const PHOTO_DELETE = pid => `/api/frontend/media/photo/delete/${pid}/`;
 export const VIDEO_DELETE = vid => `/api/frontend/media/video/delete/${vid}/ `;
 export const DOCUMENT_DELETE = did => `/api/frontend/document/document/delete/${did}/ `;
-export const FOLDER_DELETE = path => `/api/frontend/media/folder/company/11/delete/?name=${path}`;
+export const FOLDER_DELETE = (cid, path) => `/api/frontend/media/folder/company/${cid}/delete/?name=${path}`;
