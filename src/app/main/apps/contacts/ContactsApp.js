@@ -12,7 +12,6 @@ import ContactDialog from './ContactDialog';
 import ViewContactDialog from './ViewContactDialog';
 import ContactsHeader from './ContactsHeader';
 import ContactsList from './ContactsList';
-import ContactSettings from './ContactSettings';
 import ContactsSidebarContent from './ContactsSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
