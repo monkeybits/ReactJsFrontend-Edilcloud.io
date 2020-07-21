@@ -15,8 +15,8 @@ import { APPROVE_LIST, REFRESH_TOKEN, REQUEST_LIST } from 'app/services/apiEndPo
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getTokenOnly, saveToken } from 'app/services/serviceUtils';
 import { GET_BOARDS } from '../store/actions';
-import { Button } from '@material-ui/core';
 import ReuestsDrawer from './ReuestsDrawer';
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -115,9 +115,6 @@ function Boards(props) {
 						Companies List
 					</Typography>
 				</FuseAnimate>
-				<Button color="secondary" onClick={() => setIsShowRequests(true)}>
-					Show requests
-				</Button>
 				<div>
 					<FuseAnimateGroup
 						className="flex flex-wrap w-full justify-center py-32 px-16"
@@ -141,6 +138,11 @@ function Boards(props) {
 									<Typography className="text-16 font-300 text-center pt-16 px-32" color="inherit">
 										{board.name}
 									</Typography>
+									<div className="mt-10">
+										<a href="javascript:;">
+											<Badge badgeContent="Request" color="secondary"></Badge>
+										</a>
+									</div>
 								</Link>
 							</div>
 						))}
