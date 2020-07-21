@@ -15,6 +15,8 @@ import { APPROVE_LIST, REFRESH_TOKEN } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getTokenOnly, saveToken } from 'app/services/serviceUtils';
 import { GET_BOARDS } from '../store/actions';
+import Badge from '@material-ui/core/Badge';
+
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -117,6 +119,12 @@ function Boards(props) {
 									<Typography className="text-16 font-300 text-center pt-16 px-32" color="inherit">
 										{board.name}
 									</Typography>
+									<div className="mt-10">
+										<a href="javascript:;">
+										<Badge badgeContent="Request" color="secondary">
+										</Badge>
+										</a>
+									</div>
 								</Link>
 							</div>
 						))}
