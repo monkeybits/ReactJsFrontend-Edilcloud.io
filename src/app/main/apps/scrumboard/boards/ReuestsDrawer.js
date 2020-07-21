@@ -6,6 +6,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
+import Button from '@material-ui/core/Button';
+
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -28,7 +32,26 @@ function ReuestsDrawer({ isShowRequests, setIsShowRequests, requests }) {
 			onClose={toggleDrawer(false)}
 			onOpen={toggleDrawer(true)}
 		>
-			Sure you want to accept Request ?
+		<div className="flex justify-between items-center h-64 p-64 px-32">
+			<h2 className="font-semibold">Sure you want to accept Request ?</h2>
+			<div>
+			<Button
+				variant="contained"
+				color="primary"
+				startIcon={<CheckIcon />}
+				className="mr-10"
+			>
+				Accept
+			</Button>
+			<Button
+				variant="contained"
+				color="secondary"
+				startIcon={<CloseIcon />}
+			>
+				Reject
+			</Button>
+			</div>
+		</div>
 		</SwipeableDrawer>
 	);
 }
