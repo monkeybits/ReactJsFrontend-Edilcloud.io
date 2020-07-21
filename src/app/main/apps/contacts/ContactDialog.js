@@ -29,6 +29,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
+import Switch from '@material-ui/core/Switch';
+
+
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -169,6 +172,10 @@ function ContactDialog(props) {
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
 	}
+	const [state, setState] = React.useState({
+		checkedA: true,
+		checkedB: true,
+	  });
 
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
@@ -315,6 +322,32 @@ function ContactDialog(props) {
 							inputValue={value}
 							renderInput={params => <TextField {...params} variant="outlined" label="Language" />}
 							onInputChange={(e, value) => setValue(value)}
+						/>
+					</div>
+					<div className="d-block">
+						<FormControlLabel
+							control={
+							<Switch
+								checked={state.checkedA}
+								onChange={handleChange}
+								name="checkedA"
+								color="primary"
+							/>
+							}
+							label="Access File"
+						/>
+					</div>
+					<div className="d-block">
+						<FormControlLabel
+							control={
+							<Switch
+								checked={state.checkedB}
+								onChange={handleChange}
+								name="checkedB"
+								color="primary"
+							/>
+							}
+							label="Access Chat"
 						/>
 					</div>
 				</DialogContent>
