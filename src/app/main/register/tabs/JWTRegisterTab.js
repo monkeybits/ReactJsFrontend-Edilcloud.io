@@ -145,7 +145,7 @@ function JWTRegisterTab({ history }) {
 				/>
 				<FormControlLabel
 					control={
-						<Checkbox checked={state.termsFile} onChange={handleChange} name="termsFile" color="primary" />
+						<Checkbox checked={state.termsFile} onChange={handleChange} name="termsFile" color="secondary" />
 					}
 					label="terms file"
 				/>
@@ -155,7 +155,7 @@ function JWTRegisterTab({ history }) {
 							checked={state.conditionFile}
 							onChange={handleChange}
 							name="conditionFile"
-							color="primary"
+							color="secondary"
 						/>
 					}
 					label="conditions files."
