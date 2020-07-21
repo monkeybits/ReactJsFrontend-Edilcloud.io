@@ -34,7 +34,7 @@ const ScrumboardAppConfig = {
 		},
 		{
 			path: '/apps/companies',
-			component: () => <Redirect to="/apps/scrumboard/boards" />
+			component: () => <Redirect to="/apps/companies" />
 		}
 	]
 };

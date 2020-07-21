@@ -19,3 +19,6 @@ export const SYSTEM_ROLES = [
 
 // only chat related paths
 export const USER_CHATS_PATHS = ['apps/chat'];
+
+// only file manager related paths
+export const FILE_MANAHER_PATHS = ['apps/file-manager'];

@@ -7,11 +7,9 @@ import * as Actions from 'app/main/apps/chat/store/actions';
 function Navigation(props) {
 	const dispatch = useDispatch();
 	const navigation = useSelector(({ fuse }) => fuse.navigation);
-	const chatAppcompany = useSelector(({ chatApp }) => chatApp?.company);
 	useEffect(() => {
 		dispatch(Actions.companyInfo());
 	}, [dispatch]);
-	
 	
 	return (
 		<FuseNavigation

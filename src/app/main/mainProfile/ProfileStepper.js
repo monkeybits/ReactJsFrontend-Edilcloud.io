@@ -91,7 +91,7 @@ function VerticalLinearStepper({ user, history }) {
 		};
 		let token = localStorage.getItem('jwt_access_token');
 		for (let key in values) {
-			formData.append(key, values[key]);
+			if (values[key]) formData.append(key, values[key]);
 		}
 		axios
 			.post(USER_MAIN_PROFILE, formData, {
