@@ -12,6 +12,7 @@ import ContactDialog from './ContactDialog';
 import ViewContactDialog from './ViewContactDialog';
 import ContactsHeader from './ContactsHeader';
 import ContactsList from './ContactsList';
+import ContactSettings from './ContactSettings';
 import ContactsSidebarContent from './ContactsSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
@@ -36,7 +37,20 @@ function ContactsApp(props) {
 		dispatch(Actions.getContacts(routeParams));
 		dispatch(Actions.getUserData());
 	}, [dispatch, routeParams]);
-
+	const getContentComponent = () => {
+		console.log(routeParams.id);
+		switch (routeParams.id) {
+			case 'all': {
+				return <ContactsList />;
+			}
+			case 'settings': {
+				return <ContactSettings />;
+			}
+			default: {
+				return <ContactsList />;
+			}
+		}
+	};
 	return (
 		<>
 			<FusePageSimple
@@ -48,7 +62,7 @@ function ContactsApp(props) {
 					wrapper: 'min-h-0'
 				}}
 				header={<ContactsHeader pageLayout={pageLayout} />}
-				content={<ContactsList />}
+				content={getContentComponent()}
 				leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}

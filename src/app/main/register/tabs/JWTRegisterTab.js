@@ -158,7 +158,7 @@ function JWTRegisterTab({ history }) {
 							color="secondary"
 						/>
 					}
-					label="conditions files."
+					label="conditions files"
 				/>
 				<Button
 					type="submit"
