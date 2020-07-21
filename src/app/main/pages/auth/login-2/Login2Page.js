@@ -129,21 +129,21 @@ function Login2Page() {
 						</form>
 
 						<div className="my-24 flex items-center justify-center">
-							<Divider className="w-32" />
+							<Divider className="w-full" />
 							<span className="mx-8 font-bold">OR</span>
-							<Divider className="w-32" />
+							<Divider className="w-full" />
 						</div>
 
-						<Button variant="contained" color="secondary" size="small" className="normal-case w-192 mb-8">
+						<Button variant="contained" color="secondary" size="small" className="normal-case w-full mb-16">
 							Log in with Google
 						</Button>
 
-						<Button variant="contained" color="primary" size="small" className="normal-case w-192">
+						<Button variant="contained" color="primary" size="small" className="normal-case w-full">
 							Log in with Facebook
 						</Button>
 
-						<div className="flex flex-col items-center justify-center pt-32 pb-24">
-							<span className="font-medium">Don't have an account?</span>
+						<div className="flex flex-col items-center justify-center pt-32">
+							<span className="font-medium mt-8">Don't have an account?</span>
 							<Link className="font-medium" to="/pages/auth/register-2">
 								Create an account
 							</Link>
