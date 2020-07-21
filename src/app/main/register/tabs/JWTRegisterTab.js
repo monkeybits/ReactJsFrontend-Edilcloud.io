@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { FormControl, FormHelperText } from '@material-ui/core';
 import { withRouter } from 'react-router';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 function JWTRegisterTab({ history }) {
 	const dispatch = useDispatch();
@@ -16,7 +18,10 @@ function JWTRegisterTab({ history }) {
 
 	const [isFormValid, setIsFormValid] = useState(false);
 	const formRef = useRef(null);
-
+	const [state, setState] = React.useState({
+		termsFile: false,
+		conditionFile: false
+	});
 	useEffect(() => {
 		if (register.error && (register.error.username || register.error.password || register.error.email)) {
 			formRef.current.updateInputsWithError({
@@ -37,7 +42,9 @@ function JWTRegisterTab({ history }) {
 	function handleSubmit(model) {
 		dispatch(authActions.submitRegister({ ...model, history }));
 	}
-
+	const handleChange = event => {
+		setState({ ...state, [event.target.name]: event.target.checked });
+	};
 	return (
 		<div className="w-full">
 			<Formsy
@@ -136,7 +143,23 @@ function JWTRegisterTab({ history }) {
 					variant="outlined"
 					required
 				/>
-
+				<FormControlLabel
+					control={
+						<Checkbox checked={state.termsFile} onChange={handleChange} name="termsFile" color="primary" />
+					}
+					label="terms file"
+				/>
+				<FormControlLabel
+					control={
+						<Checkbox
+							checked={state.conditionFile}
+							onChange={handleChange}
+							name="conditionFile"
+							color="primary"
+						/>
+					}
+					label="conditions files."
+				/>
 				<Button
 					type="submit"
 					variant="contained"
