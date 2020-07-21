@@ -13,7 +13,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +28,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import ImageCropper from 'app/main/mainProfile/ImageCropper';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -60,11 +61,29 @@ function ContactDialog(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
-	const [value, setValue] = React.useState('English');
-	const [role, setRole] = React.useState('');
+	const [value, setValue] = useState('English');
+	const [role, setRole] = useState('');
+	const inputFile = useRef(null);
 
 	const { form, handleChange, setForm } = useForm(defaultFormState);
+	const [image, setImage] = useState(null);
+	const [viewCroper, setViewCroper] = useState(false);
+	const [fileData, setFile] = useState({
+		file: undefined,
+		imagePreviewUrl: undefined
+	});
+	const getPhoto = fileData => {
+		let reader = new FileReader();
 
+		reader.onloadend = () => {
+			setFile({
+				file: fileData,
+				imagePreviewUrl: reader.result
+			});
+		};
+
+		reader.readAsDataURL(fileData);
+	};
 	const initDialog = useCallback(() => {
 		/**
 		 * Dialog type: 'edit'
@@ -107,6 +126,10 @@ function ContactDialog(props) {
 	}
 
 	function handleSubmit(event) {
+		// fields accept in the api
+		// 'first_name', 'last_name', 'email',
+		// 'language', 'position', 'user', 'phone',
+		// 'fax', 'mobile', 'note', 'role', 'photo'
 		event.preventDefault();
 		let allData = {
 			...form,
@@ -114,16 +137,22 @@ function ContactDialog(props) {
 			language: value == 'English' ? 'en' : 'it'
 		};
 		if (contactDialog.type === 'new') {
-			dispatch(Actions.addContact({ ...allData, id: undefined }));
+			dispatch(Actions.addContact({ ...allData, id: undefined, photo: fileData.file }));
 		} else {
 			const { first_name, last_name, email, id } = allData;
 			let newformData = {
+				id,
 				first_name,
 				last_name,
 				email,
 				role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
-				language: value == 'English' ? 'en' : 'it'
+				language: value == 'English' ? 'en' : 'it',
+				photo: fileData.file
 			};
+			console.log({
+				allData,
+				newformData
+			});
 			dispatch(Actions.updateContact(newformData, id));
 		}
 		closeComposeDialog();
@@ -133,13 +162,17 @@ function ContactDialog(props) {
 		dispatch(Actions.removeContact(form.id));
 		closeComposeDialog();
 	}
-	// const handleRadioChange = event => {
-	// 	setValue(event.target.value);
-	// };
+
 	const handleSelectChange = event => {
 		setRole(event.target.value);
 	};
-	return (
+	function handleOpenFileClick(e) {
+		inputFile.current.click();
+	}
+
+	return viewCroper ? (
+		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
+	) : (
 		<Dialog
 			classes={{
 				paper: 'm-24'
@@ -156,7 +189,25 @@ function ContactDialog(props) {
 					</Typography>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
-					<Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} />
+					<Avatar
+						className="w-96 h-96 cursor-pointer"
+						alt="contact avatar"
+						src={
+							fileData.imagePreviewUrl ? fileData.imagePreviewUrl : form.photo ? form.photo : form.avatar
+						}
+						onClick={handleOpenFileClick}
+					/>
+					<input
+						type="file"
+						id="file"
+						ref={inputFile}
+						onChange={e => {
+							setImage(URL.createObjectURL(e.currentTarget.files[0]));
+							setViewCroper(true);
+						}}
+						style={{ display: 'none' }}
+					/>
+
 					{contactDialog.type === 'edit' && (
 						<Typography variant="h6" color="inherit" className="pt-8">
 							{form.name}

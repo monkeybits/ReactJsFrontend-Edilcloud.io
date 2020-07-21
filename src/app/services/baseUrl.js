@@ -29,10 +29,10 @@ export const apiCall = (
 			request = axios.delete(endpoint, { ...DyanamicConfig });
 			break;
 		case METHOD.PUT:
-			request = axios.put(endpoint, { ...params }, { ...DyanamicConfig });
+			request = axios.put(endpoint, params, { ...DyanamicConfig });
 			break;
 		case METHOD.PATCH:
-			request = axios.patch(endpoint, { ...params }, { ...DyanamicConfig });
+			request = axios.patch(endpoint, params, { ...DyanamicConfig });
 			break;
 	}
 	request

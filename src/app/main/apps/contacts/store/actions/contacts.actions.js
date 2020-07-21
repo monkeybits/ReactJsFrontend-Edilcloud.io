@@ -102,13 +102,16 @@ export function closeViewContactDialog() {
 		type: CLOSE_VIEW_CONTACT_DIALOG
 	};
 }
-export function addContact(newContact) {
+export function addContact(values) {
 	return (dispatch, getState) => {
 		const { routeParams } = getState().contactsApp.contacts;
-
+		var formData = new FormData();
+		for (let key in values) {
+			if (values[key]) formData.append(key, values[key]);
+		}
 		apiCall(
 			ADD_NEW_MEMBER,
-			newContact,
+			formData,
 			res => {
 				dispatch(getContacts(routeParams));
 			},
@@ -119,13 +122,16 @@ export function addContact(newContact) {
 	};
 }
 
-export function updateContact(newContact, id) {
+export function updateContact(values, id) {
 	return (dispatch, getState) => {
 		const { routeParams } = getState().contactsApp.contacts;
-
+		var formData = new FormData();
+		for (let key in values) {
+			if (values[key]) formData.append(key, values[key]);
+		}
 		apiCall(
 			UPDATE_MEMBER(id),
-			newContact,
+			formData,
 			res => {
 				dispatch(getContacts(routeParams));
 			},
