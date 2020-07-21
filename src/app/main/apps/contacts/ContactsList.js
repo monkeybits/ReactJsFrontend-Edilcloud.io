@@ -95,17 +95,14 @@ function ContactsList(props) {
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
 						<div className="flex items-center">
-							<Button
-								variant="contained"
-								color="primary"
-								type="button"
+							<IconButton
 								onClick={ev => {
 									ev.stopPropagation();
 									dispatch(Actions.openEditContactDialog(row.original));
 								}}
 							>
-								Edit
-							</Button>
+								<Icon>edit</Icon>
+							</IconButton>
 							<IconButton
 								onClick={ev => {
 									ev.stopPropagation();

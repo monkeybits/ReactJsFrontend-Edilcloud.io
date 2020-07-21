@@ -31,16 +31,16 @@ function RegisterPage() {
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full max-w-384">
 						<CardContent className="flex flex-col items-center justify-center p-32">
-							<img className="w-128 m-32" src="assets/images/logos/fuse.svg" alt="logo" />
+							<img className="w-128" src="assets/images/logos/fuse.svg" alt="logo" />
 
 							<Typography variant="h6" className="mt-16 mb-32">
 								CREATE AN ACCOUNT
 							</Typography>
 							<JWTRegisterTab />
 
-							<div className="flex flex-col items-center justify-center pt-32 pb-24">
+							<div className="flex flex-col items-center justify-center pt-20">
 								<span className="font-medium">Already have an account?</span>
-								<Link className="font-medium" to="/pages/auth/login">
+								<Link className="font-medium mt-8" to="/pages/auth/login">
 									Login
 								</Link>
 							</div>
