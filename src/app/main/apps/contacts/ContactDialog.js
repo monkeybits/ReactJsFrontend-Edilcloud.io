@@ -190,10 +190,18 @@ function ContactDialog(props) {
 			maxWidth="xs"
 		>
 			<AppBar position="static" elevation={1}>
-				<Toolbar className="flex w-full">
+				<Toolbar className="flex w-full justify-between">
 					<Typography variant="subtitle1" color="inherit">
 						{contactDialog.type === 'new' ? 'New Contact' : 'Edit Contact'}
 					</Typography>
+					<div>
+					<Button variant="outlined" size="small"  color="secondary" className="mr-8">
+						Access File
+						</Button>
+						<Button variant="contained"  size="small" color="secondary">
+						Access Chat
+						</Button>
+					</div>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
 					<Avatar
@@ -322,32 +330,6 @@ function ContactDialog(props) {
 							inputValue={value}
 							renderInput={params => <TextField {...params} variant="outlined" label="Language" />}
 							onInputChange={(e, value) => setValue(value)}
-						/>
-					</div>
-					<div className="d-block">
-						<FormControlLabel
-							control={
-							<Switch
-								checked={state.checkedA}
-								onChange={handleChange}
-								name="checkedA"
-								color="primary"
-							/>
-							}
-							label="Access File"
-						/>
-					</div>
-					<div className="d-block">
-						<FormControlLabel
-							control={
-							<Switch
-								checked={state.checkedB}
-								onChange={handleChange}
-								name="checkedB"
-								color="primary"
-							/>
-							}
-							label="Access Chat"
 						/>
 					</div>
 				</DialogContent>
