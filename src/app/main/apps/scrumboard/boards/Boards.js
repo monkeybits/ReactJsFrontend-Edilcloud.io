@@ -137,7 +137,10 @@ function Boards(props) {
 								<Link
 									// to={`/apps/companies/${board.id}/${board.uri}`}
 									onClick={() => {
-										if (board.isApproved) {
+										console.log({
+											isApproved: board.isApproved
+										});
+										if (!!board.isApproved) {
 											redirectAfterGetNewToken(board.company_profile_id);
 										} else {
 											setIsShowRequests(true);

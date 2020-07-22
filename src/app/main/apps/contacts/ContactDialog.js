@@ -66,10 +66,14 @@ function ContactDialog(props) {
 	const [value, setValue] = useState('English');
 	const [role, setRole] = useState('');
 	const inputFile = useRef(null);
-
-	const { form, handleChange, setForm } = useForm(defaultFormState);
+	const [permission, setPermission] = useState({
+		can_access_chat: true,
+		can_access_files: true
+	});
+	const { form, handleChange, setForm, resetForm } = useForm(defaultFormState);
 	const [image, setImage] = useState(null);
 	const [viewCroper, setViewCroper] = useState(false);
+	const [isExisting, setIsExisting] = useState(false);
 	const [fileData, setFile] = useState({
 		file: undefined,
 		imagePreviewUrl: undefined
@@ -94,12 +98,20 @@ function ContactDialog(props) {
 			setForm({ ...contactDialog.data });
 			setRole(contactDialog.data.role);
 			setValue(contactDialog.data.language == 'en' ? 'English' : 'Italian');
+			setPermission({
+				can_access_chat: contactDialog.data.can_access_chat,
+				can_access_files: contactDialog.data.can_access_files
+			});
 		}
 
 		/**
 		 * Dialog type: 'new'
 		 */
 		if (contactDialog.type === 'new') {
+			setPermission({
+				can_access_chat: true,
+				can_access_files: true
+			});
 			setForm({
 				...defaultFormState,
 				...contactDialog.data,
@@ -114,10 +126,29 @@ function ContactDialog(props) {
 		 */
 		if (contactDialog.props.open) {
 			initDialog();
+			return () => {
+				resetForm();
+				setValue('English');
+				setRole('');
+				setFile({
+					file: undefined,
+					imagePreviewUrl: undefined
+				});
+				setViewCroper(false);
+				setIsExisting(false);
+				setPermission({
+					can_access_chat: true,
+					can_access_files: true
+				});
+			};
 		}
 	}, [contactDialog.props.open, initDialog]);
 
 	function closeComposeDialog() {
+		setFile({
+			file: undefined,
+			imagePreviewUrl: undefined
+		});
 		return contactDialog.type === 'edit'
 			? dispatch(Actions.closeEditContactDialog())
 			: dispatch(Actions.closeNewContactDialog());
@@ -138,23 +169,20 @@ function ContactDialog(props) {
 			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
 			language: value == 'English' ? 'en' : 'it'
 		};
+		const { first_name, last_name, email, id, company } = allData;
+		let newformData = {
+			id,
+			first_name,
+			last_name,
+			email,
+			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
+			language: value == 'English' ? 'en' : 'it',
+			photo: fileData.file,
+			...permission
+		};
 		if (contactDialog.type === 'new') {
-			dispatch(Actions.addContact({ ...allData, id: undefined, photo: fileData.file }));
+			dispatch(Actions.addContact({ ...newformData, photo: fileData.file }, isExisting));
 		} else {
-			const { first_name, last_name, email, id } = allData;
-			let newformData = {
-				id,
-				first_name,
-				last_name,
-				email,
-				role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
-				language: value == 'English' ? 'en' : 'it',
-				photo: fileData.file
-			};
-			console.log({
-				allData,
-				newformData
-			});
 			dispatch(Actions.updateContact(newformData, id));
 		}
 		closeComposeDialog();
@@ -165,9 +193,6 @@ function ContactDialog(props) {
 		closeComposeDialog();
 	}
 
-	const handleSelectChange = event => {
-		setRole(event.target.value);
-	};
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
 	}
@@ -194,10 +219,31 @@ function ContactDialog(props) {
 						{contactDialog.type === 'new' ? 'New Contact' : 'Edit Contact'}
 					</Typography>
 					<div>
-						<Button variant="outlined" size="small" color="secondary" className="mr-8">
+						<Button
+							variant={permission.can_access_files ? 'contained' : 'outlined'}
+							size="small"
+							color="secondary"
+							className="mr-8"
+							onClick={() =>
+								setPermission(prev => ({
+									...prev,
+									can_access_files: !prev.can_access_files
+								}))
+							}
+						>
 							Access File
 						</Button>
-						<Button variant="contained" size="small" color="secondary">
+						<Button
+							variant={permission.can_access_chat ? 'contained' : 'outlined'}
+							size="small"
+							color="secondary"
+							onClick={() =>
+								setPermission(prev => ({
+									...prev,
+									can_access_chat: !prev.can_access_chat
+								}))
+							}
+						>
 							Access Chat
 						</Button>
 					</div>
@@ -231,12 +277,22 @@ function ContactDialog(props) {
 			</AppBar>
 			<form noValidate onSubmit={handleSubmit} className="flex flex-col md:overflow-hidden">
 				<DialogContent classes={{ root: 'p-24' }}>
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">account_circle</Icon>
+					{contactDialog.type === 'new' && (
+						<div className="flex">
+							<div className="min-w-48 pt-20">
+								<Icon color="action">account_circle</Icon>
+							</div>
+							<AsyncAutocomplete
+								onSelect={item => {
+									setFile({});
+									setIsExisting(true);
+									setRole(item.role);
+									setValue(item.language == 'en' ? 'English' : 'Italian');
+									setForm({ ...item, photo: undefined });
+								}}
+							/>
 						</div>
-						<AsyncAutocomplete />
-					</div>
+					)}
 					<div className="flex">
 						<div className="min-w-48 pt-20">
 							<Icon color="action">account_circle</Icon>
@@ -245,7 +301,6 @@ function ContactDialog(props) {
 						<TextField
 							className="mb-24"
 							label="Name"
-							autoFocus
 							id="first_name"
 							name="first_name"
 							value={form.first_name}
@@ -269,74 +324,80 @@ function ContactDialog(props) {
 							fullWidth
 						/>
 					</div>
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">email</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							label="Email"
-							id="email"
-							name="email"
-							value={form.email}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
-					<div className="flex">
-						<div className="min-w-48 pt-20" />
-						<Autocomplete
-							options={SYSTEM_ROLES}
-							style={{ width: '100%' }}
-							className="mb-24"
-							disableCloseOnSelect
-							getOptionLabel={option => option.label}
-							renderOption={(option, { selected }) => (
-								<>
-									<Checkbox
-										icon={icon}
-										checkedIcon={checkedIcon}
-										style={{ marginRight: 8 }}
-										checked={selected}
-									/>
-									{option.label}
-								</>
-							)}
-							defaultValue={
-								SYSTEM_ROLES.filter(d => d.label == role).length &&
-								SYSTEM_ROLES.filter(d => d.label == role)[0]
-							}
-							inputValue={role}
-							renderInput={params => <TextField {...params} variant="outlined" label="Role" />}
-							onInputChange={(e, value) => setRole(value)}
-						/>
-					</div>
-					<div className="flex">
-						<div className="min-w-48 pt-20" />
-						<Autocomplete
-							className="mb-24"
-							options={['English', 'Italian']}
-							style={{ width: '100%' }}
-							disableCloseOnSelect
-							getOptionLabel={option => option}
-							renderOption={(option, { selected }) => (
-								<>
-									<Checkbox
-										icon={icon}
-										checkedIcon={checkedIcon}
-										style={{ marginRight: 8 }}
-										checked={selected}
-									/>
-									{option}
-								</>
-							)}
-							defaultValue={value}
-							inputValue={value}
-							renderInput={params => <TextField {...params} variant="outlined" label="Language" />}
-							onInputChange={(e, value) => setValue(value)}
-						/>
-					</div>
+					{!isExisting && (
+						<>
+							<div className="flex">
+								<div className="min-w-48 pt-20">
+									<Icon color="action">email</Icon>
+								</div>
+								<TextField
+									className="mb-24"
+									label="Email"
+									id="email"
+									name="email"
+									value={form.email}
+									onChange={handleChange}
+									variant="outlined"
+									fullWidth
+								/>
+							</div>
+							<div className="flex">
+								<div className="min-w-48 pt-20" />
+								<Autocomplete
+									options={SYSTEM_ROLES}
+									style={{ width: '100%' }}
+									className="mb-24"
+									disableCloseOnSelect
+									getOptionLabel={option => option.label}
+									renderOption={(option, { selected }) => (
+										<>
+											<Checkbox
+												icon={icon}
+												checkedIcon={checkedIcon}
+												style={{ marginRight: 8 }}
+												checked={selected}
+											/>
+											{option.label}
+										</>
+									)}
+									defaultValue={
+										SYSTEM_ROLES.filter(d => d.label == role).length &&
+										SYSTEM_ROLES.filter(d => d.label == role)[0]
+									}
+									inputValue={role}
+									renderInput={params => <TextField {...params} variant="outlined" label="Role" />}
+									onInputChange={(e, value) => setRole(value)}
+								/>
+							</div>
+							<div className="flex">
+								<div className="min-w-48 pt-20" />
+								<Autocomplete
+									className="mb-24"
+									options={['English', 'Italian']}
+									style={{ width: '100%' }}
+									disableCloseOnSelect
+									getOptionLabel={option => option}
+									renderOption={(option, { selected }) => (
+										<>
+											<Checkbox
+												icon={icon}
+												checkedIcon={checkedIcon}
+												style={{ marginRight: 8 }}
+												checked={selected}
+											/>
+											{option}
+										</>
+									)}
+									defaultValue={value}
+									inputValue={value}
+									renderInput={params => (
+										<TextField {...params} variant="outlined" label="Language" />
+									)}
+									onInputChange={(e, value) => setValue(value)}
+								/>
+							</div>
+						</>
+					)}
 				</DialogContent>
 
 				{contactDialog.type === 'new' ? (

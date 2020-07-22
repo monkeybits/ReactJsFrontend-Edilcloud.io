@@ -16,6 +16,8 @@ export const RESET_PASSWORD = '/api/frontend/user/password/reset/confirm/';
 export const FORGOT_PASSWORD = '/api/frontend/user/password/reset/';
 export const REFRESH_TOKEN = id => `/api/frontend/user/token/refresh/${id}/`;
 export const ADD_NEW_MEMBER = '/api/frontend/profile/company/profile_add/';
+export const ADD_EXISTING_MEMBER = uid =>`/api/frontend/profile/company/invite/profile_add/${uid}/`;
+
 export const GET_STAFF_LIST = '/api/frontend/profile/company/approve/staff_list/?per_page=12';
 export const UPDATE_MEMBER = id => `/api/frontend/profile/company/profile_edit/${id}/`;
 export const GET_MESSAGES_API = '/api/frontend/profile/company/message_list/all/?no_page=no_page';

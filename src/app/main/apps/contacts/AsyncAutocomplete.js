@@ -37,7 +37,7 @@ export default class AsyncAutocomplete extends React.Component {
 		let _this = this;
 
 		apiCall(
-			SEARCH_USER(searchText),
+			SEARCH_USER(String(searchText)),
 			{},
 			res => {
 				_this.setState({
@@ -70,7 +70,7 @@ export default class AsyncAutocomplete extends React.Component {
 		 */
 		this.retrieveDataAsynchronously(e.target.value);
 
-		console.log('The Input Text has changed to ', e.target.value);
+		// console.log('The Input Text has changed to ', e.target.value);
 	}
 
 	/**
@@ -79,12 +79,12 @@ export default class AsyncAutocomplete extends React.Component {
 	 * @param {Object} val Value returned by the getItemValue function.
 	 * @return {Nothing} No value is returned
 	 */
-	onSelect(val) {
+	onSelect(val, item) {
 		this.setState({
 			value: val
 		});
-
-		console.log("Option from 'database' selected : ", val);
+		this.props.onSelect(item);
+		// console.log("Option from 'item' selected : ", item);
 	}
 
 	/**
@@ -96,7 +96,7 @@ export default class AsyncAutocomplete extends React.Component {
 	 */
 	renderItem(item, isHighlighted) {
 		return (
-			<div className="bg-white p-12 text-base" style={{ background: isHighlighted ? 'lightgray' : 'white' , }}>
+			<div className="bg-white p-12 text-base" style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
 				{item.first_name} {item.last_name} {item.company?.name && `(${item.company.name})`}
 			</div>
 		);
@@ -112,13 +112,14 @@ export default class AsyncAutocomplete extends React.Component {
 		// You can obviously only return the Label or the component you need to show
 		// In this case we are going to show the value and the label that shows in the input
 		// something like "1 - Microsoft"
-		return `${item.first_name}`;
+		return `${item.first_name} ${item.last_name} ${item.company?.name && `(${item.company.name})`}`;
 	}
 
 	render() {
 		return (
 			<div className="custom-autocomplete block w-full mb-24">
 				<Autocomplete
+					inputProps={{ placeholder: 'Search existing member', autoFocus: true }}
 					getItemValue={this.getItemValue}
 					items={this.state.autocompleteData}
 					renderItem={this.renderItem}

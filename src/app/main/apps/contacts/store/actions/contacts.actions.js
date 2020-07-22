@@ -1,6 +1,6 @@
 import { getUserData } from 'app/main/apps/contacts/store/actions/user.actions';
 import axios from 'axios';
-import { ADD_NEW_MEMBER, GET_STAFF_LIST, UPDATE_MEMBER } from 'app/services/apiEndPoints';
+import { ADD_NEW_MEMBER, ADD_EXISTING_MEMBER, GET_STAFF_LIST, UPDATE_MEMBER } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
@@ -102,15 +102,17 @@ export function closeViewContactDialog() {
 		type: CLOSE_VIEW_CONTACT_DIALOG
 	};
 }
-export function addContact(values) {
+export function addContact(values, isExisting) {
 	return (dispatch, getState) => {
 		const { routeParams } = getState().contactsApp.contacts;
 		var formData = new FormData();
 		for (let key in values) {
-			if (values[key]) formData.append(key, values[key]);
+			if (values[key] || key == 'can_access_chat' || key == 'can_access_files') {
+				formData.append(key, values[key]);
+			}
 		}
 		apiCall(
-			ADD_NEW_MEMBER,
+			isExisting ? ADD_EXISTING_MEMBER(values.id) : ADD_NEW_MEMBER,
 			formData,
 			res => {
 				dispatch(getContacts(routeParams));
@@ -127,7 +129,7 @@ export function updateContact(values, id) {
 		const { routeParams } = getState().contactsApp.contacts;
 		var formData = new FormData();
 		for (let key in values) {
-			if (values[key]) formData.append(key, values[key]);
+			if (values[key] || key == 'can_access_chat' || key == 'can_access_files') formData.append(key, values[key]);
 		}
 		apiCall(
 			UPDATE_MEMBER(id),
