@@ -17,8 +17,8 @@ const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
 			'& .bubble': {
-				backgroundColor: theme.palette.primary.main,
-				color: theme.palette.primary.contrastText,
+				backgroundColor: theme.palette.grey[300],
+				color: theme.palette.getContrastText(theme.palette.grey[300]),
 				borderTopLeftRadius: 5,
 				borderBottomLeftRadius: 5,
 				borderTopRightRadius: 20,
@@ -107,9 +107,9 @@ function Chat(props) {
 
 	useEffect(() => {
 		if (chat) {
-			scrollToBottom();
+			// scrollToBottom();
 		}
-	}, [chat]);
+	}, [chat?.chats]);
 
 	function scrollToBottom() {
 		chatRef.current.scrollTop = chatRef.current.scrollHeight;
@@ -129,7 +129,6 @@ function Chat(props) {
 	function isLastMessageOfGroup(item, i) {
 		return i === chat.chats.length - 1 || (chat.chats[i + 1] && chat.chats[i + 1].sender.id != item.sender.id);
 	}
-
 	function onInputChange(ev) {
 		setMessageText(ev.target.value);
 	}
@@ -163,13 +162,12 @@ function Chat(props) {
 										i + 1 === chat.length && 'pb-96'
 									)}
 								>
-									
 									<div className="bubble relative items-center justify-center p-12 max-w-full">
-									{contact.id != userIdFromCompany && (
-										<Typography color="secondary" className="text-xs mb-6">
-											{contact.first_name + ' ' + contact.last_name}
-										</Typography>
-									)}
+										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
+											<Typography color="secondary" className="text-xs mb-6">
+												{contact.first_name + ' ' + contact.last_name}
+											</Typography>
+										)}
 										<div className="leading-tight whitespace-pre-wrap">{item.body}</div>
 										<Typography
 											className="time absolute hidden w-full text-11 mt-8 -mb-24 ltr:left-0 rtl:right-0 bottom-0 whitespace-no-wrap"
