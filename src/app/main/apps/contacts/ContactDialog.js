@@ -324,80 +324,75 @@ function ContactDialog(props) {
 							fullWidth
 						/>
 					</div>
-					{!isExisting && (
-						<>
-							<div className="flex">
-								<div className="min-w-48 pt-20">
-									<Icon color="action">email</Icon>
-								</div>
-								<TextField
-									className="mb-24"
-									label="Email"
-									id="email"
-									name="email"
-									value={form.email}
-									onChange={handleChange}
-									variant="outlined"
-									fullWidth
-								/>
-							</div>
-							<div className="flex">
-								<div className="min-w-48 pt-20" />
-								<Autocomplete
-									options={SYSTEM_ROLES}
-									style={{ width: '100%' }}
-									className="mb-24"
-									disableCloseOnSelect
-									getOptionLabel={option => option.label}
-									renderOption={(option, { selected }) => (
-										<>
-											<Checkbox
-												icon={icon}
-												checkedIcon={checkedIcon}
-												style={{ marginRight: 8 }}
-												checked={selected}
-											/>
-											{option.label}
-										</>
-									)}
-									defaultValue={
-										SYSTEM_ROLES.filter(d => d.label == role).length &&
-										SYSTEM_ROLES.filter(d => d.label == role)[0]
-									}
-									inputValue={role}
-									renderInput={params => <TextField {...params} variant="outlined" label="Role" />}
-									onInputChange={(e, value) => setRole(value)}
-								/>
-							</div>
-							<div className="flex">
-								<div className="min-w-48 pt-20" />
-								<Autocomplete
-									className="mb-24"
-									options={['English', 'Italian']}
-									style={{ width: '100%' }}
-									disableCloseOnSelect
-									getOptionLabel={option => option}
-									renderOption={(option, { selected }) => (
-										<>
-											<Checkbox
-												icon={icon}
-												checkedIcon={checkedIcon}
-												style={{ marginRight: 8 }}
-												checked={selected}
-											/>
-											{option}
-										</>
-									)}
-									defaultValue={value}
-									inputValue={value}
-									renderInput={params => (
-										<TextField {...params} variant="outlined" label="Language" />
-									)}
-									onInputChange={(e, value) => setValue(value)}
-								/>
-							</div>
-						</>
-					)}
+
+					<div className="flex">
+						<div className="min-w-48 pt-20">
+							<Icon color="action">email</Icon>
+						</div>
+						<TextField
+							className="mb-24"
+							label="Email"
+							id="email"
+							name="email"
+							value={form.email}
+							onChange={handleChange}
+							variant="outlined"
+							fullWidth
+						/>
+					</div>
+					<div className="flex">
+						<div className="min-w-48 pt-20" />
+						<Autocomplete
+							options={SYSTEM_ROLES}
+							style={{ width: '100%' }}
+							className="mb-24"
+							disableCloseOnSelect
+							getOptionLabel={option => option.label}
+							renderOption={(option, { selected }) => (
+								<>
+									<Checkbox
+										icon={icon}
+										checkedIcon={checkedIcon}
+										style={{ marginRight: 8 }}
+										checked={selected}
+									/>
+									{option.label}
+								</>
+							)}
+							defaultValue={
+								SYSTEM_ROLES.filter(d => d.label == role).length &&
+								SYSTEM_ROLES.filter(d => d.label == role)[0]
+							}
+							inputValue={role}
+							renderInput={params => <TextField {...params} variant="outlined" label="Role" />}
+							onInputChange={(e, value) => setRole(value)}
+						/>
+					</div>
+					<div className="flex">
+						<div className="min-w-48 pt-20" />
+						<Autocomplete
+							className="mb-24"
+							options={['English', 'Italian']}
+							style={{ width: '100%' }}
+							disableCloseOnSelect
+							getOptionLabel={option => option}
+							renderOption={(option, { selected }) => (
+								<>
+									<Checkbox
+										icon={icon}
+										checkedIcon={checkedIcon}
+										style={{ marginRight: 8 }}
+										checked={selected}
+									/>
+									{option}
+								</>
+							)}
+							defaultValue={value}
+							inputValue={value}
+							renderInput={params => <TextField {...params} variant="outlined" label="Language" />}
+							onInputChange={(e, value) => setValue(value)}
+						/>
+					</div>
 				</DialogContent>
 
 				{contactDialog.type === 'new' ? (
