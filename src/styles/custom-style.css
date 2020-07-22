@@ -6,3 +6,27 @@
 .text-2xl {
     font-size: 2.0rem;
 }
+.custom-autocomplete > div {
+    display: inline-flex !important;
+    width: 100%;
+}
+.custom-autocomplete input {
+    font: inherit;
+    color: currentColor;
+    width: 100% ;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    height: 1.1876em;
+    margin: 0;
+    display: block;
+    padding: 18.5px 14px;
+    min-width: 0;
+    background: none;
+    box-sizing: content-box;
+    animation-name: mui-auto-fill-cancel;
+    letter-spacing: inherit;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 0.5rem;
+}
+.custom-autocomplete > div input ~ div {
+    z-index: 9;
+}
