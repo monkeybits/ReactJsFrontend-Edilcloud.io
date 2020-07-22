@@ -17,24 +17,24 @@ const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
 			'& .bubble': {
-				backgroundColor: theme.palette.grey[300],
-				color: theme.palette.getContrastText(theme.palette.grey[300]),
+				backgroundColor: theme.palette.background.default,
+				// color: theme.palette.getContrastText(theme.palette.primary.dark),
 				borderTopLeftRadius: 5,
 				borderBottomLeftRadius: 5,
-				borderTopRightRadius: 20,
-				borderBottomRightRadius: 20,
-				'& .time': {
-					marginLeft: 12
-				}
+				borderTopRightRadius: 5,
+				borderBottomRightRadius: 5,
+				// '& .time': {
+				// 	marginLeft: 12
+				// }
 			},
 			'&.first-of-group': {
 				'& .bubble': {
-					borderTopLeftRadius: 20
+					borderTopLeftRadius: 15
 				}
 			},
 			'&.last-of-group': {
 				'& .bubble': {
-					borderBottomLeftRadius: 20
+					borderBottomRightRadius: 15
 				}
 			}
 		},
@@ -47,10 +47,10 @@ const useStyles = makeStyles(theme => ({
 			},
 			'& .bubble': {
 				marginLeft: 'auto',
-				backgroundColor: theme.palette.grey[300],
-				color: theme.palette.getContrastText(theme.palette.grey[300]),
-				borderTopLeftRadius: 20,
-				borderBottomLeftRadius: 20,
+				backgroundColor: theme.palette.primary.dark,
+				color: theme.palette.getContrastText(theme.palette.primary.dark),
+				borderTopLeftRadius: 5,
+				borderBottomLeftRadius: 5,
 				borderTopRightRadius: 5,
 				borderBottomRightRadius: 5,
 				'& .time': {
@@ -61,13 +61,13 @@ const useStyles = makeStyles(theme => ({
 			},
 			'&.first-of-group': {
 				'& .bubble': {
-					borderTopRightRadius: 20
+					borderTopLeftRadius: 15
 				}
 			},
 
 			'&.last-of-group': {
 				'& .bubble': {
-					borderBottomRightRadius: 20
+					borderBottomRightRadius: 15
 				}
 			}
 		},
@@ -77,13 +77,13 @@ const useStyles = makeStyles(theme => ({
 		},
 		'&.first-of-group': {
 			'& .bubble': {
-				borderTopLeftRadius: 20,
+				borderTopLeftRadius: 15,
 				paddingTop: 13
 			}
 		},
 		'&.last-of-group': {
 			'& .bubble': {
-				borderBottomLeftRadius: 20,
+				borderBottomRightRadius: 15,
 				paddingBottom: 13,
 				'& .time': {
 					display: 'flex'
