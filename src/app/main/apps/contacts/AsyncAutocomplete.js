@@ -96,7 +96,7 @@ export default class AsyncAutocomplete extends React.Component {
 	 */
 	renderItem(item, isHighlighted) {
 		return (
-			<div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+			<div className="bg-white p-12 text-base" style={{ background: isHighlighted ? 'lightgray' : 'white' , }}>
 				{item.first_name} {item.last_name} {item.company?.name && `(${item.company.name})`}
 			</div>
 		);
@@ -117,14 +117,16 @@ export default class AsyncAutocomplete extends React.Component {
 
 	render() {
 		return (
-			<Autocomplete
-				getItemValue={this.getItemValue}
-				items={this.state.autocompleteData}
-				renderItem={this.renderItem}
-				value={this.state.value}
-				onChange={this.onChange}
-				onSelect={this.onSelect}
-			/>
+			<div className="custom-autocomplete block w-full mb-24">
+				<Autocomplete
+					getItemValue={this.getItemValue}
+					items={this.state.autocompleteData}
+					renderItem={this.renderItem}
+					value={this.state.value}
+					onChange={this.onChange}
+					onSelect={this.onSelect}
+				/>
+			</div>
 		);
 	}
 }
