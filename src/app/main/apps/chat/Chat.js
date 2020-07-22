@@ -147,7 +147,7 @@ function Chat(props) {
 		<div className={clsx('flex flex-col relative', props.className)}>
 			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
 				{chat?.chats?.length ? (
-					<div className="flex flex-col pt-16 px-16 ltr:pl-56 rtl:pr-56 pb-40">
+					<div className="flex flex-col pt-16 px-16 ltr:pl-56 rtl:pr-56 pb-30">
 						{chat.chats.map((item, i) => {
 							const contact = item.sender;
 							return (
@@ -163,12 +163,13 @@ function Chat(props) {
 										i + 1 === chat.length && 'pb-96'
 									)}
 								>
+									
+									<div className="bubble relative items-center justify-center p-12 max-w-full">
 									{contact.id != userIdFromCompany && (
-										<Typography color="primary">
+										<Typography color="secondary" className="text-xs mb-6">
 											{contact.first_name + ' ' + contact.last_name}
 										</Typography>
 									)}
-									<div className="bubble flex relative items-center justify-center p-12 max-w-full">
 										<div className="leading-tight whitespace-pre-wrap">{item.body}</div>
 										<Typography
 											className="time absolute hidden w-full text-11 mt-8 -mb-24 ltr:left-0 rtl:right-0 bottom-0 whitespace-no-wrap"
@@ -195,7 +196,7 @@ function Chat(props) {
 				)}
 			</FuseScrollbars>
 
-			<form onSubmit={onMessageSubmit} className="absolute bottom-0 right-0 left-0 py-16 px-8">
+			<form onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8">
 				<Paper className="flex items-center relative rounded-24" elevation={1}>
 					<TextField
 						autoFocus={false}
