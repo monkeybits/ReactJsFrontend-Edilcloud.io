@@ -30,8 +30,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import Switch from '@material-ui/core/Switch';
-
-
+import AsyncAutocomplete from './AsyncAutocomplete';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -174,8 +173,8 @@ function ContactDialog(props) {
 	}
 	const [state, setState] = React.useState({
 		checkedA: true,
-		checkedB: true,
-	  });
+		checkedB: true
+	});
 
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
@@ -195,11 +194,11 @@ function ContactDialog(props) {
 						{contactDialog.type === 'new' ? 'New Contact' : 'Edit Contact'}
 					</Typography>
 					<div>
-					<Button variant="outlined" size="small"  color="secondary" className="mr-8">
-						Access File
+						<Button variant="outlined" size="small" color="secondary" className="mr-8">
+							Access File
 						</Button>
-						<Button variant="contained"  size="small" color="secondary">
-						Access Chat
+						<Button variant="contained" size="small" color="secondary">
+							Access Chat
 						</Button>
 					</div>
 				</Toolbar>
@@ -232,6 +231,12 @@ function ContactDialog(props) {
 			</AppBar>
 			<form noValidate onSubmit={handleSubmit} className="flex flex-col md:overflow-hidden">
 				<DialogContent classes={{ root: 'p-24' }}>
+					<div className="flex">
+						<div className="min-w-48 pt-20">
+							<Icon color="action">account_circle</Icon>
+						</div>
+						<AsyncAutocomplete />
+					</div>
 					<div className="flex">
 						<div className="min-w-48 pt-20">
 							<Icon color="action">account_circle</Icon>
