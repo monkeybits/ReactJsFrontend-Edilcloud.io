@@ -64,9 +64,9 @@ function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSucces
 			onClose={toggleDrawer(false)}
 			onOpen={toggleDrawer(true)}
 		>
-			<div className="flex justify-between items-center h-64 p-64 px-32">
-				<h2 className="font-semibold">Sure you want to accept Request ?</h2>
-				<div>
+			<div className="flex flex-wrap justify-between items-center p-40 sm:p-56 px-32">
+				<h2 className="font-semibold">Sure you want to Accept Request ?</h2>
+				<div className="mt-20 md:mt-0">
 					<Button
 						variant="contained"
 						color="primary"
