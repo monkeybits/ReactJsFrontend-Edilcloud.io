@@ -10,8 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 import ContactsTable from './ContactsTable';
 import * as Actions from './store/actions';
-import { decodeDataFromToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
+import { DEACTIVATE_MEMBER } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -39,11 +41,12 @@ function ContactsList(props) {
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+	const [userData, setUserData] = useState(null);
 	const [filteredData, setFilteredData] = useState(null);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
-	const openDeleteFileDialog = () => setIsOpenDeleteDialog(true);
-	const colseDeleteFileDialog = () => setIsOpenDeleteDialog(false);
+	const openDeleteContactDialog = () => setIsOpenDeleteDialog(true);
+	const colseDeleteContactDialog = () => setIsOpenDeleteDialog(false);
 	const columns = React.useMemo(
 		() => [
 			{
@@ -80,13 +83,18 @@ function ContactsList(props) {
 				sortable: true
 			},
 			{
-				Header: 'Job Title',
-				accessor: 'jobTitle',
+				Header: 'Role',
+				accessor: 'role',
 				sortable: true
 			},
 			{
-				Header: 'Role',
-				accessor: 'role',
+				Header: 'Status',
+				accessor: 'status',
+				sortable: true
+			},
+			{
+				Header: 'Job Title',
+				accessor: 'jobTitle',
 				sortable: true
 			},
 			{
@@ -119,7 +127,8 @@ function ContactsList(props) {
 							<IconButton
 								onClick={ev => {
 									ev.stopPropagation();
-									openDeleteFileDialog();
+									setUserData(row.original);
+									openDeleteContactDialog();
 									// dispatch(Actions.removeContact(row.original.id));
 								}}
 							>
@@ -202,20 +211,30 @@ function ContactsList(props) {
 			</div>
 		);
 	}
-
+	const onDeactivate = () => {
+		const { id } = userData;
+		apiCall(
+			DEACTIVATE_MEMBER(id),
+			{},
+			res => console.log(res),
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
 	return (
 		<>
 			<DeleteConfirmDialog
 				text={
 					<>
-						<Typography>Are you sure want to delete ?</Typography>
-						<Typography>Your account will be deactivated untill your next login!</Typography>
+						<Typography>Are you sure want to deactivate ?</Typography>
+						<Typography>Account will be deactivated untill you not activet this user again!</Typography>
 					</>
 				}
 				isOpenDeleteDialog={isOpenDeleteDialog}
-				colseDeleteFileDialog={colseDeleteFileDialog}
-				onYes={colseDeleteFileDialog}
-				onNo={colseDeleteFileDialog}
+				colseDeleteFileDialog={colseDeleteContactDialog}
+				onYes={onDeactivate}
+				onNo={colseDeleteContactDialog}
 			/>
 			<FuseAnimate animation="transition.slideUpIn" delay={200}>
 				<ContactsTable

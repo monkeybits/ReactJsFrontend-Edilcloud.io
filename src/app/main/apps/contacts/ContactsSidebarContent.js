@@ -61,11 +61,9 @@ function ContactsSidebarContent(props) {
 							activeClassName="active"
 							className={classes.listItem}
 						>
-							<Icon className="list-item-icon text-16" color="action">
-								people
-							</Icon>
 							<ListItemText className="truncate" primary="All Team members" disableTypography />
 						</ListItem>
+						<Divider />
 						<ListItem
 							button
 							component={NavLinkAdapter}
@@ -75,6 +73,7 @@ function ContactsSidebarContent(props) {
 						>
 							<ListItemText className="truncate" primary="Approved Team members" disableTypography />
 						</ListItem>
+						<Divider />
 						<ListItem
 							button
 							component={NavLinkAdapter}
@@ -84,6 +83,7 @@ function ContactsSidebarContent(props) {
 						>
 							<ListItemText className="truncate" primary="Waiting Team members" disableTypography />
 						</ListItem>
+						<Divider />
 						<ListItem
 							button
 							component={NavLinkAdapter}
@@ -93,6 +93,7 @@ function ContactsSidebarContent(props) {
 						>
 							<ListItemText className="truncate" primary="Refused Team members" disableTypography />
 						</ListItem>
+						<Divider />
 						<ListItem
 							button
 							component={NavLinkAdapter}
@@ -102,6 +103,7 @@ function ContactsSidebarContent(props) {
 						>
 							<ListItemText className="truncate" primary="Owner" disableTypography />
 						</ListItem>
+						<Divider />
 						<ListItem
 							button
 							component={NavLinkAdapter}
@@ -111,6 +113,7 @@ function ContactsSidebarContent(props) {
 						>
 							<ListItemText className="truncate" primary="Delegate" disableTypography />
 						</ListItem>
+						<Divider />
 						<ListItem
 							button
 							component={NavLinkAdapter}
@@ -121,6 +124,7 @@ function ContactsSidebarContent(props) {
 							<ListItemText className="truncate" primary="Manager" disableTypography />
 						</ListItem>
 
+						<Divider />
 						<ListItem
 							button
 							component={NavLinkAdapter}

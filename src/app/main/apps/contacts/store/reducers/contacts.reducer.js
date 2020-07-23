@@ -27,22 +27,8 @@ const mergeArray = (oldArr = [], newArr = []) =>
 			return arr;
 		}
 	}, []);
-function sortByProperty(array, property, order = 'ASC') {
-	return array.sort((a, b) =>
-		order === 'ASC'
-			? a[property] > b[property]
-				? 1
-				: a[property] < b[property]
-				? -1
-				: 0
-			: a[property] > b[property]
-			? -1
-			: a[property] < b[property]
-			? 1
-			: 0
-	);
-}
-const chnageIds = (arr = []) => arr.map((d, i) => ({ ...d, id: i }));
+
+const addTypeInArray = (arr = [], status) => arr.map((d, i) => ({ ...d, status }));
 const contactsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.RESET_CONTACTS: {
@@ -51,24 +37,24 @@ const contactsReducer = (state = initialState(), action) => {
 		case Actions.GET_CONTACTS: {
 			return {
 				...state,
-				entities: mergeArray(state.entities, action.payload),
-				approved: [...action.payload],
+				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Approved')),
+				approved: addTypeInArray([...action.payload], 'approved'),
 				routeParams: action.routeParams
 			};
 		}
 		case Actions.GET_WAITING_CONTACTS: {
 			return {
 				...state,
-				entities: mergeArray(state.entities, action.payload),
-				waiting: [...action.payload],
+				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Waiting')),
+				waiting: addTypeInArray([...action.payload], 'waiting'),
 				routeParams: action.routeParams
 			};
 		}
 		case Actions.GET_REFUSED_CONTACTS: {
 			return {
 				...state,
-				entities: mergeArray(state.entities, action.payload),
-				refused: [...action.payload],
+				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Refused')),
+				refused: addTypeInArray([...action.payload], 'refused'),
 				routeParams: action.routeParams
 			};
 		}

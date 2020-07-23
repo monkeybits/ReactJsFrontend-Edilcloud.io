@@ -97,7 +97,7 @@ export default class AsyncAutocomplete extends React.Component {
 	renderItem(item, isHighlighted) {
 		return (
 			<div className="bg-white p-12 text-base" style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-				{item.first_name} {item.last_name} {item.company?.name && `(${item.company.name})`}
+				{item.first_name} {item.last_name} {item.company?.name ? `(${item.company.name})` : ''}
 			</div>
 		);
 	}
