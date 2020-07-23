@@ -31,6 +31,11 @@ function sortByProperty(array, property, order = 'ASC') {
 function ContactsList(props) {
 	const dispatch = useDispatch();
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
+	const approved = useSelector(({ contactsApp }) => contactsApp.contacts.approved);
+	const waiting = useSelector(({ contactsApp }) => contactsApp.contacts.waiting);
+	const refused = useSelector(({ contactsApp }) => contactsApp.contacts.refused);
+	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
+
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
@@ -80,6 +85,11 @@ function ContactsList(props) {
 				sortable: true
 			},
 			{
+				Header: 'Role',
+				accessor: 'role',
+				sortable: true
+			},
+			{
 				Header: 'Email',
 				accessor: 'email',
 				sortable: true,
@@ -121,8 +131,7 @@ function ContactsList(props) {
 		],
 		[dispatch, user.starred]
 	);
-
-	useEffect(() => {
+	const setContacts = () => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
 			if (_searchText.length === 0) {
@@ -130,12 +139,55 @@ function ContactsList(props) {
 			}
 			return FuseUtils.filterArrayByString(arr, _searchText);
 		}
-
-		if (contacts) {
-			let results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
-			setFilteredData(results);
+		function getFilteredArrayByKey(entities, key, _searchText) {
+			if (_searchText.length === 0) {
+				return entities;
+			}
+			return entities.filter(item => item[key] == _searchText);
 		}
-	}, [contacts, searchText]);
+		let results = [];
+		switch (routeParams.id) {
+			case 'approved':
+				results = sortByProperty(getFilteredArray(approved, searchText), 'name');
+				setFilteredData(results);
+				break;
+			case 'waiting':
+				results = sortByProperty(getFilteredArray(waiting, searchText), 'name');
+				setFilteredData(results);
+				break;
+			case 'refused':
+				results = sortByProperty(getFilteredArray(refused, searchText), 'name');
+				setFilteredData(results);
+				break;
+			case 'all':
+				results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
+				setFilteredData(results);
+				break;
+			case 'owner':
+				results = sortByProperty(getFilteredArrayByKey(contacts, 'role', 'Owner'), 'name');
+				setFilteredData(results);
+				break;
+			case 'delegate':
+				results = sortByProperty(getFilteredArrayByKey(contacts, 'role', 'Delegate'), 'name');
+				setFilteredData(results);
+				break;
+			case 'manager':
+				results = sortByProperty(getFilteredArrayByKey(contacts, 'role', 'Manager'), 'name');
+				setFilteredData(results);
+				break;
+			case 'worker':
+				results = sortByProperty(getFilteredArrayByKey(contacts, 'role', 'Worker'), 'name');
+				setFilteredData(results);
+				break;
+			default:
+				results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
+				setFilteredData(results);
+				break;
+		}
+	};
+	useEffect(() => {
+		setContacts();
+	}, [contacts, routeParams, searchText]);
 
 	if (!filteredData) {
 		return null;
@@ -165,7 +217,7 @@ function ContactsList(props) {
 				onYes={colseDeleteFileDialog}
 				onNo={colseDeleteFileDialog}
 			/>
-			<FuseAnimate animation="transition.slideUpIn" delay={300}>
+			<FuseAnimate animation="transition.slideUpIn" delay={200}>
 				<ContactsTable
 					columns={columns}
 					data={filteredData}

@@ -1,26 +1,74 @@
 import _ from '@lodash';
 import * as Actions from '../actions';
 
-const initialState = {
-	entities: null,
+const initialState = () => ({
+	entities: [],
+	waiting: [],
+	approved: [],
+	refused: [],
 	searchText: '',
 	routeParams: {},
 	contactDialog: {
 		type: 'new',
 		props: {
 			open: false,
-			view:false
+			view: false
 		},
 		data: null
 	}
-};
+});
 
-const contactsReducer = (state = initialState, action) => {
+const mergeArray = (oldArr = [], newArr = []) =>
+	[...oldArr, ...newArr].reduce((arr, current) => {
+		const x = arr.find(item => item.email === current.email);
+		if (!x) {
+			return arr.concat([current]);
+		} else {
+			return arr;
+		}
+	}, []);
+function sortByProperty(array, property, order = 'ASC') {
+	return array.sort((a, b) =>
+		order === 'ASC'
+			? a[property] > b[property]
+				? 1
+				: a[property] < b[property]
+				? -1
+				: 0
+			: a[property] > b[property]
+			? -1
+			: a[property] < b[property]
+			? 1
+			: 0
+	);
+}
+const chnageIds = (arr = []) => arr.map((d, i) => ({ ...d, id: i }));
+const contactsReducer = (state = initialState(), action) => {
 	switch (action.type) {
+		case Actions.RESET_CONTACTS: {
+			return initialState();
+		}
 		case Actions.GET_CONTACTS: {
 			return {
 				...state,
-				entities: _.keyBy(action.payload, 'id'),
+				entities: mergeArray(state.entities, action.payload),
+				approved: [...action.payload],
+				routeParams: action.routeParams
+			};
+		}
+		case Actions.GET_WAITING_CONTACTS: {
+			return {
+				...state,
+				entities: mergeArray(state.entities, action.payload),
+				waiting: [...action.payload],
+				routeParams: action.routeParams
+			};
+		}
+		case Actions.GET_REFUSED_CONTACTS: {
+			return {
+				...state,
+				entities: mergeArray(state.entities, action.payload),
+				refused: [...action.payload],
 				routeParams: action.routeParams
 			};
 		}

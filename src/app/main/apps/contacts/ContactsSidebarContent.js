@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 function ContactsSidebarContent(props) {
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
+	const company = useSelector(({ chatApp }) => chatApp.company);
 
 	const classes = useStyles(props);
 
@@ -45,8 +46,11 @@ function ContactsSidebarContent(props) {
 			<FuseAnimate animation="transition.slideLeftIn" delay={200}>
 				<Paper className="rounded-0 shadow-none lg:rounded-8 lg:shadow-1">
 					<div className="p-24 flex items-center">
-						<Avatar alt={user.name} src={user.avatar} />
-						<Typography className="mx-12">{user.name}</Typography>
+						<Avatar alt={user.name} src={company.logo}>
+							{' '}
+							{company.name.split('')[0]}
+						</Avatar>
+						<Typography className="mx-12">{company.name}</Typography>
 					</div>
 					<Divider />
 					<List>
@@ -60,33 +64,72 @@ function ContactsSidebarContent(props) {
 							<Icon className="list-item-icon text-16" color="action">
 								people
 							</Icon>
-							<ListItemText className="truncate" primary="Team members" disableTypography />
+							<ListItemText className="truncate" primary="All Team members" disableTypography />
 						</ListItem>
-						{/* <ListItem
+						<ListItem
 							button
 							component={NavLinkAdapter}
-							to="/apps/contacts/settings"
+							to="/apps/contacts/approved"
 							activeClassName="active"
 							className={classes.listItem}
 						>
-							<Icon className="list-item-icon text-16" color="action">
-								settings
-							</Icon>
-							<ListItemText className="truncate" primary="Settings" disableTypography />
-						</ListItem> */}
-						{/* <ListItem
+							<ListItemText className="truncate" primary="Approved Team members" disableTypography />
+						</ListItem>
+						<ListItem
 							button
 							component={NavLinkAdapter}
-							to="/apps/contacts/starred"
+							to="/apps/contacts/waiting"
 							activeClassName="active"
 							className={classes.listItem}
 						>
-							<Icon className="list-item-icon text-16" color="action">
-								star
-							</Icon>
-							<ListItemText className="truncate" primary="Starred contacts" disableTypography />
-						</ListItem> */}
-				
+							<ListItemText className="truncate" primary="Waiting Team members" disableTypography />
+						</ListItem>
+						<ListItem
+							button
+							component={NavLinkAdapter}
+							to="/apps/contacts/refused"
+							activeClassName="active"
+							className={classes.listItem}
+						>
+							<ListItemText className="truncate" primary="Refused Team members" disableTypography />
+						</ListItem>
+						<ListItem
+							button
+							component={NavLinkAdapter}
+							to="/apps/contacts/owner"
+							activeClassName="active"
+							className={classes.listItem}
+						>
+							<ListItemText className="truncate" primary="Owner" disableTypography />
+						</ListItem>
+						<ListItem
+							button
+							component={NavLinkAdapter}
+							to="/apps/contacts/delegate"
+							activeClassName="active"
+							className={classes.listItem}
+						>
+							<ListItemText className="truncate" primary="Delegate" disableTypography />
+						</ListItem>
+						<ListItem
+							button
+							component={NavLinkAdapter}
+							to="/apps/contacts/manager"
+							activeClassName="active"
+							className={classes.listItem}
+						>
+							<ListItemText className="truncate" primary="Manager" disableTypography />
+						</ListItem>
+
+						<ListItem
+							button
+							component={NavLinkAdapter}
+							to="/apps/contacts/worker"
+							activeClassName="active"
+							className={classes.listItem}
+						>
+							<ListItemText className="truncate" primary="Worker" disableTypography />
+						</ListItem>
 					</List>
 				</Paper>
 			</FuseAnimate>
