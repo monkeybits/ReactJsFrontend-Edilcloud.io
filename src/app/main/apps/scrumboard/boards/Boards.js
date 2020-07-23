@@ -90,7 +90,7 @@ function Boards(props) {
 					dispatch({
 						type: GET_BOARDS,
 						payload: filterdBoards.map(
-							d => d.company && { ...d.company, company_profile_id: d.id, isApproved: false }
+							d => d.company && { ...d.company, uidb36: d.uidb36, token: d.token, isApproved: false }
 						)
 					});
 				}
@@ -115,7 +115,14 @@ function Boards(props) {
 			METHOD.POST
 		);
 	};
-
+	const handleInvitation = () => {
+		dispatch({
+			type: RESET_BOARDS
+		});
+		getcompanyList();
+		getRequest();
+		setIsShowRequests(false);
+	};
 	return (
 		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
@@ -137,9 +144,6 @@ function Boards(props) {
 								<Link
 									// to={`/apps/companies/${board.id}/${board.uri}`}
 									onClick={() => {
-										console.log({
-											isApproved: board.isApproved
-										});
 										if (!!board.isApproved) {
 											redirectAfterGetNewToken(board.company_profile_id);
 										} else {
@@ -153,31 +157,30 @@ function Boards(props) {
 									)}
 									role="button"
 								>
-									<Badge
-										invisible={board.isApproved}
-										color="secondary"
-										onClick={e => {
-											e.stopPropagation();
-											e.preventDefault();
-											setIsShowRequests(true);
-											setRequest(board);
-										}}
-									>
+									{board.isApproved ? (
 										<Avatar src={board.logo} variant="square">
 											{board.name.split('')[0]}
 										</Avatar>
-										{/* <Icon className="text-56">assessment</Icon> */}
-									</Badge>
+									) : (
+										<Badge
+											invisible={board.isApproved}
+											color="secondary"
+											onClick={e => {
+												e.stopPropagation();
+												e.preventDefault();
+												setIsShowRequests(true);
+												setRequest(board);
+											}}
+										>
+											<Avatar src={board.logo} variant="square">
+												{board.name.split('')[0]}
+											</Avatar>
+											{/* <Icon className="text-56">assessment</Icon> */}
+										</Badge>
+									)}
 									<Typography className="text-16 font-300 text-center pt-16 px-32" color="inherit">
 										{board.name}
 									</Typography>
-									{/* {!board.isApproved && (
-										<div className="mt-10">
-											<a href="javascript:;">
-												<Badge badgeContent="New request" color="secondary"></Badge>
-											</a>
-										</div>
-									)} */}
 								</Link>
 							</div>
 						))}
@@ -202,7 +205,12 @@ function Boards(props) {
 					</FuseAnimateGroup>
 				</div>
 			</div>
-			<ReuestsDrawer isShowRequests={isShowRequests} setIsShowRequests={setIsShowRequests} request={request} />
+			<ReuestsDrawer
+				afterSuccess={handleInvitation}
+				isShowRequests={isShowRequests}
+				setIsShowRequests={setIsShowRequests}
+				request={request}
+			/>
 		</div>
 	);
 }
