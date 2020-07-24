@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 			}
 		},
 		'&.me': {
-			paddingLeft: 40,
+			paddingLeft: 20,
 
 			'& .avatar': {
 				order: 2,
@@ -73,7 +73,7 @@ const useStyles = makeStyles(theme => ({
 		},
 		'&.contact + .me, &.me + .contact': {
 			paddingTop: 20,
-			marginTop: 20
+			marginTop: 20,
 		},
 		'&.first-of-group': {
 			'& .bubble': {
@@ -162,20 +162,20 @@ function Chat(props) {
 										i + 1 === chat.length && 'pb-96'
 									)}
 								>
-									<div className="bubble relative items-center justify-center p-12 max-w-full">
+									<div className="bubble items-center justify-center p-12 max-w-50">
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography color="secondary" className="text-xs mb-6">
 												{contact.first_name + ' ' + contact.last_name}
 											</Typography>
 										)}
-										<div className="leading-tight whitespace-pre-wrap">{item.body}</div>
-										<Typography
-											className="time absolute hidden w-full text-11 mt-8 -mb-24 ltr:left-0 rtl:right-0 bottom-0 whitespace-no-wrap"
-											color="textSecondary"
-										>
-											{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
-										</Typography>
+										<div className="leading-normal">{item.body}</div>
 									</div>
+									<Typography
+										className="time text-11 mt-8 mb-12 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+										color="textSecondary"
+									>
+										{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
+									</Typography>
 								</div>
 							);
 						})}

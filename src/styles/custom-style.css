@@ -47,3 +47,10 @@
 .edit-icon .MuiSvgIcon-fontSizeSmall, .delete-icon .MuiSvgIcon-fontSizeSmall  {
     font-size: 1.6rem;
 }
+.max-w-50 {
+    max-width: 50%;
+}
+.makeStyles-messageRow-684.me p {
+    width: 100%;
+    text-align: right;
+}
