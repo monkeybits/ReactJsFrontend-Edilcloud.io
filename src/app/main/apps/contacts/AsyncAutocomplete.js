@@ -119,7 +119,7 @@ export default class AsyncAutocomplete extends React.Component {
 		return (
 			<div className="custom-autocomplete block w-full mb-24">
 				<Autocomplete
-					inputProps={{ placeholder: 'Search name, company or add email to invite', autoFocus: true }}
+					inputProps={{ placeholder: this.props.placeholder, autoFocus: true }}
 					getItemValue={this.getItemValue}
 					items={this.state.autocompleteData}
 					renderItem={this.renderItem}

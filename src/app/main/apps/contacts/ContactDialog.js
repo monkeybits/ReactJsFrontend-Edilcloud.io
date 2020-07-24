@@ -302,6 +302,7 @@ function ContactDialog(props) {
 								<Icon color="action">search</Icon>
 							</div>
 							<AsyncAutocomplete
+								placeholder="search name, company or add email to invite"
 								onSelect={item => {
 									setFile({});
 									setIsExisting(true);
