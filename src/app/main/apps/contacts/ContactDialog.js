@@ -38,7 +38,9 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const defaultFormState = {
 	first_name: '',
 	last_name: '',
-	email: ''
+	email: '',
+	position: '',
+	phone: ''
 };
 const GreenRadio = withStyles({
 	root: {
@@ -169,7 +171,7 @@ function ContactDialog(props) {
 			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
 			language: value == 'English' ? 'en' : 'it'
 		};
-		const { first_name, last_name, email, id, company } = allData;
+		const { first_name, last_name, email, id, company, position, phone } = allData;
 		let newformData = {
 			id,
 			first_name,
@@ -178,6 +180,8 @@ function ContactDialog(props) {
 			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
 			language: value == 'English' ? 'en' : 'it',
 			photo: fileData.file,
+			position,
+			phone,
 			...permission
 		};
 		if (contactDialog.type === 'new') {
@@ -205,6 +209,7 @@ function ContactDialog(props) {
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
 		<Dialog
+			disableBackdropClick
 			classes={{
 				paper: 'm-24'
 			}}
@@ -391,6 +396,36 @@ function ContactDialog(props) {
 							inputValue={value}
 							renderInput={params => <TextField {...params} variant="outlined" label="Language" />}
 							onInputChange={(e, value) => setValue(value)}
+						/>
+					</div>
+					<div className="flex">
+						<div className="min-w-48 pt-20">
+							<Icon color="action">work</Icon>
+						</div>
+						<TextField
+							className="mb-24"
+							label="Job title"
+							id="position"
+							name="position"
+							value={form.position}
+							onChange={handleChange}
+							variant="outlined"
+							fullWidth
+						/>
+					</div>
+					<div className="flex">
+						<div className="min-w-48 pt-20">
+							<Icon color="action">phone</Icon>
+						</div>
+						<TextField
+							className="mb-24"
+							label="Phone"
+							id="phone"
+							name="phone"
+							value={form.phone}
+							onChange={handleChange}
+							variant="outlined"
+							fullWidth
 						/>
 					</div>
 				</DialogContent>
