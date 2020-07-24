@@ -221,39 +221,10 @@ function ContactDialog(props) {
 			maxWidth="xs"
 		>
 			<AppBar position="static" elevation={1}>
-				<Toolbar className="flex w-full justify-between">
-					<Typography variant="subtitle1" color="inherit">
-						{contactDialog.type === 'new' ? 'New Contact' : 'Edit Contact'}
+				<Toolbar>
+					<Typography variant="subtitle1" className="block mx-auto mb-8" color="inherit">
+						{contactDialog.type === 'new' ? 'Add Team Member' : 'Edit Team Member'}
 					</Typography>
-					<div>
-						<Button
-							variant={permission.can_access_files ? 'contained' : 'outlined'}
-							size="small"
-							color="secondary"
-							className="mr-8"
-							onClick={() =>
-								setPermission(prev => ({
-									...prev,
-									can_access_files: !prev.can_access_files
-								}))
-							}
-						>
-							Access File
-						</Button>
-						<Button
-							variant={permission.can_access_chat ? 'contained' : 'outlined'}
-							size="small"
-							color="secondary"
-							onClick={() =>
-								setPermission(prev => ({
-									...prev,
-									can_access_chat: !prev.can_access_chat
-								}))
-							}
-						>
-							Access Chat
-						</Button>
-					</div>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
 					<div className="relative">
@@ -292,6 +263,35 @@ function ContactDialog(props) {
 							{form.name}
 						</Typography>
 					)}
+				</div>
+				<div className="mb-24 block mx-auto">
+					<Button
+						variant={permission.can_access_files ? 'contained' : 'outlined'}
+						size="small"
+						color="secondary"
+						className="mr-8"
+						onClick={() =>
+							setPermission(prev => ({
+								...prev,
+								can_access_files: !prev.can_access_files
+							}))
+						}
+					>
+						Access File
+					</Button>
+					<Button
+						variant={permission.can_access_chat ? 'contained' : 'outlined'}
+						size="small"
+						color="secondary"
+						onClick={() =>
+							setPermission(prev => ({
+								...prev,
+								can_access_chat: !prev.can_access_chat
+							}))
+						}
+					>
+						Access Chat
+					</Button>
 				</div>
 			</AppBar>
 			<form noValidate onSubmit={handleSubmit} className="flex flex-col md:overflow-hidden">

@@ -3,4 +3,13 @@
         height: 120px;
         width: 120px;
     }
+    .MuiInputBase-input {
+        height: 0.8em;
+    }
+    .custom-autocomplete input {
+        height: 0.8em;
+    }
+    .MuiButton-containedSizeSmall {
+        font-size: 1.2rem;
+    }
 }
