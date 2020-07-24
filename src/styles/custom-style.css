@@ -27,6 +27,9 @@
     -webkit-tap-highlight-color: transparent;
     border-radius: 0.5rem;
 }
+.custom-autocomplete input:hover {
+    border-color: rgba(0, 0, 0, 0.87);
+}
 .custom-autocomplete > div input ~ div {
     z-index: 9;
 }
@@ -50,7 +53,7 @@
 .max-w-50 {
     max-width: 50%;
 }
-.makeStyles-messageRow-684.me p {
+.chat-box .me p {
     width: 100%;
     text-align: right;
 }

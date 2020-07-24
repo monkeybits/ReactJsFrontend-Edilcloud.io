@@ -72,8 +72,8 @@ const useStyles = makeStyles(theme => ({
 			}
 		},
 		'&.contact + .me, &.me + .contact': {
-			paddingTop: 20,
-			marginTop: 20
+			// paddingTop: 20,
+			// marginTop: 20
 		},
 		'&.first-of-group': {
 			'& .bubble': {
@@ -142,10 +142,10 @@ function Chat(props) {
 	}
 
 	return (
-		<div className={clsx('flex flex-col relative', props.className)}>
+		<div className={clsx('flex flex-col relative chat-box', props.className)}>
 			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
 				{chat?.chats?.length ? (
-					<div className="flex flex-col pt-16 px-16 ltr:pl-56 rtl:pr-56 pb-30">
+					<div className="flex flex-col pt-16 px-16 ltr:pl-48 rtl:pr-48 pb-30">
 						{chat.chats.map((item, i) => {
 							const contact = item.sender;
 							const color = contacts.length && contacts?.filter(c => c.id == contact.id);
@@ -154,7 +154,7 @@ function Chat(props) {
 									key={item.date_create}
 									className={clsx(
 										classes.messageRow,
-										'flex flex-col flex-grow-0 flex-shrink-0 items-start justify-end relative px-16 pb-4',
+										'flex flex-col flex-grow-0 flex-shrink-0 items-start justify-end relative px-20 pb-4',
 										{ me: contact.id == userIdFromCompany },
 										{ contact: contact.id != userIdFromCompany },
 										{ 'first-of-group': isFirstMessageOfGroup(item, i) },
@@ -164,7 +164,7 @@ function Chat(props) {
 								>
 									{isLastMessageOfGroup(item, i) && contact.id != userIdFromCompany && (
 										<Avatar
-											className="avatar absolute ltr:left-0 rtl:right-0 m-0 -mx-32"
+											className="avatar absolute ltr:left-0 rtl:right-0 m-0 -mx-32 top-0"
 											src={contact.photo}
 										>
 											{contact.first_name.split('')[0]}
