@@ -6,6 +6,7 @@ const initialState = () => ({
 	waiting: [],
 	approved: [],
 	refused: [],
+	deactivated: [],
 	searchText: '',
 	routeParams: {},
 	filterKey: 'all',
@@ -28,12 +29,12 @@ const mergeArray = (oldArr = [], newArr = []) =>
 			return arr;
 		}
 	}, []);
-
-const addTypeInArray = (arr = [], status) => arr.map((d, i) => ({ ...d, status }));
+const removeByEmail = (arr = [], email) => (arr.length ? arr.filter((d, i) => d.email != email) : []);
+const addTypeInArray = (arr = [], status) => (arr.length ? arr.map((d, i) => ({ ...d, status })) : []);
 const contactsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.RESET_CONTACTS: {
-			return initialState();
+			return { ...initialState(), filterKey: state.filterKey };
 		}
 		case Actions.FILTER_BY: {
 			return {
@@ -45,7 +46,15 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Approved')),
-				approved: addTypeInArray([...action.payload], 'approved'),
+				approved: addTypeInArray([...action.payload], 'Approved'),
+				routeParams: action.routeParams
+			};
+		}
+		case Actions.REMOVE_CONTACT: {
+			return {
+				...state,
+				entities: removeByEmail(state.entities, action.payload),
+				deactivated: removeByEmail(state.deactivated, action.payload),
 				routeParams: action.routeParams
 			};
 		}
@@ -53,7 +62,14 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Waiting')),
-				waiting: addTypeInArray([...action.payload], 'waiting'),
+				waiting: addTypeInArray([...action.payload], 'Waiting'),
+				routeParams: action.routeParams
+			};
+		}
+		case Actions.GET_DEACTIVATED_CONTACTS: {
+			return {
+				...state,
+				deactivated: addTypeInArray([...action.payload], 'Deactivated'),
 				routeParams: action.routeParams
 			};
 		}
@@ -61,7 +77,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Refused')),
-				refused: addTypeInArray([...action.payload], 'refused'),
+				refused: addTypeInArray([...action.payload], 'Refused'),
 				routeParams: action.routeParams
 			};
 		}

@@ -19,10 +19,12 @@ export const ADD_NEW_MEMBER = '/api/frontend/profile/company/profile_add/';
 export const ADD_EXISTING_MEMBER = uid => `/api/frontend/profile/company/invite/profile_add/${uid}/`;
 
 export const GET_STAFF_LIST = '/api/frontend/profile/company/approve/staff_list/?per_page=12';
+export const GET_DISABLED_STAFF_LIST = 'api/frontend/profile/company/approve/staff_list/disabled/?per_page=12';
 export const GET_WAITING_STAFF_LIST = '/api/frontend/profile/company/waiting/staff_list/?per_page=12';
 export const GET_REFUSED_STAFF_LIST = '/api/frontend/profile/company/refuse/staff_list/?per_page=12';
 export const UPDATE_MEMBER = id => `/api/frontend/profile/company/profile_edit/${id}/`;
 export const DEACTIVATE_MEMBER = id => `/api/frontend/profile/company/profile_disable/${id}/`;
+export const ACTIVATE_MEMBER = id => `/api/frontend/profile/company/profile_enable/${id}/`;
 
 export const GET_MESSAGES_API = '/api/frontend/profile/company/message_list/all/?no_page=no_page';
 export const SEND_MESSAGE_API = cid => `/api/frontend/message/message/company/${cid}/add/`;

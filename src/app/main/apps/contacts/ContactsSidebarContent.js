@@ -89,6 +89,13 @@ function ContactsSidebarContent(props) {
 						>
 							<ListItemText className="truncate" primary="Refused Team members" disableTypography />
 						</ListItem>
+						<ListItem
+							button
+							onClick={() => dispatch(Actions.filterByKey('deactivated'))}
+							className={getListItemClassName('deactivated')}
+						>
+							<ListItemText className="truncate" primary="Deactivated Team members" disableTypography />
+						</ListItem>
 						<Divider />
 						<ListItem
 							button

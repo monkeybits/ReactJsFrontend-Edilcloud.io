@@ -12,7 +12,7 @@ import ContactsTable from './ContactsTable';
 import * as Actions from './store/actions';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
-import { DEACTIVATE_MEMBER } from 'app/services/apiEndPoints';
+import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 
 function sortByProperty(array, property, order = 'ASC') {
@@ -37,6 +37,7 @@ function ContactsList(props) {
 	const approved = useSelector(({ contactsApp }) => contactsApp.contacts.approved);
 	const waiting = useSelector(({ contactsApp }) => contactsApp.contacts.waiting);
 	const refused = useSelector(({ contactsApp }) => contactsApp.contacts.refused);
+	const deactivated = useSelector(({ contactsApp }) => contactsApp.contacts.deactivated);
 	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
 
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
@@ -133,7 +134,7 @@ function ContactsList(props) {
 									// dispatch(Actions.removeContact(row.original.id));
 								}}
 							>
-								<Icon>delete</Icon>
+								{row.original.status == 'Deactivated' ? <Icon>check</Icon> : <Icon>delete</Icon>}
 							</IconButton>
 						</div>
 					)
@@ -141,7 +142,7 @@ function ContactsList(props) {
 		],
 		[dispatch, user.starred]
 	);
-	const setContacts = (filterKey) => {
+	const setContacts = filterKey => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
 			if (_searchText.length === 0) {
@@ -157,6 +158,10 @@ function ContactsList(props) {
 		}
 		let results = [];
 		switch (filterKey) {
+			case 'all':
+				results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
+				setFilteredData(results);
+				break;
 			case 'approved':
 				results = sortByProperty(getFilteredArray(approved, searchText), 'name');
 				setFilteredData(results);
@@ -169,8 +174,8 @@ function ContactsList(props) {
 				results = sortByProperty(getFilteredArray(refused, searchText), 'name');
 				setFilteredData(results);
 				break;
-			case 'all':
-				results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
+			case 'deactivated':
+				results = sortByProperty(getFilteredArray(deactivated, searchText), 'name');
 				setFilteredData(results);
 				break;
 			case 'owner':
@@ -213,11 +218,16 @@ function ContactsList(props) {
 		);
 	}
 	const onDeactivate = () => {
-		const { id } = userData;
+		const { id, email } = userData;
+		let url = filterKey == 'deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
 		apiCall(
-			DEACTIVATE_MEMBER(id),
+			url,
 			{},
-			res => console.log(res),
+			res => {
+				dispatch(Actions.removeContact(email));
+				colseDeleteContactDialog();
+				dispatch(Actions.getContacts(routeParams));
+			},
 			err => console.log(err),
 			METHOD.PUT,
 			getHeaderToken()
@@ -228,8 +238,12 @@ function ContactsList(props) {
 			<DeleteConfirmDialog
 				text={
 					<>
-						<Typography>Are you sure want to deactivate ?</Typography>
-						<Typography>Account will be deactivated untill you not activet this user again!</Typography>
+						<Typography>
+							Are you sure want to {filterKey == 'deactivated' ? 'activate' : 'deactivate'} ?
+						</Typography>
+						{filterKey != 'deactivated' && (
+							<Typography>Account will be deactivated untill you not activet this user again!</Typography>
+						)}
 					</>
 				}
 				isOpenDeleteDialog={isOpenDeleteDialog}
