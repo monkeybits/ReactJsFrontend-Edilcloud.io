@@ -261,17 +261,21 @@ function ContactDialog(props) {
 							className="w-96 h-96 cursor-pointer"
 							alt="contact avatar"
 							src={
-								fileData.imagePreviewUrl ? fileData.imagePreviewUrl : form.photo ? form.photo : form.avatar
+								fileData.imagePreviewUrl
+									? fileData.imagePreviewUrl
+									: form.photo
+									? form.photo
+									: form.avatar
 							}
 							onClick={handleOpenFileClick}
 						/>
-						<a onClick={handleOpenFileClick} className="edit-icon text-center rounded-full cursor-pointer" >
-							<EditIcon fontSize="small"  />
+						<a onClick={handleOpenFileClick} className="edit-icon text-center rounded-full cursor-pointer">
+							<EditIcon fontSize="small" />
 						</a>
-						<a onClick={handleOpenFileClick} className="delete-icon text-center rounded-full cursor-pointer" >
+						{/* <a onClick={handleOpenFileClick} className="delete-icon text-center rounded-full cursor-pointer" >
 							<DeleteIcon fontSize="small"  />
-						</a>
-						</div>
+						</a> */}
+					</div>
 					<input
 						type="file"
 						id="file"
@@ -295,7 +299,7 @@ function ContactDialog(props) {
 					{contactDialog.type === 'new' && (
 						<div className="flex">
 							<div className="min-w-48 pt-20">
-								<Icon color="action">account_circle</Icon>
+								<Icon color="action">search</Icon>
 							</div>
 							<AsyncAutocomplete
 								onSelect={item => {
@@ -303,7 +307,7 @@ function ContactDialog(props) {
 									setIsExisting(true);
 									setRole(item.role);
 									setValue(item.language == 'en' ? 'English' : 'Italian');
-									setForm({ ...item, photo: undefined });
+									setForm({ ...item });
 								}}
 							/>
 						</div>
@@ -356,7 +360,9 @@ function ContactDialog(props) {
 						/>
 					</div>
 					<div className="flex">
-						<div className="min-w-48 pt-20" />
+						<div className="min-w-48 pt-20">
+							<Icon color="action">nature_people</Icon>
+						</div>
 						<Autocomplete
 							options={SYSTEM_ROLES}
 							style={{ width: '100%' }}
@@ -384,7 +390,9 @@ function ContactDialog(props) {
 						/>
 					</div>
 					<div className="flex">
-						<div className="min-w-48 pt-20" />
+						<div className="min-w-48 pt-20">
+							<Icon color="action">translate</Icon>
+						</div>
 						<Autocomplete
 							className="mb-24"
 							options={['English', 'Italian']}
