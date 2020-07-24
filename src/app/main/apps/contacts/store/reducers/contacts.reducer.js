@@ -8,6 +8,7 @@ const initialState = () => ({
 	refused: [],
 	searchText: '',
 	routeParams: {},
+	filterKey: 'all',
 	contactDialog: {
 		type: 'new',
 		props: {
@@ -33,6 +34,12 @@ const contactsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.RESET_CONTACTS: {
 			return initialState();
+		}
+		case Actions.FILTER_BY: {
+			return {
+				...state,
+				filterKey: action.filterKey
+			};
 		}
 		case Actions.GET_CONTACTS: {
 			return {

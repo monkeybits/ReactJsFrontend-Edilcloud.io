@@ -32,6 +32,7 @@ function sortByProperty(array, property, order = 'ASC') {
 }
 function ContactsList(props) {
 	const dispatch = useDispatch();
+	const filterKey = useSelector(({ contactsApp }) => contactsApp.contacts.filterKey);
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
 	const approved = useSelector(({ contactsApp }) => contactsApp.contacts.approved);
 	const waiting = useSelector(({ contactsApp }) => contactsApp.contacts.waiting);
@@ -140,7 +141,7 @@ function ContactsList(props) {
 		],
 		[dispatch, user.starred]
 	);
-	const setContacts = () => {
+	const setContacts = (filterKey) => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
 			if (_searchText.length === 0) {
@@ -155,7 +156,7 @@ function ContactsList(props) {
 			return entities.filter(item => item[key] == _searchText);
 		}
 		let results = [];
-		switch (routeParams.id) {
+		switch (filterKey) {
 			case 'approved':
 				results = sortByProperty(getFilteredArray(approved, searchText), 'name');
 				setFilteredData(results);
@@ -195,8 +196,8 @@ function ContactsList(props) {
 		}
 	};
 	useEffect(() => {
-		setContacts();
-	}, [contacts, routeParams, searchText]);
+		setContacts(filterKey);
+	}, [contacts, filterKey, searchText]);
 
 	if (!filteredData) {
 		return null;

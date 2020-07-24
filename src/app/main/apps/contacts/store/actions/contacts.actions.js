@@ -12,6 +12,7 @@ import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const GET_CONTACTS = '[CONTACTS APP] GET CONTACTS';
+export const FILTER_BY = '[CONTACTS APP] FILTER BY';
 export const RESET_CONTACTS = '[CONTACTS APP] RESET CONTACTS';
 export const GET_WAITING_CONTACTS = '[CONTACTS APP] GET WAITING CONTACTS';
 export const GET_REFUSED_CONTACTS = '[CONTACTS APP] GET REFUSED CONTACTS';
@@ -34,6 +35,14 @@ export function resetContact(routeParams) {
 	return (dispatch, getState) => {
 		dispatch({
 			type: RESET_CONTACTS
+		});
+	};
+}
+export function filterByKey(filterKey) {
+	return (dispatch, getState) => {
+		dispatch({
+			type: FILTER_BY,
+			filterKey
 		});
 	};
 }
