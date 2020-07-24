@@ -30,3 +30,20 @@
 .custom-autocomplete > div input ~ div {
     z-index: 9;
 }
+.edit-icon, .delete-icon  {
+    position: absolute;
+    top: -2px;
+    right: 3px;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+    background: #ffffff;
+    color: #192d3e !important;
+}
+.delete-icon {
+    bottom: 0px;
+    top: inherit;
+}
+.edit-icon .MuiSvgIcon-fontSizeSmall, .delete-icon .MuiSvgIcon-fontSizeSmall  {
+    font-size: 1.6rem;
+}
