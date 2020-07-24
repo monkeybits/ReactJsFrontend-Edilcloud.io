@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 				borderTopLeftRadius: 5,
 				borderBottomLeftRadius: 5,
 				borderTopRightRadius: 5,
-				borderBottomRightRadius: 5,
+				borderBottomRightRadius: 5
 				// '& .time': {
 				// 	marginLeft: 12
 				// }
@@ -116,10 +116,7 @@ function Chat(props) {
 	}
 
 	function shouldShowContactAvatar(item, i) {
-		return (
-			item.who === selectedContactId &&
-			((chat.dialog[i + 1] && chat.dialog[i + 1].who !== selectedContactId) || !chat.dialog[i + 1])
-		);
+		return i < chat.chats.length && chat.chats[i - 1] && chat.chats[i - 1].sender.id != item.sender.id;
 	}
 
 	function isFirstMessageOfGroup(item, i) {
@@ -162,6 +159,14 @@ function Chat(props) {
 										i + 1 === chat.length && 'pb-96'
 									)}
 								>
+									{isLastMessageOfGroup(item, i) && contact.id != userIdFromCompany && (
+										<Avatar
+											className="avatar absolute ltr:left-0 rtl:right-0 m-0 -mx-32"
+											src={contact.photo}
+										>
+											{contact.first_name.split('')[0]}
+										</Avatar>
+									)}
 									<div className="bubble relative items-center justify-center p-12 max-w-full">
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography color="secondary" className="text-xs mb-6">
