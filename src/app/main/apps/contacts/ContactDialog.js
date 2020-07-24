@@ -305,9 +305,9 @@ function ContactDialog(props) {
 								onSelect={item => {
 									setFile({});
 									setIsExisting(true);
-									setRole(item.role);
-									setValue(item.language == 'en' ? 'English' : 'Italian');
-									setForm({ ...item });
+									// setRole(item.role);
+									// setValue(item.language == 'en' ? 'English' : 'Italian');
+									setForm({ ...item, role: undefined, language: undefined });
 								}}
 							/>
 						</div>
