@@ -44,7 +44,7 @@ export const VIDEO_DELETE = vid => `/api/frontend/media/video/delete/${vid}/ `;
 export const DOCUMENT_DELETE = did => `/api/frontend/document/document/delete/${did}/ `;
 export const FOLDER_DELETE = (cid, path) => `/api/frontend/media/folder/company/${cid}/delete/?name=${path}`;
 export const SEARCH_USER = searchString =>
-	`/api/frontend/profile/profiles/active_list/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__email__icontains=${searchString}&no_page=no_page`;
+	`/api/frontend/profile/profiles/active_list/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__email__exact=${searchString}&no_page=no_page`;
 
 export const ACCEPT_INVITATION = (uidb36, token) => `/api/frontend/profile/profile/accept_invite/${uidb36}-${token}/`;
 export const REFUSE_INVITATION = (uidb36, token) => `/api/frontend/profile/profile/refuse_invite/${uidb36}-${token}/`;
