@@ -73,7 +73,7 @@ const useStyles = makeStyles(theme => ({
 		},
 		'&.contact + .me, &.me + .contact': {
 			paddingTop: 20,
-			marginTop: 20,
+			marginTop: 20
 		},
 		'&.first-of-group': {
 			'& .bubble': {
@@ -97,6 +97,8 @@ function Chat(props) {
 	const dispatch = useDispatch();
 	const selectedContactId = useSelector(({ chatApp }) => chatApp.contacts.selectedContactId);
 	const chat = useSelector(({ chatApp }) => chatApp.chat);
+	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
+
 	const user = useSelector(({ chatApp }) => chatApp.user);
 
 	const classes = useStyles(props);
@@ -146,6 +148,7 @@ function Chat(props) {
 					<div className="flex flex-col pt-16 px-16 ltr:pl-56 rtl:pr-56 pb-30">
 						{chat.chats.map((item, i) => {
 							const contact = item.sender;
+							const color = contacts.length && contacts?.filter(c => c.id == contact.id);
 							return (
 								<div
 									key={item.date_create}
@@ -169,18 +172,23 @@ function Chat(props) {
 									)}
 									<div className="bubble items-center justify-center p-12 max-w-50">
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
-											<Typography color="secondary" className="text-xs mb-6">
+											<Typography
+												style={{ color: color?.[0]?.contactNameColor }}
+												className="text-xs mb-6"
+											>
 												{contact.first_name + ' ' + contact.last_name}
 											</Typography>
 										)}
 										<div className="leading-normal">{item.body}</div>
 									</div>
-									<Typography
-										className="time text-11 mt-8 mb-12 ltr:left-0 rtl:right-0 whitespace-no-wrap"
-										color="textSecondary"
-									>
-										{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
-									</Typography>
+									{isLastMessageOfGroup(item, i) && (
+										<Typography
+											className="time text-11 mt-8 mb-12 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+											color="textSecondary"
+										>
+											{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
+										</Typography>
+									)}
 								</div>
 							);
 						})}

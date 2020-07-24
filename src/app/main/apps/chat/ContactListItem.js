@@ -47,7 +47,7 @@ function ContactListItem(props) {
 					secondary: 'truncate'
 				}}
 				primary={props.contact.name}
-				secondary={props.contact.mood}
+				secondary={props.contact.role + '@' + props.contact.company?.name}
 			/>
 
 			{props.contact.chatId && (
