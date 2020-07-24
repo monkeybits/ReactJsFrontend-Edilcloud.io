@@ -31,6 +31,8 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import Switch from '@material-ui/core/Switch';
 import AsyncAutocomplete from './AsyncAutocomplete';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -249,14 +251,22 @@ function ContactDialog(props) {
 					</div>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
-					<Avatar
-						className="w-96 h-96 cursor-pointer"
-						alt="contact avatar"
-						src={
-							fileData.imagePreviewUrl ? fileData.imagePreviewUrl : form.photo ? form.photo : form.avatar
-						}
-						onClick={handleOpenFileClick}
-					/>
+					<div className="relative">
+						<Avatar
+							className="w-96 h-96 cursor-pointer"
+							alt="contact avatar"
+							src={
+								fileData.imagePreviewUrl ? fileData.imagePreviewUrl : form.photo ? form.photo : form.avatar
+							}
+							onClick={handleOpenFileClick}
+						/>
+						<a onClick={handleOpenFileClick} className="edit-icon text-center rounded-full cursor-pointer" >
+							<EditIcon fontSize="small"  />
+						</a>
+						<a onClick={handleOpenFileClick} className="delete-icon text-center rounded-full cursor-pointer" >
+							<DeleteIcon fontSize="small"  />
+						</a>
+						</div>
 					<input
 						type="file"
 						id="file"
