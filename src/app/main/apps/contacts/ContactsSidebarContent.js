@@ -52,7 +52,7 @@ function ContactsSidebarContent(props) {
 					<div className="p-24 flex items-center">
 						<Avatar alt={user.name} src={company.logo}>
 							{' '}
-							{company.name.split('')[0]}
+							{company?.name?.split('')?.[0] ? company.name.split('')[0] : 'E'}
 						</Avatar>
 						<Typography className="mx-12">{company.name}</Typography>
 					</div>
