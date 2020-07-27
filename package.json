@@ -17,6 +17,7 @@
         "chart.js": "2.9.3",
         "clsx": "1.1.0",
         "cross-fetch": "3.0.4",
+        "custom-error": "^0.2.1",
         "date-fns": "2.13.0",
         "file-saver": "^2.0.2",
         "firebase": "7.14.5",

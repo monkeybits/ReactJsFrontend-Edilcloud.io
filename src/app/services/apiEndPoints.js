@@ -47,6 +47,8 @@ export const DOCUMENT_DELETE = did => `/api/frontend/document/document/delete/${
 export const FOLDER_DELETE = (cid, path) => `/api/frontend/media/folder/company/${cid}/delete/?name=${path}`;
 export const SEARCH_USER = searchString =>
 	`/api/frontend/profile/profiles/active_list/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__email__exact=${searchString}&no_page=no_page`;
+export const SEARCH_USER_BY_EMAIL = searchString =>
+	`/api/frontend/profile/profiles/active_list/?filter__email__exact=${searchString}&no_page=no_page`;
 
 export const ACCEPT_INVITATION = (uidb36, token) => `/api/frontend/profile/profile/accept_invite/${uidb36}-${token}/`;
 export const REFUSE_INVITATION = (uidb36, token) => `/api/frontend/profile/profile/refuse_invite/${uidb36}-${token}/`;

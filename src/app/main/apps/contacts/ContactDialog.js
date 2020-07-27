@@ -33,6 +33,9 @@ import Switch from '@material-ui/core/Switch';
 import AsyncAutocomplete from './AsyncAutocomplete';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { SEARCH_USER_BY_EMAIL } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -69,6 +72,7 @@ function ContactDialog(props) {
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
 	const [value, setValue] = useState('English');
 	const [role, setRole] = useState('');
+	const [canTryWithExisting, setCanTryWithExisting] = useState(true);
 	const inputFile = useRef(null);
 	const [permission, setPermission] = useState({
 		can_access_chat: true,
@@ -159,7 +163,34 @@ function ContactDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.first_name?.length > 0 && form.last_name?.length > 0 && form.email?.length > 3 && role && value;
+		if (isExisting) {
+			return form.first_name?.length > 0 && form.last_name?.length > 0 && form.email?.length > 3 && role && value;
+		} else {
+			if (form.email) {
+				apiCall(
+					SEARCH_USER_BY_EMAIL(String(form.email)),
+					{},
+					res => {
+						if (res && res.length) {
+							setCanTryWithExisting(false);
+						} else {
+							setCanTryWithExisting(true);
+						}
+					},
+					err => {},
+					METHOD.GET,
+					getHeaderToken()
+				);
+			}
+			return (
+				canTryWithExisting &&
+				form.first_name?.length > 0 &&
+				form.last_name?.length > 0 &&
+				form.email?.length > 3 &&
+				role &&
+				value
+			);
+		}
 	}
 
 	function handleSubmit(event) {
@@ -350,12 +381,16 @@ function ContactDialog(props) {
 							<Icon color="action">email</Icon>
 						</div>
 						<TextField
+							error={!isExisting && !canTryWithExisting}
 							className="mb-24"
 							label="Email"
 							id="email"
 							name="email"
 							value={form.email}
-							onChange={handleChange}
+							onChange={e => {
+								handleChange(e);
+							}}
+							helperText={!isExisting && !canTryWithExisting && 'Try with existing users'}
 							variant="outlined"
 							fullWidth
 						/>
