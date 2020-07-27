@@ -36,6 +36,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { SEARCH_USER_BY_EMAIL } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
+import CloseIcon from '@material-ui/icons/Close';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -256,6 +257,11 @@ function ContactDialog(props) {
 		>
 			<AppBar position="static" elevation={1}>
 				<Toolbar>
+					<div className="absolute top-0 right-0 mr-4">
+						<IconButton edge="start" color="inherit" aria-label="close">
+							<CloseIcon />
+						</IconButton>
+					</div>
 					<Typography variant="subtitle1" className="block mx-auto mb-8" color="inherit">
 						{contactDialog.type === 'new' ? 'Add Team Member' : 'Edit Team Member'}
 					</Typography>
