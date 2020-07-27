@@ -132,10 +132,12 @@ function ContactDialog(props) {
 		/**
 		 * After Dialog Open
 		 */
+		setCanTryWithExisting(true);
 		if (contactDialog.props.open) {
 			initDialog();
 			return () => {
 				resetForm();
+				setForm({});
 				setValue('English');
 				setRole('');
 				setFile({
@@ -148,9 +150,10 @@ function ContactDialog(props) {
 					can_access_chat: true,
 					can_access_files: true
 				});
+				setCanTryWithExisting(true);
 			};
 		}
-	}, [contactDialog.props.open, initDialog]);
+	}, [contactDialog.props.open]);
 
 	function closeComposeDialog() {
 		setFile({
@@ -163,7 +166,7 @@ function ContactDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		if (isExisting) {
+		if (isExisting || contactDialog.type !== 'new') {
 			return form.first_name?.length > 0 && form.last_name?.length > 0 && form.email?.length > 3 && role && value;
 		} else {
 			if (form.email) {
