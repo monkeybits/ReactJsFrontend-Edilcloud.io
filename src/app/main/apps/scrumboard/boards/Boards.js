@@ -66,7 +66,7 @@ function Boards(props) {
 			{},
 			({ results }) => {
 				if (Array.isArray(results)) {
-					let filterdBoards = results.filter(d => d.company);
+					let filterdBoards = results.filter(d => d.company && d.status);
 					dispatch({
 						type: GET_BOARDS,
 						payload: filterdBoards.map(
@@ -86,7 +86,7 @@ function Boards(props) {
 			{},
 			({ results }) => {
 				if (Array.isArray(results)) {
-					let filterdBoards = results.filter(d => d.company);
+					let filterdBoards = results.filter(d => d.company && d.status);
 					dispatch({
 						type: GET_BOARDS,
 						payload: filterdBoards.map(
