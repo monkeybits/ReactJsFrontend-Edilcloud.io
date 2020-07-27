@@ -7,6 +7,7 @@ const locale = {
 	MAIL: 'Mail',
 	TODO: 'To-Do',
 	FILE_MANAGER: 'File Manager',
+	PROJECTS: 'Projects',
 	CONTACTS: 'Contacts',
 	CHAT: 'Chat',
 	SCRUMBOARD: 'Scrumboard',

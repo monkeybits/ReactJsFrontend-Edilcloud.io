@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { SYSTEM_ROLES } from 'app/constants';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -39,9 +40,9 @@ const useStyles = makeStyles(theme => ({
 
 function UserNavbarHeader(props) {
 	const user = useSelector(({ auth }) => auth.user);
-
+	const company = useSelector(({ chatApp }) => chatApp?.company);
+	const role = user && SYSTEM_ROLES.filter(d => d.key == user.data.extra.profile.role);
 	const classes = useStyles();
-
 	return (
 		<AppBar
 			position="static"
@@ -54,7 +55,7 @@ function UserNavbarHeader(props) {
 				{user.data.displayName}
 			</Typography>
 			<Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
-				{user.data.email}
+				{role.length ? role[0].label : null}@{company?.name}
 			</Typography>
 			<Avatar
 				className={clsx(classes.avatar, 'avatar')}

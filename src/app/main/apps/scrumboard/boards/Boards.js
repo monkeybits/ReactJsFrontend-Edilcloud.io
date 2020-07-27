@@ -18,6 +18,7 @@ import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import ReuestsDrawer from './ReuestsDrawer';
 import Badge from '@material-ui/core/Badge';
 import { Avatar } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -51,6 +52,7 @@ function Boards(props) {
 	const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
 	const classes = useStyles(props);
 	const [isShowRequests, setIsShowRequests] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [request, setRequest] = useState({});
 
 	useEffect(() => {
@@ -108,10 +110,14 @@ function Boards(props) {
 			},
 			res => {
 				saveToken(res.token);
+				setIsLoading(false);
 				dispatch(Actions.resetFile());
 				props.history.push('/apps/todo/all');
 			},
-			err => console.log(err),
+			err => {
+				setIsLoading(false);
+				console.log(err);
+			},
 			METHOD.POST
 		);
 	};
@@ -144,7 +150,9 @@ function Boards(props) {
 								<Link
 									// to={`/apps/companies/${board.id}/${board.uri}`}
 									onClick={() => {
+										setRequest(board);
 										if (!!board.isApproved) {
+											setIsLoading(true);
 											redirectAfterGetNewToken(board.company_profile_id);
 										} else {
 											setIsShowRequests(true);
@@ -157,27 +165,38 @@ function Boards(props) {
 									)}
 									role="button"
 								>
-									{board.isApproved ? (
-										<Avatar src={board.logo} variant="square">
-											{board.name.split('')[0]}
-										</Avatar>
-									) : (
-										<Badge
-											invisible={board.isApproved}
-											color="secondary"
-											onClick={e => {
-												e.stopPropagation();
-												e.preventDefault();
-												setIsShowRequests(true);
-												setRequest(board);
-											}}
-										>
+									{board.company_profile_id == request.company_profile_id && isLoading ? (
+										<Skeleton style={{ background: 'darkgrey' }}>
 											<Avatar src={board.logo} variant="square">
 												{board.name.split('')[0]}
 											</Avatar>
-											{/* <Icon className="text-56">assessment</Icon> */}
-										</Badge>
+										</Skeleton>
+									) : (
+										<>
+											{board.isApproved ? (
+												<Avatar src={board.logo} variant="square">
+													{board.name.split('')[0]}
+												</Avatar>
+											) : (
+												<Badge
+													invisible={board.isApproved}
+													color="secondary"
+													onClick={e => {
+														e.stopPropagation();
+														e.preventDefault();
+														setIsShowRequests(true);
+														setRequest(board);
+													}}
+												>
+													<Avatar src={board.logo} variant="square">
+														{board.name.split('')[0]}
+													</Avatar>
+													{/* <Icon className="text-56">assessment</Icon> */}
+												</Badge>
+											)}
+										</>
 									)}
+
 									<Typography className="text-16 font-300 text-center pt-16 px-32" color="inherit">
 										{board.name}
 									</Typography>

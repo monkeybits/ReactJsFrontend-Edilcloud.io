@@ -104,12 +104,14 @@ function Chat(props) {
 	const classes = useStyles(props);
 	const chatRef = useRef(null);
 	const [messageText, setMessageText] = useState('');
+	const [chatLength, setChatLength] = useState(0);
 	const userInfo = decodeDataFromToken();
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
 
 	useEffect(() => {
-		if (chat) {
-			// scrollToBottom();
+		if (chat?.chats?.length && chat.chats.length != chatLength) {
+			setChatLength(chat.chats.length);
+			scrollToBottom();
 		}
 	}, [chat?.chats]);
 

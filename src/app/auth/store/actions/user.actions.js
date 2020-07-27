@@ -29,7 +29,7 @@ const authUserData = {
 					scroll: 'content',
 					navbar: {
 						display: true,
-						folded: true,
+						folded: false,
 						position: 'left'
 					},
 					toolbar: {

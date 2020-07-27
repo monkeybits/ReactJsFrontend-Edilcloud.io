@@ -134,6 +134,14 @@ const navigationConfig = [
 				url: '/apps/file-manager'
 			},
 			{
+				id: 'projects',
+				title: 'Projects',
+				translate: 'PROJECTS',
+				type: 'item',
+				icon: 'work',
+				url: '/apps/projects'
+			},
+			{
 				id: 'contacts',
 				title: 'Contacts',
 				translate: 'CONTACTS',

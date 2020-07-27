@@ -258,7 +258,7 @@ function ContactDialog(props) {
 			<AppBar position="static" elevation={1}>
 				<Toolbar>
 					<div className="absolute top-0 right-0 mr-4">
-						<IconButton edge="start" color="inherit" aria-label="close">
+						<IconButton onClick={closeComposeDialog} edge="start" color="inherit" aria-label="close">
 							<CloseIcon />
 						</IconButton>
 					</div>
