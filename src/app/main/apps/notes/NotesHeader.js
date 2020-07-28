@@ -34,7 +34,7 @@ function NotesHeader(props) {
 					</FuseAnimate>
 					<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 						<Typography variant="h6" className="mx-12 hidden sm:flex">
-							Contacts
+							Projects
 						</Typography>
 					</FuseAnimate>
 				</div>
