@@ -33,13 +33,13 @@ function NotesApp(props) {
 				header={<NotesHeader pageLayout={pageLayout} />}
 				content={
 					<div className="flex flex-col w-full items-center">
-						<NewNote />
+						{/* <NewNote /> */}
 						<NoteList />
-						<NoteDialog />
-						<LabelsDialog />
+						{/* <NoteDialog />
+						<LabelsDialog /> */}
 					</div>
 				}
-				leftSidebarContent={<NotesSidebarContent />}
+				// leftSidebarContent={<NotesSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
 				innerScroll
