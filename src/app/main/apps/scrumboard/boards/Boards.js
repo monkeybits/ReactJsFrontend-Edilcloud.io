@@ -1,3 +1,4 @@
+import _ from '@lodash';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import Icon from '@material-ui/core/Icon';
@@ -20,6 +21,8 @@ import ReuestsDrawer from './ReuestsDrawer';
 import Badge from '@material-ui/core/Badge';
 import { Avatar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
+import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
+import * as FuseActions from 'app/store/actions/fuse';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -51,6 +54,7 @@ const useStyles = makeStyles(theme => ({
 function Boards(props) {
 	const dispatch = useDispatch();
 	const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
+	const settings = useSelector(({ fuse }) => fuse.settings.current);
 	const classes = useStyles(props);
 	const [isShowRequests, setIsShowRequests] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -142,7 +146,9 @@ function Boards(props) {
 		getRequest();
 		setIsShowRequests(false);
 	};
-	return (
+	return isLoading ? (
+		<FuseSplashScreen />
+	) : (
 		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
 				<FuseAnimate>
@@ -161,8 +167,10 @@ function Boards(props) {
 						{boards.map(board => (
 							<div className="w-224 h-224 p-16" key={board.id}>
 								<Link
-									// to={`/apps/companies/${board.id}/${board.uri}`}
-									onClick={() => {
+									to="#"
+									onClick={e => {
+										e.preventDefault();
+										e.stopPropagation();
 										setRequest(board);
 										if (!!board.isApproved) {
 											setIsLoading(true);
