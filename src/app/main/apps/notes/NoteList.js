@@ -130,7 +130,7 @@ function NoteList(props) {
 					<Grid item xs={4}>
 							<Card>
 								<CardContent>
-								<div className="w-224 h-224 p-16">
+								<div className="w-224 h-224 p-16 mx-auto">
 							<div
 								className={clsx(
 									classes.board,
