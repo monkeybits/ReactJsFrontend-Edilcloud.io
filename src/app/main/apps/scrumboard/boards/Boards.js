@@ -22,7 +22,7 @@ import Badge from '@material-ui/core/Badge';
 import { Avatar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
-import * as FuseActions from 'app/store/actions/fuse';
+import * as FuseActions from 'app/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -174,6 +174,11 @@ function Boards(props) {
 										setRequest(board);
 										if (!!board.isApproved) {
 											setIsLoading(true);
+											// dispatch(
+											// 	FuseActions.setDefaultSettings(
+											// 		_.set({}, 'layout.config.toolbar.display', false)
+											// 	)
+											// );
 											redirectAfterGetNewToken(board.company_profile_id);
 										} else {
 											setIsShowRequests(true);
