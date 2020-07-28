@@ -11,10 +11,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-import { APPROVE_LIST, REFRESH_TOKEN, REQUEST_LIST } from 'app/services/apiEndPoints';
+import { APPROVE_LIST, REFRESH_TOKEN, REQUEST_LIST, GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import { getHeaderToken, getTokenOnly, saveToken } from 'app/services/serviceUtils';
+import { getHeaderToken, getTokenOnly, saveToken, saveMainProfileId } from 'app/services/serviceUtils';
 import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
+import * as authActions from 'app/auth/store/actions';
 import ReuestsDrawer from './ReuestsDrawer';
 import Badge from '@material-ui/core/Badge';
 import { Avatar } from '@material-ui/core';
@@ -109,6 +110,8 @@ function Boards(props) {
 				token: getTokenOnly()
 			},
 			res => {
+				getMainProfile(res.main_profile);
+				saveMainProfileId(res.main_profile);
 				saveToken(res.token);
 				setIsLoading(false);
 				dispatch(Actions.resetFile());
@@ -119,6 +122,16 @@ function Boards(props) {
 				console.log(err);
 			},
 			METHOD.POST
+		);
+	};
+	const getMainProfile = mainProfileId => {
+		apiCall(
+			GET_MAIN_PROFILE(mainProfileId),
+			{},
+			res => dispatch(authActions.setUserData(res)),
+			err => console.log({ err }),
+			METHOD.GET,
+			getHeaderToken()
 		);
 	};
 	const handleInvitation = () => {

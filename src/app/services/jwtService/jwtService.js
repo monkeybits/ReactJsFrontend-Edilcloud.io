@@ -124,6 +124,7 @@ class JwtService extends FuseUtils.EventEmitter {
 			axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 		} else {
 			localStorage.removeItem('jwt_access_token');
+			localStorage.removeItem('main_profile');
 			delete axios.defaults.headers.common.Authorization;
 		}
 	};

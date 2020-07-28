@@ -65,7 +65,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 			onClose={closeViewFile}
 			aria-labelledby="customized-dialog-title"
 			open={isOpenViewFile}
-			maxWidth="lg"
+			// maxWidth="lg"
 			fullWidth="true"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closeViewFile}>

@@ -7,16 +7,33 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import * as authActions from 'app/auth/store/actions';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getMainProfileId, getHeaderToken } from 'app/services/serviceUtils';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
 
 function UserMenu(props) {
 	const dispatch = useDispatch();
 	const user = useSelector(({ auth }) => auth.user);
-
+	const mainProfileId = getMainProfileId();
 	const [userMenu, setUserMenu] = useState(null);
-
+	const [userId, setUserId] = useState(null);
+	const userData = user?.data?.user;
+	useEffect(() => {
+		if (mainProfileId && !userData?.id) {
+			setUserId(mainProfileId);
+			apiCall(
+				GET_MAIN_PROFILE(mainProfileId),
+				{},
+				res => dispatch(authActions.setUserData(res)),
+				err => console.log({ err }),
+				METHOD.GET,
+				getHeaderToken()
+			);
+		}
+	}, [userData]);
 	const userMenuClick = event => {
 		setUserMenu(event.currentTarget);
 	};
@@ -28,15 +45,13 @@ function UserMenu(props) {
 	return (
 		<>
 			<Button className="h-64" onClick={userMenuClick}>
-				{user.data.photoURL ? (
-					<Avatar className="" alt="user photo" src={user.data.photoURL} />
-				) : (
-					<Avatar className="">{user.data.displayName[0]}</Avatar>
-				)}
+				<Avatar className="" alt="user photo" src={userData?.photo}>
+					{userData?.first_name?.split('')?.[0]}{' '}
+				</Avatar>
 
 				<div className="hidden md:flex flex-col mx-12 items-start">
 					<Typography component="span" className="normal-case font-600 flex">
-						{user.data.displayName}
+						{userData?.first_name}
 					</Typography>
 					<Typography className="text-11 capitalize" color="textSecondary">
 						Main profile

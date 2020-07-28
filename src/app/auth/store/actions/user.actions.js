@@ -159,7 +159,7 @@ export function setUserData(user) {
 			payload: decode
 				? {
 						...userData,
-						data: { ...userData.data, displayName: decode.username, ...decode }
+						data: { ...userData.data, displayName: decode.username, ...decode, user }
 				  }
 				: userData
 		});

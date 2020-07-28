@@ -52,3 +52,7 @@ export const SEARCH_USER_BY_EMAIL = searchString =>
 
 export const ACCEPT_INVITATION = (uidb36, token) => `/api/frontend/profile/profile/accept_invite/${uidb36}-${token}/`;
 export const REFUSE_INVITATION = (uidb36, token) => `/api/frontend/profile/profile/refuse_invite/${uidb36}-${token}/`;
+
+export const GET_MAIN_PROFILE = id => `/api/frontend/profile/profile/${id}`;
+
+export const GET_COMPANY_PROFILE = id => `/api/frontend/profile/company/profile_detail/${id}`

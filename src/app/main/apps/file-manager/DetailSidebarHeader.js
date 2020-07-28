@@ -73,12 +73,13 @@ function DetailSidebarHeader({ setProgress }) {
 	const handleDelete = () => {
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
+		const fileType = selectedItem.type
 		const url =
-			selectedItem.type == 'folder'
+			fileType == 'folder'
 				? FOLDER_DELETE(cid, selectedItem.path)
-				: selectedItem.type == 'photo'
+				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
-				: selectedItem.type == 'video'
+				: fileType == 'video'
 				? VIDEO_DELETE(selectedItem.mainId)
 				: DOCUMENT_DELETE(selectedItem.mainId);
 		apiCall(
@@ -86,6 +87,17 @@ function DetailSidebarHeader({ setProgress }) {
 			{},
 			res => {
 				dispatch(Actions.deleteFile(selectedItem.id));
+				if (fileType == 'folder') {
+					dispatch(Actions.getFolders(cid));
+				} else {
+					if (fileType == 'photo') {
+						dispatch(Actions.getPhotos(cid));
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos(cid));
+					} else {
+						dispatch(Actions.getDocuments(cid));
+					}
+				}
 				colseDeleteFileDialog();
 			},
 			err => console.log(err),
