@@ -10,7 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 import ContactsTable from './ContactsTable';
 import * as Actions from './store/actions';
-import { decodeDataFromToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
+import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
+import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -29,13 +32,23 @@ function sortByProperty(array, property, order = 'ASC') {
 }
 function ContactsList(props) {
 	const dispatch = useDispatch();
+	const filterKey = useSelector(({ contactsApp }) => contactsApp.contacts.filterKey);
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
+	const approved = useSelector(({ contactsApp }) => contactsApp.contacts.approved);
+	const waiting = useSelector(({ contactsApp }) => contactsApp.contacts.waiting);
+	const refused = useSelector(({ contactsApp }) => contactsApp.contacts.refused);
+	const deactivated = useSelector(({ contactsApp }) => contactsApp.contacts.deactivated);
+	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
+
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
-
+	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+	const [userData, setUserData] = useState(null);
 	const [filteredData, setFilteredData] = useState(null);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
+	const openDeleteContactDialog = () => setIsOpenDeleteDialog(true);
+	const colseDeleteContactDialog = () => setIsOpenDeleteDialog(false);
 	const columns = React.useMemo(
 		() => [
 			{
@@ -72,6 +85,16 @@ function ContactsList(props) {
 				sortable: true
 			},
 			{
+				Header: 'Role',
+				accessor: 'role',
+				sortable: true
+			},
+			{
+				Header: 'Status',
+				accessor: 'status',
+				sortable: true
+			},
+			{
 				Header: 'Job Title',
 				accessor: 'jobTitle',
 				sortable: true
@@ -95,24 +118,23 @@ function ContactsList(props) {
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
 						<div className="flex items-center">
-							<Button
-								variant="contained"
-								color="primary"
-								type="button"
+							<IconButton
 								onClick={ev => {
 									ev.stopPropagation();
 									dispatch(Actions.openEditContactDialog(row.original));
 								}}
 							>
-								Edit
-							</Button>
+								<Icon>edit</Icon>
+							</IconButton>
 							<IconButton
 								onClick={ev => {
 									ev.stopPropagation();
-									dispatch(Actions.removeContact(row.original.id));
+									setUserData(row.original);
+									openDeleteContactDialog();
+									// dispatch(Actions.removeContact(row.original.id));
 								}}
 							>
-								<Icon>delete</Icon>
+								{row.original.status == 'Deactivated' ? <Icon>check</Icon> : <Icon>delete</Icon>}
 							</IconButton>
 						</div>
 					)
@@ -120,8 +142,7 @@ function ContactsList(props) {
 		],
 		[dispatch, user.starred]
 	);
-
-	useEffect(() => {
+	const setContacts = filterKey => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
 			if (_searchText.length === 0) {
@@ -129,12 +150,59 @@ function ContactsList(props) {
 			}
 			return FuseUtils.filterArrayByString(arr, _searchText);
 		}
-
-		if (contacts) {
-			let results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
-			setFilteredData(results);
+		function getFilteredArrayByKey(entities, key, _searchText) {
+			if (_searchText.length === 0) {
+				return entities;
+			}
+			return entities.filter(item => item[key] == _searchText);
 		}
-	}, [contacts, searchText]);
+		let results = [];
+		switch (filterKey) {
+			case 'all':
+				results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
+				setFilteredData(results);
+				break;
+			case 'approved':
+				results = sortByProperty(getFilteredArray(approved, searchText), 'name');
+				setFilteredData(results);
+				break;
+			case 'waiting':
+				results = sortByProperty(getFilteredArray(waiting, searchText), 'name');
+				setFilteredData(results);
+				break;
+			case 'refused':
+				results = sortByProperty(getFilteredArray(refused, searchText), 'name');
+				setFilteredData(results);
+				break;
+			case 'deactivated':
+				results = sortByProperty(getFilteredArray(deactivated, searchText), 'name');
+				setFilteredData(results);
+				break;
+			case 'owner':
+				results = sortByProperty(getFilteredArrayByKey(contacts, 'role', 'Owner'), 'name');
+				setFilteredData(results);
+				break;
+			case 'delegate':
+				results = sortByProperty(getFilteredArrayByKey(contacts, 'role', 'Delegate'), 'name');
+				setFilteredData(results);
+				break;
+			case 'manager':
+				results = sortByProperty(getFilteredArrayByKey(contacts, 'role', 'Manager'), 'name');
+				setFilteredData(results);
+				break;
+			case 'worker':
+				results = sortByProperty(getFilteredArrayByKey(contacts, 'role', 'Worker'), 'name');
+				setFilteredData(results);
+				break;
+			default:
+				results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
+				setFilteredData(results);
+				break;
+		}
+	};
+	useEffect(() => {
+		setContacts(filterKey);
+	}, [contacts, filterKey, searchText]);
 
 	if (!filteredData) {
 		return null;
@@ -149,19 +217,52 @@ function ContactsList(props) {
 			</div>
 		);
 	}
-
+	const onDeactivate = () => {
+		const { id, email } = userData;
+		let url = filterKey == 'deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
+		apiCall(
+			url,
+			{},
+			res => {
+				dispatch(Actions.removeContact(email));
+				colseDeleteContactDialog();
+				dispatch(Actions.getContacts(routeParams));
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
 	return (
-		<FuseAnimate animation="transition.slideUpIn" delay={300}>
-			<ContactsTable
-				columns={columns}
-				data={filteredData}
-				onRowClick={(ev, row) => {
-					if (row) {
-						dispatch(Actions.openViewContactDialog(row.original));
-					}
-				}}
+		<>
+			<DeleteConfirmDialog
+				text={
+					<>
+						<Typography>
+							Are you sure want to {filterKey == 'deactivated' ? 'activate' : 'deactivate'} ?
+						</Typography>
+						{filterKey != 'deactivated' && (
+							<Typography>Account will be deactivated untill you not activet this user again!</Typography>
+						)}
+					</>
+				}
+				isOpenDeleteDialog={isOpenDeleteDialog}
+				colseDeleteFileDialog={colseDeleteContactDialog}
+				onYes={onDeactivate}
+				onNo={colseDeleteContactDialog}
 			/>
-		</FuseAnimate>
+			<FuseAnimate animation="transition.slideUpIn" delay={200}>
+				<ContactsTable
+					columns={columns}
+					data={filteredData}
+					onRowClick={(ev, row) => {
+						if (row) {
+							dispatch(Actions.openViewContactDialog(row.original));
+						}
+					}}
+				/>
+			</FuseAnimate>
+		</>
 	);
 }
 

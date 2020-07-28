@@ -17,29 +17,29 @@ const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
 			'& .bubble': {
-				backgroundColor: theme.palette.primary.main,
-				color: theme.palette.primary.contrastText,
+				backgroundColor: theme.palette.background.default,
+				// color: theme.palette.getContrastText(theme.palette.primary.dark),
 				borderTopLeftRadius: 5,
 				borderBottomLeftRadius: 5,
-				borderTopRightRadius: 20,
-				borderBottomRightRadius: 20,
-				'& .time': {
-					marginLeft: 12
-				}
+				borderTopRightRadius: 5,
+				borderBottomRightRadius: 5
+				// '& .time': {
+				// 	marginLeft: 12
+				// }
 			},
 			'&.first-of-group': {
 				'& .bubble': {
-					borderTopLeftRadius: 20
+					borderTopLeftRadius: 15
 				}
 			},
 			'&.last-of-group': {
 				'& .bubble': {
-					borderBottomLeftRadius: 20
+					borderBottomRightRadius: 15
 				}
 			}
 		},
 		'&.me': {
-			paddingLeft: 40,
+			paddingLeft: 20,
 
 			'& .avatar': {
 				order: 2,
@@ -47,10 +47,10 @@ const useStyles = makeStyles(theme => ({
 			},
 			'& .bubble': {
 				marginLeft: 'auto',
-				backgroundColor: theme.palette.grey[300],
-				color: theme.palette.getContrastText(theme.palette.grey[300]),
-				borderTopLeftRadius: 20,
-				borderBottomLeftRadius: 20,
+				backgroundColor: theme.palette.primary.dark,
+				color: theme.palette.getContrastText(theme.palette.primary.dark),
+				borderTopLeftRadius: 5,
+				borderBottomLeftRadius: 5,
 				borderTopRightRadius: 5,
 				borderBottomRightRadius: 5,
 				'& .time': {
@@ -61,29 +61,29 @@ const useStyles = makeStyles(theme => ({
 			},
 			'&.first-of-group': {
 				'& .bubble': {
-					borderTopRightRadius: 20
+					borderTopLeftRadius: 15
 				}
 			},
 
 			'&.last-of-group': {
 				'& .bubble': {
-					borderBottomRightRadius: 20
+					borderBottomRightRadius: 15
 				}
 			}
 		},
 		'&.contact + .me, &.me + .contact': {
-			paddingTop: 20,
-			marginTop: 20
+			// paddingTop: 20,
+			// marginTop: 20
 		},
 		'&.first-of-group': {
 			'& .bubble': {
-				borderTopLeftRadius: 20,
+				borderTopLeftRadius: 15,
 				paddingTop: 13
 			}
 		},
 		'&.last-of-group': {
 			'& .bubble': {
-				borderBottomLeftRadius: 20,
+				borderBottomRightRadius: 15,
 				paddingBottom: 13,
 				'& .time': {
 					display: 'flex'
@@ -97,6 +97,8 @@ function Chat(props) {
 	const dispatch = useDispatch();
 	const selectedContactId = useSelector(({ chatApp }) => chatApp.contacts.selectedContactId);
 	const chat = useSelector(({ chatApp }) => chatApp.chat);
+	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
+
 	const user = useSelector(({ chatApp }) => chatApp.user);
 
 	const classes = useStyles(props);
@@ -107,19 +109,16 @@ function Chat(props) {
 
 	useEffect(() => {
 		if (chat) {
-			scrollToBottom();
+			// scrollToBottom();
 		}
-	}, [chat]);
+	}, [chat?.chats]);
 
 	function scrollToBottom() {
 		chatRef.current.scrollTop = chatRef.current.scrollHeight;
 	}
 
 	function shouldShowContactAvatar(item, i) {
-		return (
-			item.who === selectedContactId &&
-			((chat.dialog[i + 1] && chat.dialog[i + 1].who !== selectedContactId) || !chat.dialog[i + 1])
-		);
+		return i < chat.chats.length && chat.chats[i - 1] && chat.chats[i - 1].sender.id != item.sender.id;
 	}
 
 	function isFirstMessageOfGroup(item, i) {
@@ -129,7 +128,6 @@ function Chat(props) {
 	function isLastMessageOfGroup(item, i) {
 		return i === chat.chats.length - 1 || (chat.chats[i + 1] && chat.chats[i + 1].sender.id != item.sender.id);
 	}
-
 	function onInputChange(ev) {
 		setMessageText(ev.target.value);
 	}
@@ -144,18 +142,19 @@ function Chat(props) {
 	}
 
 	return (
-		<div className={clsx('flex flex-col relative', props.className)}>
+		<div className={clsx('flex flex-col relative chat-box', props.className)}>
 			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
 				{chat?.chats?.length ? (
-					<div className="flex flex-col pt-16 px-16 ltr:pl-56 rtl:pr-56 pb-40">
+					<div className="flex flex-col pt-16 px-16 ltr:pl-48 rtl:pr-48 pb-30">
 						{chat.chats.map((item, i) => {
 							const contact = item.sender;
+							const color = contacts.length && contacts?.filter(c => c.id == contact.id);
 							return (
 								<div
 									key={item.date_create}
 									className={clsx(
 										classes.messageRow,
-										'flex flex-col flex-grow-0 flex-shrink-0 items-start justify-end relative px-16 pb-4',
+										'flex flex-col flex-grow-0 flex-shrink-0 items-start justify-end relative px-20 pb-4',
 										{ me: contact.id == userIdFromCompany },
 										{ contact: contact.id != userIdFromCompany },
 										{ 'first-of-group': isFirstMessageOfGroup(item, i) },
@@ -163,20 +162,33 @@ function Chat(props) {
 										i + 1 === chat.length && 'pb-96'
 									)}
 								>
-									{contact.id != userIdFromCompany && (
-										<Typography color="primary">
-											{contact.first_name + ' ' + contact.last_name}
-										</Typography>
+									{isLastMessageOfGroup(item, i) && contact.id != userIdFromCompany && (
+										<Avatar
+											className="avatar absolute ltr:left-0 rtl:right-0 m-0 -mx-32 top-0"
+											src={contact.photo}
+										>
+											{contact.first_name.split('')[0]}
+										</Avatar>
 									)}
-									<div className="bubble flex relative items-center justify-center p-12 max-w-full">
-										<div className="leading-tight whitespace-pre-wrap">{item.body}</div>
+									<div className="bubble items-center justify-center p-12 max-w-50">
+										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
+											<Typography
+												style={{ color: color?.[0]?.contactNameColor }}
+												className="text-xs mb-6"
+											>
+												{contact.first_name + ' ' + contact.last_name}
+											</Typography>
+										)}
+										<div className="leading-normal">{item.body}</div>
+									</div>
+									{isLastMessageOfGroup(item, i) && (
 										<Typography
-											className="time absolute hidden w-full text-11 mt-8 -mb-24 ltr:left-0 rtl:right-0 bottom-0 whitespace-no-wrap"
+											className="time text-11 mt-8 mb-12 ltr:left-0 rtl:right-0 whitespace-no-wrap"
 											color="textSecondary"
 										>
 											{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
 										</Typography>
-									</div>
+									)}
 								</div>
 							);
 						})}
@@ -195,7 +207,7 @@ function Chat(props) {
 				)}
 			</FuseScrollbars>
 
-			<form onSubmit={onMessageSubmit} className="absolute bottom-0 right-0 left-0 py-16 px-8">
+			<form onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8">
 				<Paper className="flex items-center relative rounded-24" elevation={1}>
 					<TextField
 						autoFocus={false}

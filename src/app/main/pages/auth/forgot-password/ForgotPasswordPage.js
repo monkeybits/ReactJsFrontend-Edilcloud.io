@@ -63,7 +63,7 @@ function ForgotPasswordPage({ history }) {
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full max-w-384">
 						<CardContent className="flex flex-col items-center justify-center p-32">
-							<div className="w-128 m-32">
+							<div className="w-128">
 								<img src="assets/images/logos/fuse.svg" alt="logo" />
 							</div>
 

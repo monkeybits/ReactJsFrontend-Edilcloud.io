@@ -23,7 +23,7 @@ function MaintenancePage() {
 				<Grow in>
 					<Card className="w-full max-w-384">
 						<CardContent className="flex flex-col items-center justify-center text-center p-48">
-							<img className="w-128 m-32" src="assets/images/logos/fuse.svg" alt="logo" />
+							<img className="w-128" src="assets/images/logos/fuse.svg" alt="logo" />
 
 							<Typography variant="subtitle1" className="mb-16">
 								Closed for scheduled maintenance!

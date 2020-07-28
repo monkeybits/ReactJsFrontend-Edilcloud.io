@@ -104,6 +104,7 @@ function DetailSidebarHeader({ setProgress }) {
 	return (
 		<>
 			<DeleteConfirmDialog
+				text="Are you sure want to delete ?"
 				isOpenDeleteDialog={isOpenDeleteDialog}
 				colseDeleteFileDialog={colseDeleteFileDialog}
 				onYes={handleDelete}

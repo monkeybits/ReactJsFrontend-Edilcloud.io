@@ -35,8 +35,8 @@ function ContactsApp(props) {
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getContacts(routeParams));
 		dispatch(Actions.getUserData());
+		return dispatch(Actions.resetContact());
 	}, [dispatch, routeParams]);
-
 	return (
 		<>
 			<FusePageSimple

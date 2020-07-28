@@ -173,6 +173,19 @@ function FileList(props) {
 								<TableCell className="hidden sm:table-cell">
 									{n.date_last_modify ? getdate(n.date_last_modify) : '-'}
 								</TableCell>
+
+								<TableCell>
+									<IconButton
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+										}}
+										aria-label="open right sidebar"
+									>
+										<Icon>transform</Icon>
+									</IconButton>
+								</TableCell>
+
 								{/* <Hidden lgUp> */}
 								<TableCell>
 									<IconButton
@@ -180,7 +193,7 @@ function FileList(props) {
 											ev.preventDefault();
 											ev.stopPropagation();
 											props.pageLayout.current.toggleRightSidebar();
-											dispatch(Actions.setSelectedItem(n.id))
+											dispatch(Actions.setSelectedItem(n.id));
 										}}
 										aria-label="open right sidebar"
 									>

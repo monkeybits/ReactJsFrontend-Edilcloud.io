@@ -8,7 +8,8 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import FileViewer from 'react-file-viewer';
+import FileViewer from './FileViewer';
+import { useSelector, useDispatch } from 'react-redux';
 
 const styles = theme => ({
 	root: {
@@ -51,11 +52,14 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 function FileViewDialog({ isOpenViewFile, closeViewFile }) {
-	const file = 'https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf';
-	const type = 'pdf';
-	function onError(e) {
-		console.log(e, 'error in file-viewer');
-	}
+	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
+	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
+	const url =
+		selectedItem && selectedItem.type == 'photo'
+			? selectedItem.photo
+			: selectedItem.type == 'video'
+			? selectedItem.video
+			: selectedItem.document;
 	return (
 		<Dialog
 			onClose={closeViewFile}
@@ -68,7 +72,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 				View File
 			</DialogTitle>
 			<DialogContent dividers>
-				<FileViewer fileType={type} filePath={file} onError={onError} />
+				<FileViewer file={url} type={selectedItem.extension} />
 			</DialogContent>
 		</Dialog>
 	);

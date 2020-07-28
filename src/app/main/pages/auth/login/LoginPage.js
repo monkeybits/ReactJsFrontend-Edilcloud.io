@@ -27,36 +27,35 @@ function LoginPage() {
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full max-w-384">
 						<CardContent className="flex flex-col items-center justify-center p-32">
-							<img className="w-128 m-32" src="assets/images/logos/fuse.svg" alt="logo" />
+							<img className="w-128" src="assets/images/logos/fuse.svg" alt="logo" />
 
-							<Typography variant="h6" className="mt-16 mb-32">
+							<Typography variant="h6" className="mt-16 mb-24">
 								LOGIN TO YOUR ACCOUNT
 							</Typography>
 
 							<JWTLoginTab />
 
-							<div className="my-24 flex items-center justify-center">
-								<Divider className="w-32" />
+							<div className="my-20 flex items-center justify-center">
+								<Divider className="w-full" />
 								<span className="mx-8 font-bold">OR</span>
-								<Divider className="w-32" />
+								<Divider className="w-full" />
 							</div>
 
 							<Button
 								variant="contained"
 								color="secondary"
-								size="small"
-								className="normal-case w-192 mb-8"
+								className="normal-case w-full mb-12"
 							>
 								Log in with Google
 							</Button>
 
-							<Button variant="contained" color="primary" size="small" className="normal-case w-192">
+							<Button variant="contained" color="primary" className="normal-case w-full">
 								Log in with Facebook
 							</Button>
 
-							<div className="flex flex-col items-center justify-center pt-32 pb-24">
+							<div className="flex flex-col items-center justify-center pt-32 pb-8">
 								<span className="font-medium">Don't have an account?</span>
-								<Link className="font-medium" to="/pages/auth/register">
+								<Link className="font-medium mt-4" to="/pages/auth/register">
 									Create an account
 								</Link>
 							</div>

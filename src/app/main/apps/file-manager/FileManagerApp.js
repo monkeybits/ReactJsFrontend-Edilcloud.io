@@ -387,7 +387,7 @@ function FileManagerApp(props) {
 									helperText={error.fileError}
 								/>
 							</div>
-							{files.folders && files.folders.length && (
+							{files.folders && !!files.folders.length && (
 								<div>
 									<Autocomplete
 										options={files.folders}

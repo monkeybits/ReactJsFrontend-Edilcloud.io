@@ -6,15 +6,18 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-import { APPROVE_LIST, REFRESH_TOKEN } from 'app/services/apiEndPoints';
+import { APPROVE_LIST, REFRESH_TOKEN, REQUEST_LIST } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getTokenOnly, saveToken } from 'app/services/serviceUtils';
-import { GET_BOARDS } from '../store/actions';
+import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
+import ReuestsDrawer from './ReuestsDrawer';
+import Badge from '@material-ui/core/Badge';
+import { Avatar } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -47,17 +50,28 @@ function Boards(props) {
 	const dispatch = useDispatch();
 	const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
 	const classes = useStyles(props);
+	const [isShowRequests, setIsShowRequests] = useState(false);
+	const [request, setRequest] = useState({});
 
 	useEffect(() => {
+		dispatch({
+			type: RESET_BOARDS
+		});
+		getcompanyList();
+		getRequest();
+	}, [dispatch]);
+	const getcompanyList = () => {
 		apiCall(
 			APPROVE_LIST,
 			{},
 			({ results }) => {
 				if (Array.isArray(results)) {
-					let boards = results.filter(d => d.company);
+					let filterdBoards = results.filter(d => d.company && d.status);
 					dispatch({
 						type: GET_BOARDS,
-						payload: boards.map(d => d.company && { ...d.company, company_profile_id: d.id })
+						payload: filterdBoards.map(
+							d => d.company && { ...d.company, company_profile_id: d.id, isApproved: true }
+						)
 					});
 				}
 			},
@@ -65,11 +79,27 @@ function Boards(props) {
 			METHOD.GET,
 			getHeaderToken()
 		);
-		// dispatch(Actions.getBoards());
-		// return () => {
-		// 	dispatch(Actions.resetBoards());
-		// };
-	}, [dispatch]);
+	};
+	const getRequest = () => {
+		apiCall(
+			REQUEST_LIST,
+			{},
+			({ results }) => {
+				if (Array.isArray(results)) {
+					let filterdBoards = results.filter(d => d.company && d.status);
+					dispatch({
+						type: GET_BOARDS,
+						payload: filterdBoards.map(
+							d => d.company && { ...d.company, uidb36: d.uidb36, token: d.token, isApproved: false }
+						)
+					});
+				}
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 	const redirectAfterGetNewToken = company_profile_id => {
 		apiCall(
 			REFRESH_TOKEN(company_profile_id),
@@ -85,6 +115,14 @@ function Boards(props) {
 			METHOD.POST
 		);
 	};
+	const handleInvitation = () => {
+		dispatch({
+			type: RESET_BOARDS
+		});
+		getcompanyList();
+		getRequest();
+		setIsShowRequests(false);
+	};
 	return (
 		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
@@ -93,7 +131,6 @@ function Boards(props) {
 						Companies List
 					</Typography>
 				</FuseAnimate>
-
 				<div>
 					<FuseAnimateGroup
 						className="flex flex-wrap w-full justify-center py-32 px-16"
@@ -106,14 +143,41 @@ function Boards(props) {
 							<div className="w-224 h-224 p-16" key={board.id}>
 								<Link
 									// to={`/apps/companies/${board.id}/${board.uri}`}
-									onClick={() => redirectAfterGetNewToken(board.company_profile_id)}
+									onClick={() => {
+										if (!!board.isApproved) {
+											redirectAfterGetNewToken(board.company_profile_id);
+										} else {
+											setIsShowRequests(true);
+											setRequest(board);
+										}
+									}}
 									className={clsx(
 										classes.board,
 										'flex flex-col items-center justify-center w-full h-full rounded py-24'
 									)}
 									role="button"
 								>
-									<Icon className="text-56">assessment</Icon>
+									{board.isApproved ? (
+										<Avatar src={board.logo} variant="square">
+											{board.name.split('')[0]}
+										</Avatar>
+									) : (
+										<Badge
+											invisible={board.isApproved}
+											color="secondary"
+											onClick={e => {
+												e.stopPropagation();
+												e.preventDefault();
+												setIsShowRequests(true);
+												setRequest(board);
+											}}
+										>
+											<Avatar src={board.logo} variant="square">
+												{board.name.split('')[0]}
+											</Avatar>
+											{/* <Icon className="text-56">assessment</Icon> */}
+										</Badge>
+									)}
 									<Typography className="text-16 font-300 text-center pt-16 px-32" color="inherit">
 										{board.name}
 									</Typography>
@@ -141,6 +205,12 @@ function Boards(props) {
 					</FuseAnimateGroup>
 				</div>
 			</div>
+			<ReuestsDrawer
+				afterSuccess={handleInvitation}
+				isShowRequests={isShowRequests}
+				setIsShowRequests={setIsShowRequests}
+				request={request}
+			/>
 		</div>
 	);
 }

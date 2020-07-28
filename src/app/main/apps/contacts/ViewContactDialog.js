@@ -142,39 +142,37 @@ function ViewContactDialog(props) {
 			</AppBar>
 			<form noValidate onSubmit={handleSubmit} className="flex flex-col md:overflow-hidden">
 				<DialogContent classes={{ root: 'p-24' }}>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-24">
-						<div className="min-w-96 ">
-							<Typography variant="h6">Name</Typography>
+					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+						<div className="min-w-96">
+							<Typography className="text-base">Name</Typography>
 						</div>
-
-						<Typography className="text-center">{form.first_name}</Typography>
+						<Typography variant="h6" className="text-base">{form.first_name}</Typography>
 					</div>
 
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-24">
+					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
-							<Typography variant="h6">Last name</Typography>
+							<Typography className="text-base">Last name</Typography>
+						</div>
+						<Typography variant="h6" className="text-base">{form.last_name}</Typography>
+					</div>
+					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+						<div className="min-w-96 ">
+							<Typography className="text-base">Email</Typography>
 						</div>
 
-						<Typography className="text-center">{form.last_name}</Typography>
+						<Typography variant="h6" className="text-base">{form.email}</Typography>
 					</div>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-24">
+					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
-							<Typography variant="h6">Email</Typography>
+							<Typography className="text-base">Role</Typography>
 						</div>
-
-						<Typography className="text-center">{form.email}</Typography>
+						<Typography variant="h6" className="text-base">{form.role}</Typography>
 					</div>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-24">
+					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
-							<Typography variant="h6">Role</Typography>
+							<Typography className="text-base">Language</Typography>
 						</div>
-						<Typography className="text-center">{form.role}</Typography>
-					</div>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-24">
-						<div className="min-w-96 ">
-							<Typography variant="h6">Language</Typography>
-						</div>
-						<Typography className="text-center">{value}</Typography>
+						<Typography variant="h6" className="text-base">{value}</Typography>
 					</div>
 				</DialogContent>
 			</form>
