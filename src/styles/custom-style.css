@@ -57,5 +57,8 @@
     width: 100%;
     text-align: right;
 }
-
+.company-img {
+    height: 70px;
+    width: 70px;
+}
 

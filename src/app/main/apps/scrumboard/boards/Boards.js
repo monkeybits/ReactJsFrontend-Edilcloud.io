@@ -188,14 +188,14 @@ function Boards(props) {
 								>
 									{board.company_profile_id == request.company_profile_id && isLoading ? (
 										<Skeleton style={{ background: 'darkgrey' }}>
-											<Avatar src={board.logo} variant="square">
+											<Avatar src={board.logo} variant="square" className="company-img">
 												{board.name.split('')[0]}
 											</Avatar>
 										</Skeleton>
 									) : (
 										<>
 											{board.isApproved ? (
-												<Avatar src={board.logo} variant="square">
+												<Avatar src={board.logo} variant="square" className="company-img">
 													{board.name.split('')[0]}
 												</Avatar>
 											) : (
@@ -209,7 +209,7 @@ function Boards(props) {
 														setRequest(board);
 													}}
 												>
-													<Avatar src={board.logo} variant="square">
+													<Avatar src={board.logo} variant="square" className="company-img">
 														{board.name.split('')[0]}
 													</Avatar>
 													{/* <Icon className="text-56">assessment</Icon> */}
