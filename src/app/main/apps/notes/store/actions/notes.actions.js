@@ -1,6 +1,10 @@
 import axios from 'axios';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { PROJECT_LIST } from 'app/services/apiEndPoints';
+import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const GET_NOTES = '[NOTES APP] GET NOTES';
+export const GET_PROJECTS = '[PROJECTS APP] GET PROJECTS';
 export const SET_SEARCH_TEXT = '[NOTES APP] SET SEARCH TEXT';
 export const OPEN_NOTE_DIALOG = '[NOTES APP] OPEN NOTE DIALOG';
 export const CLOSE_NOTE_DIALOG = '[NOTES APP] CLOSE NOTE DIALOG';
@@ -9,16 +13,28 @@ export const UPDATE_NOTE = '[NOTES APP] UPDATE NOTE';
 export const REMOVE_NOTE = '[NOTES APP] REMOVE NOTE';
 export const TOGGLE_VARIATE_DESC_SIZE = '[NOTES APP] TOGGLE VARIATE DESC SIZE';
 
-export function getNotes() {
-	const request = axios.get('/api/notes-app/notes');
-
-	return dispatch =>
-		request.then(response =>
-			dispatch({
-				type: GET_NOTES,
-				payload: response.data
-			})
+export function getProjects() {
+	return dispatch => {
+		apiCall(
+			PROJECT_LIST,
+			{},
+			res => {
+				dispatch({
+					type: GET_PROJECTS,
+					payload: res.results
+				});
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
 		);
+		// request.then(response =>
+		// 	dispatch({
+		// 		type: GET_NOTES,
+		// 		payload: response.data
+		// 	})
+		// );
+	};
 }
 
 export function setSearchText(event) {

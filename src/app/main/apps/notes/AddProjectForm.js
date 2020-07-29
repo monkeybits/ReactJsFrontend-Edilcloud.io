@@ -21,7 +21,7 @@ import DatePicker from 'react-datepicker';
 import UploadProjectImage from './UploadProjectImage';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDeepCompareEffect } from '@fuse/hooks';
-import * as Actions from 'app/main/apps/contacts/store/actions';
+import * as Actions from 'app/main/apps/notes/store/actions';
 import { useParams } from 'react-router';
 import { SEARCH_PROJECT_CORDINATOR, ADD_PROJECT } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
@@ -115,7 +115,10 @@ function AddProjectForm() {
 		apiCall(
 			ADD_PROJECT,
 			formData,
-			res => console.log(res),
+			res => {
+				dispatch(Actions.closeProjectDialog());
+				dispatch(Actions.getProjects());
+			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()

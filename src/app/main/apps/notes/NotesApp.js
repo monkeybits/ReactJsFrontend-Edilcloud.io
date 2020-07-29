@@ -18,8 +18,8 @@ function NotesApp(props) {
 	const pageLayout = useRef(null);
 
 	useEffect(() => {
-		dispatch(Actions.getNotes());
-		dispatch(Actions.getLabels());
+		dispatch(Actions.getProjects());
+		// dispatch(Actions.getLabels());
 	}, [dispatch]);
 
 	return (

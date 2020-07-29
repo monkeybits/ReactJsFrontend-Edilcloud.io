@@ -3,18 +3,19 @@ import * as Actions from '../actions';
 
 const initialState = {
 	entities: [],
-	projectDialog: false
+	projectDialog: false,
+	searchText: ''
 };
 
 const labelsReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case Actions.GET_PROJECT: {
+		case Actions.GET_PROJECTS: {
 			return {
 				...state,
-				entities: _.keyBy(action.payload, 'id')
+				entities: action.payload
 			};
 		}
-		
+
 		case Actions.DIALOG_PROJECT_OPEN: {
 			return {
 				...state,
