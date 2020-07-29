@@ -50,6 +50,7 @@ function UserNavbarHeader(props) {
 	const [userCompanyData, setUserCompanyData] = useState(null);
 	useEffect(() => {
 		if (userData.extra?.profile?.id && !userCompanyData) {
+			setUserCompanyData({});
 			apiCall(
 				GET_COMPANY_PROFILE(userData.extra.profile.id),
 				{},

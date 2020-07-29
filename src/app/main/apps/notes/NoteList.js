@@ -24,7 +24,7 @@ import Grid from '@material-ui/core/Grid';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Icon from '@material-ui/core/Icon';
 import * as Actions from 'app/main/apps/notes/store/actions';
-import ProjectListitem from './ProjectListitem'
+import ProjectListitem from './ProjectDetail/ProjectListitem';
 const useStyles = makeStyles(theme => ({
 	// root: {
 	// 	maxWidth: 345,
@@ -66,7 +66,6 @@ function NoteList(props) {
 	const searchText = useSelector(({ notesApp }) => notesApp.project.searchText);
 	const classes = useStyles();
 	const dispatch = useDispatch();
-
 
 	const [filteredData, setFilteredData] = useState(null);
 
@@ -141,11 +140,9 @@ function NoteList(props) {
 							</CardContent>
 						</Card>
 					</Grid>
-					{filteredData.map(project => {
+					{filteredData.map((project, index) => {
 						console.log({ project });
-						return (
-							<ProjectListitem {...{project , classes }} />
-					);
+						return <ProjectListitem key={index} index={index} {...{ project, classes }} />;
 					})}
 				</Grid>
 			</div>

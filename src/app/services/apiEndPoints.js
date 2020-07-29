@@ -61,3 +61,5 @@ export const SEARCH_PROJECT_CORDINATOR = searchString =>
 
 export const ADD_PROJECT = `/api/frontend/project/project/add/`;
 export const PROJECT_LIST = `/api/frontend/profile/company/project_list/?filter__status=1`;
+export const PROJECT_DETAIL = id => `/api/frontend/project/project/${id}/`;
+export const DISABLE_PROJECT = id => `/api/frontend/project/project/disable/${id}/`;

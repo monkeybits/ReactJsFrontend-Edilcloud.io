@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { PROJECT_LIST } from 'app/services/apiEndPoints';
+import { PROJECT_LIST, PROJECT_DETAIL } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const GET_NOTES = '[NOTES APP] GET NOTES';
 export const GET_PROJECTS = '[PROJECTS APP] GET PROJECTS';
+export const TOGGLE_PROJECT_STATUS = '[PROJECTS APP] TOGGLE PROJECT STATUS';
+export const GET_PROJECT_DETAIL = '[PROJECTS APP] GET PROJECTS DETAIL';
 export const SET_SEARCH_TEXT = '[NOTES APP] SET SEARCH TEXT';
 export const OPEN_NOTE_DIALOG = '[NOTES APP] OPEN NOTE DIALOG';
 export const CLOSE_NOTE_DIALOG = '[NOTES APP] CLOSE NOTE DIALOG';
@@ -36,7 +38,29 @@ export function getProjects() {
 		// );
 	};
 }
-
+export function getProjectDetail(pid) {
+	return dispatch => {
+		apiCall(
+			PROJECT_DETAIL(pid),
+			{},
+			res => {
+				dispatch({
+					type: GET_PROJECT_DETAIL,
+					payload: res
+				});
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+}
+export function toggleProjectStatus(index) {
+	return {
+		type: TOGGLE_PROJECT_STATUS,
+		index
+	};
+}
 export function setSearchText(event) {
 	return {
 		type: SET_SEARCH_TEXT,
