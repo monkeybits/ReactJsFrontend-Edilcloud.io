@@ -55,4 +55,9 @@ export const REFUSE_INVITATION = (uidb36, token) => `/api/frontend/profile/profi
 
 export const GET_MAIN_PROFILE = id => `/api/frontend/profile/profile/${id}`;
 
-export const GET_COMPANY_PROFILE = id => `/api/frontend/profile/company/profile_detail/${id}`
+export const GET_COMPANY_PROFILE = id => `/api/frontend/profile/company/profile_detail/${id}`;
+export const SEARCH_PROJECT_CORDINATOR = searchString =>
+	`/api/frontend/profile/company/approve/staff_list/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&no_page=no_page`;
+
+export const ADD_PROJECT = `/api/frontend/project/project/add/`;
+export const PROJECT_LIST = `/api/frontend/profile/company/project_list/?filter__status=1`;

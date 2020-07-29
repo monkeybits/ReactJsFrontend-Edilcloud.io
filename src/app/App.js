@@ -16,6 +16,7 @@ import AppContext from './AppContext';
 import { Auth } from './auth';
 import routes from './fuse-configs/routesConfig';
 import store from './store';
+import "react-datepicker/dist/react-datepicker.css";
 
 const jss = create({
 	...jssPreset(),

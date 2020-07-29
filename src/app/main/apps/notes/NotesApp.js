@@ -10,6 +10,7 @@ import NotesHeader from './NotesHeader';
 import NotesSidebarContent from './NotesSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
+import AddProjectDialog from './AddProjectDialog';
 
 function NotesApp(props) {
 	const dispatch = useDispatch();
@@ -35,8 +36,9 @@ function NotesApp(props) {
 					<div className="flex flex-col w-full items-center">
 						{/* <NewNote /> */}
 						<NoteList />
-						{/* <NoteDialog />
-						<LabelsDialog /> */}
+						<AddProjectDialog />
+						{/* <NoteDialog /> */}
+						{/* <LabelsDialog /> */}
 					</div>
 				}
 				// leftSidebarContent={<NotesSidebarContent />}
@@ -44,6 +46,7 @@ function NotesApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
+			
 		</>
 	);
 }

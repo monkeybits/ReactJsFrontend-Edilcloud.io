@@ -38,8 +38,19 @@ export function openLabelsDialog() {
 	};
 }
 
+export function openProjectDialog() {
+	return {
+		type: DIALOG_PROJECT_OPEN
+	};
+}
+
 export function closeLabelsDialog() {
 	return {
 		type: LABELS_DIALOG_CLOSE
+	};
+}
+export function closeProjectDialog() {
+	return {
+		type: DIALOG_PROJECT_CLOSE
 	};
 }
