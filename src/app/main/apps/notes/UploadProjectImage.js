@@ -39,20 +39,21 @@ export default function UploadProjectImage({ setFile, file, remove }) {
 		</>
 	) : (
 		<>
-			{/* <div className="flex justify-center mt-16 mb-20">
-				<img className="profile-img" src="/assets/images/avatars/profile-img.png" alt="profile" />
-			</div> */}
+			<div className="flex justify-center mt-16 mb-20">
+				<img className="custom-img rounded" src="/assets/images/avatars/default-image.png" alt="Custom Image" />
+			</div>
 			<div className="flex justify-center mt-16 mb-20">
 				<input
 					id="add_user"
 					hidden
 					type="file"
+					className="custom-img"
 					onChange={e => {
 						setImage(URL.createObjectURL(e.currentTarget.files[0]));
 						setViewCroper(true);
 					}}
 				/>
-				<label htmlFor="add_user" className="text-2xl cursor-pointer">
+				<label htmlFor="add_user" className="font-size-18 cursor-pointer">
 					<Icon fontSize="inherit" className="align-middle">
 						add_circle
 					</Icon>{' '}

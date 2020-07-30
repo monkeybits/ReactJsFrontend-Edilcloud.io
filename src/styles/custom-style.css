@@ -6,11 +6,11 @@
 .text-2xl {
     font-size: 2.0rem;
 }
-.custom-autocomplete > div {
+.custom-autocomplete > div, .react-datepicker-wrapper > div {
     display: inline-flex !important;
     width: 100%;
 }
-.custom-autocomplete input {
+.custom-autocomplete input, .react-datepicker-wrapper input {
     font: inherit;
     color: currentColor;
     width: 100% ;
@@ -27,11 +27,17 @@
     -webkit-tap-highlight-color: transparent;
     border-radius: 0.5rem;
 }
-.custom-autocomplete input:hover {
+.react-datepicker-wrapper input {
+    padding: 17.5px 14px;
+}
+.custom-autocomplete input:hover, .react-datepicker-wrapper input:hover {
     border-color: rgba(0, 0, 0, 0.87);
 }
 .custom-autocomplete > div input ~ div {
     z-index: 9;
+}
+.react-datepicker-wrapper {
+    display: block;
 }
 .edit-icon, .delete-icon  {
     position: absolute;
@@ -61,4 +67,39 @@
     height: 70px;
     width: 70px;
 }
-
+.custom-dropdown .MuiInputBase-input > div {
+    padding-top: 9px !important;
+    padding-left: 15px !important;
+    padding-bottom: 9px;
+}
+.custom-dropdown .MuiInputBase-input > div p {
+    left: 17px !important;
+}
+.react-datepicker {
+    font-size: 1.1rem;
+}
+.react-datepicker-popper {
+    z-index: 999;
+}
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+    font-size: 1.5rem;
+}
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+    width: 2.5rem;
+    line-height: 2.5rem;
+}
+.react-datepicker__navigation {
+    top: 12px;
+}
+.MuiChip-label {
+    padding-left: 0px;
+}
+.custom-img {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border: 1px solid #e6e4e4;
+}
+.font-size-18 {
+    font-size: 18px;
+}

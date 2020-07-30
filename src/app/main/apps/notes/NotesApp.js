@@ -11,10 +11,23 @@ import NotesSidebarContent from './NotesSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import AddProjectDialog from './AddProjectDialog';
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import Fab from '@material-ui/core/Fab';
+import Icon from '@material-ui/core/Icon';
+import { makeStyles } from '@material-ui/core/styles';
 
 function NotesApp(props) {
 	const dispatch = useDispatch();
 
+	const useStyles = makeStyles({
+		addButton: {
+			position: 'absolute',
+			right: 12,
+			bottom: 12,
+			zIndex: 99
+		}
+	});
+	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 
 	useEffect(() => {
@@ -41,11 +54,20 @@ function NotesApp(props) {
 						{/* <LabelsDialog /> */}
 					</div>
 				}
-				// leftSidebarContent={<NotesSidebarContent />}
+				leftSidebarContent={<NotesSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
 				innerScroll
 			/>
+			<FuseAnimate animation="transition.expandIn" delay={300}>
+				<Fab
+					color="primary"
+					aria-label="add"
+					className={classes.addButton}
+				>
+					<Icon>person_add</Icon>
+				</Fab>
+			</FuseAnimate>
 			
 		</>
 	);
