@@ -67,51 +67,51 @@ function NoteList(props) {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
-	// const [filteredData, setFilteredData] = useState([]);
+	const [filteredData, setFilteredData] = useState([]);
 
-	// useEffect(() => {
-	// 	function filterData() {
-	// 		const { params } = props.match;
-	// 		const { id, labelId } = params;
+	useEffect(() => {
+		function filterData() {
+			const { params } = props.match;
+			const { id, labelId } = params;
 
-	// 		let data = Object.keys(projects).map(_id => projects[_id]);
+			let data = Object.keys(projects).map(_id => projects[_id]);
 
-	// 		if (labelId) {
-	// 			data = data.filter(note => note.labels.includes(labelId) && !note.archive);
-	// 		}
+			if (labelId) {
+				data = data.filter(note => note.labels.includes(labelId) && !note.archive);
+			}
 
-	// 		if (!id) {
-	// 			data = data.filter(note => !note.archive);
-	// 		}
+			if (!id) {
+				data = data.filter(note => !note.archive);
+			}
 
-	// 		if (id === 'archive') {
-	// 			data = data.filter(note => note.archive);
-	// 		}
+			if (id === 'archive') {
+				data = data.filter(note => note.archive);
+			}
 
-	// 		if (id === 'reminders') {
-	// 			data = data.filter(note => Boolean(note.reminder) && !note.archive);
-	// 		}
+			if (id === 'reminders') {
+				data = data.filter(note => Boolean(note.reminder) && !note.archive);
+			}
 
-	// 		if (searchText.length === 0) {
-	// 			return data;
-	// 		}
+			if (searchText.length === 0) {
+				return data;
+			}
 
-	// 		data = FuseUtils.filterArrayByString(data, searchText);
+			data = FuseUtils.filterArrayByString(data, searchText);
 
-	// 		return data;
-	// 	}
+			return data;
+		}
 
-	// 	if (projects) {
-	// 		setFilteredData(filterData());
-	// 	}
-	// }, [projects, searchText, props.match]);
+		if (projects) {
+			setFilteredData(filterData());
+		}
+	}, [projects, searchText, props.match]);
 
 	return (
 		<div className="flex flex-wrap w-full">
 			<div className={classes.root}>
 				<Grid container spacing={3}>
 					<Grid item xs={4}>
-						<Card onClick={() => dispatch(Actions.openProjectDialog())}>
+						<Card onClick={() => dispatch(Actions.openProjectDialog('new'))}>
 							<CardContent>
 								<div className="w-224 h-224 p-16 mx-auto">
 									<div
@@ -133,6 +133,7 @@ function NoteList(props) {
 								</div>
 							</CardContent>
 						</Card>
+						{console.log({ projects })}
 					</Grid>
 					{projects.map((project, index) => {
 						return <ProjectListitem key={index} index={index} {...{ project, classes }} />;

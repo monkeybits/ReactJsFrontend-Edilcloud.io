@@ -70,6 +70,11 @@ export default function ProjectListitem({
 			true
 		);
 	};
+	const handleUpdateProject = () => {
+		handleClose()
+		dispatch(Actions.updateProjectDetail(projects[index]));
+		dispatch(Actions.openProjectDialog('edit'));
+	};
 	return (
 		<Grid item xs={4}>
 			<Card>
@@ -97,7 +102,7 @@ export default function ProjectListitem({
 								) : (
 									<MenuItem onClick={handleDeactivate}>Activate</MenuItem>
 								)}
-								<MenuItem onClick={handleClose}>Update Project Details</MenuItem>
+								<MenuItem onClick={handleUpdateProject}>Update Project Details</MenuItem>
 							</Menu>
 						</div>
 					}

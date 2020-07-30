@@ -67,7 +67,14 @@ export function setSearchText(event) {
 		searchText: event.target.value
 	};
 }
-
+export function updateProjectDetail(payload) {
+	return dispatch => {
+		dispatch({
+			type: GET_PROJECT_DETAIL,
+			payload
+		});
+	};
+}
 export function resetSearchText() {
 	return {
 		type: SET_SEARCH_TEXT,

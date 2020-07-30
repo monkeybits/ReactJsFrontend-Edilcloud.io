@@ -55,7 +55,7 @@ export default function CustomizedDialogs() {
 			open={projectApp.projectDialog}
 		>
 			<DialogTitle id="customized-dialog-title" onClose={handleClose}>
-				Add Project
+				{projectApp.dialogType == 'new' ? 'Add Project' : 'Edit Project'}
 			</DialogTitle>
 			<AddProjectForm />
 		</Dialog>

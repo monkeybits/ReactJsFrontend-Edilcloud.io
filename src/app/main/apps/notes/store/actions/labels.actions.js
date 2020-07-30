@@ -37,9 +37,10 @@ export function openLabelsDialog() {
 	};
 }
 
-export function openProjectDialog() {
+export function openProjectDialog(dialogType) {
 	return {
-		type: DIALOG_PROJECT_OPEN
+		type: DIALOG_PROJECT_OPEN,
+		dialogType
 	};
 }
 

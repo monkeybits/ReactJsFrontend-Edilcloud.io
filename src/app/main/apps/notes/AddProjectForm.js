@@ -23,7 +23,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import { useParams } from 'react-router';
-import { SEARCH_PROJECT_CORDINATOR, ADD_PROJECT } from 'app/services/apiEndPoints';
+import { SEARCH_PROJECT_CORDINATOR, ADD_PROJECT, EDIT_PROJECT_DETAIL } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
@@ -58,9 +58,10 @@ const DialogActions = withStyles(theme => ({
 function AddProjectForm() {
 	const routeParams = useParams();
 	const dispatch = useDispatch();
+	const projectApp = useSelector(({ notesApp }) => notesApp.project);
 	const [isFormValid, setIsFormValid] = useState(false);
+	const [projectDetail, setProjectDetail] = useState(false);
 	const [file, setFile] = useState(null);
-	// const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
 	const [filteredData, setFilteredData] = useState([]);
 	const [projectCoordinators, setProjectCoordinators] = useState([]);
 	const getdate = date => (date ? moment(date).format('YYYY-MM-DD') : undefined);
@@ -69,7 +70,37 @@ function AddProjectForm() {
 		startDate: new Date(),
 		endDate: undefined
 	});
-
+	useEffect(() => {
+		if (projectApp.dialogType == 'edit') {
+			setProjectDetail(projectApp.projectDetail);
+			let projectCordinate = [
+				{
+					data: projectApp.projectDetail.referent,
+					value: projectApp.projectDetail.referent.first_name,
+					label: (
+						<span className="flex items-center">
+							<Avatar className="w-32 h-32" src={projectApp.projectDetail.referent.photo} />
+							<span className="mx-8">{projectApp.projectDetail.referent.first_name}</span>
+						</span>
+					)
+				}
+			];
+			setProjectCoordinators(projectCordinate);
+			setProjectDate({
+				startDate: projectApp.projectDetail.date_start
+					? new Date(projectApp.projectDetail.date_start)
+					: undefined,
+				endDate: projectApp.projectDetail.date_end ? new Date(projectApp.projectDetail.date_end) : undefined
+			});
+			setFile({
+				fileData: undefined,
+				imagePreviewUrl: projectApp.projectDetail?.logo
+			});
+			return () => {
+				dispatch(Actions.updateProjectDetail({}));
+			};
+		}
+	}, [projectApp.projectDialog]);
 	const formRef = useRef(null);
 	// useDeepCompareEffect(() => {
 	// 	dispatch(Actions.getContacts(routeParams));
@@ -113,14 +144,14 @@ function AddProjectForm() {
 			if (values[key]) formData.append(key, values[key]);
 		}
 		apiCall(
-			ADD_PROJECT,
+			projectApp.dialogType == 'new' ? ADD_PROJECT : EDIT_PROJECT_DETAIL(projectDetail.id),
 			formData,
 			res => {
 				dispatch(Actions.closeProjectDialog());
 				dispatch(Actions.getProjects());
 			},
 			err => console.log(err),
-			METHOD.POST,
+			projectApp.dialogType == 'new' ?  METHOD.POST : METHOD.PUT,
 			getHeaderToken()
 		);
 	}
@@ -151,6 +182,7 @@ function AddProjectForm() {
 					className="mb-16"
 					type="text"
 					name="name"
+					value={projectDetail.name}
 					label="Project Name"
 					validations={{
 						minLength: 4
@@ -173,6 +205,7 @@ function AddProjectForm() {
 					className="mb-16"
 					type="text"
 					name="description"
+					value={projectDetail.description}
 					label="Project Description"
 					validations={{
 						minLength: 4
@@ -187,6 +220,7 @@ function AddProjectForm() {
 						className=""
 						onChange={value => setProjectCoordinators(value)}
 						isMulti
+						value={projectCoordinators}
 						placeholder="Search Project coordinators"
 						textFieldProps={{
 							onChange: e => retrieveDataAsynchronously(e.target.value),

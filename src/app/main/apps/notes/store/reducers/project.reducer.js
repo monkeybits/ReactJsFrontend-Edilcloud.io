@@ -5,7 +5,8 @@ const initialState = {
 	entities: [],
 	projectDialog: false,
 	searchText: '',
-	projectDetail: {}
+	projectDetail: {},
+	dialogType: 'new'
 };
 
 const labelsReducer = (state = initialState, action) => {
@@ -34,7 +35,8 @@ const labelsReducer = (state = initialState, action) => {
 		case Actions.DIALOG_PROJECT_OPEN: {
 			return {
 				...state,
-				projectDialog: true
+				projectDialog: true,
+				dialogType: action.dialogType
 			};
 		}
 		case Actions.DIALOG_PROJECT_CLOSE: {
