@@ -27,7 +27,7 @@ import * as Actions from 'app/main/apps/notes/store/actions';
 import moment from 'moment';
 import { Menu, MenuItem } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { DISABLE_PROJECT } from 'app/services/apiEndPoints';
+import { DISABLE_PROJECT, ENABLE_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
 export default function ProjectListitem({
@@ -35,10 +35,10 @@ export default function ProjectListitem({
 	// project: { id, name, description, logo, date_start, status, date_end, profiles },
 	classes
 }) {
-	const { id, name, description, logo, date_start, status, date_end, profiles } = projects[index]
+	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
+	const { id, name, description, logo, date_start, status, date_end, profiles } = projects[index];
 	const [expanded, setExpanded] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
-	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const open = Boolean(anchorEl);
 	const match = useRouteMatch();
 	const handleClick = event => {
@@ -58,11 +58,10 @@ export default function ProjectListitem({
 		event.stopPropagation();
 		event.preventDefault();
 		apiCall(
-			DISABLE_PROJECT(id),
+			status ? DISABLE_PROJECT(id) : ENABLE_PROJECT(id),
 			{},
 			res => {
-				alert();
-				handleExpandClick()
+				handleClose();
 				dispatch(Actions.toggleProjectStatus(index));
 			},
 			err => console.log(err),

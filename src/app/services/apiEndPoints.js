@@ -63,3 +63,4 @@ export const ADD_PROJECT = `/api/frontend/project/project/add/`;
 export const PROJECT_LIST = `/api/frontend/profile/company/project_list/`;
 export const PROJECT_DETAIL = id => `/api/frontend/project/project/${id}/`;
 export const DISABLE_PROJECT = id => `/api/frontend/project/project/disable/${id}/`;
+export const ENABLE_PROJECT = id => `/api/frontend/project/project/enable/${id}/`;
