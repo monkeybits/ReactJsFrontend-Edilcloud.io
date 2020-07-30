@@ -103,3 +103,19 @@
 .font-size-18 {
     font-size: 18px;
 }
+.bg-grey {
+    background-color: #718096;
+    color: #fff !important;
+}
+.project-edit-position {
+    top: 4px !important;
+    right: -7px !important;
+}
+.tabs-content .MuiTabs-flexContainer {
+    justify-content: center;
+}
+.custom-tab-header {
+    width: calc(100% - 280px);
+    top: auto;
+}
+

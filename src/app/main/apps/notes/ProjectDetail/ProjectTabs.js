@@ -57,15 +57,7 @@ export default function ProjectTabs() {
 
 	return (
 		<div className={classes.root}>
-			<AppBar position="static">
-				<Tabs value={value} onChange={handleChange} aria-label="wrapped label tabs example">
-					<Tab value="one" label="Info" wrapped {...a11yProps('one')} />
-					<Tab value="two" label="Team" {...a11yProps('two')} />
-					<Tab value="three" label="Gantt" {...a11yProps('three')} />
-					<Tab value="four" label="Todo" {...a11yProps('four')} />
-					<Tab value="five" label="File Manager" {...a11yProps('five')} />
-				</Tabs>
-			</AppBar>
+			
 			<TabPanel value={value} index="one">
 				Item One
 			</TabPanel>
@@ -81,6 +73,15 @@ export default function ProjectTabs() {
 			<TabPanel value={value} index="five">
 				Item five
 			</TabPanel>
+			<AppBar className="fixed custom-tab-header right-0 bottom-0">
+				<Tabs value={value} onChange={handleChange} aria-label="wrapped label tabs example">
+					<Tab value="one" label="Info" wrapped {...a11yProps('one')} />
+					<Tab value="two" label="Team" {...a11yProps('two')} />
+					<Tab value="three" label="Gantt" {...a11yProps('three')} />
+					<Tab value="four" label="Todo" {...a11yProps('four')} />
+					<Tab value="five" label="File Manager" {...a11yProps('five')} />
+				</Tabs>
+			</AppBar>
 		</div>
 	);
 }

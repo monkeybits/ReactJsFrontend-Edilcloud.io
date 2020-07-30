@@ -30,7 +30,7 @@ function ProjectDetails(props) {
 			<FusePageSimple
 				classes={{
 					contentWrapper: 'p-16 sm:p-24 pb-80',
-					content: 'flex min-h-full',
+					content: 'flex min-h-full tabs-content',
 					leftSidebar: 'w-256 border-0',
 					header: 'min-h-72 h-72'
 				}}

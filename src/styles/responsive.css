@@ -12,4 +12,13 @@
     .MuiButton-containedSizeSmall {
         font-size: 1.2rem;
     }
+    .custom-dropdown .MuiInputBase-input {
+        height: 3.5em;
+    }
+    .react-datepicker-wrapper input {
+        padding: 15.5px 14px;
+    }
+    .MuiInputLabel-formControl {
+        top: -2px;
+    }
 }
