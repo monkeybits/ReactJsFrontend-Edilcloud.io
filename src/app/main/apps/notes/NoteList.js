@@ -25,6 +25,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import Icon from '@material-ui/core/Icon';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import ProjectListitem from './ProjectDetail/ProjectListitem';
+import AddTeamMemberToProject from './ProjectDetail/AddTeamMemberToProject';
 const useStyles = makeStyles(theme => ({
 	// root: {
 	// 	maxWidth: 345,
@@ -112,36 +113,9 @@ function NoteList(props) {
 
 	return (
 		<div className="flex flex-wrap w-full">
+			<AddTeamMemberToProject />
 			<div className={classes.root}>
 				<Grid container spacing={12}>
-					<Grid className="px-12 mb-32" item xs={12} md={6} xl={3}>
-						<Card
-							className="h-full flex flex-col"
-							onClick={() => dispatch(Actions.openProjectDialog('new'))}
-						>
-							<CardContent>
-								<div className="p-16 mx-auto">
-									<div
-										className={clsx(
-											classes.board,
-											'flex flex-col items-center justify-center w-full h-full rounded py-24'
-										)}
-										role="button"
-										tabIndex={0}
-									>
-										<Icon className="text-56">add_circle</Icon>
-										<Typography
-											className="text-16 font-300 text-center pt-16 px-32"
-											color="inherit"
-										>
-											Create new project
-										</Typography>
-									</div>
-								</div>
-							</CardContent>
-						</Card>
-						{console.log({ projects })}
-					</Grid>
 					{projects.map((project, index) => {
 						return <ProjectListitem key={index} index={index} {...{ project, classes }} />;
 					})}

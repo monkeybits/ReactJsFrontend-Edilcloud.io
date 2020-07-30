@@ -64,11 +64,11 @@ function NotesApp(props) {
 					color="primary"
 					aria-label="add"
 					className={classes.addButton}
+					onClick={() => dispatch(Actions.openProjectDialog('new'))}
 				>
-					<Icon>person_add</Icon>
+					<Icon>work</Icon>
 				</Fab>
 			</FuseAnimate>
-			
 		</>
 	);
 }
