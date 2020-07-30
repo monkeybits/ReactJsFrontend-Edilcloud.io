@@ -27,6 +27,9 @@ import { SEARCH_PROJECT_CORDINATOR, ADD_PROJECT, EDIT_PROJECT_DETAIL } from 'app
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
+import Grid from '@material-ui/core/Grid';
+
+
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -45,7 +48,8 @@ function sortByProperty(array, property, order = 'ASC') {
 }
 const DialogContent = withStyles(theme => ({
 	root: {
-		padding: theme.spacing(2)
+		padding: theme.spacing(2),
+		flexGrow: 1,
 	}
 }))(MuiDialogContent);
 
@@ -170,7 +174,7 @@ function AddProjectForm() {
 		);
 	}
 	return (
-		<DialogContent dividers className="w-400">
+		<DialogContent dividers>
 			<Formsy
 				onValidSubmit={handleSubmit}
 				onValid={enableButton}
@@ -178,31 +182,40 @@ function AddProjectForm() {
 				ref={formRef}
 				className="flex flex-col justify-center md:overflow-hidden"
 			>
+				<Grid container spacing={3}>
+				<Grid item xs={12}>
+				<UploadProjectImage {...{ setFile, file, remove: () => setFile(null) }} />
+				</Grid>
+				<Grid item xs={12} md={6}>
+					<TextFieldFormsy
+						className="mb-12 w-full"
+						type="text"
+						name="name"
+						label="Project Name"
+						value={projectDetail.name}
+						validations={{
+							minLength: 4
+						}}
+						validationErrors={{
+							minLength: 'Min character length is 4'
+						}}
+						required
+						variant="outlined"
+					/>
+				</Grid>
+				<Grid item xs={12} md={6}>
 				<TextFieldFormsy
-					className="mb-16"
-					type="text"
-					name="name"
-					value={projectDetail.name}
-					label="Project Name"
-					validations={{
-						minLength: 4
-					}}
-					validationErrors={{
-						minLength: 'Min character length is 4'
-					}}
-					required
 					variant="outlined"
-				/>
-				<TextFieldFormsy
-					variant="outlined"
-					className="mb-16"
+					className="mb-12 w-full"
 					type="text"
 					name="address"
 					label="Project Address"
 				/>
+				</Grid>
+				<Grid item xs={12} md={6}>
 				<TextFieldFormsy
 					variant="outlined"
-					className="mb-16"
+					className="mb-12 w-full"
 					type="text"
 					name="description"
 					value={projectDetail.description}
@@ -215,9 +228,10 @@ function AddProjectForm() {
 					}}
 					required
 				/>
-				<div className="flex-1 ">
+				</Grid>
+				<Grid item xs={12} md={6}>
 					<FuseChipSelect
-						className=""
+						className="custom-dropdown"
 						onChange={value => {
 							setProjectCoordinators(value.splice(value.length-1));
 						}}
@@ -240,13 +254,13 @@ function AddProjectForm() {
 						}))}
 						variant="outlined"
 					/>
-				</div>
-				<div className="flex-1 ">
-					<div className="flex items-center mt-16 mb-12">
+				</Grid>
+				<Grid item xs={12} md={6}>
+					{/* <div className="flex items-center mb-12">
 						<Typography className="font-600 text-16 ">Start Date</Typography>
-					</div>
+					</div> */}
 					<DatePicker
-						className="mb-16"
+						className="mb-12"
 						dateFormat="dd/MM/yyyy"
 						selected={projectDate.startDate}
 						minDate={projectDate.startDate}
@@ -257,13 +271,13 @@ function AddProjectForm() {
 							});
 						}}
 					/>
-				</div>
-				<div className="flex-1 ">
-					<div className="flex items-center mt-16 mb-12">
+				</Grid>
+				<Grid item xs={12} md={6}>
+					{/* <div className="flex items-center mb-12">
 						<Typography className="font-600 text-16">End Date</Typography>
-					</div>
+					</div> */}
 					<DatePicker
-						className="mb-16"
+						className="mb-12"
 						dateFormat="dd/MM/yyyy"
 						selected={projectDate.endDate}
 						minDate={projectDate.startDate}
@@ -274,25 +288,32 @@ function AddProjectForm() {
 							});
 						}}
 					/>
-				</div>
-				<UploadProjectImage {...{ setFile, file, remove: () => setFile(null) }} />
+				</Grid>
+				
+				<Grid item xs={12}>
 				<TextFieldFormsy
 					variant="outlined"
-					className="mb-16"
+					className="mb-16 w-full"
 					type="textarea"
 					name="note"
 					label="Project Notes"
 				/>
+				</Grid>
+				<Grid item xs={12}>
+				<div className="inline-block">
 				<Button
 					type="submit"
 					variant="contained"
 					color="primary"
-					className="mx-auto mt-32 mb-80"
+					className="justify-start d-inline-block mb-20"
 					aria-label="LOG IN"
 					disabled={!isFormValid}
 				>
 					add
 				</Button>
+				</div>
+				</Grid>
+				</Grid>
 			</Formsy>
 		</DialogContent>
 	);

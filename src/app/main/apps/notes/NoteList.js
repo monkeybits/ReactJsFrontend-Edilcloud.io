@@ -29,6 +29,10 @@ const useStyles = makeStyles(theme => ({
 	// root: {
 	// 	maxWidth: 345,
 	// },
+	root: {
+		flexGrow: 1
+	},
+
 	media: {
 		height: 0,
 		paddingTop: '56.25%' // 16:9
@@ -109,11 +113,14 @@ function NoteList(props) {
 	return (
 		<div className="flex flex-wrap w-full">
 			<div className={classes.root}>
-				<Grid container spacing={3}>
-					<Grid item xs={4}>
-						<Card onClick={() => dispatch(Actions.openProjectDialog('new'))}>
+				<Grid container spacing={12}>
+					<Grid className="px-12 mb-32" item xs={12} md={6} xl={3}>
+						<Card
+							className="h-full flex flex-col"
+							onClick={() => dispatch(Actions.openProjectDialog('new'))}
+						>
 							<CardContent>
-								<div className="w-224 h-224 p-16 mx-auto">
+								<div className="p-16 mx-auto">
 									<div
 										className={clsx(
 											classes.board,

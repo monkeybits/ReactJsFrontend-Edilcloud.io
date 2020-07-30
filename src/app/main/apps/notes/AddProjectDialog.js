@@ -49,7 +49,8 @@ export default function CustomizedDialogs() {
 
 	return (
 		<Dialog
-			maxWidth="md"
+			maxWidth="sm"
+			fullWidth="true"
 			onClose={handleClose}
 			aria-labelledby="customized-dialog-title"
 			open={projectApp.projectDialog}
