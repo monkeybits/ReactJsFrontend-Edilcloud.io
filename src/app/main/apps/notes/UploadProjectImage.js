@@ -3,6 +3,7 @@ import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import { Input, Button } from '@material-ui/core';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
+import EditIcon from '@material-ui/icons/Edit';
 
 export default function UploadProjectImage({ setFile, file, remove }) {
 	const [image, setImage] = useState(null);
@@ -38,28 +39,36 @@ export default function UploadProjectImage({ setFile, file, remove }) {
 			</div>
 		</>
 	) : (
-		<>
-			<div className="flex justify-center mt-16 mb-20">
-				<img className="custom-img rounded" src="/assets/images/avatars/default-image.png" alt="Custom Image" />
-			</div>
-			<div className="flex justify-center mt-16 mb-20">
-				<input
-					id="add_user"
-					hidden
-					type="file"
-					className="custom-img"
-					onChange={e => {
-						setImage(URL.createObjectURL(e.currentTarget.files[0]));
-						setViewCroper(true);
-					}}
-				/>
-				<label htmlFor="add_user" className="font-size-18 cursor-pointer">
-					<Icon fontSize="inherit" className="align-middle">
+				<>
+				<div className="text-center">
+					<div className="relative inline-block mx-auto">
+						<div className="mt-16 mb-16">
+							<img className="custom-img rounded" src="/assets/images/avatars/default-image.png" alt="Custom Image" />
+						</div>
+						<div>
+							<input
+								id="add_user"
+								hidden
+								type="file"
+								className="custom-img"
+								onChange={e => {
+									setImage(URL.createObjectURL(e.currentTarget.files[0]));
+									setViewCroper(true);
+								}}
+							/>
+							<label htmlFor="add_user" className="cursor-pointer">
+								{/* <Icon fontSize="inherit" className="align-middle">
 						add_circle
 					</Icon>{' '}
-					Upload Project photo
-				</label>
-			</div>
-		</>
-	);
+					Upload Project photo */}
+								<a className="edit-icon bg-grey text-center rounded-full cursor-pointer project-edit-position">
+									<EditIcon fontSize="small" />
+								</a>
+							</label>
+
+						</div>
+					</div>
+				</div>
+				</>
+			);
 }
