@@ -151,7 +151,7 @@ function AddProjectForm() {
 				dispatch(Actions.getProjects());
 			},
 			err => console.log(err),
-			projectApp.dialogType == 'new' ?  METHOD.POST : METHOD.PUT,
+			projectApp.dialogType == 'new' ? METHOD.POST : METHOD.PUT,
 			getHeaderToken()
 		);
 	}
@@ -218,7 +218,9 @@ function AddProjectForm() {
 				<div className="flex-1 ">
 					<FuseChipSelect
 						className=""
-						onChange={value => setProjectCoordinators(value)}
+						onChange={value => {
+							setProjectCoordinators(value.splice(value.length-1));
+						}}
 						isMulti
 						value={projectCoordinators}
 						placeholder="Search Project coordinators"

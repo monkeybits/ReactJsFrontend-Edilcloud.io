@@ -36,7 +36,7 @@ export default function ProjectListitem({
 	classes
 }) {
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
-	const { id, name, description, logo, date_start, status, date_end, profiles } = projects[index];
+	const { id, name, description,company, logo, date_start, status, date_end, profiles } = projects[index];
 	const [expanded, setExpanded] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -80,8 +80,8 @@ export default function ProjectListitem({
 			<Card>
 				<CardHeader
 					avatar={
-						<Avatar aria-label="recipe" src={profiles?.[0]?.photo} className={classes.avatar}>
-							{profiles?.[0]?.first_name?.split('')[0]}
+						<Avatar aria-label="recipe" src={company?.logo} className={classes.avatar}>
+							{company?.name?.split('')[0]}
 						</Avatar>
 					}
 					action={

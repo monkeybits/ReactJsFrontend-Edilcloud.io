@@ -10,6 +10,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NotesSearch from './NotesSearch';
 import * as Actions from './store/actions';
+import { Link } from 'react-router-dom';
+import { Button } from '@material-ui/core';
 
 function NotesHeader(props) {
 	const dispatch = useDispatch();
@@ -17,6 +19,18 @@ function NotesHeader(props) {
 	return (
 		<div className="flex flex-1 items-center justify-between p-8 sm:p-24">
 			<div className="flex flex-shrink items-center sm:w-224">
+				{/* <Hidden xsDown>
+					<Button
+						to="/apps/projects/"
+						component={Link}
+						variant="contained"
+						color="secondary"
+						className="normal-case"
+					>
+						<Icon>work</Icon>
+						<span className="px-8">Projects</span>
+					</Button>
+				</Hidden> */}
 				<Hidden lgUp>
 					<IconButton
 						onClick={ev => {
@@ -27,7 +41,6 @@ function NotesHeader(props) {
 						<Icon>menu</Icon>
 					</IconButton>
 				</Hidden>
-
 				<div className="flex items-center">
 					<FuseAnimate animation="transition.expandIn" delay={300}>
 						<Icon className="text-32">account_box</Icon>
