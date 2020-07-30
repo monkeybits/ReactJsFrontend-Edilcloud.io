@@ -261,7 +261,7 @@ function AddTeamMemberToProject(props) {
 						</IconButton>
 					</div>
 					<Typography variant="subtitle1" className="block mx-auto mb-8" color="inherit">
-						{contactDialog.type === 'new' ? 'Add Team Member' : 'Edit Team Member'}
+						{contactDialog.type === 'new' ? 'Add Project Member' : 'Edit Project Member'}
 					</Typography>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
