@@ -60,6 +60,6 @@ export const SEARCH_PROJECT_CORDINATOR = searchString =>
 	`/api/frontend/profile/company/approve/staff_list/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&no_page=no_page`;
 
 export const ADD_PROJECT = `/api/frontend/project/project/add/`;
-export const PROJECT_LIST = `/api/frontend/profile/company/project_list/?filter__status=1`;
+export const PROJECT_LIST = `/api/frontend/profile/company/project_list/`;
 export const PROJECT_DETAIL = id => `/api/frontend/project/project/${id}/`;
 export const DISABLE_PROJECT = id => `/api/frontend/project/project/disable/${id}/`;
