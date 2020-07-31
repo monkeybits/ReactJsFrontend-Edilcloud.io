@@ -118,4 +118,7 @@
     width: calc(100% - 280px);
     top: auto;
 }
+.makeStyles-wrapperFolded-6295 ~ div .ps div:first-child .flex div:last-child .tabs-content .custom-tab-header {
+    width: calc(100% - 64px) !important;
+}
 
