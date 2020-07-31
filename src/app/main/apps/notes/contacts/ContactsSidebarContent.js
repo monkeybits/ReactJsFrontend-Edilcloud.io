@@ -46,7 +46,7 @@ function ContactsSidebarContent(props) {
 	const classes = useStyles(props);
 	const getListItemClassName = key => (key == filterKey ? clsx(classes.listItem, 'active') : classes.listItem);
 	return (
-		<div className="p-0 lg:p-24 lg:ltr:pr-4 lg:rtl:pl-4">
+		<div className="p-0 lg:ltr:pr-24 lg:ltr:pl-0 lg:rtl:pr-0 lg:rtl:pl-24">
 			<FuseAnimate animation="transition.slideLeftIn" delay={200}>
 				<Paper className="rounded-0 shadow-none lg:rounded-8 lg:shadow-1">
 					<div className="p-24 flex items-center">
