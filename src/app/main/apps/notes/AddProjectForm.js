@@ -184,7 +184,7 @@ function AddProjectForm() {
 			>
 				<Grid container spacing={3}>
 				<Grid item xs={12}>
-				<UploadProjectImage {...{ setFile, file, remove: () => setFile(null) }} />
+					<UploadProjectImage {...{ setFile, file, remove: () => setFile(null) }} />
 				</Grid>
 				<Grid item xs={12} md={6}>
 					<TextFieldFormsy
