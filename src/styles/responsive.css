@@ -34,4 +34,16 @@
     .tabs-content .MuiTabs-flexContainer {
         justify-content: start;
     }
+    .tabs-content header .MuiTab-root {
+        min-width: 45px !important;
+        overflow-x: auto !important;
+        text-transform: capitalize;
+        padding: 6px 8px !important;
+        font-size: 1.2rem !important;
+     }
 }
+@media (min-width: 600px) {
+    .tabs-content header .MuiTab-root {
+       min-width: 145px !important;
+    }
+ }
