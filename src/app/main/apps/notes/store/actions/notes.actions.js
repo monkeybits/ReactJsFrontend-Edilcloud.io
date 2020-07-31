@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { PROJECT_LIST, PROJECT_DETAIL } from 'app/services/apiEndPoints';
+import { PROJECT_LIST, PROJECT_DETAIL, ADD_TEAM_MEMBER_TO_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const GET_NOTES = '[NOTES APP] GET NOTES';
@@ -51,6 +51,29 @@ export function getProjectDetail(pid) {
 			},
 			err => console.log(err),
 			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+}
+
+export function addMemberToProject(values) {
+	return dispatch => {
+		console.log({ values });
+		// var formData = new FormData();
+		// for (let key in values) {
+		// 	if (values[key]) formData.append(key, values[key]);
+		// }
+		apiCall(
+			ADD_TEAM_MEMBER_TO_PROJECT(false),
+			values,
+			res => {
+				// dispatch({
+				// 	type: GET_PROJECT_DETAIL,
+				// 	payload: res
+				// });
+			},
+			err => console.log(err),
+			METHOD.POST,
 			getHeaderToken()
 		);
 	};

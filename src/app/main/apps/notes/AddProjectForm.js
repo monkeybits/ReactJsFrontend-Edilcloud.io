@@ -29,8 +29,6 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 
-
-
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
 		order === 'ASC'
@@ -49,7 +47,7 @@ function sortByProperty(array, property, order = 'ASC') {
 const DialogContent = withStyles(theme => ({
 	root: {
 		padding: theme.spacing(2),
-		flexGrow: 1,
+		flexGrow: 1
 	}
 }))(MuiDialogContent);
 
@@ -77,18 +75,20 @@ function AddProjectForm() {
 	useEffect(() => {
 		if (projectApp.dialogType == 'edit') {
 			setProjectDetail(projectApp.projectDetail);
-			let projectCordinate = [
-				{
-					data: projectApp.projectDetail.referent,
-					value: projectApp.projectDetail.referent.first_name,
-					label: (
-						<span className="flex items-center">
-							<Avatar className="w-32 h-32" src={projectApp.projectDetail.referent.photo} />
-							<span className="mx-8">{projectApp.projectDetail.referent.first_name}</span>
-						</span>
-					)
-				}
-			];
+			let projectCordinate = projectApp.projectDetail.referent
+				? [
+						{
+							data: projectApp.projectDetail.referent,
+							value: projectApp.projectDetail.referent.first_name,
+							label: (
+								<span className="flex items-center">
+									<Avatar className="w-32 h-32" src={projectApp.projectDetail.referent.photo} />
+									<span className="mx-8">{projectApp.projectDetail.referent.first_name}</span>
+								</span>
+							)
+						}
+				  ]
+				: [];
 			setProjectCoordinators(projectCordinate);
 			setProjectDate({
 				startDate: projectApp.projectDetail.date_start
@@ -183,136 +183,136 @@ function AddProjectForm() {
 				className="flex flex-col justify-center md:overflow-hidden"
 			>
 				<Grid container spacing={3}>
-				<Grid item xs={12}>
-				<UploadProjectImage {...{ setFile, file, remove: () => setFile(null) }} />
-				</Grid>
-				<Grid item xs={12} md={6}>
-					<TextFieldFormsy
-						className="mb-12 w-full"
-						type="text"
-						name="name"
-						label="Project Name"
-						value={projectDetail.name}
-						validations={{
-							minLength: 4
-						}}
-						validationErrors={{
-							minLength: 'Min character length is 4'
-						}}
-						required
-						variant="outlined"
-					/>
-				</Grid>
-				<Grid item xs={12} md={6}>
-				<TextFieldFormsy
-					variant="outlined"
-					className="mb-12 w-full"
-					type="text"
-					name="address"
-					label="Project Address"
-				/>
-				</Grid>
-				<Grid item xs={12} md={6}>
-				<TextFieldFormsy
-					variant="outlined"
-					className="mb-12 w-full"
-					type="text"
-					name="description"
-					value={projectDetail.description}
-					label="Project Description"
-					validations={{
-						minLength: 4
-					}}
-					validationErrors={{
-						minLength: 'Min character length is 4'
-					}}
-					required
-				/>
-				</Grid>
-				<Grid item xs={12} md={6}>
-					<FuseChipSelect
-						className="custom-dropdown"
-						onChange={value => {
-							setProjectCoordinators(value.splice(value.length-1));
-						}}
-						isMulti
-						value={projectCoordinators}
-						placeholder="Search Project coordinators"
-						textFieldProps={{
-							onChange: e => retrieveDataAsynchronously(e.target.value),
-							variant: 'outlined'
-						}}
-						options={filteredData.map(member => ({
-							data: member,
-							value: member.first_name,
-							label: (
-								<span className="flex items-center">
-									<Avatar className="w-32 h-32" src={member.photo} />
-									<span className="mx-8">{member.first_name}</span>
-								</span>
-							)
-						}))}
-						variant="outlined"
-					/>
-				</Grid>
-				<Grid item xs={12} md={6}>
-					{/* <div className="flex items-center mb-12">
+					<Grid item xs={12}>
+						<UploadProjectImage {...{ setFile, file, remove: () => setFile(null) }} />
+					</Grid>
+					<Grid item xs={12} md={6}>
+						<TextFieldFormsy
+							className="mb-12 w-full"
+							type="text"
+							name="name"
+							label="Project Name"
+							value={projectDetail.name}
+							validations={{
+								minLength: 4
+							}}
+							validationErrors={{
+								minLength: 'Min character length is 4'
+							}}
+							required
+							variant="outlined"
+						/>
+					</Grid>
+					<Grid item xs={12} md={6}>
+						<TextFieldFormsy
+							variant="outlined"
+							className="mb-12 w-full"
+							type="text"
+							name="address"
+							label="Project Address"
+						/>
+					</Grid>
+					<Grid item xs={12} md={6}>
+						<TextFieldFormsy
+							variant="outlined"
+							className="mb-12 w-full"
+							type="text"
+							name="description"
+							value={projectDetail.description}
+							label="Project Description"
+							validations={{
+								minLength: 4
+							}}
+							validationErrors={{
+								minLength: 'Min character length is 4'
+							}}
+							required
+						/>
+					</Grid>
+					<Grid item xs={12} md={6}>
+						<FuseChipSelect
+							className="custom-dropdown"
+							onChange={value => {
+								setProjectCoordinators(value.splice(value.length - 1));
+							}}
+							isMulti
+							value={projectCoordinators}
+							placeholder="Search Project coordinators"
+							textFieldProps={{
+								onChange: e => retrieveDataAsynchronously(e.target.value),
+								variant: 'outlined'
+							}}
+							options={filteredData.map(member => ({
+								data: member,
+								value: member.first_name,
+								label: (
+									<span className="flex items-center">
+										<Avatar className="w-32 h-32" src={member.photo} />
+										<span className="mx-8">{member.first_name}</span>
+									</span>
+								)
+							}))}
+							variant="outlined"
+						/>
+					</Grid>
+					<Grid item xs={12} md={6}>
+						{/* <div className="flex items-center mb-12">
 						<Typography className="font-600 text-16 ">Start Date</Typography>
 					</div> */}
-					<DatePicker
-						className="mb-12"
-						dateFormat="dd/MM/yyyy"
-						selected={projectDate.startDate}
-						minDate={projectDate.startDate}
-						onChange={startDate => {
-							setProjectDate({
-								...projectDate,
-								startDate
-							});
-						}}
-					/>
-				</Grid>
-				<Grid item xs={12} md={6}>
-					{/* <div className="flex items-center mb-12">
+						<DatePicker
+							className="mb-12"
+							dateFormat="dd/MM/yyyy"
+							selected={projectDate.startDate}
+							minDate={projectDate.startDate}
+							onChange={startDate => {
+								setProjectDate({
+									...projectDate,
+									startDate
+								});
+							}}
+						/>
+					</Grid>
+					<Grid item xs={12} md={6}>
+						{/* <div className="flex items-center mb-12">
 						<Typography className="font-600 text-16">End Date</Typography>
 					</div> */}
-					<DatePicker
-						className="mb-12"
-						dateFormat="dd/MM/yyyy"
-						selected={projectDate.endDate}
-						minDate={projectDate.startDate}
-						onChange={endDate => {
-							setProjectDate({
-								...projectDate,
-								endDate
-							});
-						}}
-					/>
-				</Grid>
-				
-				<Grid item xs={12}>
-				<TextFieldFormsy
-					variant="outlined"
-					className="mb-16 w-full"
-					type="textarea"
-					name="note"
-					label="Project Notes"
-				/>
-				</Grid>
-				<Grid item xs={12}>
-				<div className="inline-block">
-				<Button
-					type="submit"
-					variant="contained"
-					color="primary"
-					className="justify-start d-inline-block mb-20"
-					aria-label="LOG IN"
-					disabled={!isFormValid}
-				>
-					add
-				</Button>
-				</div>
-				</Grid>
+						<DatePicker
+							className="mb-12"
+							dateFormat="dd/MM/yyyy"
+							selected={projectDate.endDate}
+							minDate={projectDate.startDate}
+							onChange={endDate => {
+								setProjectDate({
+									...projectDate,
+									endDate
+								});
+							}}
+						/>
+					</Grid>
+
+					<Grid item xs={12}>
+						<TextFieldFormsy
+							variant="outlined"
+							className="mb-16 w-full"
+							type="textarea"
+							name="note"
+							label="Project Notes"
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<div className="inline-block">
+							<Button
+								type="submit"
+								variant="contained"
+								color="primary"
+								className="justify-start d-inline-block mb-20"
+								aria-label="LOG IN"
+								disabled={!isFormValid}
+							>
+								add
+							</Button>
+						</div>
+					</Grid>
 				</Grid>
 			</Formsy>
 		</DialogContent>

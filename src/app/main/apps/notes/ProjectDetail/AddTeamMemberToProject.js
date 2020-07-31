@@ -1,42 +1,26 @@
+import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils/FuseUtils';
-import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
 import { useDispatch, useSelector } from 'react-redux';
 // import * as Actions from './store/actions';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
-import FormLabel from '@material-ui/core/FormLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import ImageCropper from 'app/main/mainProfile/ImageCropper';
-import Switch from '@material-ui/core/Switch';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { SEARCH_USER_BY_EMAIL } from 'app/services/apiEndPoints';
+import { COMPANY_STAFF_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
-import CloseIcon from '@material-ui/icons/Close';
 import { SYSTEM_ROLES } from 'app/constants';
-import AsyncAutocomplete from '../../contacts/AsyncAutocomplete';
+import * as Actions from 'app/main/apps/notes/store/actions';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -48,57 +32,30 @@ const defaultFormState = {
 	position: '',
 	phone: ''
 };
-const GreenRadio = withStyles({
-	root: {
-		color: green[400],
-		'&$checked': {
-			color: green[600]
-		}
-	},
-	checked: {}
-})(props => <Radio color="default" {...props} />);
 
-const useStyles = makeStyles(theme => ({
-	formControl: {
-		margin: theme.spacing(1),
-		minWidth: 120
-	},
-	selectEmpty: {
-		marginTop: theme.spacing(2)
-	}
-}));
-function AddTeamMemberToProject(props) {
+function AddTeamMemberToProject() {
 	const dispatch = useDispatch();
-	const classes = useStyles();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
-	const [value, setValue] = useState('English');
+	const [, setValue] = useState('English');
 	const [role, setRole] = useState('');
-	const [canTryWithExisting, setCanTryWithExisting] = useState(true);
-	const inputFile = useRef(null);
-	const [permission, setPermission] = useState({
+	const [, setCanTryWithExisting] = useState(true);
+	const [, setPermission] = useState({
 		can_access_chat: true,
 		can_access_files: true
 	});
-	const { form, handleChange, setForm, resetForm } = useForm(defaultFormState);
-	const [image, setImage] = useState(null);
-	const [viewCroper, setViewCroper] = useState(false);
-	const [isExisting, setIsExisting] = useState(false);
-	const [fileData, setFile] = useState({
+	const [filteredData, setFilteredData] = useState([]);
+	const { setForm, resetForm } = useForm(defaultFormState);
+	const [] = useState(null);
+	const [, setViewCroper] = useState(false);
+	const [member, setMember] = useState(false);
+	const [, setIsExisting] = useState(false);
+	const [, setFile] = useState({
 		file: undefined,
 		imagePreviewUrl: undefined
 	});
-	const getPhoto = fileData => {
-		let reader = new FileReader();
-
-		reader.onloadend = () => {
-			setFile({
-				file: fileData,
-				imagePreviewUrl: reader.result
-			});
-		};
-
-		reader.readAsDataURL(fileData);
-	};
+	function getItemValue(item) {
+		return `${item.first_name} ${item.last_name} ${item.company?.name && `(${item.company.name})`}`;
+	}
 	const initDialog = useCallback(() => {
 		/**
 		 * Dialog type: 'edit'
@@ -167,34 +124,7 @@ function AddTeamMemberToProject(props) {
 	}
 
 	function canBeSubmitted() {
-		if (isExisting || contactDialog.type !== 'new') {
-			return form.first_name?.length > 0 && form.last_name?.length > 0 && form.email?.length > 3 && role && value;
-		} else {
-			if (form.email) {
-				apiCall(
-					SEARCH_USER_BY_EMAIL(String(form.email)),
-					{},
-					res => {
-						if (res && res.length) {
-							setCanTryWithExisting(false);
-						} else {
-							setCanTryWithExisting(true);
-						}
-					},
-					err => {},
-					METHOD.GET,
-					getHeaderToken()
-				);
-			}
-			return (
-				canTryWithExisting &&
-				form.first_name?.length > 0 &&
-				form.last_name?.length > 0 &&
-				form.email?.length > 3 &&
-				role &&
-				value
-			);
-		}
+		return member && member.length && role;
 	}
 
 	function handleSubmit(event) {
@@ -203,45 +133,39 @@ function AddTeamMemberToProject(props) {
 		// 'language', 'position', 'user', 'phone',
 		// 'fax', 'mobile', 'note', 'role', 'photo'
 		event.preventDefault();
-		let allData = {
-			...form,
-			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
-			language: value == 'English' ? 'en' : 'it'
-		};
-		const { first_name, last_name, email, id, company, position, phone } = allData;
-		let newformData = {
-			id,
-			first_name,
-			last_name,
-			email,
-			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
-			language: value == 'English' ? 'en' : 'it',
-			photo: fileData.file,
-			position,
-			phone,
-			...permission
-		};
+
 		// if (contactDialog.type === 'new') {
-		// 	dispatch(Actions.addContact({ ...newformData, photo: fileData.file }, isExisting));
+		dispatch(
+			Actions.addMemberToProject({
+				profile: member[0].data.id,
+				role: SYSTEM_ROLES.filter(d => d.label == role)[0].key
+			})
+		);
 		// } else {
 		// 	dispatch(Actions.updateContact(newformData, id));
 		// }
 		closeComposeDialog();
 	}
 
-	function handleRemove() {
-		// dispatch(Actions.removeContact(form.id));
-		closeComposeDialog();
-	}
 
-	function handleOpenFileClick(e) {
-		inputFile.current.click();
-	}
-	const [state, setState] = React.useState({
+	const [] = React.useState({
 		checkedA: true,
 		checkedB: true
 	});
-
+	function retrieveDataAsynchronously(searchText) {
+		apiCall(
+			COMPANY_STAFF_LIST(String(searchText)),
+			{},
+			res => {
+				setFilteredData(res.results);
+			},
+			() => {
+				setFilteredData([]);
+			},
+			METHOD.GET,
+			getHeaderToken()
+		);
+	}
 	return (
 		<Dialog
 			disableBackdropClick
@@ -253,68 +177,35 @@ function AddTeamMemberToProject(props) {
 			fullWidth
 			maxWidth="xs"
 		>
-			<AppBar position="static" elevation={1}>
-				<Toolbar>
-					<div className="absolute top-0 right-0 mr-4">
-						<IconButton onClick={closeComposeDialog} edge="start" color="inherit" aria-label="close">
-							<CloseIcon />
-						</IconButton>
-					</div>
-					<Typography variant="subtitle1" className="block mx-auto mb-8" color="inherit">
-						{contactDialog.type === 'new' ? 'Add Project Member' : 'Edit Project Member'}
-					</Typography>
-				</Toolbar>
-				<div className="flex flex-col items-center justify-center pb-24">
-					<div className="relative">
-						<Avatar
-							className="w-96 h-96 cursor-pointer"
-							alt="contact avatar"
-							src={
-								fileData.imagePreviewUrl
-									? fileData.imagePreviewUrl
-									: form.photo
-									? form.photo
-									: form.avatar
-							}
-							onClick={handleOpenFileClick}
-						/>
-						<a onClick={handleOpenFileClick} className="edit-icon text-center rounded-full cursor-pointer">
-							<EditIcon fontSize="small" />
-						</a>
-					</div>
-					<input
-						type="file"
-						id="file"
-						ref={inputFile}
-						onChange={e => {
-							setImage(URL.createObjectURL(e.currentTarget.files[0]));
-							setViewCroper(true);
-						}}
-						style={{ display: 'none' }}
-					/>
-
-					{contactDialog.type === 'edit' && (
-						<Typography variant="h6" color="inherit" className="pt-8">
-							{form.name}
-						</Typography>
-					)}
-				</div>
-			</AppBar>
 			<form noValidate onSubmit={handleSubmit} className="flex flex-col md:overflow-hidden">
 				<DialogContent classes={{ root: 'p-24' }}>
-					<div className="flex">
+					<div className="flex mb-10">
 						<div className="min-w-48 pt-20">
 							<Icon color="action">search</Icon>
 						</div>
-						<AsyncAutocomplete
-							placeholder="search name, company or add email to invite"
-							onSelect={item => {
-								setFile({});
-								setIsExisting(true);
-								// setRole(item.role);
-								// setValue(item.language == 'en' ? 'English' : 'Italian');
-								setForm({ ...item, role: undefined, language: undefined });
+						<FuseChipSelect
+							className="custom-dropdown w-full"
+							onChange={value => {
+								setMember(value.splice(value.length - 1));
 							}}
+							isMulti
+							value={member}
+							placeholder="Search Project coordinators"
+							textFieldProps={{
+								onChange: e => retrieveDataAsynchronously(e.target.value),
+								variant: 'outlined'
+							}}
+							options={filteredData.map(member => ({
+								data: member,
+								value: member.first_name,
+								label: (
+									<span className="flex items-center">
+										<Avatar className="w-32 h-32" src={member.photo} />
+										<span className="mx-8">{getItemValue(member)}</span>
+									</span>
+								)
+							}))}
+							variant="outlined"
 						/>
 					</div>
 
@@ -350,6 +241,19 @@ function AddTeamMemberToProject(props) {
 					</div>
 				</DialogContent>
 			</form>
+			<DialogActions className="justify-between p-8">
+				<div className="px-16">
+					<Button
+						variant="contained"
+						color="primary"
+						onClick={handleSubmit}
+						type="submit"
+						disabled={!canBeSubmitted()}
+					>
+						Add
+					</Button>
+				</div>
+			</DialogActions>
 		</Dialog>
 	);
 }
