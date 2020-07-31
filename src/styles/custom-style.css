@@ -111,14 +111,23 @@
     top: 4px !important;
     right: -7px !important;
 }
+.custom-tab-header {
+    width: calc(100% - 64px);
+    top: auto;
+}
+.tabs-content {
+    padding-bottom: 50px;
+}
 .tabs-content .MuiTabs-flexContainer {
     justify-content: center;
 }
-.custom-tab-header {
-    width: calc(100% - 280px);
-    top: auto;
+.tabs-content .MuiBox-root {
+  padding: 0px !important;
 }
-.makeStyles-wrapperFolded-6295 ~ div .ps div:first-child .flex div:last-child .tabs-content .custom-tab-header {
-    width: calc(100% - 64px) !important;
+.tabs-content > .flex.flex-col > div {
+   background-color: transparent;
 }
+/* .team-tab .permanent {
+  background-color: #fff !important;
+} */
 

@@ -96,18 +96,15 @@ export default function ProjectTabs() {
 										</Typography>
 									</Toolbar>
 								</AppBar>
-
 								<CardContent>
 									<div className="mb-24">
 										<Typography className="font-bold mb-4 text-15">Gender</Typography>
 										<Typography>{'general.gender'}</Typography>
 									</div>
-
 									<div className="mb-24">
 										<Typography className="font-bold mb-4 text-15">Birthday</Typography>
 										<Typography>{'general.birthday'}</Typography>
 									</div>
-
 									<div className="mb-24">
 										<Typography className="font-bold mb-4 text-15">Locations</Typography>
 										{/* {general.locations.map(location => (
@@ -120,7 +117,6 @@ export default function ProjectTabs() {
 									))} */}
 										Hello
 									</div>
-
 									<div className="mb-24">
 										<Typography className="font-bold mb-4 text-15">About Me</Typography>
 										<Typography>{'general.about'}</Typography>

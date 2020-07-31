@@ -1,3 +1,13 @@
+@media only screen and (max-width: 1279px) {
+    .custom-tab-header {
+        width: calc(100% - 0px);
+        flex-wrap: wrap;
+        overflow-x: auto;
+    }
+    .tabs-content .MuiBox-root button {
+        right: 20px !important;
+    }
+}
 @media only screen and (max-width: 767px) {
     .profile-img {
         height: 120px;
@@ -20,5 +30,8 @@
     }
     .MuiInputLabel-formControl {
         top: -2px;
+    }
+    .tabs-content .MuiTabs-flexContainer {
+        justify-content: start;
     }
 }
