@@ -56,28 +56,7 @@ export function getProjectDetail(pid) {
 	};
 }
 
-export function addMemberToProject(pid, values) {
-	return dispatch => {
-		console.log({ values });
-		// var formData = new FormData();
-		// for (let key in values) {
-		// 	if (values[key]) formData.append(key, values[key]);
-		// }
-		apiCall(
-			ADD_TEAM_MEMBER_TO_PROJECT(pid, false),
-			values,
-			res => {
-				// dispatch({
-				// 	type: GET_PROJECT_DETAIL,
-				// 	payload: res
-				// });
-			},
-			err => console.log(err),
-			METHOD.POST,
-			getHeaderToken()
-		);
-	};
-}
+
 export function toggleProjectStatus(index) {
 	return {
 		type: TOGGLE_PROJECT_STATUS,

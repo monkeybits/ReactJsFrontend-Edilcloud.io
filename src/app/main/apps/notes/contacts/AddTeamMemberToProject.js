@@ -54,7 +54,7 @@ function AddTeamMemberToProject() {
 	const { setForm, resetForm } = useForm(defaultFormState);
 	const [] = useState(null);
 	const [, setViewCroper] = useState(false);
-	const [member, setMember] = useState(false);
+	const [member, setMember] = useState([]);
 	const [, setIsExisting] = useState(false);
 	const [, setFile] = useState({
 		file: undefined,
@@ -63,59 +63,14 @@ function AddTeamMemberToProject() {
 	function getItemValue(item) {
 		return `${item.first_name} ${item.last_name} ${item.company?.name ? `(${item.company.name})` : ''}`;
 	}
-	const initDialog = useCallback(() => {
-		/**
-		 * Dialog type: 'edit'
-		 */
-		if (contactDialog.type === 'edit' && contactDialog.data) {
-			setForm({ ...contactDialog.data });
-			setRole(contactDialog.data.role);
-			setValue(contactDialog.data.language == 'en' ? 'English' : 'Italian');
-			setPermission({
-				can_access_chat: contactDialog.data.can_access_chat,
-				can_access_files: contactDialog.data.can_access_files
-			});
-		}
-
-		/**
-		 * Dialog type: 'new'
-		 */
-		if (contactDialog.type === 'new') {
-			setPermission({
-				can_access_chat: true,
-				can_access_files: true
-			});
-			setForm({
-				...defaultFormState,
-				...contactDialog.data,
-				id: FuseUtils.generateGUID()
-			});
-		}
-	}, [contactDialog.data, contactDialog.type, setForm]);
 
 	useEffect(() => {
 		/**
 		 * After Dialog Open
 		 */
-		setCanTryWithExisting(true);
 		if (contactDialog.props.open) {
-			initDialog();
 			return () => {
-				resetForm();
-				setForm({});
-				setValue('English');
-				setRole('');
-				setFile({
-					file: undefined,
-					imagePreviewUrl: undefined
-				});
-				setViewCroper(false);
-				setIsExisting(false);
-				setPermission({
-					can_access_chat: true,
-					can_access_files: true
-				});
-				setCanTryWithExisting(true);
+				setMember([]);
 			};
 		}
 	}, [contactDialog.props.open]);
@@ -141,7 +96,7 @@ function AddTeamMemberToProject() {
 
 		// if (contactDialog.type === 'new') {
 		dispatch(
-			Actions.addMemberToProject(match.params.id, {
+			ContactActions.addMemberToProject(match.params.id, {
 				profile: member[0].data.id,
 				role: SYSTEM_ROLES.filter(d => d.label == role)[0].key
 			})

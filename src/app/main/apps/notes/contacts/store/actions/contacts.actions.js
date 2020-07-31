@@ -7,7 +7,8 @@ import {
 	UPDATE_MEMBER,
 	GET_REFUSED_STAFF_LIST,
 	GET_WAITING_STAFF_LIST,
-	GET_DISABLED_STAFF_LIST
+	GET_DISABLED_STAFF_LIST,
+	ADD_TEAM_MEMBER_TO_PROJECT
 } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
@@ -56,9 +57,9 @@ export function filterByKey(filterKey) {
 		});
 	};
 }
-export function getContacts(routeParams) {
+export function getContacts(pid) {
 	return (dispatch, getState) => {
-		dispatch(getApprovedContacts(routeParams.id));
+		dispatch(getApprovedContacts(pid));
 		// dispatch(getWaitingContacts(routeParams));
 		// dispatch(getRefusedContacts(routeParams));
 		// dispatch(getDeactivatedContacts(routeParams));
@@ -140,6 +141,7 @@ export function getWaitingContacts(routeParams) {
 		);
 	};
 }
+
 export function getRefusedContacts(routeParams) {
 	return (dispatch, getState) => {
 		return apiCall(
@@ -257,6 +259,26 @@ export function openViewContactDialog(data) {
 export function closeViewContactDialog() {
 	return {
 		type: CLOSE_VIEW_CONTACT_DIALOG
+	};
+}
+
+export function addMemberToProject(pid, values) {
+	return dispatch => {
+		// console.log({ values });
+		// var formData = new FormData();
+		// for (let key in values) {
+		// 	if (values[key]) formData.append(key, values[key]);
+		// }
+		apiCall(
+			ADD_TEAM_MEMBER_TO_PROJECT(pid, false),
+			values,
+			res => {
+				dispatch(getContacts(pid));
+			},
+			err => console.log(err),
+			METHOD.POST,
+			getHeaderToken()
+		);
 	};
 }
 export function addContact(values, isExisting) {

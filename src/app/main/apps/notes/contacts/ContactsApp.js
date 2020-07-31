@@ -32,7 +32,7 @@ function ContactsApp(props) {
 	const routeParams = useParams();
 
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getContacts(routeParams));
+		dispatch(Actions.getContacts(routeParams.id));
 		dispatch(Actions.getUserData());
 		return dispatch(Actions.resetContact());
 	}, [dispatch, routeParams]);

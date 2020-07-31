@@ -121,7 +121,7 @@ function ContactsList(props) {
 							<IconButton
 								onClick={ev => {
 									ev.stopPropagation();
-									dispatch(Actions.openEditContactDialog(row.original));
+									// dispatch(Actions.openEditContactDialog(row.original));
 								}}
 							>
 								<Icon>edit</Icon>
@@ -129,8 +129,8 @@ function ContactsList(props) {
 							<IconButton
 								onClick={ev => {
 									ev.stopPropagation();
-									setUserData(row.original);
-									openDeleteContactDialog();
+									// setUserData(row.original);
+									// openDeleteContactDialog();
 									// dispatch(Actions.removeContact(row.original.id));
 								}}
 							>

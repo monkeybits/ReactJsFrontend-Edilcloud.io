@@ -42,7 +42,7 @@ function ContactsSidebarContent(props) {
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const filterKey = useSelector(({ contactsApp }) => contactsApp.contacts.filterKey);
-
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const classes = useStyles(props);
 	const getListItemClassName = key => (key == filterKey ? clsx(classes.listItem, 'active') : classes.listItem);
 	return (
@@ -50,11 +50,11 @@ function ContactsSidebarContent(props) {
 			<FuseAnimate animation="transition.slideLeftIn" delay={200}>
 				<Paper className="rounded-0 shadow-none lg:rounded-8 lg:shadow-1">
 					<div className="p-24 flex items-center">
-						<Avatar alt={user.name} src={company.logo}>
+						<Avatar alt={projectDetail.name} src={projectDetail.logo}>
 							{' '}
-							{company?.name?.split('')?.[0] ? company.name.split('')[0] : 'E'}
+							{projectDetail?.name?.split('')?.[0] ? projectDetail.name.split('')[0] : 'E'}
 						</Avatar>
-						<Typography className="mx-12">{company.name}</Typography>
+						<Typography className="mx-12">{projectDetail.name}</Typography>
 					</div>
 					<Divider />
 					<List>
@@ -74,57 +74,64 @@ function ContactsSidebarContent(props) {
 							<ListItemText className="truncate" primary="Approved Team members" disableTypography />
 						</ListItem>
 
-						<ListItem
+						{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('waiting'))}
 							className={getListItemClassName('waiting')}
 						>
 							<ListItemText className="truncate" primary="Waiting Team members" disableTypography />
-						</ListItem>
+						</ListItem> */}
 
-						<ListItem
+						{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('refused'))}
 							className={getListItemClassName('refused')}
 						>
 							<ListItemText className="truncate" primary="Refused Team members" disableTypography />
-						</ListItem>
-						<ListItem
+						</ListItem> */}
+					
+						{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('deactivated'))}
 							className={getListItemClassName('deactivated')}
 						>
 							<ListItemText className="truncate" primary="Deactivated Team members" disableTypography />
-						</ListItem>
-						<Divider />
-						<ListItem
+						</ListItem> */}
+					
+						{/* <Divider /> */}
+					
+						{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('owner'))}
 							className={getListItemClassName('owner')}
 						>
 							<ListItemText className="truncate" primary="Owner" disableTypography />
-						</ListItem>
-						<ListItem
+						</ListItem> */}
+					
+						{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('delegate'))}
 							className={getListItemClassName('delegate')}
 						>
 							<ListItemText className="truncate" primary="Delegate" disableTypography />
-						</ListItem>
-						<ListItem
+						</ListItem> */}
+					
+						{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('manager'))}
 							className={getListItemClassName('manager')}
 						>
 							<ListItemText className="truncate" primary="Manager" disableTypography />
-						</ListItem>
-						<ListItem
+						</ListItem> */}
+					
+						{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('worker'))}
 							className={getListItemClassName('worker')}
 						>
 							<ListItemText className="truncate" primary="Worker" disableTypography />
-						</ListItem>
+						</ListItem> */}
+
 					</List>
 				</Paper>
 			</FuseAnimate>
