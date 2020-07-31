@@ -21,6 +21,12 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { SYSTEM_ROLES } from 'app/constants';
 import * as Actions from 'app/main/apps/notes/store/actions';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Typography from '@material-ui/core/Typography';
+
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -177,8 +183,20 @@ function AddTeamMemberToProject() {
 			fullWidth
 			maxWidth="xs"
 		>
-			<form noValidate onSubmit={handleSubmit} className="flex flex-col md:overflow-hidden">
-				<DialogContent classes={{ root: 'p-24' }}>
+			<AppBar position="static" elevation={1}>
+				<Toolbar>
+					<div className="absolute right-0">
+						<IconButton onClick={closeComposeDialog} edge="start" color="inherit" aria-label="close">
+							<CloseIcon />
+						</IconButton>
+					</div>
+					<Typography variant="subtitle1" color="inherit">
+						{contactDialog.type === 'new' ? 'Add Team Member to Project' : 'Edit Team Member to Project'}
+					</Typography>
+				</Toolbar>
+			</AppBar>
+			<form noValidate onSubmit={handleSubmit} className="flex flex-col mt-16 md:overflow-hidden">
+				<DialogContent classes={{ root: 'p-24 pb-4' }}>
 					<div className="flex mb-10">
 						<div className="min-w-48 pt-20">
 							<Icon color="action">search</Icon>
@@ -242,7 +260,7 @@ function AddTeamMemberToProject() {
 				</DialogContent>
 			</form>
 			<DialogActions className="justify-between p-8">
-				<div className="px-16">
+				<div className="px-16 mb-20">
 					<Button
 						variant="contained"
 						color="primary"
