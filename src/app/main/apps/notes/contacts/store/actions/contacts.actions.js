@@ -3,7 +3,7 @@ import axios from 'axios';
 import {
 	ADD_NEW_MEMBER,
 	ADD_EXISTING_MEMBER,
-	GET_STAFF_LIST,
+	GET_PROJECT_STAFF_LIST,
 	UPDATE_MEMBER,
 	GET_REFUSED_STAFF_LIST,
 	GET_WAITING_STAFF_LIST,
@@ -58,22 +58,22 @@ export function filterByKey(filterKey) {
 }
 export function getContacts(routeParams) {
 	return (dispatch, getState) => {
-		dispatch(getApprovedContacts(routeParams));
-		dispatch(getWaitingContacts(routeParams));
-		dispatch(getRefusedContacts(routeParams));
-		dispatch(getDeactivatedContacts(routeParams));
+		dispatch(getApprovedContacts(routeParams.id));
+		// dispatch(getWaitingContacts(routeParams));
+		// dispatch(getRefusedContacts(routeParams));
+		// dispatch(getDeactivatedContacts(routeParams));
 	};
 }
 export function getApprovedContacts(routeParams) {
 	return (dispatch, getState) => {
 		return apiCall(
-			GET_STAFF_LIST,
+			GET_PROJECT_STAFF_LIST(routeParams),
 			{},
 			res => {
 				let results = [];
 				if (res.results.length) {
 					results = res.results.map(d => {
-						const { first_name, last_name, photo, company, position, email, phone } = d;
+						const { first_name, last_name, photo, company, position, email, phone } = d.profile;
 						return {
 							...d,
 							name: first_name,

@@ -57,7 +57,7 @@ function NotesApp(props) {
 				leftSidebarContent={<NotesSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
-				innerScroll
+				// innerScroll
 			/>
 			<FuseAnimate animation="transition.expandIn" delay={300}>
 				<Fab

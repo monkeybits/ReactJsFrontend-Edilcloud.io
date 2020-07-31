@@ -69,3 +69,4 @@ export const COMPANY_STAFF_LIST = searchString =>
 	`/api/frontend/profile/company/approve/staff_list_and_external/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__company__name__icontains=${searchString}&filter__email__exact=${searchString}&per_page=12`;
 export const ADD_TEAM_MEMBER_TO_PROJECT = is_external =>
 	`/api/frontend/project/project/5/team_add/?is_external=${is_external}`;
+export const GET_PROJECT_STAFF_LIST = pid => `/api/frontend/project/project/${pid}/approve/team_list/`;

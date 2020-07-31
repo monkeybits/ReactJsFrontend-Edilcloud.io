@@ -57,10 +57,10 @@ function ViewContactDialog(props) {
 		/**
 		 * Dialog type get dialog data
 		 */
-		if (contactDialog.type === 'view' && contactDialog.data) {
-			setForm({ ...contactDialog.data });
-			setRole(contactDialog.data.role);
-			setValue(contactDialog.data.language == 'en' ? 'English' : 'Italian');
+		if (contactDialog.type === 'view' && contactDialog.data.profile) {
+			setForm({ ...contactDialog.data.profile });
+			setRole(contactDialog.data.profile.role);
+			setValue(contactDialog.data.profile.language == 'en' ? 'English' : 'Italian');
 		}
 	}, [contactDialog.data, contactDialog.type, setForm]);
 
@@ -132,10 +132,10 @@ function ViewContactDialog(props) {
 					</Typography>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
-					<Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} />
+					<Avatar className="w-96 h-96" alt="contact avatar" src={form.photo} />
 					{contactDialog.type === 'view' && (
 						<Typography variant="h6" color="inherit" className="pt-8">
-							{form.name}
+							{form.first_name}
 						</Typography>
 					)}
 				</div>

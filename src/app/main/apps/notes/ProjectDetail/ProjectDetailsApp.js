@@ -20,10 +20,10 @@ function ProjectDetails(props) {
 	const match = useRouteMatch();
 
 	useEffect(() => {
-		if (match.params) {
+		if (match.params.id) {
 			dispatch(Actions.getProjectDetail(match.params.id));
 		}
-	}, [dispatch, match]);
+	}, [dispatch, match.params.id]);
 
 	return (
 		<>
