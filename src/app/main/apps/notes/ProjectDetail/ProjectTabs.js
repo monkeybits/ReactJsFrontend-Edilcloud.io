@@ -77,10 +77,13 @@ export default function ProjectTabs() {
 				Item Three
 			</TabPanel>
 			<TabPanel value={value} index="four">
-				Item four
+				Item Four
 			</TabPanel>
 			<TabPanel value={value} index="five">
-				Item five
+				Item Five
+			</TabPanel>
+			<TabPanel value={value} index="six">
+				Item Six
 			</TabPanel>
 			<AppBar className="fixed custom-tab-header right-0 bottom-0">
 				<Tabs value={value} onChange={handleChange} aria-label="wrapped label tabs example">
@@ -89,6 +92,7 @@ export default function ProjectTabs() {
 					<Tab value="three" label="Gantt" {...a11yProps('three')} />
 					<Tab value="four" label="Todo" {...a11yProps('four')} />
 					<Tab value="five" label="File Manager" {...a11yProps('five')} />
+					<Tab value="six" label="Chat" {...a11yProps('six')} />
 				</Tabs>
 			</AppBar>
 		</div>

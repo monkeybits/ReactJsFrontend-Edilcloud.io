@@ -8,9 +8,8 @@ import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
-import ContactDialog from './ContactDialog';
+import AddTeamMemberToProject from './AddTeamMemberToProject';
 import ViewContactDialog from './ViewContactDialog';
-import ContactsHeader from './ContactsHeader';
 import ContactsList from './ContactsList';
 import ContactsSidebarContent from './ContactsSidebarContent';
 import * as Actions from './store/actions';
@@ -63,7 +62,7 @@ function ContactsApp(props) {
 					<Icon>person_add</Icon>
 				</Fab>
 			</FuseAnimate>
-			{/* <ContactDialog /> */}
+			<AddTeamMemberToProject />
 			<ViewContactDialog />
 		</>
 	);

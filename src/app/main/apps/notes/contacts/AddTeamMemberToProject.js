@@ -10,7 +10,6 @@ import Icon from '@material-ui/core/Icon';
 import TextField from '@material-ui/core/TextField';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import * as Actions from './store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -26,7 +25,8 @@ import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-
+import * as ContactActions from './store/actions';
+import { useRouteMatch } from 'react-router';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -42,6 +42,7 @@ const defaultFormState = {
 function AddTeamMemberToProject() {
 	const dispatch = useDispatch();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
+	const match = useRouteMatch();
 	const [, setValue] = useState('English');
 	const [role, setRole] = useState('');
 	const [, setCanTryWithExisting] = useState(true);
@@ -60,7 +61,7 @@ function AddTeamMemberToProject() {
 		imagePreviewUrl: undefined
 	});
 	function getItemValue(item) {
-		return `${item.first_name} ${item.last_name} ${item.company?.name && `(${item.company.name})`}`;
+		return `${item.first_name} ${item.last_name} ${item.company?.name ? `(${item.company.name})` : ''}`;
 	}
 	const initDialog = useCallback(() => {
 		/**
@@ -124,9 +125,7 @@ function AddTeamMemberToProject() {
 			file: undefined,
 			imagePreviewUrl: undefined
 		});
-		// return contactDialog.type === 'edit'
-		// 	? dispatch(Actions.closeEditContactDialog())
-		// 	: dispatch(Actions.closeNewContactDialog());
+		dispatch(ContactActions.closeNewContactDialog());
 	}
 
 	function canBeSubmitted() {
@@ -142,17 +141,13 @@ function AddTeamMemberToProject() {
 
 		// if (contactDialog.type === 'new') {
 		dispatch(
-			Actions.addMemberToProject({
+			Actions.addMemberToProject(match.params.id, {
 				profile: member[0].data.id,
 				role: SYSTEM_ROLES.filter(d => d.label == role)[0].key
 			})
 		);
-		// } else {
-		// 	dispatch(Actions.updateContact(newformData, id));
-		// }
 		closeComposeDialog();
 	}
-
 
 	const [] = React.useState({
 		checkedA: true,
@@ -178,7 +173,7 @@ function AddTeamMemberToProject() {
 			classes={{
 				paper: 'm-24'
 			}}
-			open={true}
+			{...contactDialog.props}
 			onClose={closeComposeDialog}
 			fullWidth
 			maxWidth="xs"
@@ -235,7 +230,6 @@ function AddTeamMemberToProject() {
 							options={SYSTEM_ROLES}
 							style={{ width: '100%' }}
 							className="mb-24"
-							disableCloseOnSelect
 							getOptionLabel={option => option.label}
 							renderOption={(option, { selected }) => (
 								<>

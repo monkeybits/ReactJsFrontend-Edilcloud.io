@@ -25,7 +25,6 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import Icon from '@material-ui/core/Icon';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import ProjectListitem from './ProjectDetail/ProjectListitem';
-import AddTeamMemberToProject from './ProjectDetail/AddTeamMemberToProject';
 const useStyles = makeStyles(theme => ({
 	// root: {
 	// 	maxWidth: 345,
@@ -113,7 +112,6 @@ function NoteList(props) {
 
 	return (
 		<div className="flex flex-wrap w-full">
-			{/* <AddTeamMemberToProject /> */}
 			<div className={classes.root}>
 				<Grid container spacing={12}>
 					{projects.map((project, index) => {

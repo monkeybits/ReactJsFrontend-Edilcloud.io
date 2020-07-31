@@ -56,7 +56,7 @@ export function getProjectDetail(pid) {
 	};
 }
 
-export function addMemberToProject(values) {
+export function addMemberToProject(pid, values) {
 	return dispatch => {
 		console.log({ values });
 		// var formData = new FormData();
@@ -64,7 +64,7 @@ export function addMemberToProject(values) {
 		// 	if (values[key]) formData.append(key, values[key]);
 		// }
 		apiCall(
-			ADD_TEAM_MEMBER_TO_PROJECT(false),
+			ADD_TEAM_MEMBER_TO_PROJECT(pid, false),
 			values,
 			res => {
 				// dispatch({
