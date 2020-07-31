@@ -113,7 +113,7 @@ function NoteList(props) {
 
 	return (
 		<div className="flex flex-wrap w-full">
-			<AddTeamMemberToProject />
+			{/* <AddTeamMemberToProject /> */}
 			<div className={classes.root}>
 				<Grid container spacing={12}>
 					{projects.map((project, index) => {
