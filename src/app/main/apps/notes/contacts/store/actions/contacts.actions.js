@@ -17,6 +17,7 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const GET_CONTACTS = '[CONTACTS APP] GET CONTACTS';
 export const FILTER_BY = '[CONTACTS APP] FILTER BY';
+export const FILTER_BY_KEY = '[CONTACTS APP] ADD FILTER KEY';
 export const RESET_CONTACTS = '[CONTACTS APP] RESET CONTACTS';
 export const GET_WAITING_CONTACTS = '[CONTACTS APP] GET WAITING CONTACTS';
 export const GET_DEACTIVATED_CONTACTS = '[CONTACTS APP] GET DEACTIVATED CONTACTS';
@@ -55,6 +56,14 @@ export function filterByKey(filterKey) {
 	return (dispatch, getState) => {
 		dispatch({
 			type: FILTER_BY,
+			filterKey
+		});
+	};
+}
+export function addFilterByKey(filterKey) {
+	return (dispatch, getState) => {
+		dispatch({
+			type: FILTER_BY_KEY,
 			filterKey
 		});
 	};

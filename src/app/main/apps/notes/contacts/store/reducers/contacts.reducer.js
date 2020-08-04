@@ -19,7 +19,14 @@ const initialState = () => ({
 		data: null
 	}
 });
-
+function getRandomColor() {
+	var letters = '0123456789ABCDEF';
+	var color = '#';
+	for (var i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+}
 const mergeArray = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
 		const x = arr.find(item => item.email === current.email);
@@ -29,8 +36,18 @@ const mergeArray = (oldArr = [], newArr = []) =>
 			return arr;
 		}
 	}, []);
+const mergeArrayByComapny = (oldArr = [], newArr = []) =>
+	[...newArr, ...oldArr].reduce((arr, current) => {
+		const x = arr.find(item => item.profile.company.id === current.profile.company.id);
+		if (!x) {
+			return arr.concat([current]);
+		} else {
+			return arr;
+		}
+	}, []);
 const removeByEmail = (arr = [], email) => (arr.length ? arr.filter((d, i) => d.email != email) : []);
 const addTypeInArray = (arr = [], status) => (arr.length ? arr.map((d, i) => ({ ...d, status })) : []);
+const addColorInArray = (arr = [], color) => (arr.length ? arr.map((d, i) => ({ ...d, color: getRandomColor() })) : []);
 const contactsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.RESET_CONTACTS: {
@@ -42,11 +59,18 @@ const contactsReducer = (state = initialState(), action) => {
 				filterKey: action.filterKey
 			};
 		}
+		case Actions.FILTER_BY_KEY: {
+			return {
+				...state,
+				filterKeyName: action.filterKey
+			};
+		}
 		case Actions.GET_CONTACTS: {
 			return {
 				...state,
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Approved')),
 				approved: addTypeInArray([...action.payload], 'Approved'),
+				companies: addColorInArray(mergeArrayByComapny(state.entities, action.payload)),
 				routeParams: action.routeParams
 			};
 		}
@@ -62,6 +86,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Waiting')),
+				companies: addColorInArray(mergeArrayByComapny(state.entities, action.payload)),
 				waiting: addTypeInArray([...action.payload], 'Waiting'),
 				routeParams: action.routeParams
 			};
@@ -77,6 +102,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Refused')),
+				companies: addColorInArray(mergeArrayByComapny(state.entities, action.payload)),
 				refused: addTypeInArray([...action.payload], 'Refused'),
 				routeParams: action.routeParams
 			};

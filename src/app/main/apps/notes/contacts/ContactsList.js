@@ -33,6 +33,7 @@ function sortByProperty(array, property, order = 'ASC') {
 function ContactsList(props) {
 	const dispatch = useDispatch();
 	const filterKey = useSelector(({ contactsApp }) => contactsApp.contacts.filterKey);
+	const filterKeyName = useSelector(({ contactsApp }) => contactsApp.contacts.filterKeyName);
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
 	const approved = useSelector(({ contactsApp }) => contactsApp.contacts.approved);
 	const waiting = useSelector(({ contactsApp }) => contactsApp.contacts.waiting);
@@ -156,6 +157,9 @@ function ContactsList(props) {
 			}
 			return entities.filter(item => item[key] == _searchText);
 		}
+		function getFilteredCompanyArrayByKey(entities) {
+			return entities.filter(item => item.profile.company.id == filterKeyName);
+		}
 		let results = [];
 		switch (filterKey) {
 			case 'all':
@@ -192,6 +196,10 @@ function ContactsList(props) {
 				break;
 			case 'worker':
 				results = sortByProperty(getFilteredArrayByKey(contacts, 'role', 'Worker'), 'name');
+				setFilteredData(results);
+				break;
+			case 'company' + filterKeyName:
+				results = sortByProperty(getFilteredCompanyArrayByKey(contacts), 'name');
 				setFilteredData(results);
 				break;
 			default:

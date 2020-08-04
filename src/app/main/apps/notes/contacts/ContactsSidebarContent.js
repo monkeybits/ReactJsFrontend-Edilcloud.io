@@ -6,6 +6,7 @@ import Icon from '@material-ui/core/Icon';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -39,12 +40,16 @@ const useStyles = makeStyles(theme => ({
 
 function ContactsSidebarContent(props) {
 	const dispatch = useDispatch();
+	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.companies);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const filterKey = useSelector(({ contactsApp }) => contactsApp.contacts.filterKey);
+	const filterKeyName = useSelector(({ contactsApp }) => contactsApp.contacts.filterKeyName);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const classes = useStyles(props);
 	const getListItemClassName = key => (key == filterKey ? clsx(classes.listItem, 'active') : classes.listItem);
+	const getListItemClassNameForCompany = (key, id) =>
+		key + id == filterKey ? clsx(classes.listItem, 'active') : classes.listItem;
 	return (
 		<div className="p-0 lg:ltr:pr-24 lg:ltr:pl-0 lg:rtl:pr-0 lg:rtl:pl-24">
 			<FuseAnimate animation="transition.slideLeftIn" delay={200}>
@@ -89,50 +94,74 @@ function ContactsSidebarContent(props) {
 						>
 							<ListItemText className="truncate" primary="Refused Team members" disableTypography />
 						</ListItem>
-					
-						{/* <ListItem
+					</List>
+					{!!companies?.length && (
+						<List>
+							<ListSubheader className={classes.listSubheader} disableSticky>
+								Company
+							</ListSubheader>
+							{companies.map(d => (
+								<ListItem
+									button
+									onClick={() => {
+										dispatch(Actions.filterByKey('company' + d.profile.company.id));
+										dispatch(Actions.addFilterByKey(d.profile.company.id));
+									}}
+									className={getListItemClassNameForCompany('company', d.profile.company.id)}
+								>
+									<Icon className="list-item-icon" style={{ color: d.color }} color="action">
+										label
+									</Icon>
+									<ListItemText
+										className="truncate"
+										primary={d.profile.company.name}
+										disableTypography
+									/>
+								</ListItem>
+							))}
+							{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('deactivated'))}
 							className={getListItemClassName('deactivated')}
 						>
 							<ListItemText className="truncate" primary="Deactivated Team members" disableTypography />
 						</ListItem> */}
-					
-						{/* <Divider /> */}
-					
-						{/* <ListItem
+
+							{/* <Divider /> */}
+
+							{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('owner'))}
 							className={getListItemClassName('owner')}
 						>
 							<ListItemText className="truncate" primary="Owner" disableTypography />
 						</ListItem> */}
-					
-						{/* <ListItem
+
+							{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('delegate'))}
 							className={getListItemClassName('delegate')}
 						>
 							<ListItemText className="truncate" primary="Delegate" disableTypography />
 						</ListItem> */}
-					
-						{/* <ListItem
+
+							{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('manager'))}
 							className={getListItemClassName('manager')}
 						>
 							<ListItemText className="truncate" primary="Manager" disableTypography />
 						</ListItem> */}
-					
-						{/* <ListItem
+
+							{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('worker'))}
 							className={getListItemClassName('worker')}
 						>
 							<ListItemText className="truncate" primary="Worker" disableTypography />
 						</ListItem> */}
-
-					</List>
+						</List>
+					)}
 				</Paper>
 			</FuseAnimate>
 		</div>
