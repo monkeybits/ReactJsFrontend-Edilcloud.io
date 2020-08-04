@@ -147,7 +147,7 @@ function AddTeamMemberToProject() {
 				</Toolbar>
 			</AppBar>
 			<form noValidate onSubmit={handleSubmit} className="flex flex-col mt-16 md:overflow-hidden">
-				<DialogContent classes={{ root: 'p-24 pb-4' }}>
+				<DialogContent classes={{ root: 'p-24 height-dialogcontent' }}>
 					<div className="flex mb-10">
 						<div className="min-w-48 pt-20">
 							<Icon color="action">search</Icon>
@@ -209,8 +209,7 @@ function AddTeamMemberToProject() {
 					</div> */}
 				</DialogContent>
 			</form>
-			<DialogActions className="justify-between p-8">
-				<div className="px-16 mb-20">
+			<DialogActions className="p-24">
 					<Button
 						variant="contained"
 						color="primary"
@@ -220,7 +219,6 @@ function AddTeamMemberToProject() {
 					>
 						Add
 					</Button>
-				</div>
 			</DialogActions>
 		</Dialog>
 	);
