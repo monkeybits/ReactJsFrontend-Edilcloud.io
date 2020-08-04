@@ -114,7 +114,7 @@ export function getWaitingContacts(routeParams) {
 				let results = [];
 				if (res.results.length) {
 					results = res.results.map(d => {
-						const { first_name, last_name, photo, company, position, email, phone } = d;
+						const { first_name, last_name, photo, company, position, email, phone } = d.profile;
 						return {
 							...d,
 							name: first_name,
@@ -153,7 +153,7 @@ export function getRefusedContacts(routeParams) {
 				let results = [];
 				if (res.results.length) {
 					results = res.results.map(d => {
-						const { first_name, last_name, photo, company, position, email, phone } = d;
+						const { first_name, last_name, photo, company, position, email, phone } = d.profile;
 						return {
 							...d,
 							name: first_name,
@@ -169,7 +169,7 @@ export function getRefusedContacts(routeParams) {
 					});
 				}
 				return dispatch({
-					type: GET_WAITING_CONTACTS,
+					type: GET_REFUSED_CONTACTS,
 					payload: results,
 					routeParams
 				});
@@ -272,7 +272,7 @@ export function addMemberToProject(pid, values) {
 		// 	if (values[key]) formData.append(key, values[key]);
 		// }
 		apiCall(
-			ADD_TEAM_MEMBER_TO_PROJECT(pid, false),
+			ADD_TEAM_MEMBER_TO_PROJECT(pid, true),
 			values,
 			res => {
 				dispatch(getContacts(pid));
