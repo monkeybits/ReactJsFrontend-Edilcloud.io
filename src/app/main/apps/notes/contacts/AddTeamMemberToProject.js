@@ -84,7 +84,7 @@ function AddTeamMemberToProject() {
 	}
 
 	function canBeSubmitted() {
-		return member && member.length && role;
+		return member && member.length;
 	}
 
 	function handleSubmit(event) {
@@ -98,7 +98,7 @@ function AddTeamMemberToProject() {
 		dispatch(
 			ContactActions.addMemberToProject(match.params.id, {
 				profile: member[0].data.id,
-				role: SYSTEM_ROLES.filter(d => d.label == role)[0].key
+				role: member[0].data.role?.split('')?.[0]?.toLocaleLowerCase()
 			})
 		);
 		closeComposeDialog();
@@ -122,6 +122,7 @@ function AddTeamMemberToProject() {
 			getHeaderToken()
 		);
 	}
+	const getString = strArg => (strArg ? strArg : '');
 	return (
 		<Dialog
 			disableBackdropClick
@@ -165,7 +166,7 @@ function AddTeamMemberToProject() {
 							}}
 							options={filteredData.map(member => ({
 								data: member,
-								value: member.first_name,
+								value: getItemValue(member),
 								label: (
 									<span className="flex items-center">
 										<Avatar className="w-32 h-32" src={member.photo} />
@@ -177,7 +178,7 @@ function AddTeamMemberToProject() {
 						/>
 					</div>
 
-					<div className="flex">
+					{/* <div className="flex">
 						<div className="min-w-48 pt-20">
 							<Icon color="action">nature_people</Icon>
 						</div>
@@ -205,7 +206,7 @@ function AddTeamMemberToProject() {
 							renderInput={params => <TextField {...params} variant="outlined" label="Role" />}
 							onInputChange={(e, value) => setRole(value)}
 						/>
-					</div>
+					</div> */}
 				</DialogContent>
 			</form>
 			<DialogActions className="justify-between p-8">

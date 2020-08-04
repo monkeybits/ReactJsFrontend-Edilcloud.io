@@ -5,7 +5,7 @@ import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import AddTeamMemberToProject from './AddTeamMemberToProject';
@@ -14,6 +14,7 @@ import ContactsList from './ContactsList';
 import ContactsSidebarContent from './ContactsSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -30,12 +31,16 @@ function ContactsApp(props) {
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
+	const company = useSelector(({ chatApp }) => chatApp?.company);
 
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getContacts(routeParams.id));
 		dispatch(Actions.getUserData());
 		return dispatch(Actions.resetContact());
 	}, [dispatch, routeParams]);
+	const userInfo = decodeDataFromToken();
+	const companyIdFromCompany = userInfo?.extra?.profile?.company;
+	const roleFromCompany = userInfo?.extra?.profile?.role;
 	return (
 		<>
 			<FusePageSimple
@@ -52,16 +57,18 @@ function ContactsApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			<FuseAnimate animation="transition.expandIn" delay={300}>
-				<Fab
-					color="primary"
-					aria-label="add"
-					className={classes.addButton}
-					onClick={ev => dispatch(Actions.openNewContactDialog())}
-				>
-					<Icon>person_add</Icon>
-				</Fab>
-			</FuseAnimate>
+			{(roleFromCompany == 'o' || roleFromCompany == 'd') && (
+				<FuseAnimate animation="transition.expandIn" delay={300}>
+					<Fab
+						color="primary"
+						aria-label="add"
+						className={classes.addButton}
+						onClick={ev => dispatch(Actions.openNewContactDialog())}
+					>
+						<Icon>person_add</Icon>
+					</Fab>
+				</FuseAnimate>
+			)}
 			<AddTeamMemberToProject />
 			<ViewContactDialog />
 		</>
