@@ -70,3 +70,5 @@ export const COMPANY_STAFF_LIST = searchString =>
 export const ADD_TEAM_MEMBER_TO_PROJECT = (pid, is_external) =>
 	`/api/frontend/project/project/${pid}/team_add/?is_external=${is_external}`;
 export const GET_PROJECT_STAFF_LIST = pid => `/api/frontend/project/project/${pid}/approve/team_list/`;
+export const GET_PROJECT_STAFF_WAITING_LIST = pid => `/api/frontend/project/project/${pid}/waiting/team_list/`;
+export const GET_PROJECT_STAFF_REFUSE_LIST = pid => `/api/frontend/project/project/${pid}/refuse/team_list/`;

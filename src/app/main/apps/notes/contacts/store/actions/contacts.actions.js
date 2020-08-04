@@ -8,7 +8,9 @@ import {
 	GET_REFUSED_STAFF_LIST,
 	GET_WAITING_STAFF_LIST,
 	GET_DISABLED_STAFF_LIST,
-	ADD_TEAM_MEMBER_TO_PROJECT
+	ADD_TEAM_MEMBER_TO_PROJECT,
+	GET_PROJECT_STAFF_WAITING_LIST,
+	GET_PROJECT_STAFF_REFUSE_LIST
 } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
@@ -60,8 +62,8 @@ export function filterByKey(filterKey) {
 export function getContacts(pid) {
 	return (dispatch, getState) => {
 		dispatch(getApprovedContacts(pid));
-		// dispatch(getWaitingContacts(routeParams));
-		// dispatch(getRefusedContacts(routeParams));
+		dispatch(getWaitingContacts(pid));
+		dispatch(getRefusedContacts(pid));
 		// dispatch(getDeactivatedContacts(routeParams));
 	};
 }
@@ -106,7 +108,7 @@ export function getApprovedContacts(routeParams) {
 export function getWaitingContacts(routeParams) {
 	return (dispatch, getState) => {
 		return apiCall(
-			GET_WAITING_STAFF_LIST,
+			GET_PROJECT_STAFF_WAITING_LIST(routeParams),
 			{},
 			res => {
 				let results = [];
@@ -145,7 +147,7 @@ export function getWaitingContacts(routeParams) {
 export function getRefusedContacts(routeParams) {
 	return (dispatch, getState) => {
 		return apiCall(
-			GET_REFUSED_STAFF_LIST,
+			GET_PROJECT_STAFF_REFUSE_LIST(routeParams),
 			{},
 			res => {
 				let results = [];

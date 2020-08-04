@@ -74,21 +74,21 @@ function ContactsSidebarContent(props) {
 							<ListItemText className="truncate" primary="Approved Team members" disableTypography />
 						</ListItem>
 
-						{/* <ListItem
+						<ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('waiting'))}
 							className={getListItemClassName('waiting')}
 						>
 							<ListItemText className="truncate" primary="Waiting Team members" disableTypography />
-						</ListItem> */}
+						</ListItem>
 
-						{/* <ListItem
+						<ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('refused'))}
 							className={getListItemClassName('refused')}
 						>
 							<ListItemText className="truncate" primary="Refused Team members" disableTypography />
-						</ListItem> */}
+						</ListItem>
 					
 						{/* <ListItem
 							button
