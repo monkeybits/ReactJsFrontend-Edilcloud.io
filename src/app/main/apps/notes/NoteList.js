@@ -137,6 +137,7 @@ function NoteList(props) {
 									<Badge
 										invisible={project.isApproved}
 										color="secondary"
+										className="h-full flex flex-col"
 										onClick={e => {
 											e.stopPropagation();
 											e.preventDefault();
