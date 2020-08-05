@@ -204,15 +204,15 @@ function ChatApp(props) {
 										<IconButton
 											color="inherit"
 											aria-label="Open drawer"
-											onClick={() => dispatch(Actions.openMobileChatsSidebar())}
+											// onClick={() => dispatch(Actions.openMobileChatsSidebar())}
 											className="flex md:hidden"
 										>
 											<Icon>chat</Icon>
 										</IconButton>
 										<div
 											className="flex items-center cursor-pointer"
-											onClick={() => dispatch(Actions.openContactSidebar())}
-											onKeyDown={() => dispatch(Actions.openContactSidebar())}
+											// onClick={() => dispatch(Actions.openContactSidebar())}
+											// onKeyDown={() => dispatch(Actions.openContactSidebar())}
 											role="button"
 											tabIndex={0}
 										>
