@@ -7,8 +7,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import ProjectInfo from './ProjectInfo';
-import React, {  } from 'react';
+import React from 'react';
 import ContactsApp from '../contacts/ContactsApp';
+import ChatApp from '../chat/ChatApp';
 
 function TabPanel(props) {
 	// const [data, setData] = useState(null);
@@ -74,7 +75,7 @@ export default function ProjectTabs() {
 				<ContactsApp />
 			</TabPanel>
 			<TabPanel value={value} index="three">
-				Item Three
+				<ChatApp />
 			</TabPanel>
 			<TabPanel value={value} index="four">
 				Item Four
@@ -89,10 +90,10 @@ export default function ProjectTabs() {
 				<Tabs value={value} onChange={handleChange} aria-label="wrapped label tabs example">
 					<Tab value="one" label="Info" wrapped {...a11yProps('one')} />
 					<Tab value="two" label="Team" {...a11yProps('two')} />
-					<Tab value="three" label="Gantt" {...a11yProps('three')} />
+					<Tab value="three" label="Chat" {...a11yProps('three')} />
 					<Tab value="four" label="Todo" {...a11yProps('four')} />
 					<Tab value="five" label="File Manager" {...a11yProps('five')} />
-					<Tab value="six" label="Chat" {...a11yProps('six')} />
+					<Tab value="six" label="Gantt" {...a11yProps('six')} />
 				</Tabs>
 			</AppBar>
 		</div>
