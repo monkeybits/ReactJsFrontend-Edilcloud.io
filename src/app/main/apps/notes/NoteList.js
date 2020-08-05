@@ -25,6 +25,9 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import Icon from '@material-ui/core/Icon';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import ProjectListitem from './ProjectDetail/ProjectListitem';
+import ReuestsDrawer from '../scrumboard/boards/ReuestsDrawer';
+import { Badge } from '@material-ui/core';
+import { ACCEPT_PROJECT_INVITATION, REJECT_PROJECT_INVITATION } from 'app/services/apiEndPoints';
 const useStyles = makeStyles(theme => ({
 	// root: {
 	// 	maxWidth: 345,
@@ -70,7 +73,8 @@ function NoteList(props) {
 	const searchText = useSelector(({ notesApp }) => notesApp.project.searchText);
 	const classes = useStyles();
 	const dispatch = useDispatch();
-
+	const [isShowRequests, setIsShowRequests] = useState(false);
+	const [request, setRequest] = useState({});
 	const [filteredData, setFilteredData] = useState([]);
 
 	useEffect(() => {
@@ -109,17 +113,58 @@ function NoteList(props) {
 			setFilteredData(filterData());
 		}
 	}, [projects, searchText, props.match]);
-
+	const handleInvitation = () => {
+		dispatch({
+			type: Actions.RESET_PROEJECTS
+		});
+		dispatch(Actions.getProjects());
+		dispatch(Actions.getRequest());
+		setIsShowRequests(false);
+	};
 	return (
-		<div className="flex flex-wrap w-full">
-			<div className={classes.root}>
-				<Grid container spacing={12}>
-					{projects.map((project, index) => {
-						return <ProjectListitem key={index} index={index} {...{ project, classes }} />;
-					})}
-				</Grid>
+		<>
+			<div className="flex flex-wrap w-full">
+				<div className={classes.root}>
+					<Grid container spacing={12}>
+						{projects.map((project, index) => {
+							return project.isApproved ? (
+								<Grid className="px-12 mb-32" item xs={12} md={6} xl={3}>
+									<ProjectListitem key={index} index={index} {...{ project, classes, setRequest }} />
+								</Grid>
+							) : (
+								<Grid className="px-12 mb-32" item xs={12} md={6} xl={3}>
+									{' '}
+									<Badge
+										invisible={project.isApproved}
+										color="secondary"
+										onClick={e => {
+											e.stopPropagation();
+											e.preventDefault();
+											setIsShowRequests(true);
+											setRequest(project);
+										}}
+									>
+										<ProjectListitem
+											key={index}
+											index={index}
+											{...{ project, classes, setRequest }}
+										/>
+									</Badge>
+								</Grid>
+							);
+						})}
+					</Grid>
+				</div>
 			</div>
-		</div>
+			<ReuestsDrawer
+				afterSuccess={handleInvitation}
+				isShowRequests={isShowRequests}
+				setIsShowRequests={setIsShowRequests}
+				request={request}
+				acceptAPI={ACCEPT_PROJECT_INVITATION(request.mainId)}
+				rejectAPI={REJECT_PROJECT_INVITATION(request.mainId)}
+			/>
+		</>
 	);
 }
 

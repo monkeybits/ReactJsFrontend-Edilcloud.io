@@ -1,20 +1,44 @@
 import _ from '@lodash';
 import * as Actions from '../actions';
+import FuseUtils from '@fuse/utils';
 
-const initialState = {
+const initialState = () => ({
 	entities: [],
 	projectDialog: false,
 	searchText: '',
 	projectDetail: {},
 	dialogType: 'new'
-};
-
-const labelsReducer = (state = initialState, action) => {
+});
+const mergeArray = (oldArr = [], newArr = []) =>
+	[...newArr, ...oldArr].reduce((arr, current) => {
+		const x = arr.find(item => item.name === current.name);
+		if (!x) {
+			return arr.concat([current]);
+		} else {
+			return arr;
+		}
+	}, []);
+function sortByProperty(array, property, order = 'ASC') {
+	return array.sort((a, b) =>
+		order === 'ASC'
+			? a[property].toLocaleLowerCase() > b[property].toLocaleLowerCase()
+				? 1
+				: a[property].toLocaleLowerCase() < b[property].toLocaleLowerCase()
+				? -1
+				: 0
+			: a[property].toLocaleLowerCase() > b[property].toLocaleLowerCase()
+			? -1
+			: a[property].toLocaleLowerCase() < b[property].toLocaleLowerCase()
+			? 1
+			: 0
+	);
+}
+const labelsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_PROJECTS: {
 			return {
 				...state,
-				entities: action.payload
+				entities: sortByProperty(mergeArray(state.entities, action.payload), 'name')
 			};
 		}
 		case Actions.GET_PROJECT_DETAIL: {
@@ -44,6 +68,9 @@ const labelsReducer = (state = initialState, action) => {
 				...state,
 				projectDialog: false
 			};
+		}
+		case Actions.RESET_PROEJECTS: {
+			return initialState();
 		}
 		default: {
 			return state;

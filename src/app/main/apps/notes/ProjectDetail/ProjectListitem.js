@@ -36,7 +36,9 @@ export default function ProjectListitem({
 	classes
 }) {
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
-	const { id, name, description, company, logo, date_start, status, date_end, profiles } = projects[index];
+	const { id, name, description, company, logo, date_start, status, date_end, profiles, isApproved } = projects[
+		index
+	];
 	const [expanded, setExpanded] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -76,15 +78,15 @@ export default function ProjectListitem({
 		dispatch(Actions.openProjectDialog('edit'));
 	};
 	return (
-		<Grid className="px-12 mb-32" item xs={12} md={6} xl={3}>
-			<Card className="h-full flex flex-col">
-				<CardHeader
-					avatar={
-						<Avatar aria-label="recipe" src={profiles?.[0]?.photo} className={classes.avatar}>
-							{profiles?.[0]?.first_name?.split('')[0]}
-						</Avatar>
-					}
-					action={
+		<Card className="h-full flex flex-col">
+			<CardHeader
+				avatar={
+					<Avatar aria-label="recipe" src={profiles?.[0]?.photo} className={classes.avatar}>
+						{profiles?.[0]?.first_name?.split('')[0]}
+					</Avatar>
+				}
+				action={
+					!!isApproved && (
 						<div>
 							<IconButton onClick={handleClick} aria-label="settings">
 								<MoreVertIcon />
@@ -105,36 +107,36 @@ export default function ProjectListitem({
 								<MenuItem onClick={handleUpdateProject}>Update Project Details</MenuItem>
 							</Menu>
 						</div>
-					}
-					title={<Link to={`${match.path}/${id}`}>{name}</Link>}
-					subheader={moment(date_start).format('MMM DD, YYYY')}
-				/>
-				<CardMedia className={classes.media} image={logo} title={name} />
-				<CardContent>
-					<Typography variant="body2" color="textSecondary" component="p">
-						{description}
-					</Typography>
-				</CardContent>
-				<CardActions disableSpacing className="mt-auto">
-					<IconButton aria-label="add to favorites">
-						<FavoriteIcon />
-					</IconButton>
-					<IconButton aria-label="share">
-						<ShareIcon />
-					</IconButton>
-					<IconButton
-						className={clsx(classes.expand, {
-							[classes.expandOpen]: expanded
-						})}
-						// onClick={handleExpandClick}
-						aria-expanded={expanded}
-						aria-label="show more"
-					>
-						<Switch name="checkedA" inputProps={{ 'aria-label': 'secondary checkbox' }} />
-						<Icon>notifications</Icon>
-					</IconButton>
-				</CardActions>
-			</Card>
-		</Grid>
+					)
+				}
+				title={isApproved ? <Link to={`${match.path}/${id}`}>{name}</Link> : name}
+				subheader={moment(date_start).format('MMM DD, YYYY')}
+			/>
+			<CardMedia className={classes.media} image={logo} title={name} />
+			<CardContent>
+				<Typography variant="body2" color="textSecondary" component="p">
+					{description}
+				</Typography>
+			</CardContent>
+			<CardActions disableSpacing className="mt-auto">
+				<IconButton aria-label="add to favorites">
+					<FavoriteIcon />
+				</IconButton>
+				<IconButton aria-label="share">
+					<ShareIcon />
+				</IconButton>
+				<IconButton
+					className={clsx(classes.expand, {
+						[classes.expandOpen]: expanded
+					})}
+					// onClick={handleExpandClick}
+					aria-expanded={expanded}
+					aria-label="show more"
+				>
+					<Switch name="checkedA" inputProps={{ 'aria-label': 'secondary checkbox' }} />
+					<Icon>notifications</Icon>
+				</IconButton>
+			</CardActions>
+		</Card>
 	);
 }

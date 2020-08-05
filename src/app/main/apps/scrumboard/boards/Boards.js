@@ -12,7 +12,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-import { APPROVE_LIST, REFRESH_TOKEN, REQUEST_LIST, GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
+import {
+	APPROVE_LIST,
+	REFRESH_TOKEN,
+	REQUEST_LIST,
+	GET_MAIN_PROFILE,
+	ACCEPT_INVITATION,
+	REFUSE_INVITATION
+} from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getTokenOnly, saveToken, saveMainProfileId } from 'app/services/serviceUtils';
 import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
@@ -255,6 +262,8 @@ function Boards(props) {
 				isShowRequests={isShowRequests}
 				setIsShowRequests={setIsShowRequests}
 				request={request}
+				acceptAPI={ACCEPT_INVITATION(request.uidb36, request.token)}
+				rejectAPI={REFUSE_INVITATION(request.uidb36, request.token)}
 			/>
 		</div>
 	);

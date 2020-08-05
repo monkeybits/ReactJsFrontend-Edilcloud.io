@@ -31,8 +31,11 @@ function NotesApp(props) {
 	const pageLayout = useRef(null);
 
 	useEffect(() => {
+		dispatch({
+			type: Actions.RESET_PROEJECTS
+		});
 		dispatch(Actions.getProjects());
-		// dispatch(Actions.getLabels());
+		dispatch(Actions.getRequest());
 	}, [dispatch]);
 
 	return (

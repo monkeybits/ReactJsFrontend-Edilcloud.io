@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { PROJECT_LIST, PROJECT_DETAIL, ADD_TEAM_MEMBER_TO_PROJECT } from 'app/services/apiEndPoints';
+import { PROJECT_LIST, PROJECT_DETAIL, PROJECT_INVIATION_LIST } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const GET_NOTES = '[NOTES APP] GET NOTES';
 export const GET_PROJECTS = '[PROJECTS APP] GET PROJECTS';
+export const RESET_PROEJECTS = '[PROJECTS APP] RESET PROJECTS';
 export const TOGGLE_PROJECT_STATUS = '[PROJECTS APP] TOGGLE PROJECT STATUS';
 export const GET_PROJECT_DETAIL = '[PROJECTS APP] GET PROJECTS DETAIL';
 export const SET_SEARCH_TEXT = '[NOTES APP] SET SEARCH TEXT';
@@ -20,11 +21,16 @@ export function getProjects() {
 		apiCall(
 			PROJECT_LIST,
 			{},
-			res => {
-				dispatch({
-					type: GET_PROJECTS,
-					payload: res.results
-				});
+			({ results }) => {
+				if (Array.isArray(results)) {
+					dispatch({
+						type: GET_PROJECTS,
+						payload: results.map(d => ({
+							...d,
+							isApproved: true
+						}))
+					});
+				}
 			},
 			err => console.log(err),
 			METHOD.GET,
@@ -36,6 +42,31 @@ export function getProjects() {
 		// 		payload: response.data
 		// 	})
 		// );
+	};
+}
+
+export function getRequest() {
+	return dispatch => {
+		apiCall(
+			PROJECT_INVIATION_LIST,
+			{},
+			({ results }) => {
+				if (Array.isArray(results)) {
+					dispatch({
+						type: GET_PROJECTS,
+						payload: results.map(d => ({
+							...d,
+							...d.project,
+							mainId: d.id,
+							isApproved: false
+						}))
+					});
+				}
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
 	};
 }
 export function getProjectDetail(pid) {
@@ -55,7 +86,6 @@ export function getProjectDetail(pid) {
 		);
 	};
 }
-
 
 export function toggleProjectStatus(index) {
 	return {

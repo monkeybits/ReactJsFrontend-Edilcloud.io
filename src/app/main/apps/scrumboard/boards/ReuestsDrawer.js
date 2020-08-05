@@ -8,7 +8,7 @@ import { ACCEPT_INVITATION, REFUSE_INVITATION } from 'app/services/apiEndPoints'
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { CircularProgress } from '@material-ui/core';
 
-function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSuccess }) {
+function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSuccess, acceptAPI, rejectAPI }) {
 	const [isLoading, setIsLoading] = React.useState({
 		isAccept: false,
 		isReject: false
@@ -26,7 +26,7 @@ function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSucces
 	const handleOnAccept = () => {
 		setLoadingAcceptTrue();
 		apiCall(
-			ACCEPT_INVITATION(request.uidb36, request.token),
+			acceptAPI,
 			{},
 			res => {
 				setLoadingAcceptFalse();
@@ -42,7 +42,7 @@ function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSucces
 	const handleOnReject = () => {
 		setLoadingRejectTrue();
 		apiCall(
-			REFUSE_INVITATION(request.uidb36, request.token),
+			rejectAPI,
 			{},
 			res => {
 				console.log(res);

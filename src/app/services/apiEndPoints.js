@@ -61,6 +61,7 @@ export const SEARCH_PROJECT_CORDINATOR = searchString =>
 
 export const ADD_PROJECT = `/api/frontend/project/project/add/`;
 export const PROJECT_LIST = `/api/frontend/profile/company/project_list/`;
+export const PROJECT_INVIATION_LIST = `/api/frontend/project/team/inviation_list/`;
 export const PROJECT_DETAIL = id => `/api/frontend/project/project/${id}/`;
 export const DISABLE_PROJECT = id => `/api/frontend/project/project/disable/${id}/`;
 export const ENABLE_PROJECT = id => `/api/frontend/project/project/enable/${id}/`;
@@ -72,3 +73,5 @@ export const ADD_TEAM_MEMBER_TO_PROJECT = (pid, is_external) =>
 export const GET_PROJECT_STAFF_LIST = pid => `/api/frontend/project/project/${pid}/approve/team_list/`;
 export const GET_PROJECT_STAFF_WAITING_LIST = pid => `/api/frontend/project/project/${pid}/waiting/team_list/`;
 export const GET_PROJECT_STAFF_REFUSE_LIST = pid => `/api/frontend/project/project/${pid}/refuse/team_list/`;
+export const ACCEPT_PROJECT_INVITATION = pid => `/api/frontend/project/team/enable/${pid}/`;
+export const REJECT_PROJECT_INVITATION = pid => `/api/frontend/project/team/enable/${pid}/`;

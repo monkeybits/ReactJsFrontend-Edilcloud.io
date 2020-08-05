@@ -29,7 +29,7 @@ function getRandomColor() {
 }
 const mergeArray = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
-		const x = arr.find(item => item.email === current.email);
+		const x = arr.find(item => item.profile.id === current.profile.id);
 		if (!x) {
 			return arr.concat([current]);
 		} else {
@@ -38,7 +38,7 @@ const mergeArray = (oldArr = [], newArr = []) =>
 	}, []);
 const mergeArrayByComapny = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
-		const x = arr.find(item => item.profile.company.id === current.profile.company.id);
+		const x = arr.find(item => item.profile.company.name === current.profile.company.name);
 		if (!x) {
 			return arr.concat([current]);
 		} else {
@@ -47,7 +47,8 @@ const mergeArrayByComapny = (oldArr = [], newArr = []) =>
 	}, []);
 const removeByEmail = (arr = [], email) => (arr.length ? arr.filter((d, i) => d.email != email) : []);
 const addTypeInArray = (arr = [], status) => (arr.length ? arr.map((d, i) => ({ ...d, status })) : []);
-const addColorInArray = (arr = [], color) => (arr.length ? arr.map((d, i) => ({ ...d, color: getRandomColor() })) : []);
+const addColorInArray = (arr = [], color) =>
+	arr.length ? arr.map((d, i) => ({ ...d, color: d.color ? d.color : getRandomColor() })) : [];
 const contactsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.RESET_CONTACTS: {
