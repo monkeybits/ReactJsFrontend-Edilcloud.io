@@ -3,17 +3,23 @@ import { setselectedContactId } from './contacts.actions';
 import { closeMobileChatsSidebar } from './sidebars.actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-import { GET_MESSAGES_API, SEND_MESSAGE_API, COMPANY_DETAIL } from 'app/services/apiEndPoints';
+import {
+	GET_MESSAGES_API,
+	SEND_MESSAGE_API,
+	COMPANY_DETAIL,
+	GET_PROJECT_MESSAGES_API,
+	SEND_PROJECT_MESSAGE_API
+} from 'app/services/apiEndPoints';
 
 export const GET_CHAT = '[CHAT APP] GET CHAT';
 export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT';
 export const SEND_MESSAGE = '[CHAT APP] SEND MESSAGE';
 export const COMPANY_INFO = '[CHAT APP] COMPANY INFO';
 
-export function getChat(contactId) {
+export function getChat(pid) {
 	return (dispatch, getState) => {
 		apiCall(
-			GET_MESSAGES_API,
+			GET_PROJECT_MESSAGES_API(pid),
 			{},
 			chat => {
 				return dispatch({
@@ -35,11 +41,10 @@ export function removeChat() {
 	};
 }
 
-export function sendMessage(messageText, setMessageText) {
+export function sendMessage(messageText, setMessageText, pid) {
 	return (dispatch, getState) => {
-		const userInfo = decodeDataFromToken();
 		apiCall(
-			SEND_MESSAGE_API(userInfo.extra.profile.company),
+			SEND_PROJECT_MESSAGE_API(pid),
 			{
 				body: messageText
 			},

@@ -123,8 +123,8 @@ function ChatApp(props) {
 		if (company.can_access_chat && routeParams.id) {
 			dispatch(Actions.getUserData(routeParams.id));
 			dispatch(Actions.getContacts(routeParams.id));
-			// let callMessageList = setInterval(() => dispatch(Actions.getChat()), 1000);
-			// return () => clearInterval(callMessageList);
+			let callMessageList = setInterval(() => dispatch(Actions.getChat(routeParams.id)), 3000);
+			return () => clearInterval(callMessageList);
 		} else {
 			props.history.push('/apps/todo/all');
 		}

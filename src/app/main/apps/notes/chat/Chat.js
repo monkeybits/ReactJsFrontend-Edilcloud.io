@@ -12,6 +12,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
+import { useParams } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -107,6 +108,7 @@ function Chat(props) {
 	const [chatLength, setChatLength] = useState(0);
 	const userInfo = decodeDataFromToken();
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
+	const routeParams = useParams();
 
 	useEffect(() => {
 		if (chat?.chats?.length && chat.chats.length != chatLength) {
@@ -140,7 +142,7 @@ function Chat(props) {
 			return;
 		}
 
-		dispatch(Actions.sendMessage(messageText, setMessageText));
+		dispatch(Actions.sendMessage(messageText, setMessageText, routeParams.id));
 	}
 
 	return (
