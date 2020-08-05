@@ -49,8 +49,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	contentCardWrapper: {
 		position: 'relative',
-		padding: 24,
-		maxWidth: 1400,
+		// padding: 24,
+		// maxWidth: 1400,
 		display: 'flex',
 		flexDirection: 'column',
 		flex: '1 0 auto',
@@ -75,6 +75,7 @@ const useStyles = makeStyles(theme => ({
 		boxShadow: theme.shadows[1],
 		borderRadius: 8,
 		minHeight: 0,
+		height: '100%',
 		overflow: 'hidden'
 	},
 	drawerPaper: {
@@ -130,10 +131,10 @@ function ChatApp(props) {
 		}
 	}, [dispatch, company, routeParams]);
 	return (
-		<div className={clsx(classes.root)}>
-			<div className={classes.topBg} />
+		<div className={clsx(classes.root, 'h-full')}>
+			{/* <div className={classes.topBg} /> */}
 
-			<div className={clsx(classes.contentCardWrapper, 'container')}>
+			<div className={clsx(classes.contentCardWrapper, 'container h-full')}>
 				<div className={classes.contentCard}>
 					<Hidden mdUp>
 						<Drawer

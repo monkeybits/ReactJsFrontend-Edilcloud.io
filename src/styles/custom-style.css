@@ -132,6 +132,11 @@
     min-height: 400px;
 }
 
+.chat-tab-content-height > .MuiBox-root,
+.chat-tab-content-height >  .MuiBox-root > .MuiTypography-root{
+    height: 100%;
+}
+
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
         min-width: 100px !important;
