@@ -112,6 +112,7 @@ function ChatApp(props) {
 	const mobileChatsSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.mobileChatsSidebarOpen);
 	const userSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.userSidebarOpen);
 	const contactSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.contactSidebarOpen);
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const routeParams = useParams();
 
 	const classes = useStyles(props);
@@ -221,17 +222,17 @@ function ChatApp(props) {
 
 												<Avatar
 													src={
-														company.logo
-															? company.logo
+														projectDetail.logo
+															? projectDetail.logo
 															: 'assets/images/avatars/profile.jpg'
 													}
-													alt={company.name}
+													alt={projectDetail.name}
 												>
 													Group Chat
 												</Avatar>
 											</div>
 											<Typography color="inherit" className="text-18 font-600 px-4">
-												{company.name}
+												{projectDetail.name}
 											</Typography>
 										</div>
 									</Toolbar>

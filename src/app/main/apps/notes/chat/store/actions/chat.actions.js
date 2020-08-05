@@ -43,11 +43,18 @@ export function removeChat() {
 
 export function sendMessage(messageText, setMessageText, pid) {
 	return (dispatch, getState) => {
+		let values = {
+			body: messageText
+		};
+		var formData = new FormData();
+		for (let key in values) {
+			if (values[key]) {
+				formData.append(key, values[key]);
+			}
+		}
 		apiCall(
 			SEND_PROJECT_MESSAGE_API(pid),
-			{
-				body: messageText
-			},
+			formData,
 			chat => {
 				dispatch(getChat());
 				setMessageText('');
