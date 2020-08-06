@@ -108,9 +108,9 @@ export function setAllFiles(payload) {
 		payload
 	};
 }
-export function deleteFile(payload) {
+export function deleteFile(id, fileType, deleteId) {
 	return {
 		type: DELETE_FILE,
-		payload
+		payload: { id, fileType, deleteId }
 	};
 }

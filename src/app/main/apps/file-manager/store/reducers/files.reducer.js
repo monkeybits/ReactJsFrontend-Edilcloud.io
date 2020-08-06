@@ -3,6 +3,9 @@ import * as Actions from '../actions';
 
 const initialState = () => ({
 	allFiles: [],
+	photos: [],
+	videos: [],
+	documents: [],
 	files: [],
 	searchText: '',
 	folderPath: [''],
@@ -47,6 +50,53 @@ function sortByProperty(array, property, order = 'ASC') {
 	);
 }
 const chnageIds = (arr = []) => arr.map((d, i) => ({ ...d, id: i }));
+const deleteFileOrFolder = (fileType, state, indexId, deleteId) => {
+	if (fileType == 'folder') {
+		return {
+			...state,
+			allFiles: chnageIds(
+				sortByProperty(
+					state.allFiles.filter(f => f.id != indexId),
+					'title'
+				)
+			),
+			folders: state.folders.filter(f => f.path != deleteId)
+		};
+	} else if (fileType == 'photo') {
+		return {
+			...state,
+			allFiles: chnageIds(
+				sortByProperty(
+					state.allFiles.filter(f => f.id != indexId),
+					'title'
+				)
+			),
+			photos: state.photos.results.filter(f => f.id != deleteId)
+		};
+	} else if (fileType == 'video') {
+		return {
+			...state,
+			allFiles: chnageIds(
+				sortByProperty(
+					state.allFiles.filter(f => f.id != indexId),
+					'title'
+				)
+			),
+			videos: state.videos.results.filter(f => f.id != deleteId)
+		};
+	} else {
+		return {
+			...state,
+			allFiles: chnageIds(
+				sortByProperty(
+					state.allFiles.filter(f => f.id != indexId),
+					'title'
+				)
+			),
+			documents: state.documents.results.filter(f => f.id != deleteId)
+		};
+	}
+};
 const filesReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_ALL_FILES:
@@ -115,15 +165,7 @@ const filesReducer = (state = initialState(), action) => {
 				isUploadingFiles: action.payload
 			};
 		case Actions.DELETE_FILE:
-			return {
-				...state,
-				allFiles: chnageIds(
-					sortByProperty(
-						state.allFiles.filter(f => f.id != action.payload),
-						'title'
-					)
-				)
-			};
+			return deleteFileOrFolder(action.payload.fileType, state, action.payload.id, action.payload.deleteId);
 		case Actions.RESET_FILES: {
 			return initialState();
 		}

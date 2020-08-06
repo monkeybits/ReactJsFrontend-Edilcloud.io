@@ -73,7 +73,8 @@ function DetailSidebarHeader({ setProgress }) {
 	const handleDelete = () => {
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
-		const fileType = selectedItem.type
+		const fileType = selectedItem.type;
+		const mainId = selectedItem.mainId;
 		const url =
 			fileType == 'folder'
 				? FOLDER_DELETE(cid, selectedItem.path)
@@ -86,17 +87,10 @@ function DetailSidebarHeader({ setProgress }) {
 			url,
 			{},
 			res => {
-				dispatch(Actions.deleteFile(selectedItem.id));
 				if (fileType == 'folder') {
-					dispatch(Actions.getFolders(cid));
+					dispatch(Actions.deleteFile(selectedItem.id, fileType , selectedItem.path));
 				} else {
-					if (fileType == 'photo') {
-						dispatch(Actions.getPhotos(cid));
-					} else if (fileType == 'video') {
-						dispatch(Actions.getVideos(cid));
-					} else {
-						dispatch(Actions.getDocuments(cid));
-					}
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId));
 				}
 				colseDeleteFileDialog();
 			},
