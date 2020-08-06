@@ -1,10 +1,8 @@
 import * as Actions from '../actions';
 
 const initialState = {
-	company: {
-		can_access_chat: true,
-		can_access_files: true
-	}
+	can_access_chat: true,
+	can_access_files: true
 };
 
 const company = (state = initialState, action) => {

@@ -76,4 +76,5 @@ export const GET_PROJECT_STAFF_LIST = pid => `/api/frontend/project/project/${pi
 export const GET_PROJECT_STAFF_WAITING_LIST = pid => `/api/frontend/project/project/${pid}/waiting/team_list/`;
 export const GET_PROJECT_STAFF_REFUSE_LIST = pid => `/api/frontend/project/project/${pid}/refuse/team_list/`;
 export const ACCEPT_PROJECT_INVITATION = pid => `/api/frontend/project/team/enable/${pid}/`;
-export const REJECT_PROJECT_INVITATION = pid => `/api/frontend/project/team/enable/${pid}/`;
+export const REJECT_PROJECT_INVITATION = pid => `/api/frontend/project/team/disable/${pid}/`;
+export const CHAT_LIST = `/api/frontend/profile/company/talk_list/`;

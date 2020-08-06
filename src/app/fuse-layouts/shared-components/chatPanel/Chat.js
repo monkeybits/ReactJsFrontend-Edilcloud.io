@@ -11,6 +11,7 @@ import moment from 'moment/moment';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -140,7 +141,8 @@ function Chat(props) {
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
 	const chat = useSelector(({ chatPanel }) => chatPanel.chat);
 	const user = useSelector(({ chatPanel }) => chatPanel.user);
-
+	const userInfo = decodeDataFromToken();
+	const userIdFromCompany = userInfo?.extra?.profile?.id;
 	const classes = useStyles();
 	const chatScroll = useRef(null);
 	const [messageText, setMessageText] = useState('');
@@ -162,27 +164,25 @@ function Chat(props) {
 		if (messageText === '') {
 			return;
 		}
-		dispatch(Actions.sendMessage(messageText, chat.id, user.id)).then(() => {
-			setMessageText('');
-		});
+		dispatch(Actions.sendMessage(messageText, setMessageText, user));
 	};
 
 	return (
 		<Paper elevation={3} className={clsx('flex flex-col', props.className)}>
 			{useMemo(() => {
 				const shouldShowContactAvatar = (item, i) => {
-					return (
-						item.who === selectedContactId &&
-						((chat.dialog[i + 1] && chat.dialog[i + 1].who !== selectedContactId) || !chat.dialog[i + 1])
-					);
+					return i < chat.chats.length && chat.chats[i - 1] && chat.chats[i - 1].sender.id != item.sender.id;
 				};
 
 				const isFirstMessageOfGroup = (item, i) => {
-					return i === 0 || (chat.dialog[i - 1] && chat.dialog[i - 1].who !== item.who);
+					return i === 0 || (chat.chats[i - 1] && chat.chats[i - 1].sender.id != item.sender.id);
 				};
 
 				const isLastMessageOfGroup = (item, i) => {
-					return i === chat.dialog.length - 1 || (chat.dialog[i + 1] && chat.dialog[i + 1].who !== item.who);
+					return (
+						i === chat.chats.length - 1 ||
+						(chat.chats[i + 1] && chat.chats[i + 1].sender.id != item.sender.id)
+					);
 				};
 				return (
 					<FuseScrollbars ref={chatScroll} className="flex flex-1 flex-col overflow-y-auto">
@@ -195,29 +195,32 @@ function Chat(props) {
 									Select a contact to start a conversation.
 								</Typography>
 							</div>
-						) : chat.dialog.length > 0 ? (
+						) : chat?.chats?.length ? (
 							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40">
-								{chat.dialog.map((item, i) => {
-									const contact =
-										item.who === user.id
-											? user
-											: contacts.find(_contact => _contact.id === item.who);
+								{chat.chats.map((item, i) => {
+									const contact = item.sender;
+									const color = contacts.length && contacts?.filter(c => c.id == contact.id);
 									return (
 										<div
 											key={item.time}
 											className={clsx(
 												classes.messageRow,
-												{ me: item.who === user.id },
-												{ contact: item.who !== user.id },
+												{ me: contact.id == userIdFromCompany },
+												{ contact: contact.id != userIdFromCompany },
 												{ 'first-of-group': isFirstMessageOfGroup(item, i) },
 												{ 'last-of-group': isLastMessageOfGroup(item, i) }
 											)}
 										>
-											{shouldShowContactAvatar(item, i) && (
-												<Avatar className={classes.avatar} src={contact.avatar} />
+											{isLastMessageOfGroup(item, i) && contact.id != userIdFromCompany && (
+												<Avatar
+													className="avatar absolute ltr:left-0 rtl:right-0 m-0 -mx-32 top-0"
+													src={contact.photo}
+												>
+													{contact.first_name.split('')[0]}
+												</Avatar>
 											)}
 											<div className={classes.bubble}>
-												<div className={classes.message}>{item.message}</div>
+												<div className={classes.message}>{item.body}</div>
 												<Typography className={classes.time} color="textSecondary">
 													{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
 												</Typography>

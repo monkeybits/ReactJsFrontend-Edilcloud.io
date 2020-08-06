@@ -7,7 +7,10 @@ const userReducer = (state = {}, action) => {
 			return { ...action.payload };
 		}
 		case Actions.GET_CHAT: {
-			return getUpdatedUser(state, action);
+			return {
+				...state,
+				...action.chatUserData
+			};
 		}
 		case Actions.SEND_MESSAGE: {
 			return getUpdatedUser(state, action);

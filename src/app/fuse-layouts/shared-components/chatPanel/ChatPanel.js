@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import keycode from 'keycode';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Chat from './Chat';
 import ContactList from './ContactList';
@@ -63,6 +63,7 @@ function ChatPanel(props) {
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
 	const state = useSelector(({ chatPanel }) => chatPanel.state);
+	const user = useSelector(({ chatPanel }) => chatPanel.user);
 	const ref = useRef();
 
 	const classes = useStyles(props);
@@ -78,9 +79,11 @@ function ChatPanel(props) {
 	);
 
 	useEffect(() => {
-		dispatch(Actions.getUserData());
-		dispatch(Actions.getContacts());
+		// dispatch(Actions.getUserData());
+		let callMessageList = setInterval(() => dispatch(Actions.getProjects()), 1000);
+
 		return () => {
+			clearInterval(callMessageList);
 			document.removeEventListener('keydown', handleDocumentKeyDown);
 		};
 	}, [dispatch, handleDocumentKeyDown]);
@@ -119,7 +122,7 @@ function ChatPanel(props) {
 			<div className={clsx(classes.panel, { opened: state }, 'flex flex-col')} ref={ref}>
 				<AppBar position="static" elevation={1}>
 					<Toolbar className="px-4">
-						{(!state || !selectedContactId) && (
+						{(!state || !user?.id) && (
 							<div className="flex flex-1 items-center px-4">
 								<IconButton
 									className=""
@@ -128,18 +131,18 @@ function ChatPanel(props) {
 								>
 									<Icon className="text-32">chat</Icon>
 								</IconButton>
-								{!selectedContactId && (
+								{!user?.id && (
 									<Typography className="mx-8 text-16" color="inherit">
 										Team Chat
 									</Typography>
 								)}
 							</div>
 						)}
-						{state && selectedContact && (
+						{state && user?.id && (
 							<div className="flex flex-1 items-center px-12">
-								<Avatar src={selectedContact.avatar} />
+								<Avatar src={user.logo} />
 								<Typography className="mx-16 text-16" color="inherit">
-									{selectedContact.name}
+									{user.name}
 								</Typography>
 							</div>
 						)}

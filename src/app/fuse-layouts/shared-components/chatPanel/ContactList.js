@@ -6,7 +6,7 @@ import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import clsx from 'clsx';
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 
@@ -81,31 +81,51 @@ function ContactList(props) {
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
 	const user = useSelector(({ chatPanel }) => chatPanel.user);
-
+	const [allContacts, setallContacts] = useState([]);
+	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const classes = useStyles();
 	const contactListScroll = useRef(null);
 
-	const handleContactClick = contactId => {
+	const handleContactClick = contact => {
+		console.log({ contact });
+		// if(contact.type=="company"){
+
+		// }
 		dispatch(Actions.openChatPanel());
-		dispatch(Actions.getChat(contactId));
+		dispatch(Actions.getChat(contact));
 		scrollToTop();
 	};
 
 	const scrollToTop = () => {
 		contactListScroll.current.scrollTop = 0;
 	};
-
+	useEffect(() => {
+		if (contacts && contacts.length && company && company.id) {
+			let newContacts = contacts.sort(function(a,b){
+				// Turn your strings into dates, and then subtract them
+				// to get a value that is either negative, positive, or zero.
+				return new Date(b.last_message_created) - new Date(a.last_message_created);
+			  })
+			setallContacts([
+				{
+					...company,
+					type: 'company'
+				},
+				...newContacts
+			]);
+		}
+	}, [contacts, company]);
 	const ContactButton = ({ contact }) => {
 		return (
 			<Tooltip title={contact.name} placement="left">
 				<Button
-					onClick={() => handleContactClick(contact.id)}
+					onClick={() => handleContactClick(contact)}
 					className={clsx(classes.contactButton, { active: selectedContactId === contact.id })}
 				>
-					{contact.unread && <div className={classes.unreadBadge}>{contact.unread}</div>}
+					{/* {contact.unread && <div className={classes.unreadBadge}>{contact.unread}</div>} */}
 					<div className={clsx(contact.status, classes.status)} />
-					<Avatar src={contact.avatar} alt={contact.name}>
-						{!contact.avatar || contact.avatar === '' ? contact.name[0] : ''}
+					<Avatar src={contact.logo} alt={contact.name}>
+						{!contact.logo || contact.logo === '' ? contact.name[0] : ''}
 					</Avatar>
 				</Button>
 			</Tooltip>
@@ -117,7 +137,7 @@ function ContactList(props) {
 			className={clsx(classes.root, 'flex flex-shrink-0 flex-col overflow-y-auto py-8')}
 			ref={contactListScroll}
 		>
-			{contacts.length > 0 && (
+			{allContacts.length > 0 && (
 				<>
 					<FuseAnimateGroup
 						enter={{
@@ -125,16 +145,17 @@ function ContactList(props) {
 						}}
 						className="flex flex-col flex-shrink-0"
 					>
-						{user &&
+						{/* {user &&
 							user.chatList &&
 							user.chatList.map(chat => {
-								const contact = contacts.find(_contact => _contact.id === chat.contactId);
+								const contact = contacts.find(_contact => _contact.id === chat?.contactId);
 								return <ContactButton key={contact.id} contact={contact} />;
-							})}
+							})} */}
+
 						<Divider className="mx-24 my-8" />
-						{contacts.map(contact => {
-							const chatContact = user.chatList.find(_chat => _chat.contactId === contact.id);
-							return !chatContact ? <ContactButton key={contact.id} contact={contact} /> : '';
+						{allContacts.map(contact => {
+							// const chatContact = user.chatList.find(_chat => _chat.contactId === contact.id);
+							return <ContactButton key={contact.id} contact={contact} />;
 						})}
 					</FuseAnimateGroup>
 				</>
