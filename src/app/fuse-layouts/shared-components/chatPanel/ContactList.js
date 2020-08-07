@@ -9,15 +9,18 @@ import clsx from 'clsx';
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		background: theme.palette.background.default
 	},
 	contactButton: {
-		width: 70,
+		width: 250,
 		minWidth: 70,
 		flex: '0 0 auto',
+		justifyContent: 'start',
+		padding: '6px 15px',
 		'&.active:after': {
 			position: 'absolute',
 			top: 8,
@@ -127,7 +130,16 @@ function ContactList(props) {
 					<Avatar src={contact.logo} alt={contact.name}>
 						{!contact.logo || contact.logo === '' ? contact.name[0] : ''}
 					</Avatar>
+					<div className="chatText truncate flex-1">
+						<Typography className="ml-16 text-left text-16 normal-case truncate font-medium" color="inherit">
+							{contact.name}
+						</Typography>
+						<Typography className="ml-16 text-left text-12 normal-case truncate" color="inherit">
+							Lorem ipsum Lorem ipsum Lorem ipsum
+						</Typography>
+					</div>
 				</Button>
+				
 			</Tooltip>
 		);
 	};
@@ -152,10 +164,12 @@ function ContactList(props) {
 								return <ContactButton key={contact.id} contact={contact} />;
 							})} */}
 
-						<Divider className="mx-24 my-8" />
-						{allContacts.map(contact => {
+						{/* <Divider className="mx-24 my-8" /> */}
+						{allContacts.map((contact,index) => {
 							// const chatContact = user.chatList.find(_chat => _chat.contactId === contact.id);
-							return <ContactButton key={contact.id} contact={contact} />;
+							return <><ContactButton key={contact.id} contact={contact} />
+							{index != allContacts.length-1 && <Divider className="mx-16 my-8" />}
+							</>;
 						})}
 					</FuseAnimateGroup>
 				</>

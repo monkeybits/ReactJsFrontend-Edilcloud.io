@@ -80,8 +80,8 @@ const useStyles = makeStyles(theme => ({
 			}
 		},
 		'&.contact + .me, &.me + .contact': {
-			paddingTop: 20,
-			marginTop: 20
+			// paddingTop: 20,
+			marginTop: 30
 		},
 		'&.first-of-group': {
 			'& $bubble': {
