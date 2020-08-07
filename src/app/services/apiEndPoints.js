@@ -27,7 +27,7 @@ export const DEACTIVATE_MEMBER = id => `/api/frontend/profile/company/profile_di
 export const ACTIVATE_MEMBER = id => `/api/frontend/profile/company/profile_enable/${id}/`;
 
 export const GET_MESSAGES_API = '/api/frontend/profile/company/message_list/all/?no_page=no_page';
-export const GET_PROJECT_MESSAGES_API = (pid)=>`/api/frontend/project/project/${pid}/message_list/?no_page=no_page`;
+export const GET_PROJECT_MESSAGES_API = pid => `/api/frontend/project/project/${pid}/message_list/?no_page=no_page`;
 export const SEND_MESSAGE_API = cid => `/api/frontend/message/message/company/${cid}/add/`;
 export const SEND_PROJECT_MESSAGE_API = pid => `/api/frontend/message/message/project/${pid}/add/`;
 export const COMPANY_DETAIL = '/api/frontend/profile/company/detail/';
@@ -78,3 +78,4 @@ export const GET_PROJECT_STAFF_REFUSE_LIST = pid => `/api/frontend/project/proje
 export const ACCEPT_PROJECT_INVITATION = pid => `/api/frontend/project/team/enable/${pid}/`;
 export const REJECT_PROJECT_INVITATION = pid => `/api/frontend/project/team/disable/${pid}/`;
 export const CHAT_LIST = `/api/frontend/profile/company/talk_list/`;
+export const ADD_TASK_TO_PROJECT = pid => `/api/frontend/project/project/${pid}/task_add/`;

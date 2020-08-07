@@ -26,6 +26,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
+import { useParams } from 'react-router';
+import DatePicker from 'react-datepicker';
 
 const defaultFormState = {
 	id: '',
@@ -51,7 +53,12 @@ function TodoDialog(props) {
 	const { form, handleChange, setForm } = useForm({ ...defaultFormState });
 	const startDate = moment(form.startDate).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
 	const dueDate = moment(form.dueDate).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
-
+	const [company, setCompany] = useState([]);
+	const routeParams = useParams();
+	const [taskDate, setTaskDate] = useState({
+		startDate: new Date(),
+		endDate: undefined
+	});
 	const initDialog = useCallback(() => {
 		/**
 		 * Dialog type: 'edit'
@@ -64,6 +71,11 @@ function TodoDialog(props) {
 		 * Dialog type: 'new'
 		 */
 		if (todoDialog.type === 'new') {
+			setCompany([]);
+			setTaskDate({
+				startDate: new Date(),
+				endDate: undefined
+			});
 			setForm({
 				...defaultFormState,
 				...todoDialog.data,
@@ -127,7 +139,7 @@ function TodoDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.title.length > 0;
+		return form.title.length > 0 && company.length > 0 && taskDate.startDate && taskDate.endDate;
 	}
 
 	return (
@@ -234,62 +246,10 @@ function TodoDialog(props) {
 						))}
 					</div>
 				)} */}
-				<div className="flex-1 mb-24 mx-8">
-					<div className="flex items-center mt-16 mb-12">
-						<Icon className="text-20" color="inherit">
-							label
-						</Icon>
-						<Typography className="font-600 text-16 mx-8">Labels</Typography>
-					</div>
-					<FuseChipSelect
-						className=""
-						// value={cardForm.idLabels.map(labelId => {
-						// 	const label = _.find(board.labels, { id: labelId });
-						// 	return (
-						// 		label && {
-						// 			value: labelId,
-						// 			label: label.name,
-						// 			class: label.class
-						// 		}
-						// 	);
-						// })}
-						// onChange={value => chipChange('idLabels', value)}
-						placeholder="Select multiple Labels"
-						variant='fixed'
-						isMulti
-						textFieldProps={{
-							variant: 'outlined'
-						}}
-						options={companies.map(company => ({
-							data: company,
-							value: company.profile.company.name,
-							label: (
-								<span className="flex items-center">
-									<Icon className="list-item-icon" style={{ color: company.color }} color="action">
-										label
-									</Icon> {company.profile.company.name}
-								</span>
-							)
-						}))}
-						// onCreateOption={name => {
-						// 	// Create New Label
-						// 	const newLabel = new LabelModel({ name });
-
-						// 	// Ad new Label to board(redux store and server)
-						// 	dispatch(Actions.addLabel(newLabel));
-
-						// 	// Trigger handle chip change
-						// 	addNewChip('idLabels', newLabel.id);
-
-						// 	return newLabel.id;
-						// }}
-					/>
-				</div>
-
-				<div className="px-16 sm:px-24">
+				<div className="px-16  mb-24 mt-16  sm:px-24 ">
 					<FormControl className="mt-8 mb-16" required fullWidth>
 						<TextField
-							label="Title"
+							label="Task Title"
 							autoFocus
 							name="title"
 							value={form.title}
@@ -298,6 +258,40 @@ function TodoDialog(props) {
 							variant="outlined"
 						/>
 					</FormControl>
+
+					<div className="mt-8 mb-16">
+						{companies && (
+							<FuseChipSelect
+								className=""
+								placeholder="Select Company"
+								variant="fixed"
+								isMulti
+								textFieldProps={{
+									variant: 'outlined'
+								}}
+								onChange={value => {
+									setCompany(value.splice(value.length - 1));
+								}}
+								value={company}
+								options={companies.map(company => ({
+									data: company,
+									value: company.profile.company.name,
+									label: (
+										<span className="flex items-center">
+											<Icon
+												className="list-item-icon"
+												style={{ color: company.color }}
+												color="action"
+											>
+												label
+											</Icon>{' '}
+											{company.profile.company.name}
+										</span>
+									)
+								}))}
+							/>
+						)}
+					</div>
 
 					{/* <FormControl className="mt-8 mb-16" required fullWidth>
 						<TextField
@@ -311,35 +305,29 @@ function TodoDialog(props) {
 						/>
 					</FormControl> */}
 					<div className="flex -mx-4">
-						<TextField
-							name="startDate"
-							label="Start Date"
-							type="datetime-local"
+						<DatePicker
 							className="mt-8 mb-16 mx-4"
-							InputLabelProps={{
-								shrink: true
+							dateFormat="dd/MM/yyyy"
+							selected={taskDate.startDate}
+							minDate={taskDate.startDate}
+							onChange={startDate => {
+								setTaskDate({
+									...taskDate,
+									startDate
+								});
 							}}
-							inputProps={{
-								max: dueDate
-							}}
-							value={startDate}
-							onChange={handleChange}
-							variant="outlined"
 						/>
-						<TextField
-							name="dueDate"
-							label="Due Date"
-							type="datetime-local"
+						<DatePicker
 							className="mt-8 mb-16 mx-4"
-							InputLabelProps={{
-								shrink: true
+							dateFormat="dd/MM/yyyy"
+							selected={taskDate.endDate}
+							minDate={taskDate.startDate}
+							onChange={endDate => {
+								setTaskDate({
+									...taskDate,
+									endDate
+								});
 							}}
-							inputProps={{
-								min: startDate
-							}}
-							value={dueDate}
-							onChange={handleChange}
-							variant="outlined"
 						/>
 					</div>
 				</div>
@@ -352,7 +340,7 @@ function TodoDialog(props) {
 							variant="contained"
 							color="primary"
 							onClick={() => {
-								dispatch(Actions.addTodo(form));
+								dispatch(Actions.addTodo({ ...form, company, ...taskDate }, routeParams.id));
 								closeTodoDialog();
 							}}
 							disabled={!canBeSubmitted()}
@@ -367,21 +355,21 @@ function TodoDialog(props) {
 						<Button
 							variant="contained"
 							color="primary"
-							onClick={() => {
-								dispatch(Actions.updateTodo(form));
-								closeTodoDialog();
-							}}
-							disabled={!canBeSubmitted()}
+							// onClick={() => {
+							// 	dispatch(Actions.updateTodo(form));
+							// 	closeTodoDialog();
+							// }}
+							// disabled={!canBeSubmitted()}
 						>
 							Save
 						</Button>
 					</div>
 					<IconButton
 						className="min-w-auto"
-						onClick={() => {
-							dispatch(Actions.removeTodo(form.id));
-							closeTodoDialog();
-						}}
+						// onClick={() => {
+						// 	dispatch(Actions.removeTodo(form.id));
+						// 	closeTodoDialog();
+						// }}
 					>
 						<Icon>delete</Icon>
 					</IconButton>

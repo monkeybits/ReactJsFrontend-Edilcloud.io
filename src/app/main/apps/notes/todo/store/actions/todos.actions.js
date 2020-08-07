@@ -1,5 +1,8 @@
 import axios from 'axios';
-
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import moment from 'moment';
 export const GET_TODOS = '[TODO APP] GET TODOS';
 export const UPDATE_TODOS = '[TODO APP] UPDATE TODOS';
 export const TOGGLE_STARRED = '[TODO APP] TOGGLE STARRED';
@@ -110,17 +113,37 @@ export function closeEditTodoDialog() {
 	};
 }
 
-export function addTodo(todo) {
-	const request = axios.post('/api/todo-app/new-todo', todo);
-
-	return dispatch =>
-		request.then(response =>
-			Promise.all([
-				dispatch({
-					type: ADD_TODO
-				})
-			]).then(() => dispatch(updateTodos()))
+export function addTodo(todo, pid) {
+	// console.log({
+	// 	todo
+	// });
+	return dispatch => {
+		let values = {
+			name: todo.title,
+			date_start: moment(todo.startDate).format('YYYY-MM-DD'),
+			date_end: moment(todo.endDate).format('YYYY-MM-DD'),
+			assigned_company: todo.company[0].data.profile.company.id
+		};
+		// console.log({ values });
+		apiCall(
+			ADD_TASK_TO_PROJECT(pid),
+			values,
+			res => console.log(res),
+			err => console.log(err),
+			METHOD.POST,
+			getHeaderToken()
 		);
+	};
+	// const request = axios.post('/api/todo-app/new-todo', todo);
+
+	// return dispatch =>
+	// 	request.then(response =>
+	// 		Promise.all([
+	// 			dispatch({
+	// 				type: ADD_TODO
+	// 			})
+	// 		]).then(() => dispatch(updateTodos()))
+	// 	);
 }
 
 export function removeTodo(todoId) {
