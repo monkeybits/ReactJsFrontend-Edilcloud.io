@@ -10,6 +10,13 @@ import ProjectInfo from './ProjectInfo';
 import React from 'react';
 import ContactsApp from '../contacts/ContactsApp';
 import ChatApp from '../chat/ChatApp';
+import TodoApp from '../todo/TodoApp';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import * as Actions from 'app/main/apps/notes/contacts/store/actions';
+import reducer from 'app/main/apps/notes/contacts/store/reducers';
+import { useDeepCompareEffect } from '@fuse/hooks';
+import withReducer from 'app/store/withReducer';
 
 function TabPanel(props) {
 	// const [data, setData] = useState(null);
@@ -59,14 +66,19 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export default function ProjectTabs() {
+function ProjectTabs() {
 	const classes = useStyles();
 	const [value, setValue] = React.useState('one');
-
+	const dispatch = useDispatch();
+	const routeParams = useParams();
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-
+	useDeepCompareEffect(() => {
+		dispatch(Actions.getContacts(routeParams.id));
+	
+		return dispatch(Actions.resetContact());
+	}, [dispatch, routeParams]);
 	return (
 		<div className={classes.root}>
 			<TabPanel value={value} index="one">
@@ -79,7 +91,7 @@ export default function ProjectTabs() {
 				<ChatApp />
 			</TabPanel>
 			<TabPanel value={value} index="four">
-				Item Four
+				<TodoApp />
 			</TabPanel>
 			<TabPanel value={value} index="five">
 				Item Five
@@ -100,3 +112,4 @@ export default function ProjectTabs() {
 		</div>
 	);
 }
+export default withReducer('contactsApp', reducer)(ProjectTabs);
