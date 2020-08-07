@@ -80,10 +80,10 @@ function ChatPanel(props) {
 
 	useEffect(() => {
 		// dispatch(Actions.getUserData());
-		let callMessageList = setInterval(() => dispatch(Actions.getProjects()), 1000);
-
+		// let callMessageList = setInterval(() => dispatch(Actions.getProjects()), 1000);
+		dispatch(Actions.getProjects())
 		return () => {
-			clearInterval(callMessageList);
+			// clearInterval(callMessageList);
 			document.removeEventListener('keydown', handleDocumentKeyDown);
 		};
 	}, [dispatch, handleDocumentKeyDown]);
