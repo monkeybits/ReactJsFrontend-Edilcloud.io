@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	panel: {
 		position: 'absolute',
-		width: 360,
+		width: 600,
 		backgroundColor: theme.palette.background.paper,
 		boxShadow: theme.shadows[3],
 		top: 0,
@@ -39,10 +39,10 @@ const useStyles = makeStyles(theme => ({
 		right: 0,
 		margin: 0,
 		zIndex: 1000,
-		transform: 'translate3d(290px,0,0)',
+		transform: 'translate3d(530px,0,0)',
 		overflow: 'hidden',
 		[theme.breakpoints.down('md')]: {
-			transform: 'translate3d(360px,0,0)',
+			transform: 'translate3d(600px,0,0)',
 			boxShadow: 'none',
 			'&.opened': {
 				boxShadow: theme.shadows[5]
@@ -80,10 +80,10 @@ function ChatPanel(props) {
 
 	useEffect(() => {
 		// dispatch(Actions.getUserData());
-		let callMessageList = setInterval(() => dispatch(Actions.getProjects()), 1000);
-
+		// let callMessageList = setInterval(() => dispatch(Actions.getProjects()), 1000);
+		dispatch(Actions.getProjects())
 		return () => {
-			clearInterval(callMessageList);
+			// clearInterval(callMessageList);
 			document.removeEventListener('keydown', handleDocumentKeyDown);
 		};
 	}, [dispatch, handleDocumentKeyDown]);
