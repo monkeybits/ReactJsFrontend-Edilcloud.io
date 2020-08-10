@@ -80,6 +80,30 @@ const todosReducer = (state = initialState, action) => {
 				}
 			};
 		}
+		case Actions.OPEN_ACTIVITY_TODO_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'activity',
+					props: {
+						open: true
+					},
+					data: action.data
+				}
+			};
+		}
+		case Actions.CLOSE_ACTIVITY_TODO_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'activity',
+					props: {
+						open: false
+					},
+					data: null
+				}
+			};
+		}
 		case Actions.UPDATE_TODO: {
 			const todo = action.payload;
 

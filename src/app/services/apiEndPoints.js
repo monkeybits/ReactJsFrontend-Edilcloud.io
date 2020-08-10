@@ -80,3 +80,6 @@ export const REJECT_PROJECT_INVITATION = pid => `/api/frontend/project/team/disa
 export const CHAT_LIST = `/api/frontend/profile/company/talk_list/`;
 export const ADD_TASK_TO_PROJECT = pid => `/api/frontend/project/project/${pid}/task_add/`;
 export const GET_TASK_LIST = pid => `/api/frontend/project/project/${pid}/task_list/`;
+export const ADD_ACTIVITY_TO_TASK = tid => `/api/frontend/project/task/${tid}/activity_add/`;
+export const GET_COMPANY_PROJECT_TEAM_MEMBER_LIST = (pid, cid, searchString) =>
+	`/api/frontend/project/project/${pid}/team_list/?filter__profile__company__id=${cid}&filter__profile__first_name__icontains=${searchString}&filter__profile__last_name__icontains=${searchString}&no_page=no_page`;

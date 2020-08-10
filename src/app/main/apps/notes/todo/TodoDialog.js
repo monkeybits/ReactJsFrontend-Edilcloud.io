@@ -29,6 +29,9 @@ import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
 import DatePicker from 'react-datepicker';
 import { Slider, withStyles } from '@material-ui/core';
+import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
 
 const defaultFormState = {
 	id: '',
@@ -141,6 +144,7 @@ function TodoDialog(props) {
 	const startDate = moment(form.startDate).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
 	const dueDate = moment(form.dueDate).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
 	const [company, setCompany] = useState([]);
+	const [progress, setProgress] = useState(0);
 	const routeParams = useParams();
 	const [taskDate, setTaskDate] = useState({
 		startDate: new Date(),
@@ -153,7 +157,12 @@ function TodoDialog(props) {
 		if (todoDialog.type === 'edit' && todoDialog.data) {
 			setForm({ ...todoDialog.data });
 		}
-
+		if (todoDialog.type === 'activity' && todoDialog.data) {
+			setTaskDate({
+				startDate: new Date(todoDialog.data.date_start),
+				endDate: new Date(todoDialog.data.date_end)
+			});
+		}
 		/**
 		 * Dialog type: 'new'
 		 */
@@ -226,15 +235,28 @@ function TodoDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.title.length > 0 && taskDate.startDate;
+		return form.title.length > 0 && taskDate.startDate && taskDate.endDate;
 	}
-
+	const getProjectCompanyTeamProfiles = value => {
+		apiCall(
+			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, todoDialog.data.assigned_company.id, value),
+			{},
+			res => console.log(res),
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 	return (
 		<Dialog {...todoDialog.props} onClose={closeTodoDialog} fullWidth maxWidth="sm">
 			<AppBar position="static" elevation={1}>
 				<Toolbar className="flex w-full">
 					<Typography variant="subtitle1" color="inherit">
-						{todoDialog.type === 'new' ? 'New Todo' : 'Edit Todo'}
+						{todoDialog.type === 'new'
+							? 'New Todo'
+							: todoDialog.type === 'activity'
+							? 'New Activity'
+							: 'Edit Todo'}
 					</Typography>
 				</Toolbar>
 			</AppBar>
@@ -346,8 +368,8 @@ function TodoDialog(props) {
 						/>
 					</FormControl>
 
-					<div className="mt-8 mb-16">
-						{companies && companies.length && (
+					{todoDialog.type !== 'activity' ? (
+						<div className="mt-8 mb-16">
 							<FuseChipSelect
 								className=""
 								placeholder="Select Company"
@@ -381,8 +403,47 @@ function TodoDialog(props) {
 									)
 								}))}
 							/>
-						)}
-					</div>
+						</div>
+					) : (
+						companies &&
+						!!companies.length && (
+							<div className="mt-8 mb-16">
+								<FuseChipSelect
+									className=""
+									placeholder="Select Company"
+									variant="fixed"
+									isMulti
+									textFieldProps={{
+										label: 'Company',
+										InputLabelProps: {
+											shrink: true
+										},
+										variant: 'outlined'
+									}}
+									onChange={value => {
+										setCompany(value.splice(value.length - 1));
+									}}
+									value={company}
+									options={companies.map(company => ({
+										data: company,
+										value: company.profile.company.name,
+										label: (
+											<span className="flex items-center">
+												<Icon
+													className="list-item-icon mr-4"
+													style={{ color: company.color }}
+													color="action"
+												>
+													label
+												</Icon>{' '}
+												{company.profile.company.name}
+											</span>
+										)
+									}))}
+								/>
+							</div>
+						)
+					)}
 
 					<FormControl className="mt-8 mb-16" required fullWidth>
 						<TextField
@@ -428,19 +489,31 @@ function TodoDialog(props) {
 						</div>
 					</div>
 					<div className="mt-24 mx-8">
-						<IOSSlider aria-label="ios slider" defaultValue={0} marks={marks} valueLabelDisplay="on" />
+						<IOSSlider
+							aria-label="ios slider"
+							defaultValue={0}
+							marks={marks}
+							onChange={(e, v) => setProgress(v)}
+							valueLabelDisplay="on"
+						/>
 					</div>
 				</div>
 			</DialogContent>
 
-			{todoDialog.type === 'new' ? (
+			{todoDialog.type === 'new' || todoDialog.type === 'activity' ? (
 				<DialogActions className="justify-between p-8">
 					<div className="px-16">
 						<Button
 							variant="contained"
 							color="primary"
 							onClick={() => {
-								dispatch(Actions.addTodo({ ...form, company, ...taskDate }, routeParams.id));
+								dispatch(
+									Actions.addTodo(
+										{ ...form, id: todoDialog.data.id, company, progress, ...taskDate },
+										routeParams.id,
+										todoDialog.type
+									)
+								);
 								closeTodoDialog();
 							}}
 							disabled={!canBeSubmitted()}
