@@ -57,15 +57,15 @@ function TodoListItem(props) {
 					className="todo-title truncate"
 					color={props.todo.completed ? 'textSecondary' : 'inherit'}
 				>
-					{props.todo.title}
+					{props.todo.name}
 				</Typography>
 
 				<Typography color="textSecondary" className="todo-notes truncate">
-					{_.truncate(props.todo.notes.replace(/<(?:.|\n)*?>/gm, ''), { length: 180 })}
+					{_.truncate(props.todo.note?.replace(/<(?:.|\n)*?>/gm, ''), { length: 180 })}
 				</Typography>
 
 				<div className={clsx(classes.labels, 'flex -mx-2')}>
-					{props.todo.labels.map(label => (
+					{props.todo.labels?.map(label => (
 						<TodoChip
 							className="mx-2 mt-4"
 							title={_.find(labels, { id: label }).title}

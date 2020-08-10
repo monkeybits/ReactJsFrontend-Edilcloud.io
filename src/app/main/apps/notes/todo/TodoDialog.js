@@ -139,7 +139,7 @@ function TodoDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.title.length > 0 && taskDate.startDate;
+		return form.title.length > 0 && taskDate.startDate 
 	}
 
 	return (

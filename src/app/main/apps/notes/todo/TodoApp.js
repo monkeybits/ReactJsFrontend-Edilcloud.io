@@ -26,7 +26,7 @@ function TodoApp(props) {
 	}, [dispatch]);
 
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getTodos(routeParams));
+		dispatch(Actions.getTodos(routeParams.id));
 	}, [dispatch, routeParams]);
 
 	return (

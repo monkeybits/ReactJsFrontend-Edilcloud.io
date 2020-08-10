@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
+import { ADD_TASK_TO_PROJECT, GET_TASK_LIST } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 export const GET_TODOS = '[TODO APP] GET TODOS';
@@ -19,17 +19,31 @@ export const CLOSE_EDIT_TODO_DIALOG = '[TODO APP] CLOSE EDIT TODO DIALOG';
 export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING';
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER';
 
-export function getTodos(params) {
-	const request = axios.get('/api/todo-app/todos', { params });
+export function getTodos(pid) {
+	// const request = axios.get('/api/todo-app/todos', { params });
 
-	return dispatch =>
-		request.then(response =>
-			dispatch({
-				type: GET_TODOS,
-				routeParams: params,
-				payload: response.data
-			})
+	return dispatch => {
+		apiCall(
+			GET_TASK_LIST(pid),
+			{},
+			res => {
+				dispatch({
+					type: GET_TODOS,
+					payload: res.results
+				});
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
 		);
+		// request.then(response =>
+		// 	dispatch({
+		// 		type: GET_TODOS,
+		// 		routeParams: params,
+		// 		payload: response.data
+		// 	})
+		// );
+	};
 }
 
 export function updateTodos() {
@@ -120,7 +134,7 @@ export function addTodo(todo, pid) {
 	return dispatch => {
 		let values = {
 			name: todo.title,
-			note : todo.notes,
+			note: todo.notes,
 			date_start: moment(todo.startDate).format('YYYY-MM-DD'),
 			date_end: moment(todo.endDate).format('YYYY-MM-DD'),
 			assigned_company: todo.company[0].data.profile.company.id

@@ -79,3 +79,4 @@ export const ACCEPT_PROJECT_INVITATION = pid => `/api/frontend/project/team/enab
 export const REJECT_PROJECT_INVITATION = pid => `/api/frontend/project/team/disable/${pid}/`;
 export const CHAT_LIST = `/api/frontend/profile/company/talk_list/`;
 export const ADD_TASK_TO_PROJECT = pid => `/api/frontend/project/project/${pid}/task_add/`;
+export const GET_TASK_LIST = pid => `/api/frontend/project/project/${pid}/task_list/`;
