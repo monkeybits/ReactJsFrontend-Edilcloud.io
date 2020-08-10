@@ -509,7 +509,7 @@ function TodoDialog(props) {
 							onClick={() => {
 								dispatch(
 									Actions.addTodo(
-										{ ...form, id: todoDialog.data.id, company, progress, ...taskDate },
+										{ ...form, id: todoDialog.data?.id, company, progress, ...taskDate },
 										routeParams.id,
 										todoDialog.type
 									)

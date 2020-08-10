@@ -164,7 +164,10 @@ export function addTodo(todo, pid, todoDialogType) {
 		apiCall(
 			todoDialogType == 'new' ? ADD_TASK_TO_PROJECT(pid) : ADD_ACTIVITY_TO_TASK(todo.id),
 			values,
-			res => console.log(res),
+			res => {
+				dispatch(getTodos(pid));
+				console.log(res);
+			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()
