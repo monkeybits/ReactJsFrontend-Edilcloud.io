@@ -354,6 +354,10 @@ function TodoDialog(props) {
 								variant="fixed"
 								isMulti
 								textFieldProps={{
+									label: 'Company',
+									InputLabelProps: {
+										shrink: true
+									},
 									variant: 'outlined'
 								}}
 								onChange={value => {
@@ -366,7 +370,7 @@ function TodoDialog(props) {
 									label: (
 										<span className="flex items-center">
 											<Icon
-												className="list-item-icon"
+												className="list-item-icon mr-4"
 												style={{ color: company.color }}
 												color="action"
 											>
@@ -392,32 +396,40 @@ function TodoDialog(props) {
 						/>
 					</FormControl>
 					<div className="flex -mx-4">
-						<DatePicker
-							className="mt-8 mb-16 mx-4"
-							dateFormat="dd/MM/yyyy"
-							selected={taskDate.startDate}
-							minDate={taskDate.startDate}
-							onChange={startDate => {
-								setTaskDate({
-									...taskDate,
-									startDate
-								});
-							}}
-						/>
-						<DatePicker
-							className="mt-8 mb-16 mx-4"
-							dateFormat="dd/MM/yyyy"
-							selected={taskDate.endDate}
-							minDate={taskDate.startDate}
-							onChange={endDate => {
-								setTaskDate({
-									...taskDate,
-									endDate
-								});
-							}}
-						/>
+						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
+							<label>Start Date</label>
+							<DatePicker
+								dateFormat="dd/MM/yyyy"
+								selected={taskDate.startDate}
+								minDate={taskDate.startDate}
+								onChange={startDate => {
+									setTaskDate({
+										...taskDate,
+										startDate
+									});
+								}}
+							/>
+							<Icon className="icon">calendar_today</Icon>
+						</div>
+						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
+							<label>End Date</label>
+							<DatePicker
+								dateFormat="dd/MM/yyyy"
+								selected={taskDate.endDate}
+								minDate={taskDate.startDate}
+								onChange={endDate => {
+									setTaskDate({
+										...taskDate,
+										endDate
+									});
+								}}
+							/>
+							<Icon className="icon">calendar_today</Icon>
+						</div>
 					</div>
-					<IOSSlider aria-label="ios slider" defaultValue={0} marks={marks} valueLabelDisplay="on" />
+					<div className="mt-24 mx-8">
+						<IOSSlider aria-label="ios slider" defaultValue={0} marks={marks} valueLabelDisplay="on" />
+					</div>
 				</div>
 			</DialogContent>
 
