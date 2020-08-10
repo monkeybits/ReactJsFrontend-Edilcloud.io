@@ -120,6 +120,7 @@ export function addTodo(todo, pid) {
 	return dispatch => {
 		let values = {
 			name: todo.title,
+			note : todo.notes,
 			date_start: moment(todo.startDate).format('YYYY-MM-DD'),
 			date_end: moment(todo.endDate).format('YYYY-MM-DD'),
 			assigned_company: todo.company[0].data.profile.company.id

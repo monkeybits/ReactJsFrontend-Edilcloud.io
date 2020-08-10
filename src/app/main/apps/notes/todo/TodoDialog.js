@@ -139,7 +139,7 @@ function TodoDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.title.length > 0 && company.length > 0 && taskDate.startDate && taskDate.endDate;
+		return form.title.length > 0 && taskDate.startDate;
 	}
 
 	return (
@@ -260,7 +260,7 @@ function TodoDialog(props) {
 					</FormControl>
 
 					<div className="mt-8 mb-16">
-						{companies && (
+						{companies && companies.length && (
 							<FuseChipSelect
 								className=""
 								placeholder="Select Company"
@@ -293,7 +293,7 @@ function TodoDialog(props) {
 						)}
 					</div>
 
-					{/* <FormControl className="mt-8 mb-16" required fullWidth>
+					<FormControl className="mt-8 mb-16" required fullWidth>
 						<TextField
 							label="Notes"
 							name="notes"
@@ -303,7 +303,7 @@ function TodoDialog(props) {
 							onChange={handleChange}
 							variant="outlined"
 						/>
-					</FormControl> */}
+					</FormControl>
 					<div className="flex -mx-4">
 						<DatePicker
 							className="mt-8 mb-16 mx-4"
