@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	panel: {
 		position: 'absolute',
-		width: 600,
+		width: 350,
 		backgroundColor: theme.palette.background.paper,
 		boxShadow: theme.shadows[3],
 		top: 0,
@@ -39,10 +39,11 @@ const useStyles = makeStyles(theme => ({
 		right: 0,
 		margin: 0,
 		zIndex: 1000,
-		transform: 'translate3d(530px,0,0)',
+		transform: 'translate3d(280px,0,0)',
 		overflow: 'hidden',
 		[theme.breakpoints.down('md')]: {
-			transform: 'translate3d(600px,0,0)',
+			transform: 'translate3d(350px,0,0)',
+			maxWidth: '100%',
 			boxShadow: 'none',
 			'&.opened': {
 				boxShadow: theme.shadows[5]
@@ -139,6 +140,14 @@ function ChatPanel(props) {
 							</div>
 						)}
 						{state && user?.id && (
+						<div className="flex">
+							<IconButton onClick={ev => dispatch(Actions.closeChatPanel())} color="inherit">
+								<Icon>arrow_back</Icon>
+							</IconButton>
+						</div>
+						)}
+						{state && user?.id && (
+							
 							<div className="flex flex-1 items-center px-12">
 								<Avatar src={user.logo} />
 								<Typography className="mx-16 text-16" color="inherit">
@@ -154,8 +163,12 @@ function ChatPanel(props) {
 					</Toolbar>
 				</AppBar>
 				<Paper className="flex flex-1 flex-row min-h-px">
-					<ContactList className="flex flex-shrink-0" />
-					<Chat className="flex flex-1 z-10" />
+					{(!state || !user?.id) && (
+						<ContactList className="flex flex-shrink-0" />
+					)}
+					{state && user?.id && (
+						<Chat className="flex flex-1 z-10" />
+					)}
 				</Paper>
 			</div>
 		</div>

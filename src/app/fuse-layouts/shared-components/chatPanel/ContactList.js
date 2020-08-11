@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 		background: theme.palette.background.default
 	},
 	contactButton: {
-		width: 250,
+		width: 350,
 		minWidth: 70,
 		flex: '0 0 auto',
 		justifyContent: 'start',
