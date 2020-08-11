@@ -136,14 +136,14 @@ function TodoDialog(props) {
 	const dispatch = useDispatch();
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	const labels = useSelector(({ todoApp }) => todoApp.labels);
-	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.companies)?.filter(
-		c => c.status == 'Approved'
-	);
+	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [labelMenuEl, setLabelMenuEl] = useState(null);
-	const { form, handleChange, setForm } = useForm({ ...defaultFormState });
+	const { form, handleChange, setForm, resetForm } = useForm({ ...defaultFormState });
 	const startDate = moment(form.startDate).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
 	const dueDate = moment(form.dueDate).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
 	const [company, setCompany] = useState([]);
+	const [profiles, setProfiles] = useState([]);
+	const [profileData, setProfileData] = useState([]);
 	const [progress, setProgress] = useState(0);
 	const routeParams = useParams();
 	const [taskDate, setTaskDate] = useState({
@@ -157,7 +157,8 @@ function TodoDialog(props) {
 		if (todoDialog.type === 'edit' && todoDialog.data) {
 			setForm({ ...todoDialog.data });
 		}
-		if (todoDialog.type === 'activity' && todoDialog.data) {
+		if (todoDialog.type === 'activity' && todoDialog.data?.assigned_company) {
+			getProjectCompanyTeamProfiles();
 			setTaskDate({
 				startDate: new Date(todoDialog.data.date_start),
 				endDate: new Date(todoDialog.data.date_end)
@@ -186,6 +187,9 @@ function TodoDialog(props) {
 		 */
 		if (todoDialog.props.open) {
 			initDialog();
+			return () => {
+				resetForm();
+			};
 		}
 	}, [todoDialog.props.open, initDialog]);
 
@@ -238,15 +242,17 @@ function TodoDialog(props) {
 		return form.title.length > 0 && taskDate.startDate && taskDate.endDate;
 	}
 	const getProjectCompanyTeamProfiles = value => {
+		console.log(routeParams.id, todoDialog.data.assigned_company.id, value);
 		apiCall(
-			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, todoDialog.data.assigned_company.id, value),
+			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, todoDialog.data.assigned_company?.id, value),
 			{},
-			res => console.log(res),
+			res => setProfiles(res),
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
 		);
 	};
+	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
 	return (
 		<Dialog {...todoDialog.props} onClose={closeTodoDialog} fullWidth maxWidth="sm">
 			<AppBar position="static" elevation={1}>
@@ -368,39 +374,29 @@ function TodoDialog(props) {
 						/>
 					</FormControl>
 
-					{todoDialog.type !== 'activity' ? (
+					{todoDialog.type === 'activity' ? (
 						<div className="mt-8 mb-16">
 							<FuseChipSelect
 								className=""
-								placeholder="Select Company"
+								placeholder="Select Profile"
 								variant="fixed"
 								isMulti
 								textFieldProps={{
-									label: 'Company',
+									label: 'Profile',
 									InputLabelProps: {
 										shrink: true
 									},
-									variant: 'outlined'
+									variant: 'outlined',
+									onChange: e => getProjectCompanyTeamProfiles(e.target.value)
 								}}
 								onChange={value => {
-									setCompany(value.splice(value.length - 1));
+									setProfileData(value.splice(value.length - 1));
 								}}
-								value={company}
-								options={companies.map(company => ({
-									data: company,
-									value: company.profile.company.name,
-									label: (
-										<span className="flex items-center">
-											<Icon
-												className="list-item-icon mr-4"
-												style={{ color: company.color }}
-												color="action"
-											>
-												label
-											</Icon>{' '}
-											{company.profile.company.name}
-										</span>
-									)
+								value={profileData}
+								options={profiles.map(profile => ({
+									data: profile,
+									value: getName(profile),
+									label: <span className="flex items-center">{getName(profile)}</span>
 								}))}
 							/>
 						</div>
@@ -509,7 +505,14 @@ function TodoDialog(props) {
 							onClick={() => {
 								dispatch(
 									Actions.addTodo(
-										{ ...form, id: todoDialog.data?.id, company, progress, ...taskDate },
+										{
+											...form,
+											id: todoDialog.data?.id,
+											company,
+											profile: profileData,
+											progress,
+											...taskDate
+										},
 										routeParams.id,
 										todoDialog.type
 									)

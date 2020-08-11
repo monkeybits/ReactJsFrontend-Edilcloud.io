@@ -72,6 +72,9 @@ const contactsReducer = (state = initialState(), action) => {
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Approved')),
 				approved: addTypeInArray([...action.payload], 'Approved'),
 				companies: addColorInArray(mergeArrayByComapny(state.entities, action.payload)),
+				approvedCompanies: addColorInArray(
+					mergeArrayByComapny(state.approved, addTypeInArray(action.payload, 'Approved'))
+				),
 				routeParams: action.routeParams
 			};
 		}

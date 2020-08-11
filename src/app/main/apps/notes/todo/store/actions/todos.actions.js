@@ -158,7 +158,7 @@ export function addTodo(todo, pid, todoDialogType) {
 						description: todo.notes,
 						datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
 						datetime_end: moment(todo.endDate).format('YYYY-MM-DD'),
-						profile: todo.profile[0] ? todo.profile[0].data.profile.profile.id : undefined
+						profile: todo.profile[0] ? todo.profile[0].data.profile.id : undefined
 				  };
 		// console.log({ values });
 		apiCall(
