@@ -15,6 +15,9 @@ const userReducer = (state = {}, action) => {
 		case Actions.SEND_MESSAGE: {
 			return getUpdatedUser(state, action);
 		}
+		case Actions.REMOVE_CHAT: {
+			return {};
+		}
 		default:
 			return state;
 	}

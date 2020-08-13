@@ -141,13 +141,12 @@ function ChatPanel(props) {
 						)}
 						{state && user?.id && (
 						<div className="flex">
-							<IconButton onClick={ev => dispatch(Actions.closeChatPanel())} color="inherit">
+							<IconButton onClick={ev => dispatch(Actions.removeChat())} color="inherit">
 								<Icon>arrow_back</Icon>
 							</IconButton>
 						</div>
 						)}
 						{state && user?.id && (
-							
 							<div className="flex flex-1 items-center px-12">
 								<Avatar src={user.logo} />
 								<Typography className="mx-16 text-16" color="inherit">

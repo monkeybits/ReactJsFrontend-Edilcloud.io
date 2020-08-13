@@ -153,7 +153,7 @@ function ContactList(props) {
 				<>
 					<FuseAnimateGroup
 						enter={{
-							animation: 'transition.expandIn'
+							// animation: 'transition.expandIn'
 						}}
 						className="flex flex-col flex-shrink-0"
 					>
