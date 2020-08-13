@@ -23,6 +23,7 @@ import TodoActivityListItem from './TodoActivityListItem';
 
 const useStyles = makeStyles(theme => ({
 	todoItem: {
+		borderLeftColor: 'transparent',
 		'&.completed': {
 			background: 'rgba(0,0,0,0.03)',
 			'& .todo-title, & .todo-notes': {
@@ -69,7 +70,7 @@ function TodoListItem(props) {
 				className={clsx(
 					classes.todoItem,
 					{ completed: props.todo.completed },
-					'border-solid border-b-1 py-16 px-0 sm:px-8'
+					'border-solid border-b-1 border-l-4 py-16 px-0 sm:px-8'
 				)}
 				onClick={ev => {
 					ev.preventDefault();
