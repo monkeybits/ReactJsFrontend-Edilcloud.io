@@ -70,8 +70,9 @@ function TodoListItem(props) {
 				className={clsx(
 					classes.todoItem,
 					{ completed: props.todo.completed },
-					'border-solid border-b-1 border-l-4 py-16 px-0 sm:px-8'
+					'border-solid border-l-4 py-16 px-0 sm:px-8'
 				)}
+				style={{ borderColor: props.todo.assigned_company?.color_project }}
 				onClick={ev => {
 					ev.preventDefault();
 					// dispatch(Actions.openEditTodoDialog(props.todo));
