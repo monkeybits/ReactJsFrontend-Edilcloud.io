@@ -13,7 +13,9 @@ export const ADD_TODO = '[TODO APP] ADD TODO';
 export const REMOVE_TODO = '[TODO APP] REMOVE TODO';
 export const SET_SEARCH_TEXT = '[TODO APP] SET SEARCH TEXT';
 export const OPEN_NEW_TODO_DIALOG = '[TODO APP] OPEN NEW TODO DIALOG';
+export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG';
 export const CLOSE_NEW_TODO_DIALOG = '[TODO APP] CLOSE NEW TODO DIALOG';
+export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG';
 export const OPEN_EDIT_TODO_DIALOG = '[TODO APP] OPEN EDIT TODO DIALOG';
 export const OPEN_ACTIVITY_TODO_DIALOG = '[TODO APP] OPEN ACTIVITY TODO DIALOG';
 export const CLOSE_EDIT_TODO_DIALOG = '[TODO APP] CLOSE EDIT TODO DIALOG';
@@ -109,13 +111,21 @@ export function openNewTodoDialog() {
 		type: OPEN_NEW_TODO_DIALOG
 	};
 }
-
+export function openTimelineDialog() {
+	return {
+		type: OPEN_TIMELINE_DIALOG
+	};
+}
 export function closeNewTodoDialog() {
 	return {
 		type: CLOSE_NEW_TODO_DIALOG
 	};
 }
-
+export function closeTimelineDialog() {
+	return {
+		type: CLOSE_TIMELINE_DIALOG
+	};
+}
 export function openEditTodoDialog(data) {
 	return {
 		type: OPEN_EDIT_TODO_DIALOG,

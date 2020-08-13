@@ -12,6 +12,7 @@ import TodoList from './TodoList';
 import TodoSidebarContent from './TodoSidebarContent';
 import TodoSidebarHeader from './TodoSidebarHeader';
 import TodoToolbar from './TodoToolbar';
+import CreatePostDialog from './CreatePostDialog';
 
 function TodoApp(props) {
 	const dispatch = useDispatch();
@@ -43,6 +44,7 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
+			<CreatePostDialog />
 			<TodoDialog />
 		</>
 	);

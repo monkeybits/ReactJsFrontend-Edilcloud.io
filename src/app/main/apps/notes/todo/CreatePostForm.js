@@ -17,10 +17,11 @@ import Paper from '@material-ui/core/Paper';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
-function TimelineTab() {
+function CreatePostForm() {
 	const [data, setData] = useState(null);
+	const inputRef = useRef(null);
 
 	useEffect(() => {
 		axios.get('/api/profile/timeline').then(res => {
@@ -58,15 +59,10 @@ function TimelineTab() {
 								elevation={0}
 							>
 								<div className="flex-1 items-center">
-									<IconButton aria-label="Add photo">
+									<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo">
 										<Icon>photo</Icon>
 									</IconButton>
-									<IconButton aria-label="Mention somebody">
-										<Icon>person</Icon>
-									</IconButton>
-									<IconButton aria-label="Add location">
-										<Icon>location_on</Icon>
-									</IconButton>
+									<input hidden type="file" ref={inputRef} />
 								</div>
 
 								<div className="p-8">
@@ -282,4 +278,4 @@ function TimelineTab() {
 	);
 }
 
-export default TimelineTab;
+export default CreatePostForm;

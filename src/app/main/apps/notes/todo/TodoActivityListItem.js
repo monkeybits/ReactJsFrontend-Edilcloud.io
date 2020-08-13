@@ -69,7 +69,7 @@ function TodoActivityListItem(props) {
 				)}
 				onClick={ev => {
 					ev.preventDefault();
-					// dispatch(Actions.openEditTodoDialog(props.todo));
+					dispatch(Actions.openTimelineDialog(props.todo));
 					// getDetailOfTask();
 				}}
 				dense
