@@ -38,6 +38,8 @@ const useStyles = makeStyles(theme => ({
 function TodoListItem(props) {
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoApp }) => todoApp.labels);
+	const company = useSelector(({ chatApp }) => chatApp?.company);
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const [open, setOpen] = React.useState(false);
 	const [taskDetail, setTaskDetail] = useState([]);
 	const classes = useStyles(props);
@@ -72,7 +74,9 @@ function TodoListItem(props) {
 				onClick={ev => {
 					ev.preventDefault();
 					// dispatch(Actions.openEditTodoDialog(props.todo));
-					getDetailOfTask();
+					if (props.todo.assigned_company?.id == company.id) {
+						getDetailOfTask();
+					}
 				}}
 				dense
 				button
@@ -102,28 +106,35 @@ function TodoListItem(props) {
 				</div>
 
 				<div className="px-8">
-					<IconButton
-						onClick={ev => {
-							ev.preventDefault();
-							ev.stopPropagation();
-							if (props.todo.assigned_company) {
-								dispatch(Actions.openAddActivityTodoDialog(props.todo));
-							}
-						}}
-					>
-						<Icon>playlist_add</Icon>
-					</IconButton>
-					<IconButton
-						onClick={ev => {
-							ev.preventDefault();
-							ev.stopPropagation();
-							dispatch(Actions.toggleStarred(props.todo));
-						}}
-					>
-						<Icon>edit</Icon>
-					</IconButton>
+					{props.todo.assigned_company?.id == company.id && (
+						<IconButton
+							onClick={ev => {
+								ev.preventDefault();
+								ev.stopPropagation();
+								if (props.todo.assigned_company) {
+									dispatch(Actions.openAddActivityTodoDialog(props.todo));
+								}
+							}}
+						>
+							<Icon>playlist_add</Icon>
+						</IconButton>
+					)}
+					{projectDetail.company?.id == company.id && (
+						<IconButton
+							onClick={ev => {
+								ev.preventDefault();
+								ev.stopPropagation();
+								dispatch(Actions.toggleStarred(props.todo));
+							}}
+						>
+							<Icon>edit</Icon>
+						</IconButton>
+					)}
 				</div>
-				{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}
+
+				{props.todo.assigned_company?.id == company.id && (
+					<>{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}</>
+				)}
 			</ListItem>
 			<Collapse in={open} timeout="auto" unmountOnExit>
 				<List className="p-0">
