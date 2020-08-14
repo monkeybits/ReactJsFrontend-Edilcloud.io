@@ -111,9 +111,10 @@ export function openNewTodoDialog() {
 		type: OPEN_NEW_TODO_DIALOG
 	};
 }
-export function openTimelineDialog() {
+export function openTimelineDialog(todo) {
 	return {
-		type: OPEN_TIMELINE_DIALOG
+		type: OPEN_TIMELINE_DIALOG,
+		todo
 	};
 }
 export function closeNewTodoDialog() {

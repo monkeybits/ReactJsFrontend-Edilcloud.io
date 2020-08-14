@@ -52,7 +52,7 @@ const todosReducer = (state = initialState, action) => {
 					props: {
 						openTimelineDialog: true
 					},
-					data: null
+					data: action.todo
 				}
 			};
 		}

@@ -84,3 +84,5 @@ export const ADD_ACTIVITY_TO_TASK = tid => `/api/frontend/project/task/${tid}/ac
 export const GET_COMPANY_PROJECT_TEAM_MEMBER_LIST = (pid, cid, searchString) =>
 	`/api/frontend/project/project/${pid}/approve/team_list/?filter__profile__company__id=${cid}&filter__profile__first_name__icontains=${searchString}&filter__profile__last_name__icontains=${searchString}&no_page=no_page`;
 export const GET_ACTIVITY_OF_TASK = tid => `/api/frontend/project/task/${tid}/activity_list/`;
+export const ADD_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/add_post/`;
+export const GET_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/post_list/`;
