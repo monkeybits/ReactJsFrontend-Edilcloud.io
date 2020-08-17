@@ -128,6 +128,8 @@ function FileList(props) {
 						<TableCell className="hidden sm:table-cell">Owner</TableCell>
 						<TableCell className="text-center hidden sm:table-cell">Size</TableCell>
 						<TableCell className="hidden sm:table-cell">Modified</TableCell>
+						<TableCell ></TableCell>
+						<TableCell></TableCell>
 					</TableRow>
 				</TableHead>
 
@@ -140,9 +142,11 @@ function FileList(props) {
 								</IconButton>
 							</TableCell>
 							<TableCell></TableCell>
-							<TableCell></TableCell>
-							<TableCell></TableCell>
-							<TableCell></TableCell>
+							<TableCell className="hidden sm:table-cell"></TableCell>
+							<TableCell className="hidden sm:table-cell"></TableCell>
+							<TableCell className="hidden sm:table-cell"></TableCell>
+							<TableCell className="hidden sm:table-cell"></TableCell>
+							<TableCell ></TableCell>
 							<TableCell></TableCell>
 						</TableRow>
 					)}
