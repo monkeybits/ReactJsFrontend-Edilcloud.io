@@ -133,7 +133,7 @@ function CreatePostForm() {
 	}
 	return (
 		<div className="md:flex max-w-2xl">
-			<div className="flex flex-col flex-1 md:ltr:pr-32 md:rtl:pl-32">
+			<div className="flex flex-col flex-1 px-20 md:px-32 pt-20 md:pt-32 md:ltr:pr-32 md:rtl:pl-32">
 				<FuseAnimateGroup
 					enter={{
 						animation: 'transition.slideUpBigIn'

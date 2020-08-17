@@ -164,6 +164,13 @@
     margin-top: -12px;    
 }
 
+.todoWrapper{
+    padding: 0;
+}
+.todoWrapper [class|=makeStyles-header] {
+    display: none;
+}
+
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
         min-width: 100px !important;

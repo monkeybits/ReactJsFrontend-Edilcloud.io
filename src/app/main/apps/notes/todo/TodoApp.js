@@ -34,7 +34,7 @@ function TodoApp(props) {
 		<>
 			<FusePageCarded
 				classes={{
-					contentWrapper: 'h-full',
+					contentWrapper: 'h-full todoWrapper',
 					content: 'flex flex-col h-full',
 					leftSidebar: 'w-256 border-0'
 				}}
