@@ -68,7 +68,7 @@ const useStyles = makeStyles(theme => ({
 
 function ProjectTabs() {
 	const classes = useStyles();
-	const [value, setValue] = React.useState('four');
+	const [value, setValue] = React.useState('one');
 	const dispatch = useDispatch();
 	const routeParams = useParams();
 	const handleChange = (event, newValue) => {

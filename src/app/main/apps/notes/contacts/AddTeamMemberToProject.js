@@ -41,6 +41,7 @@ const defaultFormState = {
 
 function AddTeamMemberToProject() {
 	const dispatch = useDispatch();
+	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
 	const match = useRouteMatch();
 	const [, setValue] = useState('English');
@@ -96,10 +97,14 @@ function AddTeamMemberToProject() {
 
 		// if (contactDialog.type === 'new') {
 		dispatch(
-			ContactActions.addMemberToProject(match.params.id, {
-				profile: member[0].data.id,
-				role: member[0].data.role?.split('')?.[0]?.toLocaleLowerCase()
-			})
+			ContactActions.addMemberToProject(
+				match.params.id,
+				{
+					profile: member[0].data.id,
+					role: member[0].data.role?.split('')?.[0]?.toLocaleLowerCase()
+				},
+				company.id != member[0].data.company?.id
+			)
 		);
 		closeComposeDialog();
 	}
@@ -210,15 +215,15 @@ function AddTeamMemberToProject() {
 				</DialogContent>
 			</form>
 			<DialogActions className="p-24">
-					<Button
-						variant="contained"
-						color="primary"
-						onClick={handleSubmit}
-						type="submit"
-						disabled={!canBeSubmitted()}
-					>
-						Add
-					</Button>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={handleSubmit}
+					type="submit"
+					disabled={!canBeSubmitted()}
+				>
+					Add
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);
