@@ -33,6 +33,7 @@ import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints'
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import CreatePostForm from './CreatePostForm';
+import CloseIcon from '@material-ui/icons/Close';
 
 const defaultFormState = {
 	id: '',
@@ -255,9 +256,14 @@ function CreatePostDialog(props) {
 	};
 	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
 	return (
-		<Dialog open={todoDialog.props.openTimelineDialog} onClose={closeTodoDialog} fullWidth maxWidth="sm">
+		<Dialog open={todoDialog.props.openTimelineDialog} onClose={closeTodoDialog} fullWidth maxWidth="sm" className="rs-dialog-sm-full">
 			<AppBar position="static" elevation={1}>
 				<Toolbar className="flex w-full">
+					<div className="absolute right-0 mr-4">
+						<IconButton onClick={closeTodoDialog} edge="start" color="inherit" aria-label="close">
+							<CloseIcon />
+						</IconButton>
+					</div>
 					<Typography variant="subtitle1" color="inherit">
 						{todoDialog.type === 'new'
 							? 'New Todo'
