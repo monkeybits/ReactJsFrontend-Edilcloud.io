@@ -271,62 +271,6 @@ function CreatePostDialog(props) {
 			<DialogContent classes={{ root: 'p-0' }}>
 				<CreatePostForm />
 			</DialogContent>
-
-			{todoDialog.type === 'new' || todoDialog.type === 'activity' ? (
-				<DialogActions className="justify-between p-8">
-					<div className="px-16">
-						<Button
-							variant="contained"
-							color="primary"
-							onClick={() => {
-								dispatch(
-									Actions.addTodo(
-										{
-											...form,
-											id: todoDialog.data?.id,
-											company,
-											profile: profileData,
-											progress,
-											...taskDate
-										},
-										routeParams.id,
-										todoDialog.type
-									)
-								);
-								closeTodoDialog();
-							}}
-							disabled={!canBeSubmitted()}
-						>
-							Add
-						</Button>
-					</div>
-				</DialogActions>
-			) : (
-				<DialogActions className="justify-between p-8">
-					<div className="px-16">
-						<Button
-							variant="contained"
-							color="primary"
-							// onClick={() => {
-							// 	dispatch(Actions.updateTodo(form));
-							// 	closeTodoDialog();
-							// }}
-							// disabled={!canBeSubmitted()}
-						>
-							Save
-						</Button>
-					</div>
-					<IconButton
-						className="min-w-auto"
-						// onClick={() => {
-						// 	dispatch(Actions.removeTodo(form.id));
-						// 	closeTodoDialog();
-						// }}
-					>
-						<Icon>delete</Icon>
-					</IconButton>
-				</DialogActions>
-			)}
 		</Dialog>
 	);
 }
