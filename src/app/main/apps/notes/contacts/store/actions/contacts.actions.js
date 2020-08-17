@@ -273,7 +273,7 @@ export function closeViewContactDialog() {
 	};
 }
 
-export function addMemberToProject(pid, values) {
+export function addMemberToProject(pid, values, is_external) {
 	return dispatch => {
 		// console.log({ values });
 		// var formData = new FormData();
@@ -281,7 +281,7 @@ export function addMemberToProject(pid, values) {
 		// 	if (values[key]) formData.append(key, values[key]);
 		// }
 		apiCall(
-			ADD_TEAM_MEMBER_TO_PROJECT(pid, true),
+			ADD_TEAM_MEMBER_TO_PROJECT(pid, is_external),
 			values,
 			res => {
 				dispatch(getContacts(pid));
