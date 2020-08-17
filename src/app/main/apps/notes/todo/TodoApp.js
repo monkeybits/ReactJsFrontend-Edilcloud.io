@@ -12,6 +12,7 @@ import TodoList from './TodoList';
 import TodoSidebarContent from './TodoSidebarContent';
 import TodoSidebarHeader from './TodoSidebarHeader';
 import TodoToolbar from './TodoToolbar';
+import CreatePostDialog from './CreatePostDialog';
 
 function TodoApp(props) {
 	const dispatch = useDispatch();
@@ -26,14 +27,14 @@ function TodoApp(props) {
 	}, [dispatch]);
 
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getTodos(routeParams));
+		dispatch(Actions.getTodos(routeParams.id));
 	}, [dispatch, routeParams]);
 
 	return (
 		<>
 			<FusePageCarded
 				classes={{
-					contentWrapper: 'h-full',
+					contentWrapper: 'h-full todoWrapper',
 					content: 'flex flex-col h-full',
 					leftSidebar: 'w-256 border-0'
 				}}
@@ -43,6 +44,7 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
+			<CreatePostDialog />
 			<TodoDialog />
 		</>
 	);

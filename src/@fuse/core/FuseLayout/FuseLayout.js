@@ -63,6 +63,7 @@ function FuseLayout(props) {
 	const matched = matchRoutes(routes, pathname)[0];
 	const newSettings = useRef(null);
 	const shouldAwaitRender = useCallback(() => {
+		document.body.style.zoom = "80%";
 		let _newSettings;
 		/**
 		 * On Path changed

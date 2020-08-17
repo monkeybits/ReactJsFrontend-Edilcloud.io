@@ -1,3 +1,8 @@
+@media (min-width: 600px) {
+    .tabs-content header .MuiTab-root {
+       min-width: 145px !important;
+    }
+}
 @media only screen and (max-width: 1279px) {
     .custom-tab-header {
         width: calc(100% - 0px);
@@ -40,10 +45,12 @@
         text-transform: capitalize;
         padding: 6px 8px !important;
         font-size: 1.2rem !important;
-     }
-}
-@media (min-width: 600px) {
-    .tabs-content header .MuiTab-root {
-       min-width: 145px !important;
     }
- }
+}
+@media only screen and (max-width: 600px) {
+    .rs-dialog-sm-full .MuiDialog-paperFullWidth{
+        width: calc(100% - 0px);
+        max-height: calc(100% - 0px);
+        margin: 0;
+    }
+}

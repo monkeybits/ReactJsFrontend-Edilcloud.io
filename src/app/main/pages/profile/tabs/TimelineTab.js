@@ -230,7 +230,7 @@ function TimelineTab() {
 				</FuseAnimateGroup>
 			</div>
 
-			<div className="flex flex-col md:w-320">
+			{/* <div className="flex flex-col md:w-320">
 				<FuseAnimateGroup
 					enter={{
 						animation: 'transition.slideUpBigIn'
@@ -277,7 +277,7 @@ function TimelineTab() {
 						</CardContent>
 					</Card>
 				</FuseAnimateGroup>
-			</div>
+			</div> */}
 		</div>
 	);
 }

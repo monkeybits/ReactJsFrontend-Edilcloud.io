@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 		background: theme.palette.background.default
 	},
 	contactButton: {
-		width: 250,
+		width: 350,
 		minWidth: 70,
 		flex: '0 0 auto',
 		justifyContent: 'start',
@@ -153,7 +153,7 @@ function ContactList(props) {
 				<>
 					<FuseAnimateGroup
 						enter={{
-							animation: 'transition.expandIn'
+							// animation: 'transition.expandIn'
 						}}
 						className="flex flex-col flex-shrink-0"
 					>

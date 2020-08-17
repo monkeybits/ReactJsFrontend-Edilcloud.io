@@ -18,12 +18,9 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
-import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import TodoActivityListItem from './TodoActivityListItem';
 
 const useStyles = makeStyles(theme => ({
 	todoItem: {
-		borderLeftColor: 'transparent',
 		'&.completed': {
 			background: 'rgba(0,0,0,0.03)',
 			'& .todo-title, & .todo-notes': {
@@ -36,11 +33,9 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function TodoListItem(props) {
+function TodoActivityListItem(props) {
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoApp }) => todoApp.labels);
-	const company = useSelector(({ chatApp }) => chatApp?.company);
-	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const [open, setOpen] = React.useState(false);
 	const [taskDetail, setTaskDetail] = useState([]);
 	const classes = useStyles(props);
@@ -70,89 +65,74 @@ function TodoListItem(props) {
 				className={clsx(
 					classes.todoItem,
 					{ completed: props.todo.completed },
-					'border-solid border-l-4 py-16 px-0 sm:px-8'
+					'border-solid border-b-1 py-16 px-0 sm:px-8'
 				)}
-				style={{ borderColor: props.todo.assigned_company?.color_project }}
 				onClick={ev => {
 					ev.preventDefault();
-					// dispatch(Actions.openEditTodoDialog(props.todo));
-					if (props.todo.assigned_company?.id == company.id) {
-						getDetailOfTask();
-					}
+					dispatch(Actions.openTimelineDialog(props.todo));
+					// getDetailOfTask();
 				}}
 				dense
 				button
 			>
+				<Checkbox
+					tabIndex={-1}
+					disableRipple
+					checked={props.todo.completed}
+					// onChange={() => dispatch(Actions.toggleCompleted(props.todo))}
+					onClick={ev => ev.stopPropagation()}
+				/>
+
 				<div className="flex flex-1 flex-col relative overflow-hidden px-8">
 					<Typography
 						variant="subtitle1"
 						className="todo-title truncate"
 						color={props.todo.completed ? 'textSecondary' : 'inherit'}
 					>
-						{props.todo.name}
+						{props.todo.title}
 					</Typography>
 
 					<Typography color="textSecondary" className="todo-notes truncate">
-						{_.truncate(props.todo.note?.replace(/<(?:.|\n)*?>/gm, ''), { length: 180 })}
+						{_.truncate(props.todo.description?.replace(/<(?:.|\n)*?>/gm, ''), { length: 180 })}
 					</Typography>
 
-					{props.todo.assigned_company && (
-						<div className={clsx(classes.labels, 'flex -mx-2')}>
+					<div className={clsx(classes.labels, 'flex -mx-2')}>
+						{props.todo.labels?.map(label => (
 							<TodoChip
 								className="mx-2 mt-4"
-								title={props.todo.assigned_company?.name}
-								color={props.todo.assigned_company?.color_project}
+								title={_.find(labels, { id: label }).title}
+								color={_.find(labels, { id: label }).color}
+								key={label}
 							/>
-						</div>
-					)}
+						))}
+					</div>
 				</div>
 
 				<div className="px-8">
-					{props.todo.assigned_company?.id == company.id && (
-						<IconButton
-							onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								if (props.todo.assigned_company) {
-									dispatch(Actions.openAddActivityTodoDialog(props.todo));
-								}
-							}}
-						>
-							<Icon>playlist_add</Icon>
-						</IconButton>
-					)}
-					{projectDetail.company?.id == company.id && (
-						<IconButton
-							onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								dispatch(Actions.toggleStarred(props.todo));
-							}}
-						>
-							<Icon>edit</Icon>
-						</IconButton>
-					)}
-				</div>
-
-				{props.todo.assigned_company?.id == company.id && (
-					<>{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}</>
-				)}
-			</ListItem>
-			<Collapse in={open} timeout="auto" unmountOnExit>
-				<List className="p-0">
-					<FuseAnimateGroup
-						enter={{
-							animation: 'transition.slideUpBigIn'
+					<IconButton
+						onClick={ev => {
+							ev.preventDefault();
+							ev.stopPropagation();
+							if (props.todo.assigned_company) {
+								dispatch(Actions.openAddActivityTodoDialog(props.todo));
+							}
 						}}
 					>
-						{taskDetail.map(todo => (
-							<TodoActivityListItem todo={todo} key={todo.id} />
-						))}
-					</FuseAnimateGroup>
-				</List>
-			</Collapse>
+						<Icon>error</Icon>
+					</IconButton>
+					<IconButton
+						onClick={ev => {
+							ev.preventDefault();
+							ev.stopPropagation();
+							// dispatch(Actions.toggleStarred(props.todo));
+						}}
+					>
+						<Icon>edit</Icon>
+					</IconButton>
+				</div>
+			</ListItem>
 		</>
 	);
 }
 
-export default TodoListItem;
+export default TodoActivityListItem;

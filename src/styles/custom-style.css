@@ -137,6 +137,45 @@
     height: 100%;
 }
 
+.static-form-label label{
+    transform: translate(10px, -6px) scale(0.75);
+    display: inline-block;
+    transform-origin: top left;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 1.4rem;
+    font-family: Muli,Roboto,"Helvetica",Arial,sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    background: #FFF;
+    z-index: 1;
+    position: absolute;
+    vertical-align: middle;
+    padding: 0 .5rem;
+    top: 0;
+    left: 0;
+}
+.static-form-label:focus label{
+    color:#192d3e;
+}
+.static-form-label .icon{
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    margin-top: -12px;    
+}
+
+.todoWrapper{
+    padding: 0;
+}
+.todoWrapper [class|=makeStyles-header] {
+    display: none;
+}
+
+.fileInfoSidebar .MuiDrawer-modal[aria-hidden="true"] .MuiDrawer-paperAnchorRight{
+    opacity: 0;
+    pointer-events: none;
+}
+
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
         min-width: 100px !important;

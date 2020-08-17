@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
+import { ADD_TASK_TO_PROJECT, GET_TASK_LIST, ADD_ACTIVITY_TO_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 export const GET_TODOS = '[TODO APP] GET TODOS';
@@ -13,23 +13,41 @@ export const ADD_TODO = '[TODO APP] ADD TODO';
 export const REMOVE_TODO = '[TODO APP] REMOVE TODO';
 export const SET_SEARCH_TEXT = '[TODO APP] SET SEARCH TEXT';
 export const OPEN_NEW_TODO_DIALOG = '[TODO APP] OPEN NEW TODO DIALOG';
+export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG';
 export const CLOSE_NEW_TODO_DIALOG = '[TODO APP] CLOSE NEW TODO DIALOG';
+export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG';
 export const OPEN_EDIT_TODO_DIALOG = '[TODO APP] OPEN EDIT TODO DIALOG';
+export const OPEN_ACTIVITY_TODO_DIALOG = '[TODO APP] OPEN ACTIVITY TODO DIALOG';
 export const CLOSE_EDIT_TODO_DIALOG = '[TODO APP] CLOSE EDIT TODO DIALOG';
+export const CLOSE_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE ACTIVITY TODO DIALOG';
 export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING';
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER';
 
-export function getTodos(params) {
-	const request = axios.get('/api/todo-app/todos', { params });
+export function getTodos(pid) {
+	// const request = axios.get('/api/todo-app/todos', { params });
 
-	return dispatch =>
-		request.then(response =>
-			dispatch({
-				type: GET_TODOS,
-				routeParams: params,
-				payload: response.data
-			})
+	return dispatch => {
+		apiCall(
+			GET_TASK_LIST(pid),
+			{},
+			res => {
+				dispatch({
+					type: GET_TODOS,
+					payload: res.results
+				});
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
 		);
+		// request.then(response =>
+		// 	dispatch({
+		// 		type: GET_TODOS,
+		// 		routeParams: params,
+		// 		payload: response.data
+		// 	})
+		// );
+	};
 }
 
 export function updateTodos() {
@@ -93,43 +111,74 @@ export function openNewTodoDialog() {
 		type: OPEN_NEW_TODO_DIALOG
 	};
 }
-
+export function openTimelineDialog(todo) {
+	return {
+		type: OPEN_TIMELINE_DIALOG,
+		todo
+	};
+}
 export function closeNewTodoDialog() {
 	return {
 		type: CLOSE_NEW_TODO_DIALOG
 	};
 }
-
+export function closeTimelineDialog() {
+	return {
+		type: CLOSE_TIMELINE_DIALOG
+	};
+}
 export function openEditTodoDialog(data) {
 	return {
 		type: OPEN_EDIT_TODO_DIALOG,
 		data
 	};
 }
-
+export function openAddActivityTodoDialog(data) {
+	return {
+		type: OPEN_ACTIVITY_TODO_DIALOG,
+		data
+	};
+}
 export function closeEditTodoDialog() {
 	return {
 		type: CLOSE_EDIT_TODO_DIALOG
 	};
 }
-
-export function addTodo(todo, pid) {
+export function closeActivityTodoDialog() {
+	return {
+		type: CLOSE_ACTIVITY_TODO_DIALOG
+	};
+}
+export function addTodo(todo, pid, todoDialogType) {
 	// console.log({
 	// 	todo
 	// });
 	return dispatch => {
-		let values = {
-			name: todo.title,
-			note : todo.notes,
-			date_start: moment(todo.startDate).format('YYYY-MM-DD'),
-			date_end: moment(todo.endDate).format('YYYY-MM-DD'),
-			assigned_company: todo.company[0].data.profile.company.id
-		};
+		let values =
+			todoDialogType == 'new'
+				? {
+						name: todo.title,
+						note: todo.notes,
+						progress: todo.progress,
+						date_start: moment(todo.startDate).format('YYYY-MM-DD'),
+						date_end: moment(todo.endDate).format('YYYY-MM-DD'),
+						assigned_company: todo.company[0] ? todo.company[0].data.profile.company.id : undefined
+				  }
+				: {
+						title: todo.title,
+						description: todo.notes,
+						datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
+						datetime_end: moment(todo.endDate).format('YYYY-MM-DD'),
+						profile: todo.profile[0] ? todo.profile[0].data.profile.id : undefined
+				  };
 		// console.log({ values });
 		apiCall(
-			ADD_TASK_TO_PROJECT(pid),
+			todoDialogType == 'new' ? ADD_TASK_TO_PROJECT(pid) : ADD_ACTIVITY_TO_TASK(todo.id),
 			values,
-			res => console.log(res),
+			res => {
+				dispatch(getTodos(pid));
+				console.log(res);
+			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()

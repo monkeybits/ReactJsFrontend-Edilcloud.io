@@ -29,16 +29,20 @@ class Auth extends Component {
 				// Comment the lines which you do not use
 				// this.firebaseCheck(),
 				// this.auth0Check(),
-				
+
 				this.jwtCheck()
-			]).then(() => {
-				this.setState({ waitAuthCheck: false });
-			});
+			])
+				.then(() => {
+					this.setState({ waitAuthCheck: false });
+				})
+				.catch(() => {
+					this.setState({ waitAuthCheck: false });
+				});
 		}
 	}
 
 	jwtCheck = () =>
-		new Promise(resolve => {
+		new Promise((resolve, reject) => {
 			jwtService.on('onAutoLogin', () => {
 				this.props.showMessage({ message: 'Logging in with JWT' });
 
@@ -55,9 +59,9 @@ class Auth extends Component {
 						this.props.showMessage({ message: 'Logged in with JWT' });
 					})
 					.catch(error => {
-						this.props.showMessage({ message: error });
+						this.props.showMessage({ message: 'Failed to login with token.' });
 
-						resolve();
+						reject();
 					});
 			});
 

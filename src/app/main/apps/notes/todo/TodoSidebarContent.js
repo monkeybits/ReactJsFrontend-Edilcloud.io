@@ -45,24 +45,28 @@ function TodoSidebarContent(props) {
 	const labels = useSelector(({ todoApp }) => todoApp.labels);
 	const folders = useSelector(({ todoApp }) => todoApp.folders);
 	const filters = useSelector(({ todoApp }) => todoApp.filters);
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
+	const company = useSelector(({ chatApp }) => chatApp?.company);
 
 	const classes = useStyles(props);
 
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className="flex-auto border-l-1 border-solid">
-				<div className="p-24">
-					<Button
-						onClick={() => {
-							dispatch(Actions.openNewTodoDialog());
-						}}
-						variant="contained"
-						color="primary"
-						className="w-full"
-					>
-						ADD TASK
-					</Button>
-				</div>
+				{projectDetail.company?.id == company.id && (
+					<div className="p-24">
+						<Button
+							onClick={() => {
+								dispatch(Actions.openNewTodoDialog());
+							}}
+							variant="contained"
+							color="primary"
+							className="w-full"
+						>
+							ADD TASK
+						</Button>
+					</div>
+				)}
 
 				<div className={classes.listWrapper}>
 					<List>
