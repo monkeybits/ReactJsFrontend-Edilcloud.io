@@ -19,7 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_POST_TO_ACTIVITY, GET_POST_TO_ACTIVITY } from 'app/services/apiEndPoints';
+import { ADD_COMMENT_TO_POST } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
@@ -30,6 +30,24 @@ import moment from 'moment';
 
 export default function PostListItem({ post }) {
 	const inputRef = useRef(null);
+	const [text, setText] = useState('');
+	const handlePostComment = e => {
+		e.preventDefault();
+		if (!text) return;
+		apiCall(
+			ADD_COMMENT_TO_POST(post.id),
+			{
+				text,
+				parent: ''
+			},
+			res => {
+				document.getElementById(String(post.id)).value = '';
+			},
+			err => console.log(err),
+			METHOD.POST,
+			getHeaderToken()
+		);
+	};
 	return (
 		<Card key={post.id} className="mb-32 overflow-hidden">
 			<CardHeader
@@ -132,12 +150,14 @@ export default function PostListItem({ post }) {
 						<Paper elevation={0} className="w-full mb-16">
 							<Input
 								className="p-8 w-full border-1"
+								id={String(post.id)}
 								classes={{ root: 'text-13' }}
 								placeholder="Add a comment.."
 								multiline
 								rows="6"
 								margin="none"
 								disableUnderline
+								onChange={e => setText(e.target.value)}
 							/>
 						</Paper>
 						<div className="card-footer flex flex-row">
@@ -147,7 +167,13 @@ export default function PostListItem({ post }) {
 								</IconButton>
 								<input hidden multiple type="file" accept="image/*, video/*" ref={inputRef} />
 							</div>
-							<Button className="normal-case" variant="contained" color="primary" size="small">
+							<Button
+								onClick={handlePostComment}
+								className="normal-case"
+								variant="contained"
+								color="primary"
+								size="small"
+							>
 								Post Comment
 							</Button>
 						</div>

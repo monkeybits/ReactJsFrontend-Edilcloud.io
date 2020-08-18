@@ -41,9 +41,7 @@ function CreatePostForm() {
 	const inputRef = useRef(null);
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	useEffect(() => {
-		axios.get('/api/profile/timeline').then(res => {
-			setData(res.data);
-		});
+		setData({})
 		if (todoDialog.data?.id) {
 			// res => setData({ posts: res.results }),
 			apiCall(
