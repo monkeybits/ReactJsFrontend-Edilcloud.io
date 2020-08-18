@@ -76,7 +76,7 @@ export default function ProjectInfo() {
 							</div>
 							<div className="mb-24">
 								<Typography className="font-bold mb-4 text-15">End Date</Typography>
-								<Typography>{moment(new Date(date_end)).format('LL')}</Typography>
+								{date_end && <Typography>{moment(new Date(date_end)).format('LL')}</Typography>}
 							</div>
 							<div className="mb-24">
 								<Typography className="font-bold mb-4 text-15">Note</Typography>
