@@ -164,78 +164,80 @@ function Boards(props) {
 					</Typography>
 				</FuseAnimate>
 				<div>
-					<FuseAnimateGroup
-						className="flex flex-wrap w-full justify-center py-32 px-16"
-						enter={{
-							animation: 'transition.slideUpBigIn',
-							duration: 300
-						}}
-					>
-						{boards.map(board => (
-							<div className="w-224 h-224 p-16" key={board.id}>
-								<Link
-									to="#"
-									onClick={e => {
-										e.preventDefault();
-										e.stopPropagation();
-										setRequest(board);
-										if (!!board.isApproved) {
-											setIsLoading(true);
-											// dispatch(
-											// 	FuseActions.setDefaultSettings(
-											// 		_.set({}, 'layout.config.toolbar.display', false)
-											// 	)
-											// );
-											redirectAfterGetNewToken(board.company_profile_id);
-										} else {
-											setIsShowRequests(true);
+					<div className="flex flex-wrap w-full justify-center py-32 px-16">
+						{!!boards.length &&
+							boards.map(board => (
+								<div className="w-224 h-224 p-16" key={board.id}>
+									<Link
+										to="#"
+										onClick={e => {
+											e.preventDefault();
+											e.stopPropagation();
 											setRequest(board);
-										}
-									}}
-									className={clsx(
-										classes.board,
-										'flex flex-col items-center justify-center w-full h-full rounded py-24'
-									)}
-									role="button"
-								>
-									{board.company_profile_id == request.company_profile_id && isLoading ? (
-										<Skeleton style={{ background: 'darkgrey' }}>
-											<Avatar src={board.logo} variant="square" className="company-img">
-												{board.name.split('')[0]}
-											</Avatar>
-										</Skeleton>
-									) : (
-										<>
-											{board.isApproved ? (
+											if (!!board.isApproved) {
+												setIsLoading(true);
+												// dispatch(
+												// 	FuseActions.setDefaultSettings(
+												// 		_.set({}, 'layout.config.toolbar.display', false)
+												// 	)
+												// );
+												redirectAfterGetNewToken(board.company_profile_id);
+											} else {
+												setIsShowRequests(true);
+												setRequest(board);
+											}
+										}}
+										className={clsx(
+											classes.board,
+											'flex flex-col items-center justify-center w-full h-full rounded py-24'
+										)}
+										role="button"
+									>
+										{board.company_profile_id == request.company_profile_id && isLoading ? (
+											<Skeleton style={{ background: 'darkgrey' }}>
 												<Avatar src={board.logo} variant="square" className="company-img">
 													{board.name.split('')[0]}
 												</Avatar>
-											) : (
-												<Badge
-													invisible={board.isApproved}
-													color="secondary"
-													onClick={e => {
-														e.stopPropagation();
-														e.preventDefault();
-														setIsShowRequests(true);
-														setRequest(board);
-													}}
-												>
+											</Skeleton>
+										) : (
+											<>
+												{board.isApproved ? (
 													<Avatar src={board.logo} variant="square" className="company-img">
 														{board.name.split('')[0]}
 													</Avatar>
-													{/* <Icon className="text-56">assessment</Icon> */}
-												</Badge>
-											)}
-										</>
-									)}
+												) : (
+													<Badge
+														invisible={board.isApproved}
+														color="secondary"
+														onClick={e => {
+															e.stopPropagation();
+															e.preventDefault();
+															setIsShowRequests(true);
+															setRequest(board);
+														}}
+													>
+														<Avatar
+															src={board.logo}
+															variant="square"
+															className="company-img"
+														>
+															{board.name.split('')[0]}
+														</Avatar>
+														{/* <Icon className="text-56">assessment</Icon> */}
+													</Badge>
+												)}
+											</>
+										)}
 
-									<Typography className="text-16 font-300 text-center pt-16 px-32" color="inherit">
-										{board.name}
-									</Typography>
-								</Link>
-							</div>
-						))}
+										<Typography
+											className="text-16 font-300 text-center pt-16 px-32"
+											color="inherit"
+										>
+											{board.name}
+										</Typography>
+									</Link>
+								</div>
+							))}
 						<div className="w-224 h-224 p-16">
 							<div
 								className={clsx(
@@ -254,7 +256,7 @@ function Boards(props) {
 								</Typography>
 							</div>
 						</div>
-					</FuseAnimateGroup>
+					</div>
 				</div>
 			</div>
 			<ReuestsDrawer
