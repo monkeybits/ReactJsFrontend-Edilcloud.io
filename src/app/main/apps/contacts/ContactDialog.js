@@ -222,7 +222,12 @@ function ContactDialog(props) {
 			...permission
 		};
 		if (contactDialog.type === 'new') {
-			dispatch(Actions.addContact({ ...newformData, photo: fileData.file }, isExisting));
+			dispatch(
+				Actions.addContact(
+					{ ...newformData, photo: fileData.file, id: isExisting ? newformData.id : undefined },
+					isExisting
+				)
+			);
 		} else {
 			dispatch(Actions.updateContact(newformData, id));
 		}
