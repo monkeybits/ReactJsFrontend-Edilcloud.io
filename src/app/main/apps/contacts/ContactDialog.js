@@ -35,7 +35,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { SEARCH_USER_BY_EMAIL } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -87,6 +87,8 @@ function ContactDialog(props) {
 		file: undefined,
 		imagePreviewUrl: undefined
 	});
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const getPhoto = fileData => {
 		let reader = new FileReader();
 
@@ -312,6 +314,7 @@ function ContactDialog(props) {
 				<div className="mb-24 block mx-auto">
 					<Button
 						variant={permission.can_access_files ? 'contained' : 'outlined'}
+						disabled={getRole() != 'o' || getRole() != 'd'}
 						size="small"
 						color="secondary"
 						className="mr-8"
@@ -328,6 +331,7 @@ function ContactDialog(props) {
 						variant={permission.can_access_chat ? 'contained' : 'outlined'}
 						size="small"
 						color="secondary"
+						disabled={getRole() != 'o' || getRole() != 'd'}
 						onClick={() =>
 							setPermission(prev => ({
 								...prev,
@@ -472,6 +476,7 @@ function ContactDialog(props) {
 						</div>
 						<TextField
 							className="mb-24"
+							disabled={getRole() != 'o' || getRole() != 'd'}
 							label="Job title"
 							id="position"
 							name="position"
