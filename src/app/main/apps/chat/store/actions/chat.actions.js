@@ -38,11 +38,18 @@ export function removeChat() {
 export function sendMessage(messageText, setMessageText) {
 	return (dispatch, getState) => {
 		const userInfo = decodeDataFromToken();
+		let values = {
+			body: messageText
+		};
+		var formData = new FormData();
+		for (let key in values) {
+			if (values[key]) {
+				formData.append(key, values[key]);
+			}
+		}
 		apiCall(
 			SEND_MESSAGE_API(userInfo.extra.profile.company),
-			{
-				body: messageText
-			},
+			formData,
 			chat => {
 				dispatch(getChat());
 				setMessageText('');

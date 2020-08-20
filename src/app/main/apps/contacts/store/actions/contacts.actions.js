@@ -166,7 +166,7 @@ export function getRefusedContacts(routeParams) {
 					});
 				}
 				return dispatch({
-					type: GET_WAITING_CONTACTS,
+					type: GET_REFUSED_CONTACTS,
 					payload: results,
 					routeParams
 				});
