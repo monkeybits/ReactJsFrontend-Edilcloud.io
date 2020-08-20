@@ -135,7 +135,7 @@ function ViewContactDialog(props) {
 					<Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} />
 					{contactDialog.type === 'view' && (
 						<Typography variant="h6" color="inherit" className="pt-8">
-							{form.name}
+							{form.name} {form.last_name}
 						</Typography>
 					)}
 				</div>
@@ -146,33 +146,54 @@ function ViewContactDialog(props) {
 						<div className="min-w-96">
 							<Typography className="text-base">Name</Typography>
 						</div>
-						<Typography variant="h6" className="text-base">{form.first_name}</Typography>
+						<Typography variant="h6" className="text-base">
+							{form.first_name}
+						</Typography>
 					</div>
 
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">Last name</Typography>
 						</div>
-						<Typography variant="h6" className="text-base">{form.last_name}</Typography>
+						<Typography variant="h6" className="text-base">
+							{form.last_name}
+						</Typography>
 					</div>
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">Email</Typography>
 						</div>
 
-						<Typography variant="h6" className="text-base">{form.email}</Typography>
+						<Typography variant="h6" className="text-base">
+							<a href={`mailto:${form.email}`}>{form.email}</a>
+						</Typography>
 					</div>
+					{form.phone && (
+						<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+							<div className="min-w-96 ">
+								<Typography className="text-base">Phone</Typography>
+							</div>
+
+							<Typography variant="h6" className="text-base">
+								<a href={`tel:${form.phone}`}>{form.phone}</a>
+							</Typography>
+						</div>
+					)}
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">Role</Typography>
 						</div>
-						<Typography variant="h6" className="text-base">{form.role}</Typography>
+						<Typography variant="h6" className="text-base">
+							{form.role}
+						</Typography>
 					</div>
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">Language</Typography>
 						</div>
-						<Typography variant="h6" className="text-base">{value}</Typography>
+						<Typography variant="h6" className="text-base">
+							{value}
+						</Typography>
 					</div>
 				</DialogContent>
 			</form>

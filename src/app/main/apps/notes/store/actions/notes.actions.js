@@ -36,12 +36,6 @@ export function getProjects() {
 			METHOD.GET,
 			getHeaderToken()
 		);
-		// request.then(response =>
-		// 	dispatch({
-		// 		type: GET_NOTES,
-		// 		payload: response.data
-		// 	})
-		// );
 	};
 }
 

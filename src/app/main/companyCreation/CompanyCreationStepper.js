@@ -143,7 +143,7 @@ function CompanyCreationStepper({ user, history }) {
 		var formData = new FormData();
 		let values = {
 			name: form.name,
-			slug: form.name,
+			slug: form.name.split(" ").join("_"),
 			url: form.url,
 			vat_number: form.vat_number,
 			email: form.email,

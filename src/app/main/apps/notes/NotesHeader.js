@@ -19,18 +19,6 @@ function NotesHeader(props) {
 	return (
 		<div className="flex flex-1 items-center justify-between p-8 sm:p-24">
 			<div className="flex flex-shrink items-center sm:w-224">
-				{/* <Hidden xsDown>
-					<Button
-						to="/apps/projects/"
-						component={Link}
-						variant="contained"
-						color="secondary"
-						className="normal-case"
-					>
-						<Icon>work</Icon>
-						<span className="px-8">Projects</span>
-					</Button>
-				</Hidden> */}
 				<Hidden lgUp>
 					<IconButton
 						onClick={ev => {

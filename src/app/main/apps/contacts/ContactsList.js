@@ -160,7 +160,8 @@ function ContactsList(props) {
 		switch (filterKey) {
 			case 'all':
 				results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
-				setFilteredData(results);
+				let deactivatedUsers = sortByProperty(getFilteredArray(deactivated, searchText), 'name');
+				setFilteredData([...results, ...deactivatedUsers]);
 				break;
 			case 'approved':
 				results = sortByProperty(getFilteredArray(approved, searchText), 'name');
@@ -202,7 +203,7 @@ function ContactsList(props) {
 	};
 	useEffect(() => {
 		setContacts(filterKey);
-	}, [contacts, filterKey, searchText]);
+	}, [contacts, filterKey, searchText, deactivated]);
 
 	if (!filteredData) {
 		return null;
@@ -218,8 +219,8 @@ function ContactsList(props) {
 		);
 	}
 	const onDeactivate = () => {
-		const { id, email } = userData;
-		let url = filterKey == 'deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
+		const { id, email, status } = userData;
+		let url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
 		apiCall(
 			url,
 			{},
@@ -237,14 +238,18 @@ function ContactsList(props) {
 		<>
 			<DeleteConfirmDialog
 				text={
-					<>
-						<Typography>
-							Are you sure want to {filterKey == 'deactivated' ? 'activate' : 'deactivate'} ?
-						</Typography>
-						{filterKey != 'deactivated' && (
-							<Typography>Account will be deactivated untill you not activet this user again!</Typography>
-						)}
-					</>
+					userData && (
+						<>
+							<Typography>
+								Are you sure want to {userData.status == 'Deactivated' ? 'activate' : 'deactivate'} ?
+							</Typography>
+							{userData.status != 'Deactivated' && (
+								<Typography>
+									Account will be deactivated untill you not activet this user again!
+								</Typography>
+							)}
+						</>
+					)
 				}
 				isOpenDeleteDialog={isOpenDeleteDialog}
 				colseDeleteFileDialog={colseDeleteContactDialog}

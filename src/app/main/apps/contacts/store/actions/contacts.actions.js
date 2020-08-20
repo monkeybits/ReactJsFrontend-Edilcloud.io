@@ -11,6 +11,7 @@ import {
 } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
+import { toast } from 'react-toastify';
 
 export const GET_CONTACTS = '[CONTACTS APP] GET CONTACTS';
 export const FILTER_BY = '[CONTACTS APP] FILTER BY';
@@ -274,7 +275,9 @@ export function addContact(values, isExisting) {
 			res => {
 				dispatch(getContacts(routeParams));
 			},
-			err => console.log(err),
+			err => {
+				toast.error(err.detail);
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);

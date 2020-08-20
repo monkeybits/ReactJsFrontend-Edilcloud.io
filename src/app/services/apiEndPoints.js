@@ -86,3 +86,4 @@ export const GET_COMPANY_PROJECT_TEAM_MEMBER_LIST = (pid, cid, searchString) =>
 export const GET_ACTIVITY_OF_TASK = tid => `/api/frontend/project/task/${tid}/activity_list/`;
 export const ADD_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/add_post/`;
 export const GET_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/post_list/`;
+export const ADD_COMMENT_TO_POST = pid => `/api/frontend/project/post/${pid}/add_comment/`;
