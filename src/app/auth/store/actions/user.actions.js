@@ -137,7 +137,8 @@ export function setUserData(user) {
 		...authUserData,
 		role: decode ? 'user' : []
 	};
-	return dispatch => {
+	return (dispatch, getState) => {
+		const guestUser = getState().auth.user.data;
 		/*
         You can redirect the logged-in user to a specific route depending on his role
          */
@@ -160,7 +161,7 @@ export function setUserData(user) {
 			payload: decode
 				? {
 						...userData,
-						data: { ...userData.data, displayName: decode.username, ...decode, user }
+						data: { ...userData.data, ...guestUser, displayName: decode.username, ...decode, user }
 				  }
 				: userData
 		});
