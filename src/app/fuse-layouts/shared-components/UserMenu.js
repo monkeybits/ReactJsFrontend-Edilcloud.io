@@ -21,19 +21,6 @@ function UserMenu(props) {
 	const [userMenu, setUserMenu] = useState(null);
 	const [userId, setUserId] = useState(null);
 	const userData = user?.data?.user;
-	useEffect(() => {
-		if (mainProfileId && !userData?.id) {
-			setUserId(mainProfileId);
-			apiCall(
-				GET_MAIN_PROFILE(mainProfileId),
-				{},
-				res => dispatch(authActions.setUserData(res)),
-				err => console.log({ err }),
-				METHOD.GET,
-				getHeaderToken()
-			);
-		}
-	}, [userData]);
 	const userMenuClick = event => {
 		setUserMenu(event.currentTarget);
 	};

@@ -43,24 +43,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function UserNavbarHeader(props) {
-	const user = useSelector(({ auth }) => auth.user);
+	const user = useSelector(({ auth }) => auth.user.data.company);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const classes = useStyles();
-	const userData = decodeDataFromToken();
-	const [userCompanyData, setUserCompanyData] = useState(null);
-	useEffect(() => {
-		if (userData.extra?.profile?.id && !userCompanyData) {
-			setUserCompanyData(true);
-			apiCall(
-				GET_COMPANY_PROFILE(userData.extra.profile.id),
-				{},
-				res => setUserCompanyData(res),
-				err => console.log(err),
-				METHOD.GET,
-				getHeaderToken()
-			);
-		}
-	}, [userData.extra]);
+	const [userCompanyData, setUserCompanyData] = useState({});
+
 	return (
 		<AppBar
 			position="static"
@@ -69,9 +56,9 @@ function UserNavbarHeader(props) {
 			classes={{ root: classes.root }}
 			className="user relative flex flex-col items-center justify-center pt-24 pb-64 mb-32 z-0"
 		>
-			{userCompanyData && (
+			{user && (
 				<Typography className="username text-16 whitespace-no-wrap" color="inherit">
-					{userCompanyData.first_name + ' ' + userCompanyData.last_name}
+					{user.first_name + ' ' + user.last_name}
 				</Typography>
 			)}
 			<Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
@@ -80,11 +67,7 @@ function UserNavbarHeader(props) {
 			<Avatar
 				className={clsx(classes.avatar, 'avatar')}
 				alt="user photo"
-				src={
-					company?.logo
-						? company?.logo
-						: 'assets/images/avatars/profile.jpg'
-				}
+				src={company?.logo ? company?.logo : 'assets/images/avatars/profile.jpg'}
 			/>
 		</AppBar>
 	);

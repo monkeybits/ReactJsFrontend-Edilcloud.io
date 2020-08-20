@@ -8,6 +8,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
+import { getMainProfileId, getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
+import { GET_MAIN_PROFILE, GET_COMPANY_PROFILE } from 'app/services/apiEndPoints';
+import { METHOD, apiCall } from 'app/services/baseUrl';
 
 class Auth extends Component {
 	state = {
@@ -34,13 +37,36 @@ class Auth extends Component {
 			])
 				.then(() => {
 					this.setState({ waitAuthCheck: false });
+					this.getUser();
+					this.getCompanyProfile();
 				})
 				.catch(() => {
 					this.setState({ waitAuthCheck: false });
 				});
 		}
 	}
-
+	getUser = () => {
+		const mainProfileId = getMainProfileId();
+		apiCall(
+			GET_MAIN_PROFILE(mainProfileId),
+			{},
+			res => this.props.setUserData(res),
+			err => console.log({ err }),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+	getCompanyProfile = () => {
+		const userData = decodeDataFromToken();
+		apiCall(
+			GET_COMPANY_PROFILE(userData.extra.profile.id),
+			{},
+			company => this.props.setUserCompanyData({ company }), //
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 	jwtCheck = () =>
 		new Promise((resolve, reject) => {
 			jwtService.on('onAutoLogin', () => {
@@ -155,6 +181,7 @@ function mapDispatchToProps(dispatch) {
 		{
 			logout: userActions.logoutUser,
 			setUserData: userActions.setUserData,
+			setUserCompanyData: userActions.setUserCompanyData,
 			setUserDataAuth0: userActions.setUserDataAuth0,
 			setUserDataFirebase: userActions.setUserDataFirebase,
 			showMessage: Actions.showMessage,

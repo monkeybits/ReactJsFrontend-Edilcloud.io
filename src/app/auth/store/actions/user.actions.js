@@ -9,6 +9,7 @@ import firebase from 'firebase/app';
 import jwtDecode from 'jwt-decode';
 import { getTokenOnly } from 'app/services/serviceUtils';
 export const SET_USER_DATA = '[USER] SET DATA';
+export const SET_USER_COMPANY_DATA = '[USER] SET COMPANY DATA';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
 
@@ -166,6 +167,14 @@ export function setUserData(user) {
 	};
 }
 
+export function setUserCompanyData(company) {
+	return dispatch => {
+		dispatch({
+			type: SET_USER_COMPANY_DATA,
+			payload: company
+		});
+	};
+}
 /**
  * Update User Settings
  */
