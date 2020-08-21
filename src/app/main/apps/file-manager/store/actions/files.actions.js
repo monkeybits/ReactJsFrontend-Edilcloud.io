@@ -109,8 +109,15 @@ export function setAllFiles(payload) {
 	};
 }
 export function deleteFile(id, fileType, deleteId) {
-	return {
-		type: DELETE_FILE,
-		payload: { id, fileType, deleteId }
+	return (dispatch, getState) => {
+		if (fileType == 'folder') {
+			const userInfo = decodeDataFromToken();
+			const cid = userInfo.extra?.profile?.company;
+			dispatch(getFolders(cid));
+		}
+		dispatch({
+			type: DELETE_FILE,
+			payload: { id, fileType, deleteId }
+		});
 	};
 }
