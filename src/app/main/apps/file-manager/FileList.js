@@ -190,9 +190,15 @@ function FileList(props) {
 										{n.type == 'video' ? 'movie' : n.type}{' '}
 									</Icon> */}
 									{n.type == 'video' ? (
-										<FontAwesomeIcon icon={faFileVideo} size="2x" style={getCssColor(n.type)} />
+										<FontAwesomeIcon
+											icon={faFileVideo}
+											style={{ ...getCssColor(n.type), fontSize: '2.4rem' }}
+										/>
 									) : n.type == 'photo' ? (
-										<FontAwesomeIcon icon={faFileImage} size="2x" style={{ color: 'violet' }} />
+										<FontAwesomeIcon
+											icon={faFileImage}
+											style={{ color: 'violet', fontSize: '2.4rem' }}
+										/>
 									) : n.type == 'folder' ? (
 										<Icon className={clsx(classes.typeIcon, n.type)}>folder</Icon>
 									) : (
@@ -210,8 +216,7 @@ function FileList(props) {
 														: faFile
 													: faFile
 											}
-											size="2x"
-											style={getCssColor(n.extension)}
+											style={{ ...getCssColor(n.extension), fontSize: '2.4rem' }}
 										/>
 									)}
 								</TableCell>

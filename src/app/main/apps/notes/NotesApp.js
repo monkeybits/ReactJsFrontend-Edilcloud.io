@@ -15,7 +15,8 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 function NotesApp(props) {
 	const dispatch = useDispatch();
 
@@ -69,7 +70,7 @@ function NotesApp(props) {
 					className={classes.addButton}
 					onClick={() => dispatch(Actions.openProjectDialog('new'))}
 				>
-					<Icon>work</Icon>
+					<FontAwesomeIcon icon={faPlus} size="1x" />
 				</Fab>
 			</FuseAnimate>
 		</>
