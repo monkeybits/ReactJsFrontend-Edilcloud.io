@@ -13,6 +13,7 @@ import TodoSidebarContent from './TodoSidebarContent';
 import TodoSidebarHeader from './TodoSidebarHeader';
 import TodoToolbar from './TodoToolbar';
 import CreatePostDialog from './CreatePostDialog';
+import { GET_TODOS } from './store/actions';
 
 function TodoApp(props) {
 	const dispatch = useDispatch();
@@ -20,14 +21,20 @@ function TodoApp(props) {
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 
-	useEffect(() => {
-		dispatch(Actions.getFilters());
-		dispatch(Actions.getFolders());
-		dispatch(Actions.getLabels());
-	}, [dispatch]);
+	// useEffect(() => {
+	// 	dispatch(Actions.getFilters());
+	// 	dispatch(Actions.getFolders());
+	// 	dispatch(Actions.getLabels());
+	// }, [dispatch]);
 
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getTodos(routeParams.id));
+		return () => {
+			dispatch({
+				type: GET_TODOS,
+				payload: []
+			});
+		};
 	}, [dispatch, routeParams]);
 
 	return (
