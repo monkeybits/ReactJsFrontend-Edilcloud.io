@@ -15,6 +15,16 @@ import * as Actions from './store/actions';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 import { Typography } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faFilePdf,
+	faFile,
+	faFileExcel,
+	faFileVideo,
+	faFileAudio,
+	faFileImage,
+	faFileWord
+} from '@fortawesome/free-regular-svg-icons';
 
 const useStyles = makeStyles({
 	typeIcon: {
@@ -32,7 +42,6 @@ const useStyles = makeStyles({
 		}
 	}
 });
-
 function FileList(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
@@ -46,6 +55,19 @@ function FileList(props) {
 	const classes = useStyles();
 	const checkData = data => (data ? data : '-');
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
+	const getCssColor = fileType =>
+		fileType == 'pdf'
+			? { color: 'red' }
+			: fileType == 'video'
+			? { color: 'red' }
+			: fileType == 'mp3'
+			? { color: 'brown' }
+			: fileType == 'docx'
+			? { color: 'blue' }
+			: fileType == 'xlsx'
+			? { color: 'green' }
+			: {};
+
 	const setAllFilesInit = () => {
 		let modifyfolders = folders?.filter(
 			f =>
@@ -128,7 +150,7 @@ function FileList(props) {
 						<TableCell className="hidden sm:table-cell">Owner</TableCell>
 						<TableCell className="text-center hidden sm:table-cell">Size</TableCell>
 						<TableCell className="hidden sm:table-cell">Modified</TableCell>
-						<TableCell ></TableCell>
+						<TableCell></TableCell>
 						<TableCell></TableCell>
 					</TableRow>
 				</TableHead>
@@ -146,7 +168,7 @@ function FileList(props) {
 							<TableCell className="hidden sm:table-cell"></TableCell>
 							<TableCell className="hidden sm:table-cell"></TableCell>
 							<TableCell className="hidden sm:table-cell"></TableCell>
-							<TableCell ></TableCell>
+							<TableCell></TableCell>
 							<TableCell></TableCell>
 						</TableRow>
 					)}
@@ -164,9 +186,34 @@ function FileList(props) {
 								className="cursor-pointer"
 							>
 								<TableCell className="max-w-64 w-64 p-0 text-center">
-									<Icon className={clsx(classes.typeIcon, n.type)}>
+									{/* <Icon className={clsx(classes.typeIcon, n.type)}>
 										{n.type == 'video' ? 'movie' : n.type}{' '}
-									</Icon>
+									</Icon> */}
+									{n.type == 'video' ? (
+										<FontAwesomeIcon icon={faFileVideo} size="2x" style={getCssColor(n.type)} />
+									) : n.type == 'photo' ? (
+										<FontAwesomeIcon icon={faFileImage} size="2x" style={{ color: 'violet' }} />
+									) : n.type == 'folder' ? (
+										<Icon className={clsx(classes.typeIcon, n.type)}>folder</Icon>
+									) : (
+										<FontAwesomeIcon
+											icon={
+												n.type == 'document'
+													? n.extension == 'pdf'
+														? faFilePdf
+														: n.extension == 'docx'
+														? faFileWord
+														: n.extension == 'xlsx'
+														? faFileExcel
+														: n.extension == 'mp3'
+														? faFileAudio
+														: faFile
+													: faFile
+											}
+											size="2x"
+											style={getCssColor(n.extension)}
+										/>
+									)}
 								</TableCell>
 								<TableCell>{n.title}</TableCell>
 								<TableCell className="hidden sm:table-cell">{n.type}</TableCell>
