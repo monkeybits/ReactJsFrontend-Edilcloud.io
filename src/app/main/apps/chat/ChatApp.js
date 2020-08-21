@@ -22,6 +22,7 @@ import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import UserSidebar from './UserSidebar';
 import { withRouter } from 'react-router';
+import { GET_CHAT } from './store/actions';
 
 const drawerWidth = 400;
 const headerHeight = 200;
@@ -124,7 +125,14 @@ function ChatApp(props) {
 			dispatch(Actions.getUserData());
 			dispatch(Actions.getContacts());
 			let callMessageList = setInterval(() => dispatch(Actions.getChat()), 1000);
-			return () => clearInterval(callMessageList);
+			return () => {
+				dispatch({
+					type: GET_CHAT,
+					chat: [],
+					userChatData: {}
+				});
+				clearInterval(callMessageList);
+			};
 		} else {
 			props.history.push('/apps/todo/all');
 		}
