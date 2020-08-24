@@ -17,9 +17,11 @@ import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 function NotesApp(props) {
 	const dispatch = useDispatch();
-
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const useStyles = makeStyles({
 		addButton: {
 			position: 'absolute',
@@ -63,7 +65,7 @@ function NotesApp(props) {
 				ref={pageLayout}
 				// innerScroll
 			/>
-			<FuseAnimate animation="transition.expandIn" delay={300}>
+		{(getRole() == 'o' || getRole() == 'd') &&	<FuseAnimate animation="transition.expandIn" delay={300}>
 				<Fab
 					color="primary"
 					aria-label="add"
@@ -72,7 +74,7 @@ function NotesApp(props) {
 				>
 					<FontAwesomeIcon icon={faPlus} size="1x" />
 				</Fab>
-			</FuseAnimate>
+			</FuseAnimate>}
 		</>
 	);
 }
