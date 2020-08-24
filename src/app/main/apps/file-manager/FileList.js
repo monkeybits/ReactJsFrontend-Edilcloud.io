@@ -91,7 +91,7 @@ function FileList(props) {
 	};
 	useEffect(() => {
 		setAllFilesInit();
-	}, [files, folders]);
+	}, [files, folders, files.photos, files.videos, files.documents]);
 
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {

@@ -88,9 +88,9 @@ function DetailSidebarHeader({ setProgress }) {
 			{},
 			res => {
 				if (fileType == 'folder') {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType , selectedItem.path));
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
 				} else {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId));
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
 				}
 				colseDeleteFileDialog();
 			},

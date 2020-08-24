@@ -50,7 +50,7 @@ function sortByProperty(array, property, order = 'ASC') {
 	);
 }
 const chnageIds = (arr = []) => arr.map((d, i) => ({ ...d, id: i }));
-const deleteFileOrFolder = (fileType, state, indexId, deleteId) => {
+const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) => {
 	if (fileType == 'folder') {
 		return {
 			...state,
@@ -71,7 +71,8 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId) => {
 					'title'
 				)
 			),
-			photos: state.photos.results.filter(f => f.id != deleteId)
+			photos: state.photos.results.filter(f => f.id != deleteId),
+			files: state.files.filter(f => f.mainId != deleteId)
 		};
 	} else if (fileType == 'video') {
 		return {
@@ -82,7 +83,8 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId) => {
 					'title'
 				)
 			),
-			videos: state.videos.results.filter(f => f.id != deleteId)
+			videos: state.videos.results.filter(f => f.id != deleteId),
+			files: state.files.filter(f => f.mainId != deleteId)
 		};
 	} else {
 		return {
@@ -93,7 +95,8 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId) => {
 					'title'
 				)
 			),
-			documents: state.documents.results.filter(f => f.id != deleteId)
+			documents: state.documents.results.filter(f => f.id != deleteId),
+			files: state.files.filter(f => f.mainId != deleteId)
 		};
 	}
 };
@@ -165,7 +168,13 @@ const filesReducer = (state = initialState(), action) => {
 				isUploadingFiles: action.payload
 			};
 		case Actions.DELETE_FILE:
-			return deleteFileOrFolder(action.payload.fileType, state, action.payload.id, action.payload.deleteId);
+			return deleteFileOrFolder(
+				action.payload.fileType,
+				state,
+				action.payload.id,
+				action.payload.deleteId,
+				action.payload.selectedItem
+			);
 		case Actions.RESET_FILES: {
 			return initialState();
 		}
