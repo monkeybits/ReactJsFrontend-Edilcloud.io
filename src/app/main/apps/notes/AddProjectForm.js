@@ -248,13 +248,16 @@ function AddProjectForm() {
 								onChange: e => retrieveDataAsynchronously(e.target.value),
 								variant: 'outlined'
 							}}
+							variant="fixed"
 							options={filteredData.map(member => ({
 								data: member,
-								value: member.first_name,
+								value: member.first_name + ' ' + member.last_name,
 								label: (
 									<span className="flex items-center">
 										<Avatar className="w-32 h-32" src={member.photo} />
-										<span className="mx-8">{member.first_name}</span>
+										<span className="mx-8">
+											{member.first_name} {member.last_name}
+										</span>
 									</span>
 								)
 							}))}

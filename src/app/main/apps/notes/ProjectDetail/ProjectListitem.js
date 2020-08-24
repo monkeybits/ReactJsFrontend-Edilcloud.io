@@ -28,7 +28,7 @@ import moment from 'moment';
 import { Menu, MenuItem, Switch } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { DISABLE_PROJECT, ENABLE_PROJECT } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 
 export default function ProjectListitem({
 	index,
@@ -49,7 +49,8 @@ export default function ProjectListitem({
 		setAnchorEl(event.currentTarget);
 	};
 	const dispatch = useDispatch();
-
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
@@ -86,7 +87,7 @@ export default function ProjectListitem({
 					</Avatar>
 				}
 				action={
-					!!isApproved && (
+					!!isApproved && (getRole() == 'o' || getRole() == 'd') && (
 						<div>
 							<IconButton onClick={handleClick} aria-label="settings">
 								<MoreVertIcon />
