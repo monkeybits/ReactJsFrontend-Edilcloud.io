@@ -314,7 +314,7 @@ function ContactDialog(props) {
 				<div className="mb-24 block mx-auto">
 					<Button
 						variant={permission.can_access_files ? 'contained' : 'outlined'}
-						disabled={getRole() != 'o' || getRole() != 'd'}
+						disabled={getRole() == 'm' || getRole() == 'w'}
 						size="small"
 						color="secondary"
 						className="mr-8"
@@ -331,7 +331,7 @@ function ContactDialog(props) {
 						variant={permission.can_access_chat ? 'contained' : 'outlined'}
 						size="small"
 						color="secondary"
-						disabled={getRole() != 'o' || getRole() != 'd'}
+						disabled={getRole() == 'm' || getRole() == 'w'}
 						onClick={() =>
 							setPermission(prev => ({
 								...prev,
@@ -476,7 +476,7 @@ function ContactDialog(props) {
 						</div>
 						<TextField
 							className="mb-24"
-							disabled={getRole() != 'o' || getRole() != 'd'}
+							disabled={getRole() == 'm' || getRole() == 'w'}
 							label="Job title"
 							id="position"
 							name="position"

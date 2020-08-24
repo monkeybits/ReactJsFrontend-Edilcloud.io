@@ -191,7 +191,7 @@ function TodoDialog(props) {
 				resetForm();
 			};
 		}
-	}, [todoDialog.props.open, initDialog]);
+	}, [todoDialog.props.open]);
 
 	function closeTodoDialog() {
 		return todoDialog.type === 'edit'
@@ -242,7 +242,7 @@ function TodoDialog(props) {
 		return form.title.length > 0 && taskDate.startDate && taskDate.endDate;
 	}
 	const getProjectCompanyTeamProfiles = value => {
-		console.log(routeParams.id, todoDialog.data.assigned_company.id, value);
+		// console.log(routeParams.id, todoDialog.data.assigned_company.id, value);
 		apiCall(
 			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, todoDialog.data.assigned_company?.id, value),
 			{},
@@ -387,7 +387,7 @@ function TodoDialog(props) {
 										shrink: true
 									},
 									variant: 'outlined',
-									onChange: e => getProjectCompanyTeamProfiles(e.target.value)
+									// onChange: e => getProjectCompanyTeamProfiles(e.target.value)
 								}}
 								onChange={value => {
 									setProfileData(value.splice(value.length - 1));

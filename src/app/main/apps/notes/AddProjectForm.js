@@ -67,6 +67,7 @@ function AddProjectForm() {
 	const [filteredData, setFilteredData] = useState([]);
 	const [projectCoordinators, setProjectCoordinators] = useState([]);
 	const getdate = date => (date ? moment(date).format('YYYY-MM-DD') : undefined);
+	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 
 	const [projectDate, setProjectDate] = useState({
 		startDate: new Date(),
@@ -152,7 +153,12 @@ function AddProjectForm() {
 			formData,
 			res => {
 				dispatch(Actions.closeProjectDialog());
-				dispatch(Actions.getProjects());
+				if (projectApp.dialogType == 'new') {
+					dispatch(Actions.getProjects());
+				} else {
+					projects[projectDetail.index] = { ...projects[projectDetail.index], ...res };
+					dispatch(Actions.updateProjectList(projects));
+				}
 			},
 			err => console.log(err),
 			projectApp.dialogType == 'new' ? METHOD.POST : METHOD.PUT,
@@ -242,13 +248,16 @@ function AddProjectForm() {
 								onChange: e => retrieveDataAsynchronously(e.target.value),
 								variant: 'outlined'
 							}}
+							variant="fixed"
 							options={filteredData.map(member => ({
 								data: member,
-								value: member.first_name,
+								value: member.first_name + ' ' + member.last_name,
 								label: (
 									<span className="flex items-center">
 										<Avatar className="w-32 h-32" src={member.photo} />
-										<span className="mx-8">{member.first_name}</span>
+										<span className="mx-8">
+											{member.first_name} {member.last_name}
+										</span>
 									</span>
 								)
 							}))}

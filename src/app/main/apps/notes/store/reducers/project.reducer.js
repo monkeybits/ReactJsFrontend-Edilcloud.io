@@ -41,6 +41,12 @@ const labelsReducer = (state = initialState(), action) => {
 				entities: sortByProperty(mergeArray(state.entities, action.payload), 'name')
 			};
 		}
+		case Actions.GET_PROJECT_LIST: {
+			return {
+				...state,
+				entities: sortByProperty(mergeArray(action.payload), 'name')
+			};
+		}
 		case Actions.GET_PROJECT_DETAIL: {
 			return {
 				...state,

@@ -69,6 +69,7 @@ function ChatPanel(props) {
 
 	const classes = useStyles(props);
 	const selectedContact = contacts.find(_contact => _contact.id === selectedContactId);
+	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
 
 	const handleDocumentKeyDown = useCallback(
 		event => {
@@ -82,12 +83,13 @@ function ChatPanel(props) {
 	useEffect(() => {
 		// dispatch(Actions.getUserData());
 		// let callMessageList = setInterval(() => dispatch(Actions.getProjects()), 1000);
-		dispatch(Actions.getProjects())
+		dispatch(Actions.getProjects());
 		return () => {
 			// clearInterval(callMessageList);
+			dispatch(Actions.removeContacts());
 			document.removeEventListener('keydown', handleDocumentKeyDown);
 		};
-	}, [dispatch, handleDocumentKeyDown]);
+	}, [dispatch, handleDocumentKeyDown, projects]);
 
 	useEffect(() => {
 		if (state) {
@@ -117,7 +119,9 @@ function ChatPanel(props) {
 			document.removeEventListener('click', handleDocumentClick);
 		};
 	}, [state, dispatch]);
-
+	if (contacts.length < 1) {
+		return null;
+	}
 	return (
 		<div className={classes.root}>
 			<div className={clsx(classes.panel, { opened: state }, 'flex flex-col')} ref={ref}>
@@ -140,11 +144,11 @@ function ChatPanel(props) {
 							</div>
 						)}
 						{state && user?.id && (
-						<div className="flex">
-							<IconButton onClick={ev => dispatch(Actions.removeChat())} color="inherit">
-								<Icon>arrow_back</Icon>
-							</IconButton>
-						</div>
+							<div className="flex">
+								<IconButton onClick={ev => dispatch(Actions.removeChat())} color="inherit">
+									<Icon>arrow_back</Icon>
+								</IconButton>
+							</div>
 						)}
 						{state && user?.id && (
 							<div className="flex flex-1 items-center px-12">
@@ -162,12 +166,8 @@ function ChatPanel(props) {
 					</Toolbar>
 				</AppBar>
 				<Paper className="flex flex-1 flex-row min-h-px">
-					{(!state || !user?.id) && (
-						<ContactList className="flex flex-shrink-0" />
-					)}
-					{state && user?.id && (
-						<Chat className="flex flex-1 z-10" />
-					)}
+					{(!state || !user?.id) && <ContactList className="flex flex-shrink-0" />}
+					{state && user?.id && <Chat className="flex flex-1 z-10" />}
 				</Paper>
 			</div>
 		</div>

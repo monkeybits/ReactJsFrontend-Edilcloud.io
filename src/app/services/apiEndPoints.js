@@ -67,7 +67,7 @@ export const PROJECT_INVIATION_LIST = `/api/frontend/project/team/inviation_list
 export const PROJECT_DETAIL = id => `/api/frontend/project/project/${id}/`;
 export const DISABLE_PROJECT = id => `/api/frontend/project/project/disable/${id}/`;
 export const ENABLE_PROJECT = id => `/api/frontend/project/project/enable/${id}/`;
-export const EDIT_PROJECT_DETAIL = id => `/api/frontend/profile/company/approve/staff_list_and_external/?per_page=12`;
+export const EDIT_PROJECT_DETAIL = id => `/api/frontend/project/project/edit/${id}/`;
 export const COMPANY_STAFF_LIST = searchString =>
 	`/api/frontend/profile/company/approve/staff_list_and_external/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__company__name__icontains=${searchString}&filter__email__exact=${searchString}&per_page=12`;
 export const ADD_TEAM_MEMBER_TO_PROJECT = (pid, is_external) =>

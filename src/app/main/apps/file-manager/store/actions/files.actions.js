@@ -108,16 +108,23 @@ export function setAllFiles(payload) {
 		payload
 	};
 }
-export function deleteFile(id, fileType, deleteId) {
+export function deleteFile(id, fileType, deleteId, selectedItem) {
 	return (dispatch, getState) => {
+		const userInfo = decodeDataFromToken();
+		const cid = userInfo.extra?.profile?.company;
 		if (fileType == 'folder') {
-			const userInfo = decodeDataFromToken();
-			const cid = userInfo.extra?.profile?.company;
 			dispatch(getFolders(cid));
 		}
+		// else if (fileType == 'photo') {
+		// 	dispatch(getPhotos(cid));
+		// } else if (fileType == 'video') {
+		// 	dispatch(getVideos(cid));
+		// } else if (fileType == 'document') {
+		// 	dispatch(getDocuments(cid));
+		// }
 		dispatch({
 			type: DELETE_FILE,
-			payload: { id, fileType, deleteId }
+			payload: { id, fileType, deleteId, selectedItem }
 		});
 	};
 }

@@ -17,17 +17,23 @@ import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 function NotesApp(props) {
 	const dispatch = useDispatch();
-
-	const useStyles = makeStyles({
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
+	const useStyles = makeStyles(theme => ({
 		addButton: {
-			position: 'absolute',
-			right: 12,
+			position: 'fixed',
+			right: 82,
 			bottom: 12,
-			zIndex: 99
+			zIndex: 99,
+			[theme.breakpoints.down('md')]: {
+				right: 24,
+				bottom: 24,
+			}
 		}
-	});
+	}));
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 
@@ -43,7 +49,7 @@ function NotesApp(props) {
 		<>
 			<FusePageSimple
 				classes={{
-					contentWrapper: 'p-16 sm:p-24 pb-80',
+					contentWrapper: 'p-16 sm:p-24 pb-80 sm:pb-80',
 					content: 'flex min-h-full',
 					leftSidebar: 'w-256 border-0',
 					header: 'min-h-72 h-72'
@@ -63,7 +69,7 @@ function NotesApp(props) {
 				ref={pageLayout}
 				// innerScroll
 			/>
-			<FuseAnimate animation="transition.expandIn" delay={300}>
+		{(getRole() == 'o' || getRole() == 'd') &&	<FuseAnimate animation="transition.expandIn" delay={300}>
 				<Fab
 					color="primary"
 					aria-label="add"
@@ -72,7 +78,7 @@ function NotesApp(props) {
 				>
 					<FontAwesomeIcon icon={faPlus} size="1x" />
 				</Fab>
-			</FuseAnimate>
+			</FuseAnimate>}
 		</>
 	);
 }
