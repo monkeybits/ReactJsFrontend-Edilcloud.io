@@ -22,14 +22,18 @@ function NotesApp(props) {
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
-	const useStyles = makeStyles({
+	const useStyles = makeStyles(theme => ({
 		addButton: {
-			position: 'absolute',
-			right: 12,
+			position: 'fixed',
+			right: 82,
 			bottom: 12,
-			zIndex: 99
+			zIndex: 99,
+			[theme.breakpoints.down('md')]: {
+				right: 24,
+				bottom: 24,
+			}
 		}
-	});
+	}));
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 
@@ -45,7 +49,7 @@ function NotesApp(props) {
 		<>
 			<FusePageSimple
 				classes={{
-					contentWrapper: 'p-16 sm:p-24 pb-80',
+					contentWrapper: 'p-16 sm:p-24 pb-80 sm:pb-80',
 					content: 'flex min-h-full',
 					leftSidebar: 'w-256 border-0',
 					header: 'min-h-72 h-72'
