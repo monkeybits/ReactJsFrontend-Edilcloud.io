@@ -6,6 +6,7 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 export const GET_CONTACTS = '[CHAT PANEL] GET CONTACTS';
 export const SET_SELECTED_CONTACT_ID = '[CHAT PANEL] SET SELECTED CONTACT ID';
 export const REMOVE_SELECTED_CONTACT_ID = '[CHAT PANEL] REMOVE SELECTED CONTACT ID';
+export const REMOVE_SELECTED_CONTACTS = '[CHAT PANEL] REMOVE SELECTED CONTACTS';
 
 export function getProjects() {
 	return dispatch => {
@@ -36,7 +37,11 @@ export function setselectedContactId(contactId) {
 		payload: contactId
 	};
 }
-
+export function removeContacts() {
+	return {
+		type: REMOVE_SELECTED_CONTACTS
+	};
+}
 export function removeSelectedContactId() {
 	return {
 		type: REMOVE_SELECTED_CONTACT_ID

@@ -25,6 +25,13 @@ const contactsReducer = (state = initialState, action) => {
 				selectedContactId: null
 			};
 		}
+		case Actions.REMOVE_SELECTED_CONTACTS: {
+			return {
+				...state,
+				selectedContactId: null,
+				entities: []
+			};
+		}
 		default: {
 			return state;
 		}
