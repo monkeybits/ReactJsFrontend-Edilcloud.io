@@ -74,7 +74,7 @@ export default function ProjectListitem({
 	};
 	const handleUpdateProject = () => {
 		handleClose();
-		dispatch(Actions.updateProjectDetail(projects[index]));
+		dispatch(Actions.updateProjectDetail({ ...projects[index], index }));
 		dispatch(Actions.openProjectDialog('edit'));
 	};
 	return (
