@@ -1,4 +1,18 @@
 import jwtDecode from 'jwt-decode';
+import imageCompression from 'browser-image-compression';
+
+export const getCompressFile = async fileToCompress => {
+	if (fileToCompress) {
+		const compressedFile = await imageCompression(fileToCompress, {
+			maxSizeMB: 1,
+			maxWidthOrHeight: 1024,
+			useWebWorker: true
+		});
+		return new File([compressedFile], compressedFile.name);
+	} else {
+		return undefined;
+	}
+};
 
 export const getHeaderToken = () => {
 	let token = localStorage.getItem('jwt_access_token');

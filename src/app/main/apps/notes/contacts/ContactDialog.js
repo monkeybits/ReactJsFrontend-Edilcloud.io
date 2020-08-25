@@ -34,7 +34,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { SEARCH_USER_BY_EMAIL } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 import { SYSTEM_ROLES } from 'app/constants';
 
@@ -197,7 +197,7 @@ function ContactDialog(props) {
 		}
 	}
 
-	function handleSubmit(event) {
+	const handleSubmit = async event => {
 		// fields accept in the api
 		// 'first_name', 'last_name', 'email',
 		// 'language', 'position', 'user', 'phone',
@@ -216,18 +216,18 @@ function ContactDialog(props) {
 			email,
 			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
 			language: value == 'English' ? 'en' : 'it',
-			photo: fileData.file,
+			photo: await getCompressFile(fileData.file),
 			position,
 			phone,
 			...permission
 		};
 		if (contactDialog.type === 'new') {
-			dispatch(Actions.addContact({ ...newformData, photo: fileData.file }, isExisting));
+			dispatch(Actions.addContact({ ...newformData, photo: await getCompressFile(fileData.file) }, isExisting));
 		} else {
 			dispatch(Actions.updateContact(newformData, id));
 		}
 		closeComposeDialog();
-	}
+	};
 
 	function handleRemove() {
 		dispatch(Actions.removeContact(form.id));
