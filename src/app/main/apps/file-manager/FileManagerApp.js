@@ -17,7 +17,7 @@ import reducer from './store/reducers';
 import { makeStyles, Button, TextField, CircularProgress, LinearProgress } from '@material-ui/core';
 import { ADD_PHOTO, ADD_FOLDER, ADD_VIDEO, ADD_DOCUMENT } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { withRouter } from 'react-router';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -37,6 +37,8 @@ import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import TransitionAlerts from './TransitionAlerts.js';
+import FloatingButtonUpload from './FloatingButtonUpload';
+import imageCompression from 'browser-image-compression';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -102,7 +104,6 @@ function FileManagerApp(props) {
 	const [progress, setProgress] = React.useState(0);
 	const [path, setPath] = useState('');
 	const [filePath, setFilePath] = useState('');
-	const [folderName, setFolderName] = useState(undefined);
 	const [title, setTitle] = useState(undefined);
 	const [description, setDescription] = useState(undefined);
 	const [open, setOpen] = React.useState(false);
@@ -142,14 +143,30 @@ function FileManagerApp(props) {
 			});
 		}
 	};
-	const handleUpload = () => {
+	const resetOpenForm = () => {
+		setFile({
+			file: null,
+			fileType: null
+		});
+		setTitle(undefined);
+		setFilePath('');
+		setDescription(undefined);
+		seterror({
+			fileError: '',
+			titleError: '',
+			descError: '',
+			nameError: ''
+		});
+	};
+	const handleUpload = async () => {
 		if (isUploading == false) {
 			setIsUploading(true);
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
 			const { fileType, file } = fileData;
-			if (!fileType && radioBtnValue == 'file') return;
 
+			if (!fileType && radioBtnValue == 'file') return;
+			handleClose();
 			let formData = new FormData();
 			let datakey = fileType == 'image' ? 'photo' : fileType == 'video' ? 'video' : 'document';
 			let values =
@@ -158,7 +175,12 @@ function FileManagerApp(props) {
 							name: title,
 							path: files.folders && !!files.folders.length ? path : ''
 					  }
-					: { [datakey]: file, title, description, additional_path: filePath ? filePath : '' };
+					: {
+							[datakey]: fileType == 'image' ? await getCompressFile(file) : file,
+							title,
+							description,
+							additional_path: filePath ? filePath : ''
+					  };
 			for (let key in values) {
 				formData.append(key, values[key]);
 			}
@@ -208,17 +230,19 @@ function FileManagerApp(props) {
 					}
 				}
 			);
-			setIsOpenDrawer(false);
+
 			setIsUploading(false);
 			setTitle('');
 		}
 	};
 	const handleClose = () => {
+		resetOpenForm();
 		setIsOpenDrawer(false);
 	};
 	const handleRadioChange = event => {
 		setRadioBtnValue(event.target.value);
 	};
+	const canSubmit = () => (radioBtnValue == 'folder' ? title?.length : title?.length && fileData.file);
 	return (
 		<>
 			<FusePageSimple
@@ -259,7 +283,7 @@ function FileManagerApp(props) {
 						</div>
 						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
 						<div className="flex flex-1 items-end">
-							<FuseAnimate animation="transition.expandIn" delay={600}>
+							{/* <FuseAnimate animation="transition.expandIn" delay={600}>
 								<Fab
 									onClick={() => setIsOpenDrawer(true)}
 									color="secondary"
@@ -268,6 +292,14 @@ function FileManagerApp(props) {
 								>
 									<Icon>add</Icon>
 								</Fab>
+							</FuseAnimate> */}
+							<FuseAnimate animation="transition.expandIn" delay={600}>
+								<FloatingButtonUpload
+									callAction={name => {
+										setIsOpenDrawer(true);
+										return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
+									}}
+								/>
 							</FuseAnimate>
 							<FuseAnimate delay={200}>
 								<div>
@@ -303,22 +335,6 @@ function FileManagerApp(props) {
 					Upload File
 				</DialogTitle>
 				<DialogContent dividers>
-					<div>
-						<FormControl component="fieldset">
-							<RadioGroup
-								row
-								aria-label="position"
-								name="position"
-								defaultValue="folder"
-								value={radioBtnValue}
-								onChange={handleRadioChange}
-							>
-								<FormControlLabel value="folder" control={<Radio color="secondary" />} label="Folder" />
-								<FormControlLabel value="file" control={<Radio color="secondary" />} label="File" />
-							</RadioGroup>
-						</FormControl>
-					</div>
-
 					{radioBtnValue == 'folder' ? (
 						<>
 							<div>
@@ -412,7 +428,13 @@ function FileManagerApp(props) {
 					)}
 				</DialogContent>
 				<DialogActions>
-					<Button autoFocus onClick={handleUpload} variant="contained" color="secondary">
+					<Button
+						autoFocus
+						disabled={!canSubmit()}
+						onClick={handleUpload}
+						variant="contained"
+						color="secondary"
+					>
 						{radioBtnValue == 'folder' ? 'Create' : 'Upload'}
 					</Button>
 				</DialogActions>

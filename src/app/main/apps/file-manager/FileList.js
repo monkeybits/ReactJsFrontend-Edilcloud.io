@@ -197,7 +197,7 @@ function FileList(props) {
 									) : n.type == 'photo' ? (
 										<FontAwesomeIcon
 											icon={faFileImage}
-											style={{ color: 'violet', fontSize: '2.4rem' }}
+											style={{ color: 'black', fontSize: '2.4rem' }}
 										/>
 									) : n.type == 'folder' ? (
 										<Icon className={clsx(classes.typeIcon, n.type)}>folder</Icon>

@@ -17,7 +17,7 @@ import CompanyCategory from './CompanyCategory';
 import FileUpload from '../mainProfile/FileUpload';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { TYPOLOGY_LIST, TYPOLOGY_LIST_BY_CODE, USER_ADD_COMPANY } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import clsx from 'clsx';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Card from '@material-ui/core/Card';
@@ -139,16 +139,16 @@ function CompanyCreationStepper({ user, history }) {
 	const handleReset = () => {
 		setActiveStep(0);
 	};
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		var formData = new FormData();
 		let values = {
 			name: form.name,
-			slug: form.name.split(" ").join("_"),
+			slug: form.name.split(' ').join('_'),
 			url: form.url,
 			vat_number: form.vat_number,
 			email: form.email,
 			phone: form.phone,
-			logo: file && file.fileData ? file.fileData : undefined
+			logo: file && file.fileData ? getCompressFile(file.fileData) : undefined
 		};
 		let token = localStorage.getItem('jwt_access_token');
 		for (let key in values) {

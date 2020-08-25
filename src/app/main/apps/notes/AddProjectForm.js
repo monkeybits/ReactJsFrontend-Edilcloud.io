@@ -25,7 +25,7 @@ import * as Actions from 'app/main/apps/notes/store/actions';
 import { useParams } from 'react-router';
 import { SEARCH_PROJECT_CORDINATOR, ADD_PROJECT, EDIT_PROJECT_DETAIL } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 
@@ -133,7 +133,7 @@ function AddProjectForm() {
 		setIsFormValid(true);
 	}
 	const getProjectCordinateIds = () => (projectCoordinators.length ? projectCoordinators[0]?.data?.id : undefined);
-	function handleSubmit(model) {
+	const handleSubmit = async model => {
 		const { name, description, note } = model;
 		const values = {
 			name,
@@ -141,7 +141,7 @@ function AddProjectForm() {
 			referent: getProjectCordinateIds(),
 			date_start: getdate(projectDate.startDate),
 			date_end: getdate(projectDate.endDate),
-			logo: file && file.fileData ? file.fileData : undefined,
+			logo: file && file.fileData ? await getCompressFile(file.fileData) : undefined,
 			note
 		};
 		var formData = new FormData();
@@ -164,7 +164,7 @@ function AddProjectForm() {
 			projectApp.dialogType == 'new' ? METHOD.POST : METHOD.PUT,
 			getHeaderToken()
 		);
-	}
+	};
 	function retrieveDataAsynchronously(searchText) {
 		apiCall(
 			SEARCH_PROJECT_CORDINATOR(String(searchText)),

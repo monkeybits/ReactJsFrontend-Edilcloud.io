@@ -20,7 +20,7 @@ import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { ADD_POST_TO_ACTIVITY, GET_POST_TO_ACTIVITY } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import * as Actions from './store/actions';
@@ -41,7 +41,7 @@ function CreatePostForm() {
 	const inputRef = useRef(null);
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	useEffect(() => {
-		setData({})
+		setData({});
 		if (todoDialog.data?.id) {
 			// res => setData({ posts: res.results }),
 			apiCall(
@@ -60,11 +60,11 @@ function CreatePostForm() {
 			: dispatch(Actions.closeActivityTodoDialog());
 	}
 
-	const createPost = () => {
+	const createPost = async () => {
 		var formData = new FormData();
 		let values = {
 			text,
-			media: file.fileData
+			media: await getCompressFile(file.fileData)
 		};
 		// for( var i = 0; i < this.files.length; i++ ){
 		// 	let file = this.files[i];
