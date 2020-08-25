@@ -77,7 +77,7 @@ const DialogActions = withStyles(theme => ({
 	},
 	rightSidebar: {
 		'&.fileInfoSidebar': {
-			backgroundColor: '#fff',
+			backgroundColor: '#fff'
 		}
 	}
 }))(MuiDialogActions);
@@ -156,7 +156,7 @@ function FileManagerApp(props) {
 				radioBtnValue == 'folder'
 					? {
 							name: title,
-							path
+							path: files.folders && !!files.folders.length ? path : ''
 					  }
 					: { [datakey]: file, title, description, additional_path: filePath ? filePath : '' };
 			for (let key in values) {
@@ -346,7 +346,9 @@ function FileManagerApp(props) {
 										renderOption={(option, { selected }) => <>{option.path}</>}
 										renderInput={params => <TextField {...params} label="Path" />}
 										onInputChange={(e, value) => setPath(value)}
-										defaultValue={currentFolderPath?.[0]}
+										defaultValue={
+											files.folders && !!files.folders.length ? currentFolderPath?.[0] : ''
+										}
 									/>
 								</div>
 							)}

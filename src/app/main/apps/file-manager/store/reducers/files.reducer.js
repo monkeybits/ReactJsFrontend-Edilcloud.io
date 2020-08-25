@@ -60,7 +60,20 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) =>
 					'title'
 				)
 			),
-			folders: state.folders.filter(f => f.path != deleteId)
+			folders: state.folders.filter(f => f.path != deleteId),
+			files: state.files.filter(f => !f.folder_relative_path.includes(deleteId)),
+			photos: {
+				...state.photos,
+				results: state.photos.results.filter(f => !f.folder_relative_path.includes(deleteId))
+			},
+			videos: {
+				...state.videos,
+				results: state.videos.results.filter(f => !f.folder_relative_path.includes(deleteId))
+			},
+			documents: {
+				...state.documents,
+				results: state.documents.results.filter(f => !f.folder_relative_path.includes(deleteId))
+			}
 		};
 	} else if (fileType == 'photo') {
 		return {
@@ -71,7 +84,7 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) =>
 					'title'
 				)
 			),
-			photos: state.photos.results.filter(f => f.id != deleteId),
+			photos: { ...state.photos, results: state.photos.results.filter(f => f.id != deleteId) },
 			files: state.files.filter(f => f.mainId != deleteId)
 		};
 	} else if (fileType == 'video') {
@@ -83,7 +96,7 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) =>
 					'title'
 				)
 			),
-			videos: state.videos.results.filter(f => f.id != deleteId),
+			videos: { ...state.videos, results: state.videos.results.filter(f => f.id != deleteId) },
 			files: state.files.filter(f => f.mainId != deleteId)
 		};
 	} else {
@@ -95,7 +108,7 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) =>
 					'title'
 				)
 			),
-			documents: state.documents.results.filter(f => f.id != deleteId),
+			documents: { ...state.documents, results: state.documents.results.filter(f => f.id != deleteId) },
 			files: state.files.filter(f => f.mainId != deleteId)
 		};
 	}
