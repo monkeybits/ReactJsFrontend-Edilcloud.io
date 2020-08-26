@@ -192,9 +192,18 @@
 #SpeedDialexample-actions button {
     background-color: #fff;
     color: #000;
+    margin-right: 15px;
 }
 #SpeedDialexample-actions button:hover {
     background-color: rgb(255 255 255 / 0.90);
+}
+#SpeedDialexample-actions span span {
+    top: -28px;
+    left: 0;
+    right: inherit;
+}
+.me-right-align .me p {
+    text-align: right;
 }
 
 @media only screen and (max-width: 767px) {

@@ -84,7 +84,7 @@ export default function FloatingButtonUpload(props) {
 							key={action.name}
 							icon={action.icon}
                             tooltipTitle={action.name}
-                            // tooltipOpen
+                            tooltipOpen
 							onClick={() => {
 								props.callAction(action.name);
 								handleClose();
