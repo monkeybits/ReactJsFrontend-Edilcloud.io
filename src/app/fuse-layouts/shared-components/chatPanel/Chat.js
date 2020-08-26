@@ -220,7 +220,17 @@ function Chat(props) {
 												</Avatar>
 											)}
 											<div className={classes.bubble}>
-												<div className={classes.message}>{item.body}</div>
+												<div className={classes.message}>
+													{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
+														<Typography
+															style={{ color: color?.[0]?.contactNameColor }}
+															className="text-xs mb-6"
+														>
+															{contact.first_name + ' ' + contact.last_name}
+														</Typography>
+													)}
+													<div className="leading-normal">{item.body}</div>
+												</div>
 												<Typography className={classes.time} color="textSecondary">
 													{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
 												</Typography>
