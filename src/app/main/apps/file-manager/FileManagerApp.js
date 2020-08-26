@@ -314,10 +314,11 @@ function FileManagerApp(props) {
 								</div>
 							</FuseAnimate>
 						</div>
-						{/* {isUploadingFiles && <LinearProgressWithLabel progress={progress} />} */}
-						<div className="linear-progress">
-						<LinearProgressWithLabel progress={progress} />
-						</div>
+						{isUploadingFiles && (
+							<div className="linear-progress">
+								<LinearProgressWithLabel progress={progress} />
+							</div>
+						)}
 					</div>
 				}
 				content={<FileList pageLayout={pageLayout} />}
