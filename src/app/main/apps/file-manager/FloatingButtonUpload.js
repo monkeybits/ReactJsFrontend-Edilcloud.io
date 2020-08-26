@@ -11,6 +11,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import { faFile } from '@fortawesome/free-regular-svg-icons';
+import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
+import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
+import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
+import clsx from 'clsx';
 const useStyles = makeStyles(theme => ({
 	root: {
 		transform: 'translateZ(0px)',
@@ -43,8 +47,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const actions = [
-	{ icon: <FontAwesomeIcon icon={faFile} />, name: 'File' },
-	{ icon: <FontAwesomeIcon icon={faFolderPlus} />, name: 'Folder' }
+	{ icon: <InsertDriveFileOutlinedIcon />, name: 'File' },
+	{ icon: <FolderOutlinedIcon />, name: 'Folder' }
 ];
 
 export default function FloatingButtonUpload(props) {
@@ -54,7 +58,9 @@ export default function FloatingButtonUpload(props) {
 	const handleClose = () => {
 		setOpen(false);
 	};
-
+	const handleOpen = () => {
+		setOpen(true);
+	};
 	const handleToggle = () => {
 		setOpen(prevHidden => !prevHidden);
 	};
@@ -64,11 +70,11 @@ export default function FloatingButtonUpload(props) {
 			<div className={classes.exampleWrapper}>
 				<SpeedDial
 					ariaLabel="SpeedDial example"
-					className={classes.speedDial}
+					className={clsx(classes.speedDial, 'custom-float-btn mt-0 md:mt-40')}
 					icon={<SpeedDialIcon />}
 					onClose={handleClose}
-					// onOpen={handleOpen}
-					onClick={handleToggle}
+					onOpen={handleOpen}
+					// onClick={handleToggle}
 					open={open}
 					direction="right"
 				>
@@ -78,7 +84,7 @@ export default function FloatingButtonUpload(props) {
 							key={action.name}
 							icon={action.icon}
                             tooltipTitle={action.name}
-                            // tooltipOpen
+                            tooltipOpen
 							onClick={() => {
 								props.callAction(action.name);
 								handleClose();

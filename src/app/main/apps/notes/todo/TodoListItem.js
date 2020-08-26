@@ -111,7 +111,6 @@ function TodoListItem(props) {
 					{props.todo.assigned_company?.id == company.id && (
 						<IconButton
 							onClick={ev => {
-								ev.preventDefault();
 								ev.stopPropagation();
 								if (props.todo.assigned_company) {
 									dispatch(Actions.openAddActivityTodoDialog(props.todo));

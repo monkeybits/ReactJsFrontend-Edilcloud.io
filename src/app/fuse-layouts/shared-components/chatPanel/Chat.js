@@ -47,7 +47,6 @@ const useStyles = makeStyles(theme => ({
 		},
 		'&.me': {
 			paddingLeft: 40,
-
 			'& $avatar': {
 				order: 2,
 				margin: '0 0 0 16px'
@@ -81,7 +80,7 @@ const useStyles = makeStyles(theme => ({
 		},
 		'&.contact + .me, &.me + .contact': {
 			// paddingTop: 20,
-			marginTop: 30
+			marginTop: 10
 		},
 		'&.first-of-group': {
 			'& $bubble': {
@@ -117,13 +116,13 @@ const useStyles = makeStyles(theme => ({
 		lineHeight: 1.2
 	},
 	time: {
-		position: 'absolute',
-		display: 'none',
+		position: 'relative',
+		// display: 'none',
 		width: '100%',
 		fontSize: 11,
 		marginTop: 8,
-		top: '100%',
-		left: 0,
+		// top: '100%',
+		// left: 0,
 		whiteSpace: 'nowrap'
 	},
 	bottom: {
@@ -196,7 +195,7 @@ function Chat(props) {
 								</Typography>
 							</div>
 						) : chat?.chats?.length ? (
-							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40">
+							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40 me-right-align">
 								{chat.chats.map((item, i) => {
 									const contact = item.sender;
 									const color = contacts.length && contacts?.filter(c => c.id == contact.id);
@@ -220,27 +219,38 @@ function Chat(props) {
 												</Avatar>
 											)}
 											<div className={classes.bubble}>
-												<div className={classes.message}>{item.body}</div>
-												<Typography className={classes.time} color="textSecondary">
-													{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
-												</Typography>
+												<div className={classes.message}>
+													{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
+														<Typography
+															style={{ color: color?.[0]?.contactNameColor }}
+															className="text-xs mb-6"
+														>
+															{contact.first_name + ' ' + contact.last_name}
+														</Typography>
+													)}
+													<div className="leading-normal">{item.body}</div>
+												</div>
 											</div>
+											{isLastMessageOfGroup(item, i) && 
+											<Typography className={clsx(classes.time,'mb-12')} color="textSecondary">
+												{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
+											</Typography>}
 										</div>
 									);
 								})}
 							</div>
 						) : (
-							<div className="flex flex-col flex-1">
-								<div className="flex flex-col flex-1 items-center justify-center">
-									<Icon className="text-128" color="disabled">
-										chat
+									<div className="flex flex-col flex-1">
+										<div className="flex flex-col flex-1 items-center justify-center">
+											<Icon className="text-128" color="disabled">
+												chat
 									</Icon>
-								</div>
-								<Typography className="px-16 pb-24 text-center" color="textSecondary">
-									Start a conversation by typing your message below.
+										</div>
+										<Typography className="px-16 pb-24 text-center" color="textSecondary">
+											Start a conversation by typing your message below.
 								</Typography>
-							</div>
-						)}
+									</div>
+								)}
 					</FuseScrollbars>
 				);
 			}, [chat, classes, contacts, selectedContactId, user])}

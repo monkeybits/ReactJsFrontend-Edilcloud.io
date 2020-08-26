@@ -59,7 +59,7 @@ export const GET_MAIN_PROFILE = id => `/api/frontend/profile/profile/${id}`;
 
 export const GET_COMPANY_PROFILE = id => `/api/frontend/profile/company/profile_detail/${id}`;
 export const SEARCH_PROJECT_CORDINATOR = searchString =>
-	`/api/frontend/profile/company/approve/staff_list/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&no_page=no_page`;
+	`/api/frontend/profile/company/approve/staff_list/?exclude__role__in=w,m&filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&no_page=no_page`;
 
 export const ADD_PROJECT = `/api/frontend/project/project/add/`;
 export const PROJECT_LIST = `/api/frontend/profile/company/project_list/`;

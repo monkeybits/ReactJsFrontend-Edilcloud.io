@@ -253,7 +253,7 @@ function FileManagerApp(props) {
 					rightSidebar: 'w-320'
 				}}
 				header={
-					<div className="flex flex-col flex-1 p-8 sm:p-12 relative">
+					<div className="flex flex-col flex-1 p-8 sm:p-12 relative z-50">
 						<div className="flex items-center justify-between">
 							<IconButton
 								onClick={() => {
@@ -295,6 +295,8 @@ function FileManagerApp(props) {
 							</FuseAnimate> */}
 							<FuseAnimate animation="transition.expandIn" delay={600}>
 								<FloatingButtonUpload
+									color="secondary"
+									className="absolute bottom-0 ltr:left-0 rtl:right-0 mx-16 -mb-28 z-999"
 									callAction={name => {
 										setIsOpenDrawer(true);
 										return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
@@ -312,7 +314,11 @@ function FileManagerApp(props) {
 								</div>
 							</FuseAnimate>
 						</div>
-						{isUploadingFiles && <LinearProgressWithLabel progress={progress} />}
+						{isUploadingFiles && (
+							<div className="linear-progress">
+								<LinearProgressWithLabel progress={progress} />
+							</div>
+						)}
 					</div>
 				}
 				content={<FileList pageLayout={pageLayout} />}
@@ -427,7 +433,7 @@ function FileManagerApp(props) {
 						</>
 					)}
 				</DialogContent>
-				<DialogActions>
+				<DialogActions className="p-16">
 					<Button
 						autoFocus
 						disabled={!canSubmit()}

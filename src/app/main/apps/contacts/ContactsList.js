@@ -103,13 +103,21 @@ function ContactsList(props) {
 				Header: 'Email',
 				accessor: 'email',
 				sortable: true,
-				Cell: ({ row }) => <a href={`mailto:${row.original.email}`}>{row.original.email}</a>
+				Cell: ({ row }) => (
+					<a onClick={e => e.stopPropagation()} href={`mailto:${row.original.email}`}>
+						{row.original.email}
+					</a>
+				)
 			},
 			{
 				Header: 'Phone',
 				accessor: 'phone',
 				sortable: true,
-				Cell: ({ row }) => <a href={`tel:${row.original.phone}`}>{row.original.phone}</a>
+				Cell: ({ row }) => (
+					<a onClick={e => e.stopPropagation()} href={`tel:${row.original.phone}`}>
+						{row.original.phone}
+					</a>
+				)
 			},
 			{
 				id: 'action',

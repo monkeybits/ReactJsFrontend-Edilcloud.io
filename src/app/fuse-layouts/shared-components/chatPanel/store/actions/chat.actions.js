@@ -15,7 +15,7 @@ export function getChat(contact) {
 			contact.type == 'company' ? GET_MESSAGES_API : GET_PROJECT_MESSAGES_API(contact.id),
 			{},
 			chat => {
-				console.log({ chat });
+				// console.log({ chat });
 				dispatch({
 					type: GET_CHAT,
 					chat: chat,
