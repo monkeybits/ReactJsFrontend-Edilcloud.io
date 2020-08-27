@@ -196,9 +196,7 @@ function CreatePostDialog(props) {
 	}, [todoDialog.props.openTimelineDialog, initDialog]);
 
 	function closeTodoDialog() {
-		return todoDialog.type === 'edit'
-			? dispatch(Actions.closeActivityTodoDialog())
-			: dispatch(Actions.closeActivityTodoDialog());
+		return dispatch(Actions.closeTimelineDialog());
 	}
 
 	function handleLabelMenuOpen(event) {
