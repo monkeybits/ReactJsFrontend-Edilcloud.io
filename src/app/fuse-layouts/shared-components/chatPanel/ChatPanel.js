@@ -119,9 +119,9 @@ function ChatPanel(props) {
 			document.removeEventListener('click', handleDocumentClick);
 		};
 	}, [state, dispatch]);
-	if (contacts.length < 1) {
-		return null;
-	}
+	// if (contacts.length < 1) {
+	// 	return null;
+	// }
 	return (
 		<div className={classes.root}>
 			<div className={clsx(classes.panel, { opened: state }, 'flex flex-col')} ref={ref}>
