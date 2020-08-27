@@ -111,6 +111,7 @@ function TodoListItem(props) {
 					{props.todo.assigned_company?.id == company.id && (
 						<IconButton
 							onClick={ev => {
+								ev.preventDefault();
 								ev.stopPropagation();
 								if (props.todo.assigned_company) {
 									dispatch(Actions.openAddActivityTodoDialog(props.todo));
@@ -125,7 +126,7 @@ function TodoListItem(props) {
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
-								dispatch(Actions.toggleStarred(props.todo));
+								// dispatch(Actions.openEditTodoDialog(props.todo));
 							}}
 						>
 							<Icon>edit</Icon>
