@@ -103,12 +103,15 @@ function ContactList(props) {
 		contactListScroll.current.scrollTop = 0;
 	};
 	useEffect(() => {
-		if (contacts && contacts.length && company && company.id) {
-			let newContacts = contacts.sort(function(a,b){
+		let newContacts = [];
+		if (contacts && contacts.length) {
+			newContacts = contacts.sort(function (a, b) {
 				// Turn your strings into dates, and then subtract them
 				// to get a value that is either negative, positive, or zero.
 				return new Date(b.last_message_created) - new Date(a.last_message_created);
-			  })
+			});
+		}
+		if (company && company.id) {
 			setallContacts([
 				{
 					...company,
@@ -131,7 +134,10 @@ function ContactList(props) {
 						{!contact.logo || contact.logo === '' ? contact.name[0] : ''}
 					</Avatar>
 					<div className="chatText truncate flex-1">
-						<Typography className="ml-16 text-left text-16 normal-case truncate font-medium" color="inherit">
+						<Typography
+							className="ml-16 text-left text-16 normal-case truncate font-medium"
+							color="inherit"
+						>
 							{contact.name}
 						</Typography>
 						<Typography className="ml-16 text-left text-12 normal-case truncate" color="inherit">
@@ -139,7 +145,6 @@ function ContactList(props) {
 						</Typography>
 					</div>
 				</Button>
-				
 			</Tooltip>
 		);
 	};
@@ -152,9 +157,11 @@ function ContactList(props) {
 			{allContacts.length > 0 && (
 				<>
 					<FuseAnimateGroup
-						enter={{
-							// animation: 'transition.expandIn'
-						}}
+						enter={
+							{
+								// animation: 'transition.expandIn'
+							}
+						}
 						className="flex flex-col flex-shrink-0"
 					>
 						{/* {user &&
@@ -165,11 +172,14 @@ function ContactList(props) {
 							})} */}
 
 						{/* <Divider className="mx-24 my-8" /> */}
-						{allContacts.map((contact,index) => {
+						{allContacts.map((contact, index) => {
 							// const chatContact = user.chatList.find(_chat => _chat.contactId === contact.id);
-							return <><ContactButton key={contact.id} contact={contact} />
-							{index != allContacts.length-1 && <Divider className="mx-16 my-8" />}
-							</>;
+							return (
+								<>
+									<ContactButton key={contact.id} contact={contact} />
+									{index != allContacts.length - 1 && <Divider className="mx-16 my-8" />}
+								</>
+							);
 						})}
 					</FuseAnimateGroup>
 				</>

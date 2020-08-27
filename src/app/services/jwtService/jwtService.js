@@ -84,7 +84,9 @@ class JwtService extends FuseUtils.EventEmitter {
 					}
 				})
 				.catch(error => {
-					reject(error.response.data);
+					reject(
+						error.response?.data ? error.response.data : { non_field_errors: ['Something went wrong!'] }
+					);
 				});
 		});
 	};
@@ -120,7 +122,7 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	setSession = access_token => {
 		if (access_token) {
-			saveToken(access_token)
+			saveToken(access_token);
 			axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 		} else {
 			localStorage.removeItem('jwt_access_token');

@@ -66,17 +66,17 @@ export default function FloatingButtonUpload(props) {
 	};
 
 	return (
-		<div className={classes.root}>
+		<div className={clsx(classes.root, 'speeddial-btn' )}>
 			<div className={classes.exampleWrapper}>
 				<SpeedDial
 					ariaLabel="SpeedDial example"
-					className={clsx(classes.speedDial, 'custom-float-btn mt-0 md:mt-40')}
+					className={clsx(classes.speedDial, 'custom-float-btn')}
 					icon={<SpeedDialIcon />}
 					onClose={handleClose}
 					onOpen={handleOpen}
 					// onClick={handleToggle}
 					open={open}
-					direction="right"
+					direction="up"
 				>
 					{actions.map(action => (
 						<SpeedDialAction

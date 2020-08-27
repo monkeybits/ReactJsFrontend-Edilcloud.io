@@ -75,7 +75,7 @@ function TodoListItem(props) {
 				style={{ borderColor: props.todo.assigned_company?.color_project }}
 				onClick={ev => {
 					ev.preventDefault();
-					// dispatch(Actions.openEditTodoDialog(props.todo));
+					ev.stopPropagation();
 					if (props.todo.assigned_company?.id == company.id) {
 						getDetailOfTask();
 					}
@@ -111,6 +111,7 @@ function TodoListItem(props) {
 					{props.todo.assigned_company?.id == company.id && (
 						<IconButton
 							onClick={ev => {
+								ev.preventDefault();
 								ev.stopPropagation();
 								if (props.todo.assigned_company) {
 									dispatch(Actions.openAddActivityTodoDialog(props.todo));
@@ -125,7 +126,7 @@ function TodoListItem(props) {
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
-								dispatch(Actions.toggleStarred(props.todo));
+								// dispatch(Actions.openEditTodoDialog(props.todo));
 							}}
 						>
 							<Icon>edit</Icon>
@@ -144,9 +145,9 @@ function TodoListItem(props) {
 							animation: 'transition.slideUpBigIn'
 						}}
 					>
-						{taskDetail.map(todo => (
-							<TodoActivityListItem todo={todo} key={todo.id} />
-						))}
+						{taskDetail &&
+							!!taskDetail.length &&
+							taskDetail.map(todo => <TodoActivityListItem todo={todo} key={todo.id} />)}
 					</FuseAnimateGroup>
 				</List>
 			</Collapse>

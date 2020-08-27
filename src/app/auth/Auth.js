@@ -18,7 +18,7 @@ class Auth extends Component {
 	};
 
 	componentDidMount() {
-		const outsidePlatformPaths = ['user-account-activation', 'reset-password-confirm'];
+		const outsidePlatformPaths = ['user-account-activation', 'reset-password-confirm','register'];
 		const { location } = this.props;
 		const { pathname } = location;
 		const outsidePath = outsidePlatformPaths.filter(d => String(pathname).includes(d));
