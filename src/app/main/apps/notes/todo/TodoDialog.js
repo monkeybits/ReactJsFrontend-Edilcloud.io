@@ -87,7 +87,7 @@ const IOSSlider = withStyles({
 	root: {
 		color: '#3880ff',
 		height: 2,
-		padding: '15px 0'
+		padding: '15px 0',
 	},
 	thumb: {
 		height: 28,
@@ -154,6 +154,7 @@ function TodoDialog(props) {
 		/**
 		 * Dialog type: 'edit'
 		 */
+
 		if (todoDialog.type === 'edit' && todoDialog.data) {
 			setForm({ ...todoDialog.data });
 		}
@@ -484,7 +485,7 @@ function TodoDialog(props) {
 							<Icon className="icon">calendar_today</Icon>
 						</div>
 					</div>
-					<div className="mt-24 mx-8">
+					<div className="mt-24 mx-8 zoom-120">
 						<IOSSlider
 							aria-label="ios slider"
 							defaultValue={0}

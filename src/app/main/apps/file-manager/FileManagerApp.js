@@ -39,6 +39,9 @@ import LinearProgressWithLabel from './LinearProgressWithLabel';
 import TransitionAlerts from './TransitionAlerts.js';
 import FloatingButtonUpload from './FloatingButtonUpload';
 import imageCompression from 'browser-image-compression';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppBar from '@material-ui/core/AppBar';
+import * as ContactActions from './store/actions';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -158,6 +161,7 @@ function FileManagerApp(props) {
 			nameError: ''
 		});
 	};
+
 	const handleUpload = async () => {
 		if (isUploading == false) {
 			setIsUploading(true);
@@ -293,16 +297,7 @@ function FileManagerApp(props) {
 									<Icon>add</Icon>
 								</Fab>
 							</FuseAnimate> */}
-							<FuseAnimate animation="transition.expandIn" delay={600}>
-								<FloatingButtonUpload
-									color="secondary"
-									className="absolute bottom-0 ltr:left-0 rtl:right-0 mx-16 -mb-28 z-999"
-									callAction={name => {
-										setIsOpenDrawer(true);
-										return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
-									}}
-								/>
-							</FuseAnimate>
+
 							<FuseAnimate delay={200}>
 								<div>
 									{folderPath && (
@@ -330,6 +325,16 @@ function FileManagerApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
+			<FuseAnimate animation="transition.expandIn" delay={600}>
+				<FloatingButtonUpload
+					color="secondary"
+					className=" ltr:left-0 rtl:right-0 mx-16 z-999"
+					callAction={name => {
+						setIsOpenDrawer(true);
+						return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
+					}}
+				/>
+			</FuseAnimate>
 			<Dialog
 				onClose={handleClose}
 				aria-labelledby="customized-dialog-title"
@@ -337,9 +342,21 @@ function FileManagerApp(props) {
 				maxWidth="xs"
 				fullWidth="true"
 			>
-				<DialogTitle id="customized-dialog-title" onClose={handleClose}>
+				{/* <DialogTitle id="customized-dialog-title" onClose={handleClose}>
 					Upload File
-				</DialogTitle>
+				</DialogTitle> */}
+				<AppBar position="static" elevation={1}>
+					<Toolbar>
+						<div className="absolute right-0">
+							<IconButton onClick={handleClose} edge="start" color="inherit" aria-label="close">
+								<CloseIcon />
+							</IconButton>
+						</div>
+						<Typography variant="subtitle1" color="inherit">
+							Upload File
+						</Typography>
+					</Toolbar>
+				</AppBar>
 				<DialogContent dividers>
 					{radioBtnValue == 'folder' ? (
 						<>
@@ -356,6 +373,7 @@ function FileManagerApp(props) {
 										setTitle(value);
 									}}
 									helperText={error.nameError}
+									variant="outlined"
 								/>
 							</div>
 							{files.folders && !!files.folders.length && (
@@ -368,6 +386,7 @@ function FileManagerApp(props) {
 										renderOption={(option, { selected }) => <>{option.path}</>}
 										renderInput={params => <TextField {...params} label="Path" />}
 										onInputChange={(e, value) => setPath(value)}
+										variant="outlined"
 										defaultValue={
 											files.folders && !!files.folders.length ? currentFolderPath?.[0] : ''
 										}
@@ -389,6 +408,7 @@ function FileManagerApp(props) {
 										resetError();
 										setTitle(value);
 									}}
+									variant="outlined"
 									helperText={error.titleError}
 								/>
 							</div>
@@ -400,6 +420,7 @@ function FileManagerApp(props) {
 									className="mt-8 mb-16 w-full"
 									multiline
 									rows={4}
+									variant="outlined"
 									onChange={({ target: { value } }) => {
 										resetError();
 										setDescription(value);
@@ -413,6 +434,7 @@ function FileManagerApp(props) {
 									type="file"
 									className="mt-8 mb-16 w-full"
 									onChange={addFile}
+									variant="outlined"
 									helperText={error.fileError}
 								/>
 							</div>
@@ -427,6 +449,7 @@ function FileManagerApp(props) {
 										renderInput={params => <TextField {...params} label="Path" />}
 										onInputChange={(e, value) => setFilePath(value)}
 										defaultValue={currentFolderPath?.[0]}
+										variant="outlined"
 									/>
 								</div>
 							)}
