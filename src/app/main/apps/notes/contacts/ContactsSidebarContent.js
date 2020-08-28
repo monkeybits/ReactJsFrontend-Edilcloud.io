@@ -96,7 +96,7 @@ function ContactsSidebarContent(props) {
 						</ListItem>
 					</List>
 
-					{!!companies.length && (
+					{companies && !!companies.length && (
 						<List>
 							<ListSubheader className={classes.listSubheader} disableSticky>
 								Company

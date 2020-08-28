@@ -22,7 +22,7 @@ const initialState = () => ({
 
 const mergeArray = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
-		const x = arr.find(item => item.email === current.email);
+		const x = arr.find(item => (item.email && current.email ? item.email === current.email : false));
 		if (!x) {
 			return arr.concat([current]);
 		} else {

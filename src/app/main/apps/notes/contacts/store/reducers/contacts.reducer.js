@@ -30,7 +30,9 @@ function getRandomColor() {
 }
 const mergeArray = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
-		const x = arr.find(item => item.profile.id === current.profile.id);
+		const x = arr.find(item =>
+			current.profile?.id && item.profile?.id ? item.profile?.id === current.profile?.id : false
+		);
 		if (!x) {
 			return arr.concat([current]);
 		} else {
@@ -39,7 +41,11 @@ const mergeArray = (oldArr = [], newArr = []) =>
 	}, []);
 const mergeArrayByComapny = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
-		const x = arr.find(item => item.profile.company.name === current.profile.company.name);
+		const x = arr.find(item =>
+			item.profile?.company?.name && current?.profile?.company?.name
+				? item.profile?.company?.name === current?.profile?.company?.name
+				: false
+		);
 		if (!x) {
 			return arr.concat([current]);
 		} else {
