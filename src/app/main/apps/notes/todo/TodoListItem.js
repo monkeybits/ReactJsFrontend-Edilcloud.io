@@ -84,6 +84,9 @@ function TodoListItem(props) {
 				button
 			>
 				<div className="flex flex-1 flex-col relative overflow-hidden px-8">
+					<Typography color="textSecondary" className="todo-notes truncate">
+						{projectDetail?.name}
+					</Typography>
 					<Typography
 						variant="subtitle1"
 						className="todo-title truncate"
@@ -91,11 +94,6 @@ function TodoListItem(props) {
 					>
 						{props.todo.name}
 					</Typography>
-
-					<Typography color="textSecondary" className="todo-notes truncate">
-						{_.truncate(props.todo.note?.replace(/<(?:.|\n)*?>/gm, ''), { length: 180 })}
-					</Typography>
-
 					{props.todo.assigned_company && (
 						<div className={clsx(classes.labels, 'flex -mx-2')}>
 							<TodoChip

@@ -7,6 +7,7 @@ const initialState = () => ({
 	approved: [],
 	refused: [],
 	deactivated: [],
+	companies: [],
 	searchText: '',
 	routeParams: {},
 	filterKey: 'all',

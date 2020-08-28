@@ -95,7 +95,8 @@ function ContactsSidebarContent(props) {
 							<ListItemText className="truncate" primary="Refused Team members" disableTypography />
 						</ListItem>
 					</List>
-					{!!companies?.length && (
+
+					{!!companies.length && (
 						<List>
 							<ListSubheader className={classes.listSubheader} disableSticky>
 								Company
@@ -109,7 +110,11 @@ function ContactsSidebarContent(props) {
 									}}
 									className={getListItemClassNameForCompany('company', d.profile.company.id)}
 								>
-									<Icon className="list-item-icon" style={{ color: d.color }} color="action">
+									<Icon
+										className="list-item-icon"
+										style={{ color: d.profile.company?.color_project }}
+										color="action"
+									>
 										label
 									</Icon>
 									<ListItemText
