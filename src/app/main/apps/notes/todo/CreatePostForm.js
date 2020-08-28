@@ -64,7 +64,7 @@ function CreatePostForm() {
 		var formData = new FormData();
 		let values = {
 			text,
-			media: await getCompressFile(file.fileData)
+			media: file.fileData
 		};
 		// for( var i = 0; i < this.files.length; i++ ){
 		// 	let file = this.files[i];

@@ -115,7 +115,7 @@ function AddTeamMemberToProject() {
 	});
 	function retrieveDataAsynchronously(searchText) {
 		apiCall(
-			COMPANY_STAFF_LIST(String(searchText)),
+			COMPANY_STAFF_LIST(String(searchText), match.params.id),
 			{},
 			res => {
 				setFilteredData(res.results);
@@ -158,6 +158,7 @@ function AddTeamMemberToProject() {
 							<Icon color="action">search</Icon>
 						</div>
 						<FuseChipSelect
+							variant="fixed"
 							className="custom-dropdown w-full"
 							onChange={value => {
 								setMember(value.splice(value.length - 1));
