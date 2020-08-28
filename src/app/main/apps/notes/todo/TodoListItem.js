@@ -70,7 +70,7 @@ function TodoListItem(props) {
 				className={clsx(
 					classes.todoItem,
 					{ completed: props.todo.completed },
-					'border-solid border-l-4 py-16 px-0 sm:px-8'
+					'border-solid border-l-4 py-16 px-0 sm:px-8 border-bottom'
 				)}
 				style={{ borderColor: props.todo.assigned_company?.color_project }}
 				onClick={ev => {
