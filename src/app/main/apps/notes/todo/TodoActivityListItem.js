@@ -86,13 +86,13 @@ function TodoActivityListItem(props) {
 				<div className="flex flex-1 flex-col relative overflow-hidden px-8">
 					<Typography
 						variant="subtitle1"
-						className="todo-title truncate"
+						className="todo-title"
 						color={props.todo.completed ? 'textSecondary' : 'inherit'}
 					>
 						{props.todo.title}
 					</Typography>
 
-					<Typography color="textSecondary" className="todo-notes truncate">
+					<Typography color="textSecondary" className="todo-notes">
 						{_.truncate(props.todo.description?.replace(/<(?:.|\n)*?>/gm, ''), { length: 180 })}
 					</Typography>
 
@@ -108,27 +108,31 @@ function TodoActivityListItem(props) {
 					</div>
 				</div>
 
-				<div className="px-8">
-					<IconButton
-						onClick={ev => {
-							ev.preventDefault();
-							ev.stopPropagation();
-							if (props.todo.assigned_company) {
-								dispatch(Actions.openAddActivityTodoDialog(props.todo));
-							}
-						}}
-					>
-						<Icon>error</Icon>
-					</IconButton>
-					<IconButton
-						onClick={ev => {
-							ev.preventDefault();
-							ev.stopPropagation();
-							// dispatch(Actions.toggleStarred(props.todo));
-						}}
-					>
-						<Icon>edit</Icon>
-					</IconButton>
+				<div className="flex items-center px-8">
+					<div className="custom-error-icon">
+						<IconButton
+							onClick={ev => {
+								ev.preventDefault();
+								ev.stopPropagation();
+								if (props.todo.assigned_company) {
+									dispatch(Actions.openAddActivityTodoDialog(props.todo));
+								}
+							}}
+						>
+							<Icon>error</Icon>
+						</IconButton>
+					</div>
+					<div className="custom-edit-icon">
+						<IconButton
+							onClick={ev => {
+								ev.preventDefault();
+								ev.stopPropagation();
+								// dispatch(Actions.toggleStarred(props.todo));
+							}}
+						>
+							<Icon>edit</Icon>
+						</IconButton>
+					</div>
 				</div>
 			</ListItem>
 		</>

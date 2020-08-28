@@ -228,9 +228,22 @@
     padding-top: 10px !important;
     padding-bottom: 10px;
 }
+.custom-playlist-icon, .custom-edit-icon, .custom-error-icon {
+    position: absolute;
+    right: 100px;
+}
+.custom-edit-icon {
+    right: 50px;
+}
 
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
         min-width: 100px !important;
     }
+    .custom-playlist-icon, .custom-error-icon {
+        right: 50px;
+    }
+    .custom-edit-icon {
+        right: 10px;
+    }   
 }

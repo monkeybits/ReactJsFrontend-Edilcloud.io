@@ -107,36 +107,45 @@ function TodoListItem(props) {
 					)}
 				</div>
 
-				<div className="px-8">
+				<div className="flex items-center px-8">
+					<div className="custom-playlist-icon">
+						{props.todo.assigned_company?.id == company.id && (
+							<IconButton
+								onClick={ev => {
+									ev.preventDefault();
+									ev.stopPropagation();
+									if (props.todo.assigned_company) {
+										dispatch(Actions.openAddActivityTodoDialog(props.todo));
+									}
+								}}
+							>
+								<Icon>playlist_add</Icon>
+							</IconButton>
+						)}
+					</div>
+					<div className="custom-edit-icon">
+						{projectDetail.company?.id == company.id && (
+							<IconButton
+								onClick={ev => {
+									ev.preventDefault();
+									ev.stopPropagation();
+									// dispatch(Actions.openEditTodoDialog(props.todo));
+								}}
+							>
+								<Icon>edit</Icon>
+							</IconButton>
+						)}
+					</div>
+				</div>
+				<div
+					className={
+						props.todo.assigned_company?.id == company.id ? 'accordian-custom' : 'accordian-custom ml-24'
+					}
+				>
 					{props.todo.assigned_company?.id == company.id && (
-						<IconButton
-							onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								if (props.todo.assigned_company) {
-									dispatch(Actions.openAddActivityTodoDialog(props.todo));
-								}
-							}}
-						>
-							<Icon>playlist_add</Icon>
-						</IconButton>
-					)}
-					{projectDetail.company?.id == company.id && (
-						<IconButton
-							onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								// dispatch(Actions.openEditTodoDialog(props.todo));
-							}}
-						>
-							<Icon>edit</Icon>
-						</IconButton>
+						<>{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}</>
 					)}
 				</div>
-
-				{props.todo.assigned_company?.id == company.id && (
-					<>{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}</>
-				)}
 			</ListItem>
 			<Collapse in={open} timeout="auto" unmountOnExit>
 				<List className="p-0">

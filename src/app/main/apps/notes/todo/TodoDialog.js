@@ -484,7 +484,7 @@ function TodoDialog(props) {
 							<Icon className="icon">calendar_today</Icon>
 						</div>
 					</div>
-					<div className="mt-24 mx-8 zoom-125">
+					<div className="mt-24 mx-12 zoom-125">
 						<IOSSlider
 							aria-label="ios slider"
 							defaultValue={0}
@@ -497,7 +497,7 @@ function TodoDialog(props) {
 			</DialogContent>
 
 			{todoDialog.type === 'new' || todoDialog.type === 'activity' ? (
-				<DialogActions className="justify-between p-8">
+				<DialogActions className="justify-between p-8 mb-12">
 					<div className="px-16">
 						<Button
 							variant="contained"
