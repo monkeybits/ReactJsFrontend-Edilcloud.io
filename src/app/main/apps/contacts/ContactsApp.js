@@ -33,10 +33,10 @@ function ContactsApp(props) {
 	const routeParams = useParams();
 
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getContacts(routeParams));
+		dispatch(Actions.getContacts());
 		dispatch(Actions.getUserData());
 		return dispatch(Actions.resetContact());
-	}, [dispatch, routeParams]);
+	}, [dispatch]);
 	return (
 		<>
 			<FusePageSimple

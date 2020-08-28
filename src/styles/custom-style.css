@@ -136,7 +136,10 @@
 .chat-tab-content-height >  .MuiBox-root > .MuiTypography-root{
     height: 100%;
 }
-
+.no-bg .MuiTypography-root > div > div {
+    background: transparent;
+    height: auto;
+}
 .static-form-label label{
     transform: translate(10px, -6px) scale(0.75);
     display: inline-block;
@@ -207,8 +210,8 @@
     z-index: 99;
     right: 0px;
 }
-.zoom-120 {
-    zoom: 120% !important;
+.zoom-125 {
+    zoom: 125% !important;
 }
 /* #SpeedDialexample-actions span span {
     top: -28px;
@@ -218,9 +221,29 @@
 .me-right-align .me p {
     text-align: right;
 }
+.border-bottom {
+    border-bottom: 2px solid #EEEEEE !important;
+}
+.select-dropdown div > div label ~ div > div > div  {
+    padding-top: 10px !important;
+    padding-bottom: 10px;
+}
+.custom-playlist-icon, .custom-edit-icon, .custom-error-icon {
+    position: absolute;
+    right: 100px;
+}
+.custom-edit-icon {
+    right: 50px;
+}
 
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
         min-width: 100px !important;
     }
+    .custom-playlist-icon, .custom-error-icon {
+        right: 50px;
+    }
+    .custom-edit-icon {
+        right: 10px;
+    }   
 }

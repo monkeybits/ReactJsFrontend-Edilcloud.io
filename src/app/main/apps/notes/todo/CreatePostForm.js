@@ -64,7 +64,7 @@ function CreatePostForm() {
 		var formData = new FormData();
 		let values = {
 			text,
-			media: await getCompressFile(file.fileData)
+			media: file.fileData
 		};
 		// for( var i = 0; i < this.files.length; i++ ){
 		// 	let file = this.files[i];
@@ -132,65 +132,59 @@ function CreatePostForm() {
 	return (
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1 px-20 md:px-32 pt-20 md:pt-32 md:ltr:pr-32 md:rtl:pl-32">
-				<FuseAnimateGroup
-					enter={{
-						animation: 'transition.slideUpBigIn'
-					}}
-				>
-					<div>
-						<Card className="w-full overflow-hidden">
-							<Input
-								id="addPost"
-								className="p-16 w-full"
-								classes={{ root: 'text-14' }}
-								placeholder="Write something.."
-								multiline
-								rows="6"
-								margin="none"
-								disableUnderline
-								onChange={e => setText(e.target.value)}
-							/>
-							<AppBar
-								className="card-footer flex flex-row border-t-1"
-								position="static"
-								color="default"
-								elevation={0}
-							>
-								<div className="flex-1 items-center">
-									<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo">
-										<Icon>photo</Icon>
-									</IconButton>
-									<input
-										hidden
-										multiple
-										type="file"
-										accept="image/*, video/*"
-										ref={inputRef}
-										onChange={addPhoto}
-									/>
-								</div>
+				<div>
+					<Card className="w-full overflow-hidden">
+						<Input
+							id="addPost"
+							className="p-16 w-full"
+							classes={{ root: 'text-14' }}
+							placeholder="Write something.."
+							multiline
+							rows="6"
+							margin="none"
+							disableUnderline
+							onChange={e => setText(e.target.value)}
+						/>
+						<AppBar
+							className="card-footer flex flex-row border-t-1"
+							position="static"
+							color="default"
+							elevation={0}
+						>
+							<div className="flex-1 items-center">
+								<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo">
+									<Icon>photo</Icon>
+								</IconButton>
+								<input
+									hidden
+									multiple
+									type="file"
+									accept="image/*, video/*"
+									ref={inputRef}
+									onChange={addPhoto}
+								/>
+							</div>
 
-								<div className="p-8">
-									<Button
-										onClick={createPost}
-										variant="contained"
-										color="primary"
-										size="small"
-										aria-label="post"
-										disabled={!text.length}
-									>
-										POST
-									</Button>
-								</div>
-							</AppBar>
-						</Card>
-						{images && <ImagesPreview images={images} />}
+							<div className="p-8">
+								<Button
+									onClick={createPost}
+									variant="contained"
+									color="primary"
+									size="small"
+									aria-label="post"
+									disabled={!text.length}
+								>
+									POST
+								</Button>
+							</div>
+						</AppBar>
+					</Card>
+					{images && <ImagesPreview images={images} />}
 
-						<Divider className="my-32" />
-					</div>
+					<Divider className="my-32" />
+				</div>
 
-					<PostList posts={data.posts} />
-				</FuseAnimateGroup>
+				<PostList posts={data.posts} />
 			</div>
 		</div>
 	);

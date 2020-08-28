@@ -70,7 +70,7 @@ function TodoListItem(props) {
 				className={clsx(
 					classes.todoItem,
 					{ completed: props.todo.completed },
-					'border-solid border-l-4 py-16 px-0 sm:px-8'
+					'border-solid border-l-4 py-16 px-0 sm:px-8 border-bottom'
 				)}
 				style={{ borderColor: props.todo.assigned_company?.color_project }}
 				onClick={ev => {
@@ -84,6 +84,9 @@ function TodoListItem(props) {
 				button
 			>
 				<div className="flex flex-1 flex-col relative overflow-hidden px-8">
+					<Typography color="textSecondary" className="todo-notes truncate">
+						{projectDetail?.name}
+					</Typography>
 					<Typography
 						variant="subtitle1"
 						className="todo-title truncate"
@@ -91,11 +94,6 @@ function TodoListItem(props) {
 					>
 						{props.todo.name}
 					</Typography>
-
-					<Typography color="textSecondary" className="todo-notes truncate">
-						{_.truncate(props.todo.note?.replace(/<(?:.|\n)*?>/gm, ''), { length: 180 })}
-					</Typography>
-
 					{props.todo.assigned_company && (
 						<div className={clsx(classes.labels, 'flex -mx-2')}>
 							<TodoChip
@@ -107,36 +105,45 @@ function TodoListItem(props) {
 					)}
 				</div>
 
-				<div className="px-8">
+				<div className="flex items-center px-8">
+					<div className="custom-playlist-icon">
+						{props.todo.assigned_company?.id == company.id && (
+							<IconButton
+								onClick={ev => {
+									ev.preventDefault();
+									ev.stopPropagation();
+									if (props.todo.assigned_company) {
+										dispatch(Actions.openAddActivityTodoDialog(props.todo));
+									}
+								}}
+							>
+								<Icon>playlist_add</Icon>
+							</IconButton>
+						)}
+					</div>
+					<div className="custom-edit-icon">
+						{projectDetail.company?.id == company.id && (
+							<IconButton
+								onClick={ev => {
+									ev.preventDefault();
+									ev.stopPropagation();
+									// dispatch(Actions.openEditTodoDialog(props.todo));
+								}}
+							>
+								<Icon>edit</Icon>
+							</IconButton>
+						)}
+					</div>
+				</div>
+				<div
+					className={
+						props.todo.assigned_company?.id == company.id ? 'accordian-custom' : 'accordian-custom ml-24'
+					}
+				>
 					{props.todo.assigned_company?.id == company.id && (
-						<IconButton
-							onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								if (props.todo.assigned_company) {
-									dispatch(Actions.openAddActivityTodoDialog(props.todo));
-								}
-							}}
-						>
-							<Icon>playlist_add</Icon>
-						</IconButton>
-					)}
-					{projectDetail.company?.id == company.id && (
-						<IconButton
-							onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								// dispatch(Actions.openEditTodoDialog(props.todo));
-							}}
-						>
-							<Icon>edit</Icon>
-						</IconButton>
+						<>{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}</>
 					)}
 				</div>
-
-				{props.todo.assigned_company?.id == company.id && (
-					<>{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}</>
-				)}
 			</ListItem>
 			<Collapse in={open} timeout="auto" unmountOnExit>
 				<List className="p-0">

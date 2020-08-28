@@ -376,9 +376,8 @@ function TodoDialog(props) {
 					</FormControl>
 
 					{todoDialog.type === 'activity' ? (
-						<div className="mt-8 mb-16">
+						<div className="mt-8 mb-16 select-dropdown">
 							<FuseChipSelect
-								className=""
 								placeholder="Select Profile"
 								variant="fixed"
 								isMulti
@@ -404,7 +403,7 @@ function TodoDialog(props) {
 					) : (
 						companies &&
 						!!companies.length && (
-							<div className="mt-8 mb-16">
+							<div className="mt-8 mb-16 select-dropdown">
 								<FuseChipSelect
 									className=""
 									placeholder="Select Company"
@@ -428,7 +427,7 @@ function TodoDialog(props) {
 											<span className="flex items-center">
 												<Icon
 													className="list-item-icon mr-4"
-													style={{ color: company.color }}
+													style={{ color: company.profile.company?.color_project }}
 													color="action"
 												>
 													label
@@ -485,7 +484,7 @@ function TodoDialog(props) {
 							<Icon className="icon">calendar_today</Icon>
 						</div>
 					</div>
-					<div className="mt-24 mx-8 zoom-120">
+					<div className="mt-24 mx-12 zoom-125">
 						<IOSSlider
 							aria-label="ios slider"
 							defaultValue={0}
@@ -498,7 +497,7 @@ function TodoDialog(props) {
 			</DialogContent>
 
 			{todoDialog.type === 'new' || todoDialog.type === 'activity' ? (
-				<DialogActions className="justify-between p-8">
+				<DialogActions className="justify-between p-8 mb-12">
 					<div className="px-16">
 						<Button
 							variant="contained"

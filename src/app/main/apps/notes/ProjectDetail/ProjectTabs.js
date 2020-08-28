@@ -90,7 +90,7 @@ function ProjectTabs() {
 			<TabPanel value={value} index="three" className="h-full chat-tab-content-height" >
 				<ChatApp />
 			</TabPanel>
-			<TabPanel value={value} index="four">
+			<TabPanel value={value} index="four" className="no-bg">
 				<TodoApp />
 			</TabPanel>
 			<TabPanel value={value} index="five">
