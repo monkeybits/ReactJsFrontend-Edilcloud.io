@@ -57,4 +57,4 @@ function TodoApp(props) {
 	);
 }
 
-export default withReducer('todoApp', reducer)(TodoApp);
+export default withReducer('todoAppNote', reducer)(TodoApp);

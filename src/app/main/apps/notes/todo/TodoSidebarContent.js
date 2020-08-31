@@ -42,9 +42,9 @@ const useStyles = makeStyles(theme => ({
 
 function TodoSidebarContent(props) {
 	const dispatch = useDispatch();
-	const labels = useSelector(({ todoApp }) => todoApp.labels);
-	const folders = useSelector(({ todoApp }) => todoApp.folders);
-	const filters = useSelector(({ todoApp }) => todoApp.filters);
+	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
+	const folders = useSelector(({ todoAppNote }) => todoAppNote.folders);
+	const filters = useSelector(({ todoAppNote }) => todoAppNote.filters);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 

@@ -10,7 +10,7 @@ import * as Actions from './store/actions';
 
 function TodoHeader(props) {
 	const dispatch = useDispatch();
-	const searchText = useSelector(({ todoApp }) => todoApp.todos.searchText);
+	const searchText = useSelector(({ todoAppNote }) => todoAppNote.todos.searchText);
 	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
 
 	return (

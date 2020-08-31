@@ -134,10 +134,11 @@ export function openEditTodoDialog(data) {
 	};
 }
 export function openAddActivityTodoDialog(data) {
-	return {
-		type: OPEN_ACTIVITY_TODO_DIALOG,
-		data
-	};
+	return dispatch =>
+		dispatch({
+			type: OPEN_ACTIVITY_TODO_DIALOG,
+			data
+		});
 }
 export function closeEditTodoDialog() {
 	return {

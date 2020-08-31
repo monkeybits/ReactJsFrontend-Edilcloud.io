@@ -87,7 +87,7 @@ const IOSSlider = withStyles({
 	root: {
 		color: '#3880ff',
 		height: 2,
-		padding: '15px 0',
+		padding: '15px 0'
 	},
 	thumb: {
 		height: 28,
@@ -134,8 +134,8 @@ const IOSSlider = withStyles({
 })(Slider);
 function TodoDialog(props) {
 	const dispatch = useDispatch();
-	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
-	const labels = useSelector(({ todoApp }) => todoApp.labels);
+	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
+	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [labelMenuEl, setLabelMenuEl] = useState(null);
 	const { form, handleChange, setForm, resetForm } = useForm({ ...defaultFormState });
@@ -186,6 +186,7 @@ function TodoDialog(props) {
 		/**
 		 * After Dialog Open
 		 */
+		console.log({ todoDialog });
 		if (todoDialog.props.open) {
 			initDialog();
 			return () => {
@@ -386,7 +387,7 @@ function TodoDialog(props) {
 									InputLabelProps: {
 										shrink: true
 									},
-									variant: 'outlined',
+									variant: 'outlined'
 									// onChange: e => getProjectCompanyTeamProfiles(e.target.value)
 								}}
 								onChange={value => {
