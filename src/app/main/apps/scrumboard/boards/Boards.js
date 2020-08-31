@@ -78,7 +78,7 @@ function Boards(props) {
 		apiCall(
 			APPROVE_LIST,
 			{},
-			({ results }) => {
+			(results) => {
 				if (Array.isArray(results)) {
 					let filterdBoards = results.filter(d => d.company && d.status);
 					dispatch({
