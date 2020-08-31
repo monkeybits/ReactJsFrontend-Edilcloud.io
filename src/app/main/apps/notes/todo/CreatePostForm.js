@@ -39,7 +39,7 @@ function CreatePostForm() {
 		imagePreviewUrl: undefined
 	});
 	const inputRef = useRef(null);
-	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
+	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	useEffect(() => {
 		setData({});
 		if (todoDialog.data?.id) {

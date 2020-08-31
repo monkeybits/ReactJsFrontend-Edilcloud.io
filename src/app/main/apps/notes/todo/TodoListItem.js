@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 
 function TodoListItem(props) {
 	const dispatch = useDispatch();
-	const labels = useSelector(({ todoApp }) => todoApp.labels);
+	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const [open, setOpen] = React.useState(false);

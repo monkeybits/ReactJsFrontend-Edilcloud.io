@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 function TodoActivityListItem(props) {
 	const dispatch = useDispatch();
-	const labels = useSelector(({ todoApp }) => todoApp.labels);
+	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
 	const [open, setOpen] = React.useState(false);
 	const [taskDetail, setTaskDetail] = useState([]);
 	const classes = useStyles(props);

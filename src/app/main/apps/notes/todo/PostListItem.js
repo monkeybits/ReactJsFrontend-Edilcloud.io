@@ -19,18 +19,20 @@ import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_COMMENT_TO_POST } from 'app/services/apiEndPoints';
+import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import * as Actions from './store/actions';
 import ImagesPreview from './ImagesPreview';
-import PostList from './PostList';
+import CommentListItem from './CommentListItem';
 import moment from 'moment';
 
 export default function PostListItem({ post }) {
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
+	const [postComments, setPostComments] = useState([...post.comment_set]);
+
 	const handlePostComment = e => {
 		e.preventDefault();
 		if (!text) return;
@@ -42,16 +44,33 @@ export default function PostListItem({ post }) {
 			},
 			res => {
 				document.getElementById(String(post.id)).value = '';
+				getComments();
 			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()
 		);
 	};
+	const getComments = () => {
+		apiCall(
+			GET_COMMENT_OF_POST(post.id),
+			{},
+			res => {
+				setPostComments(res.results);
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 	return (
 		<Card key={post.id} className="mb-32 overflow-hidden">
 			<CardHeader
-				avatar={<Avatar aria-label="Recipe" src={post.user?.avatar} />}
+				avatar={
+					<Avatar aria-label="Recipe" src={post.author.photo}>
+						{post.author.user.username[0]}{' '}
+					</Avatar>
+				}
 				action={
 					<IconButton aria-label="more">
 						<Icon>more_vert</Icon>
@@ -60,7 +79,7 @@ export default function PostListItem({ post }) {
 				title={
 					<span className="flex">
 						<Typography className="font-medium" color="primary" paragraph={false}>
-							{post.user?.name}
+							{post.author.user.username}
 						</Typography>
 						<span className="mx-4">
 							{post.type === 'post' && 'posted on your timeline'}
@@ -70,7 +89,7 @@ export default function PostListItem({ post }) {
 						</span>
 					</span>
 				}
-				subheader={moment(post.published_date).format('llll')}
+				subheader={moment.parseZone(post.published_date).format('llll')}
 			/>
 
 			<CardContent className="py-0">
@@ -101,44 +120,18 @@ export default function PostListItem({ post }) {
 			</CardActions>
 
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
-				{post.comments && post.comments.length > 0 && (
+				{postComments && postComments.length > 0 && (
 					<div className="">
 						<div className="flex items-center">
-							<Typography>{post.comments.length} comments</Typography>
+							<Typography>{postComments.length} comments</Typography>
 							<Icon className="text-16 mx-4" color="action">
 								keyboard_arrow_down
 							</Icon>
 						</div>
 
 						<List>
-							{post.comments.map(comment => (
-								<div key={comment.id}>
-									<ListItem className="px-0 -mx-8">
-										<Avatar alt={comment.user.name} src={comment.user.avatar} className="mx-8" />
-										<ListItemText
-											className="px-4"
-											primary={
-												<div className="flex">
-													<Typography
-														className="font-medium"
-														color="initial"
-														paragraph={false}
-													>
-														{comment.user.name}
-													</Typography>
-													<Typography className="mx-4" variant="caption">
-														{comment.time}
-													</Typography>
-												</div>
-											}
-											secondary={comment.message}
-										/>
-									</ListItem>
-									<div className="flex items-center mx-52 mb-8">
-										<Button className="normal-case">Reply</Button>
-										<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
-									</div>
-								</div>
+							{postComments.map((comment, index) => (
+								<CommentListItem key={index} post={post} comment={comment} />
 							))}
 						</List>
 					</div>

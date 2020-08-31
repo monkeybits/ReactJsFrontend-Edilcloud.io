@@ -136,8 +136,8 @@ const IOSSlider = withStyles({
 })(Slider);
 function CreatePostDialog(props) {
 	const dispatch = useDispatch();
-	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
-	const labels = useSelector(({ todoApp }) => todoApp.labels);
+	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
+	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [labelMenuEl, setLabelMenuEl] = useState(null);
 	const { form, handleChange, setForm, resetForm } = useForm({ ...defaultFormState });
