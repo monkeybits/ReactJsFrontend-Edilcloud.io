@@ -86,7 +86,7 @@ function ChatsSidebar(props) {
 
 	return (
 		<div className="flex flex-col flex-auto h-full">
-			<AppBar position="static" color="default" elevation={1} className="">
+			<AppBar position="static" color="default" elevation={1} className="bg-custom-grey">
 				<Toolbar className="flex justify-between items-center px-4">
 					{user && (
 						<div

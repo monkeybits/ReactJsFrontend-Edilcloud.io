@@ -144,7 +144,7 @@ function CreatePostForm() {
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1 px-20 md:px-32 pt-20 md:pt-32 md:ltr:pr-32 md:rtl:pl-32">
 				<div>
-					<Card className="w-full overflow-hidden">
+					<Card className="w-full overflow-hidden post-form">
 						<Input
 							id="addPost"
 							className="p-16 w-full"

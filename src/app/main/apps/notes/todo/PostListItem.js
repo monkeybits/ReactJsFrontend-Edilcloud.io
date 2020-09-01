@@ -64,7 +64,7 @@ export default function PostListItem({ post }) {
 		);
 	};
 	return (
-		<Card key={post.id} className="mb-32 overflow-hidden">
+		<Card key={post.id} className="mb-32 overflow-hidden post-form">
 			<CardHeader
 				avatar={
 					<Avatar aria-label="Recipe" src={post.author.photo}>
@@ -153,9 +153,9 @@ export default function PostListItem({ post }) {
 								onChange={e => setText(e.target.value)}
 							/>
 						</Paper>
-						<div className="card-footer flex flex-row">
+						<div className="card-footer flex items-center">
 							<div className="flex-1 items-center">
-								<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo">
+								<IconButton className="p-0" onClick={() => inputRef.current.click()} aria-label="Add photo">
 									<Icon>photo</Icon>
 								</IconButton>
 								<input hidden multiple type="file" accept="image/*, video/*" ref={inputRef} />

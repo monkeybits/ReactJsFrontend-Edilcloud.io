@@ -17,7 +17,7 @@ function ProjectDetailHeader(props) {
 	return (
 		<div className="flex flex-1 items-center justify-between p-8 sm:p-24">
 			<div className="flex flex-shrink items-center sm:w-224">
-				{/* <Hidden lgUp>
+				<Hidden lgUp>
 					<IconButton
 						onClick={ev => {
 							props.pageLayout.current.toggleLeftSidebar();
@@ -26,7 +26,7 @@ function ProjectDetailHeader(props) {
 					>
 						<Icon>menu</Icon>
 					</IconButton>
-				</Hidden> */}
+				</Hidden>
 				<div className="flex items-center">
 					{/* <FuseAnimate animation="transition.expandIn" delay={300}>
 						<Icon className="text-32">account_box</Icon>
