@@ -10,7 +10,7 @@ const initialState = {
 	todoDialog: {
 		type: 'new',
 		props: {
-			open: false
+			open: false,
 		},
 		data: null
 	}

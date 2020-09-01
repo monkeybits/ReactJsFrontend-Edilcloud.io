@@ -52,6 +52,7 @@ export default function ImagesPreview(props) {
 				imgSrc={props.images[activeStep].imgPath}
 				open={openDrawer}
 				onClose={() => setOpenDrawer(false)}
+				replaceUrl={url => props.replaceUrl(url, activeStep)}
 			/>
 			{/* <Paper square elevation={0} className={classes.header}>
 				<Typography>{tutorialSteps[activeStep].label}</Typography>
