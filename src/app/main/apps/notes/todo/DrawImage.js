@@ -6,7 +6,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import CanvasDraw from 'react-canvas-draw';
 import React, { useState, useRef, useEffect } from 'react';
 
 import { Stage, Layer } from 'react-konva';
