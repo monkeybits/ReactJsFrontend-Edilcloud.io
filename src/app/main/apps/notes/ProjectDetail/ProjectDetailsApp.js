@@ -6,7 +6,7 @@ import LabelsDialog from '../dialogs/labels/LabelsDialog';
 import NoteDialog from '../dialogs/note/NoteDialog';
 import NewNote from '../NewNote';
 import NoteList from '../NoteList';
-import NotesHeader from '../NotesHeader';
+import ProjectDetailHeader from './ProjectDetailHeader';
 import NotesSidebarContent from '../NotesSidebarContent';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
@@ -34,7 +34,7 @@ function ProjectDetails(props) {
 					leftSidebar: 'w-256 border-0',
 					header: 'min-h-72 h-72'
 				}}
-				header={<NotesHeader pageLayout={pageLayout} />}
+				header={<ProjectDetailHeader pageLayout={pageLayout} />}
 				content={<ProjectContent />}
 				// leftSidebarContent={<NotesSidebarContent />}
 				sidebarInner
