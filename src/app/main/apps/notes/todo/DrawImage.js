@@ -18,10 +18,11 @@ import { Button, ButtonGroup } from '@material-ui/core';
 
 const uuidv1 = require('uuid/v1');
 
-export default function DrawImage({ open, onClose, imgSrc, replaceUrl }) {
+export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 	const [rectangles, setRectangles] = useState([]);
 	const [images, setImages] = useState([]);
 	const [selectedId, selectShape] = useState(null);
+
 	const [shapes, setShapes] = useState([]);
 	const [, updateState] = React.useState();
 	const stageEl = React.createRef();
@@ -184,8 +185,8 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl }) {
 				{/* <input style={{ display: 'none' }} type="file" ref={fileUploadEl} onChange={fileChange} /> */}
 				<Stage
 					zIndex={5}
-					width="400"
-					height="400"
+					width={width}
+					height={height}
 					ref={stageEl}
 					onMouseDown={e => {
 						// deselect when clicked on empty area
