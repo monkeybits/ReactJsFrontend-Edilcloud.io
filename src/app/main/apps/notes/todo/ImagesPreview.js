@@ -36,8 +36,11 @@ export default function ImagesPreview(props) {
 	const theme = useTheme();
 	const [activeStep, setActiveStep] = React.useState(0);
 	const [openDrawer, setOpenDrawer] = React.useState(false);
+	const [ImagePropert, setImagePropert] = React.useState({
+		height: 400,
+		width: 400
+	});
 	const maxSteps = props.images.length;
-
 	const handleNext = () => {
 		setActiveStep(prevActiveStep => prevActiveStep + 1);
 	};
@@ -45,13 +48,26 @@ export default function ImagesPreview(props) {
 	const handleBack = () => {
 		setActiveStep(prevActiveStep => prevActiveStep - 1);
 	};
-
+	const getMeta = url => {
+		var img = new Image();
+		img.onload = function () {
+			setImagePropert({
+				height: this.height,
+				width: this.width
+			});
+			setOpenDrawer(true);
+		};
+		img.src = url;
+	};
 	return (
 		<div className={clsx(classes.root, 'd-block mx-auto')}>
 			<DrawImage
+				height={ImagePropert.height}
+				width={ImagePropert.width}
 				imgSrc={props.images[activeStep].imgPath}
 				open={openDrawer}
 				onClose={() => setOpenDrawer(false)}
+				replaceUrl={url => props.replaceUrl(url, activeStep)}
 			/>
 			{/* <Paper square elevation={0} className={classes.header}>
 				<Typography>{tutorialSteps[activeStep].label}</Typography>
@@ -79,7 +95,12 @@ export default function ImagesPreview(props) {
 					</Button>
 				}
 			/>
-			<Button size="small" onClick={() => setOpenDrawer(true)}>
+			<Button
+				size="small"
+				onClick={() => {
+					getMeta(props.images[activeStep].imgPath);
+				}}
+			>
 				Modify
 			</Button>
 		</div>

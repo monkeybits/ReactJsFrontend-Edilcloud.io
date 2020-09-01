@@ -24,6 +24,7 @@ function ContactsHeader(props) {
 							props.pageLayout.current.toggleLeftSidebar();
 						}}
 						aria-label="open left sidebar"
+						className="ml-20"
 					>
 						<Icon>menu</Icon>
 					</IconButton>
@@ -31,7 +32,7 @@ function ContactsHeader(props) {
 
 				<div className="flex items-center">
 					<FuseAnimate animation="transition.expandIn" delay={300}>
-						<Icon className="text-32">account_box</Icon>
+						<Icon className="text-32 hidden sm:flex">account_box</Icon>
 					</FuseAnimate>
 					<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 						<Typography variant="h6" className="mx-12 hidden sm:flex">

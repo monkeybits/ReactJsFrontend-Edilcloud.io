@@ -3,6 +3,19 @@ import Icon from '@material-ui/core/Icon';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { darken } from '@material-ui/core/styles/colorManipulator';
+import clsx from 'clsx';
+
+// const useStyles = makeStyles(theme => ({
+// 	root: {
+// 		background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${darken(
+// 			theme.palette.primary.dark,
+// 			0.5
+// 		)} 100%)`,
+// 		color: theme.palette.primary.contrastText
+// 	}
+// }));
 
 const accounts = {
 	creapond: 'johndoe@creapond.com',
@@ -10,6 +23,7 @@ const accounts = {
 };
 
 function TodoSidebarHeader() {
+	// const classes = useStyles();
 	const [selectedAccount, setSelectedCount] = useState('creapond');
 
 	function handleAccountChange(ev) {

@@ -10,14 +10,13 @@ const initialState = {
 	todoDialog: {
 		type: 'new',
 		props: {
-			open: false
+			open: false,
 		},
 		data: null
 	}
 };
 
 const todosReducer = (state = initialState, action) => {
-	console.log({ action });
 	switch (action.type) {
 		case Actions.GET_TODOS: {
 			return {

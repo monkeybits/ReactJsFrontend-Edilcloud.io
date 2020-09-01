@@ -27,6 +27,7 @@ import * as Actions from './store/actions';
 import ImagesPreview from './ImagesPreview';
 import PostList from './PostList';
 import moment from 'moment';
+import FuseUtils from '@fuse/utils';
 
 function CreatePostForm() {
 	const dispatch = useDispatch();
@@ -64,7 +65,7 @@ function CreatePostForm() {
 		var formData = new FormData();
 		let values = {
 			text,
-			media: file.fileData
+			media: images ? images[0].file : undefined
 		};
 		// for( var i = 0; i < this.files.length; i++ ){
 		// 	let file = this.files[i];
@@ -126,6 +127,16 @@ function CreatePostForm() {
 			setImages(file);
 		}
 	};
+
+	const replaceImageUrl = (url, index) => {
+		images[index] = {
+			...images[index],
+			imgPath: url,
+			file: FuseUtils.dataURItoFile(url)
+		};
+		// console.log('Fileurl', URL.createObjectURL(FuseUtils.dataURItoFile(url)));
+		setImages(images);
+	};
 	if (!data) {
 		return null;
 	}
@@ -133,7 +144,7 @@ function CreatePostForm() {
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1 px-20 md:px-32 pt-20 md:pt-32 md:ltr:pr-32 md:rtl:pl-32">
 				<div>
-					<Card className="w-full overflow-hidden">
+					<Card className="w-full overflow-hidden post-form">
 						<Input
 							id="addPost"
 							className="p-16 w-full"
@@ -179,7 +190,7 @@ function CreatePostForm() {
 							</div>
 						</AppBar>
 					</Card>
-					{images && <ImagesPreview images={images} />}
+					{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
 
 					<Divider className="my-32" />
 				</div>
