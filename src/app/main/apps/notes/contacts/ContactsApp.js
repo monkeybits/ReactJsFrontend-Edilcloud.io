@@ -15,6 +15,7 @@ import ContactsSidebarContent from './ContactsSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
+import ContactsHeader from './ContactsHeader';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -51,6 +52,7 @@ function ContactsApp(props) {
 					header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					wrapper: 'min-h-0 bg-white team-tab'
 				}}
+				header={<ContactsHeader pageLayout={pageLayout} />}
 				content={<ContactsList />}
 				leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
