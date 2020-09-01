@@ -24,6 +24,7 @@ function TodoHeader(props) {
 						<IconButton
 							onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
 							aria-label="open left sidebar"
+							className="ml-20"
 						>
 							<Icon>menu</Icon>
 						</IconButton>

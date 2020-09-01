@@ -235,6 +235,12 @@
 .custom-edit-icon {
     right: 50px;
 }
+.bg-custom-grey {
+    background: #e8e8e8;
+}
+.post-form textarea {
+    height: 5em;
+}
 
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
