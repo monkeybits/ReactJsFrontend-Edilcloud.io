@@ -51,13 +51,16 @@ export default function ImagesPreview(props) {
 	const getMeta = url => {
 		var img = new Image();
 		img.onload = function () {
+			let height = this.height;
+			let width = this.width;
 			setImagePropert({
-				height: this.height,
-				width: this.width
+				height: height,
+				width: width
 			});
 			setOpenDrawer(true);
 		};
 		img.src = url;
+		img.style = { objectFit: 'contain', height: 400, width: 400 };
 	};
 	return (
 		<div className={clsx(classes.root, 'd-block mx-auto')}>

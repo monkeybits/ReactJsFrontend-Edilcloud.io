@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
@@ -39,14 +39,27 @@ const useStyles = makeStyles(theme => ({
 function TodoListItem(props) {
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
+	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const [open, setOpen] = React.useState(false);
+	const [id, setId] = React.useState(null);
 	const [taskDetail, setTaskDetail] = useState([]);
 	const classes = useStyles(props);
 	const handleClick = () => {
 		setOpen(!open);
 	};
+	useEffect(() => {
+		/**
+		 * After Dialog Open
+		 */
+		if (todoDialog.type === 'activity' && todoDialog.props.open) {
+			setId(todoDialog.data.id);
+		} else if (todoDialog.type === 'activity' && todoDialog.props.open == false && props.todo.id == id) {
+			setId(null);
+			getDetailOfTask();
+		}
+	}, [todoDialog.props.open]);
 	const getDetailOfTask = () => {
 		if (open === false) {
 			apiCall(

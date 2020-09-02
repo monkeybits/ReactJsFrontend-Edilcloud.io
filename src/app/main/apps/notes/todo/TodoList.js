@@ -54,8 +54,8 @@ function TodoList(props) {
 					animation: 'transition.slideUpBigIn'
 				}}
 			>
-				{filteredData.map(todo => (
-					<TodoListItem todo={todo} key={todo.id} />
+				{filteredData.map((todo, index) => (
+					<TodoListItem todo={todo} key={todo.id} index={index} />
 				))}
 			</FuseAnimateGroup>
 		</List>
