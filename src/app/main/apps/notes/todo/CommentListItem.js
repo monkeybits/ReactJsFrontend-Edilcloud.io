@@ -31,7 +31,14 @@ import moment from 'moment';
 export default function CommentListItem({ post, comment }) {
 	const [text, setText] = useState('');
 	const [isReplying, setIsReplying] = useState(false);
-	const [replyComments, setReplyComments] = useState([...comment.replies_set]);
+	const [replyComments, setReplyComments] = useState([]);
+
+	useEffect(() => {
+		setReplyComments(comment.replies_set);
+		return () => {
+			setReplyComments([]);
+		};
+	}, [comment.replies_set]);
 	const handlePostComment = e => {
 		e.preventDefault();
 		if (!text) return;

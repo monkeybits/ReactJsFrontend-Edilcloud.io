@@ -121,23 +121,6 @@ export default function PostListItem({ post }) {
 			</CardActions>
 
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
-				{postComments && postComments.length > 0 && (
-					<div className="">
-						<div className="flex items-center">
-							<Typography>{postComments.length} comments</Typography>
-							<Icon className="text-16 mx-4" color="action">
-								keyboard_arrow_down
-							</Icon>
-						</div>
-
-						<List>
-							{postComments.map((comment, index) => (
-								<CommentListItem key={index} post={post} comment={comment} />
-							))}
-						</List>
-					</div>
-				)}
-
 				<div className="flex flex-auto -mx-4">
 					<Avatar className="mx-4" src="assets/images/avatars/profile.jpg" />
 					<div className="flex-1 mx-4">
@@ -178,6 +161,23 @@ export default function PostListItem({ post }) {
 						</div>
 					</div>
 				</div>
+
+				{postComments && postComments.length > 0 && (
+					<div className="">
+						<div className="flex items-center">
+							<Typography>{postComments.length} comments</Typography>
+							<Icon className="text-16 mx-4" color="action">
+								keyboard_arrow_down
+							</Icon>
+						</div>
+
+						<List>
+							{postComments.map((comment, index) => (
+								<CommentListItem key={index} post={post} comment={comment} />
+							))}
+						</List>
+					</div>
+				)}
 			</AppBar>
 		</Card>
 	);

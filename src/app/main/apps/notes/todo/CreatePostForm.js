@@ -44,15 +44,7 @@ function CreatePostForm() {
 	useEffect(() => {
 		setData({});
 		if (todoDialog.data?.id) {
-			// res => setData({ posts: res.results }),
-			apiCall(
-				GET_POST_TO_ACTIVITY(todoDialog.data?.id),
-				{},
-				res => setData({ posts: res.results }),
-				err => console.log(err),
-				METHOD.GET,
-				getHeaderToken()
-			);
+			getPosts();
 		}
 	}, [todoDialog.data]);
 	function closeTodoDialog() {
@@ -60,7 +52,16 @@ function CreatePostForm() {
 			? dispatch(Actions.closeActivityTodoDialog())
 			: dispatch(Actions.closeActivityTodoDialog());
 	}
-
+	const getPosts = () => {
+		apiCall(
+			GET_POST_TO_ACTIVITY(todoDialog.data?.id),
+			{},
+			res => setData({ posts: res.results }),
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 	const createPost = async () => {
 		var formData = new FormData();
 		let values = {
@@ -81,8 +82,8 @@ function CreatePostForm() {
 			formData,
 			res => {
 				document.getElementById('addPost').value = '';
-				closeTodoDialog();
-				console.log(res);
+				setImages(null);
+				getPosts();
 			},
 			err => console.log(err),
 			METHOD.POST,
@@ -192,7 +193,7 @@ function CreatePostForm() {
 							</div>
 						</AppBar>
 					</Card>
-					
+
 					{/* <Divider className="my-32" /> */}
 				</div>
 
