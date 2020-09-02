@@ -43,13 +43,14 @@ export default function PostListItem({ post }) {
 				parent: ''
 			},
 			res => {
-				document.getElementById(String(post.id)).value = '';
 				getComments();
 			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()
 		);
+		document.getElementById(String(post.id)).value = '';
+		setText('');
 	};
 	const getComments = () => {
 		apiCall(
@@ -155,12 +156,17 @@ export default function PostListItem({ post }) {
 						</Paper>
 						<div className="card-footer flex items-center">
 							<div className="flex-1 items-center">
-								<IconButton className="p-0" onClick={() => inputRef.current.click()} aria-label="Add photo">
+								<IconButton
+									className="p-0"
+									onClick={() => inputRef.current.click()}
+									aria-label="Add photo"
+								>
 									<Icon>photo</Icon>
 								</IconButton>
 								<input hidden multiple type="file" accept="image/*, video/*" ref={inputRef} />
 							</div>
 							<Button
+								disabled={!text.length}
 								onClick={handlePostComment}
 								className="normal-case"
 								variant="contained"

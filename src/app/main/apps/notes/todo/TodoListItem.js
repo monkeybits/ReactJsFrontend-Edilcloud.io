@@ -53,29 +53,30 @@ function TodoListItem(props) {
 		/**
 		 * After Dialog Open
 		 */
-		if (todoDialog.type === 'activity' && todoDialog.props.open) {
+		if (todoDialog.type === 'activity' && todoDialog.props.open && todoDialog.data.id == props.todo.id) {
 			setId(todoDialog.data.id);
-		} else if (todoDialog.type === 'activity' && todoDialog.props.open == false && props.todo.id == id) {
-			setId(null);
+		}
+
+		if (todoDialog.type === 'activity' && todoDialog.props.open == false && props.todo.id == id) {
 			getDetailOfTask();
+			setId(null);
 		}
 	}, [todoDialog.props.open]);
 	const getDetailOfTask = () => {
-		if (open === false) {
-			apiCall(
-				GET_ACTIVITY_OF_TASK(props.todo.id),
-				{},
-				res => {
-					setTaskDetail(res.results);
-					setOpen(true);
-				},
-				err => console.log(err),
-				METHOD.GET,
-				getHeaderToken()
-			);
-		} else {
-			setOpen(!open);
-		}
+		// if (open === false) {
+
+		apiCall(
+			GET_ACTIVITY_OF_TASK(props.todo.id),
+			{},
+			res => {
+				setTaskDetail(res.results);
+				setOpen(true);
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+		// }
 	};
 	return (
 		<>
@@ -86,13 +87,6 @@ function TodoListItem(props) {
 					'border-solid border-l-4 py-16 px-0 sm:px-8 border-bottom'
 				)}
 				style={{ borderColor: props.todo.assigned_company?.color_project }}
-				onClick={ev => {
-					ev.preventDefault();
-					ev.stopPropagation();
-					if (props.todo.assigned_company?.id == company.id) {
-						getDetailOfTask();
-					}
-				}}
 				dense
 				button
 			>
@@ -154,7 +148,31 @@ function TodoListItem(props) {
 					}
 				>
 					{props.todo.assigned_company?.id == company.id && (
-						<>{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}</>
+						<>
+							{open ? (
+								<Icon
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										setOpen(!open);
+									}}
+								>
+									expand_more{' '}
+								</Icon>
+							) : (
+								<Icon
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										if (props.todo.assigned_company?.id == company.id) {
+											getDetailOfTask();
+										}
+									}}
+								>
+									chevron_right{' '}
+								</Icon>
+							)}
+						</>
 					)}
 				</div>
 			</ListItem>

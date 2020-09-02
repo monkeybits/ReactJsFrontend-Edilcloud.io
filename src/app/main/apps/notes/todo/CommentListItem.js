@@ -42,13 +42,14 @@ export default function CommentListItem({ post, comment }) {
 				parent: comment.id
 			},
 			res => {
-				document.getElementById(String(post.id)).value = '';
 				getReplies();
 			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()
 		);
+		setText('');
+		document.getElementById(String(comment.id)).value = '';
 	};
 	const getReplies = () => {
 		apiCall(
@@ -97,7 +98,7 @@ export default function CommentListItem({ post, comment }) {
 					<Paper elevation={0} className="w-full mb-16">
 						<Input
 							className="p-8 w-full border-1"
-							id={String(post.id)}
+							id={String(comment.id)}
 							classes={{ root: 'text-13' }}
 							placeholder="Add a comment.."
 							multiline
@@ -109,6 +110,7 @@ export default function CommentListItem({ post, comment }) {
 					</Paper>
 					<div className="card-footer flex flex-row float-right">
 						<Button
+							disabled={!text.length}
 							onClick={handlePostComment}
 							className="normal-case"
 							variant="contained"
