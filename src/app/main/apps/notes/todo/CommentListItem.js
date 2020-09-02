@@ -65,7 +65,7 @@ export default function CommentListItem({ post, comment }) {
 	};
 	return (
 		<div key={comment.id}>
-			<ListItem className="px-0 -mx-8">
+			<ListItem className="px-0">
 				<Avatar alt={comment.author.user.username} src={comment.author.photo} className="mx-8">
 					{' '}
 					{comment.author.user.username[0]}
@@ -87,7 +87,7 @@ export default function CommentListItem({ post, comment }) {
 					secondary={comment.text}
 				/>
 			</ListItem>
-			<div className="flex items-center mx-52 mb-8">
+			<div className="flex items-center mx-44 mb-8">
 				<Button onClick={() => setIsReplying(prev => !prev)} className="normal-case">
 					Reply
 				</Button>
@@ -108,7 +108,7 @@ export default function CommentListItem({ post, comment }) {
 							onChange={e => setText(e.target.value)}
 						/>
 					</Paper>
-					<div className="card-footer flex flex-row float-right">
+					<div className="card-footer flex flex-row float-right mb-16">
 						<Button
 							disabled={!text.length}
 							onClick={handlePostComment}
@@ -123,7 +123,7 @@ export default function CommentListItem({ post, comment }) {
 				</div>
 			)}
 			{replyComments.length > 0 && (
-				<div className="">
+				<div className="ml-56">
 					<div className="flex items-center">
 						<Typography>{replyComments.length} Replies</Typography>
 						<Icon className="text-16 mx-4" color="action">

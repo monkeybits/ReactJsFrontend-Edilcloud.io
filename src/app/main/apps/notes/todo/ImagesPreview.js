@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.background.default
 	},
 	img: {
-		height: 255,
+		height: 200,
 		maxWidth: 400,
 		overflow: 'hidden',
 		display: 'block',

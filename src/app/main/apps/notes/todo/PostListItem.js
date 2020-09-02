@@ -65,7 +65,7 @@ export default function PostListItem({ post }) {
 		);
 	};
 	return (
-		<Card key={post.id} className="mb-32 overflow-hidden post-form custom-light-border">
+		<Card key={post.id} className="mb-32 overflow-hidden post-form post-card-clx">
 			<CardHeader
 				avatar={
 					<Avatar aria-label="Recipe" src={post.author.photo}>
@@ -93,9 +93,9 @@ export default function PostListItem({ post }) {
 				subheader={moment.parseZone(post.published_date).format('llll')}
 			/>
 
-			<CardContent className="py-0">
+			<CardContent className="p-0">
 				{post.text && (
-					<Typography component="p" className="mb-16">
+					<Typography component="p" className="mb-16 px-16">
 						{post.text}
 					</Typography>
 				)}

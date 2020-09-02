@@ -144,7 +144,7 @@ function CreatePostForm() {
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1 px-20 md:px-32 pt-20 md:pt-32 md:ltr:pr-32 md:rtl:pl-32">
 				<div>
-					<Card className="w-full overflow-hidden post-form">
+					<Card className="w-full overflow-hidden post-form mb-32 post-card-clx">
 						<Input
 							id="addPost"
 							className="p-16 w-full"
@@ -156,6 +156,8 @@ function CreatePostForm() {
 							disableUnderline
 							onChange={e => setText(e.target.value)}
 						/>
+						{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
+
 						<AppBar
 							className="card-footer flex flex-row border-t-1"
 							position="static"
@@ -190,9 +192,8 @@ function CreatePostForm() {
 							</div>
 						</AppBar>
 					</Card>
-					{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
-
-					<Divider className="my-32" />
+					
+					{/* <Divider className="my-32" /> */}
 				</div>
 
 				<PostList posts={data.posts} />
