@@ -65,7 +65,7 @@ export default function PostListItem({ post }) {
 		);
 	};
 	return (
-		<Card key={post.id} className="mb-32 overflow-hidden post-form">
+		<Card key={post.id} className="mb-32 overflow-hidden post-form custom-light-border">
 			<CardHeader
 				avatar={
 					<Avatar aria-label="Recipe" src={post.author.photo}>

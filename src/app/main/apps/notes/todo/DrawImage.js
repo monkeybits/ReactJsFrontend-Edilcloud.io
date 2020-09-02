@@ -186,8 +186,8 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 					zIndex={5}
 					// width={480}
 					// height={465}
-					width={481}
-					height={312}
+					width={465}
+					height={250}
 					// width={width}
 					// height={height}
 					ref={stageEl}

@@ -63,7 +63,7 @@ export default function ImagesPreview(props) {
 		img.style = { objectFit: 'contain', height: 400, width: 400 };
 	};
 	return (
-		<div className={clsx(classes.root, 'd-block mx-auto')}>
+		<div className={clsx(classes.root, 'd-block mx-auto custom-draw-img')}>
 			<DrawImage
 				height={ImagePropert.height}
 				width={ImagePropert.width}

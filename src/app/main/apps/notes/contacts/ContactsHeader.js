@@ -42,7 +42,7 @@ function ContactsHeader(props) {
 				</div>
 			</div>
 
-			<div className="flex flex-1 items-center justify-center px-8 sm:px-12">
+			<div className="flex flex-1">
 				<ThemeProvider theme={mainTheme}>
 					<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 						<Paper className="flex p-4 items-center w-full max-w-512 h-48 px-8 py-4" elevation={1}>
