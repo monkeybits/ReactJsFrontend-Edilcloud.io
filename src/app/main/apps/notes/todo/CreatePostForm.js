@@ -44,15 +44,7 @@ function CreatePostForm() {
 	useEffect(() => {
 		setData({});
 		if (todoDialog.data?.id) {
-			// res => setData({ posts: res.results }),
-			apiCall(
-				GET_POST_TO_ACTIVITY(todoDialog.data?.id),
-				{},
-				res => setData({ posts: res.results }),
-				err => console.log(err),
-				METHOD.GET,
-				getHeaderToken()
-			);
+			getPosts();
 		}
 	}, [todoDialog.data]);
 	function closeTodoDialog() {
@@ -60,7 +52,16 @@ function CreatePostForm() {
 			? dispatch(Actions.closeActivityTodoDialog())
 			: dispatch(Actions.closeActivityTodoDialog());
 	}
-
+	const getPosts = () => {
+		apiCall(
+			GET_POST_TO_ACTIVITY(todoDialog.data?.id),
+			{},
+			res => setData({ posts: res.results }),
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 	const createPost = async () => {
 		var formData = new FormData();
 		let values = {
@@ -81,8 +82,8 @@ function CreatePostForm() {
 			formData,
 			res => {
 				document.getElementById('addPost').value = '';
-				closeTodoDialog();
-				console.log(res);
+				setImages(null);
+				getPosts();
 			},
 			err => console.log(err),
 			METHOD.POST,
@@ -144,7 +145,7 @@ function CreatePostForm() {
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1 px-20 md:px-32 pt-20 md:pt-32 md:ltr:pr-32 md:rtl:pl-32">
 				<div>
-					<Card className="w-full overflow-hidden post-form">
+					<Card className="w-full overflow-hidden post-form mb-32 post-card-clx">
 						<Input
 							id="addPost"
 							className="p-16 w-full"
@@ -156,6 +157,8 @@ function CreatePostForm() {
 							disableUnderline
 							onChange={e => setText(e.target.value)}
 						/>
+						{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
+
 						<AppBar
 							className="card-footer flex flex-row border-t-1"
 							position="static"
@@ -190,9 +193,8 @@ function CreatePostForm() {
 							</div>
 						</AppBar>
 					</Card>
-					{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
 
-					<Divider className="my-32" />
+					{/* <Divider className="my-32" /> */}
 				</div>
 
 				<PostList posts={data.posts} />

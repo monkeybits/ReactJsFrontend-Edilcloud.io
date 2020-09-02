@@ -43,13 +43,14 @@ export default function PostListItem({ post }) {
 				parent: ''
 			},
 			res => {
-				document.getElementById(String(post.id)).value = '';
 				getComments();
 			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()
 		);
+		document.getElementById(String(post.id)).value = '';
+		setText('');
 	};
 	const getComments = () => {
 		apiCall(
@@ -64,7 +65,7 @@ export default function PostListItem({ post }) {
 		);
 	};
 	return (
-		<Card key={post.id} className="mb-32 overflow-hidden post-form">
+		<Card key={post.id} className="mb-32 overflow-hidden post-form post-card-clx">
 			<CardHeader
 				avatar={
 					<Avatar aria-label="Recipe" src={post.author.photo}>
@@ -92,9 +93,9 @@ export default function PostListItem({ post }) {
 				subheader={moment.parseZone(post.published_date).format('llll')}
 			/>
 
-			<CardContent className="py-0">
+			<CardContent className="p-0">
 				{post.text && (
-					<Typography component="p" className="mb-16">
+					<Typography component="p" className="mb-16 px-16">
 						{post.text}
 					</Typography>
 				)}
@@ -120,23 +121,6 @@ export default function PostListItem({ post }) {
 			</CardActions>
 
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
-				{postComments && postComments.length > 0 && (
-					<div className="">
-						<div className="flex items-center">
-							<Typography>{postComments.length} comments</Typography>
-							<Icon className="text-16 mx-4" color="action">
-								keyboard_arrow_down
-							</Icon>
-						</div>
-
-						<List>
-							{postComments.map((comment, index) => (
-								<CommentListItem key={index} post={post} comment={comment} />
-							))}
-						</List>
-					</div>
-				)}
-
 				<div className="flex flex-auto -mx-4">
 					<Avatar className="mx-4" src="assets/images/avatars/profile.jpg" />
 					<div className="flex-1 mx-4">
@@ -155,12 +139,17 @@ export default function PostListItem({ post }) {
 						</Paper>
 						<div className="card-footer flex items-center">
 							<div className="flex-1 items-center">
-								<IconButton className="p-0" onClick={() => inputRef.current.click()} aria-label="Add photo">
+								<IconButton
+									className="p-0"
+									onClick={() => inputRef.current.click()}
+									aria-label="Add photo"
+								>
 									<Icon>photo</Icon>
 								</IconButton>
 								<input hidden multiple type="file" accept="image/*, video/*" ref={inputRef} />
 							</div>
 							<Button
+								disabled={!text.length}
 								onClick={handlePostComment}
 								className="normal-case"
 								variant="contained"
@@ -172,6 +161,23 @@ export default function PostListItem({ post }) {
 						</div>
 					</div>
 				</div>
+
+				{postComments && postComments.length > 0 && (
+					<div className="">
+						<div className="flex items-center">
+							<Typography>{postComments.length} comments</Typography>
+							<Icon className="text-16 mx-4" color="action">
+								keyboard_arrow_down
+							</Icon>
+						</div>
+
+						<List>
+							{postComments.map((comment, index) => (
+								<CommentListItem key={index} post={post} comment={comment} />
+							))}
+						</List>
+					</div>
+				)}
 			</AppBar>
 		</Card>
 	);

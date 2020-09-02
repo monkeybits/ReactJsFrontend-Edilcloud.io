@@ -150,7 +150,7 @@ export function closeActivityTodoDialog() {
 		type: CLOSE_ACTIVITY_TODO_DIALOG
 	};
 }
-export function addTodo(todo, pid, todoDialogType) {
+export function addTodo(todo, pid, todoDialogType, closeTodoDialog) {
 	// console.log({
 	// 	todo
 	// });
@@ -178,7 +178,7 @@ export function addTodo(todo, pid, todoDialogType) {
 			values,
 			res => {
 				dispatch(getTodos(pid));
-				console.log(res);
+				closeTodoDialog();
 			},
 			err => console.log(err),
 			METHOD.POST,

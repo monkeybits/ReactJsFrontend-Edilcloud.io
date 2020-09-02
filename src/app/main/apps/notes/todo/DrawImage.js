@@ -100,18 +100,18 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 	// 	}
 	// };
 	const undo = () => {
-		const lastId = shapes[shapes.length - 1];
+		// const lastId = shapes[shapes.length - 1];
 
-		let index = rectangles.findIndex(r => r.id == lastId);
-		if (index != -1) {
-			rectangles.splice(index, 1);
-			setRectangles(rectangles);
-		}
-		index = images.findIndex(r => r.id == lastId);
-		if (index != -1) {
-			images.splice(index, 1);
-			setImages(images);
-		}
+		// let index = rectangles.findIndex(r => r.id == lastId);
+		// if (index != -1) {
+		// 	rectangles.splice(index, 1);
+		// 	setRectangles(rectangles);
+		// }
+		// index = images.findIndex(r => r.id == lastId);
+		// if (index != -1) {
+		// 	images.splice(index, 1);
+		// 	setImages(images);
+		// }
 		shapes.pop();
 		setShapes(shapes);
 		forceUpdate();
@@ -162,9 +162,9 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 
 			<DialogContent classes={{ root: 'p-0' }} className="zoom-125">
 				<ButtonGroup>
-					<Button variant="secondary" onClick={addRectangle}>
+					{/* <Button variant="secondary" onClick={addRectangle}>
 						Rectangle
-					</Button>
+					</Button> */}
 					<Button variant="secondary" onClick={drawLine}>
 						Line
 					</Button>
@@ -184,8 +184,12 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 				{/* <input style={{ display: 'none' }} type="file" ref={fileUploadEl} onChange={fileChange} /> */}
 				<Stage
 					zIndex={5}
-					width={width}
-					height={height}
+					// width={480}
+					// height={465}
+					width={465}
+					height={250}
+					// width={width}
+					// height={height}
 					ref={stageEl}
 					onMouseDown={e => {
 						// deselect when clicked on empty area
@@ -196,24 +200,6 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 					}}
 				>
 					<Layer ref={layerEl}>
-						{rectangles.map((rect, i) => {
-							return (
-								<Rectangle
-									key={i}
-									shapeProps={rect}
-									isSelected={rect.id === selectedId}
-									onSelect={() => {
-										selectShape(rect.id);
-									}}
-									onChange={newAttrs => {
-										const rects = rectangles.slice();
-										rects[i] = newAttrs;
-										setRectangles(rects);
-									}}
-								/>
-							);
-						})}
-
 						{images.map((image, i) => {
 							return (
 								<Image

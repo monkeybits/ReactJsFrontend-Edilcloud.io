@@ -31,7 +31,14 @@ import moment from 'moment';
 export default function CommentListItem({ post, comment }) {
 	const [text, setText] = useState('');
 	const [isReplying, setIsReplying] = useState(false);
-	const [replyComments, setReplyComments] = useState([...comment.replies_set]);
+	const [replyComments, setReplyComments] = useState([]);
+
+	useEffect(() => {
+		setReplyComments(comment.replies_set);
+		return () => {
+			setReplyComments([]);
+		};
+	}, [comment.replies_set]);
 	const handlePostComment = e => {
 		e.preventDefault();
 		if (!text) return;
@@ -42,13 +49,14 @@ export default function CommentListItem({ post, comment }) {
 				parent: comment.id
 			},
 			res => {
-				document.getElementById(String(post.id)).value = '';
 				getReplies();
 			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()
 		);
+		setText('');
+		document.getElementById(String(comment.id)).value = '';
 	};
 	const getReplies = () => {
 		apiCall(
@@ -64,7 +72,7 @@ export default function CommentListItem({ post, comment }) {
 	};
 	return (
 		<div key={comment.id}>
-			<ListItem className="px-0 -mx-8">
+			<ListItem className="px-0">
 				<Avatar alt={comment.author.user.username} src={comment.author.photo} className="mx-8">
 					{' '}
 					{comment.author.user.username[0]}
@@ -86,7 +94,7 @@ export default function CommentListItem({ post, comment }) {
 					secondary={comment.text}
 				/>
 			</ListItem>
-			<div className="flex items-center mx-52 mb-8">
+			<div className="flex items-center mx-44 mb-8">
 				<Button onClick={() => setIsReplying(prev => !prev)} className="normal-case">
 					Reply
 				</Button>
@@ -97,7 +105,7 @@ export default function CommentListItem({ post, comment }) {
 					<Paper elevation={0} className="w-full mb-16">
 						<Input
 							className="p-8 w-full border-1"
-							id={String(post.id)}
+							id={String(comment.id)}
 							classes={{ root: 'text-13' }}
 							placeholder="Add a comment.."
 							multiline
@@ -107,8 +115,9 @@ export default function CommentListItem({ post, comment }) {
 							onChange={e => setText(e.target.value)}
 						/>
 					</Paper>
-					<div className="card-footer flex flex-row float-right">
+					<div className="card-footer flex flex-row float-right mb-16">
 						<Button
+							disabled={!text.length}
 							onClick={handlePostComment}
 							className="normal-case"
 							variant="contained"
@@ -121,7 +130,7 @@ export default function CommentListItem({ post, comment }) {
 				</div>
 			)}
 			{replyComments.length > 0 && (
-				<div className="">
+				<div className="ml-56">
 					<div className="flex items-center">
 						<Typography>{replyComments.length} Replies</Typography>
 						<Icon className="text-16 mx-4" color="action">

@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
@@ -39,30 +39,44 @@ const useStyles = makeStyles(theme => ({
 function TodoListItem(props) {
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
+	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const [open, setOpen] = React.useState(false);
+	const [id, setId] = React.useState(null);
 	const [taskDetail, setTaskDetail] = useState([]);
 	const classes = useStyles(props);
 	const handleClick = () => {
 		setOpen(!open);
 	};
-	const getDetailOfTask = () => {
-		if (open === false) {
-			apiCall(
-				GET_ACTIVITY_OF_TASK(props.todo.id),
-				{},
-				res => {
-					setTaskDetail(res.results);
-					setOpen(true);
-				},
-				err => console.log(err),
-				METHOD.GET,
-				getHeaderToken()
-			);
-		} else {
-			setOpen(!open);
+	useEffect(() => {
+		/**
+		 * After Dialog Open
+		 */
+		if (todoDialog.type === 'activity' && todoDialog.props.open && todoDialog.data.id == props.todo.id) {
+			setId(todoDialog.data.id);
 		}
+
+		if (todoDialog.type === 'activity' && todoDialog.props.open == false && props.todo.id == id) {
+			getDetailOfTask();
+			setId(null);
+		}
+	}, [todoDialog.props.open]);
+	const getDetailOfTask = () => {
+		// if (open === false) {
+
+		apiCall(
+			GET_ACTIVITY_OF_TASK(props.todo.id),
+			{},
+			res => {
+				setTaskDetail(res.results);
+				setOpen(true);
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+		// }
 	};
 	return (
 		<>
@@ -73,13 +87,6 @@ function TodoListItem(props) {
 					'border-solid border-l-4 py-16 px-0 sm:px-8 border-bottom'
 				)}
 				style={{ borderColor: props.todo.assigned_company?.color_project }}
-				onClick={ev => {
-					ev.preventDefault();
-					ev.stopPropagation();
-					if (props.todo.assigned_company?.id == company.id) {
-						getDetailOfTask();
-					}
-				}}
 				dense
 				button
 			>
@@ -141,7 +148,31 @@ function TodoListItem(props) {
 					}
 				>
 					{props.todo.assigned_company?.id == company.id && (
-						<>{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}</>
+						<>
+							{open ? (
+								<Icon
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										setOpen(!open);
+									}}
+								>
+									expand_more{' '}
+								</Icon>
+							) : (
+								<Icon
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										if (props.todo.assigned_company?.id == company.id) {
+											getDetailOfTask();
+										}
+									}}
+								>
+									chevron_right{' '}
+								</Icon>
+							)}
+						</>
 					)}
 				</div>
 			</ListItem>

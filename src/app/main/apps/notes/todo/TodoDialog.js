@@ -28,7 +28,7 @@ import * as Actions from './store/actions';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
 import DatePicker from 'react-datepicker';
-import { Slider, withStyles } from '@material-ui/core';
+import { Slider, withStyles, CircularProgress } from '@material-ui/core';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
@@ -145,6 +145,7 @@ function TodoDialog(props) {
 	const [profiles, setProfiles] = useState([]);
 	const [profileData, setProfileData] = useState([]);
 	const [progress, setProgress] = useState(0);
+	const [loading, setLoading] = useState(false);
 	const routeParams = useParams();
 	const [taskDate, setTaskDate] = useState({
 		startDate: new Date(),
@@ -186,7 +187,7 @@ function TodoDialog(props) {
 		/**
 		 * After Dialog Open
 		 */
-		console.log({ todoDialog });
+		// console.log({ todoDialog });
 		if (todoDialog.props.open) {
 			initDialog();
 			return () => {
@@ -196,7 +197,10 @@ function TodoDialog(props) {
 	}, [todoDialog.props.open]);
 
 	function closeTodoDialog() {
-		return todoDialog.type === 'edit'
+		setLoading(false);
+		return todoDialog.type === 'activity'
+			? dispatch(Actions.closeActivityTodoDialog())
+			: todoDialog.type === 'edit'
 			? dispatch(Actions.closeEditTodoDialog())
 			: dispatch(Actions.closeNewTodoDialog());
 	}
@@ -504,6 +508,7 @@ function TodoDialog(props) {
 							variant="contained"
 							color="primary"
 							onClick={() => {
+								setLoading(true);
 								dispatch(
 									Actions.addTodo(
 										{
@@ -515,14 +520,14 @@ function TodoDialog(props) {
 											...taskDate
 										},
 										routeParams.id,
-										todoDialog.type
+										todoDialog.type,
+										closeTodoDialog
 									)
 								);
-								closeTodoDialog();
 							}}
 							disabled={!canBeSubmitted()}
 						>
-							Add
+							Add {loading && <CircularProgress size={15} color="secondary" />}
 						</Button>
 					</div>
 				</DialogActions>
