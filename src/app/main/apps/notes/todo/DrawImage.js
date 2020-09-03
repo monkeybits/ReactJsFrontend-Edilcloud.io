@@ -21,7 +21,11 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 	const [rectangles, setRectangles] = useState([]);
 	const [images, setImages] = useState([]);
 	const [selectedId, selectShape] = useState(null);
-
+	let imageRef = React.useRef();
+	const [imageProps, setImageProps] = useState({
+		height: 311,
+		width: 480
+	});
 	const [shapes, setShapes] = useState([]);
 	const [, updateState] = React.useState();
 	const stageEl = React.createRef();
@@ -62,12 +66,15 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 	};
 
 	const drawLine = () => {
+		selectShape(null);
 		addLine(stageEl.current.getStage(), layerEl.current);
 	};
 	const eraseLine = () => {
+		selectShape(null);
 		addLine(stageEl.current.getStage(), layerEl.current, 'erase');
 	};
 	const drawText = () => {
+		selectShape(null);
 		const id = addTextNode(stageEl.current.getStage(), layerEl.current);
 		const shs = shapes.concat([id]);
 		setShapes(shs);
@@ -145,6 +152,7 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 		// link.click();
 		// document.body.removeChild(link);
 	};
+
 	return (
 		<Dialog open={open} onClose={onClose} fullWidth className="rs-dialog-sm-full">
 			<AppBar position="static" elevation={1}>
@@ -186,10 +194,10 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 					zIndex={5}
 					// width={480}
 					// height={465}
-					width={465}
-					height={250}
-					// width={width}
-					// height={height}
+					// width={480}
+					// height={311}
+					width={imageProps.width}
+					height={imageProps.height}
 					ref={stageEl}
 					onMouseDown={e => {
 						// deselect when clicked on empty area
@@ -213,13 +221,29 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 										const imgs = images.slice();
 										imgs[i] = newAttrs;
 									}}
+									getMyRef={ref => (imageRef = ref)}
+									imageProps={imageProps}
 								/>
 							);
 						})}
 					</Layer>
 				</Stage>
 			</DialogContent>
-			<Button onClick={convertosvg}>save</Button>
+			<Button
+				onClick={() => {
+					setImageProps({
+						width,
+						height
+					});
+					setTimeout(() => {
+						convertosvg();
+					}, 1000);
+
+					// console.log('imageRef', imageRef.getClientRect())
+				}}
+			>
+				save
+			</Button>
 		</Dialog>
 	);
 }
