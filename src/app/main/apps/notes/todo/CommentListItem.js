@@ -95,11 +95,45 @@ export default function CommentListItem({ post, comment }) {
 				/>
 			</ListItem>
 			<div className="flex items-center mx-44 mb-8">
-				<Button onClick={() => setIsReplying(prev => !prev)} className="normal-case">
+				<Button
+					onClick={() => {
+						setIsReplying(prev => !prev);
+						setTimeout(() => {
+							if (!isReplying) {
+								document.getElementById(String(comment.id)).focus();
+							}
+						}, 100);
+					}}
+					className="normal-case"
+				>
 					Reply
 				</Button>
 				<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
 			</div>
+
+			{replyComments.length > 0 && (
+				<div className="ml-56">
+					<div className="flex items-center">
+						<Typography>{replyComments.length} Replies</Typography>
+						<Icon className="text-16 mx-4" color="action">
+							keyboard_arrow_down
+						</Icon>
+					</div>
+
+					<List>
+						{replyComments.map((reply, index) => (
+							<ReplyListItem
+								commentId={comment.id}
+								author={comment.author}
+								key={index}
+								post={post}
+								comment={reply}
+								getReplies={getReplies}
+							/>
+						))}
+					</List>
+				</div>
+			)}
 			{isReplying && (
 				<div className="flex-1 mx-4">
 					<Paper elevation={0} className="w-full mb-16">
@@ -127,22 +161,6 @@ export default function CommentListItem({ post, comment }) {
 							Reply Comment
 						</Button>
 					</div>
-				</div>
-			)}
-			{replyComments.length > 0 && (
-				<div className="ml-56">
-					<div className="flex items-center">
-						<Typography>{replyComments.length} Replies</Typography>
-						<Icon className="text-16 mx-4" color="action">
-							keyboard_arrow_down
-						</Icon>
-					</div>
-
-					<List>
-						{replyComments.map((comment, index) => (
-							<ReplyListItem key={index} post={post} comment={comment} />
-						))}
-					</List>
 				</div>
 			)}
 		</div>
