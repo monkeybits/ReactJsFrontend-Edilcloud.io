@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.background.default
 	},
 	img: {
-		height: 200,
+		height: 255,
 		maxWidth: 400,
 		overflow: 'hidden',
 		display: 'block',
@@ -60,10 +60,9 @@ export default function ImagesPreview(props) {
 			setOpenDrawer(true);
 		};
 		img.src = url;
-		img.style = { objectFit: 'contain', height: 400, width: 400 };
 	};
 	return (
-		<div className={clsx(classes.root, 'd-block mx-auto custom-draw-img')}>
+		<div className={clsx(classes.root, 'd-block mx-auto')}>
 			<DrawImage
 				height={ImagePropert.height}
 				width={ImagePropert.width}

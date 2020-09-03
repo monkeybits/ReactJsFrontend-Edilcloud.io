@@ -28,7 +28,30 @@ import ImagesPreview from './ImagesPreview';
 import PostList from './PostList';
 import moment from 'moment';
 
-export default function ReplyListItem({ post, comment }) {
+export default function ReplyListItem({ post, comment, getReplies, commentId, author }) {
+	const [text, setText] = useState('@' + author.user.username);
+	const [isReplying, setIsReplying] = useState(false);
+
+	const handlePostComment = e => {
+		e.preventDefault();
+		if (!text) return;
+		apiCall(
+			ADD_COMMENT_TO_POST(post.id),
+			{
+				text,
+				parent: commentId
+			},
+			res => {
+				getReplies();
+			},
+			err => console.log(err),
+			METHOD.POST,
+			getHeaderToken()
+		);
+		setText('');
+		document.getElementById(String(comment.id)).value = '';
+	};
+
 	return (
 		<div key={comment.id}>
 			<ListItem className="px-0 -mx-8">
@@ -37,13 +60,13 @@ export default function ReplyListItem({ post, comment }) {
 					{comment.author.user.username[0]}
 				</Avatar>
 				<ListItemText
-					className="px-4"
+					className="p-12 py-10 bg-white comment-p"
 					primary={
-						<div className="flex">
-							<Typography className="font-medium" color="initial" paragraph={false}>
+						<div className="flex comment-section">
+							<Typography color="initial" paragraph={false}>
 								{comment.author.user.username}
 							</Typography>
-							<Typography className="mx-4" variant="caption">
+							<Typography className="mx-12 font-size-14" variant="caption">
 								{
 									moment.parseZone(comment.created_date).fromNow() //format('LL')
 								}
@@ -53,6 +76,42 @@ export default function ReplyListItem({ post, comment }) {
 					secondary={comment.text}
 				/>
 			</ListItem>
+			<div className="flex items-center ml-44 mb-8">
+				<Button onClick={() => setIsReplying(prev => !prev)} className="normal-case">
+					Reply
+				</Button>
+				<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
+			</div>
+			{isReplying && (
+				<div className="flex-1 mx-4">
+					<Paper elevation={0} className="w-full mb-16">
+						<Input
+							className="p-8 w-full border-1"
+							id={String(comment.id)}
+							classes={{ root: 'text-13' }}
+							placeholder="Add a comment.."
+							multiline
+							rows="2"
+							margin="none"
+							defaultValue={text}
+							disableUnderline
+							onChange={e => setText(e.target.value)}
+						/>
+					</Paper>
+					<div className="card-footer flex flex-row float-right mb-16">
+						<Button
+							disabled={!text.length}
+							onClick={handlePostComment}
+							className="normal-case"
+							variant="contained"
+							color="primary"
+							size="small"
+						>
+							Reply Comment
+						</Button>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

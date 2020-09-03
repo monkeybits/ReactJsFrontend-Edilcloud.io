@@ -78,13 +78,13 @@ export default function CommentListItem({ post, comment }) {
 					{comment.author.user.username[0]}
 				</Avatar>
 				<ListItemText
-					className="px-4"
+					className="p-12 py-10 bg-white comment-p"
 					primary={
-						<div className="flex">
-							<Typography className="font-medium" color="initial" paragraph={false}>
+						<div className="flex comment-section">
+							<Typography color="initial" paragraph={false}>
 								{comment.author.user.username}
 							</Typography>
-							<Typography className="mx-4" variant="caption">
+							<Typography className="mx-12 font-size-14" variant="caption">
 								{
 									moment.parseZone(comment.created_date).fromNow() //format('LL')
 								}
@@ -94,12 +94,45 @@ export default function CommentListItem({ post, comment }) {
 					secondary={comment.text}
 				/>
 			</ListItem>
-			<div className="flex items-center mx-44 mb-8">
-				<Button onClick={() => setIsReplying(prev => !prev)} className="normal-case">
+			<div className="flex items-center ml-44">
+				<Button
+					onClick={() => {
+						setIsReplying(prev => !prev);
+						setTimeout(() => {
+							if (!isReplying) {
+								document.getElementById(String(comment.id)).focus();
+							}
+						}, 100);
+					}}
+					className="normal-case"
+				>
 					Reply
 				</Button>
 				<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
+				<div className="flex items-center ml-auto">
+					<Typography>{replyComments.length} Replies</Typography>
+					<Icon className="text-16 mx-4" color="action">
+						keyboard_arrow_down
+					</Icon>
+				</div>
 			</div>
+
+			{replyComments.length > 0 && (
+				<div className="ml-56">
+					<List>
+						{replyComments.map((reply, index) => (
+							<ReplyListItem
+								commentId={comment.id}
+								author={comment.author}
+								key={index}
+								post={post}
+								comment={reply}
+								getReplies={getReplies}
+							/>
+						))}
+					</List>
+				</div>
+			)}
 			{isReplying && (
 				<div className="flex-1 mx-4">
 					<Paper elevation={0} className="w-full mb-16">
@@ -127,22 +160,6 @@ export default function CommentListItem({ post, comment }) {
 							Reply Comment
 						</Button>
 					</div>
-				</div>
-			)}
-			{replyComments.length > 0 && (
-				<div className="ml-56">
-					<div className="flex items-center">
-						<Typography>{replyComments.length} Replies</Typography>
-						<Icon className="text-16 mx-4" color="action">
-							keyboard_arrow_down
-						</Icon>
-					</div>
-
-					<List>
-						{replyComments.map((comment, index) => (
-							<ReplyListItem key={index} post={post} comment={comment} />
-						))}
-					</List>
 				</div>
 			)}
 		</div>
