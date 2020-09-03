@@ -250,6 +250,17 @@
     border: 1px solid rgba(0, 0, 0, 0.12);
     box-shadow: none;
 }
+.comment-section p {
+    font-size: 16px;
+    font-weight: 600;
+}
+.comment-p span ~ p {
+    font-size: 17px;
+    margin-top: 5px;
+}
+.font-size-14 {
+    font-size: 14px !important;
+}
 
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{

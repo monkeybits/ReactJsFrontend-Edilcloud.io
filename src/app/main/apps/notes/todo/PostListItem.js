@@ -164,7 +164,7 @@ export default function PostListItem({ post }) {
 
 				{postComments && postComments.length > 0 && (
 					<div className="">
-						<div className="flex items-center">
+						<div className="flex items-center ml-52 mt-16">
 							<Typography>{postComments.length} comments</Typography>
 							<Icon className="text-16 mx-4" color="action">
 								keyboard_arrow_down
