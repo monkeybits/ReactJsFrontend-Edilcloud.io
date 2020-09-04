@@ -29,29 +29,6 @@ import PostList from './PostList';
 import moment from 'moment';
 
 export default function ReplyListItem({ post, comment, getReplies, commentId, author, handleReplyClick }) {
-	const [text, setText] = useState('@' + author.user.username);
-	const [isReplying, setIsReplying] = useState(false);
-
-	const handlePostComment = e => {
-		e.preventDefault();
-		if (!text) return;
-		apiCall(
-			ADD_COMMENT_TO_POST(post.id),
-			{
-				text,
-				parent: commentId
-			},
-			res => {
-				getReplies();
-			},
-			err => console.log(err),
-			METHOD.POST,
-			getHeaderToken()
-		);
-		setText('');
-		document.getElementById(String(comment.id)).value = '';
-	};
-
 	return (
 		<div key={comment.id}>
 			<ListItem className="px-0 -mx-8">
@@ -82,42 +59,6 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 				</Button>
 				<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
 			</div>
-			{/* {isReplying && (
-				<div className="flex-1 mx-4">
-					<Paper elevation={0} className="w-full my-16 relative post-icons single-icon">
-						<Input
-							className="p-8 w-full border-1"
-							id={String(comment.id)}
-							classes={{ root: 'text-13' }}
-							placeholder="Add a comment.."
-							multiline
-							rows="2"
-							margin="none"
-							defaultValue={text}
-							disableUnderline
-							onChange={e => setText(e.target.value)}
-						/>
-						<IconButton
-							className="send p-0"
-							onClick={handlePostComment}
-							aria-label="Send"
-							disabled={!text.length}
-						>
-							<Icon>send</Icon>
-						</IconButton>
-					</Paper>
-					{/* <Button
-							disabled={!text.length}
-							onClick={handlePostComment}
-							className="normal-case"
-							variant="contained"
-							color="primary"
-							size="small"
-						>
-							Reply Comment
-						</Button> */}
-				</div>
-			)} */}
 		</div>
 	);
 }

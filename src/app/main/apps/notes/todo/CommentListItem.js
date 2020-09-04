@@ -50,6 +50,7 @@ export default function CommentListItem({ post, comment }) {
 			},
 			res => {
 				getReplies();
+				setIsReplying(false);
 			},
 			err => console.log(err),
 			METHOD.POST,
