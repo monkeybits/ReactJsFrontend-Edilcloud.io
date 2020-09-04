@@ -120,7 +120,7 @@ export default function CommentListItem({ post, comment }) {
 
 			{replyComments.length > 0 && (
 				<div className="ml-56">
-					<List>
+					<List className="clearfix">
 						{replyComments.map((reply, index) => (
 							<ReplyListItem
 								commentId={comment.id}
@@ -144,7 +144,7 @@ export default function CommentListItem({ post, comment }) {
 			)}
 			{isReplying && (
 				<div className="flex-1 mx-4">
-					<Paper elevation={0} className="w-full mb-16">
+					<Paper elevation={0} className="custom-textarea mb-16 mt-8 relative post-icons single-icon ml-52">
 						<Input
 							className="p-8 w-full border-1"
 							id={String(comment.id)}
@@ -157,9 +157,15 @@ export default function CommentListItem({ post, comment }) {
 							disableUnderline
 							onChange={e => setText(e.target.value)}
 						/>
-					</Paper>
-					<div className="card-footer flex flex-row float-right mb-16">
-						<Button
+						<IconButton
+							className="send p-0"
+							onClick={handlePostComment}
+							aria-label="Send"
+							disabled={!text.length}
+						>
+							<Icon>send</Icon>
+						</IconButton>
+						{/* <Button
 							disabled={!text.length}
 							onClick={handlePostComment}
 							className="normal-case"
@@ -168,8 +174,8 @@ export default function CommentListItem({ post, comment }) {
 							size="small"
 						>
 							Reply Comment
-						</Button>
-					</div>
+						</Button> */}
+					</Paper>
 				</div>
 			)}
 		</div>
