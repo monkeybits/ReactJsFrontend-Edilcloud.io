@@ -27,6 +27,7 @@ import * as Actions from './store/actions';
 import ImagesPreview from './ImagesPreview';
 import CommentListItem from './CommentListItem';
 import moment from 'moment';
+import SendIcon from '@material-ui/icons/Send';
 
 export default function PostListItem({ post }) {
 	const inputRef = useRef(null);
@@ -121,46 +122,7 @@ export default function PostListItem({ post }) {
 			</CardActions>
 
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
-				<div className="flex flex-auto -mx-4">
-					<Avatar className="mx-4" src="assets/images/avatars/profile.jpg" />
-					<div className="flex-1 mx-4">
-						<Paper elevation={0} className="w-full mb-16">
-							<Input
-								className="p-8 w-full border-1"
-								id={String(post.id)}
-								classes={{ root: 'text-13' }}
-								placeholder="Add a comment.."
-								multiline
-								rows="6"
-								margin="none"
-								disableUnderline
-								onChange={e => setText(e.target.value)}
-							/>
-						</Paper>
-						<div className="card-footer flex items-center">
-							<div className="flex-1 items-center">
-								<IconButton
-									className="p-0"
-									onClick={() => inputRef.current.click()}
-									aria-label="Add photo"
-								>
-									<Icon>photo</Icon>
-								</IconButton>
-								<input hidden multiple type="file" accept="image/*, video/*" ref={inputRef} />
-							</div>
-							<Button
-								disabled={!text.length}
-								onClick={handlePostComment}
-								className="normal-case"
-								variant="contained"
-								color="primary"
-								size="small"
-							>
-								Post Comment
-							</Button>
-						</div>
-					</div>
-				</div>
+			
 
 				{postComments && postComments.length > 0 && (
 					<div className="">
@@ -178,6 +140,55 @@ export default function PostListItem({ post }) {
 						</List>
 					</div>
 				)}
+
+				<div className="flex flex-auto -mx-4">
+					<Avatar className="mx-4" src="assets/images/avatars/profile.jpg" />
+					<div className="flex-1 mx-4">
+						<Paper elevation={0} className="w-full relative post-icons">
+							<Input
+								className="p-8 w-full border-1"
+								id={String(post.id)}
+								classes={{ root: 'text-13' }}
+								placeholder="Add a comment.."
+								multiline
+								rows="2"
+								margin="none"
+								disableUnderline
+								onChange={e => setText(e.target.value)}
+							/>
+							<IconButton
+									className="image p-0"
+									onClick={() => inputRef.current.click()}
+									aria-label="Add photo"
+								>
+									<Icon>photo</Icon>
+								</IconButton>
+								<input hidden multiple type="file" accept="image/*, video/*" ref={inputRef} />
+								<IconButton
+									className="send p-0"
+									onClick={handlePostComment}
+									aria-label="Send"
+									disabled={!text.length}
+								>
+									<Icon>send</Icon>
+								</IconButton>
+								{/* <Button
+								disabled={!text.length}
+								onClick={handlePostComment}
+								className="normal-case"
+								variant="contained"
+								color="primary"
+								size="small"
+							>
+								Post Comment
+							</Button> */}
+						</Paper>
+						{/* <div className="card-footer flex items-center relative">
+							<div className="flex-1 items-center post-icons">
+							</div>
+						</div> */}
+					</div>
+				</div>
 			</AppBar>
 		</Card>
 	);

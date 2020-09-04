@@ -84,7 +84,7 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 			</div>
 			{isReplying && (
 				<div className="flex-1 mx-4">
-					<Paper elevation={0} className="w-full mb-16">
+					<Paper elevation={0} className="w-full my-16 relative post-icons single-icon">
 						<Input
 							className="p-8 w-full border-1"
 							id={String(comment.id)}
@@ -97,9 +97,16 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 							disableUnderline
 							onChange={e => setText(e.target.value)}
 						/>
+						<IconButton
+							className="send p-0"
+							onClick={handlePostComment}
+							aria-label="Send"
+							disabled={!text.length}
+						>
+							<Icon>send</Icon>
+						</IconButton>
 					</Paper>
-					<div className="card-footer flex flex-row float-right mb-16">
-						<Button
+					{/* <Button
 							disabled={!text.length}
 							onClick={handlePostComment}
 							className="normal-case"
@@ -108,8 +115,7 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 							size="small"
 						>
 							Reply Comment
-						</Button>
-					</div>
+						</Button> */}
 				</div>
 			)}
 		</div>

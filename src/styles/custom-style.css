@@ -239,8 +239,20 @@
     background: #e8e8e8;
 }
 .post-form textarea {
-    height: 5em;
+    min-height: 2em;
+    height: auto;
 }
+.post-form .custom-textarea, .post-form .w-full {
+    border-radius: 8px;
+}
+.post-form .custom-textarea textarea, .post-form .w-full textarea {
+    padding-right: 80px;
+    font-size: 15px;
+}
+.post-form .single-icon .custom-textarea textarea, .post-form .single-icon .w-full textarea {
+    padding-right: 50px;
+}
+
 .custom-draw-img img  {
     max-width: fit-content;
     margin: 0 auto;
@@ -260,6 +272,15 @@
 }
 .font-size-14 {
     font-size: 14px !important;
+}
+.post-icons .image, .post-icons .send  {
+    position: absolute;
+    top: 50%;
+    right: 60px;
+    transform: translateY(-50%);
+}
+.post-icons .send {
+    right: 20px;
 }
 
 @media only screen and (max-width: 767px) {
