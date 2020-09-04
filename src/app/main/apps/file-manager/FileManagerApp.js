@@ -41,7 +41,8 @@ import FloatingButtonUpload from './FloatingButtonUpload';
 import imageCompression from 'browser-image-compression';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
-import * as ContactActions from './store/actions';
+import MoveFileDialog from './MoveFileDialog';
+
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -335,6 +336,8 @@ function FileManagerApp(props) {
 					}}
 				/>
 			</FuseAnimate>
+		<MoveFileDialog />
+		
 			<Dialog
 				onClose={handleClose}
 				aria-labelledby="customized-dialog-title"

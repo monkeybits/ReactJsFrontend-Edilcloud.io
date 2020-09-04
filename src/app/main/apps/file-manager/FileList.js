@@ -235,6 +235,7 @@ function FileList(props) {
 										onClick={ev => {
 											ev.preventDefault();
 											ev.stopPropagation();
+											dispatch(Actions.openMoveFileDialog(n));
 										}}
 										aria-label="open right sidebar"
 									>
