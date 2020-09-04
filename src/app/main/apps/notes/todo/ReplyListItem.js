@@ -28,7 +28,7 @@ import ImagesPreview from './ImagesPreview';
 import PostList from './PostList';
 import moment from 'moment';
 
-export default function ReplyListItem({ post, comment, getReplies, commentId, author }) {
+export default function ReplyListItem({ post, comment, getReplies, commentId, author, handleReplyClick }) {
 	const [text, setText] = useState('@' + author.user.username);
 	const [isReplying, setIsReplying] = useState(false);
 
@@ -77,12 +77,12 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 				/>
 			</ListItem>
 			<div className="flex items-center ml-44 mb-8">
-				<Button onClick={() => setIsReplying(prev => !prev)} className="normal-case">
+				<Button onClick={handleReplyClick} className="normal-case">
 					Reply
 				</Button>
 				<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
 			</div>
-			{isReplying && (
+			{/* {isReplying && (
 				<div className="flex-1 mx-4">
 					<Paper elevation={0} className="w-full mb-16">
 						<Input
@@ -111,7 +111,7 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 						</Button>
 					</div>
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 }

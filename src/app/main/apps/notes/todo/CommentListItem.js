@@ -98,6 +98,7 @@ export default function CommentListItem({ post, comment }) {
 				<Button
 					onClick={() => {
 						setIsReplying(prev => !prev);
+						setText('@' + comment.author.user.username);
 						setTimeout(() => {
 							if (!isReplying) {
 								document.getElementById(String(comment.id)).focus();
@@ -128,6 +129,14 @@ export default function CommentListItem({ post, comment }) {
 								post={post}
 								comment={reply}
 								getReplies={getReplies}
+								handleReplyClick={() => {
+									setIsReplying(true);
+									setText('@' + reply.author.user.username);
+									setTimeout(() => {
+										let element = document.getElementById(String(comment.id));
+										element.focus();
+									}, 100);
+								}}
 							/>
 						))}
 					</List>
@@ -141,6 +150,7 @@ export default function CommentListItem({ post, comment }) {
 							id={String(comment.id)}
 							classes={{ root: 'text-13' }}
 							placeholder="Add a comment.."
+							value={text}
 							multiline
 							rows="2"
 							margin="none"
