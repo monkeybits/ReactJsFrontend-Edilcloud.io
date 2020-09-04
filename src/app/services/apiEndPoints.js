@@ -89,3 +89,6 @@ export const GET_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid
 export const ADD_COMMENT_TO_POST = pid => `/api/frontend/project/post/${pid}/add_comment/`;
 export const GET_COMMENT_OF_POST = pid => `/api/frontend/project/post/${pid}/comment_list/`;
 export const GET_REPLIES_OF_COMMENT = cid => `/api/frontend/project/comment/${cid}/replies_list/`;
+export const MOVE_PHOTO_FILE = pid => `/api/frontend/media/photo/${pid}/move/`;
+export const MOVE_VIDEO_FILE = vid => `/api/frontend/media/video/${vid}/move/`;
+export const MOVE_DOCUMENT_FILE = did => `/api/frontend/media/document/${did}/move/`;

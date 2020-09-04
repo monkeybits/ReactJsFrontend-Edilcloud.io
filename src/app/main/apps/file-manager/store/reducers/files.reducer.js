@@ -9,7 +9,14 @@ const initialState = () => ({
 	files: [],
 	searchText: '',
 	folderPath: [''],
-	isUploadingFiles: false
+	isUploadingFiles: false,
+	moveFileDialog: {
+		type: 'moveFile',
+		props: {
+			open: false
+		},
+		data: {}
+	}
 });
 
 function formatBytes(a, b = 2) {
@@ -190,6 +197,30 @@ const filesReducer = (state = initialState(), action) => {
 			);
 		case Actions.RESET_FILES: {
 			return initialState();
+		}
+		case Actions.FILE_MOVE_OPEN_DIALOG: {
+			return {
+				...state,
+				moveFileDialog: {
+					type: 'moveFile',
+					props: {
+						open: true
+					},
+					data: action.payload
+				}
+			};
+		}
+		case Actions.FILE_MOVE_CLOSE_DIALOG: {
+			return {
+				...state,
+				moveFileDialog: {
+					type: 'moveFile',
+					props: {
+						open: false
+					},
+					data: {}
+				}
+			};
 		}
 		default:
 			return state;
