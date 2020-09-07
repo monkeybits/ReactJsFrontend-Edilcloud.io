@@ -62,7 +62,7 @@ export default function ImagesPreview(props) {
 		img.src = url;
 	};
 	return (
-		<div className={clsx(classes.root, 'd-block mx-auto')}>
+		<div className={clsx(classes.root, 'd-block mx-auto o-contain')}>
 			<DrawImage
 				height={ImagePropert.height}
 				width={ImagePropert.width}
@@ -84,6 +84,7 @@ export default function ImagesPreview(props) {
 				position="static"
 				variant="text"
 				activeStep={activeStep}
+				className="my-10"
 				nextButton={
 					<Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
 						Next
@@ -99,6 +100,9 @@ export default function ImagesPreview(props) {
 			/>
 			<Button
 				size="small"
+				variant="contained"
+				color="primary"
+				className="mb-16 block mx-auto"
 				onClick={() => {
 					getMeta(props.images[activeStep].imgPath);
 				}}
