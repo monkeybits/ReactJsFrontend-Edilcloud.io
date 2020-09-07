@@ -151,7 +151,7 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 	};
 
 	const zoomIn = () => {
-		const scaleBy = 1.01;
+		const scaleBy = 2.01;
 		const oldScale = stageEl.current.scaleX();
 		const stage = stageEl.current.getStage();
 		const newScale = oldScale * scaleBy;
@@ -168,7 +168,7 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 	};
 
 	const zoomOut = () => {
-		const scaleBy = 1.01;
+		const scaleBy = 2.01;
 		const oldScale = stageEl.current.scaleX();
 		const stage = stageEl.current.getStage();
 		const newScale = oldScale / scaleBy;
