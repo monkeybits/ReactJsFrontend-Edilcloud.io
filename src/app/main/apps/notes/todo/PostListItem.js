@@ -32,8 +32,13 @@ import SendIcon from '@material-ui/icons/Send';
 export default function PostListItem({ post }) {
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
-	const [postComments, setPostComments] = useState([...post.comment_set]);
-
+	const [postComments, setPostComments] = useState([]);
+	useEffect(() => {
+		if (post.comment_set) {
+			setPostComments(post.comment_set);
+			return () => setPostComments([]);
+		}
+	}, [post.comment_set]);
 	const handlePostComment = e => {
 		e.preventDefault();
 		if (!text) return;
@@ -122,8 +127,6 @@ export default function PostListItem({ post }) {
 			</CardActions>
 
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
-			
-
 				{postComments && postComments.length > 0 && (
 					<div className="">
 						<div className="flex items-center ml-52 mt-16">
@@ -157,22 +160,22 @@ export default function PostListItem({ post }) {
 								onChange={e => setText(e.target.value)}
 							/>
 							<IconButton
-									className="image p-0"
-									onClick={() => inputRef.current.click()}
-									aria-label="Add photo"
-								>
-									<Icon>photo</Icon>
-								</IconButton>
-								<input hidden multiple type="file" accept="image/*, video/*" ref={inputRef} />
-								<IconButton
-									className="send p-0"
-									onClick={handlePostComment}
-									aria-label="Send"
-									disabled={!text.length}
-								>
-									<Icon>send</Icon>
-								</IconButton>
-								{/* <Button
+								className="image p-0"
+								onClick={() => inputRef.current.click()}
+								aria-label="Add photo"
+							>
+								<Icon>photo</Icon>
+							</IconButton>
+							<input hidden multiple type="file" accept="image/*, video/*" ref={inputRef} />
+							<IconButton
+								className="send p-0"
+								onClick={handlePostComment}
+								aria-label="Send"
+								disabled={!text.length}
+							>
+								<Icon>send</Icon>
+							</IconButton>
+							{/* <Button
 								disabled={!text.length}
 								onClick={handlePostComment}
 								className="normal-case"
