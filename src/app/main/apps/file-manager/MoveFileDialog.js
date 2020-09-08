@@ -5,7 +5,7 @@ import * as Actions from './store/actions';
 import { Button, TextField } from '@material-ui/core';
 import { MOVE_PHOTO_FILE, MOVE_VIDEO_FILE, MOVE_DOCUMENT_FILE } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -62,21 +62,37 @@ function MoveFileDialog() {
 
 	const handleMoveFile = () => {
 		let fileType = moveFileDialog.data.type;
-		let fileId = moveFileDialog.data.id;
-		let relative_path = moveFileDialog.data.relative_path;
+		let fileId = moveFileDialog.data.mainId;
+		let relative_path = moveFileDialog.data.folder_relative_path;
 		let apiUrl =
 			fileType == 'photo'
 				? MOVE_PHOTO_FILE(fileId)
 				: fileType == 'video'
 				? MOVE_VIDEO_FILE(fileId)
 				: MOVE_DOCUMENT_FILE(fileId);
+		let values = {
+			from: relative_path,
+			to: path
+		};
+		var formData = new FormData();
+		for (let key in values) {
+			formData.append(key, values[key]);
+		}
 		apiCall(
 			apiUrl,
-			{
-				from: relative_path,
-				to: path
+			formData,
+			res => {
+				const userInfo = decodeDataFromToken();
+				const cid = userInfo.extra?.profile?.company;
+				if (fileType == 'photo') {
+					dispatch(Actions.getPhotos(cid));
+				} else if (fileType == 'video') {
+					dispatch(Actions.getVideos(cid));
+				} else {
+					dispatch(Actions.getDocuments(cid));
+				}
+				handleClose();
 			},
-			res => console.log(res),
 			err => console.log(err),
 			METHOD.PUT,
 			getHeaderToken()
