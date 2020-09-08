@@ -305,4 +305,7 @@
     .custom-edit-icon {
         right: 10px;
     }   
+    .select-dropdown .MuiInputBase-input {
+        height: auto !important;
+    }
 }
