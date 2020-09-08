@@ -66,9 +66,9 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function ProjectTabs() {
+function ProjectTabs({ value, setValue }) {
 	const classes = useStyles();
-	const [value, setValue] = React.useState('one');
+
 	const dispatch = useDispatch();
 	const routeParams = useParams();
 	const handleChange = (event, newValue) => {
@@ -76,7 +76,7 @@ function ProjectTabs() {
 	};
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getContacts(routeParams.id));
-	
+
 		return dispatch(Actions.resetContact());
 	}, [dispatch, routeParams]);
 	return (
@@ -87,7 +87,7 @@ function ProjectTabs() {
 			<TabPanel value={value} index="two">
 				<ContactsApp />
 			</TabPanel>
-			<TabPanel value={value} index="three" className="h-full chat-tab-content-height" >
+			<TabPanel value={value} index="three" className="h-full chat-tab-content-height">
 				<ChatApp />
 			</TabPanel>
 			<TabPanel value={value} index="four">

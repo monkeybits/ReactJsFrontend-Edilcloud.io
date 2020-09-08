@@ -15,10 +15,10 @@ import { useRouteMatch } from 'react-router';
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();
-
+	const [value, setValue] = React.useState('one');
 	const pageLayout = useRef(null);
 	const match = useRouteMatch();
-
+	let havePaddingTabs = ['one','three'];
 	useEffect(() => {
 		if (match.params.id) {
 			dispatch(Actions.getProjectDetail(match.params.id));
@@ -29,13 +29,13 @@ function ProjectDetails(props) {
 		<>
 			<FusePageSimple
 				classes={{
-					contentWrapper: 'p-16 sm:p-24 pb-80',
+					contentWrapper: havePaddingTabs.includes(value) ? 'p-16 sm:p-24 pb-80' : 'pb-80',
 					content: 'flex min-h-full tabs-content',
 					leftSidebar: 'w-256 border-0',
 					header: 'min-h-72 h-72 '
 				}}
 				header={<ProjectDetailHeader pageLayout={pageLayout} />}
-				content={<ProjectContent />}
+				content={<ProjectContent {...{ value, setValue }} />}
 				// leftSidebarContent={<NotesSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
