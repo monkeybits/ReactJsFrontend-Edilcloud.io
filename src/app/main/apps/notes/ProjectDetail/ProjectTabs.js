@@ -11,6 +11,7 @@ import React from 'react';
 import ContactsApp from '../contacts/ContactsApp';
 import ChatApp from '../chat/ChatApp';
 import TodoApp from '../todo/TodoApp';
+import FileManagerApp from '../file-manager/FileManagerApp';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import * as Actions from 'app/main/apps/notes/contacts/store/actions';
@@ -94,7 +95,7 @@ function ProjectTabs({ value, setValue }) {
 				<TodoApp />
 			</TabPanel>
 			<TabPanel value={value} index="five">
-				Item Five
+				<FileManagerApp />
 			</TabPanel>
 			<TabPanel value={value} index="six">
 				Item Six
