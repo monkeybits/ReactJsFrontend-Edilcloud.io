@@ -53,21 +53,6 @@ function TodoSidebarContent(props) {
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className="flex-auto border-l-1 border-solid">
-				{projectDetail.company?.id == company.id && (
-					<div className="p-24">
-						<Button
-							onClick={() => {
-								dispatch(Actions.openNewTodoDialog());
-							}}
-							variant="contained"
-							color="primary"
-							className="w-full"
-						>
-							ADD TASK
-						</Button>
-					</div>
-				)}
-
 				<div className={classes.listWrapper}>
 					<List>
 						{folders.length > 0 &&

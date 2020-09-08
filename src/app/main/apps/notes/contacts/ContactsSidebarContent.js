@@ -101,29 +101,32 @@ function ContactsSidebarContent(props) {
 							<ListSubheader className={classes.listSubheader} disableSticky>
 								Company
 							</ListSubheader>
-							{companies.map(d => (
-								<ListItem
-									button
-									onClick={() => {
-										dispatch(Actions.filterByKey('company' + d.profile.company.id));
-										dispatch(Actions.addFilterByKey(d.profile.company.id));
-									}}
-									className={getListItemClassNameForCompany('company', d.profile.company.id)}
-								>
-									<Icon
-										className="list-item-icon"
-										style={{ color: d.profile.company?.color_project }}
-										color="action"
-									>
-										label
-									</Icon>
-									<ListItemText
-										className="truncate"
-										primary={d.profile.company.name}
-										disableTypography
-									/>
-								</ListItem>
-							))}
+							{companies.map(
+								d =>
+									d.profile.company && (
+										<ListItem
+											button
+											onClick={() => {
+												dispatch(Actions.filterByKey('company' + d.profile.company.id));
+												dispatch(Actions.addFilterByKey(d.profile.company.id));
+											}}
+											className={getListItemClassNameForCompany('company', d.profile.company.id)}
+										>
+											<Icon
+												className="list-item-icon"
+												style={{ color: d.profile.company?.color_project }}
+												color="action"
+											>
+												label
+											</Icon>
+											<ListItemText
+												className="truncate"
+												primary={d.profile.company.name}
+												disableTypography
+											/>
+										</ListItem>
+									)
+							)}
 							{/* <ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('deactivated'))}
