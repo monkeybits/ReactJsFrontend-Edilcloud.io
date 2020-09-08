@@ -1,7 +1,10 @@
+import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import Fab from '@material-ui/core/Fab';
+import Icon from '@material-ui/core/Icon';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from './store/actions';
@@ -14,10 +17,21 @@ import TodoSidebarHeader from './TodoSidebarHeader';
 import TodoToolbar from './TodoToolbar';
 import CreatePostDialog from './CreatePostDialog';
 import { GET_TODOS } from './store/actions';
+import { makeStyles } from '@material-ui/core';
 
+const useStyles = makeStyles({
+	addButton: {
+		position: 'fixed',
+		right: 90,
+		bottom: 65,
+		zIndex: 999999
+	}
+});
 function TodoApp(props) {
 	const dispatch = useDispatch();
-
+	const classes = useStyles(props);
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
+	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 
@@ -52,6 +66,18 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
+			{projectDetail.company?.id == company.id && (
+				<FuseAnimate animation="transition.expandIn" delay={300}>
+					<Fab
+						color="primary"
+						aria-label="add"
+						className={classes.addButton}
+						onClick={ev => dispatch(Actions.openNewTodoDialog())}
+					>
+						<Icon>add</Icon>
+					</Fab>
+				</FuseAnimate>
+			)}
 			<CreatePostDialog />
 			<TodoDialog />
 		</>
