@@ -32,13 +32,21 @@ export const SEND_MESSAGE_API = cid => `/api/frontend/message/message/company/${
 export const SEND_PROJECT_MESSAGE_API = pid => `/api/frontend/message/message/project/${pid}/add/`;
 export const COMPANY_DETAIL = '/api/frontend/profile/company/detail/';
 export const ADD_PHOTO = cid => `/api/frontend/media/photo/company/${cid}/add/`;
+export const ADD_PHOTO_PROJECT = pid => `/api/frontend/media/photo/project/${pid}/add/`;
 export const ADD_VIDEO = cid => `/api/frontend/media/video/company/${cid}/add/`;
+export const ADD_VIDEO_PROJECT = pid => `/api/frontend/media/video/project/${pid}/add/`;
 export const ADD_DOCUMENT = cid => `/api/frontend/document/document/company/${cid}/add/`;
+export const ADD_DOCUMENT_PROJECT = pid => `/api/frontend/document/document/project/${pid}/add/`;
 export const ADD_FOLDER = cid => `/api/frontend/media/folder/company/${cid}/add/`;
+export const ADD_FOLDER_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/add/`;
 export const PHOTO_LIST = cid => `/api/frontend/profile/company/company_photo_list/private/?companyId=${cid}`;
+export const PHOTO_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/photo_list/`;
 export const DOCUMENT_LIST = cid => `/api/frontend/profile/company/company_document_list/private/?companyId=${cid}`;
+export const DOCUMENT_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/document_list/`;
 export const VIDEO_LIST = cid => `/api/frontend/profile/company/company_video_list/private/?companyId=${cid}`;
+export const VIDEO_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/video_list/`;
 export const FOLDER_LIST = cid => `/api/frontend/media/folder/company/${cid}/list/`;
+export const FOLDER_LIST_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/list/`;
 export const DOWNLOAD_PHOTO = did => `/api/frontend/media/photo/download/${did}`;
 export const DOWNLOAD_VIDEO = did => `/api/frontend/media/video/download/${did}`;
 export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/download/${did}`;
@@ -47,6 +55,7 @@ export const PHOTO_DELETE = pid => `/api/frontend/media/photo/delete/${pid}/`;
 export const VIDEO_DELETE = vid => `/api/frontend/media/video/delete/${vid}/ `;
 export const DOCUMENT_DELETE = did => `/api/frontend/document/document/delete/${did}/ `;
 export const FOLDER_DELETE = (cid, path) => `/api/frontend/media/folder/company/${cid}/delete/?name=${path}`;
+export const FOLDER_DELETE_PROJECT = (pid, path) => `/api/frontend/media/folder/project/${pid}/delete/?name=${path}`;
 export const SEARCH_USER = searchString =>
 	`/api/frontend/profile/profiles/active_list/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__company__name__icontains=${searchString}&filter__email__exact=${searchString}&no_page=no_page`;
 export const SEARCH_USER_BY_EMAIL = searchString =>

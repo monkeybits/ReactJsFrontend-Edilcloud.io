@@ -18,7 +18,7 @@ function ProjectDetails(props) {
 	const [value, setValue] = React.useState('one');
 	const pageLayout = useRef(null);
 	const match = useRouteMatch();
-	let havePaddingTabs = ['one','three'];
+	let havePaddingTabs = ['one'];
 	useEffect(() => {
 		if (match.params.id) {
 			dispatch(Actions.getProjectDetail(match.params.id));
