@@ -48,9 +48,7 @@ function DetailSidebarHeader({ setProgress }) {
 				apiurl,
 				{},
 				({ headers, data }) => {
-					var file = new File([data], `${selectedItem.title}`, {
-						type: headers['content-type']
-					});
+					var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
 					FileSaver.saveAs(file);
 					dispatch(Actions.onUploadHandleLoading(false));
 				},
