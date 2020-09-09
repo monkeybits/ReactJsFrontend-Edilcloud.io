@@ -113,7 +113,7 @@ export default function ProjectListitem({
 				title={isApproved ? <Link to={`${match.path}/${id}`}>{name}</Link> : name}
 				subheader={moment(date_start).format('MMM DD, YYYY')}
 			/>
-			<CardMedia className={classes.media} image={logo} title={name} />
+			<CardMedia className={classes.media} image={logo ? logo : '/assets/images/notes/Building 01.jpg'} title={name} />
 			<CardContent>
 				<Typography variant="body2" color="textSecondary" component="p">
 					{description}
