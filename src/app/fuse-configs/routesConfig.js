@@ -11,6 +11,7 @@ import RegisterConfig from 'app/main/register/RegisterConfig';
 import UserInterfaceConfig from 'app/main/user-interface/UserInterfaceConfig';
 import MainProfileConfig from 'app/main/mainProfile/MainProfileConfig';
 import CompanyCreationConfig from 'app/main/companyCreation/CompanyCreationConfig';
+import EditProfileConfig from 'app/main/editMainProfile/EditProfileConfig.js'; 
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
@@ -28,7 +29,8 @@ const routeConfigs = [
 	CallbackConfig,
 	AccountActivationConfig,
 	MainProfileConfig,
-	CompanyCreationConfig
+	CompanyCreationConfig,
+	EditProfileConfig
 ];
 
 const routes = [

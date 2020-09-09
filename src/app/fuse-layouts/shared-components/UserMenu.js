@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import * as authActions from 'app/auth/store/actions';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { getMainProfileId, getHeaderToken } from 'app/services/serviceUtils';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
@@ -17,6 +17,8 @@ import { GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
 function UserMenu(props) {
 	const dispatch = useDispatch();
 	const user = useSelector(({ auth }) => auth.user);
+	const history = useHistory();
+
 	const mainProfileId = getMainProfileId();
 	const [userMenu, setUserMenu] = useState(null);
 	const [userId, setUserId] = useState(null);
@@ -28,7 +30,6 @@ function UserMenu(props) {
 	const userMenuClose = () => {
 		setUserMenu(null);
 	};
-
 	return (
 		<>
 			<Button className="h-64" onClick={userMenuClick}>
@@ -87,9 +88,22 @@ function UserMenu(props) {
 							<ListItemIcon className="min-w-40">
 								<Icon>account_circle</Icon>
 							</ListItemIcon>
-							<ListItemText primary="companies" />
+							<ListItemText primary="Companies" />
 						</MenuItem>
-
+						<MenuItem
+							component={Link}
+							to={{
+								pathname: '/edit-profile',
+								state: { nextPath: history.location.pathname }
+							}}
+							onClick={userMenuClose}
+							role="button"
+						>
+							<ListItemIcon className="min-w-40">
+								<Icon>edit</Icon>
+							</ListItemIcon>
+							<ListItemText primary="Edit main profile" />
+						</MenuItem>
 						<MenuItem
 							onClick={() => {
 								dispatch(authActions.logoutUser());
