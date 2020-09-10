@@ -20,19 +20,16 @@ import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import TodoActivityListItem from './TodoActivityListItem';
+import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
+import Tooltip from '@material-ui/core/Tooltip';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
-	todoItem: {
-		borderLeftColor: 'transparent',
-		'&.completed': {
-			background: 'rgba(0,0,0,0.03)',
-			'& .todo-title, & .todo-notes': {
-				textDecoration: 'line-through'
-			}
-		}
-	},
-	nested: {
-		paddingLeft: theme.spacing(4)
+	card: {
+		transitionProperty: 'box-shadow',
+		transitionDuration: theme.transitions.duration.short,
+		transitionTimingFunction: theme.transitions.easing.easeInOut
 	}
 }));
 
@@ -78,104 +75,118 @@ function TodoListItem(props) {
 		);
 		// }
 	};
+	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
 	return (
 		<>
-			<ListItem
-				className={clsx(
-					classes.todoItem,
-					{ completed: props.todo.completed },
-					'border-solid border-l-4 py-16 px-0 sm:px-8 border-bottom'
-				)}
-				style={{ borderColor: props.todo.assigned_company?.color_project }}
-				dense
-				button
-			>
-				<div className="flex flex-1 flex-col relative overflow-hidden px-8">
-					<Typography color="textSecondary" className="todo-notes truncate">
-						{projectDetail?.name}
-					</Typography>
-					<Typography
-						variant="subtitle1"
-						className="todo-title truncate"
-						color={props.todo.completed ? 'textSecondary' : 'inherit'}
-					>
-						{props.todo.name}
-					</Typography>
+			<Card className={clsx(classes.card, 'w-full mb-16 rounded-4 cursor-pointer border-1')}>
+				{/* card body */}
+				<div className="p-16 pb-0">
+					{/* lebels are below */}
+					<div className="flex flex-wrap mb-8 -mx-4">
+						{props.todo.assigned_company?.name && (
+							<Tooltip title={props.todo.assigned_company.name}>
+								<div
+									className={clsx('text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')}
+									style={{ borderColor: props.todo.assigned_company.color_project }}
+								/>
+							</Tooltip>
+						)}
+
+						{/* <Tooltip title={'hello'}>
+							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
+						</Tooltip> */}
+
+						{/* <Tooltip title={'hello'}>
+							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
+						</Tooltip> */}
+					</div>
+
+					{/* content can be below */}
+					<Typography className="font-600 mb-12">{projectDetail?.name}</Typography>
+					<Typography className="font-600 mb-12"> {props.todo.name} </Typography>
 					{props.todo.assigned_company && (
-						<div className={clsx(classes.labels, 'flex -mx-2')}>
-							<TodoChip
-								className="mx-2 mt-4"
-								title={props.todo.assigned_company?.name}
-								color={props.todo.assigned_company?.color_project}
-							/>
-						</div>
+						<TodoChip
+							title={props.todo.assigned_company?.name}
+							color={props.todo.assigned_company?.color_project}
+						/>
 					)}
+					{/* dates below */}
+					<div class="flex items-center mb-12 -mx-4">
+						{moment().diff(moment(props.todo.date_end)) > 0 && (
+							<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white">
+								<Icon className="text-16">access_time</Icon>
+								<span class="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
+							</div>
+						)}
+						<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
+							<Icon className="text-16">check_circle</Icon>
+							<span class="mx-4">2/7</span>
+						</div>
+					</div>
+
+					{/* members list who involved in this */}
+					<div className="flex flex-wrap mb-12 -mx-4">
+						<Tooltip title={'James Lewis'}>
+							<Avatar className="mx-4 w-32 h-32" src={'/assets/images/avatars/james.jpg'} />
+						</Tooltip>
+						<Tooltip title={'James Lewis'}>
+							<Avatar className="mx-4 w-32 h-32" src={'/assets/images/avatars/james.jpg'} />
+						</Tooltip>
+					</div>
 				</div>
 
-				<div className="flex items-center px-8">
-					<div className="custom-playlist-icon">
+				{/* footer */}
+				<div className="flex justify-between h-48 px-16 border-t-1">
+					{/* left side footer */}
+					<div className="flex items-center -mx-6">
+						<Icon className="text-18 mx-6" color="action">
+							remove_red_eye
+						</Icon>
+						<Icon className="text-18 mx-6" color="action">
+							description
+						</Icon>
+					</div>
+
+					{/* right side footer */}
+					<div className="flex items-center justify-end -mx-6">
+						<span className="flex items-center mx-6">
+							<Icon className="text-18" color="action">
+								attachment
+							</Icon>
+							<Typography className="mx-8" color="textSecondary">
+								{12}
+							</Typography>
+						</span>
 						{props.todo.assigned_company?.id == company.id && (
-							<IconButton
-								onClick={ev => {
-									ev.preventDefault();
-									ev.stopPropagation();
-									if (props.todo.assigned_company) {
-										dispatch(Actions.openAddActivityTodoDialog(props.todo));
-									}
-								}}
-							>
-								<Icon>playlist_add</Icon>
-							</IconButton>
-						)}
-					</div>
-					<div className="custom-edit-icon">
-						{projectDetail.company?.id == company.id && (
-							<IconButton
-								onClick={ev => {
-									ev.preventDefault();
-									ev.stopPropagation();
-									// dispatch(Actions.openEditTodoDialog(props.todo));
-								}}
-							>
-								<Icon>edit</Icon>
-							</IconButton>
+							<span className="flex items-center mx-6">
+								{open ? (
+									<Icon
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											setOpen(!open);
+										}}
+									>
+										expand_more{' '}
+									</Icon>
+								) : (
+									<Icon
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											if (props.todo.assigned_company?.id == company.id) {
+												getDetailOfTask();
+											}
+										}}
+									>
+										chevron_right{' '}
+									</Icon>
+								)}
+							</span>
 						)}
 					</div>
 				</div>
-				<div
-					className={
-						props.todo.assigned_company?.id == company.id ? 'accordian-custom' : 'accordian-custom ml-24'
-					}
-				>
-					{props.todo.assigned_company?.id == company.id && (
-						<>
-							{open ? (
-								<Icon
-									onClick={ev => {
-										ev.preventDefault();
-										ev.stopPropagation();
-										setOpen(!open);
-									}}
-								>
-									expand_more{' '}
-								</Icon>
-							) : (
-								<Icon
-									onClick={ev => {
-										ev.preventDefault();
-										ev.stopPropagation();
-										if (props.todo.assigned_company?.id == company.id) {
-											getDetailOfTask();
-										}
-									}}
-								>
-									chevron_right{' '}
-								</Icon>
-							)}
-						</>
-					)}
-				</div>
-			</ListItem>
+			</Card>
 			<Collapse in={open} timeout="auto" unmountOnExit>
 				<List className="p-0">
 					<FuseAnimateGroup
