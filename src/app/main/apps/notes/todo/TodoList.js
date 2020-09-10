@@ -48,7 +48,7 @@ function TodoList(props) {
 	}
 
 	return (
-		<List className="p-0">
+		// <List className="p-0">
 			<FuseAnimateGroup
 				enter={{
 					animation: 'transition.slideUpBigIn'
@@ -58,7 +58,7 @@ function TodoList(props) {
 					<TodoListItem todo={todo} key={todo.id} index={index} />
 				))}
 			</FuseAnimateGroup>
-		</List>
+		// </List>
 	);
 }
 
