@@ -18,6 +18,7 @@ import TodoToolbar from './TodoToolbar';
 import CreatePostDialog from './CreatePostDialog';
 import { GET_TODOS } from './store/actions';
 import { makeStyles } from '@material-ui/core';
+import TaskContentDialog from './Dialog/TaskContentDialog';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -80,6 +81,7 @@ function TodoApp(props) {
 			)}
 			<CreatePostDialog />
 			<TodoDialog />
+			<TaskContentDialog />
 		</>
 	);
 }

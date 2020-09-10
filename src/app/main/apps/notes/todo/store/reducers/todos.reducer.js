@@ -10,7 +10,14 @@ const initialState = {
 	todoDialog: {
 		type: 'new',
 		props: {
-			open: false,
+			open: false
+		},
+		data: null
+	},
+	taskContentDialog: {
+		type: 'new',
+		props: {
+			open: false
 		},
 		data: null
 	}
@@ -39,6 +46,30 @@ const todosReducer = (state = initialState, action) => {
 					type: 'new',
 					props: {
 						open: true
+					},
+					data: null
+				}
+			};
+		}
+		case Actions.OPEN_TASK_CONTENT_DIALOG: {
+			return {
+				...state,
+				taskContentDialog: {
+					type: 'new',
+					props: {
+						open: true
+					},
+					data: action.data
+				}
+			};
+		}
+		case Actions.CLOSE_TASK_CONTENT_DIALOG: {
+			return {
+				...state,
+				taskContentDialog: {
+					type: 'new',
+					props: {
+						open: false
 					},
 					data: null
 				}
