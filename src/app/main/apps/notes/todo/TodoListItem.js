@@ -78,7 +78,10 @@ function TodoListItem(props) {
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
 	return (
 		<>
-			<Card className={clsx(classes.card, 'w-full mb-16 rounded-4 cursor-pointer border-1')}>
+			<Card
+				className={clsx(classes.card, 'w-full mb-16 rounded-4 cursor-pointer border-1')}
+				onClick={() => dispatch(Actions.openTaskContent(props.todo))}
+			>
 				{/* card body */}
 				<div className="p-16 pb-0">
 					{/* lebels are below */}

@@ -20,13 +20,6 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import withReducer from 'app/store/withReducer';
 
 function TabPanel(props) {
-	// const [data, setData] = useState(null);
-	// useEffect(() => {
-	// 	axios.get('/api/profile/about').then(res => {
-	// 		setData(res.data);
-	// 	});
-	// }, []);
-	// const { general, work, contact, groups, friends } = data;
 	const { children, value, index, ...other } = props;
 
 	return (
