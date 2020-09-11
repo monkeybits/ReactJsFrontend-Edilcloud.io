@@ -3,9 +3,9 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { GET_STAFF_LIST, GET_PROJECT_STAFF_LIST } from 'app/services/apiEndPoints';
 
-export const GET_CONTACTS = '[CHAT APP] GET CONTACTS';
-export const SET_SELECTED_CONTACT_ID = '[CHAT APP] SET SELECTED CONTACT ID';
-export const REMOVE_SELECTED_CONTACT_ID = '[CHAT APP] REMOVE SELECTED CONTACT ID';
+export const GET_CONTACTS = '[CHAT APP] GET CONTACTS (PROJECT)';
+export const SET_SELECTED_CONTACT_ID = '[CHAT APP] SET SELECTED CONTACT ID (PROJECT)';
+export const REMOVE_SELECTED_CONTACT_ID = '[CHAT APP] REMOVE SELECTED CONTACT ID (PROJECT)';
 
 function getRandomColor() {
 	var letters = '0123456789ABCDEF';

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const GET_USER_DATA = '[CHAT APP] GET USER DATA';
-export const UPDATE_USER_DATA = '[CHAT APP] UPDATE USER DATA';
+export const GET_USER_DATA = '[CHAT APP] GET USER DATA (PROJECT)';
+export const UPDATE_USER_DATA = '[CHAT APP] UPDATE USER DATA (PROJECT)';
 
 export function getUserData() {
 	const request = axios.get('/api/chat/user');

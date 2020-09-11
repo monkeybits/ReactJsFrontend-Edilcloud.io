@@ -68,13 +68,6 @@ const useStyles = makeStyles(theme => ({
 
 function ProjectTabs({ value, setValue }) {
 	const classes = useStyles();
-	const data = {
-		data: [
-			{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
-			{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
-		],
-		links: [{ id: 1, source: 1, target: 2, type: '0' }]
-	};
 	const [zoom, setZoom] = useState({
 		currentZoom: 'Days'
 	});
@@ -117,7 +110,7 @@ function ProjectTabs({ value, setValue }) {
 						<Toolbar zoom={zoom.currentZoom} onZoomChange={handleZoomChange} />
 					</div>
 					<div className="gantt-container">
-						<Gantt tasks={data} zoom={zoom.currentZoom} />
+						<Gantt zoom={zoom.currentZoom} />
 					</div>
 				</div>
 			</TabPanel>

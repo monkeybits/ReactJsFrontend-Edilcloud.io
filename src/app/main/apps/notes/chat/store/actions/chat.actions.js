@@ -11,10 +11,10 @@ import {
 	SEND_PROJECT_MESSAGE_API
 } from 'app/services/apiEndPoints';
 
-export const GET_CHAT = '[CHAT APP] GET CHAT';
-export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT';
-export const SEND_MESSAGE = '[CHAT APP] SEND MESSAGE';
-export const COMPANY_INFO = '[CHAT APP] COMPANY INFO';
+export const GET_CHAT = '[CHAT APP] GET CHAT (PROJECT)';
+export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT (PROJECT)';
+export const SEND_MESSAGE = '[CHAT APP] SEND MESSAGE (PROJECT)';
+export const COMPANY_INFO = '[CHAT APP] COMPANY INFO (PROJECT)';
 
 export function getChat(pid) {
 	return (dispatch, getState) => {

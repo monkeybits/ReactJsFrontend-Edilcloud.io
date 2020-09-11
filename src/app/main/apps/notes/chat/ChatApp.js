@@ -107,13 +107,13 @@ const useStyles = makeStyles(theme => ({
 
 function ChatApp(props) {
 	const dispatch = useDispatch();
-	const chat = useSelector(({ chatApp }) => chatApp.chat);
-	const company = useSelector(({ chatApp }) => chatApp.company);
-	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
-	const selectedContactId = useSelector(({ chatApp }) => chatApp.contacts.selectedContactId);
-	const mobileChatsSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.mobileChatsSidebarOpen);
-	const userSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.userSidebarOpen);
-	const contactSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.contactSidebarOpen);
+	const chat = useSelector(({ chatAppProject }) => chatAppProject.chat);
+	const company = useSelector(({ chatAppProject }) => chatAppProject.company);
+	const contacts = useSelector(({ chatAppProject }) => chatAppProject.contacts.entities);
+	const selectedContactId = useSelector(({ chatAppProject }) => chatAppProject.contacts.selectedContactId);
+	const mobileChatsSidebarOpen = useSelector(({ chatAppProject }) => chatAppProject.sidebars.mobileChatsSidebarOpen);
+	const userSidebarOpen = useSelector(({ chatAppProject }) => chatAppProject.sidebars.userSidebarOpen);
+	const contactSidebarOpen = useSelector(({ chatAppProject }) => chatAppProject.sidebars.contactSidebarOpen);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const routeParams = useParams();
 
@@ -282,4 +282,4 @@ function ChatApp(props) {
 	);
 }
 
-export default withRouter(withReducer('chatApp', reducer)(ChatApp));
+export default withRouter(withReducer('chatAppProject', reducer)(ChatApp));
