@@ -23,7 +23,7 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-
+import Gantt from '../gantt/index';
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -75,7 +75,13 @@ const useStyles = makeStyles(theme => ({
 
 function ProjectTabs({ value, setValue }) {
 	const classes = useStyles();
-
+	const data = {
+		data: [
+			{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
+			{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
+		],
+		links: [{ id: 1, source: 1, target: 2, type: '0' }]
+	};
 	const dispatch = useDispatch();
 	const routeParams = useParams();
 	const handleChange = (event, newValue) => {
@@ -104,7 +110,7 @@ function ProjectTabs({ value, setValue }) {
 				<FileManagerApp />
 			</TabPanel>
 			<TabPanel value={value} index={5}>
-				Item Six
+				<Gantt tasks={data} />
 			</TabPanel>
 			<AppBar className="fixed custom-tab-header right-0 bottom-0">
 				<BottomNavigation

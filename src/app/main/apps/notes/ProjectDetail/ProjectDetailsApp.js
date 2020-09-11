@@ -15,7 +15,7 @@ import { useRouteMatch } from 'react-router';
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();
-	const [value, setValue] = React.useState(0);
+	const [value, setValue] = React.useState(5);
 	const pageLayout = useRef(null);
 	const match = useRouteMatch();
 	let havePaddingTabs = [0];
