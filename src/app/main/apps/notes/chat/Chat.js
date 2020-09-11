@@ -96,11 +96,11 @@ const useStyles = makeStyles(theme => ({
 
 function Chat(props) {
 	const dispatch = useDispatch();
-	const selectedContactId = useSelector(({ chatApp }) => chatApp.contacts.selectedContactId);
-	const chat = useSelector(({ chatApp }) => chatApp.chat);
-	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
+	const selectedContactId = useSelector(({ chatAppProject }) => chatAppProject.contacts.selectedContactId);
+	const chat = useSelector(({ chatAppProject }) => chatAppProject.chat);
+	const contacts = useSelector(({ chatAppProject }) => chatAppProject.contacts.entities);
 
-	const user = useSelector(({ chatApp }) => chatApp.user);
+	const user = useSelector(({ chatAppProject }) => chatAppProject.user);
 
 	const classes = useStyles(props);
 	const chatRef = useRef(null);

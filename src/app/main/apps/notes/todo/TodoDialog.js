@@ -427,7 +427,7 @@ function TodoDialog(props) {
 									value={company}
 									options={companies.map(company => ({
 										data: company,
-										value: company.profile.company.name,
+										value: company.profile?.company?.name,
 										label: (
 											<span className="flex items-center">
 												<Icon

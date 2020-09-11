@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import ProjectInfo from './ProjectInfo';
-import React from 'react';
+import React, { useState } from 'react';
 import ContactsApp from '../contacts/ContactsApp';
 import ChatApp from '../chat/ChatApp';
 import TodoApp from '../todo/TodoApp';
@@ -24,6 +24,8 @@ import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Gantt from '../gantt/index';
+import Toolbar from '../gantt/Toolbar';
+
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -56,15 +58,6 @@ function a11yProps(index) {
 		'aria-controls': `wrapped-tabpanel-${index}`
 	};
 }
-
-// const useStyles = makeStyles(theme => ({
-// 	root: {
-// 		flexGrow: 1,
-// 		minHeight: '100%',
-// 		backgroundColor: theme.palette.background.paper
-// 	}
-// }));
-
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
@@ -75,12 +68,14 @@ const useStyles = makeStyles(theme => ({
 
 function ProjectTabs({ value, setValue }) {
 	const classes = useStyles();
-	const data = {
-		data: [
-			{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
-			{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
-		],
-		links: [{ id: 1, source: 1, target: 2, type: '0' }]
+	const [zoom, setZoom] = useState({
+		currentZoom: 'Days'
+	});
+
+	const handleZoomChange = zoom => {
+		setZoom({
+			currentZoom: zoom
+		});
 	};
 	const dispatch = useDispatch();
 	const routeParams = useParams();
@@ -110,7 +105,14 @@ function ProjectTabs({ value, setValue }) {
 				<FileManagerApp />
 			</TabPanel>
 			<TabPanel value={value} index={5}>
-				<Gantt tasks={data} />
+				<div>
+					<div className="zoom-bar">
+						<Toolbar zoom={zoom.currentZoom} onZoomChange={handleZoomChange} />
+					</div>
+					<div className="gantt-container">
+						<Gantt zoom={zoom.currentZoom} />
+					</div>
+				</div>
 			</TabPanel>
 			<AppBar className="fixed custom-tab-header right-0 bottom-0">
 				<BottomNavigation
