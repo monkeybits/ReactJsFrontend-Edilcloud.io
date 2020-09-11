@@ -18,7 +18,12 @@ import * as Actions from 'app/main/apps/notes/contacts/store/actions';
 import reducer from 'app/main/apps/notes/contacts/store/reducers';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import withReducer from 'app/store/withReducer';
-
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import RestoreIcon from '@material-ui/icons/Restore';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Gantt from '../gantt/index';
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -52,6 +57,14 @@ function a11yProps(index) {
 	};
 }
 
+// const useStyles = makeStyles(theme => ({
+// 	root: {
+// 		flexGrow: 1,
+// 		minHeight: '100%',
+// 		backgroundColor: theme.palette.background.paper
+// 	}
+// }));
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
@@ -62,7 +75,13 @@ const useStyles = makeStyles(theme => ({
 
 function ProjectTabs({ value, setValue }) {
 	const classes = useStyles();
-
+	const data = {
+		data: [
+			{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
+			{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
+		],
+		links: [{ id: 1, source: 1, target: 2, type: '0' }]
+	};
 	const dispatch = useDispatch();
 	const routeParams = useParams();
 	const handleChange = (event, newValue) => {
@@ -75,33 +94,40 @@ function ProjectTabs({ value, setValue }) {
 	}, [dispatch, routeParams]);
 	return (
 		<div className={classes.root}>
-			<TabPanel value={value} index="one">
+			<TabPanel value={value} index={0}>
 				<ProjectInfo />
 			</TabPanel>
-			<TabPanel value={value} index="two">
+			<TabPanel value={value} index={1}>
 				<ContactsApp />
 			</TabPanel>
-			<TabPanel value={value} index="three" className="h-full chat-tab-content-height">
+			<TabPanel value={value} index={2} className="h-full chat-tab-content-height">
 				<ChatApp />
 			</TabPanel>
-			<TabPanel value={value} index="four">
+			<TabPanel value={value} index={3}>
 				<TodoApp />
 			</TabPanel>
-			<TabPanel value={value} index="five">
+			<TabPanel value={value} index={4}>
 				<FileManagerApp />
 			</TabPanel>
-			<TabPanel value={value} index="six">
-				Item Six
+			<TabPanel value={value} index={5}>
+				<Gantt tasks={data} />
 			</TabPanel>
 			<AppBar className="fixed custom-tab-header right-0 bottom-0">
-				<Tabs value={value} onChange={handleChange} aria-label="wrapped label tabs example">
-					<Tab value="one" label="Info" wrapped {...a11yProps('one')} />
-					<Tab value="two" label="Team" {...a11yProps('two')} />
-					<Tab value="three" label="Chat" {...a11yProps('three')} />
-					<Tab value="four" label="Todo" {...a11yProps('four')} />
-					<Tab value="five" label="File Manager" {...a11yProps('five')} />
-					<Tab value="six" label="Gantt" {...a11yProps('six')} />
-				</Tabs>
+				<BottomNavigation
+					value={value}
+					onChange={(event, newValue) => {
+						setValue(newValue);
+					}}
+					showLabels
+					className={classes.root}
+				>
+					<BottomNavigationAction label="Info" icon={<RestoreIcon />} {...a11yProps(0)} />
+					<BottomNavigationAction label="Team" icon={<FavoriteIcon />} {...a11yProps(1)} />
+					<BottomNavigationAction label="Chat" icon={<LocationOnIcon />} {...a11yProps(2)} />
+					<BottomNavigationAction label="Todo" icon={<RestoreIcon />} {...a11yProps(3)} />
+					<BottomNavigationAction label="File Manager" icon={<FavoriteIcon />} {...a11yProps(4)} />
+					<BottomNavigationAction label="Gantt" icon={<LocationOnIcon />} {...a11yProps(5)} />
+				</BottomNavigation>
 			</AppBar>
 		</div>
 	);

@@ -33,6 +33,11 @@ import OptionsMenu from './toolbar/OptionsMenu';
 import { Button, makeStyles } from '@material-ui/core';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import RestoreIcon from '@material-ui/icons/Restore';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -78,7 +83,7 @@ const useStyles = makeStyles(theme => ({
 function TaskContentForm(props) {
 	const dispatch = useDispatch();
 	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog.data);
-	const [value, setValue] = React.useState('tab1');
+	const [value, setValue] = React.useState(0);
 	let labels = [
 		{
 			id: '26022e4129ad3a5sc28b36cd',
@@ -300,7 +305,7 @@ function TaskContentForm(props) {
 			</DialogTitle>
 
 			<DialogContent className="p-16 sm:p-24">
-				<TabPanel value={value} index="tab1">
+				<TabPanel value={value} index={0}>
 					<div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center mb-24">
 						<div className="mb-16 sm:mb-0 flex items-center">
 							<Typography>{'board.name'}</Typography>
@@ -440,7 +445,7 @@ function TaskContentForm(props) {
 						</div>
 					</div>
 				</TabPanel>
-				<TabPanel value={value} index="tab2">
+				<TabPanel value={value} index={1}>
 					{checklists.map((checklist, index) => (
 						<CardChecklist
 							key={checklist.id}
@@ -451,7 +456,7 @@ function TaskContentForm(props) {
 						/>
 					))}
 				</TabPanel>
-				<TabPanel value={value} index="tab3">
+				<TabPanel value={value} index={2}>
 					<div className="mb-24">
 						<div className="flex items-center mt-16">
 							<Icon className="text-20" color="inherit">
@@ -480,11 +485,18 @@ function TaskContentForm(props) {
 			</DialogContent>
 
 			<DialogActions>
-				<Tabs value={value} onChange={handleTabChange} aria-label="wrapped label tabs example">
-					<Tab value="tab1" label="Tab 1" wrapped {...a11yProps('tab1')} />
-					<Tab value="tab2" label="Tab 2" {...a11yProps('tab2')} />
-					<Tab value="tab3" label="Tab 3" {...a11yProps('tab3')} />
-				</Tabs>
+				<BottomNavigation
+					value={value}
+					onChange={(event, newValue) => {
+						setValue(newValue);
+					}}
+					showLabels
+				
+				>
+					<BottomNavigationAction icon={<RestoreIcon />}  label="Tab 1" wrapped {...a11yProps(0)} />
+					<BottomNavigationAction icon={<FavoriteIcon />}  label="Tab 2" {...a11yProps(1)} />
+					<BottomNavigationAction icon={<LocationOnIcon />}  label="Tab 3" {...a11yProps(2)} />
+				</BottomNavigation>
 			</DialogActions>
 		</>
 	);

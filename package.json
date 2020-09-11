@@ -24,6 +24,7 @@
         "cross-fetch": "3.0.4",
         "custom-error": "^0.2.1",
         "date-fns": "2.13.0",
+        "dhtmlx-gantt": "^7.0.9",
         "file-saver": "^2.0.2",
         "firebase": "7.14.5",
         "formsy-react": "2.0.3",

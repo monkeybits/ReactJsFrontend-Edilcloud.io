@@ -15,10 +15,10 @@ import { useRouteMatch } from 'react-router';
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();
-	const [value, setValue] = React.useState('one');
+	const [value, setValue] = React.useState(5);
 	const pageLayout = useRef(null);
 	const match = useRouteMatch();
-	let havePaddingTabs = ['one'];
+	let havePaddingTabs = [0];
 	useEffect(() => {
 		if (match.params.id) {
 			dispatch(Actions.getProjectDetail(match.params.id));
