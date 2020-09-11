@@ -4,11 +4,14 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import Gantt from './Gantt';
 import * as Actions from '../todo/store/actions';
 import { useParams } from 'react-router';
+import CreatePostDialog from '../todo/CreatePostDialog';
+import TodoDialog from '../todo/TodoDialog';
+import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
 
 function GanttWrapper(props) {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const routeParams = useParams();
-    
+
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getTodos(routeParams.id));
 		return () => {
@@ -18,6 +21,13 @@ function GanttWrapper(props) {
 			});
 		};
 	}, [dispatch, routeParams]);
-	return <Gantt {...props} />;
+	return (
+		<>
+			<Gantt {...props} />
+			<CreatePostDialog />
+			<TodoDialog />
+			<TaskContentDialog />
+		</>
+	);
 }
 export default GanttWrapper;

@@ -4,6 +4,8 @@ import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
 import './Gantt.css';
 import connect from 'react-redux/es/connect/connect';
 import moment from 'moment';
+import * as Actions from '../todo/store/actions';
+import { bindActionCreators } from 'redux';
 
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
@@ -28,29 +30,37 @@ class Gantt extends Component {
 	shouldComponentUpdate(nextProps) {
 		const { todos } = nextProps;
 		if (!this.state.tasks) {
-			let tasks = {
-				data: Object.values(todos.entities).map((data, index) => ({
-					...{
-						id: index + 1,
-						text: data.name,
-						start_date: data.date_start,
-						end_date: data.date_end,
-						duration: moment(data.date_start).diff(moment(data.date_end)),
-						progress: data.progress / 100,
-						mainId: data.id
-					}
-				}))
-			};
-			gantt.config.xml_date = '%Y-%m-%d %H:%i';
-			gantt.init(this.ganttContainer);
-			gantt.parse(tasks);
-			this.setState({
-				tasks
-			});
+			this.ganttInit(todos);
 		}
 		return this.props.zoom !== nextProps.zoom;
 	}
-
+	ganttInit = todos => {
+		let tasks = {
+			data: Object.values(todos.entities).map((data, index) => ({
+				...{
+					id: index + 1,
+					text: data.name,
+					start_date: data.date_start,
+					end_date: data.date_end,
+					duration: moment(data.date_start).diff(moment(data.date_end)),
+					progress: data.progress / 100,
+					mainId: data.id
+				},
+				data
+			}))
+		};
+		gantt.config.xml_date = '%Y-%m-%d %H:%i';
+		gantt.init(this.ganttContainer);
+		gantt.parse(tasks);
+		gantt.showLightbox = id => {
+			console.log(id);
+			let captureData = this.state.tasks.data?.[id - 1]?.data;
+			return this.props.openTaskContent(captureData);
+		};
+		this.setState({
+			tasks
+		});
+	};
 	componentDidUpdate() {
 		gantt.render();
 	}
@@ -102,5 +112,12 @@ function mapStateToProps({ todoAppNote }) {
 		todos: todoAppNote.todos
 	};
 }
-
-export default connect(mapStateToProps)(Gantt);
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			openTaskContent: Actions.openTaskContent
+		},
+		dispatch
+	);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Gantt);
