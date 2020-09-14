@@ -70,7 +70,7 @@ export default function FloatingButtonUpload(props) {
 			<div className={classes.exampleWrapper}>
 				<SpeedDial
 					ariaLabel="SpeedDial example"
-					className={clsx(classes.speedDial, 'custom-float-btn')}
+					className={clsx(classes.speedDial, 'custom-float-btn file-manage-btn')}
 					icon={<SpeedDialIcon />}
 					onClose={handleClose}
 					onOpen={handleOpen}
