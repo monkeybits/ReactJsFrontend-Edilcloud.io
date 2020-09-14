@@ -17,7 +17,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import TodoActivityListItem from './TodoActivityListItem';
 import Avatar from '@material-ui/core/Avatar';
@@ -42,6 +42,8 @@ function TodoListItem(props) {
 	const [open, setOpen] = React.useState(false);
 	const [id, setId] = React.useState(null);
 	const [taskDetail, setTaskDetail] = useState([]);
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const classes = useStyles(props);
 	const handleClick = () => {
 		setOpen(!open);
@@ -80,7 +82,11 @@ function TodoListItem(props) {
 		<>
 			<Card
 				className={clsx(classes.card, 'w-full mb-16 rounded-4 cursor-pointer border-1')}
-				onClick={() => dispatch(Actions.openTaskContent(props.todo))}
+				onClick={() =>
+					projectDetail.company?.id == company.id && (getRole() == 'o' || getRole() == 'd')
+						? dispatch(Actions.openTaskContent(props.todo))
+						: ''
+				}
 			>
 				{/* card body */}
 				<div className="p-16 pb-0">
@@ -160,6 +166,19 @@ function TodoListItem(props) {
 								{12}
 							</Typography>
 						</span>
+						{props.todo.assigned_company?.id == company.id && (
+							<IconButton
+								onClick={ev => {
+									ev.preventDefault();
+									ev.stopPropagation();
+									if (props.todo.assigned_company) {
+										dispatch(Actions.openAddActivityTodoDialog(props.todo));
+									}
+								}}
+							>
+								<Icon>playlist_add</Icon>
+							</IconButton>
+						)}
 						{props.todo.assigned_company?.id == company.id && (
 							<span className="flex items-center mx-6">
 								{open ? (

@@ -151,7 +151,7 @@ function ContactList(props) {
 
 	return (
 		<FuseScrollbars
-			className={clsx(classes.root, 'flex flex-shrink-0 flex-col overflow-y-auto py-8')}
+			className={clsx(classes.root, 'flex flex-shrink-0 flex-col overflow-y-auto py-8 team-chat-body')}
 			ref={contactListScroll}
 		>
 			{allContacts.length > 0 && (

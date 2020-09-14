@@ -29,10 +29,39 @@ class Gantt extends Component {
 	}
 	shouldComponentUpdate(nextProps) {
 		const { todos } = nextProps;
+		console.log({
+			todos: Object.values(todos.entities),
+			tasks: this.state.tasks
+		});
 		if (!this.state.tasks) {
+			//this.state.tasks?.length !== Object.values(todos.entities)
 			this.ganttInit(todos);
+			return true;
+		} else if (this.state.tasks && this.state.tasks.data) {
+			/// .length !== Object.values(todos.entities).length
+			let newtasks = Object.values(todos.entities).map((data, index) => ({
+				...{
+					id: index + 1,
+					text: data.name,
+					start_date: data.date_start,
+					end_date: data.date_end,
+					duration: moment(data.date_start).diff(moment(data.date_end)),
+					progress: data.progress / 100,
+					mainId: data.id
+				},
+				data
+			}));
+			console.log({
+				cond: JSON.stringify(newtasks) == JSON.stringify(this.state.tasks.data)
+			});
+			if (JSON.stringify(newtasks) !== JSON.stringify(this.state.tasks.data)) {
+				this.ganttInit(todos);
+				return true;
+			}
+			if (this.props.zoom !== nextProps.zoom) {
+				return true;
+			}
 		}
-		return this.props.zoom !== nextProps.zoom;
 	}
 	ganttInit = todos => {
 		let tasks = {
@@ -53,9 +82,13 @@ class Gantt extends Component {
 		gantt.init(this.ganttContainer);
 		gantt.parse(tasks);
 		gantt.showLightbox = id => {
-			console.log(id);
 			let captureData = this.state.tasks.data?.[id - 1]?.data;
-			return this.props.openTaskContent(captureData);
+			console.log({ object: this.state.tasks.data[id - 1], id, data: this.state.tasks.data });
+			if (this.state.tasks.data[id - 1]) {
+				return this.props.openTaskContent(captureData);
+			} else {
+				this.props.openNewTodoDialog();
+			}
 		};
 		this.setState({
 			tasks
@@ -115,7 +148,8 @@ function mapStateToProps({ todoAppNote }) {
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{
-			openTaskContent: Actions.openTaskContent
+			openTaskContent: Actions.openTaskContent,
+			openNewTodoDialog: Actions.openNewTodoDialog
 		},
 		dispatch
 	);

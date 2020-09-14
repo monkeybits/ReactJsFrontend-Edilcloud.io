@@ -152,15 +152,19 @@ const themesConfig = {
 	defaultDark: {
 		palette: {
 			type: 'dark',
-			primary: fuseDark,
+			primary: {
+				light: '#C2C2C3',
+				main: '#323338',
+				dark: '#131417'
+			},
 			secondary: {
-				light: skyBlue[100],
-				main: skyBlue[500],
-				dark: skyBlue[900]
+				light: '#B8E1D9',
+				main: '#0CB2BF',
+				dark: '#056D4F'
 			},
 			background: {
-				paper: '#1E2125',
-				default: '#121212'
+				paper: '#262526',
+				default: '#1E1D1E'
 			},
 			error: red
 		},

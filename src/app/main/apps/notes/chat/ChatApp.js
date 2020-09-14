@@ -140,7 +140,7 @@ function ChatApp(props) {
 		}
 	}, [dispatch, company, routeParams]);
 	return (
-		<div className={clsx(classes.root, 'h-full')}>
+		<div className={clsx(classes.root, 'h-full p-20 inner-height')}>
 			{/* <div className={classes.topBg} /> */}
 
 			<div className={clsx(classes.contentCardWrapper, 'container h-full')}>

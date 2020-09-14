@@ -48,10 +48,10 @@ const authUserData = {
 			},
 			customScrollbars: true,
 			theme: {
-				main: 'default',
-				navbar: 'mainThemeDark',
-				toolbar: 'mainThemeLight',
-				footer: 'mainThemeDark'
+				main: 'defaultDark',
+				navbar: 'defaultDark',
+				toolbar: 'defaultDark',
+				footer: 'defaultDark'
 			}
 		},
 		shortcuts: ['calendar', 'mail', 'contacts']

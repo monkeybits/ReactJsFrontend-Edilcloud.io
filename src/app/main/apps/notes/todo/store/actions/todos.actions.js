@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_TASK_TO_PROJECT, GET_TASK_LIST, ADD_ACTIVITY_TO_TASK } from 'app/services/apiEndPoints';
+import {
+	ADD_TASK_TO_PROJECT,
+	GET_TASK_LIST,
+	ADD_ACTIVITY_TO_TASK,
+	EDIT_TASK_TO_PROJECT
+} from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 export const GET_TODOS = '[TODO APP] GET TODOS';
@@ -210,7 +215,56 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog) {
 	// 		]).then(() => dispatch(updateTodos()))
 	// 	);
 }
+export function editTodo(todo, pid, todoDialogType, closeTodoDialog) {
+	console.log({
+		todo
+	});
+	return dispatch => {
+		let values =
+			todoDialogType == 'new'
+				? {
+						name: todo.name,
+						note: todo.description,
+						progress: todo.progress,
+						date_start: moment(todo.startDate).format('YYYY-MM-DD'),
+						date_end: moment(todo.endDate).format('YYYY-MM-DD'),
+						assigned_company: todo.company[0] ? todo.company[0].data.profile.company.id : undefined,
+						project: pid,
+						date_completed: null,
+						alert: false,
+						starred: false
+				  }
+				: {
+						title: todo.title,
+						description: todo.notes,
+						datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
+						datetime_end: moment(todo.endDate).format('YYYY-MM-DD'),
+						profile: todo.profile[0] ? todo.profile[0].data.profile.id : undefined
+				  };
+		// console.log({ values });
+		apiCall(
+			todoDialogType == 'new' ? EDIT_TASK_TO_PROJECT(todo.id) : ADD_ACTIVITY_TO_TASK(todo.id),
+			values,
+			res => {
+				dispatch(getTodos(pid));
+				closeTodoDialog();
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
+	// const request = axios.post('/api/todo-app/new-todo', todo);
 
+	// return dispatch =>
+	// 	request.then(response =>
+	// 		Promise.all([
+	// 			dispatch({
+	// 				type: ADD_TODO
+	// 			})
+	// 		]).then(() => dispatch(updateTodos()))
+	// 	);
+}
 export function removeTodo(todoId) {
 	const request = axios.post('/api/todo-app/remove-todo', todoId);
 
