@@ -111,15 +111,49 @@ function TodoListItem(props) {
 					</div>
 
 					{/* content can be below */}
-					<Typography className="font-600 mb-12">{projectDetail?.name}</Typography>
-					<Typography className="font-600 mb-12"> {props.todo.name} </Typography>
+						<div class="flex items-center mb-6 -mx-4">
 					{props.todo.assigned_company && (
 						<TodoChip
 							title={props.todo.assigned_company?.name}
 							color={props.todo.assigned_company?.color_project}
 						/>
 					)}
+					</div>
+						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit"> {props.todo.name} </Typography>
+						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary">{projectDetail?.name}</Typography>
 					{/* dates below */}
+
+
+				
+								<div className="flex items-center mb-8">
+									
+										<div
+											className={clsx(
+												'flex items-center px-8 py-4 rounded-sm bg-green text-white',
+												
+										
+		
+											)}
+										>
+											<Icon className="text-16">access_time</Icon>
+											<span className="mx-4">17 aug 17</span>
+										</div>
+										<div
+											className={clsx(
+												'flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white',
+												
+										
+		
+											)}
+										>
+											<Icon className="text-16">access_time</Icon>
+											<span className="mx-4">17 aug 17</span>
+										</div>
+								
+
+								
+								</div>
+							
 					<div class="flex items-center mb-12 -mx-4">
 						{moment().diff(moment(props.todo.date_end)) > 0 && (
 							<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white">
@@ -127,13 +161,10 @@ function TodoListItem(props) {
 								<span class="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
 							</div>
 						)}
-						<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
-							<Icon className="text-16">check_circle</Icon>
-							<span class="mx-4">2/7</span>
-						</div>
+						
 					</div>
 
-					{/* members list who involved in this */}
+					{/* members list who involved in this 
 					<div className="flex flex-wrap mb-12 -mx-4">
 						<Tooltip title={'James Lewis'}>
 							<Avatar className="mx-4 w-32 h-32" src={'/assets/images/avatars/james.jpg'} />
@@ -141,46 +172,30 @@ function TodoListItem(props) {
 						<Tooltip title={'James Lewis'}>
 							<Avatar className="mx-4 w-32 h-32" src={'/assets/images/avatars/james.jpg'} />
 						</Tooltip>
-					</div>
+					</div>*/}
 				</div>
 
 				{/* footer */}
 				<div className="flex justify-between h-48 px-16 border-t-1">
 					{/* left side footer */}
 					<div className="flex items-center -mx-6">
-						<Icon className="text-18 mx-6" color="action">
-							remove_red_eye
-						</Icon>
-						<Icon className="text-18 mx-6" color="action">
-							description
-						</Icon>
+					<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
+							<Icon className="text-16">check_circle</Icon>
+							<span class="mx-4">2/7</span>
+					</div>
+				
 					</div>
 
 					{/* right side footer */}
 					<div className="flex items-center justify-end -mx-6">
-						<span className="flex items-center mx-6">
-							<Icon className="text-18" color="action">
-								attachment
-							</Icon>
-							<Typography className="mx-8" color="textSecondary">
-								{12}
-							</Typography>
-						</span>
+						
 						{props.todo.assigned_company?.id == company.id && (
-							<IconButton
-								onClick={ev => {
-									ev.preventDefault();
-									ev.stopPropagation();
-									if (props.todo.assigned_company) {
-										dispatch(Actions.openAddActivityTodoDialog(props.todo));
-									}
-								}}
-							>
-								<Icon>playlist_add</Icon>
-							</IconButton>
-						)}
-						{props.todo.assigned_company?.id == company.id && (
-							<span className="flex items-center mx-6">
+							<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
+							<Icon className="text-16">check_circle</Icon>
+							<span class="mx-4">Open Activities list</span>
+							<span class="mx-4">2/7</span>
+						
+							
 								{open ? (
 									<Icon
 										onClick={ev => {
@@ -204,7 +219,8 @@ function TodoListItem(props) {
 										chevron_right{' '}
 									</Icon>
 								)}
-							</span>
+									</div>
+							
 						)}
 					</div>
 				</div>
