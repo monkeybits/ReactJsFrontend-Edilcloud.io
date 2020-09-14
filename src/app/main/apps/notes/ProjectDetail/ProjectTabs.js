@@ -92,16 +92,16 @@ function ProjectTabs({ value, setValue }) {
 			<TabPanel value={value} index={0}>
 				<ProjectInfo />
 			</TabPanel>
-			<TabPanel value={value} index={1}>
+			<TabPanel value={value} index={1} className="no-data-height-full">
 				<ContactsApp />
 			</TabPanel>
 			<TabPanel value={value} index={2} className="h-full chat-tab-content-height">
 				<ChatApp />
 			</TabPanel>
-			<TabPanel value={value} index={3}>
+			<TabPanel value={value} index={3} className="no-data-height-full">
 				<TodoApp />
 			</TabPanel>
-			<TabPanel value={value} index={4}>
+			<TabPanel value={value} index={4} className="no-data-height-full">
 				<FileManagerApp />
 			</TabPanel>
 			<TabPanel value={value} index={5}>

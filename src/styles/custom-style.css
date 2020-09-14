@@ -188,6 +188,11 @@
     position: fixed;
     top: 100px;
 }
+.custom-float-btn.file-manage-btn {
+    position: fixed;
+    bottom: 80px !important;
+    right: 20px !important;
+}
 .custom-float-btn > button {
     color: rgba(0, 0, 0, 0.87);
     background-color: #61dafb;
@@ -294,6 +299,15 @@
 .o-contain img {
     object-fit: contain;
 }
+.tabs-content {
+    padding-bottom: 50px;
+}
+.chat-tab-content-height {
+    height: calc(100vh - 192px);
+}
+.chat-tab-content-height .inner-height {
+    height: calc(100vh - 40px);
+}
 
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
@@ -307,5 +321,24 @@
     }   
     .select-dropdown .MuiInputBase-input {
         height: auto !important;
+    }
+    .team-chat-sidebar {
+        transform: translate3d(475px,0,0);
+        width: 100%;
+    }
+    .team-chat-sidebar .team-chat-body {
+        width: 100%;
+    }
+    .no-data-height-full {
+        min-height: calc(100vh - 192px);
+    }
+    .no-data-height-full > div > p {
+        height: 100vh;
+    }
+    .custom-float-btn {
+        right: 0px !important;
+    }
+    .tabs-content {
+        padding-bottom: 0px;
     }
 }
