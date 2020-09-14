@@ -387,7 +387,7 @@ function TaskContentForm(props) {
 	const handleTabChange = (event, newValue) => {
 		setValue(newValue);
 	};
-	const isFormInvalid = () => cardForm.name.length > 0 && taskDate.startDate && taskDate.endDate;
+	const isFormInvalid = () => cardForm.name && cardForm.name.length > 0 && taskDate.startDate && taskDate.endDate;
 	const handleSubmit = () => {
 		setLoading(true);
 		dispatch(
