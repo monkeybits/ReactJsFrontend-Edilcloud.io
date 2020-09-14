@@ -19,7 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import LabelModel from 'app/main/apps/scrumboard/model/LabelModel';
 import * as Actions from '../store/actions';
 import moment from 'moment';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CardActivity from './activity/CardActivity';
 import CardAttachment from './attachment/CardAttachment';
@@ -38,6 +38,9 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import { Slider, withStyles, CircularProgress } from '@material-ui/core';
+import DatePicker from 'react-datepicker';
+import { useParams } from 'react-router';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -79,11 +82,140 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.background.paper
 	}
 }));
+const marks = [
+	{
+		value: 0
+	},
+	{
+		value: 10
+	},
+	{
+		value: 20
+	},
+	{
+		value: 30
+	},
+	{
+		value: 40
+	},
+	{
+		value: 50
+	},
+	{
+		value: 60
+	},
+	{
+		value: 70
+	},
+	{
+		value: 80
+	},
+	{
+		value: 90
+	},
+	{
+		value: 100
+	}
+];
+const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
+const IOSSlider = withStyles({
+	root: {
+		color: '#3880ff',
+		height: 2,
+		padding: '15px 0'
+	},
+	thumb: {
+		height: 28,
+		width: 28,
+		backgroundColor: '#fff',
+		boxShadow: iOSBoxShadow,
+		marginTop: -14,
+		marginLeft: -14,
+		'&:focus, &:hover, &$active': {
+			boxShadow: '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
+			// Reset on touch devices, it doesn't add specificity
+			'@media (hover: none)': {
+				boxShadow: iOSBoxShadow
+			}
+		}
+	},
+	active: {},
+	valueLabel: {
+		left: 'calc(-50% + 12px)',
+		top: -22,
+		'& *': {
+			background: 'transparent',
+			color: '#000'
+		}
+	},
+	track: {
+		height: 2
+	},
+	rail: {
+		height: 2,
+		opacity: 0.5,
+		backgroundColor: '#bfbfbf'
+	},
+	mark: {
+		backgroundColor: '#bfbfbf',
+		height: 8,
+		width: 1,
+		marginTop: -3
+	},
+	markActive: {
+		opacity: 1,
+		backgroundColor: 'currentColor'
+	}
+})(Slider);
 
 function TaskContentForm(props) {
 	const dispatch = useDispatch();
+	const taskContent = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
 	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog.data);
+	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
+	const [profileData, setProfileData] = useState([]);
+	const [profiles, setProfiles] = useState([]);
+	const [company, setCompany] = useState([]);
+	const [progress, setProgress] = useState(0);
+	const [loading, setLoading] = useState(false);
+	const routeParams = useParams();
+	const [taskDate, setTaskDate] = useState({
+		startDate: new Date(),
+		endDate: undefined
+	});
 	const [value, setValue] = React.useState(0);
+	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
+	useEffect(() => {
+		if (companies && companies.length && taskContentData) {
+			let company = [...companies]
+				.filter(company => company.profile?.company?.id == taskContentData?.assigned_company?.id)
+				.map(company => ({
+					data: company,
+					value: company.profile?.company?.name,
+					label: (
+						<span className="flex items-center">
+							<Icon
+								className="list-item-icon mr-4"
+								style={{ color: company.profile.company?.color_project }}
+								color="action"
+							>
+								label
+							</Icon>{' '}
+							{company.profile.company.name}
+						</span>
+					)
+				}));
+			setCompany(company);
+		}
+		if (taskContentData) {
+			setTaskDate({
+				startDate: new Date(taskContentData.date_start),
+				endDate: new Date(taskContentData.date_end)
+			});
+			setProgress(taskContentData.progress);
+		}
+	}, [companies, taskContentData]);
+
 	let labels = [
 		{
 			id: '26022e4129ad3a5sc28b36cd',
@@ -201,7 +333,8 @@ function TaskContentForm(props) {
 		}
 	];
 	const { form: cardForm, handleChange, setForm, setInForm } = useForm({
-		name: taskContentData?.name
+		name: taskContentData?.name,
+		description: taskContentData?.note
 	});
 	const dueDate = cardForm && cardForm.due ? moment(cardForm.due).format(moment.HTML5_FMT.DATE) : '';
 
@@ -223,21 +356,6 @@ function TaskContentForm(props) {
 
 	function addCheckList(newList) {
 		// setInForm('checklists', [...cardForm.checklists, newList]);
-	}
-
-	function chipChange(name, value) {
-		setInForm(
-			name,
-			value.map(item => item.value)
-		);
-	}
-
-	function addNewChip(name, value) {
-		setInForm(name, [...cardForm[name], value]);
-	}
-
-	function makeCover(attachmentId) {
-		setInForm('idAttachmentCover', attachmentId);
 	}
 
 	function removeCover() {
@@ -268,6 +386,27 @@ function TaskContentForm(props) {
 	}
 	const handleTabChange = (event, newValue) => {
 		setValue(newValue);
+	};
+	const isFormInvalid = () => cardForm.name.length > 0 && taskDate.startDate && taskDate.endDate;
+	const handleSubmit = () => {
+		setLoading(true);
+		dispatch(
+			Actions.editTodo(
+				{
+					...cardForm,
+					id: taskContentData.id,
+					company,
+					profile: profileData,
+					progress,
+					...taskDate
+				},
+				routeParams.id,
+				taskContent.type,
+				() => {
+					dispatch(Actions.closeTaskContent());
+				}
+			)
+		);
 	};
 	return (
 		<>
@@ -306,6 +445,160 @@ function TaskContentForm(props) {
 
 			<DialogContent className="p-16 sm:p-24">
 				<TabPanel value={value} index={0}>
+					<div className="flex items-center mb-24">
+						<TextField
+							label="Title"
+							type="text"
+							name="name"
+							variant="outlined"
+							value={cardForm.name}
+							onChange={handleChange}
+							fullWidth
+							required
+							InputProps={{
+								endAdornment: (
+									<InputAdornment position="end">
+										<Icon className="text-20" color="action">
+											remove_red_eye
+										</Icon>
+									</InputAdornment>
+								)
+							}}
+						/>
+					</div>
+					{taskContent.type === 'activity' ? (
+						<div className="mt-8 mb-16 select-dropdown">
+							<FuseChipSelect
+								placeholder="Select Profile"
+								variant="fixed"
+								isMulti
+								textFieldProps={{
+									label: 'Profile',
+									InputLabelProps: {
+										shrink: true
+									},
+									variant: 'outlined'
+									// onChange: e => getProjectCompanyTeamProfiles(e.target.value)
+								}}
+								onChange={value => {
+									setProfileData(value.splice(value.length - 1));
+								}}
+								value={profileData}
+								options={profiles.map(profile => ({
+									data: profile,
+									value: getName(profile),
+									label: <span className="flex items-center">{getName(profile)}</span>
+								}))}
+							/>
+						</div>
+					) : (
+						companies &&
+						!!companies.length && (
+							<div className="mt-8 mb-16 select-dropdown">
+								<FuseChipSelect
+									className=""
+									placeholder="Select Company"
+									variant="fixed"
+									isMulti
+									textFieldProps={{
+										label: 'Company',
+										InputLabelProps: {
+											shrink: true
+										},
+										variant: 'outlined'
+									}}
+									onChange={value => {
+										setCompany(value.splice(value.length - 1));
+									}}
+									value={company}
+									options={companies.map(company => ({
+										data: company,
+										value: company.profile?.company?.name,
+										label: (
+											<span className="flex items-center">
+												<Icon
+													className="list-item-icon mr-4"
+													style={{ color: company.profile.company?.color_project }}
+													color="action"
+												>
+													label
+												</Icon>{' '}
+												{company.profile.company.name}
+											</span>
+										)
+									}))}
+								/>
+							</div>
+						)
+					)}
+					<div className="w-full mb-24">
+						<TextField
+							label="Description"
+							name="description"
+							value={cardForm.description}
+							onChange={handleChange}
+							multiline
+							rows="4"
+							variant="outlined"
+							fullWidth
+						/>
+					</div>
+					<div className="flex -mx-4">
+						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
+							<label>Start Date</label>
+							<DatePicker
+								dateFormat="dd/MM/yyyy"
+								selected={taskDate.startDate}
+								minDate={taskDate.startDate}
+								onChange={startDate => {
+									setTaskDate({
+										...taskDate,
+										startDate
+									});
+								}}
+							/>
+							<Icon className="icon">calendar_today</Icon>
+						</div>
+						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
+							<label>End Date</label>
+							<DatePicker
+								dateFormat="dd/MM/yyyy"
+								selected={taskDate.endDate}
+								minDate={taskDate.startDate}
+								onChange={endDate => {
+									setTaskDate({
+										...taskDate,
+										endDate
+									});
+								}}
+							/>
+							<Icon className="icon">calendar_today</Icon>
+						</div>
+					</div>
+					<div className="mt-24 mx-12 zoom-125">
+						<IOSSlider
+							aria-label="ios slider"
+							defaultValue={0}
+							marks={marks}
+							onChange={(e, v) => setProgress(v)}
+							value={progress}
+							valueLabelDisplay="on"
+						/>
+					</div>
+					<Button
+						className="mt-16 float-right"
+						aria-label="save"
+						variant="contained"
+						color="secondary"
+						type="submit"
+						size="small"
+						disabled={!isFormInvalid()}
+						onClick={handleSubmit}
+					>
+						Save {loading && <CircularProgress size={15} color="secondary" />}
+					</Button>
+				</TabPanel>
+				<TabPanel value={value} index={1}>
 					<div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center mb-24">
 						<div className="mb-16 sm:mb-0 flex items-center">
 							<Typography>{'board.name'}</Typography>
@@ -341,39 +634,6 @@ function TaskContentForm(props) {
 							}}
 						/>
 					</div>
-					<div className="flex items-center mb-24">
-						<TextField
-							label="Title"
-							type="text"
-							name="name"
-							variant="outlined"
-							value={cardForm.name}
-							onChange={handleChange}
-							fullWidth
-							required
-							InputProps={{
-								endAdornment: (
-									<InputAdornment position="end">
-										<Icon className="text-20" color="action">
-											remove_red_eye
-										</Icon>
-									</InputAdornment>
-								)
-							}}
-						/>
-					</div>
-
-					<div className="w-full mb-24">
-						<TextField
-							label="Description"
-							name="description"
-							multiline
-							rows="4"
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
-
 					<div className="flex flex-col sm:flex-row -mx-8">
 						<div className="flex-1 mb-24 mx-8">
 							<div className="flex items-center mt-16 mb-12">
@@ -423,7 +683,6 @@ function TaskContentForm(props) {
 							/>
 						</div>
 					</div>
-
 					<div className="mb-24">
 						<div className="flex items-center mt-16 mb-12">
 							<Icon className="text-20" color="inherit">
@@ -444,8 +703,6 @@ function TaskContentForm(props) {
 							))}
 						</div>
 					</div>
-				</TabPanel>
-				<TabPanel value={value} index={1}>
 					{checklists.map((checklist, index) => (
 						<CardChecklist
 							key={checklist.id}
@@ -491,11 +748,10 @@ function TaskContentForm(props) {
 						setValue(newValue);
 					}}
 					showLabels
-				
 				>
-					<BottomNavigationAction icon={<RestoreIcon />}  label="Tab 1" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction icon={<FavoriteIcon />}  label="Tab 2" {...a11yProps(1)} />
-					<BottomNavigationAction icon={<LocationOnIcon />}  label="Tab 3" {...a11yProps(2)} />
+					<BottomNavigationAction icon={<RestoreIcon />} label="Tab 1" wrapped {...a11yProps(0)} />
+					<BottomNavigationAction icon={<FavoriteIcon />} label="Tab 2" {...a11yProps(1)} />
+					<BottomNavigationAction icon={<LocationOnIcon />} label="Tab 3" {...a11yProps(2)} />
 				</BottomNavigation>
 			</DialogActions>
 		</>

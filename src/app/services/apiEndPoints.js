@@ -101,4 +101,5 @@ export const GET_REPLIES_OF_COMMENT = cid => `/api/frontend/project/comment/${ci
 export const MOVE_PHOTO_FILE = pid => `/api/frontend/media/photo/${pid}/move/`;
 export const MOVE_VIDEO_FILE = vid => `/api/frontend/media/video/${vid}/move/`;
 export const MOVE_DOCUMENT_FILE = did => `/api/frontend/media/document/${did}/move/`;
-export const EDIT_PROFILE = pid => `api/frontend/profile/profile/edit/${pid}/`;
+export const EDIT_PROFILE = pid => `/api/frontend/profile/profile/edit/${pid}/`;
+export const EDIT_TASK_TO_PROJECT = tid => `/api/frontend/project/task/edit/${tid}/`;
