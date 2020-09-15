@@ -24,6 +24,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -111,58 +113,93 @@ function TodoListItem(props) {
 					</div>
 
 					{/* content can be below */}
-						<div class="flex items-center mb-6 -mx-4">
-					{props.todo.assigned_company && (
-						<TodoChip
-							title={props.todo.assigned_company?.name}
-							color={props.todo.assigned_company?.color_project}
-						/>
-					)}
+					<div class="flex items-center mb-6 -mx-4">
+						{props.todo.assigned_company && (
+							<TodoChip
+								title={props.todo.assigned_company?.name}
+								color={props.todo.assigned_company?.color_project}
+							/>
+						)}
 					</div>
-						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit"> {props.todo.name} </Typography>
-						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary">{projectDetail?.name}</Typography>
+					<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit">
+						{' '}
+						{props.todo.name}{' '}
+					</Typography>
+					<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary">
+						{projectDetail?.name}
+					</Typography>
+
+					<div className="flex items-center float-right -mx-6">
+						<Box position="relative" display="inline-flex">
+							<CircularProgress color="secondary" variant="static" value={props.todo.progress} />
+							<Box
+								top={0}
+								left={0}
+								bottom={0}
+								right={0}
+								position="absolute"
+								display="flex"
+								alignItems="center"
+								justifyContent="center"
+							>
+								<Typography variant="caption" component="div" color="textSecondary">
+									{props.todo.progress}%
+								</Typography>
+							</Box>
+						</Box>
+					</div>
 					{/* dates below */}
-
-
-				
-								<div className="flex items-center mb-8">
-									
-										<div
-											className={clsx(
-												'flex items-center px-8 py-4 rounded-sm bg-green text-white',
-												
-										
-		
-											)}
-										>
-											<Icon className="text-16">access_time</Icon>
-											<span className="mx-4">17 aug 17</span>
-										</div>
-										<div
-											className={clsx(
-												'flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white',
-												
-										
-		
-											)}
-										>
-											<Icon className="text-16">access_time</Icon>
-											<span className="mx-4">17 aug 17</span>
-										</div>
-								
-
-								
+					<div className="flex items-center mb-8">
+						{props.todo.progress == 100 ? (
+							<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm bg-green text-white')}>
+								<Icon className="text-16">access_time</Icon>
+								<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
+							</div>
+						) : moment().diff(moment(props.todo.date_start)) > 0 ? (
+							<>
+								{' '}
+								<div className={clsx('flex items-center px-8 py-4 bg-green rounded-sm text-white')}>
+									<Icon className="text-16">access_time</Icon>
+									<span className="mx-4">{moment(props.todo.date_start).format('MMM Do YY')}</span>
 								</div>
-							
-					<div class="flex items-center mb-12 -mx-4">
+								{moment().diff(moment(props.todo.date_end)) > 0 ? (
+									<div
+										className={clsx(
+											'flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white'
+										)}
+									>
+										<Icon className="text-16">access_time</Icon>
+										<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
+									</div>
+								) : (
+									<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
+										<Icon className="text-16">access_time</Icon>
+										<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
+									</div>
+								)}
+							</>
+						) : (
+							<>
+								<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
+									<Icon className="text-16">access_time</Icon>
+									<span className="mx-4">{moment(props.todo.date_start).format('MMM Do YY')}</span>
+								</div>
+								<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
+									<Icon className="text-16">access_time</Icon>
+									<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
+								</div>
+							</>
+						)}
+					</div>
+
+					{/* <div class="flex items-center mb-12 -mx-4">
 						{moment().diff(moment(props.todo.date_end)) > 0 && (
 							<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white">
 								<Icon className="text-16">access_time</Icon>
 								<span class="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
 							</div>
 						)}
-						
-					</div>
+					</div> */}
 
 					{/* members list who involved in this 
 					<div className="flex flex-wrap mb-12 -mx-4">
@@ -179,48 +216,37 @@ function TodoListItem(props) {
 				<div className="flex justify-between h-48 px-16 border-t-1">
 					{/* left side footer */}
 					<div className="flex items-center -mx-6">
-					<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
+						<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
 							<Icon className="text-16">check_circle</Icon>
 							<span class="mx-4">2/7</span>
-					</div>
-				
+						</div>
 					</div>
 
 					{/* right side footer */}
 					<div className="flex items-center justify-end -mx-6">
-						
 						{props.todo.assigned_company?.id == company.id && (
-							<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
-							<Icon className="text-16">check_circle</Icon>
-							<span class="mx-4">Open Activities list</span>
-							<span class="mx-4">2/7</span>
-						
-							
-								{open ? (
-									<Icon
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											setOpen(!open);
-										}}
-									>
-										expand_more{' '}
-									</Icon>
-								) : (
-									<Icon
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											if (props.todo.assigned_company?.id == company.id) {
-												getDetailOfTask();
-											}
-										}}
-									>
-										chevron_right{' '}
-									</Icon>
-								)}
-									</div>
-							
+							<div
+								class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white"
+								onClick={ev => {
+									if (open) {
+										ev.preventDefault();
+										ev.stopPropagation();
+										setOpen(!open);
+									} else {
+										ev.preventDefault();
+										ev.stopPropagation();
+										if (props.todo.assigned_company?.id == company.id) {
+											getDetailOfTask();
+										}
+									}
+								}}
+							>
+								<Icon className="text-16">check_circle</Icon>
+								<span class="mx-4">Open Activities list</span>
+								<span class="mx-4">2/7</span>
+
+								{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}
+							</div>
 						)}
 					</div>
 				</div>

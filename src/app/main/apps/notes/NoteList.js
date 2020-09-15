@@ -141,7 +141,7 @@ function NoteList(props) {
 									<ProjectListitem key={index} index={index} {...{ project, classes, setRequest }} />
 								</Grid>
 							) : (
-								<Grid className="px-12 mb-32" item xs={12} md={6} xl={3}>
+								<Grid className="px-12 mb-32" item xs={12} sm={6} md={4} xl={3}>
 									{' '}
 									<Badge
 										invisible={project.isApproved}
