@@ -52,6 +52,7 @@ function NotesSidebarContent(props) {
 			<FuseAnimate animation="transition.slideLeftIn" delay={200}>
 				<Paper elevation={1} className={clsx(classes.paper, 'rounded-8')}>
 					<List>
+						<ListSubheader>Generic</ListSubheader>
 						<ListItem
 							button
 							component={NavLinkAdapter}
@@ -63,7 +64,7 @@ function NotesSidebarContent(props) {
 							<Icon className="list-item-icon text-16" color="action">
 								label
 							</Icon>
-							<ListItemText className="truncate" primary="Notes" disableTypography />
+							<ListItemText className="truncate" primary="All" disableTypography />
 						</ListItem>
 						<ListItem
 							button
@@ -76,12 +77,25 @@ function NotesSidebarContent(props) {
 							<Icon className="list-item-icon text-16" color="action">
 								notifications
 							</Icon>
-							<ListItemText className="truncate" primary="Reminders" disableTypography />
+							<ListItemText className="truncate" primary="My Projects" disableTypography />
+						</ListItem>
+						<ListItem
+							button
+							component={NavLinkAdapter}
+							to="/apps/notes/reminders"
+							exact
+							activeClassName="active"
+							className={classes.listItem}
+						>
+							<Icon className="list-item-icon text-16" color="action">
+								notifications
+							</Icon>
+							<ListItemText className="truncate" primary="Other companies" disableTypography />
 						</ListItem>
 					</List>
 					<Divider />
 					<List>
-						<ListSubheader>Labels</ListSubheader>
+						<ListSubheader>By creator</ListSubheader>
 						{Object.entries(labels).map(([key, label]) => (
 							<ListItem
 								key={label.id}
@@ -111,6 +125,7 @@ function NotesSidebarContent(props) {
 					</List>
 					<Divider />
 					<List>
+						<ListSubheader>By Date</ListSubheader>
 						<ListItem
 							button
 							component={NavLinkAdapter}
@@ -121,7 +136,23 @@ function NotesSidebarContent(props) {
 							<Icon className="list-item-icon text-16" color="action">
 								archive
 							</Icon>
-							<ListItemText className="truncate" primary="Archive" disableTypography />
+							<ListItemText className="truncate" primary="Closed" disableTypography />
+						</ListItem>
+					</List>
+					<Divider />
+					<List>
+						<ListSubheader>Archive</ListSubheader>
+						<ListItem
+							button
+							component={NavLinkAdapter}
+							to="/apps/notes/archive"
+							activeClassName="active"
+							className={classes.listItem}
+						>
+							<Icon className="list-item-icon text-16" color="action">
+								archive
+							</Icon>
+							<ListItemText className="truncate" primary="Closed" disableTypography />
 						</ListItem>
 					</List>
 				</Paper>

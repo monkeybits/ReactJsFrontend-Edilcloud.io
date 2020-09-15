@@ -334,7 +334,7 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 					});
 					setTimeout(() => {
 						convertosvg();
-					}, 1000);
+					}, 400);
 
 					// console.log('imageRef', imageRef.getClientRect())
 				}}

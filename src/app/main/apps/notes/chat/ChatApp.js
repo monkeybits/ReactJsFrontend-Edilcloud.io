@@ -123,7 +123,7 @@ function ChatApp(props) {
 		dispatch(Actions.companyInfo());
 	}, [dispatch]);
 	useEffect(() => {
-		if (company.can_access_chat && routeParams.id) {
+		// if (company.can_access_chat && routeParams.id) {
 			dispatch(Actions.getUserData(routeParams.id));
 			dispatch(Actions.getContacts(routeParams.id));
 			let callMessageList = setInterval(() => dispatch(Actions.getChat(routeParams.id)), 3000);
@@ -135,9 +135,9 @@ function ChatApp(props) {
 				});
 				clearInterval(callMessageList);
 			};
-		} else {
-			props.history.push('/apps/todo/all');
-		}
+		// } else {
+		// 	props.history.push('/apps/todo/all');
+		// }
 	}, [dispatch, company, routeParams]);
 	return (
 		<div className={clsx(classes.root, 'h-full p-20 inner-height')}>
