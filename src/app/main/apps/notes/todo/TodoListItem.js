@@ -51,6 +51,9 @@ function TodoListItem(props) {
 		setOpen(!open);
 	};
 	useEffect(() => {
+		setTaskDetail(props.todo.activities);
+	}, [props.todo]);
+	useEffect(() => {
 		/**
 		 * After Dialog Open
 		 */
@@ -156,13 +159,14 @@ function TodoListItem(props) {
 								<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
 							</div>
 						) : moment().diff(moment(props.todo.date_start)) > 0 ? (
-							<>
-								{' '}
-								<div className={clsx('flex items-center px-8 py-4 bg-green rounded-sm text-white')}>
-									<Icon className="text-16">access_time</Icon>
-									<span className="mx-4">{moment(props.todo.date_start).format('MMM Do YY')}</span>
-								</div>
-								{moment().diff(moment(props.todo.date_end)) > 0 ? (
+							moment().diff(moment(props.todo.date_end)) > 0 ? (
+								<>
+									<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
+										<Icon className="text-16">access_time</Icon>
+										<span className="mx-4">
+											{moment(props.todo.date_start).format('MMM Do YY')}
+										</span>
+									</div>
 									<div
 										className={clsx(
 											'flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white'
@@ -171,13 +175,21 @@ function TodoListItem(props) {
 										<Icon className="text-16">access_time</Icon>
 										<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
 									</div>
-								) : (
+								</>
+							) : (
+								<>
+									<div className={clsx('flex items-center px-8 py-4 bg-green rounded-sm text-white')}>
+										<Icon className="text-16">access_time</Icon>
+										<span className="mx-4">
+											{moment(props.todo.date_start).format('MMM Do YY')}
+										</span>
+									</div>
 									<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
 										<Icon className="text-16">access_time</Icon>
 										<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
 									</div>
-								)}
-							</>
+								</>
+							)
 						) : (
 							<>
 								<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
@@ -236,7 +248,7 @@ function TodoListItem(props) {
 										ev.preventDefault();
 										ev.stopPropagation();
 										if (props.todo.assigned_company?.id == company.id) {
-											getDetailOfTask();
+											setOpen(true);
 										}
 									}
 								}}
