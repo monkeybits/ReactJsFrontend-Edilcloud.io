@@ -17,17 +17,34 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions/index';
 import reducer from './store/reducers';
+import TimelineTab from 'app/main/pages/profile/tabs/TimelineTab';
+
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Checkbox } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		width: 280
+		width: 450
 	}
 }));
 
+const useStylesAccordion = makeStyles(theme => ({
+	root: {
+		width: '100%'
+	},
+	heading: {
+		fontSize: theme.typography.pxToRem(15),
+		fontWeight: theme.typography.fontWeightRegular
+	}
+}));
 function QuickPanel(props) {
 	const dispatch = useDispatch();
 	const data = useSelector(({ quickPanel }) => quickPanel.data);
 	const state = useSelector(({ quickPanel }) => quickPanel.state);
+	const classesAccordion = useStylesAccordion();
 
 	const classes = useStyles();
 	const [checked, setChecked] = useState('notifications');
@@ -57,87 +74,87 @@ function QuickPanel(props) {
 			onClose={ev => dispatch(Actions.toggleQuickPanel())}
 		>
 			<FuseScrollbars>
-				<ListSubheader component="div">Today</ListSubheader>
-
-				<div className="mb-0 py-16 px-24">
-					<Typography className="mb-12 text-32" color="textSecondary">
-						{moment().format('dddd')}
-					</Typography>
-					<div className="flex">
-						<Typography className="leading-none text-32" color="textSecondary">
-							{moment().format('DD')}
-						</Typography>
-						<Typography className="leading-none text-16" color="textSecondary">
-							th
-						</Typography>
-						<Typography className="leading-none text-32" color="textSecondary">
-							{moment().format('MMMM')}
-						</Typography>
-					</div>
+				<ListSubheader component="div">Alerted posts</ListSubheader>
+				<div className={classes.root}>
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel1a-content"
+							id="panel1a-header"
+						>
+							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
+							<Typography className={classes.heading}>Accordion 1</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<TimelineTab />
+						</AccordionDetails>
+					</Accordion>
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel2a-content"
+							id="panel2a-header"
+						>
+							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
+							<Typography className={classes.heading}>Accordion 2</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<TimelineTab />
+						</AccordionDetails>
+					</Accordion>
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel2a-content"
+							id="panel2a-header"
+						>
+							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
+							<Typography className={classes.heading}>Accordion 3</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<TimelineTab />
+						</AccordionDetails>
+					</Accordion>
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel2a-content"
+							id="panel2a-header"
+						>
+							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
+							<Typography className={classes.heading}>Accordion 4</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<TimelineTab />
+						</AccordionDetails>
+					</Accordion>
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel2a-content"
+							id="panel2a-header"
+						>
+							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
+							<Typography className={classes.heading}>Accordion 5</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<TimelineTab />
+						</AccordionDetails>
+					</Accordion>
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel2a-content"
+							id="panel2a-header"
+						>
+							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
+							<Typography className={classes.heading}>Accordion 6</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<TimelineTab />
+						</AccordionDetails>
+					</Accordion>
 				</div>
-				<Divider />
-				<List>
-					<ListSubheader component="div">Events</ListSubheader>
-					{data &&
-						data.events.map(event => (
-							<ListItem key={event.id}>
-								<ListItemText primary={event.title} secondary={event.detail} />
-							</ListItem>
-						))}
-				</List>
-				<Divider />
-				<List>
-					<ListSubheader component="div">Notes</ListSubheader>
-					{data &&
-						data.notes.map(note => (
-							<ListItem key={note.id}>
-								<ListItemText primary={note.title} secondary={note.detail} />
-							</ListItem>
-						))}
-				</List>
-				<Divider />
-				<List>
-					<ListSubheader component="div">Quick Settings</ListSubheader>
-					<ListItem>
-						<ListItemIcon className="min-w-40">
-							<Icon>notifications</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Notifications" />
-						<ListItemSecondaryAction>
-							<Switch
-								color="primary"
-								onChange={handleToggle('notifications')}
-								checked={checked.indexOf('notifications') !== -1}
-							/>
-						</ListItemSecondaryAction>
-					</ListItem>
-					<ListItem>
-						<ListItemIcon className="min-w-40">
-							<Icon>cloud</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Cloud Sync" />
-						<ListItemSecondaryAction>
-							<Switch
-								color="secondary"
-								onChange={handleToggle('cloudSync')}
-								checked={checked.indexOf('cloudSync') !== -1}
-							/>
-						</ListItemSecondaryAction>
-					</ListItem>
-					<ListItem>
-						<ListItemIcon className="min-w-40">
-							<Icon>brightness_high</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Retro Thrusters" />
-						<ListItemSecondaryAction>
-							<Switch
-								color="primary"
-								onChange={handleToggle('retroThrusters')}
-								checked={checked.indexOf('retroThrusters') !== -1}
-							/>
-						</ListItemSecondaryAction>
-					</ListItem>
-				</List>
 			</FuseScrollbars>
 		</Drawer>
 	);
