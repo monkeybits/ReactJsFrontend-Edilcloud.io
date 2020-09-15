@@ -41,6 +41,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { Slider, withStyles, CircularProgress } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import { useParams } from 'react-router';
+import CreatePostForm from '../CreatePostForm';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -599,18 +600,15 @@ function TaskContentForm(props) {
 					</Button>
 				</TabPanel>
 				<TabPanel value={value} index={1}>
+					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
+				</TabPanel>
+				{/* <TabPanel value={value} index={1}>
 					<div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center mb-24">
 						<div className="mb-16 sm:mb-0 flex items-center">
 							<Typography>{'board.name'}</Typography>
 							<Icon className="text-20" color="inherit">
 								chevron_right
 							</Icon>
-							{/* {React.useMemo(() => {
-							const list = card ? _.find(board.lists, _list => _list.idCards.includes(card.id)) : null;
-
-							return <Typography>{list && list.name}</Typography>;
-						}, [board, card])} */}
-
 							<Typography>Hello</Typography>
 							<Typography>Hello1</Typography>
 						</div>
@@ -712,7 +710,8 @@ function TaskContentForm(props) {
 							// onRemoveCheckList={() => removeCheckList(checklist.id)}
 						/>
 					))}
-				</TabPanel>
+				</TabPanel> */}
+
 				<TabPanel value={value} index={2}>
 					<div className="mb-24">
 						<div className="flex items-center mt-16">

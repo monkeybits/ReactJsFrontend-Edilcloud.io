@@ -94,7 +94,9 @@ export const GET_COMPANY_PROJECT_TEAM_MEMBER_LIST = (pid, cid, searchString) =>
 	`/api/frontend/project/project/${pid}/approve/team_list/?filter__profile__company__id=${cid}&filter__profile__first_name__icontains=${searchString}&filter__profile__last_name__icontains=${searchString}&no_page=no_page`;
 export const GET_ACTIVITY_OF_TASK = tid => `/api/frontend/project/task/${tid}/activity_list/`;
 export const ADD_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/add_post/`;
+export const ADD_POST_TO_TASK = tid => `/api/frontend/project/task/${tid}/add_post/`;
 export const GET_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/post_list/`;
+export const GET_POST_FOR_TASK = tid => `/api/frontend/project/task/${tid}/post_list/`;
 export const ADD_COMMENT_TO_POST = pid => `/api/frontend/project/post/${pid}/add_comment/`;
 export const GET_COMMENT_OF_POST = pid => `/api/frontend/project/post/${pid}/comment_list/`;
 export const GET_REPLIES_OF_COMMENT = cid => `/api/frontend/project/comment/${cid}/replies_list/`;

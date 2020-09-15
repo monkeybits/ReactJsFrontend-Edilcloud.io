@@ -19,7 +19,12 @@ import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_POST_TO_ACTIVITY, GET_POST_TO_ACTIVITY } from 'app/services/apiEndPoints';
+import {
+	ADD_POST_TO_ACTIVITY,
+	GET_POST_TO_ACTIVITY,
+	GET_POST_FOR_TASK,
+	ADD_POST_TO_TASK
+} from 'app/services/apiEndPoints';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
@@ -29,7 +34,7 @@ import PostList from './PostList';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 
-function CreatePostForm() {
+function CreatePostForm({ isTask, taskId }) {
 	const dispatch = useDispatch();
 	const [data, setData] = useState(null);
 	const [text, setText] = useState('');
@@ -47,6 +52,12 @@ function CreatePostForm() {
 			getPosts();
 		}
 	}, [todoDialog.data]);
+	useEffect(() => {
+		setData({});
+		if (isTask) {
+			getPosts();
+		}
+	}, [isTask]);
 	function closeTodoDialog() {
 		return todoDialog.type === 'edit'
 			? dispatch(Actions.closeActivityTodoDialog())
@@ -54,7 +65,7 @@ function CreatePostForm() {
 	}
 	const getPosts = () => {
 		apiCall(
-			GET_POST_TO_ACTIVITY(todoDialog.data?.id),
+			isTask ? GET_POST_FOR_TASK(taskId) : GET_POST_TO_ACTIVITY(todoDialog.data?.id),
 			{},
 			res => setData({ posts: res.results }),
 			err => console.log(err),
@@ -78,7 +89,7 @@ function CreatePostForm() {
 			if (values[key]) formData.append(key, values[key]);
 		}
 		apiCall(
-			ADD_POST_TO_ACTIVITY(todoDialog.data?.id),
+			isTask ? ADD_POST_TO_TASK(taskId) : ADD_POST_TO_ACTIVITY(todoDialog.data?.id),
 			formData,
 			res => {
 				document.getElementById('addPost').value = '';
