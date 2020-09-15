@@ -308,7 +308,14 @@
 .chat-tab-content-height .inner-height {
     height: calc(100vh - 40px);
 }
-
+.justify-content-between {
+    -ms-flex-pack: justify!important;
+    justify-content: space-between!important;
+}
+.flex-fill {
+    -ms-flex: 1 1 auto!important;
+    flex: 1 1 auto!important;
+}
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
         min-width: 100px !important;
@@ -323,7 +330,7 @@
         height: auto !important;
     }
     .team-chat-sidebar {
-        transform: translate3d(475px,0,0);
+        transform: translate3d(585px,0,0);
         width: 100%;
     }
     .team-chat-sidebar .team-chat-body {
