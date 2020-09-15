@@ -250,6 +250,19 @@ function TodoListItem(props) {
 					{/* right side footer */}
 					<div className="flex items-center justify-end -mx-6">
 						{props.todo.assigned_company?.id == company.id && (
+							<IconButton
+								onClick={ev => {
+									ev.preventDefault();
+									ev.stopPropagation();
+									if (props.todo.assigned_company) {
+										dispatch(Actions.openAddActivityTodoDialog(props.todo));
+									}
+								}}
+							>
+								<Icon>playlist_add</Icon>
+							</IconButton>
+						)}
+						{props.todo.assigned_company?.id == company.id && (
 							<div
 								class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white"
 								onClick={ev => {
@@ -268,7 +281,7 @@ function TodoListItem(props) {
 							>
 								<Icon className="text-16">check_circle</Icon>
 								<span class="mx-4">Open Activities list</span>
-								<span class="mx-4">2/7</span>
+								<span class="mx-4"> 0/{taskDetail.length}</span>
 
 								{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}
 							</div>
