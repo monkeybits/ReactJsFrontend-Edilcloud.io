@@ -94,45 +94,111 @@ function TodoListItem(props) {
 				}
 			>
 				{/* card body */}
-				<div className="p-16 pb-0">
+				<div className="p-16 pb-0 flex items-center justify-content-between">
 					{/* lebels are below */}
-					<div className="flex flex-wrap mb-8 -mx-4">
-						{props.todo.assigned_company?.name && (
-							<Tooltip title={props.todo.assigned_company.name}>
-								<div
-									className={clsx('text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')}
-									style={{ borderColor: props.todo.assigned_company.color_project }}
+					<div className="flex-fill mr-12">
+						<div className="flex flex-wrap mb-8 -mx-4">
+							{props.todo.assigned_company?.name && (
+								<Tooltip title={props.todo.assigned_company.name}>
+									<div
+										className={clsx('text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')}
+										style={{ borderColor: props.todo.assigned_company.color_project }}
+									/>
+								</Tooltip>
+							)}
+
+							{/* <Tooltip title={'hello'}>
+							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
+						</Tooltip> */}
+
+							{/* <Tooltip title={'hello'}>
+							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
+						</Tooltip> */}
+						</div>
+
+						{/* content can be below */}
+						<div class="flex items-center mb-6 -mx-4">
+							{props.todo.assigned_company && (
+								<TodoChip
+									title={props.todo.assigned_company?.name}
+									color={props.todo.assigned_company?.color_project}
 								/>
-							</Tooltip>
-						)}
+							)}
+						</div>
+						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit">
+							{' '}
+							{props.todo.name}{' '}
+						</Typography>
+						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary">
+							{projectDetail?.name}
+						</Typography>
 
-						{/* <Tooltip title={'hello'}>
-							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
-						</Tooltip> */}
-
-						{/* <Tooltip title={'hello'}>
-							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
-						</Tooltip> */}
+						{/* dates below */}
+						<div className="flex items-center mb-8">
+							{props.todo.progress == 100 ? (
+								<div
+									className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm bg-green text-white')}
+								>
+									<Icon className="text-16">access_time</Icon>
+									<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
+								</div>
+							) : moment().diff(moment(props.todo.date_start)) > 0 ? (
+								moment().diff(moment(props.todo.date_end)) > 0 ? (
+									<>
+										<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
+											<Icon className="text-16">access_time</Icon>
+											<span className="mx-4">
+												{moment(props.todo.date_start).format('MMM Do YY')}
+											</span>
+										</div>
+										<div
+											className={clsx(
+												'flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white'
+											)}
+										>
+											<Icon className="text-16">access_time</Icon>
+											<span className="mx-4">
+												{moment(props.todo.date_end).format('MMM Do YY')}
+											</span>
+										</div>
+									</>
+								) : (
+									<>
+										<div
+											className={clsx(
+												'flex items-center px-8 py-4 bg-green rounded-sm text-white'
+											)}
+										>
+											<Icon className="text-16">access_time</Icon>
+											<span className="mx-4">
+												{moment(props.todo.date_start).format('MMM Do YY')}
+											</span>
+										</div>
+										<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
+											<Icon className="text-16">access_time</Icon>
+											<span className="mx-4">
+												{moment(props.todo.date_end).format('MMM Do YY')}
+											</span>
+										</div>
+									</>
+								)
+							) : (
+								<>
+									<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
+										<Icon className="text-16">access_time</Icon>
+										<span className="mx-4">
+											{moment(props.todo.date_start).format('MMM Do YY')}
+										</span>
+									</div>
+									<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
+										<Icon className="text-16">access_time</Icon>
+										<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
+									</div>
+								</>
+							)}
+						</div>
 					</div>
-
-					{/* content can be below */}
-					<div class="flex items-center mb-6 -mx-4">
-						{props.todo.assigned_company && (
-							<TodoChip
-								title={props.todo.assigned_company?.name}
-								color={props.todo.assigned_company?.color_project}
-							/>
-						)}
-					</div>
-					<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit">
-						{' '}
-						{props.todo.name}{' '}
-					</Typography>
-					<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary">
-						{projectDetail?.name}
-					</Typography>
-
-					<div className="flex items-center float-right -mx-6">
+					<div className="flex items-center -mt-12">
 						<Box position="relative" display="inline-flex">
 							<CircularProgress color="secondary" variant="static" value={props.todo.progress} />
 							<Box
@@ -151,59 +217,6 @@ function TodoListItem(props) {
 							</Box>
 						</Box>
 					</div>
-					{/* dates below */}
-					<div className="flex items-center mb-8">
-						{props.todo.progress == 100 ? (
-							<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm bg-green text-white')}>
-								<Icon className="text-16">access_time</Icon>
-								<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
-							</div>
-						) : moment().diff(moment(props.todo.date_start)) > 0 ? (
-							moment().diff(moment(props.todo.date_end)) > 0 ? (
-								<>
-									<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
-										<Icon className="text-16">access_time</Icon>
-										<span className="mx-4">
-											{moment(props.todo.date_start).format('MMM Do YY')}
-										</span>
-									</div>
-									<div
-										className={clsx(
-											'flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white'
-										)}
-									>
-										<Icon className="text-16">access_time</Icon>
-										<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
-									</div>
-								</>
-							) : (
-								<>
-									<div className={clsx('flex items-center px-8 py-4 bg-green rounded-sm text-white')}>
-										<Icon className="text-16">access_time</Icon>
-										<span className="mx-4">
-											{moment(props.todo.date_start).format('MMM Do YY')}
-										</span>
-									</div>
-									<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
-										<Icon className="text-16">access_time</Icon>
-										<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
-									</div>
-								</>
-							)
-						) : (
-							<>
-								<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
-									<Icon className="text-16">access_time</Icon>
-									<span className="mx-4">{moment(props.todo.date_start).format('MMM Do YY')}</span>
-								</div>
-								<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
-									<Icon className="text-16">access_time</Icon>
-									<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
-								</div>
-							</>
-						)}
-					</div>
-
 					{/* <div class="flex items-center mb-12 -mx-4">
 						{moment().diff(moment(props.todo.date_end)) > 0 && (
 							<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white">
