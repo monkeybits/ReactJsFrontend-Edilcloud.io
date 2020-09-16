@@ -42,6 +42,7 @@ import { Slider, withStyles, CircularProgress } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import { useParams } from 'react-router';
 import CreatePostForm from '../CreatePostForm';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -180,6 +181,8 @@ function TaskContentForm(props) {
 	const [progress, setProgress] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const routeParams = useParams();
+	const companyDetail = useSelector(({ chatApp }) => chatApp?.company);
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const [taskDate, setTaskDate] = useState({
 		startDate: new Date(),
 		endDate: undefined
@@ -216,7 +219,8 @@ function TaskContentForm(props) {
 			setProgress(taskContentData.progress);
 		}
 	}, [companies, taskContentData]);
-
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	let labels = [
 		{
 			id: '26022e4129ad3a5sc28b36cd',
@@ -285,6 +289,47 @@ function TaskContentForm(props) {
 		}
 	];
 	let attachments = [
+		{
+			id: '12027cafbe3b52ecf2ef632c',
+			name: 'header-.jpg',
+			src: 'assets/images/scrumboard/header-1.jpg',
+			time: 'Added Nov 3 at 15:22AM',
+			type: 'image'
+		},
+		{
+			id: '55027ced1e1a12ecf1fced2a',
+			name: 'header-2.jpg',
+			src: 'assets/images/scrumboard/header-2.jpg',
+			time: 'Added Nov 1 at 12:34PM',
+			type: 'image'
+		},
+		{
+			id: '56027cfcbe1b72ecf1fc452a',
+			name: 'calendar-app-design.jpg',
+			src: 'assets/images/scrumboard/calendar.jpg',
+			time: 'Added Nov 1 at 12:34PM',
+			type: 'image'
+		},
+		{
+			id: '67027cahbe3b52ecf2dc631c',
+			url: 'assets/images/scrumboard/calendar.jpg',
+			time: 'Added Nov 3 at 15:22AM',
+			type: 'link'
+		},
+		{
+			id: '5603a2ae2bbd55bb2db57478',
+			name: 'mail-app-design.jpg',
+			src: 'assets/images/scrumboard/mail.jpg',
+			time: 'Added Nov 1 at 12:34PM',
+			type: 'image'
+		},
+		{
+			id: '12027cafbe3b52ecf2ef632c',
+			name: 'header-.jpg',
+			src: 'assets/images/scrumboard/header-1.jpg',
+			time: 'Added Nov 3 at 15:22AM',
+			type: 'image'
+		},
 		{
 			id: '12027cafbe3b52ecf2ef632c',
 			name: 'header-.jpg',
@@ -409,6 +454,13 @@ function TaskContentForm(props) {
 			)
 		);
 	};
+	const getIsDisabled = () => projectDetail.company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
+	console.log({
+		getIsDisabled: getIsDisabled(),
+		projectDetail: projectDetail.company?.id,
+		companyDetail: companyDetail.id,
+		getRole: getRole()
+	});
 	return (
 		<>
 			<DialogTitle component="div" className="p-0">
@@ -446,9 +498,62 @@ function TaskContentForm(props) {
 
 			<DialogContent className="p-16 sm:p-24">
 				<TabPanel value={value} index={0}>
+					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
+				</TabPanel>
+				<TabPanel value={value} index={1}>
+					<div className="mb-24">
+						<div className="flex items-center mt-16 mb-12">
+							<Icon className="text-20" color="inherit">
+								attachment
+							</Icon>
+							<Typography className="font-600 text-16 mx-8">Attachments</Typography>
+						</div>
+						<div className="flex flex-col sm:flex-row flex-wrap -mx-16">
+							{attachments.map(item => (
+								<CardAttachment
+									item={item}
+									card={cardForm}
+									// makeCover={makeCover}
+									// removeCover={removeCover}
+									// removeAttachment={removeAttachment}
+									key={item.id}
+								/>
+							))}
+						</div>
+					</div>
+					{/* <div className="mb-24">
+						<div className="flex items-center mt-16">
+							<Icon className="text-20" color="inherit">
+								list
+							</Icon>
+							<Typography className="font-600 text-16 mx-8">Activity</Typography>
+						</div>
+						<List className="">
+							{activities.map(item => (
+								<CardActivity item={item} key={item.id} members={members} />
+							))}
+						</List>
+					</div>
+				 */}
+					{/* <div className="mb-24">
+						<div className="flex items-center mt-16 mb-12">
+							<Icon className="text-20" color="inherit">
+								comment
+							</Icon>
+							<Typography className="font-600 text-16 mx-8">Comment</Typography>
+						</div>
+						<div>
+							<CardComment members={members} onCommentAdd={commentAdd} />
+						</div>
+					</div>
+			 */}
+				</TabPanel>
+
+				<TabPanel value={value} index={2}>
 					<div className="flex items-center mb-24">
 						<TextField
 							label="Title"
+							disabled={getIsDisabled()}
 							type="text"
 							name="name"
 							variant="outlined"
@@ -470,6 +575,7 @@ function TaskContentForm(props) {
 					{taskContent.type === 'activity' ? (
 						<div className="mt-8 mb-16 select-dropdown">
 							<FuseChipSelect
+								isDisabled={getIsDisabled()}
 								placeholder="Select Profile"
 								variant="fixed"
 								isMulti
@@ -499,6 +605,7 @@ function TaskContentForm(props) {
 								<FuseChipSelect
 									className=""
 									placeholder="Select Company"
+									isDisabled={getIsDisabled()}
 									variant="fixed"
 									isMulti
 									textFieldProps={{
@@ -537,6 +644,7 @@ function TaskContentForm(props) {
 							label="Description"
 							name="description"
 							value={cardForm.description}
+							disabled={getIsDisabled()}
 							onChange={handleChange}
 							multiline
 							rows="4"
@@ -548,6 +656,7 @@ function TaskContentForm(props) {
 						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
 							<label>Start Date</label>
 							<DatePicker
+								disabled={getIsDisabled()}
 								dateFormat="dd/MM/yyyy"
 								selected={taskDate.startDate}
 								minDate={taskDate.startDate}
@@ -565,6 +674,7 @@ function TaskContentForm(props) {
 							<DatePicker
 								dateFormat="dd/MM/yyyy"
 								selected={taskDate.endDate}
+								disabled={getIsDisabled()}
 								minDate={taskDate.startDate}
 								onChange={endDate => {
 									setTaskDate({
@@ -579,6 +689,7 @@ function TaskContentForm(props) {
 					<div className="mt-24 mx-12 zoom-125">
 						<IOSSlider
 							aria-label="ios slider"
+							disabled={getIsDisabled()}
 							defaultValue={0}
 							marks={marks}
 							onChange={(e, v) => setProgress(v)}
@@ -593,15 +704,13 @@ function TaskContentForm(props) {
 						color="secondary"
 						type="submit"
 						size="small"
-						disabled={!isFormInvalid()}
-						onClick={handleSubmit}
+						disabled={!isFormInvalid() || getIsDisabled()}
+						onClick={getIsDisabled() ? () => '' : handleSubmit}
 					>
 						Save {loading && <CircularProgress size={15} color="secondary" />}
 					</Button>
 				</TabPanel>
-				<TabPanel value={value} index={1}>
-					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
-				</TabPanel>
+
 				{/* <TabPanel value={value} index={1}>
 					<div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center mb-24">
 						<div className="mb-16 sm:mb-0 flex items-center">
@@ -711,33 +820,6 @@ function TaskContentForm(props) {
 						/>
 					))}
 				</TabPanel> */}
-
-				<TabPanel value={value} index={2}>
-					<div className="mb-24">
-						<div className="flex items-center mt-16">
-							<Icon className="text-20" color="inherit">
-								list
-							</Icon>
-							<Typography className="font-600 text-16 mx-8">Activity</Typography>
-						</div>
-						<List className="">
-							{activities.map(item => (
-								<CardActivity item={item} key={item.id} members={members} />
-							))}
-						</List>
-					</div>
-					<div className="mb-24">
-						<div className="flex items-center mt-16 mb-12">
-							<Icon className="text-20" color="inherit">
-								comment
-							</Icon>
-							<Typography className="font-600 text-16 mx-8">Comment</Typography>
-						</div>
-						<div>
-							<CardComment members={members} onCommentAdd={commentAdd} />
-						</div>
-					</div>
-				</TabPanel>
 			</DialogContent>
 
 			<DialogActions>
