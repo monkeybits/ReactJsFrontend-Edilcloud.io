@@ -8,6 +8,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@material-ui/core';
 
 function ProjectDetailHeader(props) {
 	const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function ProjectDetailHeader(props) {
 							{projectDetail.name}
 						</Typography>
 					</FuseAnimate>
+					<Button color="secondary" onClick={() => props.onOpen()}>open detail</Button>
 				</div>
 			</div>
 		</div>

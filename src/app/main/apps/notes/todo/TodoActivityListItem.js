@@ -19,6 +19,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
+import MembersMenu from './Dialog/toolbar/MembersMenu';
 
 const useStyles = makeStyles(theme => ({
 	todoItem: {
@@ -41,6 +42,28 @@ function TodoActivityListItem(props) {
 	const [completed, setCompleted] = React.useState(false);
 	const [taskDetail, setTaskDetail] = useState([]);
 	const classes = useStyles(props);
+	let members = [
+		{
+			id: '56027c1930450d8bf7b10758',
+			name: 'Alice Freeman',
+			avatar: 'assets/images/avatars/alice.jpg'
+		},
+		{
+			id: '26027s1930450d8bf7b10828',
+			name: 'Danielle Obrien',
+			avatar: 'assets/images/avatars/danielle.jpg'
+		},
+		{
+			id: '76027g1930450d8bf7b10958',
+			name: 'James Lewis',
+			avatar: 'assets/images/avatars/james.jpg'
+		},
+		{
+			id: '36027j1930450d8bf7b10158',
+			name: 'John Doe',
+			avatar: 'assets/images/avatars/Velazquez.jpg'
+		}
+	];
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -110,13 +133,11 @@ function TodoActivityListItem(props) {
 											{moment(props.todo.datetime_start).format('MMM Do YY')}
 										</span>
 									</div>
-									<div
-										className={clsx(
-											'flex items-center px-8 py-4 rounded-sm bg-red text-white'
-										)}
-									>
+									<div className={clsx('flex items-center px-8 py-4 rounded-sm bg-red text-white')}>
 										<Icon className="text-16">access_time</Icon>
-										<span className="mx-4">{moment(props.todo.datetime_end).format('MMM Do YY')}</span>
+										<span className="mx-4">
+											{moment(props.todo.datetime_end).format('MMM Do YY')}
+										</span>
 									</div>
 								</>
 							) : (
@@ -129,7 +150,9 @@ function TodoActivityListItem(props) {
 									</div>
 									<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
 										<Icon className="text-16">access_time</Icon>
-										<span className="mx-4">{moment(props.todo.datetime_end).format('MMM Do YY')}</span>
+										<span className="mx-4">
+											{moment(props.todo.datetime_end).format('MMM Do YY')}
+										</span>
 									</div>
 								</>
 							)
@@ -137,7 +160,9 @@ function TodoActivityListItem(props) {
 							<>
 								<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
 									<Icon className="text-16">access_time</Icon>
-									<span className="mx-4">{moment(props.todo.datetime_start).format('MMM Do YY')}</span>
+									<span className="mx-4">
+										{moment(props.todo.datetime_start).format('MMM Do YY')}
+									</span>
 								</div>
 								<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
 									<Icon className="text-16">access_time</Icon>
@@ -183,6 +208,11 @@ function TodoActivityListItem(props) {
 							<Icon>edit</Icon>
 						</IconButton>
 					</div>
+					<MembersMenu
+						onToggleMember={() => ''}
+						members={members}
+						// idMembers={cardForm.idMembers}
+					/>
 				</div>
 			</ListItem>
 		</>
