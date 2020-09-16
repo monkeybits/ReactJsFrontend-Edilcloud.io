@@ -238,12 +238,7 @@ function TodoListItem(props) {
 				{/* footer */}
 				<div className="flex justify-between h-48 px-16 border-t-1">
 					{/* left side footer */}
-					<div className="flex items-center -mx-6">
-						<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
-							<Icon className="text-16">check_circle</Icon>
-							<span class="mx-4">2/7</span>
-						</div>
-					</div>
+					
 
 					{/* right side footer */}
 					<div className="flex items-center justify-end -mx-6">
