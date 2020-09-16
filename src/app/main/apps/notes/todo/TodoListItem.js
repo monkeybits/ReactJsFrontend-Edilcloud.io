@@ -279,7 +279,7 @@ function TodoListItem(props) {
 							>
 								<Icon className="text-16">check_circle</Icon>
 								<span class="mx-4">Open Activities list</span>
-								<span class="mx-4"> 0/{taskDetail.length}</span>
+								<span class="mx-4"> 0/{taskDetail?.length}</span>
 
 								{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}
 							</div>

@@ -18,6 +18,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
 	todoItem: {
@@ -37,6 +38,7 @@ function TodoActivityListItem(props) {
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
 	const [open, setOpen] = React.useState(false);
+	const [completed, setCompleted] = React.useState(false);
 	const [taskDetail, setTaskDetail] = useState([]);
 	const classes = useStyles(props);
 	const handleClick = () => {
@@ -62,11 +64,9 @@ function TodoActivityListItem(props) {
 	return (
 		<>
 			<ListItem
-				className={clsx(
-					classes.todoItem,
-					{ completed: props.todo.completed },
-					'border-solid border-b-1 py-16 px-0 sm:px-8'
-				)}
+				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-16 px-0 sm:px-8')}
+				checked={completed}
+				onChange={() => setCompleted(prev => !prev)}
 				onClick={ev => {
 					ev.preventDefault();
 					dispatch(Actions.openTimelineDialog(props.todo));
@@ -95,7 +95,57 @@ function TodoActivityListItem(props) {
 					<Typography color="textSecondary" className="todo-notes">
 						{_.truncate(props.todo.description?.replace(/<(?:.|\n)*?>/gm, ''), { length: 180 })}
 					</Typography>
-
+					<div className="flex items-center mb-8">
+						{props.todo.progress == 100 ? (
+							<div className={clsx('flex items-center px-8 py-4 rounded-sm bg-green text-white')}>
+								<Icon className="text-16">access_time</Icon>
+								<span className="mx-4">{moment(props.todo.datetime_end).format('MMM Do YY')}</span>
+							</div>
+						) : moment().diff(moment(props.todo.datetime_start)) > 0 ? (
+							moment().diff(moment(props.todo.datetime_end)) > 0 ? (
+								<>
+									<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
+										<Icon className="text-16">access_time</Icon>
+										<span className="mx-4">
+											{moment(props.todo.datetime_start).format('MMM Do YY')}
+										</span>
+									</div>
+									<div
+										className={clsx(
+											'flex items-center px-8 py-4 rounded-sm bg-red text-white'
+										)}
+									>
+										<Icon className="text-16">access_time</Icon>
+										<span className="mx-4">{moment(props.todo.datetime_end).format('MMM Do YY')}</span>
+									</div>
+								</>
+							) : (
+								<>
+									<div className={clsx('flex items-center px-8 py-4 bg-green rounded-sm text-white')}>
+										<Icon className="text-16">access_time</Icon>
+										<span className="mx-4">
+											{moment(props.todo.datetime_start).format('MMM Do YY')}
+										</span>
+									</div>
+									<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
+										<Icon className="text-16">access_time</Icon>
+										<span className="mx-4">{moment(props.todo.datetime_end).format('MMM Do YY')}</span>
+									</div>
+								</>
+							)
+						) : (
+							<>
+								<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
+									<Icon className="text-16">access_time</Icon>
+									<span className="mx-4">{moment(props.todo.datetime_start).format('MMM Do YY')}</span>
+								</div>
+								<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
+									<Icon className="text-16">access_time</Icon>
+									<span className="mx-4">{moment(props.todo.datetime_end).format('MMM Do YY')}</span>
+								</div>
+							</>
+						)}
+					</div>
 					<div className={clsx(classes.labels, 'flex -mx-2')}>
 						{props.todo.labels?.map(label => (
 							<TodoChip
