@@ -106,7 +106,7 @@ function TodoActivityListItem(props) {
 					onClick={ev => ev.stopPropagation()}
 				/>
 
-				<div className="flex flex-1 flex-col relative overflow-hidden px-8">
+				<div className="flex flex-1 flex-col mb-8 relative overflow-hidden px-8">
 					<Typography
 						variant="subtitle1"
 						className="todo-title"
