@@ -88,9 +88,7 @@ function TodoListItem(props) {
 			<Card
 				className={clsx(classes.card, 'w-full mb-16 rounded-4 cursor-pointer border-1')}
 				onClick={() =>
-					projectDetail.company?.id == company.id && (getRole() == 'o' || getRole() == 'd')
-						? dispatch(Actions.openTaskContent(props.todo))
-						: ''
+					getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''
 				}
 			>
 				{/* card body */}
