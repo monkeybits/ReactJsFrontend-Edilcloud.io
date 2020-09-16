@@ -92,7 +92,7 @@ function TodoListItem(props) {
 				}
 			>
 				{/* card body */}
-				<div className="p-16 pb-0 flex items-center justify-content-between">
+				<div className="p-16 flex items-center justify-content-between">
 					{/* lebels are below */}
 					<div className="flex-fill mr-12">
 						<div className="flex flex-wrap mb-8 -mx-4">
