@@ -25,6 +25,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Gantt from '../gantt/index';
 import Toolbar from '../gantt/Toolbar';
+import { Icon } from '@material-ui/core';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -89,22 +90,19 @@ function ProjectTabs({ value, setValue }) {
 	}, [dispatch, routeParams]);
 	return (
 		<div className={classes.root}>
-			<TabPanel value={value} index={0}>
-				<ProjectInfo />
-			</TabPanel>
-			<TabPanel value={value} index={1} className="no-data-height-full">
+			<TabPanel value={value} index={0} className="no-data-height-full">
 				<ContactsApp />
 			</TabPanel>
-			<TabPanel value={value} index={2} className="h-full chat-tab-content-height">
+			<TabPanel value={value} index={1} className="h-full chat-tab-content-height">
 				<ChatApp />
 			</TabPanel>
-			<TabPanel value={value} index={3} className="no-data-height-full">
+			<TabPanel value={value} index={2} className="no-data-height-full">
 				<TodoApp />
 			</TabPanel>
-			<TabPanel value={value} index={4} className="no-data-height-full">
+			<TabPanel value={value} index={3} className="no-data-height-full">
 				<FileManagerApp />
 			</TabPanel>
-			<TabPanel value={value} index={5}>
+			<TabPanel value={value} index={4}>
 				<div>
 					<div className="zoom-bar">
 						<Toolbar zoom={zoom.currentZoom} onZoomChange={handleZoomChange} />
@@ -123,12 +121,11 @@ function ProjectTabs({ value, setValue }) {
 					showLabels
 					className={classes.root}
 				>
-					<BottomNavigationAction label="Info" icon={<RestoreIcon />} {...a11yProps(0)} />
-					<BottomNavigationAction label="Team" icon={<FavoriteIcon />} {...a11yProps(1)} />
-					<BottomNavigationAction label="Chat" icon={<LocationOnIcon />} {...a11yProps(2)} />
-					<BottomNavigationAction label="Todo" icon={<RestoreIcon />} {...a11yProps(3)} />
-					<BottomNavigationAction label="File Manager" icon={<FavoriteIcon />} {...a11yProps(4)} />
-					<BottomNavigationAction label="Gantt" icon={<LocationOnIcon />} {...a11yProps(5)} />
+					<BottomNavigationAction label="Team" icon={<Icon>people</Icon>} {...a11yProps(0)} />
+					<BottomNavigationAction label="Chat" icon={<Icon>message</Icon>} {...a11yProps(1)} />
+					<BottomNavigationAction label="Todo" icon={<Icon>check_box</Icon>} {...a11yProps(2)} />
+					<BottomNavigationAction label="Files" icon={<Icon>folder</Icon>} {...a11yProps(3)} />
+					<BottomNavigationAction label="Gantt" icon={<Icon>subject</Icon>} {...a11yProps(4)} />
 				</BottomNavigation>
 			</AppBar>
 		</div>

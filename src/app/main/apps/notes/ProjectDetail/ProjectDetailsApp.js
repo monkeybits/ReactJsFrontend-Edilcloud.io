@@ -12,10 +12,12 @@ import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
 import ProjectContent from './ProjectContent';
 import { useRouteMatch } from 'react-router';
+import ProjectInfo from './ProjectInfo';
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();
-	const [value, setValue] = React.useState(3);
+	const [value, setValue] = React.useState(0);
+	const [openDialog, setOpenDialog] = React.useState(false);
 	const pageLayout = useRef(null);
 	const match = useRouteMatch();
 	let havePaddingTabs = [0];
@@ -34,13 +36,14 @@ function ProjectDetails(props) {
 					leftSidebar: 'w-256 border-0',
 					header: 'min-h-72 h-72 '
 				}}
-				header={<ProjectDetailHeader pageLayout={pageLayout} />}
+				header={<ProjectDetailHeader onOpen={() => setOpenDialog(true)} pageLayout={pageLayout} />}
 				content={<ProjectContent {...{ value, setValue }} />}
 				// leftSidebarContent={<NotesSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
 				innerScroll
 			/>
+			<ProjectInfo openDialog={openDialog} closeDialog={() => setOpenDialog(false)} />
 		</>
 	);
 }

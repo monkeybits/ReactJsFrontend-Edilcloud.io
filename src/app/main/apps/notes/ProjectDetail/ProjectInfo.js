@@ -24,8 +24,11 @@ import React, { useEffect, useState } from 'react';
 import ContactsApp from '../contacts/ContactsApp';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 
-export default function ProjectInfo() {
+export default function ProjectInfo({ openDialog, closeDialog }) {
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const {
 		name,
@@ -47,160 +50,166 @@ export default function ProjectInfo() {
 		note,
 		logo
 	} = projectDetail;
+
 	return (
-		<div className="md:flex max-w-2xl">
-			<div className="flex flex-col flex-1 md:ltr:pr-32 md:rtl:pl-32">
-				<FuseAnimateGroup
-					enter={{
-						animation: 'transition.slideUpBigIn'
-					}}
-				>
-					<Card className="w-full mb-16">
-						<AppBar position="static" elevation={0}>
-							<Toolbar className="px-8">
-								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
-									General Information
-								</Typography>
-							</Toolbar>
-						</AppBar>
+		<Dialog open={openDialog} onClose={closeDialog} fullWidth maxWidth="sm">
+			<AppBar position="static" elevation={1}>
+				<Toolbar className="flex w-full">
+					<Typography variant="subtitle1" color="inherit">
+						Project Detail
+					</Typography>
+				</Toolbar>
+			</AppBar>
+			<DialogContent>
+				<div className="md:flex max-w-2xl">
+					<div className="flex flex-col flex-1 md:ltr:pr-32 md:rtl:pl-32">
+						
+							<Card className="w-full mb-16">
+								<AppBar position="static" elevation={0}>
+									<Toolbar className="px-8">
+										<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+											General Information
+										</Typography>
+									</Toolbar>
+								</AppBar>
 
-						<CardContent>
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Name</Typography>
-								<Typography>{name}</Typography>
-							</div>
+								<CardContent>
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Name</Typography>
+										<Typography>{name}</Typography>
+									</div>
 
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Start Date</Typography>
-								<Typography>{moment(new Date(date_start)).format('LL')}</Typography>
-							</div>
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">End Date</Typography>
-								{date_end && <Typography>{moment(new Date(date_end)).format('LL')}</Typography>}
-							</div>
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Note</Typography>
-								<Typography>{note}</Typography>
-							</div>
-						</CardContent>
-					</Card>
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Start Date</Typography>
+										<Typography>{moment(new Date(date_start)).format('LL')}</Typography>
+									</div>
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">End Date</Typography>
+										{date_end && <Typography>{moment(new Date(date_end)).format('LL')}</Typography>}
+									</div>
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Note</Typography>
+										<Typography>{note}</Typography>
+									</div>
+								</CardContent>
+							</Card>
 
-					<Card className="w-full mb-16">
-						<AppBar position="static" elevation={0}>
-							<Toolbar className="px-8">
-								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
-									Work
-								</Typography>
-							</Toolbar>
-						</AppBar>
+							<Card className="w-full mb-16">
+								<AppBar position="static" elevation={0}>
+									<Toolbar className="px-8">
+										<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+											Work
+										</Typography>
+									</Toolbar>
+								</AppBar>
 
-						<CardContent>
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Occupation</Typography>
-								<Typography>{'work.occupation'}</Typography>
-							</div>
+								<CardContent>
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Occupation</Typography>
+										<Typography>{'work.occupation'}</Typography>
+									</div>
 
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Skills</Typography>
-								<Typography>{'work.skills'}</Typography>
-							</div>
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Skills</Typography>
+										<Typography>{'work.skills'}</Typography>
+									</div>
 
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Jobs</Typography>
-								<table className="">
-									<tbody>
-										{/* {work.jobs.map(job => ( */}
-										<tr key={'job.company'}>
-											<td>
-												<Typography>{'job.company'}</Typography>
-											</td>
-											<td className="px-16">
-												<Typography color="textSecondary">{'job.date'}</Typography>
-											</td>
-										</tr>
-										{/* ))} */}
-									</tbody>
-								</table>
-							</div>
-						</CardContent>
-					</Card>
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Jobs</Typography>
+										<table className="">
+											<tbody>
+												{/* {work.jobs.map(job => ( */}
+												<tr key={'job.company'}>
+													<td>
+														<Typography>{'job.company'}</Typography>
+													</td>
+													<td className="px-16">
+														<Typography color="textSecondary">{'job.date'}</Typography>
+													</td>
+												</tr>
+												{/* ))} */}
+											</tbody>
+										</table>
+									</div>
+								</CardContent>
+							</Card>
 
-					<Card className="w-full mb-16">
-						<AppBar position="static" elevation={0}>
-							<Toolbar className="px-8">
-								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
-									Contact
-								</Typography>
-							</Toolbar>
-						</AppBar>
+							<Card className="w-full mb-16">
+								<AppBar position="static" elevation={0}>
+									<Toolbar className="px-8">
+										<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+											Contact
+										</Typography>
+									</Toolbar>
+								</AppBar>
 
-						<CardContent>
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Address</Typography>
-								<Typography>{'contact.address'}</Typography>
-							</div>
+								<CardContent>
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Address</Typography>
+										<Typography>{'contact.address'}</Typography>
+									</div>
 
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Tel.</Typography>+ 1 987 687 3210
-								{/* {contact.tel.map(tel => (
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Tel.</Typography>+ 1 987 687 3210
+										{/* {contact.tel.map(tel => (
                             <div className="flex items-center" key={tel}>
                                 <Typography>{tel}</Typography>
                             </div>
                         ))} */}
-							</div>
+									</div>
 
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Website</Typography>
-								www.peerbits.com
-								{/* {contact.websites.map(website => (
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Website</Typography>
+										www.peerbits.com
+										{/* {contact.websites.map(website => (
                             <div className="flex items-center" key={website}>
                                 <Typography>{website}</Typography>
                             </div>
                         ))} */}
-							</div>
+									</div>
 
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Emails</Typography>
-								info@peerbits.com
-								{/* {contact.emails.map(email => (
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Emails</Typography>
+										info@peerbits.com
+										{/* {contact.emails.map(email => (
                             <div className="flex items-center" key={email}>
                                 <Typography>{email}</Typography>
                             </div>
                         ))} */}
-							</div>
-						</CardContent>
-					</Card>
-				</FuseAnimateGroup>
-			</div>
+									</div>
+								</CardContent>
+							</Card>
+					
+					</div>
 
-			<div className="flex flex-col md:w-320">
-				<FuseAnimateGroup
-					enter={{
-						animation: 'transition.slideUpBigIn'
-					}}
-				>
-					<Card className="w-full mb-16">
-						<AppBar position="static" elevation={0}>
-							<Toolbar className="px-8">
-								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
-									Company
-								</Typography>
-							</Toolbar>
-						</AppBar>
-						<CardContent>
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Name</Typography>
-								<Typography>{company?.name}</Typography>
-							</div>
+					<div className="flex flex-col md:w-320">
+						<FuseAnimateGroup
+							enter={{
+								animation: 'transition.slideUpBigIn'
+							}}
+						>
+							<Card className="w-full mb-16">
+								<AppBar position="static" elevation={0}>
+									<Toolbar className="px-8">
+										<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+											Company
+										</Typography>
+									</Toolbar>
+								</AppBar>
+								<CardContent>
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Name</Typography>
+										<Typography>{company?.name}</Typography>
+									</div>
 
-							<div className="mb-24">
-								<Typography className="font-bold mb-4 text-15">Email</Typography>
-								<Typography>{company?.email}</Typography>
-							</div>
-						</CardContent>
-					</Card>
+									<div className="mb-24">
+										<Typography className="font-bold mb-4 text-15">Email</Typography>
+										<Typography>{company?.email}</Typography>
+									</div>
+								</CardContent>
+							</Card>
 
-					{/* <Card className="w-full mb-16">
+							{/* <Card className="w-full mb-16">
 						<AppBar position="static" elevation={0}>
 							<Toolbar className="px-8">
 								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
@@ -247,8 +256,10 @@ export default function ProjectInfo() {
 						</CardContent>
 					</Card>
 			 */}
-				</FuseAnimateGroup>
-			</div>
-		</div>
+						</FuseAnimateGroup>
+					</div>
+				</div>
+			</DialogContent>
+		</Dialog>
 	);
 }

@@ -123,7 +123,7 @@ function TodoListItem(props) {
 								/>
 							)}
 						</div>
-						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit">
+						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit uppercase">
 							{' '}
 							{props.todo.name}{' '}
 						</Typography>

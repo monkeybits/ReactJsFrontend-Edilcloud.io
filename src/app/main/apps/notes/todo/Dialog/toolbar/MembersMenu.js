@@ -11,6 +11,8 @@ function MembersMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);
 
 	function handleMenuOpen(event) {
+		event.preventDefault()
+		event.stopPropagation()
 		setAnchorEl(event.currentTarget);
 	}
 
