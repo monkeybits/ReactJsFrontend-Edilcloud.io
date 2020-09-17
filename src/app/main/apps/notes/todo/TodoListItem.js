@@ -86,16 +86,16 @@ function TodoListItem(props) {
 	return (
 		<>
 			<Card
-				className={clsx(classes.card, 'w-full mb-16 rounded-4 cursor-pointer border-1')}
+				className={clsx(classes.card, 'w-full rounded-4 cursor-pointer border-1')}
 				onClick={() =>
 					getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''
 				}
 			>
 				{/* card body */}
-				<div className="p-16 pb-0 flex items-center justify-content-between">
+				<div className="p-16 flex items-center justify-content-between">
 					{/* lebels are below */}
 					<div className="flex-fill mr-12">
-						<div className="flex flex-wrap mb-8 -mx-4">
+						{/*<div className="flex flex-wrap mb-8 -mx-4">
 							{props.todo.assigned_company?.name && (
 								<Tooltip title={props.todo.assigned_company.name}>
 									<div
@@ -104,16 +104,14 @@ function TodoListItem(props) {
 									/>
 								</Tooltip>
 							)}
-
-							{/* <Tooltip title={'hello'}>
+							 <Tooltip title={'hello'}>
 							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
 						</Tooltip> */}
 
 							{/* <Tooltip title={'hello'}>
 							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
-						</Tooltip> */}
+						</Tooltip>
 						</div>
-
 						{/* content can be below */}
 						<div class="flex items-center mb-6 -mx-4">
 							{props.todo.assigned_company && (

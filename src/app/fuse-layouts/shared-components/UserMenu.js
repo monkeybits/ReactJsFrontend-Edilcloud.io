@@ -39,7 +39,7 @@ function UserMenu(props) {
 
 				<div className="hidden md:flex flex-col mx-12 items-start">
 					<Typography component="span" className="normal-case font-600 flex">
-						{userData?.first_name}
+							{userData?.first_name} {userData?.last_name}
 					</Typography>
 					<Typography className="text-11 capitalize" color="textSecondary">
 						Main profile

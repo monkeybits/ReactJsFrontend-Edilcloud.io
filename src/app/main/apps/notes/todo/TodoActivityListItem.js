@@ -106,7 +106,7 @@ function TodoActivityListItem(props) {
 					onClick={ev => ev.stopPropagation()}
 				/>
 
-				<div className="flex flex-1 flex-col relative overflow-hidden px-8">
+				<div className="flex flex-1 flex-col mb-8 relative overflow-hidden px-8">
 					<Typography
 						variant="subtitle1"
 						className="todo-title"
@@ -115,9 +115,6 @@ function TodoActivityListItem(props) {
 						{props.todo.title}
 					</Typography>
 
-					<Typography color="textSecondary" className="todo-notes">
-						{_.truncate(props.todo.description?.replace(/<(?:.|\n)*?>/gm, ''), { length: 180 })}
-					</Typography>
 					<div className="flex items-center mb-8">
 						{props.todo.progress == 100 ? (
 							<div className={clsx('flex items-center px-8 py-4 rounded-sm bg-green text-white')}>
