@@ -37,10 +37,10 @@ export function getTodos(pid) {
 		apiCall(
 			GET_TASK_LIST(pid),
 			{},
-			res => {
+			results => {
 				dispatch({
 					type: GET_TODOS,
-					payload: res.results
+					payload: results
 				});
 			},
 			err => console.log(err),
