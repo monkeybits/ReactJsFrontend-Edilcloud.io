@@ -329,10 +329,6 @@
     .select-dropdown .MuiInputBase-input {
         height: auto !important;
     }
-    .team-chat-sidebar {
-        transform: translate3d(585px,0,0);
-        width: 100%;
-    }
     .team-chat-sidebar .team-chat-body {
         width: 100%;
     }
@@ -347,5 +343,29 @@
     }
     .tabs-content {
         padding-bottom: 0px;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .team-chat-sidebar {
+        transform: translate3d(725px,0,0);
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .team-chat-sidebar {
+        transform: translate3d(600px,0,0);
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    .team-chat-sidebar {
+        transform: translate3d(530px,0,0);
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 380px) {
+    .team-chat-sidebar {
+        transform: translate3d(470px,0,0);
+        width: 100%;
     }
 }
