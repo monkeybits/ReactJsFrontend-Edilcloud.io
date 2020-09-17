@@ -29,12 +29,14 @@ import CommentListItem from './CommentListItem';
 import moment from 'moment';
 import SendIcon from '@material-ui/icons/Send';
 import PostedImages from './PostedImages';
+import { Collapse } from '@material-ui/core';
 import FuseUtils from '@fuse/utils';
 
 export default function PostListItem({ post }) {
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
+	const [open, setOpen] = React.useState(true);
 	const [postComments, setPostComments] = useState([]);
 	useEffect(() => {
 		if (post.comment_set) {
@@ -172,18 +174,26 @@ export default function PostListItem({ post }) {
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
 				{postComments && postComments.length > 0 && (
 					<div className="">
-						<div className="flex items-center ml-52 mt-16">
+						<div
+							className="flex items-center ml-52 my-16 cursor-pointer"
+							onClick={(ev) => {
+								ev.preventDefault();
+								ev.stopPropagation();
+								setOpen(!open);
+							}}
+						>
 							<Typography>{postComments.length} comments</Typography>
 							<Icon className="text-16 mx-4" color="action">
-								keyboard_arrow_down
+								{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 							</Icon>
 						</div>
-
-						<List>
-							{postComments.map((comment, index) => (
-								<CommentListItem key={index} post={post} comment={comment} />
-							))}
-						</List>
+						<Collapse in={open} timeout="auto" unmountOnExit>
+							<List>
+								{postComments.map((comment, index) => (
+									<CommentListItem key={index} post={post} comment={comment} />
+								))}
+							</List>
+						</Collapse>
 					</div>
 				)}
 

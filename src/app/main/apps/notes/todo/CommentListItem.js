@@ -29,9 +29,11 @@ import ReplyListItem from './ReplyListItem';
 import moment from 'moment';
 import PostedImages from './PostedImages';
 import FuseUtils from '@fuse/utils';
+import { Collapse } from '@material-ui/core';
 
 export default function CommentListItem({ post, comment }) {
 	const inputRef = useRef(null);
+	const [open, setOpen] = React.useState(false);
 	const [images, setImages] = useState(null);
 	const [text, setText] = useState('');
 	const [isReplying, setIsReplying] = useState(false);
@@ -155,37 +157,46 @@ export default function CommentListItem({ post, comment }) {
 					Reply
 				</Button>
 				<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
-				<div className="flex items-center ml-auto">
+				<div
+					className="flex items-center ml-auto cursor-pointer"
+					onClick={ev => {
+						ev.preventDefault();
+						ev.stopPropagation();
+						setOpen(!open);
+					}}
+				>
 					<Typography>{replyComments.length} Replies</Typography>
 					<Icon className="text-16 mx-4" color="action">
-						keyboard_arrow_down
+						{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 					</Icon>
 				</div>
 			</div>
 
 			{replyComments.length > 0 && (
-				<div className="ml-56">
-					<List className="clearfix">
-						{replyComments.map((reply, index) => (
-							<ReplyListItem
-								commentId={comment.id}
-								author={comment.author}
-								key={index}
-								post={post}
-								comment={reply}
-								getReplies={getReplies}
-								handleReplyClick={() => {
-									setIsReplying(true);
-									setText('@' + reply.author.user.username);
-									setTimeout(() => {
-										let element = document.getElementById(String(comment.id));
-										element.focus();
-									}, 100);
-								}}
-							/>
-						))}
-					</List>
-				</div>
+				<Collapse in={open} timeout="auto" unmountOnExit>
+					<div className="ml-56">
+						<List className="clearfix">
+							{replyComments.map((reply, index) => (
+								<ReplyListItem
+									commentId={comment.id}
+									author={comment.author}
+									key={index}
+									post={post}
+									comment={reply}
+									getReplies={getReplies}
+									handleReplyClick={() => {
+										setIsReplying(true);
+										setText('@' + reply.author.user.username);
+										setTimeout(() => {
+											let element = document.getElementById(String(comment.id));
+											element.focus();
+										}, 100);
+									}}
+								/>
+							))}
+						</List>
+					</div>
+				</Collapse>
 			)}
 			{isReplying && (
 				<div className="flex-1 mx-4">
