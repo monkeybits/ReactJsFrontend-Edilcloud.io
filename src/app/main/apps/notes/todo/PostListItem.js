@@ -20,7 +20,7 @@ import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import * as Actions from './store/actions';
@@ -29,10 +29,14 @@ import CommentListItem from './CommentListItem';
 import moment from 'moment';
 import SendIcon from '@material-ui/icons/Send';
 import PostedImages from './PostedImages';
+import { Collapse } from '@material-ui/core';
+import FuseUtils from '@fuse/utils';
 
 export default function PostListItem({ post }) {
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
+	const [images, setImages] = useState(null);
+	const [open, setOpen] = React.useState(true);
 	const [postComments, setPostComments] = useState([]);
 	useEffect(() => {
 		if (post.comment_set) {
@@ -41,14 +45,27 @@ export default function PostListItem({ post }) {
 		}
 	}, [post.comment_set]);
 	const handlePostComment = e => {
+		var formData = new FormData();
+		formData.append('parent', '');
+		let values = {
+			text
+		};
+		if (images) {
+			const acceptedFiles = images.map(d => d.file);
+			let i = 0;
+			for (const file of acceptedFiles) {
+				formData.append('media[' + i + ']', file, file.name);
+				i += 1;
+			}
+		}
+		for (let key in values) {
+			if (values[key]) formData.append(key, values[key]);
+		}
 		e.preventDefault();
 		if (!text) return;
 		apiCall(
 			ADD_COMMENT_TO_POST(post.id),
-			{
-				text,
-				parent: ''
-			},
+			formData,
 			res => {
 				getComments();
 			},
@@ -56,6 +73,7 @@ export default function PostListItem({ post }) {
 			METHOD.POST,
 			getHeaderToken()
 		);
+		setImages(null);
 		document.getElementById(String(post.id)).value = '';
 		setText('');
 	};
@@ -70,6 +88,31 @@ export default function PostListItem({ post }) {
 			METHOD.GET,
 			getHeaderToken()
 		);
+	};
+
+	const addPhoto = async e => {
+		const files = e.currentTarget.files;
+		let file = [];
+		for (var i = 0; i < files.length; i++) {
+			file = [
+				...file,
+				{
+					file: await getCompressFile(files[i]),
+					imgPath: URL.createObjectURL(files[i]),
+					fileType: files[i].type?.split('/')[0]
+				}
+			];
+			setImages(file);
+		}
+	};
+	const replaceImageUrl = (url, index) => {
+		images[index] = {
+			...images[index],
+			imgPath: url,
+			file: FuseUtils.dataURItoFile(url)
+		};
+		// console.log('Fileurl', URL.createObjectURL(FuseUtils.dataURItoFile(url)));
+		setImages(images);
 	};
 	return (
 		<Card key={post.id} className="mb-32 overflow-hidden post-form post-card-clx">
@@ -131,18 +174,26 @@ export default function PostListItem({ post }) {
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
 				{postComments && postComments.length > 0 && (
 					<div className="">
-						<div className="flex items-center ml-52 mt-16">
+						<div
+							className="flex items-center ml-52 my-16 cursor-pointer"
+							onClick={(ev) => {
+								ev.preventDefault();
+								ev.stopPropagation();
+								setOpen(!open);
+							}}
+						>
 							<Typography>{postComments.length} comments</Typography>
 							<Icon className="text-16 mx-4" color="action">
-								keyboard_arrow_down
+								{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 							</Icon>
 						</div>
-
-						<List>
-							{postComments.map((comment, index) => (
-								<CommentListItem key={index} post={post} comment={comment} />
-							))}
-						</List>
+						<Collapse in={open} timeout="auto" unmountOnExit>
+							<List>
+								{postComments.map((comment, index) => (
+									<CommentListItem key={index} post={post} comment={comment} />
+								))}
+							</List>
+						</Collapse>
 					</div>
 				)}
 
@@ -168,7 +219,14 @@ export default function PostListItem({ post }) {
 							>
 								<Icon>photo</Icon>
 							</IconButton>
-							<input hidden multiple type="file" accept="image/*, video/*" ref={inputRef} />
+							<input
+								hidden
+								multiple
+								type="file"
+								accept="image/*, video/*"
+								ref={inputRef}
+								onChange={addPhoto}
+							/>
 							<IconButton
 								className="send p-0"
 								onClick={handlePostComment}
@@ -188,6 +246,7 @@ export default function PostListItem({ post }) {
 								Post Comment
 							</Button> */}
 						</Paper>
+						{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
 						{/* <div className="card-footer flex items-center relative">
 							<div className="flex-1 items-center post-icons">
 							</div>

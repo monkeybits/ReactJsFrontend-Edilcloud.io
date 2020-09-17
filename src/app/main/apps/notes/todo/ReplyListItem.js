@@ -27,6 +27,7 @@ import * as Actions from './store/actions';
 import ImagesPreview from './ImagesPreview';
 import PostList from './PostList';
 import moment from 'moment';
+import PostedImages from './PostedImages';
 
 export default function ReplyListItem({ post, comment, getReplies, commentId, author, handleReplyClick }) {
 	return (
@@ -53,6 +54,7 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 					secondary={comment.text}
 				/>
 			</ListItem>
+			<PostedImages images={comment.media_set} />
 			<div className="flex items-center ml-44 mb-8">
 				<Button onClick={handleReplyClick} className="normal-case">
 					Reply

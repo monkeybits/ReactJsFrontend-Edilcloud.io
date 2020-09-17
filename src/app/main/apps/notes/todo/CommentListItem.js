@@ -20,15 +20,21 @@ import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST, GET_REPLIES_OF_COMMENT } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import * as Actions from './store/actions';
 import ImagesPreview from './ImagesPreview';
 import ReplyListItem from './ReplyListItem';
 import moment from 'moment';
+import PostedImages from './PostedImages';
+import FuseUtils from '@fuse/utils';
+import { Collapse } from '@material-ui/core';
 
 export default function CommentListItem({ post, comment }) {
+	const inputRef = useRef(null);
+	const [open, setOpen] = React.useState(false);
+	const [images, setImages] = useState(null);
 	const [text, setText] = useState('');
 	const [isReplying, setIsReplying] = useState(false);
 	const [replyComments, setReplyComments] = useState([]);
@@ -40,14 +46,28 @@ export default function CommentListItem({ post, comment }) {
 		};
 	}, [comment.replies_set]);
 	const handlePostComment = e => {
+		var formData = new FormData();
+		formData.append('parent', '');
+		let values = {
+			text,
+			parent: comment.id
+		};
+		if (images) {
+			const acceptedFiles = images.map(d => d.file);
+			let i = 0;
+			for (const file of acceptedFiles) {
+				formData.append('media[' + i + ']', file, file.name);
+				i += 1;
+			}
+		}
+		for (let key in values) {
+			formData.append(key, values[key]);
+		}
 		e.preventDefault();
 		if (!text) return;
 		apiCall(
 			ADD_COMMENT_TO_POST(post.id),
-			{
-				text,
-				parent: comment.id
-			},
+			formData,
 			res => {
 				getReplies();
 				setIsReplying(false);
@@ -56,6 +76,7 @@ export default function CommentListItem({ post, comment }) {
 			METHOD.POST,
 			getHeaderToken()
 		);
+		setImages(null);
 		setText('');
 		document.getElementById(String(comment.id)).value = '';
 	};
@@ -70,6 +91,30 @@ export default function CommentListItem({ post, comment }) {
 			METHOD.GET,
 			getHeaderToken()
 		);
+	};
+	const addPhoto = async e => {
+		const files = e.currentTarget.files;
+		let file = [];
+		for (var i = 0; i < files.length; i++) {
+			file = [
+				...file,
+				{
+					file: await getCompressFile(files[i]),
+					imgPath: URL.createObjectURL(files[i]),
+					fileType: files[i].type?.split('/')[0]
+				}
+			];
+			setImages(file);
+		}
+	};
+	const replaceImageUrl = (url, index) => {
+		images[index] = {
+			...images[index],
+			imgPath: url,
+			file: FuseUtils.dataURItoFile(url)
+		};
+		// console.log('Fileurl', URL.createObjectURL(FuseUtils.dataURItoFile(url)));
+		setImages(images);
 	};
 	return (
 		<div key={comment.id}>
@@ -95,6 +140,7 @@ export default function CommentListItem({ post, comment }) {
 					secondary={comment.text}
 				/>
 			</ListItem>
+			<PostedImages images={comment.media_set} />
 			<div className="flex items-center ml-44">
 				<Button
 					onClick={() => {
@@ -111,41 +157,50 @@ export default function CommentListItem({ post, comment }) {
 					Reply
 				</Button>
 				<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
-				<div className="flex items-center ml-auto">
+				<div
+					className="flex items-center ml-auto cursor-pointer"
+					onClick={ev => {
+						ev.preventDefault();
+						ev.stopPropagation();
+						setOpen(!open);
+					}}
+				>
 					<Typography>{replyComments.length} Replies</Typography>
 					<Icon className="text-16 mx-4" color="action">
-						keyboard_arrow_down
+						{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 					</Icon>
 				</div>
 			</div>
 
 			{replyComments.length > 0 && (
-				<div className="ml-56">
-					<List className="clearfix">
-						{replyComments.map((reply, index) => (
-							<ReplyListItem
-								commentId={comment.id}
-								author={comment.author}
-								key={index}
-								post={post}
-								comment={reply}
-								getReplies={getReplies}
-								handleReplyClick={() => {
-									setIsReplying(true);
-									setText('@' + reply.author.user.username);
-									setTimeout(() => {
-										let element = document.getElementById(String(comment.id));
-										element.focus();
-									}, 100);
-								}}
-							/>
-						))}
-					</List>
-				</div>
+				<Collapse in={open} timeout="auto" unmountOnExit>
+					<div className="ml-56">
+						<List className="clearfix">
+							{replyComments.map((reply, index) => (
+								<ReplyListItem
+									commentId={comment.id}
+									author={comment.author}
+									key={index}
+									post={post}
+									comment={reply}
+									getReplies={getReplies}
+									handleReplyClick={() => {
+										setIsReplying(true);
+										setText('@' + reply.author.user.username);
+										setTimeout(() => {
+											let element = document.getElementById(String(comment.id));
+											element.focus();
+										}, 100);
+									}}
+								/>
+							))}
+						</List>
+					</div>
+				</Collapse>
 			)}
 			{isReplying && (
 				<div className="flex-1 mx-4">
-					<Paper elevation={0} className="custom-textarea mb-16 mt-8 relative post-icons single-icon ml-52">
+					<Paper elevation={0} className="w-full relative post-icons">
 						<Input
 							className="p-8 w-full border-1"
 							id={String(comment.id)}
@@ -157,6 +212,21 @@ export default function CommentListItem({ post, comment }) {
 							margin="none"
 							disableUnderline
 							onChange={e => setText(e.target.value)}
+						/>
+						<IconButton
+							className="image p-0"
+							onClick={() => inputRef.current.click()}
+							aria-label="Add photo"
+						>
+							<Icon>photo</Icon>
+						</IconButton>
+						<input
+							hidden
+							multiple
+							type="file"
+							accept="image/*, video/*"
+							ref={inputRef}
+							onChange={addPhoto}
 						/>
 						<IconButton
 							className="send p-0"
@@ -177,6 +247,7 @@ export default function CommentListItem({ post, comment }) {
 							Reply Comment
 						</Button> */}
 					</Paper>
+					{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
 				</div>
 			)}
 		</div>
