@@ -82,12 +82,13 @@ export default function ProjectListitem({
 		<Card className="h-full flex flex-col">
 			<CardHeader
 				avatar={
-					<Avatar aria-label="recipe" src={profiles?.[0]?.photo} className={classes.avatar}>
-						{profiles?.[0]?.first_name?.split('')[0]}
+					<Avatar aria-label="recipe" src={company.logo} className={classes.avatar}>
+						{company.name?.split('')[0]}
 					</Avatar>
 				}
 				action={
-					!!isApproved && (getRole() == 'o' || getRole() == 'd') && (
+					!!isApproved &&
+					(getRole() == 'o' || getRole() == 'd') && (
 						<div>
 							<IconButton onClick={handleClick} aria-label="settings">
 								<MoreVertIcon />
@@ -110,11 +111,16 @@ export default function ProjectListitem({
 						</div>
 					)
 				}
-				title={isApproved ? <Link to={`${match.path}/${id}`}>{name}</Link> : name}
+				title={company.name} //
 				subheader={moment(date_start).format('MMM DD, YYYY')}
 			/>
-			<CardMedia className={classes.media} image={logo ? logo : '/assets/images/notes/Building 01.jpg'} title={name} />
+			<CardMedia
+				className={classes.media}
+				image={logo ? logo : '/assets/images/notes/Building 01.jpg'}
+				title={name}
+			/>
 			<CardContent>
+				{isApproved ? <Link to={`${match.path}/${id}`}>{name}</Link> : name}
 				<Typography variant="body2" color="textSecondary" component="p">
 					{description}
 				</Typography>
