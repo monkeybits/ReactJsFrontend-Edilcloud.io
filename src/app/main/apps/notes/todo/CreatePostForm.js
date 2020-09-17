@@ -76,15 +76,17 @@ function CreatePostForm({ isTask, taskId }) {
 	const createPost = async () => {
 		var formData = new FormData();
 		let values = {
-			text,
-			media: images ? images[0].file : undefined
+			text
 		};
-		// for( var i = 0; i < this.files.length; i++ ){
-		// 	let file = this.files[i];
 
-		// formData.append('media[' + 0 + ']', file.fileData);
-		// formData.append('media[' + 1 + ']', file.fileData);
-		//   }
+		if (images) {
+			const acceptedFiles = images.map(d => d.file);
+			let i = 0;
+			for (const file of acceptedFiles) {
+				formData.append('media[' + i + ']', file, file.name);
+				i += 1;
+			}
+		}
 		for (let key in values) {
 			if (values[key]) formData.append(key, values[key]);
 		}
@@ -131,7 +133,7 @@ function CreatePostForm({ isTask, taskId }) {
 			file = [
 				...file,
 				{
-					file: files[i],
+					file: await getCompressFile(files[i]),
 					imgPath: URL.createObjectURL(files[i]),
 					fileType: files[i].type?.split('/')[0]
 				}

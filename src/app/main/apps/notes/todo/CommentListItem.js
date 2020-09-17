@@ -79,7 +79,7 @@ export default function CommentListItem({ post, comment }) {
 					{comment.author.user.username[0]}
 				</Avatar>
 				<ListItemText
-					className="p-12 py-10 bg-white comment-p"
+					className="p-12 py-10 comment-p"
 					primary={
 						<div className="flex comment-section">
 							<Typography color="initial" paragraph={false}>

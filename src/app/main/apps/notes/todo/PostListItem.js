@@ -28,6 +28,7 @@ import ImagesPreview from './ImagesPreview';
 import CommentListItem from './CommentListItem';
 import moment from 'moment';
 import SendIcon from '@material-ui/icons/Send';
+import PostedImages from './PostedImages';
 
 export default function PostListItem({ post }) {
 	const inputRef = useRef(null);
@@ -106,7 +107,8 @@ export default function PostListItem({ post }) {
 					</Typography>
 				)}
 
-				{post.media && <img src={post.media} alt="post" />}
+				<PostedImages images={post.media_set} />
+				{/* {post.media && <img src={post.media} alt="post" />} */}
 			</CardContent>
 
 			<CardActions disableSpacing className="px-12">
