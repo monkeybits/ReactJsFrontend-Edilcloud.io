@@ -18,6 +18,11 @@ const chat = (state = initialState, action) => {
 				dialog: [...state.dialog, action.message]
 			};
 		}
+		case Actions.UPDATE_CHAT_LOG: {
+			return {
+				chats: state?.chats ? [...state.chats, action.update.message] : []
+			};
+		}
 		default: {
 			return state;
 		}

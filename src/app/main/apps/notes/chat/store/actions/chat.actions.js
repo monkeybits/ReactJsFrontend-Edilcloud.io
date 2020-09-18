@@ -15,6 +15,14 @@ export const GET_CHAT = '[CHAT APP] GET CHAT (PROJECT)';
 export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT (PROJECT)';
 export const SEND_MESSAGE = '[CHAT APP] SEND MESSAGE (PROJECT)';
 export const COMPANY_INFO = '[CHAT APP] COMPANY INFO (PROJECT)';
+export const UPDATE_CHAT_LOG = '[CHAT APP] UPDATE_CHAT_LOG (PROJECT)';
+
+export function updateChatLog(update) {
+	return {
+		type: UPDATE_CHAT_LOG,
+		update
+	};
+}
 
 export function getChat(pid) {
 	return (dispatch, getState) => {
@@ -56,7 +64,7 @@ export function sendMessage(messageText, setMessageText, pid) {
 			SEND_PROJECT_MESSAGE_API(pid),
 			formData,
 			chat => {
-				dispatch(getChat());
+				// dispatch(getChat());
 				setMessageText('');
 			},
 			err => console.log(err),
