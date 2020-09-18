@@ -659,7 +659,7 @@ function TaskContentForm(props) {
 								disabled={getIsDisabled()}
 								dateFormat="dd/MM/yyyy"
 								selected={taskDate.startDate}
-								minDate={taskDate.startDate}
+								// minDate={taskDate.startDate}
 								onChange={startDate => {
 									setTaskDate({
 										...taskDate,
