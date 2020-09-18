@@ -54,7 +54,9 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 					secondary={comment.text}
 				/>
 			</ListItem>
-			<PostedImages images={comment.media_set} />
+			<div className="posted-images">
+				<PostedImages images={comment.media_set} />
+			</div>
 			<div className="flex items-center ml-44 mb-8">
 				<Button onClick={handleReplyClick} className="normal-case">
 					Reply

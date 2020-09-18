@@ -149,8 +149,9 @@ export default function PostListItem({ post }) {
 						{post.text}
 					</Typography>
 				)}
-
-				<PostedImages images={post.media_set} />
+				<div className="posted-images">
+					<PostedImages images={post.media_set} />
+				</div>
 				{/* {post.media && <img src={post.media} alt="post" />} */}
 			</CardContent>
 
