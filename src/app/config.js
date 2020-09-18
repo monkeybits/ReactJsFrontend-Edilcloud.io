@@ -1,1 +1,1 @@
-export const WS_BASE='ws://35.176.179.55:6969'
+export const WS_BASE='ws://3.9.185.8:6969'
