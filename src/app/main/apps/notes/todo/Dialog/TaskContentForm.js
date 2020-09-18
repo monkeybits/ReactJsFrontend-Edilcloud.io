@@ -496,7 +496,7 @@ function TaskContentForm(props) {
 				</AppBar>
 			</DialogTitle>
 
-			<DialogContent className="p-16 sm:p-24">
+			<DialogContent className="p-0 sm:p-10">
 				<TabPanel value={value} index={0}>
 					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
 				</TabPanel>

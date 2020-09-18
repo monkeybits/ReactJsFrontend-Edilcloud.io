@@ -140,7 +140,9 @@ export default function CommentListItem({ post, comment }) {
 					secondary={comment.text}
 				/>
 			</ListItem>
-			<PostedImages images={comment.media_set} />
+			<div className="posted-images">
+				<PostedImages images={comment.media_set} />
+			</div>
 			<div className="flex items-center ml-44">
 				<Button
 					onClick={() => {
