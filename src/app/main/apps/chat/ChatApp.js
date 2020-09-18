@@ -12,7 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Chat from './Chat';
 import ChatsSidebar from './ChatsSidebar';
@@ -23,6 +23,7 @@ import reducer from './store/reducers';
 import UserSidebar from './UserSidebar';
 import { withRouter } from 'react-router';
 import { GET_CHAT } from './store/actions';
+import  WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 
 const drawerWidth = 400;
 const headerHeight = 200;
@@ -113,6 +114,7 @@ function ChatApp(props) {
 	const mobileChatsSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.mobileChatsSidebarOpen);
 	const userSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.userSidebarOpen);
 	const contactSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.contactSidebarOpen);
+	const ws = useContext(WebSocketContext);
 
 	const classes = useStyles(props);
 
@@ -124,159 +126,167 @@ function ChatApp(props) {
 		if (company.can_access_chat) {
 			dispatch(Actions.getUserData());
 			dispatch(Actions.getContacts());
-			let callMessageList = setInterval(() => dispatch(Actions.getChat()), 1000);
+			dispatch(Actions.getChat());
+			// let callMessageList = setInterval(() => dispatch(Actions.getChat()), 1000);
 			return () => {
 				dispatch({
 					type: GET_CHAT,
 					chat: [],
 					userChatData: {}
 				});
-				clearInterval(callMessageList);
+				// clearInterval(callMessageList);
 			};
 		} else {
 			props.history.push('/apps/todo/all');
 		}
 	}, [dispatch, company]);
+	const handleData = data => {
+		console.log(data);
+	};
 	return (
-		<div className={clsx(classes.root)}>
-			<div className={classes.topBg} />
+		<>
+			<WebSocketProvider>
+				<div className={clsx(classes.root)}>
+					<div className={classes.topBg} />
 
-			<div className={clsx(classes.contentCardWrapper, 'container')}>
-				<div className={classes.contentCard}>
-					<Hidden mdUp>
-						<Drawer
-							className="h-full absolute z-20"
-							variant="temporary"
-							anchor="left"
-							open={mobileChatsSidebarOpen}
-							onClose={() => dispatch(Actions.closeMobileChatsSidebar())}
-							classes={{
-								paper: clsx(classes.drawerPaper, 'absolute ltr:left-0 rtl:right-0')
-							}}
-							style={{ position: 'absolute' }}
-							ModalProps={{
-								keepMounted: true,
-								disablePortal: true,
-								BackdropProps: {
-									classes: {
-										root: 'absolute'
+					<div className={clsx(classes.contentCardWrapper, 'container')}>
+						<div className={classes.contentCard}>
+							<Hidden mdUp>
+								<Drawer
+									className="h-full absolute z-20"
+									variant="temporary"
+									anchor="left"
+									open={mobileChatsSidebarOpen}
+									onClose={() => dispatch(Actions.closeMobileChatsSidebar())}
+									classes={{
+										paper: clsx(classes.drawerPaper, 'absolute ltr:left-0 rtl:right-0')
+									}}
+									style={{ position: 'absolute' }}
+									ModalProps={{
+										keepMounted: true,
+										disablePortal: true,
+										BackdropProps: {
+											classes: {
+												root: 'absolute'
+											}
+										}
+									}}
+								>
+									<ChatsSidebar />
+								</Drawer>
+							</Hidden>
+							<Hidden smDown>
+								<Drawer
+									className="h-full z-20"
+									variant="permanent"
+									open
+									classes={{
+										paper: classes.drawerPaper
+									}}
+								>
+									<ChatsSidebar />
+								</Drawer>
+							</Hidden>
+							<Drawer
+								className="h-full absolute z-30"
+								variant="temporary"
+								anchor="left"
+								open={userSidebarOpen}
+								onClose={() => dispatch(Actions.closeUserSidebar())}
+								classes={{
+									paper: clsx(classes.drawerPaper, 'absolute left-0')
+								}}
+								style={{ position: 'absolute' }}
+								ModalProps={{
+									keepMounted: false,
+									disablePortal: true,
+									BackdropProps: {
+										classes: {
+											root: 'absolute'
+										}
 									}
-								}
-							}}
-						>
-							<ChatsSidebar />
-						</Drawer>
-					</Hidden>
-					<Hidden smDown>
-						<Drawer
-							className="h-full z-20"
-							variant="permanent"
-							open
-							classes={{
-								paper: classes.drawerPaper
-							}}
-						>
-							<ChatsSidebar />
-						</Drawer>
-					</Hidden>
-					<Drawer
-						className="h-full absolute z-30"
-						variant="temporary"
-						anchor="left"
-						open={userSidebarOpen}
-						onClose={() => dispatch(Actions.closeUserSidebar())}
-						classes={{
-							paper: clsx(classes.drawerPaper, 'absolute left-0')
-						}}
-						style={{ position: 'absolute' }}
-						ModalProps={{
-							keepMounted: false,
-							disablePortal: true,
-							BackdropProps: {
-								classes: {
-									root: 'absolute'
-								}
-							}
-						}}
-					>
-						<UserSidebar />
-					</Drawer>
+								}}
+							>
+								<UserSidebar />
+							</Drawer>
 
-					<main className={clsx(classes.contentWrapper, 'z-10')}>
-						{
-							<>
-								<AppBar className="w-full" position="static" elevation={1}>
-									<Toolbar className="px-16">
-										<IconButton
-											color="inherit"
-											aria-label="Open drawer"
-											onClick={() => dispatch(Actions.openMobileChatsSidebar())}
-											className="flex md:hidden"
-										>
-											<Icon>chat</Icon>
-										</IconButton>
-										<div
-											className="flex items-center cursor-pointer"
-											onClick={() => dispatch(Actions.openContactSidebar())}
-											onKeyDown={() => dispatch(Actions.openContactSidebar())}
-											role="button"
-											tabIndex={0}
-										>
-											<div className="relative mx-8">
-												{/* <div className="absolute right-0 bottom-0 -m-4 z-10">
+							<main className={clsx(classes.contentWrapper, 'z-10')}>
+								{
+									<>
+										<AppBar className="w-full" position="static" elevation={1}>
+											<Toolbar className="px-16">
+												<IconButton
+													color="inherit"
+													aria-label="Open drawer"
+													onClick={() => dispatch(Actions.openMobileChatsSidebar())}
+													className="flex md:hidden"
+												>
+													<Icon>chat</Icon>
+												</IconButton>
+												<div
+													className="flex items-center cursor-pointer"
+													onClick={() => dispatch(Actions.openContactSidebar())}
+													onKeyDown={() => dispatch(Actions.openContactSidebar())}
+													role="button"
+													tabIndex={0}
+												>
+													<div className="relative mx-8">
+														{/* <div className="absolute right-0 bottom-0 -m-4 z-10">
 													<StatusIcon status={selectedContact.status} />
 												</div> */}
 
-												<Avatar
-													src={
-														company.logo
-															? company.logo
-															: 'assets/images/avatars/profile.jpg'
-													}
-													alt={company.name}
-												>
-													Group Chat
-												</Avatar>
-											</div>
-											<Typography color="inherit" className="text-18 font-600 px-4">
-												{company.name}
-											</Typography>
+														<Avatar
+															src={
+																company.logo
+																	? company.logo
+																	: 'assets/images/avatars/profile.jpg'
+															}
+															alt={company.name}
+														>
+															Group Chat
+														</Avatar>
+													</div>
+													<Typography color="inherit" className="text-18 font-600 px-4">
+														{company.name}
+													</Typography>
+												</div>
+											</Toolbar>
+										</AppBar>
+
+										<div className={classes.content}>
+											<Chat className="flex flex-1 z-10" />
 										</div>
-									</Toolbar>
-								</AppBar>
-
-								<div className={classes.content}>
-									<Chat className="flex flex-1 z-10" />
-								</div>
-							</>
-						}
-					</main>
-
-					<Drawer
-						className="h-full absolute z-30"
-						variant="temporary"
-						anchor="right"
-						open={contactSidebarOpen}
-						onClose={() => dispatch(Actions.closeContactSidebar())}
-						classes={{
-							paper: clsx(classes.drawerPaper, 'absolute ltr:right-0 rtl:left-0')
-						}}
-						style={{ position: 'absolute' }}
-						ModalProps={{
-							keepMounted: true,
-							disablePortal: true,
-							BackdropProps: {
-								classes: {
-									root: 'absolute'
+									</>
 								}
-							}
-						}}
-					>
-						<ContactSidebar />
-					</Drawer>
+							</main>
+
+							<Drawer
+								className="h-full absolute z-30"
+								variant="temporary"
+								anchor="right"
+								open={contactSidebarOpen}
+								onClose={() => dispatch(Actions.closeContactSidebar())}
+								classes={{
+									paper: clsx(classes.drawerPaper, 'absolute ltr:right-0 rtl:left-0')
+								}}
+								style={{ position: 'absolute' }}
+								ModalProps={{
+									keepMounted: true,
+									disablePortal: true,
+									BackdropProps: {
+										classes: {
+											root: 'absolute'
+										}
+									}
+								}}
+							>
+								<ContactSidebar />
+							</Drawer>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
+			</WebSocketProvider>
+		</>
 	);
 }
 

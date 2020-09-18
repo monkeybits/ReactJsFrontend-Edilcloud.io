@@ -15,6 +15,7 @@ import Chat from './Chat';
 import ContactList from './ContactList';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
+import  WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -123,54 +124,56 @@ function ChatPanel(props) {
 	// 	return null;
 	// }
 	return (
-		<div className={classes.root}>
-			<div className={clsx(classes.panel, { opened: state }, 'flex flex-col team-chat-sidebar')} ref={ref}>
-				<AppBar position="static" elevation={1}>
-					<Toolbar className="px-4">
-						{(!state || !user?.id) && (
-							<div className="flex flex-1 items-center px-4">
-								<IconButton
-									className=""
-									color="inherit"
-									onClick={ev => dispatch(Actions.openChatPanel())}
-								>
-									<Icon className="text-32">chat</Icon>
-								</IconButton>
-								{!user?.id && (
-									<Typography className="mx-8 text-16" color="inherit">
-										Team Chat
+		<WebSocketProvider>
+			<div className={classes.root}>
+				<div className={clsx(classes.panel, { opened: state }, 'flex flex-col team-chat-sidebar')} ref={ref}>
+					<AppBar position="static" elevation={1}>
+						<Toolbar className="px-4">
+							{(!state || !user?.id) && (
+								<div className="flex flex-1 items-center px-4">
+									<IconButton
+										className=""
+										color="inherit"
+										onClick={ev => dispatch(Actions.openChatPanel())}
+									>
+										<Icon className="text-32">chat</Icon>
+									</IconButton>
+									{!user?.id && (
+										<Typography className="mx-8 text-16" color="inherit">
+											Team Chat
+										</Typography>
+									)}
+								</div>
+							)}
+							{state && user?.id && (
+								<div className="flex">
+									<IconButton onClick={ev => dispatch(Actions.removeChat())} color="inherit">
+										<Icon>arrow_back</Icon>
+									</IconButton>
+								</div>
+							)}
+							{state && user?.id && (
+								<div className="flex flex-1 items-center px-12">
+									<Avatar src={user.logo} />
+									<Typography className="mx-16 text-16" color="inherit">
+										{user.name}
 									</Typography>
-								)}
-							</div>
-						)}
-						{state && user?.id && (
-							<div className="flex">
-								<IconButton onClick={ev => dispatch(Actions.removeChat())} color="inherit">
-									<Icon>arrow_back</Icon>
+								</div>
+							)}
+							<div className="flex px-4">
+								<IconButton onClick={ev => dispatch(Actions.closeChatPanel())} color="inherit">
+									<Icon>close</Icon>
 								</IconButton>
 							</div>
-						)}
-						{state && user?.id && (
-							<div className="flex flex-1 items-center px-12">
-								<Avatar src={user.logo} />
-								<Typography className="mx-16 text-16" color="inherit">
-									{user.name}
-								</Typography>
-							</div>
-						)}
-						<div className="flex px-4">
-							<IconButton onClick={ev => dispatch(Actions.closeChatPanel())} color="inherit">
-								<Icon>close</Icon>
-							</IconButton>
-						</div>
-					</Toolbar>
-				</AppBar>
-				<Paper className="flex flex-1 flex-row min-h-px">
-					{(!state || !user?.id) && <ContactList className="flex flex-shrink-0" />}
-					{state && user?.id && <Chat className="flex flex-1 z-10" />}
-				</Paper>
+						</Toolbar>
+					</AppBar>
+					<Paper className="flex flex-1 flex-row min-h-px">
+						{(!state || !user?.id) && <ContactList className="flex flex-shrink-0" />}
+						{state && user?.id && <Chat className="flex flex-1 z-10" />}
+					</Paper>
+				</div>
 			</div>
-		</div>
+		</WebSocketProvider>
 	);
 }
 

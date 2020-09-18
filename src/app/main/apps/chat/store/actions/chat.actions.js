@@ -9,6 +9,14 @@ export const GET_CHAT = '[CHAT APP] GET CHAT';
 export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT';
 export const SEND_MESSAGE = '[CHAT APP] SEND MESSAGE';
 export const COMPANY_INFO = '[CHAT APP] COMPANY INFO';
+export const UPDATE_CHAT_LOG = '[CHAT APP] UPDATE_CHAT_LOG';
+
+export function updateChatLog(update) {
+	return {
+		type: UPDATE_CHAT_LOG,
+		update
+	};
+}
 
 export function getChat(contactId) {
 	return (dispatch, getState) => {
@@ -34,7 +42,6 @@ export function removeChat() {
 		type: REMOVE_CHAT
 	};
 }
-
 export function sendMessage(messageText, setMessageText) {
 	return (dispatch, getState) => {
 		const userInfo = decodeDataFromToken();
@@ -51,7 +58,7 @@ export function sendMessage(messageText, setMessageText) {
 			SEND_MESSAGE_API(userInfo.extra.profile.company),
 			formData,
 			chat => {
-				dispatch(getChat());
+				// dispatch(getChat());
 				setMessageText('');
 			},
 			err => console.log(err),
