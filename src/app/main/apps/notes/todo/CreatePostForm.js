@@ -156,12 +156,12 @@ function CreatePostForm({ isTask, taskId }) {
 	}
 	return (
 		<div className="md:flex max-w-2xl">
-			<div className="flex flex-col flex-1 px-20 md:px-32 pt-20 md:pt-32 md:ltr:pr-32 md:rtl:pl-32">
+			<div className="flex flex-col flex-1">
 				<div>
 					<Card className="w-full overflow-hidden post-form mb-32 post-card-clx">
 						<Input
 							id="addPost"
-							className="p-16 w-full"
+							className="p-16 w-full write-post"
 							classes={{ root: 'text-14' }}
 							placeholder="Write something.."
 							multiline
