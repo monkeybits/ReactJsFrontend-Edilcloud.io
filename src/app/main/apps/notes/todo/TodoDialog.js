@@ -463,7 +463,7 @@ function TodoDialog(props) {
 							<DatePicker
 								dateFormat="dd/MM/yyyy"
 								selected={taskDate.startDate}
-								minDate={taskDate.startDate}
+								// minDate={taskDate.startDate}
 								onChange={startDate => {
 									setTaskDate({
 										...taskDate,

@@ -39,20 +39,22 @@ class Gantt extends Component {
 			return true;
 		} else if (this.state.tasks && this.state.tasks.data) {
 			/// .length !== Object.values(todos.entities).length
-			let newtasks = Object.values(todos.entities).map((data, index) => ({
-				...{
-					id: index + 1,
-					text: data.name,
-					start_date: data.date_start,
-					end_date: data.date_end,
-					duration: moment(data.date_start).diff(moment(data.date_end)),
-					progress: data.progress / 100,
-					mainId: data.id
-				},
-				data
-			}));
-			console.log({
-				cond: JSON.stringify(newtasks) == JSON.stringify(this.state.tasks.data)
+			let newtasks = Object.values(todos.entities).map((data, index) => {
+				var startDate = moment(moment(data.date_start).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
+				var endDate = moment(moment(data.date_end).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
+				let duration = endDate.diff(startDate, 'days');
+				return {
+					...{
+						id: index + 1,
+						text: data.name,
+						start_date: data.date_start,
+						end_date: data.date_end,
+						duration:duration+1,
+						progress: data.progress / 100,
+						mainId: data.id
+					},
+					data
+				};
 			});
 			if (JSON.stringify(newtasks) !== JSON.stringify(this.state.tasks.data)) {
 				this.ganttInit(todos);
@@ -65,18 +67,33 @@ class Gantt extends Component {
 	}
 	ganttInit = todos => {
 		let tasks = {
-			data: Object.values(todos.entities).map((data, index) => ({
-				...{
-					id: index + 1,
-					text: data.name,
-					start_date: data.date_start,
-					end_date: data.date_end,
-					duration: moment(data.date_start).diff(moment(data.date_end)),
-					progress: data.progress / 100,
-					mainId: data.id
-				},
-				data
-			}))
+			data: Object.values(todos.entities).map((data, index) => {
+				var startDate = moment(moment(data.date_start).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
+				var endDate = moment(moment(data.date_end).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
+				let duration = endDate.diff(startDate, 'days');
+				// let duration = moment(data.date_start, 'DD.MM.YYYY').diff(moment(data.date_end, 'DD.MM.YYYY'), 'days');
+				console.log(
+					typeof duration,
+					duration,
+					data.date_start,
+					data.date_end,
+					startDate,
+					endDate,
+					endDate.diff(startDate, 'days')
+				);
+				return {
+					...{
+						id: index + 1,
+						text: data.name,
+						start_date: data.date_start,
+						end_date: data.date_end,
+						duration:duration+1,
+						progress: data.progress / 100,
+						mainId: data.id
+					},
+					data
+				};
+			})
 		};
 		gantt.config.xml_date = '%Y-%m-%d %H:%i';
 		gantt.init(this.ganttContainer);
