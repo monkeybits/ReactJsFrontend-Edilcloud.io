@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 		transform: 'rotate(180deg)'
 	},
 	avatar: {
-		backgroundColor: red[500]
+		backgroundColor: white
 	},
 	board: {
 		cursor: 'pointer',
@@ -137,7 +137,7 @@ function NoteList(props) {
 					<Grid container spacing={12}>
 						{projects.map((project, index) => {
 							return project.isApproved ? (
-								<Grid className="px-12 mb-32" item xs={12} md={6} xl={3}>
+								<Grid className="px-12 mb-32" item xs={12} sm={6} md={4} xl={3}>
 									<ProjectListitem key={index} index={index} {...{ project, classes, setRequest }} />
 								</Grid>
 							) : (
