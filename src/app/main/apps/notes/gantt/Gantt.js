@@ -6,7 +6,11 @@ import connect from 'react-redux/es/connect/connect';
 import moment from 'moment';
 import * as Actions from '../todo/store/actions';
 import { bindActionCreators } from 'redux';
-
+import { fileDragAndDrop } from './common/dhx_file_dnd';
+import { withRouter } from 'react-router';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { EDIT_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
+import { getHeaderToken } from 'app/services/serviceUtils';
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
@@ -19,14 +23,76 @@ class Gantt extends Component {
 		this.state = {
 			tasks: undefined
 		};
+		this.fileDnD = null;
 	}
-
+	// initGanttDataProcessor() {
+	// 	const onDataUpdated = this.props.onDataUpdated;
+	// 	this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
+	// 		console.log({ entityType, action, item, id });
+	// 		return new Promise((resolve, reject) => {
+	// 			if (onDataUpdated) {
+	// 				onDataUpdated(entityType, action, item, id);
+	// 			}
+	// 			return resolve();
+	// 		});
+	// 	});
+	// }
+	componentWillUnmount() {
+		if (this.dataProcessor) {
+			this.dataProcessor.destructor();
+			this.dataProcessor = null;
+		}
+	}
 	componentDidMount() {
 		// gantt.config.xml_date = '%Y-%m-%d %H:%i';
 		// const { tasks } = this.props;
 		// gantt.init(this.ganttContainer);
 		// gantt.parse(tasks);
+		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
+			return new Promise((resolve, reject) => {
+				// if (onDataUpdated) {
+				// onDataUpdated(entityType, action, item, id);
+				console.log({ entityType, action, item, id });
+				this.editTodo(
+					{
+						name: item.data.name,
+						description: item.data.note,
+						id: item.data.id,
+						company: item.data.assigned_company,
+						progress: item.data.progress,
+						date_start: item.start_date,
+						date_end: item.end_date
+					},
+					this.props.match.params.id
+				);
+				resolve();
+				// }
+			});
+		});
 	}
+	editTodo = (todo, pid) => {
+		let values = {
+			name: todo.name,
+			note: todo.description,
+			progress: todo.progress,
+			date_start: moment(todo.date_start).format('YYYY-MM-DD'),
+			date_end: moment(todo.date_end).format('YYYY-MM-DD'),
+			assigned_company: todo.company[0] ? todo.company[0].data.profile.company.id : undefined,
+			project: pid,
+			date_completed: null,
+			alert: false,
+			starred: false
+		};
+		console.log({ values });
+		apiCall(
+			EDIT_TASK_TO_PROJECT(todo.id),
+			values,
+			res => {},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
 	shouldComponentUpdate(nextProps) {
 		const { todos } = nextProps;
 		console.log({
@@ -48,8 +114,8 @@ class Gantt extends Component {
 						id: index + 1,
 						text: data.name,
 						start_date: data.date_start,
-						end_date: data.date_end,
-						duration:duration+1,
+						end_date: data.date_end, // end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
+						duration: duration + 1,
 						progress: data.progress / 100,
 						mainId: data.id
 					},
@@ -86,8 +152,8 @@ class Gantt extends Component {
 						id: index + 1,
 						text: data.name,
 						start_date: data.date_start,
-						end_date: data.date_end,
-						duration:duration+1,
+						end_date: data.date_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
+						duration: duration + 1,
 						progress: data.progress / 100,
 						mainId: data.id
 					},
@@ -107,6 +173,15 @@ class Gantt extends Component {
 				this.props.openNewTodoDialog();
 			}
 		};
+
+		// gantt.templates.task_class = function (start, end, task) {
+		// 	console.log({ tasktasktask: task });
+		// 	if (task.progress > 0.5) {
+		// 		return '';
+		// 	} else {
+		// 		return 'important';
+		// 	}
+		// };
 		this.setState({
 			tasks
 		});
@@ -166,9 +241,10 @@ function mapDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{
 			openTaskContent: Actions.openTaskContent,
-			openNewTodoDialog: Actions.openNewTodoDialog
+			openNewTodoDialog: Actions.openNewTodoDialog,
+			editTodo: Actions.editTodo
 		},
 		dispatch
 	);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Gantt);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Gantt));

@@ -31,6 +31,7 @@ import SendIcon from '@material-ui/icons/Send';
 import PostedImages from './PostedImages';
 import { Collapse } from '@material-ui/core';
 import FuseUtils from '@fuse/utils';
+import { red } from '@material-ui/core/colors';
 
 export default function PostListItem({ post }) {
 	const inputRef = useRef(null);
@@ -123,9 +124,24 @@ export default function PostListItem({ post }) {
 					</Avatar>
 				}
 				action={
-					<IconButton aria-label="more">
-						<Icon>more_vert</Icon>
-					</IconButton>
+					<div className="px-8">
+						<IconButton
+							onClick={ev => {
+								ev.preventDefault();
+								ev.stopPropagation();
+								// dispatch(Actions.toggleImportant(props.todo));
+							}}
+						>
+							{post.important ? (
+								<Icon style={{ color: red[500] }}>error</Icon>
+							) : (
+								<Icon>error_outline</Icon>
+							)}
+						</IconButton>
+						<IconButton aria-label="more">
+							<Icon>more_vert</Icon>
+						</IconButton>
+					</div>
 				}
 				title={
 					<span className="flex">
@@ -177,7 +193,7 @@ export default function PostListItem({ post }) {
 					<div className="">
 						<div
 							className="flex items-center ml-52 my-16 cursor-pointer"
-							onClick={(ev) => {
+							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
 								setOpen(!open);

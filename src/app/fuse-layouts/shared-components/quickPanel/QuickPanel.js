@@ -24,6 +24,9 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Checkbox } from '@material-ui/core';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { ALERTED_POSTS } from 'app/services/apiEndPoints';
+import { getHeaderToken } from 'app/services/serviceUtils';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -48,7 +51,16 @@ function QuickPanel(props) {
 
 	const classes = useStyles();
 	const [checked, setChecked] = useState('notifications');
-
+	// useEffect(() => {
+	// 	apiCall(
+	// 		ALERTED_POSTS,
+	// 		{},
+	// 		res => console.log(res),
+	// 		err => console.log(err),
+	// 		METHOD.GET,
+	// 		getHeaderToken()
+	// 	);
+	// }, [state]);
 	const handleToggle = value => () => {
 		const currentIndex = checked.indexOf(value);
 		const newChecked = [...checked];
@@ -76,84 +88,7 @@ function QuickPanel(props) {
 			<FuseScrollbars>
 				<ListSubheader component="div">Alerted posts</ListSubheader>
 				<div className={classes.root}>
-					<Accordion>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
-							<Typography className={classes.heading}>Accordion 1</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<TimelineTab />
-						</AccordionDetails>
-					</Accordion>
-					<Accordion>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel2a-content"
-							id="panel2a-header"
-						>
-							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
-							<Typography className={classes.heading}>Accordion 2</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<TimelineTab />
-						</AccordionDetails>
-					</Accordion>
-					<Accordion>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel2a-content"
-							id="panel2a-header"
-						>
-							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
-							<Typography className={classes.heading}>Accordion 3</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<TimelineTab />
-						</AccordionDetails>
-					</Accordion>
-					<Accordion>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel2a-content"
-							id="panel2a-header"
-						>
-							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
-							<Typography className={classes.heading}>Accordion 4</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<TimelineTab />
-						</AccordionDetails>
-					</Accordion>
-					<Accordion>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel2a-content"
-							id="panel2a-header"
-						>
-							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
-							<Typography className={classes.heading}>Accordion 5</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<TimelineTab />
-						</AccordionDetails>
-					</Accordion>
-					<Accordion>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel2a-content"
-							id="panel2a-header"
-						>
-							<Checkbox tabIndex={-1} onClick={ev => ev.stopPropagation()} />{' '}
-							<Typography className={classes.heading}>Accordion 6</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<TimelineTab />
-						</AccordionDetails>
-					</Accordion>
+					<TimelineTab />
 				</div>
 			</FuseScrollbars>
 		</Drawer>
