@@ -52,14 +52,16 @@ function QuickPanel(props) {
 
 	const classes = useStyles();
 	const [checked, setChecked] = useState('notifications');
-	const [list, setList] = useState([]);
+	const [listTask, setListTask] = useState([]);
+	const [listActivity, setListActivity] = useState([]);
 	useEffect(() => {
 		if (state) {
 			getAlertPostTask();
 			getAlertPostActivity();
 		}
 		return () => {
-			setList([]);
+			setListActivity([]);
+			setListTask([]);
 		};
 	}, [state]);
 	const getAlertPostTask = () => {
@@ -68,7 +70,7 @@ function QuickPanel(props) {
 			{},
 			results => {
 				let items = results.map(d => ({ ...d, type: 'tasks' }));
-				setList(list=>[...list, ...items]);
+				setListTask(items);
 			},
 			err => console.log(err),
 			METHOD.GET,
@@ -81,7 +83,7 @@ function QuickPanel(props) {
 			{},
 			results => {
 				let items = results.map(d => ({ ...d, type: 'activity' }));
-				setList(list=>[...list, ...items]);
+				setListActivity(items);
 			},
 			err => console.log(err),
 			METHOD.GET,
@@ -115,7 +117,30 @@ function QuickPanel(props) {
 			<FuseScrollbars>
 				<ListSubheader component="div">Alerted posts</ListSubheader>
 				<div className={classes.root}>
-					<PostList posts={list} />
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel1a-content"
+							id="panel1a-header"
+						>
+							<Typography className={classes.heading}>Tasks</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<PostList posts={listTask} />
+						</AccordionDetails>
+					</Accordion>
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel2a-content"
+							id="panel2a-header"
+						>
+							<Typography className={classes.heading}>Activities</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<PostList posts={listActivity} />
+						</AccordionDetails>
+					</Accordion>
 				</div>
 			</FuseScrollbars>
 		</Drawer>
