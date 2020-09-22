@@ -8,7 +8,10 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import clsx from 'clsx';
 import DrawImage from './DrawImage';
+import SwipeableViews from 'react-swipeable-views';
+import { autoPlay } from 'react-swipeable-views-utils';
 
+const AutoPlaySwipeableViews = SwipeableViews; //autoPlay(SwipeableViews);
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: '70%',
@@ -23,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.background.default
 	},
 	img: {
-        height: 300,
+		height: 300,
 		maxWidth: 400,
 		overflow: 'hidden',
 		display: 'block',
@@ -51,14 +54,34 @@ export default function PostedImages(props) {
 	if (props.images.length === 0) {
 		return null;
 	}
-	console.log({ images: props.images });
+	const handleStepChange = step => {
+		setActiveStep(step);
+	};
 	return (
 		<div className={clsx(classes.root, 'd-block mx-auto o-contain')}>
-			{props.images[activeStep]?.type == 'image' || true ? (
-				<img className={classes.img} src={props.images[activeStep].media_url} />
-			) : (
-				<video className={classes.img} src={props.images[activeStep].imgPath} autoPlay />
-			)}
+			<AutoPlaySwipeableViews
+				axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+				index={activeStep}
+				onChangeIndex={handleStepChange}
+				enableMouseEvents
+			>
+				{/* {props.images[activeStep]?.type == 'image' || true ? (
+					<img className={classes.img} src={props.images[activeStep].media_url} />
+				) : (
+					<video className={classes.img} src={props.images[activeStep].imgPath} autoPlay />
+				)} */}
+				{props.images.map((step, index) => (
+					<div key={step.label}>
+						{Math.abs(activeStep - index) <= 2 ? (
+							props.images[activeStep]?.type == 'image' || true ? (
+								<img className={classes.img} src={props.images[activeStep].media_url} />
+							) : (
+								<video className={classes.img} src={props.images[activeStep].imgPath} autoPlay />
+							)
+						) : null}
+					</div>
+				))}
+			</AutoPlaySwipeableViews>
 			<MobileStepper
 				steps={maxSteps}
 				position="static"
