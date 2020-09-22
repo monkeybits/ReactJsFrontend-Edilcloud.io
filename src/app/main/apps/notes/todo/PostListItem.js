@@ -19,7 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST } from 'app/services/apiEndPoints';
+import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST, SHARE_ACTIVITY_POST_TO_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
@@ -32,6 +32,7 @@ import PostedImages from './PostedImages';
 import { Collapse } from '@material-ui/core';
 import FuseUtils from '@fuse/utils';
 import { red } from '@material-ui/core/colors';
+import { toast } from 'react-toastify';
 
 export default function PostListItem({ post }) {
 	const inputRef = useRef(null);
@@ -115,6 +116,20 @@ export default function PostListItem({ post }) {
 		// console.log('Fileurl', URL.createObjectURL(FuseUtils.dataURItoFile(url)));
 		setImages(images);
 	};
+	const sharePost = () => {
+		apiCall(
+			SHARE_ACTIVITY_POST_TO_TASK(post.id),
+			{},
+			res => {
+				toast.success('Shared To Task');
+			},
+			err => {
+				console.log(err);
+			},
+			METHOD.POST,
+			getHeaderToken()
+		);
+	};
 	return (
 		<Card key={post.id} className="mb-32 overflow-hidden post-form post-card-clx">
 			<CardHeader
@@ -132,11 +147,7 @@ export default function PostListItem({ post }) {
 								// dispatch(Actions.toggleImportant(props.todo));
 							}}
 						>
-							{post.alert ? (
-								<Icon style={{ color: red[500] }}>error</Icon>
-							) : (
-								<Icon>error_outline</Icon>
-							)}
+							{post.alert ? <Icon style={{ color: red[500] }}>error</Icon> : <Icon>error_outline</Icon>}
 						</IconButton>
 						<IconButton aria-label="more">
 							<Icon>more_vert</Icon>
@@ -179,7 +190,7 @@ export default function PostListItem({ post }) {
 					<Typography className="normal-case mx-4">Like</Typography>
 					<Typography className="normal-case">({post.like})</Typography>
 				</Button>
-				<Button aria-label="Share">
+				<Button aria-label="Share" onClick={sharePost}>
 					<Icon className="text-16" color="action">
 						share
 					</Icon>

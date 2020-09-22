@@ -354,6 +354,7 @@
     .write-post textarea {
         padding-right: 0px !important;
     }
+    
 }
 @media only screen and (max-width: 576px) {
     .team-chat-sidebar {
@@ -362,6 +363,9 @@
     }
     .max-height-100 {
         max-height: calc(100% - 0px) !important;
+    }
+    .alerted-post-modal-width .MuiPaper-root.MuiDrawer-paper {
+        width: 100%;
     }
 }
 @media only screen and (max-width: 480px) {

@@ -110,6 +110,7 @@ function QuickPanel(props) {
 	return (
 		<Drawer
 			classes={{ paper: classes.root }}
+			className="alerted-post-modal-width"
 			open={state}
 			anchor="right"
 			onClose={ev => dispatch(Actions.toggleQuickPanel())}

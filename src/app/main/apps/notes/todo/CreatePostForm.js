@@ -23,7 +23,8 @@ import {
 	ADD_POST_TO_ACTIVITY,
 	GET_POST_TO_ACTIVITY,
 	GET_POST_FOR_TASK,
-	ADD_POST_TO_TASK
+	ADD_POST_TO_TASK,
+	GET_SHARED_POSTS_FOR_TASKS
 } from 'app/services/apiEndPoints';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
@@ -55,6 +56,7 @@ function CreatePostForm({ isTask, taskId }) {
 	useEffect(() => {
 		setData({});
 		if (isTask) {
+			getSharedPosts();
 			getPosts();
 		}
 	}, [isTask]);
@@ -94,6 +96,9 @@ function CreatePostForm({ isTask, taskId }) {
 			isTask ? ADD_POST_TO_TASK(taskId) : ADD_POST_TO_ACTIVITY(todoDialog.data?.id),
 			formData,
 			res => {
+				setData({
+					posts: data.posts ? [res, ...data.posts] : [res]
+				});
 				document.getElementById('addPost').value = '';
 				setImages(null);
 				getPosts();
@@ -141,7 +146,16 @@ function CreatePostForm({ isTask, taskId }) {
 			setImages(file);
 		}
 	};
-
+	const getSharedPosts = () => {
+		apiCall(
+			GET_SHARED_POSTS_FOR_TASKS(taskId),
+			{},
+			res => setData({ posts: res.results }),
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 	const replaceImageUrl = (url, index) => {
 		images[index] = {
 			...images[index],
