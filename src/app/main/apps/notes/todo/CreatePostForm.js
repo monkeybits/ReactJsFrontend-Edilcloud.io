@@ -111,7 +111,7 @@ function CreatePostForm({ isTask, taskId }) {
 		console.log(`File Index 0`, fileToCompress); // smaller than maxSizeMB
 		if (fileToCompress.type?.split('/')[0] == 'image') {
 			const compressedFile = await imageCompression(fileToCompress, {
-				maxSizeMB: 1,
+				maxSizeMB: 0.1,
 				maxWidthOrHeight: 1024,
 				useWebWorker: true
 			});
