@@ -132,7 +132,7 @@ export default function PostListItem({ post }) {
 								// dispatch(Actions.toggleImportant(props.todo));
 							}}
 						>
-							{post.important ? (
+							{post.alert ? (
 								<Icon style={{ color: red[500] }}>error</Icon>
 							) : (
 								<Icon>error_outline</Icon>

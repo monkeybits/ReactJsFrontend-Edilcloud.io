@@ -92,7 +92,7 @@ export const GET_TASK_LIST = pid => `/api/frontend/project/project/${pid}/task_l
 export const ADD_ACTIVITY_TO_TASK = tid => `/api/frontend/project/task/${tid}/activity_add/`;
 export const GET_COMPANY_PROJECT_TEAM_MEMBER_LIST = (pid, cid, searchString) =>
 	`/api/frontend/project/project/${pid}/approve/team_list/?filter__profile__company__id=${cid}&filter__profile__first_name__icontains=${searchString}&filter__profile__last_name__icontains=${searchString}&no_page=no_page`;
-export const GET_ACTIVITY_OF_TASK = tid => `/api/frontend/project/task/${tid}/activity_list/`;
+export const GET_ACTIVITY_OF_TASK = tid => `/api/frontend/project/task/${tid}/activity_list/?no_page=no_page`;
 export const ADD_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/add_post/`;
 export const ADD_POST_TO_TASK = tid => `/api/frontend/project/task/${tid}/add_post/`;
 export const GET_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/post_list/`;
@@ -105,4 +105,5 @@ export const MOVE_VIDEO_FILE = vid => `/api/frontend/media/video/${vid}/move/`;
 export const MOVE_DOCUMENT_FILE = did => `/api/frontend/media/document/${did}/move/`;
 export const EDIT_PROFILE = pid => `/api/frontend/profile/profile/edit/${pid}/`;
 export const EDIT_TASK_TO_PROJECT = tid => `/api/frontend/project/task/edit/${tid}/`;
-export const ALERTED_POSTS = `/api/frontend/project/post_list_alert/`;
+export const ALERTED_POSTS_TASKS = `/api/frontend/project/task/post_list_alert/?no_page=no_page`;
+export const ALERTED_POSTS_ACTIVITY = `/api/frontend/project/activity/post_list_alert/?no_page=no_page`;

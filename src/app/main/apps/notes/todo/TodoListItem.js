@@ -72,8 +72,8 @@ function TodoListItem(props) {
 		apiCall(
 			GET_ACTIVITY_OF_TASK(props.todo.id),
 			{},
-			res => {
-				setTaskDetail(res.results);
+			results => {
+				setTaskDetail(results);
 				setOpen(true);
 			},
 			err => console.log(err),
