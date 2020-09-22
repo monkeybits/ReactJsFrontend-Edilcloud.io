@@ -160,6 +160,8 @@ function TodoDialog(props) {
 			setForm({ ...todoDialog.data });
 		}
 		if (todoDialog.type === 'activity' && todoDialog.data?.assigned_company) {
+			resetForm();
+			setProfileData([]);
 			getProjectCompanyTeamProfiles();
 			setTaskDate({
 				startDate: new Date(todoDialog.data.date_start),
@@ -395,7 +397,7 @@ function TodoDialog(props) {
 									// onChange: e => getProjectCompanyTeamProfiles(e.target.value)
 								}}
 								onChange={value => {
-									setProfileData(value.splice(value.length - 1));
+									setProfileData(value);
 								}}
 								value={profileData}
 								options={profiles.map(profile => ({

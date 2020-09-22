@@ -25,8 +25,9 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Checkbox } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ALERTED_POSTS } from 'app/services/apiEndPoints';
+import { ALERTED_POSTS_TASKS, ALERTED_POSTS_ACTIVITY } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
+import PostList from 'app/main/apps/notes/todo/PostList';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -51,16 +52,42 @@ function QuickPanel(props) {
 
 	const classes = useStyles();
 	const [checked, setChecked] = useState('notifications');
-	// useEffect(() => {
-	// 	apiCall(
-	// 		ALERTED_POSTS,
-	// 		{},
-	// 		res => console.log(res),
-	// 		err => console.log(err),
-	// 		METHOD.GET,
-	// 		getHeaderToken()
-	// 	);
-	// }, [state]);
+	const [list, setList] = useState([]);
+	useEffect(() => {
+		if (state) {
+			getAlertPostTask();
+			getAlertPostActivity();
+		}
+		return () => {
+			setList([]);
+		};
+	}, [state]);
+	const getAlertPostTask = () => {
+		apiCall(
+			ALERTED_POSTS_TASKS,
+			{},
+			results => {
+				let items = results.map(d => ({ ...d, type: 'tasks' }));
+				setList(list=>[...list, ...items]);
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+	const getAlertPostActivity = () => {
+		apiCall(
+			ALERTED_POSTS_ACTIVITY,
+			{},
+			results => {
+				let items = results.map(d => ({ ...d, type: 'activity' }));
+				setList(list=>[...list, ...items]);
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 	const handleToggle = value => () => {
 		const currentIndex = checked.indexOf(value);
 		const newChecked = [...checked];
@@ -88,7 +115,7 @@ function QuickPanel(props) {
 			<FuseScrollbars>
 				<ListSubheader component="div">Alerted posts</ListSubheader>
 				<div className={classes.root}>
-					<TimelineTab />
+					<PostList posts={list} />
 				</div>
 			</FuseScrollbars>
 		</Drawer>
