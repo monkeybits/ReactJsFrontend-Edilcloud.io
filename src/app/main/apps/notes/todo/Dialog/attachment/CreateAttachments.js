@@ -1,5 +1,5 @@
 import _ from '@lodash';
-import { Button, Divider } from '@material-ui/core';
+import { Box, Button, CircularProgress, Divider } from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import { ADD_ATTCHMENTS_TO_TASK } from 'app/services/apiEndPoints';
@@ -13,6 +13,7 @@ function CreateAttachments({ taskId, attachments }) {
 	const [images, setImages] = useState(null);
 	const [mediaSets, setMediaSets] = useState(attachments);
 	const inputFile = useRef(null);
+	const [progress, setProgress] = React.useState(0);
 
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
@@ -34,7 +35,7 @@ function CreateAttachments({ taskId, attachments }) {
 	};
 	const handleUpload = e => {
 		var formData = new FormData();
-
+		setProgress(0);
 		if (images) {
 			const acceptedFiles = images.map(d => d.file);
 			let i = 0;
@@ -49,10 +50,20 @@ function CreateAttachments({ taskId, attachments }) {
 			formData,
 			res => {
 				setMediaSets(res.media_set);
+				setProgress(0);
 			},
-			err => console.log(err),
+			err => {
+				setProgress(0);
+				console.log(err);
+			},
 			METHOD.POST,
-			getHeaderToken()
+			{
+				...getHeaderToken(),
+				onUploadProgress: function (progressEvent) {
+					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					setProgress(percentCompleted);
+				}
+			}
 		);
 		setImages(null);
 	};
@@ -63,9 +74,32 @@ function CreateAttachments({ taskId, attachments }) {
 				{images && <ImagesPreview images={images} hideModify />}
 				<Button onClick={handleOpenFileClick}>add file</Button>
 			</div>
-			{images && <Button onClick={handleUpload}>upload</Button>}
+			{
+				<Button onClick={handleUpload}>
+					upload{' '}
+					{progress && (
+						<Box position="relative" display="inline-flex">
+							<CircularProgress color="secondary" variant="static" value={progress} />
+							<Box
+								top={0}
+								left={0}
+								bottom={0}
+								right={0}
+								position="absolute"
+								display="flex"
+								alignItems="center"
+								justifyContent="center"
+							>
+								<Typography variant="caption" component="div" color="textSecondary">
+									{progress}%
+								</Typography>
+							</Box>
+						</Box>
+					)}
+				</Button>
+			}
 			<Divider />
-			{mediaSets && mediaSets.lenght && (
+			{mediaSets && mediaSets.length && (
 				<div className="mb-24">
 					<div className="flex items-center mt-16 mb-12">
 						<Icon className="text-20" color="inherit">

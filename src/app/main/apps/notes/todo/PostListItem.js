@@ -19,7 +19,12 @@ import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST, SHARE_ACTIVITY_POST_TO_TASK } from 'app/services/apiEndPoints';
+import {
+	ADD_COMMENT_TO_POST,
+	EDIT_POST,
+	GET_COMMENT_OF_POST,
+	SHARE_ACTIVITY_POST_TO_TASK
+} from 'app/services/apiEndPoints';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
@@ -34,11 +39,12 @@ import FuseUtils from '@fuse/utils';
 import { red } from '@material-ui/core/colors';
 import { toast } from 'react-toastify';
 
-export default function PostListItem({ post }) {
+export default function PostListItem({ currnetPost }) {
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
 	const [open, setOpen] = React.useState(true);
+	const [post, setPost] = React.useState({ ...currnetPost });
 	const [postComments, setPostComments] = useState([]);
 	useEffect(() => {
 		if (post.comment_set) {
@@ -91,7 +97,21 @@ export default function PostListItem({ post }) {
 			getHeaderToken()
 		);
 	};
-
+	const handleAlertPost = () => {
+		apiCall(
+			EDIT_POST(post.id),
+			{
+				...post,
+				alert: !post.alert
+			},
+			res => {
+				setPost(currnetPost => ({ ...currnetPost, ...{ ...res, author: currnetPost.author } }));
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
 	const addPhoto = async e => {
 		const files = e.currentTarget.files;
 		let file = [];
@@ -144,7 +164,7 @@ export default function PostListItem({ post }) {
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
-								// dispatch(Actions.toggleImportant(props.todo));
+								handleAlertPost();
 							}}
 						>
 							{post.alert ? <Icon style={{ color: red[500] }}>error</Icon> : <Icon>error_outline</Icon>}
