@@ -58,14 +58,16 @@ function CreateAttachments({ taskId, attachments }) {
 	};
 	return (
 		<>
-			<div className="mb-24">
+			<div className="mb-24 image-center">
 				<input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden />
 				{images && <ImagesPreview images={images} hideModify />}
-				<Button onClick={handleOpenFileClick}>add file</Button>
+				<div className="flex">
+					<Button className="add-file-btn mr-10" onClick={handleOpenFileClick}>add file</Button>
+					{images && <Button className="upload-btn" onClick={handleUpload}>upload</Button>}
+				</div>
 			</div>
-			{images && <Button onClick={handleUpload}>upload</Button>}
 			<Divider />
-			{mediaSets && mediaSets.lenght && (
+			{mediaSets && (
 				<div className="mb-24">
 					<div className="flex items-center mt-16 mb-12">
 						<Icon className="text-20" color="inherit">
