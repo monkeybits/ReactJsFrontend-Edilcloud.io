@@ -37,7 +37,7 @@ import FuseUtils from '@fuse/utils';
 
 function CreatePostForm({ isTask, taskId }) {
 	const dispatch = useDispatch();
-	const [data, setData] = useState(null);
+	const [data, setData] = useState({ posts: [] });
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
 	const [viewCroper, setViewCroper] = useState(false);
@@ -48,13 +48,11 @@ function CreatePostForm({ isTask, taskId }) {
 	const inputRef = useRef(null);
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	useEffect(() => {
-		setData({});
 		if (todoDialog.data?.id) {
 			getPosts();
 		}
 	}, [todoDialog.data]);
 	useEffect(() => {
-		setData({});
 		if (isTask) {
 			getSharedPosts();
 			getPosts();
@@ -69,7 +67,7 @@ function CreatePostForm({ isTask, taskId }) {
 		apiCall(
 			isTask ? GET_POST_FOR_TASK(taskId) : GET_POST_TO_ACTIVITY(todoDialog.data?.id),
 			{},
-			res => setData({ posts: res.results }),
+			res => setData(prev => ({ posts: [...prev.posts, ...res.results] })),
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
@@ -150,7 +148,7 @@ function CreatePostForm({ isTask, taskId }) {
 		apiCall(
 			GET_SHARED_POSTS_FOR_TASKS(taskId),
 			{},
-			res => setData({ posts: res.results }),
+			res => setData(prev => ({ posts: [...prev.posts, ...res.results] })),
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
