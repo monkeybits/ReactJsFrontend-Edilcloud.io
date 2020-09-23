@@ -193,13 +193,26 @@
     bottom: 80px !important;
     right: 20px !important;
 }
-.custom-float-btn > button {
+.custom-float-btn > button, .add-file-btn  {
     color: rgba(0, 0, 0, 0.87);
     background-color: #61dafb;
 }
-.custom-float-btn > button:hover {
+.custom-float-btn > button:hover, .add-file-btn:hover {
     background-color: #33c2f8;
     box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+.add-file-btn {
+    padding: 6px 13px;
+    font-size: 15px
+}
+.upload-btn {
+    color: #fff;
+    background-color: #323338;
+    padding: 6px 13px;
+    font-size: 15px
+}
+.upload-btn:hover {
+    background-color: #131417;
 }
 #SpeedDialexample-actions button {
     background-color: #fff;
@@ -322,6 +335,12 @@
 .posted-images img {
     height: 100%;
     max-width: 100%;
+}
+.image-center img {
+    margin: 0 auto;
+}
+.image-center .d-block.mx-auto ~ .flex {
+    margin-top: 20px;
 }
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{

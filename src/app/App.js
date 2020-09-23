@@ -16,10 +16,11 @@ import AppContext from './AppContext';
 import { Auth } from './auth';
 import routes from './fuse-configs/routesConfig';
 import store from './store';
+import InternetStatus from './InternetStatus';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import '@fortawesome/fontawesome-svg-core/styles.css' // Import the CSS
+import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
 
 const jss = create({
 	...jssPreset(),
@@ -62,6 +63,7 @@ const App = () => {
 				draggable
 				pauseOnHover
 			/>
+			<InternetStatus />
 		</AppContext.Provider>
 	);
 };

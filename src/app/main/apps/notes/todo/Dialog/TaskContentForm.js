@@ -22,7 +22,7 @@ import moment from 'moment';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CardActivity from './activity/CardActivity';
-import CardAttachment from './attachment/CardAttachment';
+import CreateAttachments from './attachment/CreateAttachments';
 import CardChecklist from './checklist/CardChecklist';
 import CardComment from './comment/CardComment';
 import CheckListMenu from './toolbar/CheckListMenu';
@@ -501,26 +501,7 @@ function TaskContentForm(props) {
 					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
 				</TabPanel>
 				<TabPanel value={value} index={1}>
-					<div className="mb-24">
-						<div className="flex items-center mt-16 mb-12">
-							<Icon className="text-20" color="inherit">
-								attachment
-							</Icon>
-							<Typography className="font-600 text-16 mx-8">Attachments</Typography>
-						</div>
-						<div className="flex flex-col sm:flex-row flex-wrap -mx-16">
-							{attachments.map(item => (
-								<CardAttachment
-									item={item}
-									card={cardForm}
-									// makeCover={makeCover}
-									// removeCover={removeCover}
-									// removeAttachment={removeAttachment}
-									key={item.id}
-								/>
-							))}
-						</div>
-					</div>
+					<CreateAttachments taskId={taskContentData?.id} attachments={taskContentData?.media_set} />
 					{/* <div className="mb-24">
 						<div className="flex items-center mt-16">
 							<Icon className="text-20" color="inherit">

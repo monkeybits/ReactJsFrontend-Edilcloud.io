@@ -31,7 +31,7 @@ function PostList({ posts }) {
 	if (!posts || posts?.length == 0) {
 		return null;
 	}
-	return posts.map((post, index) => <PostListItem key={index} post={post} />);
+	return posts.map((post, index) => <PostListItem key={index} currnetPost={post} />);
 }
 
 export default PostList;

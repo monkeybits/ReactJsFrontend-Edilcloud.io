@@ -11,7 +11,7 @@ import DrawImage from './DrawImage';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 
-const AutoPlaySwipeableViews = SwipeableViews; //autoPlay(SwipeableViews);
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews); //SwipeableViews;
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: '70%',

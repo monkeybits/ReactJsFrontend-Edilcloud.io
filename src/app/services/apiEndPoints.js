@@ -108,4 +108,6 @@ export const EDIT_TASK_TO_PROJECT = tid => `/api/frontend/project/task/edit/${ti
 export const ALERTED_POSTS_TASKS = `/api/frontend/project/task/post_list_alert/?no_page=no_page`;
 export const ALERTED_POSTS_ACTIVITY = `/api/frontend/project/activity/post_list_alert/?no_page=no_page`;
 export const SHARE_ACTIVITY_POST_TO_TASK = pid => `/api/frontend/project/post/${pid}/share_to_task/`;
-export const GET_SHARED_POSTS_FOR_TASKS = tid => `api/frontend/project/task/${tid}/shared_posts/`;
+export const GET_SHARED_POSTS_FOR_TASKS = tid => `/api/frontend/project/task/${tid}/shared_posts/`;
+export const ADD_ATTCHMENTS_TO_TASK = tid => `/api/frontend/project/task/${tid}/attachment_add/`;
+export const EDIT_POST = pid => `/api/frontend/project/post/${pid}/edit/`;

@@ -98,17 +98,19 @@ export default function ImagesPreview(props) {
 					</Button>
 				}
 			/>
-			<Button
-				size="small"
-				variant="contained"
-				color="primary"
-				className="mb-16 block mx-auto"
-				onClick={() => {
-					getMeta(props.images[activeStep].imgPath);
-				}}
-			>
-				Modify
-			</Button>
+			{!props.hideModify && (
+				<Button
+					size="small"
+					variant="contained"
+					color="primary"
+					className="mb-16 block mx-auto"
+					onClick={() => {
+						getMeta(props.images[activeStep].imgPath);
+					}}
+				>
+					Modify
+				</Button>
+			)}
 		</div>
 	);
 }
