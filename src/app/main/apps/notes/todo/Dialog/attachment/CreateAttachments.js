@@ -73,8 +73,32 @@ function CreateAttachments({ taskId, attachments }) {
 				<input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden />
 				{images && <ImagesPreview images={images} hideModify />}
 				<div className="flex">
-					<Button className="add-file-btn mr-10" onClick={handleOpenFileClick}>add file</Button>
-					{images && <Button className="upload-btn" onClick={handleUpload}>upload</Button>}
+					<Button className="add-file-btn mr-10" onClick={handleOpenFileClick}>
+						add file
+					</Button>
+
+					<Button className="upload-btn" onClick={handleUpload}>
+						upload{' '}
+						{!!progress && (
+							<Box position="relative" display="inline-flex">
+								<CircularProgress color="secondary" variant="static" value={progress} />
+								<Box
+									top={0}
+									left={0}
+									bottom={0}
+									right={0}
+									position="absolute"
+									display="flex"
+									alignItems="center"
+									justifyContent="center"
+								>
+									<Typography variant="caption" component="div" color="textSecondary">
+										{progress}%
+									</Typography>
+								</Box>
+							</Box>
+						)}
+					</Button>
 				</div>
 			</div>
 			<Divider />

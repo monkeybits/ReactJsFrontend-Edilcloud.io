@@ -466,29 +466,7 @@ function TaskContentForm(props) {
 			<DialogTitle component="div" className="p-0">
 				<AppBar position="static" elevation={1}>
 					<Toolbar className="flex w-full overflow-x-auto px-8 sm:px-16">
-						<div className="flex flex-1">
-							<DueMenu onDueChange={handleChange} onRemoveDue={removeDue} due={dueDate} />
-
-							<LabelsMenu
-								onToggleLabel={toggleLabel}
-								labels={labels}
-								// idLabels={cardForm.idLabels}
-							/>
-
-							<MembersMenu
-								onToggleMember={toggleMember}
-								members={members}
-								// idMembers={cardForm.idMembers}
-							/>
-
-							<IconButton color="inherit">
-								<Icon>attachment</Icon>
-							</IconButton>
-
-							<CheckListMenu onAddCheckList={addCheckList} />
-
-							<OptionsMenu onRemoveCard={() => {}} />
-						</div>
+						<div className="flex flex-1">Task</div>
 						<IconButton color="inherit" onClick={ev => dispatch(Actions.closeTaskContent())}>
 							<Icon>close</Icon>
 						</IconButton>
