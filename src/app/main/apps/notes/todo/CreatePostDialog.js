@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
@@ -28,12 +29,48 @@ import * as Actions from './store/actions';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
 import DatePicker from 'react-datepicker';
-import { Slider, withStyles } from '@material-ui/core';
+import { Box, Slider, withStyles } from '@material-ui/core';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import CreatePostForm from './CreatePostForm';
 import CloseIcon from '@material-ui/icons/Close';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import EditActivityForm from './EditActivityForm';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+function TabPanel(props) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`wrapped-tabpanel-${index}`}
+			aria-labelledby={`wrapped-tab-${index}`}
+			{...other}
+		>
+			{value === index && (
+				<Box p={3}>
+					<Typography>{children}</Typography>
+				</Box>
+			)}
+		</div>
+	);
+}
+
+TabPanel.propTypes = {
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired
+};
+
+function a11yProps(index) {
+	return {
+		id: `wrapped-tab-${index}`,
+		'aria-controls': `wrapped-tabpanel-${index}`
+	};
+}
 
 const defaultFormState = {
 	id: '',
@@ -49,94 +86,10 @@ const defaultFormState = {
 };
 const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
 
-const marks = [
-	{
-		value: 0
-	},
-	{
-		value: 10
-	},
-	{
-		value: 20
-	},
-	{
-		value: 30
-	},
-	{
-		value: 40
-	},
-	{
-		value: 50
-	},
-	{
-		value: 60
-	},
-	{
-		value: 70
-	},
-	{
-		value: 80
-	},
-	{
-		value: 90
-	},
-	{
-		value: 100
-	}
-];
-
-const IOSSlider = withStyles({
-	root: {
-		color: '#3880ff',
-		height: 2,
-		padding: '15px 0'
-	},
-	thumb: {
-		height: 28,
-		width: 28,
-		backgroundColor: '#fff',
-		boxShadow: iOSBoxShadow,
-		marginTop: -14,
-		marginLeft: -14,
-		'&:focus, &:hover, &$active': {
-			boxShadow: '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
-			// Reset on touch devices, it doesn't add specificity
-			'@media (hover: none)': {
-				boxShadow: iOSBoxShadow
-			}
-		}
-	},
-	active: {},
-	valueLabel: {
-		left: 'calc(-50% + 12px)',
-		top: -22,
-		'& *': {
-			background: 'transparent',
-			color: '#000'
-		}
-	},
-	track: {
-		height: 2
-	},
-	rail: {
-		height: 2,
-		opacity: 0.5,
-		backgroundColor: '#bfbfbf'
-	},
-	mark: {
-		backgroundColor: '#bfbfbf',
-		height: 8,
-		width: 1,
-		marginTop: -3
-	},
-	markActive: {
-		opacity: 1,
-		backgroundColor: 'currentColor'
-	}
-})(Slider);
 function CreatePostDialog(props) {
 	const dispatch = useDispatch();
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
+	const [value, setValue] = React.useState(0);
 	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [labelMenuEl, setLabelMenuEl] = useState(null);
@@ -254,7 +207,13 @@ function CreatePostDialog(props) {
 	};
 	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
 	return (
-		<Dialog open={todoDialog.props.openTimelineDialog} onClose={closeTodoDialog} fullWidth maxWidth="sm" className="rs-dialog-sm-full">
+		<Dialog
+			open={todoDialog.props.openTimelineDialog}
+			onClose={closeTodoDialog}
+			fullWidth
+			maxWidth="sm"
+			className="rs-dialog-sm-full"
+		>
 			<AppBar position="static" elevation={1}>
 				<Toolbar className="flex w-full">
 					<div className="absolute right-0 mr-4">
@@ -273,8 +232,25 @@ function CreatePostDialog(props) {
 			</AppBar>
 
 			<DialogContent classes={{ root: 'p-0' }}>
-				<CreatePostForm />
+				<TabPanel value={value} index={0}>
+					<CreatePostForm />
+				</TabPanel>
+				<TabPanel value={value} index={1}>
+					<EditActivityForm />
+				</TabPanel>
 			</DialogContent>
+			<DialogActions>
+				<BottomNavigation
+					value={value}
+					onChange={(event, newValue) => {
+						setValue(newValue);
+					}}
+					showLabels
+				>
+					<BottomNavigationAction icon={<FavoriteIcon />} label="Timeline" wrapped {...a11yProps(0)} />
+					<BottomNavigationAction icon={<Icon>edit</Icon>} label="Activity" {...a11yProps(1)} />
+				</BottomNavigation>
+			</DialogActions>
 		</Dialog>
 	);
 }

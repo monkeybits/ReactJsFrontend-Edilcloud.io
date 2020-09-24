@@ -66,6 +66,10 @@ function TodoListItem(props) {
 			setId(null);
 		}
 	}, [todoDialog.props.open]);
+	useEffect(() => {
+		getDetailOfTask();
+		setId(null);
+	}, [todoDialog.props.openTimelineDialog]);
 	const getDetailOfTask = () => {
 		// if (open === false) {
 
@@ -108,7 +112,7 @@ function TodoListItem(props) {
 							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
 						</Tooltip> */}
 
-							{/* <Tooltip title={'hello'}>
+						{/* <Tooltip title={'hello'}>
 							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
 						</Tooltip>
 						</div>
@@ -294,7 +298,9 @@ function TodoListItem(props) {
 					>
 						{taskDetail &&
 							!!taskDetail.length &&
-							taskDetail.map(todo => <TodoActivityListItem todo={todo} key={todo.id} />)}
+							taskDetail.map(todo => (
+								<TodoActivityListItem task={props.todo} todo={todo} key={todo.id} />
+							))}
 					</FuseAnimateGroup>
 				</List>
 			</Collapse>

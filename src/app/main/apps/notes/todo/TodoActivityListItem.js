@@ -92,7 +92,7 @@ function TodoActivityListItem(props) {
 				onChange={() => setCompleted(prev => !prev)}
 				onClick={ev => {
 					ev.preventDefault();
-					dispatch(Actions.openTimelineDialog(props.todo));
+					dispatch(Actions.openTimelineDialog({ todo: props.todo, task: props.task }));
 					// getDetailOfTask();
 				}}
 				dense
@@ -195,21 +195,12 @@ function TodoActivityListItem(props) {
 						</IconButton>
 					</div>
 					<div className="custom-edit-icon">
-						<IconButton
-							onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								// dispatch(Actions.toggleStarred(props.todo));
-							}}
-						>
-							<Icon>edit</Icon>
-						</IconButton>
+						<MembersMenu
+							onToggleMember={() => ''}
+							members={members}
+							// idMembers={cardForm.idMembers}
+						/>
 					</div>
-					<MembersMenu
-						onToggleMember={() => ''}
-						members={members}
-						// idMembers={cardForm.idMembers}
-					/>
 				</div>
 			</ListItem>
 		</>
