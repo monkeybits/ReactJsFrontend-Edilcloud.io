@@ -434,7 +434,7 @@ function TodoDialog(props) {
 											<span className="flex items-center">
 												<Icon
 													className="list-item-icon mr-4"
-													style={{ color: company.profile.company?.color_project }}
+													style={{ color: company.profile?.company?.color_project }}
 													color="action"
 												>
 													label

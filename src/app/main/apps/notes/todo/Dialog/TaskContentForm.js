@@ -466,29 +466,7 @@ function TaskContentForm(props) {
 			<DialogTitle component="div" className="p-0">
 				<AppBar position="static" elevation={1}>
 					<Toolbar className="flex w-full overflow-x-auto px-8 sm:px-16">
-						<div className="flex flex-1">
-							<DueMenu onDueChange={handleChange} onRemoveDue={removeDue} due={dueDate} />
-
-							<LabelsMenu
-								onToggleLabel={toggleLabel}
-								labels={labels}
-								// idLabels={cardForm.idLabels}
-							/>
-
-							<MembersMenu
-								onToggleMember={toggleMember}
-								members={members}
-								// idMembers={cardForm.idMembers}
-							/>
-
-							<IconButton color="inherit">
-								<Icon>attachment</Icon>
-							</IconButton>
-
-							<CheckListMenu onAddCheckList={addCheckList} />
-
-							<OptionsMenu onRemoveCard={() => {}} />
-						</div>
+						<div className="flex flex-1">Task</div>
 						<IconButton color="inherit" onClick={ev => dispatch(Actions.closeTaskContent())}>
 							<Icon>close</Icon>
 						</IconButton>
@@ -810,10 +788,11 @@ function TaskContentForm(props) {
 						setValue(newValue);
 					}}
 					showLabels
+					className="flex justify-around w-full"
 				>
-					<BottomNavigationAction icon={<RestoreIcon />} label="Tab 1" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction icon={<FavoriteIcon />} label="Tab 2" {...a11yProps(1)} />
-					<BottomNavigationAction icon={<LocationOnIcon />} label="Tab 3" {...a11yProps(2)} />
+					<BottomNavigationAction icon={<RestoreIcon />} label="Post Tabs" wrapped {...a11yProps(0)} />
+					<BottomNavigationAction icon={<FavoriteIcon />} label="Attachments" {...a11yProps(1)} />
+					<BottomNavigationAction icon={<LocationOnIcon />} label="Edit" {...a11yProps(2)} />
 				</BottomNavigation>
 			</DialogActions>
 		</>

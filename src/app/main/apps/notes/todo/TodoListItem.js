@@ -51,8 +51,11 @@ function TodoListItem(props) {
 		setOpen(!open);
 	};
 	useEffect(() => {
+		console.log({
+			activities: props.todo.activities
+		});
 		setTaskDetail(props.todo.activities);
-	}, [props.todo]);
+	}, [props.todo.activities]);
 	useEffect(() => {
 		/**
 		 * After Dialog Open
@@ -66,6 +69,15 @@ function TodoListItem(props) {
 			setId(null);
 		}
 	}, [todoDialog.props.open]);
+	useEffect(() => {
+		if (todoDialog.props.openTimelineDialog == true && todoDialog.data.task.id == props.todo.id) {
+			setId(todoDialog.data.task.id);
+		}
+		if (todoDialog.props.openTimelineDialog == false && props.todo.id == id) {
+			getDetailOfTask();
+			setId(null);
+		}
+	}, [todoDialog.props.openTimelineDialog]);
 	const getDetailOfTask = () => {
 		// if (open === false) {
 
@@ -73,7 +85,7 @@ function TodoListItem(props) {
 			GET_ACTIVITY_OF_TASK(props.todo.id),
 			{},
 			results => {
-				setTaskDetail(results);
+				setTaskDetail(results.results);
 				setOpen(true);
 			},
 			err => console.log(err),
@@ -108,12 +120,12 @@ function TodoListItem(props) {
 							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
 						</Tooltip> */}
 
-							{/* <Tooltip title={'hello'}>
+						{/* <Tooltip title={'hello'}>
 							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
 						</Tooltip>
 						</div>
 						{/* content can be below */}
-						<div class="flex items-center mb-6 -mx-4">
+						<div className="flex items-center mb-6 -mx-4">
 							{props.todo.assigned_company && (
 								<TodoChip
 									title={props.todo.assigned_company?.name}
@@ -135,8 +147,7 @@ function TodoListItem(props) {
 								<div
 									className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm bg-green text-white')}
 								>
-									<Icon className="text-16">access_time</Icon>
-									<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
+									completed
 								</div>
 							) : moment().diff(moment(props.todo.date_start)) > 0 ? (
 								moment().diff(moment(props.todo.date_end)) > 0 ? (
@@ -213,11 +224,11 @@ function TodoListItem(props) {
 							</Box>
 						</Box>
 					</div>
-					{/* <div class="flex items-center mb-12 -mx-4">
+					{/* <div className="flex items-center mb-12 -mx-4">
 						{moment().diff(moment(props.todo.date_end)) > 0 && (
-							<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white">
+							<div className="flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white">
 								<Icon className="text-16">access_time</Icon>
-								<span class="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
+								<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
 							</div>
 						)}
 					</div> */}
@@ -238,9 +249,9 @@ function TodoListItem(props) {
 					{/* left side footer */}
 					
 					<div className="flex items-center -mx-6">
-						<div class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
+						<div className="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
 							<Icon className="text-16">check_circle</Icon>
-							<span class="mx-4">2/7</span>
+							<span className="mx-4">2/7</span>
 						</div>
 					</div>
 					{/* right side footer */}
@@ -260,7 +271,7 @@ function TodoListItem(props) {
 						)}
 						{props.todo.assigned_company?.id == company.id && (
 							<div
-								class="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white"
+								className="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white"
 								onClick={ev => {
 									if (open) {
 										ev.preventDefault();
@@ -276,8 +287,8 @@ function TodoListItem(props) {
 								}}
 							>
 								<Icon className="text-16">check_circle</Icon>
-								<span class="mx-4">Open Activities list</span>
-								<span class="mx-4"> 0/{taskDetail?.length}</span>
+								<span className="mx-4">Open Activities list</span>
+								<span className="mx-4"> 0/{taskDetail?.length}</span>
 
 								{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}
 							</div>
@@ -294,7 +305,9 @@ function TodoListItem(props) {
 					>
 						{taskDetail &&
 							!!taskDetail.length &&
-							taskDetail.map(todo => <TodoActivityListItem todo={todo} key={todo.id} />)}
+							taskDetail.map(todo => (
+								<TodoActivityListItem task={props.todo} todo={todo} key={todo.id} />
+							))}
 					</FuseAnimateGroup>
 				</List>
 			</Collapse>

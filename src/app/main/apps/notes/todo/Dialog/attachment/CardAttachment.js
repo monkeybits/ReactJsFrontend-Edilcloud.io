@@ -5,6 +5,16 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faFilePdf,
+	faFile,
+	faFileExcel,
+	faFileVideo,
+	faFileAudio,
+	faFileImage,
+	faFileWord
+} from '@fortawesome/free-regular-svg-icons';
 
 function CardAttachment(props) {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -75,9 +85,79 @@ function CardAttachment(props) {
 			</div>
 		</div>
 	);
-	switch (props.item.type) {
+	const wrapper = child => (
+		<div className="flex w-full sm:w-1/2 mb-16 px-16" key={props.item.id}>
+			<div className="flex items-center justify-center min-w-128 w-128 h-128">
+				<Paper className="rounded-4 overflow-hidden" elevation={1}>
+					{child}
+				</Paper>
+			</div>
+			<div className="flex flex-auto flex-col justify-center items-start min-w-0 px-16">
+				<div className="flex items-center w-full">
+					<Typography className="text-16 font-600 truncate flex-shrink">{props.item.name}</Typography>
+					{props.card.idAttachmentCover === props.item.id && (
+						<Icon className="text-orange-300 text-20 mx-4">star</Icon>
+					)}
+				</div>
+				<Typography className="truncate w-full mb-12" color="textSecondary">
+					{props.item.time}
+				</Typography>
+				<Button
+					aria-owns={anchorEl ? 'actions-menu' : null}
+					aria-haspopup="true"
+					onClick={handleMenuOpen}
+					variant="outlined"
+					size="small"
+				>
+					Actions
+					<Icon className="text-20">arrow_drop_down</Icon>
+				</Button>
+				<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+					{props.card.idAttachmentCover !== props.item.id ? (
+						<MenuItem
+							onClick={() => {
+								handleMenuClose();
+								props.makeCover(props.item.id);
+							}}
+						>
+							Make Cover
+						</MenuItem>
+					) : (
+						<MenuItem
+							onClick={() => {
+								handleMenuClose();
+								props.removeCover();
+							}}
+						>
+							Remove Cover
+						</MenuItem>
+					)}
+					<MenuItem
+						onClick={() => {
+							handleMenuClose();
+							props.removeAttachment(props.item.id);
+						}}
+					>
+						Remove Attachment
+					</MenuItem>
+				</Menu>
+			</div>
+		</div>
+	);
+	switch (props.item.type.split('/')[0]) {
 		case 'image': {
 			return itemImage();
+		}
+		case 'audio': {
+			return wrapper(<FontAwesomeIcon icon={faFileAudio} style={{ color: 'brown', fontSize: '2.4rem' }} />);
+		}
+		case 'video': {
+			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '2.4rem' }} />);
+		}
+		case 'application': {
+			return props.item.extension == '.xlsx' || props.item.extension == '.xls'
+				? wrapper(<FontAwesomeIcon icon={faFileExcel} style={{ color: 'green', fontSize: '2.4rem' }} />)
+				: wrapper(<FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '2.4rem' }} />);
 		}
 		case 'link': {
 			return (
@@ -118,7 +198,7 @@ function CardAttachment(props) {
 			);
 		}
 		default: {
-			return itemImage();
+			return <FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '2.4rem' }} />;
 		}
 	}
 }

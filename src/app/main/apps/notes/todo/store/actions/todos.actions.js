@@ -4,10 +4,12 @@ import {
 	ADD_TASK_TO_PROJECT,
 	GET_TASK_LIST,
 	ADD_ACTIVITY_TO_TASK,
-	EDIT_TASK_TO_PROJECT
+	EDIT_TASK_TO_PROJECT,
+	EDIT_ACTIVITY_TO_TASK
 } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 export const GET_TODOS = '[TODO APP] GET TODOS';
 export const UPDATE_TODOS = '[TODO APP] UPDATE TODOS';
 export const TOGGLE_STARRED = '[TODO APP] TOGGLE STARRED';
@@ -214,6 +216,35 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog) {
 	// 			})
 	// 		]).then(() => dispatch(updateTodos()))
 	// 	);
+}
+export function editActivity(todo, pid, setLoading) {
+	// console.log({
+	// 	todo
+	// });
+	return dispatch => {
+		console.log({ todo });
+		let values = {
+			title: todo.title,
+			description: todo.notes,
+			datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
+			datetime_end: moment(todo.endDate).format('YYYY-MM-DD'),
+			workers: todo.profile?.length
+				? todo.profile.map(d => (d.data.profile ? d.data.profile.id : d.data.id))
+				: undefined
+		};
+		apiCall(
+			EDIT_ACTIVITY_TO_TASK(todo.id),
+			values,
+			res => {
+				console.log(res);
+				setLoading(false);
+				toast.success('Updated');
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
 }
 export function editTodo(todo, pid, todoDialogType, closeTodoDialog) {
 	console.log({

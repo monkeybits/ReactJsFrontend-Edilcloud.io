@@ -116,7 +116,7 @@ function QuickPanel(props) {
 			onClose={ev => dispatch(Actions.toggleQuickPanel())}
 		>
 			<FuseScrollbars>
-				<ListSubheader component="div">Alerted posts</ListSubheader>
+				<ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader>
 				<div className={classes.root}>
 					<Accordion>
 						<AccordionSummary
@@ -126,7 +126,7 @@ function QuickPanel(props) {
 						>
 							<Typography className={classes.heading}>Tasks</Typography>
 						</AccordionSummary>
-						<AccordionDetails>
+						<AccordionDetails className="flex-wrap">
 							<PostList posts={listTask} />
 						</AccordionDetails>
 					</Accordion>
@@ -138,7 +138,7 @@ function QuickPanel(props) {
 						>
 							<Typography className={classes.heading}>Activities</Typography>
 						</AccordionSummary>
-						<AccordionDetails>
+						<AccordionDetails  className="flex-wrap">
 							<PostList posts={listActivity} />
 						</AccordionDetails>
 					</Accordion>

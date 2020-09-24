@@ -342,6 +342,37 @@
 .image-center .d-block.mx-auto ~ .flex {
     margin-top: 20px;
 }
+.bg-post-section {
+    background-color: #4c4c4c;
+    border-radius: 15px;
+}
+.comment-post-img {
+    margin-left: 56px;
+}
+.comment-post-img img {
+    height: 160px;
+    width: auto;
+}
+.gantt-container {
+    min-height: calc(100vh - 90px);
+    overflow-y: auto;
+}
+.gantt-min-height {
+    height: calc(100vh - 90px) !important;
+}
+.custom-zoom-bar {
+    padding: 15px 15px 15px 35px;
+}
+.custom-zoom-bar .radio-label {
+    margin: 0px 5px;
+}
+.custom-zoom-bar .radio-label input {
+    margin-right: 5px;
+}
+.bg-body {
+    background: #262526;
+}
+
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
         min-width: 100px !important;
@@ -385,6 +416,15 @@
     }
     .alerted-post-modal-width .MuiPaper-root.MuiDrawer-paper {
         width: 100%;
+    }
+    .comment-post-img img {
+        height: 120px;
+    }
+    .gantt-container {
+        min-height: auto;
+    }
+    .gantt-min-height {
+        height: calc(100vh - 40px) !important;
     }
 }
 @media only screen and (max-width: 480px) {
