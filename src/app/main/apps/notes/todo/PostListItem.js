@@ -105,7 +105,7 @@ export default function PostListItem({ currnetPost }) {
 				alert: !post.alert
 			},
 			res => {
-				setPost(currnetPost => ({ ...currnetPost, ...{ ...res, author: currnetPost.author } }));
+				setPost(currnetPost => ({ ...currnetPost, alert: res.alert }));
 			},
 			err => console.log(err),
 			METHOD.PUT,
@@ -267,13 +267,7 @@ export default function PostListItem({ currnetPost }) {
 							>
 								<Icon>photo</Icon>
 							</IconButton>
-							<input
-								hidden
-								type="file"
-								accept="image/*, video/*"
-								ref={inputRef}
-								onChange={addPhoto}
-							/>
+							<input hidden type="file" accept="image/*, video/*" ref={inputRef} onChange={addPhoto} />
 							<IconButton
 								className="send p-0"
 								onClick={handlePostComment}

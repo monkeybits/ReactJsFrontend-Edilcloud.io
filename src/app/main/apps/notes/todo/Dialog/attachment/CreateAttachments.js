@@ -22,12 +22,13 @@ function CreateAttachments({ taskId, attachments }) {
 		const files = e.currentTarget.files;
 		let file = [];
 		for (var i = 0; i < files.length; i++) {
+			let fileType = files[i].type?.split('/')[0];
 			file = [
 				...file,
 				{
-					file: await getCompressFile(files[i]),
+					file: fileType == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
-					fileType: files[i].type?.split('/')[0]
+					fileType
 				}
 			];
 			setImages(file);

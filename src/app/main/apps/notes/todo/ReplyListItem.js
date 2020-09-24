@@ -49,8 +49,8 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 					secondary={comment.text}
 				/>
 			</ListItem>
-			<div className="posted-images">
-				<PostedImages images={comment.media_set} />
+			<div className="posted-images comment-post-img">
+				<PostedImages images={comment.media_set} hideNavigation />
 			</div>
 			<div className="flex items-center ml-44 mb-8">
 				<Button size="small" aria-label="Add to favorites">

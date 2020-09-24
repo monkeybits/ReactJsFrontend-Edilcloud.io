@@ -136,7 +136,7 @@ export default function CommentListItem({ post, comment }) {
 				/>
 			</ListItem>
 			<div className="posted-images comment-post-img">
-				<PostedImages images={comment.media_set} />
+				<PostedImages images={comment.media_set} hideNavigation />
 			</div>
 			<div className="flex flex-wrap items-center ml-44">
 				<Button size="small" aria-label="Add to favorites">
