@@ -44,11 +44,6 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 							<Typography color="initial" paragraph={false}>
 								{comment.author.user.username}
 							</Typography>
-							<Typography className="mx-12 font-size-14" variant="caption">
-								{
-									moment.parseZone(comment.created_date).fromNow() //format('LL')
-								}
-							</Typography>
 						</div>
 					}
 					secondary={comment.text}
@@ -58,9 +53,20 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 				<PostedImages images={comment.media_set} />
 			</div>
 			<div className="flex items-center ml-44 mb-8">
+				<Button size="small" aria-label="Add to favorites">
+					<Icon className="text-16" color="action">
+						favorite
+					</Icon>
+					<Typography className="normal-case mx-4">Like</Typography>
+				</Button>
 				<Button onClick={handleReplyClick} className="normal-case">
 					Reply
 				</Button>
+				<Typography className="mx-12 font-size-14" variant="caption">
+					{
+						moment.parseZone(comment.created_date).fromNow() //format('LL')
+					}
+				</Typography>
 				<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
 			</div>
 		</div>
