@@ -104,7 +104,7 @@ function ProjectTabs({ value, setValue }) {
 			</TabPanel>
 			<TabPanel value={value} index={4}>
 				<div>
-					<div className="zoom-bar">
+					<div className="zoom-bar custom-zoom-bar">
 						<Toolbar zoom={zoom.currentZoom} onZoomChange={handleZoomChange} />
 					</div>
 					<div className="gantt-container">

@@ -230,7 +230,7 @@ export default function PostListItem({ currnetPost }) {
 								setOpen(!open);
 							}}
 						>
-							<Typography>{postComments.length} comments</Typography>
+							<Typography className="underline">{postComments.length} comments</Typography>
 							<Icon className="text-16 mx-4" color="action">
 								{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 							</Icon>
@@ -269,7 +269,6 @@ export default function PostListItem({ currnetPost }) {
 							</IconButton>
 							<input
 								hidden
-								multiple
 								type="file"
 								accept="image/*, video/*"
 								ref={inputRef}

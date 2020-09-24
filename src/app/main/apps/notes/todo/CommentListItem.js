@@ -124,7 +124,7 @@ export default function CommentListItem({ post, comment }) {
 					{comment.author.user.username[0]}
 				</Avatar>
 				<ListItemText
-					className="p-12 py-10 comment-p"
+					className="p-12 py-10 comment-p bg-post-section w-auto flex-none"
 					primary={
 						<div className="flex comment-section">
 							<Typography color="initial" paragraph={false}>
@@ -135,10 +135,10 @@ export default function CommentListItem({ post, comment }) {
 					secondary={comment.text}
 				/>
 			</ListItem>
-			<div className="posted-images">
+			<div className="posted-images comment-post-img">
 				<PostedImages images={comment.media_set} />
 			</div>
-			<div className="flex items-center ml-44">
+			<div className="flex flex-wrap items-center ml-44">
 				<Button size="small" aria-label="Add to favorites">
 					<Icon className="text-16" color="action">
 						favorite
@@ -159,7 +159,7 @@ export default function CommentListItem({ post, comment }) {
 				>
 					Reply
 				</Button>
-				<Typography className="mx-12 font-size-14" variant="caption">
+				<Typography className="mx-12" variant="caption">
 					{
 						moment.parseZone(comment.created_date).fromNow() //format('LL')
 					}
@@ -172,7 +172,7 @@ export default function CommentListItem({ post, comment }) {
 						setOpen(!open);
 					}}
 				>
-					<Typography>{replyComments.length} Replies</Typography>
+					<Typography className="underline">{replyComments.length} Replies</Typography>
 					<Icon className="text-16 mx-4" color="action">
 						{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 					</Icon>
@@ -229,7 +229,6 @@ export default function CommentListItem({ post, comment }) {
 						</IconButton>
 						<input
 							hidden
-							multiple
 							type="file"
 							accept="image/*, video/*"
 							ref={inputRef}
