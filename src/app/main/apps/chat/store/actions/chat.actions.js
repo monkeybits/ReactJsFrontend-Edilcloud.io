@@ -67,6 +67,7 @@ export function sendMessage(messageText, setMessageText, images, setImages) {
 			formData,
 			chat => {
 				// dispatch(getChat());
+				setImages(null)
 				setMessageText('');
 			},
 			err => console.log(err),

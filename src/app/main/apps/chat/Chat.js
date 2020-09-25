@@ -12,6 +12,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
+import ViewFile from './ViewFile';
+import SendMessageFilePreview from './SendMessageFilePreview';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -111,10 +113,11 @@ function Chat(props) {
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
 
 	useEffect(() => {
-		if (chat?.chats?.length && chat.chats.length != chatLength) {
-			setChatLength(chat.chats.length);
-			scrollToBottom();
-		}
+		scrollToBottom();
+		// if (chat?.chats?.length && chat.chats.length != chatLength) {
+		// 	setChatLength(chat.chats.length);
+
+		// }
 	}, [chat?.chats]);
 
 	function scrollToBottom() {
@@ -142,7 +145,7 @@ function Chat(props) {
 			return;
 		}
 
-		dispatch(Actions.sendMessage(messageText, setMessageText,images, setImages));
+		dispatch(Actions.sendMessage(messageText, setMessageText, images, setImages));
 	}
 	const addPhoto = async e => {
 		const files = e.currentTarget.files;
@@ -199,6 +202,7 @@ function Chat(props) {
 											</Typography>
 										)}
 										<div className="leading-normal">{item.body}</div>
+										<ViewFile files={item.files} />
 									</div>
 									{isLastMessageOfGroup(item, i) && (
 										<Typography
@@ -227,6 +231,19 @@ function Chat(props) {
 			</FuseScrollbars>
 
 			<form onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8">
+				<div>
+					{images &&
+						images.map(item => (
+							<SendMessageFilePreview
+								item={item}
+								card={{}}
+								// makeCover={makeCover}
+								// removeCover={removeCover}
+								// removeAttachment={removeAttachment}
+								key={item.id}
+							/>
+						))}
+				</div>
 				<Paper className="flex items-center relative rounded-24" elevation={1}>
 					<TextField
 						autoFocus={false}
