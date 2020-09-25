@@ -147,7 +147,7 @@ function TodoListItem(props) {
 								<div
 									className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm bg-green text-white')}
 								>
-									completed
+								<Icon className="text-16">check_circle</Icon>	completed
 								</div>
 							) : moment().diff(moment(props.todo.date_start)) > 0 ? (
 								moment().diff(moment(props.todo.date_end)) > 0 ? (
