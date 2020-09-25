@@ -247,7 +247,7 @@ function Chat(props) {
 															{contact.first_name + ' ' + contact.last_name}
 														</Typography>
 													)}
-													<div className="leading-normal">{item.body}</div>
+													<div className="leading-normal mb-10">{item.body}</div>
 													<ViewFile files={item.files} />
 												</div>
 											</div>
@@ -280,7 +280,7 @@ function Chat(props) {
 			}, [chat, classes, contacts, selectedContactId, user])}
 			{chat && (
 				<form onSubmit={onMessageSubmit} className={clsx(classes.bottom, 'py-16 px-8')}>
-					<div>
+					<div className="multiple-images flex flex-row overflow-x-auto">
 						{images && images.map(item => <SendMessageFilePreview item={item} card={{}} key={item.id} />)}
 					</div>
 					<Paper className={clsx(classes.inputWrapper, 'flex items-center relative')}>

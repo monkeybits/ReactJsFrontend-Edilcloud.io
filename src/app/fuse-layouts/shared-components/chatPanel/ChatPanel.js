@@ -169,7 +169,7 @@ function ChatPanel(props) {
 					</AppBar>
 					<Paper className="flex flex-1 flex-row min-h-px">
 						{(!state || !user?.id) && <ContactList className="flex flex-shrink-0" />}
-						{state && user?.id && <Chat className="flex flex-1 z-10" />}
+						{state && user?.id && <Chat className="flex flex-1 z-10 muliple-images-overflow-x" />}
 					</Paper>
 				</div>
 			</div>
