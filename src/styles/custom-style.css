@@ -372,6 +372,23 @@
 .bg-body {
     background: #262526;
 }
+.custom-bg ~ .inner-scroll {
+    background-color: transparent;
+} 
+.custom-bg ~ .inner-scroll > div:first-child {
+    background-color: #262526;
+}
+.post-form .write-post textarea {
+    padding-right: 0px;
+}
+.write-post-img-full .d-block.mx-auto  {
+    width: 100%;
+}
+.write-post-img-full .d-block.mx-auto img  {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+}
 
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
@@ -416,6 +433,9 @@
     }
     .alerted-post-modal-width .MuiPaper-root.MuiDrawer-paper {
         width: 100%;
+    }
+    .alerted-post-modal-accordion {
+        width: 100% !important;
     }
     .comment-post-img img {
         height: 120px;

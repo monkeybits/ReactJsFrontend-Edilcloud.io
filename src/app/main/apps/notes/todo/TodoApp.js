@@ -57,7 +57,7 @@ function TodoApp(props) {
 			<FusePageCarded
 				classes={{
 					root: 'w-full',
-					header: 'items-center min-h-72 h-72 sm:h-136 sm:min-h-136'
+					header: 'items-center min-h-72 h-72 sm:h-136 sm:min-h-136 custom-bg'
 				}}
 				header={<TodoHeader pageLayout={pageLayout} />}
 				contentToolbar={<TodoToolbar />}

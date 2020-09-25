@@ -38,7 +38,7 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 					{comment.author.user.username[0]}
 				</Avatar>
 				<ListItemText
-					className="p-12 py-10 comment-p"
+					className="p-12 py-10 comment-p bg-post-section w-auto flex-none"
 					primary={
 						<div className="flex comment-section">
 							<Typography color="initial" paragraph={false}>
