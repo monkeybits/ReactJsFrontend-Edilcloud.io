@@ -44,7 +44,8 @@ function CardAttachment(props) {
 			</div>
 		</div>
 	);
-	switch (props.item.type.split('/')[0]) {
+	let type = () => (props.item.type ? props.item.type.split('/')[0] : '');
+	switch (type()) {
 		case 'image': {
 			return itemImage();
 		}
