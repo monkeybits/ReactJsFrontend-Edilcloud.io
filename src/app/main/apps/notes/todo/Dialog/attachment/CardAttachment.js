@@ -149,15 +149,15 @@ function CardAttachment(props) {
 			return itemImage();
 		}
 		case 'audio': {
-			return wrapper(<FontAwesomeIcon icon={faFileAudio} style={{ color: 'brown', fontSize: '2.4rem' }} />);
+			return wrapper(<FontAwesomeIcon icon={faFileAudio} style={{ color: 'brown', fontSize: '6.4rem' }} />);
 		}
 		case 'video': {
-			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '2.4rem' }} />);
+			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '6.4rem' }} />);
 		}
 		case 'application': {
 			return props.item.extension == '.xlsx' || props.item.extension == '.xls'
-				? wrapper(<FontAwesomeIcon icon={faFileExcel} style={{ color: 'green', fontSize: '2.4rem' }} />)
-				: wrapper(<FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '2.4rem' }} />);
+				? wrapper(<FontAwesomeIcon icon={faFileExcel} style={{ color: 'green', fontSize: '6.4rem' }} />)
+				: wrapper(<FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '6.4rem' }} />);
 		}
 		case 'link': {
 			return (
@@ -198,7 +198,7 @@ function CardAttachment(props) {
 			);
 		}
 		default: {
-			return <FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '2.4rem' }} />;
+			return <FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '6.4rem' }} />;
 		}
 	}
 }

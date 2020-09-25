@@ -202,7 +202,7 @@ function Chat(props) {
 												{contact.first_name + ' ' + contact.last_name}
 											</Typography>
 										)}
-										<div className="leading-normal">{item.body}</div>
+										<div className="leading-normal mb-10">{item.body}</div>
 										<ViewFile files={item.files} />
 									</div>
 									{isLastMessageOfGroup(item, i) && (
@@ -232,7 +232,7 @@ function Chat(props) {
 			</FuseScrollbars>
 
 			<form onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8">
-				<div>
+				<div className="multiple-images flex flex-row overflow-x-auto">
 					{images && images.map(item => <SendMessageFilePreview item={item} card={{}} key={item.id} />)}
 				</div>
 				<Paper className="flex items-center relative rounded-24" elevation={1}>

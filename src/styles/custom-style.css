@@ -389,6 +389,18 @@
     width: 100%;
     max-width: 100%;
 }
+.ht-11 {
+    height: 11rem;
+}
+.image-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #000;
+}
+.muliple-images-overflow-x {
+    overflow-x: hidden;
+}
 
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
