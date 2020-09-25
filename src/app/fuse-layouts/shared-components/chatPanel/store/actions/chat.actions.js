@@ -67,7 +67,7 @@ export function removeChat() {
 	};
 }
 
-export function sendMessage(messageText, setMessageText, user) {
+export function sendMessage(messageText, setMessageText, user, images, setImages) {
 	return (dispatch, getState) => {
 		const userInfo = decodeDataFromToken();
 		let values = {
@@ -79,6 +79,14 @@ export function sendMessage(messageText, setMessageText, user) {
 				formData.append(key, values[key]);
 			}
 		}
+		if (images) {
+			const acceptedFiles = images.map(d => d.file);
+			let i = 0;
+			for (const file of acceptedFiles) {
+				formData.append('files[' + i + ']', file, file.name);
+				i += 1;
+			}
+		}
 		apiCall(
 			user.type == 'company'
 				? SEND_MESSAGE_API(userInfo.extra.profile.company)
@@ -86,6 +94,7 @@ export function sendMessage(messageText, setMessageText, user) {
 			formData,
 			chat => {
 				// dispatch(getChat(user));
+				setImages(null);
 				setMessageText('');
 			},
 			err => console.log(err),

@@ -264,7 +264,7 @@ function Chat(props) {
 						onChange={onInputChange}
 						value={messageText}
 					/>
-					<input hidden multiple type="file" accept="image/*, video/*" ref={inputRef} onChange={addPhoto} />
+					<input hidden multiple type="file"  ref={inputRef} onChange={addPhoto} />
 					<IconButton className="image mr-48" onClick={() => inputRef.current.click()} aria-label="Add photo">
 						<Icon>photo</Icon>
 					</IconButton>

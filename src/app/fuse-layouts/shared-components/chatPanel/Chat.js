@@ -11,7 +11,9 @@ import moment from 'moment/moment';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-import { decodeDataFromToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
+import ViewFile from './ViewFile';
+import SendMessageFilePreview from './SendMessageFilePreview';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -145,6 +147,8 @@ function Chat(props) {
 	const classes = useStyles();
 	const chatScroll = useRef(null);
 	const [messageText, setMessageText] = useState('');
+	const [images, setImages] = useState(null);
+	const inputRef = useRef(null);
 
 	useEffect(() => {
 		scrollToBottom();
@@ -163,9 +167,24 @@ function Chat(props) {
 		if (messageText === '') {
 			return;
 		}
-		dispatch(Actions.sendMessage(messageText, setMessageText, user));
+		dispatch(Actions.sendMessage(messageText, setMessageText, user,images, setImages));
 	};
-
+	const addPhoto = async e => {
+		const files = e.currentTarget.files;
+		let file = [];
+		for (var i = 0; i < files.length; i++) {
+			let fileType = files[i].type?.split('/')[0];
+			file = [
+				...file,
+				{
+					file: fileType == 'image' ? await getCompressFile(files[i]) : files[i],
+					imgPath: URL.createObjectURL(files[i]),
+					fileType
+				}
+			];
+			setImages(file);
+		}
+	};
 	return (
 		<Paper elevation={3} className={clsx('flex flex-col', props.className)}>
 			{useMemo(() => {
@@ -229,33 +248,41 @@ function Chat(props) {
 														</Typography>
 													)}
 													<div className="leading-normal">{item.body}</div>
+													<ViewFile files={item.files} />
 												</div>
 											</div>
-											{isLastMessageOfGroup(item, i) && 
-											<Typography className={clsx(classes.time,'mb-12')} color="textSecondary">
-												{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
-											</Typography>}
+											{isLastMessageOfGroup(item, i) && (
+												<Typography
+													className={clsx(classes.time, 'mb-12')}
+													color="textSecondary"
+												>
+													{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
+												</Typography>
+											)}
 										</div>
 									);
 								})}
 							</div>
 						) : (
-									<div className="flex flex-col flex-1">
-										<div className="flex flex-col flex-1 items-center justify-center">
-											<Icon className="text-128" color="disabled">
-												chat
+							<div className="flex flex-col flex-1">
+								<div className="flex flex-col flex-1 items-center justify-center">
+									<Icon className="text-128" color="disabled">
+										chat
 									</Icon>
-										</div>
-										<Typography className="px-16 pb-24 text-center" color="textSecondary">
-											Start a conversation by typing your message below.
+								</div>
+								<Typography className="px-16 pb-24 text-center" color="textSecondary">
+									Start a conversation by typing your message below.
 								</Typography>
-									</div>
-								)}
+							</div>
+						)}
 					</FuseScrollbars>
 				);
 			}, [chat, classes, contacts, selectedContactId, user])}
 			{chat && (
 				<form onSubmit={onMessageSubmit} className={clsx(classes.bottom, 'py-16 px-8')}>
+					<div>
+						{images && images.map(item => <SendMessageFilePreview item={item} card={{}} key={item.id} />)}
+					</div>
 					<Paper className={clsx(classes.inputWrapper, 'flex items-center relative')}>
 						<TextField
 							autoFocus={false}
@@ -276,6 +303,20 @@ function Chat(props) {
 							onChange={onInputChange}
 							value={messageText}
 						/>
+						<input
+							hidden
+							multiple
+							type="file"
+							ref={inputRef}
+							onChange={addPhoto}
+						/>
+						<IconButton
+							className="image mr-48"
+							onClick={() => inputRef.current.click()}
+							aria-label="Add photo"
+						>
+							<Icon>photo</Icon>
+						</IconButton>
 						<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
 							<Icon className="text-24" color="action">
 								send
