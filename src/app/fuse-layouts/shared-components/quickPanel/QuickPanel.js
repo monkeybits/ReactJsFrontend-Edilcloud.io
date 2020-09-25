@@ -28,6 +28,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { ALERTED_POSTS_TASKS, ALERTED_POSTS_ACTIVITY } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import PostList from 'app/main/apps/notes/todo/PostList';
+import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -117,7 +118,7 @@ function QuickPanel(props) {
 		>
 			<FuseScrollbars>
 				<ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader>
-				<div className={classes.root}>
+				<div className={clsx(classes.root, 'alerted-post-modal-accordion')}>
 					<Accordion>
 						<AccordionSummary
 							expandIcon={<ExpandMoreIcon />}
