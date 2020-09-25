@@ -33,123 +33,24 @@ function CardAttachment(props) {
 					<img className="block h-128 w-128 object-cover" src={props.item.media_url} alt="attachment" />
 				</Paper>
 			</div>
-			<div className="flex flex-auto flex-col justify-center items-start min-w-0 px-16">
-				<div className="flex items-center w-full">
-					<Typography className="text-16 font-600 truncate flex-shrink">{props.item.name}</Typography>
-					{props.card.idAttachmentCover === props.item.id && (
-						<Icon className="text-orange-300 text-20 mx-4">star</Icon>
-					)}
-				</div>
-				<Typography className="truncate w-full mb-12" color="textSecondary">
-					{props.item.time}
-				</Typography>
-				<Button
-					aria-owns={anchorEl ? 'actions-menu' : null}
-					aria-haspopup="true"
-					onClick={handleMenuOpen}
-					variant="outlined"
-					size="small"
-				>
-					Actions
-					<Icon className="text-20">arrow_drop_down</Icon>
-				</Button>
-				<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-					{props.card.idAttachmentCover !== props.item.id ? (
-						<MenuItem
-							onClick={() => {
-								handleMenuClose();
-								props.makeCover(props.item.id);
-							}}
-						>
-							Make Cover
-						</MenuItem>
-					) : (
-						<MenuItem
-							onClick={() => {
-								handleMenuClose();
-								props.removeCover();
-							}}
-						>
-							Remove Cover
-						</MenuItem>
-					)}
-					<MenuItem
-						onClick={() => {
-							handleMenuClose();
-							props.removeAttachment(props.item.id);
-						}}
-					>
-						Remove Attachment
-					</MenuItem>
-				</Menu>
-			</div>
 		</div>
 	);
 	const wrapper = child => (
 		<div className="flex w-full sm:w-1/2 mb-16 px-16" key={props.item.id}>
-			<div className="flex items-center justify-center min-w-128 w-128 h-128">
+			<div className="flex items-center justify-center min-w-128 w-128 ht-11">
 				<Paper className="rounded-4 overflow-hidden" elevation={1}>
 					{child}
 				</Paper>
 			</div>
-			<div className="flex flex-auto flex-col justify-center items-start min-w-0 px-16">
-				<div className="flex items-center w-full">
-					<Typography className="text-16 font-600 truncate flex-shrink">{props.item.name}</Typography>
-					{props.card.idAttachmentCover === props.item.id && (
-						<Icon className="text-orange-300 text-20 mx-4">star</Icon>
-					)}
-				</div>
-				<Typography className="truncate w-full mb-12" color="textSecondary">
-					{props.item.time}
-				</Typography>
-				<Button
-					aria-owns={anchorEl ? 'actions-menu' : null}
-					aria-haspopup="true"
-					onClick={handleMenuOpen}
-					variant="outlined"
-					size="small"
-				>
-					Actions
-					<Icon className="text-20">arrow_drop_down</Icon>
-				</Button>
-				<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-					{props.card.idAttachmentCover !== props.item.id ? (
-						<MenuItem
-							onClick={() => {
-								handleMenuClose();
-								props.makeCover(props.item.id);
-							}}
-						>
-							Make Cover
-						</MenuItem>
-					) : (
-						<MenuItem
-							onClick={() => {
-								handleMenuClose();
-								props.removeCover();
-							}}
-						>
-							Remove Cover
-						</MenuItem>
-					)}
-					<MenuItem
-						onClick={() => {
-							handleMenuClose();
-							props.removeAttachment(props.item.id);
-						}}
-					>
-						Remove Attachment
-					</MenuItem>
-				</Menu>
-			</div>
 		</div>
 	);
-	switch (props.item.type.split('/')[0]) {
+	let type = () => (props.item.type ? props.item.type.split('/')[0] : '');
+	switch (type()) {
 		case 'image': {
 			return itemImage();
 		}
 		case 'audio': {
-			return wrapper(<FontAwesomeIcon icon={faFileAudio} style={{ color: 'brown', fontSize: '6.4rem' }} />);
+			return (<audio controls src={props.item.media_url} />);
 		}
 		case 'video': {
 			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '6.4rem' }} />);

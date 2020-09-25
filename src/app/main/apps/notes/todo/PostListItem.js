@@ -44,8 +44,12 @@ export default function PostListItem({ currnetPost }) {
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
 	const [open, setOpen] = React.useState(true);
-	const [post, setPost] = React.useState({ ...currnetPost });
+	const [post, setPost] = React.useState({});
 	const [postComments, setPostComments] = useState([]);
+	useEffect(() => {
+		console.log({ currnetPost });
+		setPost(currnetPost);
+	}, [currnetPost]);
 	useEffect(() => {
 		if (post.comment_set) {
 			setPostComments(post.comment_set);
@@ -150,6 +154,9 @@ export default function PostListItem({ currnetPost }) {
 			getHeaderToken()
 		);
 	};
+	if (!Object.entries(post).length) {
+		return null;
+	}
 	return (
 		<Card key={post.id} className="mb-32 overflow-hidden post-form post-card-clx">
 			<CardHeader

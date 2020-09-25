@@ -118,7 +118,7 @@ function TodoActivityListItem(props) {
 					<div className="flex items-center mb-8">
 						{props.todo.progress == 100 ? (
 							<div className={clsx('flex items-center px-8 py-4 rounded-sm bg-green text-white')}>
-								completed
+							<Icon className="text-16 mt-4">check_circle</Icon>	<span className="mx-4">Completed</span>
 							</div>
 						) : moment().diff(moment(props.todo.datetime_start)) > 0 ? (
 							moment().diff(moment(props.todo.datetime_end)) > 0 ? (

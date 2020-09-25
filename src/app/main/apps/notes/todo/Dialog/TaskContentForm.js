@@ -475,7 +475,7 @@ function TaskContentForm(props) {
 			</DialogTitle>
 
 			<DialogContent className="p-0 sm:p-10">
-				<TabPanel value={value} index={0}>
+				<TabPanel value={value} index={0} class="write-post-img-full">
 					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
 				</TabPanel>
 				<TabPanel value={value} index={1}>

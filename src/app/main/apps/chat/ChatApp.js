@@ -210,7 +210,7 @@ function ChatApp(props) {
 								<UserSidebar />
 							</Drawer>
 
-							<main className={clsx(classes.contentWrapper, 'z-10')}>
+							<main className={clsx(classes.contentWrapper, 'z-10, muliple-images-overflow-x')}>
 								{
 									<>
 										<AppBar className="w-full" position="static" elevation={1}>
@@ -254,7 +254,7 @@ function ChatApp(props) {
 										</AppBar>
 
 										<div className={classes.content}>
-											<Chat className="flex flex-1 z-10" />
+											<Chat className="flex flex-1 z-10 muliple-images-overflow-x" />
 										</div>
 									</>
 								}

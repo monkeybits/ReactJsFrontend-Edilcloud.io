@@ -49,7 +49,7 @@ export function removeChat() {
 	};
 }
 
-export function sendMessage(messageText, setMessageText, pid) {
+export function sendMessage(messageText, setMessageText, pid, images, setImages) {
 	return (dispatch, getState) => {
 		let values = {
 			body: messageText
@@ -60,11 +60,20 @@ export function sendMessage(messageText, setMessageText, pid) {
 				formData.append(key, values[key]);
 			}
 		}
+		if (images) {
+			const acceptedFiles = images.map(d => d.file);
+			let i = 0;
+			for (const file of acceptedFiles) {
+				formData.append('files[' + i + ']', file, file.name);
+				i += 1;
+			}
+		}
 		apiCall(
 			SEND_PROJECT_MESSAGE_API(pid),
 			formData,
 			chat => {
 				// dispatch(getChat());
+				setImages(null)
 				setMessageText('');
 			},
 			err => console.log(err),

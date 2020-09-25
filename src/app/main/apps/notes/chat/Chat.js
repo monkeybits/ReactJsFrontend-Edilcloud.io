@@ -11,8 +11,10 @@ import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-import { decodeDataFromToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { useParams } from 'react-router';
+import ViewFile from './ViewFile';
+import SendMessageFilePreview from './SendMessageFilePreview';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -99,6 +101,7 @@ function Chat(props) {
 	const selectedContactId = useSelector(({ chatAppProject }) => chatAppProject.contacts.selectedContactId);
 	const chat = useSelector(({ chatAppProject }) => chatAppProject.chat);
 	const contacts = useSelector(({ chatAppProject }) => chatAppProject.contacts.entities);
+	const inputRef = useRef(null);
 
 	const user = useSelector(({ chatAppProject }) => chatAppProject.user);
 
@@ -109,6 +112,7 @@ function Chat(props) {
 	const userInfo = decodeDataFromToken();
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
 	const routeParams = useParams();
+	const [images, setImages] = useState(null);
 
 	useEffect(() => {
 		if (chat?.chats?.length && chat.chats.length != chatLength) {
@@ -142,9 +146,24 @@ function Chat(props) {
 			return;
 		}
 
-		dispatch(Actions.sendMessage(messageText, setMessageText, routeParams.id));
+		dispatch(Actions.sendMessage(messageText, setMessageText, routeParams.id, images, setImages));
 	}
-
+	const addPhoto = async e => {
+		const files = e.currentTarget.files;
+		let file = [];
+		for (var i = 0; i < files.length; i++) {
+			let fileType = files[i].type?.split('/')[0];
+			file = [
+				...file,
+				{
+					file: fileType == 'image' ? await getCompressFile(files[i]) : files[i],
+					imgPath: URL.createObjectURL(files[i]),
+					fileType
+				}
+			];
+			setImages(file);
+		}
+	};
 	return (
 		<div className={clsx('flex flex-col relative chat-box', props.className)}>
 			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
@@ -183,7 +202,8 @@ function Chat(props) {
 												{contact.first_name + ' ' + contact.last_name}
 											</Typography>
 										)}
-										<div className="leading-normal">{item.body}</div>
+										<div className="leading-normal mb-10">{item.body}</div>
+										<ViewFile files={item.files} />
 									</div>
 									{isLastMessageOfGroup(item, i) && (
 										<Typography
@@ -212,6 +232,9 @@ function Chat(props) {
 			</FuseScrollbars>
 
 			<form onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8">
+				<div className="multiple-images flex flex-row overflow-x-auto">
+					{images && images.map(item => <SendMessageFilePreview item={item} card={{}} key={item.id} />)}
+				</div>
 				<Paper className="flex items-center relative rounded-24" elevation={1}>
 					<TextField
 						autoFocus={false}
@@ -232,6 +255,10 @@ function Chat(props) {
 						onChange={onInputChange}
 						value={messageText}
 					/>
+					<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
+					<IconButton className="image mr-48" onClick={() => inputRef.current.click()} aria-label="Add photo">
+						<Icon>photo</Icon>
+					</IconButton>
 					<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
 						<Icon className="text-24" color="action">
 							send
