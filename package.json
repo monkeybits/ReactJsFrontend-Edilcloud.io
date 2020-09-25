@@ -68,6 +68,7 @@
         "react-i18next": "11.5.0",
         "react-konva": "^16.13.0-6",
         "react-masonry-css": "1.0.14",
+        "react-mic": "^12.4.6",
         "react-number-format": "4.4.1",
         "react-pdf": "^5.0.0",
         "react-popper": "1.3.7",

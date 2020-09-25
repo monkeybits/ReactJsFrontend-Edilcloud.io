@@ -44,12 +44,13 @@ function CardAttachment(props) {
 			</div>
 		</div>
 	);
-	switch (props.item.type.split('/')[0]) {
+	let type = () => (props.item.type ? props.item.type.split('/')[0] : '');
+	switch (type()) {
 		case 'image': {
 			return itemImage();
 		}
 		case 'audio': {
-			return wrapper(<FontAwesomeIcon icon={faFileAudio} style={{ color: 'brown', fontSize: '2.4rem' }} />);
+			return (<audio controls src={props.item.media_url} />);
 		}
 		case 'video': {
 			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '2.4rem' }} />);

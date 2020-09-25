@@ -389,6 +389,9 @@
     width: 100%;
     max-width: 100%;
 }
+.sound-wave{
+    display: none;
+}
 
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
