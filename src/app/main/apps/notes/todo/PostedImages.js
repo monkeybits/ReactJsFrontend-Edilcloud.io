@@ -82,7 +82,7 @@ export default function PostedImages(props) {
 					</div>
 				))}
 			</AutoPlaySwipeableViews>
-			{!props.hideNavigation && (
+			{!props.hideNavigation && maxSteps && maxSteps > 1 && (
 				<MobileStepper
 					steps={maxSteps}
 					position="static"

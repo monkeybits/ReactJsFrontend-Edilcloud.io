@@ -48,7 +48,7 @@ function CreatePostForm({ isTask, taskId }) {
 	const inputRef = useRef(null);
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	useEffect(() => {
-		if (todoDialog.data?.id) {
+		if (todoDialog.data?.todo?.id) {
 			getPosts();
 		}
 	}, [todoDialog.data]);
@@ -65,9 +65,9 @@ function CreatePostForm({ isTask, taskId }) {
 	}
 	const getPosts = () => {
 		apiCall(
-			isTask ? GET_POST_FOR_TASK(taskId) : GET_POST_TO_ACTIVITY(todoDialog.data?.id),
+			isTask ? GET_POST_FOR_TASK(taskId) : GET_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
 			{},
-			res => setData(prev => ({ posts: [...prev.posts, ...res.results] })),
+			res => setData({ posts: res.results }),
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
@@ -91,7 +91,7 @@ function CreatePostForm({ isTask, taskId }) {
 			if (values[key]) formData.append(key, values[key]);
 		}
 		apiCall(
-			isTask ? ADD_POST_TO_TASK(taskId) : ADD_POST_TO_ACTIVITY(todoDialog.data?.id),
+			isTask ? ADD_POST_TO_TASK(taskId) : ADD_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
 			formData,
 			res => {
 				setData({
@@ -148,7 +148,7 @@ function CreatePostForm({ isTask, taskId }) {
 		apiCall(
 			GET_SHARED_POSTS_FOR_TASKS(taskId),
 			{},
-			res => setData(prev => ({ posts: [...prev.posts, ...res.results] })),
+			res => setData(prev => ({ sharedPosts: res.results })),
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
@@ -223,6 +223,7 @@ function CreatePostForm({ isTask, taskId }) {
 				</div>
 
 				<PostList posts={data.posts} />
+				<PostList posts={data.sharedPosts} />
 			</div>
 		</div>
 	);

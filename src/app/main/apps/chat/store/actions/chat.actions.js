@@ -42,7 +42,7 @@ export function removeChat() {
 		type: REMOVE_CHAT
 	};
 }
-export function sendMessage(messageText, setMessageText) {
+export function sendMessage(messageText, setMessageText, images, setImages) {
 	return (dispatch, getState) => {
 		const userInfo = decodeDataFromToken();
 		let values = {
@@ -52,6 +52,14 @@ export function sendMessage(messageText, setMessageText) {
 		for (let key in values) {
 			if (values[key]) {
 				formData.append(key, values[key]);
+			}
+		}
+		if (images) {
+			const acceptedFiles = images.map(d => d.file);
+			let i = 0;
+			for (const file of acceptedFiles) {
+				formData.append('files[' + i + ']', file, file.name);
+				i += 1;
 			}
 		}
 		apiCall(
