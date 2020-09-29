@@ -21,14 +21,16 @@
         <link href="%PUBLIC_URL%/assets/fonts/material-outline-icons/styles.css" rel="stylesheet">
         <link href="%PUBLIC_URL%/assets/fonts/meteocons/style.css" rel="stylesheet">
 
-        <noscript id="jss-insertion-point"></noscript>
-
         <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
         <script>
 			window.OneSignal = window.OneSignal || [];
 			OneSignal.push(function() {
 				OneSignal.init({
 					appId: "8fc7c8ff-a4c8-4642-823d-4675b809a3c9",
+                    autoRegister: false,
+                    notifyButton: {
+                        enable: true,
+                    },
 				});
 			});
         </script>
