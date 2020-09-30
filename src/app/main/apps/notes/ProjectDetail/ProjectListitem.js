@@ -82,7 +82,7 @@ export default function ProjectListitem({
 		<Card className="h-full flex flex-col">
 			<CardHeader
 				avatar={
-					<Avatar aria-label="recipe" src={company.logo} className={classes.avatar}>
+					<Avatar aria-label="recipe" src={company?.logo} className={classes.avatar}>
 						{company.name?.split('')[0]}
 					</Avatar>
 				}
