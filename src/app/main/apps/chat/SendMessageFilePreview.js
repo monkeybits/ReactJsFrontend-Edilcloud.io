@@ -41,7 +41,7 @@ function SendMessageFilePreview(props) {
 			<div className="flex items-center justify-center min-w-128 w-128 h-128 relative">
 				<Paper className="rounded-4 overflow-hidden" elevation={1}>
 					{child}
-					<Icon className="text-20 image-close">close</Icon>
+					<Icon className="text-20 image-close cursor-pointer" onClick={props.onRemove}>close</Icon>
 				</Paper>
 			</div>
 		</div>
