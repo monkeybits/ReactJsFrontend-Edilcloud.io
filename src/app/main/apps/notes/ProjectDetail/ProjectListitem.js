@@ -78,12 +78,13 @@ export default function ProjectListitem({
 		dispatch(Actions.updateProjectDetail({ ...projects[index], index }));
 		dispatch(Actions.openProjectDialog('edit'));
 	};
+
 	return (
 		<Card className="h-full flex flex-col">
 			<CardHeader
 				avatar={
-					<Avatar aria-label="recipe" src={company.logo} className={classes.avatar}>
-						{company.name?.split('')[0]}
+					<Avatar aria-label="recipe" src={company?.logo} className={classes.avatar}>
+						{company?.name?.split('')[0]}
 					</Avatar>
 				}
 				action={
@@ -111,7 +112,7 @@ export default function ProjectListitem({
 						</div>
 					)
 				}
-				title={company.name} //
+				title={company?.name} //
 				subheader={moment(date_start).format('MMM DD, YYYY')}
 			/>
 			<CardMedia
