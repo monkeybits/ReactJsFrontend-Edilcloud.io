@@ -29,7 +29,7 @@ function SendMessageFilePreview(props) {
 	const itemImage = () => (
 		<div className="flex my-8 px-8" key={props.item.id}>
 			<div className="flex items-center justify-center min-w-128 w-128 h-128 relative">
-				<Paper className="rounded-4 overflow-hidden" elevation={1}>
+				<Paper className="rounded-4 overflow-hidden relative" elevation={1}>
 					<img className="block h-128 w-128 object-cover" src={props.item.imgPath} alt="attachment" />
 					<Icon className="text-20 image-close cursor-pointer" onClick={props.onRemove}>close</Icon>
 				</Paper>
@@ -37,8 +37,8 @@ function SendMessageFilePreview(props) {
 		</div>
 	);
 	const wrapper = child => (
-		<div className="flex w-full my-8 px-16" key={props.item.id}>
-			<div className="flex items-center justify-center min-w-128 w-128 ht-11">
+		<div className="flex my-8 px-6" key={props.item.id}>
+			<div className="flex items-center justify-center min-w-128 w-128 h-128 relative">
 				<Paper className="rounded-4 overflow-hidden" elevation={1}>
 					{child}
 					<Icon className="text-20 image-close">close</Icon>
@@ -63,7 +63,7 @@ function SendMessageFilePreview(props) {
 		}
 		case 'link': {
 			return (
-				<div className="flex w-full sm:w-1/2 my-8 px-16" key={props.item.id}>
+				<div className="flex my-8 px-8" key={props.item.id}>
 					<Paper
 						className="min-w-128 w-128 h-128 flex items-center justify-center rounded-4 overflow-hidden"
 						elevation={1}

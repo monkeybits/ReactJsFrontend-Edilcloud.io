@@ -400,6 +400,7 @@
     top: 5px;
     right: 5px;
     color: #000;
+    cursor: pointer;
 }
 .muliple-images-overflow-x {
     overflow-x: hidden;
