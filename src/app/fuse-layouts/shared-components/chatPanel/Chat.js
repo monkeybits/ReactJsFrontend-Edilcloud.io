@@ -14,6 +14,7 @@ import * as Actions from './store/actions';
 import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
+import AudioRecord from 'app/AudioRecord';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -167,7 +168,7 @@ function Chat(props) {
 		if (messageText === '') {
 			return;
 		}
-		dispatch(Actions.sendMessage(messageText, setMessageText, user,images, setImages));
+		dispatch(Actions.sendMessage(messageText, setMessageText, user, images, setImages));
 	};
 	const addPhoto = async e => {
 		const files = e.currentTarget.files;
@@ -184,6 +185,20 @@ function Chat(props) {
 			];
 			setImages(file);
 		}
+	};
+	const addAudio = file => {
+		let fileType = file.type?.split('/')[0];
+		let fileList = images ? images : [];
+
+		fileList = [
+			{
+				file: file,
+				imgPath: URL.createObjectURL(file),
+				fileType
+			},
+			...fileList
+		];
+		setImages(fileList);
 	};
 	return (
 		<Paper elevation={3} className={clsx('flex flex-col', props.className)}>
@@ -303,13 +318,8 @@ function Chat(props) {
 							onChange={onInputChange}
 							value={messageText}
 						/>
-						<input
-							hidden
-							multiple
-							type="file"
-							ref={inputRef}
-							onChange={addPhoto}
-						/>
+						<AudioRecord afterRecordComplete={addAudio} />
+						<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
 						<IconButton
 							className="image mr-48"
 							onClick={() => inputRef.current.click()}

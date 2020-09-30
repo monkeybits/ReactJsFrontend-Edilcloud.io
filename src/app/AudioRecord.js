@@ -1,7 +1,10 @@
 import { Icon, IconButton } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
-import { ReactMic } from 'react-mic';
 import moment from 'moment';
+const MicRecorder = require('mic-recorder-to-mp3');
+const recorder = new MicRecorder({
+	bitRate: 128
+});
 export default class AudioRecord extends React.Component {
 	constructor(props) {
 		super(props);
@@ -11,38 +14,40 @@ export default class AudioRecord extends React.Component {
 	}
 
 	startRecording = () => {
-		this.setState({ record: true });
+		recorder
+			.start()
+			.then(() => {
+				this.setState({ record: true });
+				// something else
+			})
+			.catch(e => {
+				console.error(e);
+			});
 	};
 
 	stopRecording = () => {
 		this.setState({ record: false });
-	};
-
-	onData(recordedBlob) {
-		// console.log('chunk of real-time data is: ', recordedBlob);
-	}
-
-	onStop = recordedBlob => {
-		console.log('recordedBlob is: ', recordedBlob, recordedBlob.blob instanceof Blob);
-		this.props.afterRecordComplete(
-			new File([{ ...recordedBlob.blob }], 'Record ' + moment().format('ll') + '.wav', {
-				type: recordedBlob.options.mimeType
+		recorder
+			.stop()
+			.getMp3()
+			.then(([buffer, blob]) => {
+				// do what ever you want with buffer and blob
+				// Example: Create a mp3 file and play
+				const file = new File(buffer, 'Record ' + moment().format('ll') + '.mp3', {
+					type: blob.type,
+					lastModified: Date.now()
+				});
+				this.props.afterRecordComplete(file);
 			})
-		);
+			.catch(e => {
+				alert('We could not retrieve your message');
+				console.log(e);
+			});
 	};
 
 	render() {
 		return (
 			<div>
-				<ReactMic
-					record={this.state.record}
-					className="sound-wave"
-					onStop={this.onStop}
-					onData={this.onData}
-					strokeColor="#000000"
-					mimeType="audio/wav"
-					backgroundColor="#FF4081"
-				/>
 				{this.state.record ? (
 					<IconButton key="close" aria-label="Close" color="inherit" onClick={this.stopRecording}>
 						<Icon>mic</Icon>

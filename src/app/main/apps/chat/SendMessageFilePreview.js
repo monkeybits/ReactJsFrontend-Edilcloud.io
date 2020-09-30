@@ -41,6 +41,7 @@ function SendMessageFilePreview(props) {
 			<div className="flex items-center justify-center min-w-128 w-128 ht-11">
 				<Paper className="rounded-4 overflow-hidden" elevation={1}>
 					{child}
+					<Icon className="text-20 image-close">close</Icon>
 				</Paper>
 			</div>
 		</div>

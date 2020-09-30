@@ -14,7 +14,7 @@ import * as Actions from './store/actions';
 import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
-import AudioRecord from './AudioRecord';
+import AudioRecord from 'app/AudioRecord';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
