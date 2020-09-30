@@ -49,9 +49,31 @@ export default class AudioRecord extends React.Component {
 		return (
 			<div>
 				{this.state.record ? (
-					<IconButton key="close" aria-label="Close" color="inherit" onClick={this.stopRecording}>
-						<Icon>mic</Icon>
-					</IconButton>
+					<>
+						<div class="sound-icon disabled">
+							<div class="sound-wave">
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+								<i class="bar"></i>
+							</div>
+						</div>
+
+						<IconButton key="close" aria-label="Close" color="inherit" onClick={this.stopRecording}>
+							<Icon>mic</Icon>
+						</IconButton>
+					</>
 				) : (
 					<IconButton key="close" aria-label="Close" color="inherit" onClick={this.startRecording}>
 						<Icon> mic_off</Icon>
