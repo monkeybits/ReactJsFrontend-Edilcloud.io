@@ -15,6 +15,7 @@ import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils'
 import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
+import ImagePreviewDialog from './ImagePreviewDialog';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -142,7 +143,7 @@ function Chat(props) {
 
 	function onMessageSubmit(ev) {
 		ev.preventDefault();
-		if (messageText === '') {
+		if (messageText === '' && !images) {
 			return;
 		}
 
