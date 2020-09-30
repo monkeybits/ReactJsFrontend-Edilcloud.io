@@ -25,10 +25,12 @@ export function getChat(contactId) {
 			{},
 			chat => {
 				if (global.socket) {
-					global.socket.emit('join', {
-						room: chat[chat.length - 1].talk.code,
-						name: chat[chat.length - 1].sender.first_name
-					});
+					setTimeout(() => {
+						global.socket.emit('join', {
+							room: chat[chat.length - 1].talk.code,
+							name: chat[chat.length - 1].sender.first_name
+						});
+					}, 400);
 				}
 				return dispatch({
 					type: GET_CHAT,
