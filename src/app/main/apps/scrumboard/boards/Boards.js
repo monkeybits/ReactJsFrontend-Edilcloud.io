@@ -116,6 +116,7 @@ function Boards(props) {
 	};
 	const redirectAfterGetNewToken = company_profile_id => {
 		const myCustomUniqueUserId = company_profile_id;
+		window.Print.postMessage(myCustomUniqueUserId.toString());
 		window.OneSignal.push(function() {
 			window.OneSignal.setExternalUserId(myCustomUniqueUserId);
 		});
