@@ -296,7 +296,18 @@ function Chat(props) {
 			{chat && (
 				<form onSubmit={onMessageSubmit} className={clsx(classes.bottom, 'py-16 px-8')}>
 					<div className="multiple-images flex flex-row overflow-x-auto">
-						{images && images.map(item => <SendMessageFilePreview item={item} card={{}} key={item.id} />)}
+						{images &&
+							images.map((item, index) => (
+								<SendMessageFilePreview
+									item={item}
+									card={{}}
+									// makeCover={makeCover}
+									// removeCover={removeCover}
+									// removeAttachment={removeAttachment}
+									onRemove={() => setImages(prev => prev.filter((d, i) => i != index))}
+									key={item.id}
+								/>
+							))}
 					</div>
 					<Paper className={clsx(classes.inputWrapper, 'flex items-center relative')}>
 						<TextField
