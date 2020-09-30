@@ -30,8 +30,8 @@ export default ({ children }) => {
 
 	if (!global.socket) {
 		global.socket = io.connect(WS_BASE);
-
 		global.socket.on('chat_channel', msg => {
+			console.log({ msg });
 			dispatch((dispatch, getStae) => {
 				if (getStae().chatPanel.state) {
 					dispatch(chatPanelActions.updateChatLog(msg));
