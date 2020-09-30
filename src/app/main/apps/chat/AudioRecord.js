@@ -1,7 +1,7 @@
 import { Icon, IconButton } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import { ReactMic } from 'react-mic';
-
+import moment from 'moment';
 export default class AudioRecord extends React.Component {
 	constructor(props) {
 		super(props);
@@ -25,7 +25,7 @@ export default class AudioRecord extends React.Component {
 	onStop = recordedBlob => {
 		console.log('recordedBlob is: ', recordedBlob, recordedBlob.blob instanceof Blob);
 		this.props.afterRecordComplete(
-			new File([{ ...recordedBlob.blob }], 'Record' + new Date() + '.mp3', {
+			new File([{ ...recordedBlob.blob }], 'Record ' + moment().format('ll') + '.wav', {
 				type: recordedBlob.options.mimeType
 			})
 		);
@@ -40,7 +40,7 @@ export default class AudioRecord extends React.Component {
 					onStop={this.onStop}
 					onData={this.onData}
 					strokeColor="#000000"
-					mimeType="audio/mpeg"
+					mimeType="audio/wav"
 					backgroundColor="#FF4081"
 				/>
 				{this.state.record ? (

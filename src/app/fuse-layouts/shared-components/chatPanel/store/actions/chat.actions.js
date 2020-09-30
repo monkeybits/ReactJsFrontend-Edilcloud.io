@@ -28,7 +28,12 @@ export function getChat(contact) {
 			contact.type == 'company' ? GET_MESSAGES_API : GET_PROJECT_MESSAGES_API(contact.id),
 			{},
 			chat => {
-				// console.log({ chat });
+				if (global.socket) {
+					global.socket.emit('join', {
+						room: chat[chat.length - 1].talk.code,
+						name: chat[chat.length - 1].sender.first_name
+					});
+				}
 				dispatch({
 					type: GET_CHAT,
 					chat: chat,
@@ -39,25 +44,7 @@ export function getChat(contact) {
 			METHOD.GET,
 			getHeaderToken()
 		);
-		// const { id: userId } = getState().chatPanel.user;
-		// const request = axios.get('/api/chat/get-chat', {
-		// 	params: {
-		// 		contactId,
-		// 		userId
-		// 	}
-		// });
 
-		// return request.then(response => {
-		// 	dispatch(setselectedContactId(contactId));
-
-		// 	dispatch(closeMobileChatsSidebar());
-
-		// 	return dispatch({
-		// 		type: GET_CHAT,
-		// 		chat: response.data.chat,
-		// 		userChatData: response.data.userChatData
-		// 	});
-		// });
 	};
 }
 
@@ -93,7 +80,6 @@ export function sendMessage(messageText, setMessageText, user, images, setImages
 				: SEND_PROJECT_MESSAGE_API(user.id),
 			formData,
 			chat => {
-				// dispatch(getChat(user));
 				setImages(null);
 				setMessageText('');
 			},

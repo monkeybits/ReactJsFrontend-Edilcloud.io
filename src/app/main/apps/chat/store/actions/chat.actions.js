@@ -24,6 +24,12 @@ export function getChat(contactId) {
 			GET_MESSAGES_API,
 			{},
 			chat => {
+				if (global.socket) {
+					global.socket.emit('join', {
+						room: chat[chat.length - 1].talk.code,
+						name: chat[chat.length - 1].sender.first_name
+					});
+				}
 				return dispatch({
 					type: GET_CHAT,
 					chat: chat,
@@ -66,8 +72,7 @@ export function sendMessage(messageText, setMessageText, images, setImages) {
 			SEND_MESSAGE_API(userInfo.extra.profile.company),
 			formData,
 			chat => {
-				// dispatch(getChat());
-				setImages(null)
+				setImages(null);
 				setMessageText('');
 			},
 			err => console.log(err),
