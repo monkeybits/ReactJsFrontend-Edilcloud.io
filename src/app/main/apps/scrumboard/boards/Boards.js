@@ -115,6 +115,10 @@ function Boards(props) {
 		);
 	};
 	const redirectAfterGetNewToken = company_profile_id => {
+		const myCustomUniqueUserId = company_profile_id;
+		window.OneSignal.push(function() {
+			window.OneSignal.setExternalUserId(myCustomUniqueUserId);
+		});
 		apiCall(
 			REFRESH_TOKEN(company_profile_id),
 			{
