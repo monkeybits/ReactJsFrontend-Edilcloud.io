@@ -30,6 +30,12 @@ export function getChat(pid) {
 			GET_PROJECT_MESSAGES_API(pid),
 			{},
 			chat => {
+				if (global.socket) {
+					global.socket.emit('join', {
+						room: chat[chat.length - 1].talk.code,
+						name: chat[chat.length - 1].sender.first_name
+					});
+				}
 				return dispatch({
 					type: GET_CHAT,
 					chat: chat,
@@ -72,7 +78,6 @@ export function sendMessage(messageText, setMessageText, pid, images, setImages)
 			SEND_PROJECT_MESSAGE_API(pid),
 			formData,
 			chat => {
-				// dispatch(getChat());
 				setImages(null)
 				setMessageText('');
 			},
