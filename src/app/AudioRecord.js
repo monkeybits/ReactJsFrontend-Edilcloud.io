@@ -44,7 +44,27 @@ export default class AudioRecord extends React.Component {
 				console.log(e);
 			});
 	};
-
+	sendDirectToChat = () => {
+		if (this.state.record) {
+			this.setState({ record: false });
+			recorder
+				.stop()
+				.getMp3()
+				.then(([buffer, blob]) => {
+					// do what ever you want with buffer and blob
+					// Example: Create a mp3 file and play
+					const file = new File(buffer, 'Record ' + moment().format('ll') + '.mp3', {
+						type: blob.type,
+						lastModified: Date.now()
+					});
+					this.props.sendDirectToChat(file);
+				})
+				.catch(e => {
+					alert('We could not retrieve your message');
+					console.log(e);
+				});
+		}
+	};
 	render() {
 		return (
 			<div>
