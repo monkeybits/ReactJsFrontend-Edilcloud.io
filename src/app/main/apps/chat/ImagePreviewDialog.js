@@ -109,12 +109,12 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 			aria-labelledby="customized-dialog-title"
 			open={isOpenViewFile}
 			maxWidth="lg"
-			fullWidth="true"
+			className="chat-slider-modal"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closeViewFile}>
 				View File
 			</DialogTitle>
-			<DialogContent dividers>{getPreviewByType(imagesArray[step])}</DialogContent>
+			<DialogContent dividers className="chat-slider-modal-height">{getPreviewByType(imagesArray[step])}</DialogContent>
 			<DialogActions>
 				<Button disabled={step == 0} onClick={handlePrevious}>
 					previous

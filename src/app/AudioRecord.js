@@ -50,7 +50,7 @@ export default class AudioRecord extends React.Component {
 			<div>
 				{this.state.record ? (
 					<>
-						<div class="sound-icon disabled">
+						<div class="sound-icon">
 							<div class="sound-wave">
 								<i class="bar"></i>
 								<i class="bar"></i>
@@ -69,6 +69,7 @@ export default class AudioRecord extends React.Component {
 								<i class="bar"></i>
 							</div>
 						</div>
+						<div className="blink"></div>
 
 						<IconButton key="close" aria-label="Close" color="inherit" onClick={this.stopRecording}>
 							<Icon>mic</Icon>

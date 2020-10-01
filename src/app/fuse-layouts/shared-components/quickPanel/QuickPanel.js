@@ -29,6 +29,7 @@ import { ALERTED_POSTS_TASKS, ALERTED_POSTS_ACTIVITY } from 'app/services/apiEnd
 import { getHeaderToken } from 'app/services/serviceUtils';
 import PostList from 'app/main/apps/notes/todo/PostList';
 import clsx from 'clsx';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -117,7 +118,15 @@ function QuickPanel(props) {
 			onClose={ev => dispatch(Actions.toggleQuickPanel())}
 		>
 			<FuseScrollbars>
-				<ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader>
+				<div className="flex justify-between items-center">
+					{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
+					<Typography className="mx-16 text-16" color="inherit">Alerted posts</Typography>
+					<div className="px-4">
+						<IconButton onClick={ev => dispatch(Actions.toggleQuickPanel())} color="inherit">
+							<Icon>close</Icon>
+						</IconButton>
+					</div>
+				</div>
 				<div className={clsx(classes.root, 'alerted-post-modal-accordion')}>
 					<Accordion>
 						<AccordionSummary
