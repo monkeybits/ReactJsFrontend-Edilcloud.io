@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import CardAttachment from './CardAttachment';
-import ImagePreviewDialog from './ImagePreviewDialog';
+import ImagePreviewDialog from '../../../ImagePreviewDialog';
 
 export default function ViewFile({ files }) {
+	const media = useSelector(({ chatApp }) => chatApp.chat?.media);
 	const [open, setOpen] = useState(false);
 	const [activtStep, setActivtStep] = useState(0);
 	const openImage = index => {
-		setOpen(true);
-		setActivtStep(index);
+		let selected = media.files.filter(file => file.id === files[index].id)[0];
+		// console.log(files[index], media.files, selected);
+		if (selected) {
+			setOpen(true);
+			setActivtStep(selected.index);
+		}
 	};
 
-	if (!files && !files.lenght) {
+	if (!media && !media.files.lenght) {
 		return null;
 	}
 	return (
@@ -28,7 +34,7 @@ export default function ViewFile({ files }) {
 			))}
 			<ImagePreviewDialog
 				isOpenViewFile={open}
-				imagesArray={files}
+				imagesArray={media.files}
 				activtStep={activtStep}
 				closeViewFile={() => setOpen(false)}
 			/>

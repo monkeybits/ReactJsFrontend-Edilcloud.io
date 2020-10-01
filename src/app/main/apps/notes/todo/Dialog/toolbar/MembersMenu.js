@@ -11,8 +11,8 @@ function MembersMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);
 
 	function handleMenuOpen(event) {
-		event.preventDefault()
-		event.stopPropagation()
+		event.preventDefault();
+		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
 	}
 
@@ -27,15 +27,18 @@ function MembersMenu(props) {
 			</IconButton>
 			<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 				<div className="">
-					{props.members.map(member => {
-						return (
-							<MenuItem className="px-8" key={member.id}>
-								<Checkbox />
-								<Avatar className="w-32 h-32" src={member.avatar} />
-								<ListItemText className="mx-8">{member.name}</ListItemText>
-							</MenuItem>
-						);
-					})}
+					{props.members &&
+						props.members.map(member => {
+							return (
+								<MenuItem className="px-8" key={member.id}>
+									<Checkbox />
+									<Avatar className="w-32 h-32" src={member.avatar} />
+									<ListItemText className="mx-8">
+										{member.first_name} {member.last_name}
+									</ListItemText>
+								</MenuItem>
+							);
+						})}
 				</div>
 			</ToolbarMenu>
 		</div>

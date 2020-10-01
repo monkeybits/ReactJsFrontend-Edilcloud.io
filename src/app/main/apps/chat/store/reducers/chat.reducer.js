@@ -1,12 +1,29 @@
 import * as Actions from '../actions';
 
 const initialState = null;
-
+const getAllFilesOfChat = chats => {
+	if (Array.isArray(chats) && chats.length) {
+		console.log({ chats });
+		return chats.reduce(
+			(prev, current) => {
+				return { files: [...prev.files, ...current.files].map((d, index) => ({ ...d, index })) };
+			},
+			{
+				files: []
+			}
+		);
+	} else {
+		return {
+			files: []
+		};
+	}
+};
 const chat = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_CHAT: {
 			return {
-				chats: [...action.chat]
+				chats: [...action.chat],
+				media: getAllFilesOfChat(action.chat)
 			};
 		}
 		case Actions.REMOVE_CHAT: {
@@ -20,7 +37,9 @@ const chat = (state = initialState, action) => {
 		}
 		case Actions.UPDATE_CHAT_LOG: {
 			return {
-				chats: state?.chats ? [...state.chats, action.update.message] : []
+				...state,
+				chats: state?.chats ? [...state.chats, action.update.message] : [],
+				media: getAllFilesOfChat(state?.chats ? [...state.chats, action.update.message] : [])
 			};
 		}
 		default: {

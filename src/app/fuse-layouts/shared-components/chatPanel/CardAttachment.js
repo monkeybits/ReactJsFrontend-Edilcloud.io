@@ -27,7 +27,7 @@ function CardAttachment(props) {
 		setAnchorEl(null);
 	}
 	const itemImage = () => (
-		<div className="flex w-full mb-16 px-16" key={props.item.id}>
+		<div className="flex w-full sm:w-1/2 mb-16 px-16" key={props.item.id} onClick={props.openImage}>
 			<div className="flex items-center justify-center min-w-128 w-128 h-128">
 				<Paper className="rounded-4 overflow-hidden" elevation={1}>
 					<img className="block h-128 w-128 object-cover" src={props.item.media_url} alt="attachment" />
@@ -36,7 +36,7 @@ function CardAttachment(props) {
 		</div>
 	);
 	const wrapper = child => (
-		<div className="flex w-full mb-16 px-16" key={props.item.id}>
+		<div className="flex w-full sm:w-1/2 mb-16 px-16" key={props.item.id}>
 			<div className="flex items-center justify-center min-w-128 w-128 ht-11">
 				<Paper className="rounded-4 overflow-hidden" elevation={1}>
 					{child}
@@ -50,7 +50,7 @@ function CardAttachment(props) {
 			return itemImage();
 		}
 		case 'audio': {
-			return wrapper(<FontAwesomeIcon icon={faFileAudio} style={{ color: 'brown', fontSize: '6.4rem' }} />);
+			return (<audio controls src={props.item.media_url} />);
 		}
 		case 'video': {
 			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '6.4rem' }} />);

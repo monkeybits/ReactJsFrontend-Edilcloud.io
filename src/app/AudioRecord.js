@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 const MicRecorder = require('mic-recorder-to-mp3');
 const recorder = new MicRecorder({
-	bitRate: 128
+	bitRate: 320
 });
 export default class AudioRecord extends React.Component {
 	constructor(props) {
@@ -44,13 +44,33 @@ export default class AudioRecord extends React.Component {
 				console.log(e);
 			});
 	};
-
+	sendDirectToChat = () => {
+		if (this.state.record) {
+			this.setState({ record: false });
+			recorder
+				.stop()
+				.getMp3()
+				.then(([buffer, blob]) => {
+					// do what ever you want with buffer and blob
+					// Example: Create a mp3 file and play
+					const file = new File(buffer, 'Record ' + moment().format('ll') + '.mp3', {
+						type: blob.type,
+						lastModified: Date.now()
+					});
+					this.props.sendDirectToChat(file);
+				})
+				.catch(e => {
+					alert('We could not retrieve your message');
+					console.log(e);
+				});
+		}
+	};
 	render() {
 		return (
 			<div>
 				{this.state.record ? (
 					<>
-						<div class="sound-icon disabled">
+						<div class="sound-icon">
 							<div class="sound-wave">
 								<i class="bar"></i>
 								<i class="bar"></i>
@@ -69,6 +89,7 @@ export default class AudioRecord extends React.Component {
 								<i class="bar"></i>
 							</div>
 						</div>
+						<div className="blink"></div>
 
 						<IconButton key="close" aria-label="Close" color="inherit" onClick={this.stopRecording}>
 							<Icon>mic</Icon>

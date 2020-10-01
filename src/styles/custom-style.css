@@ -407,6 +407,9 @@
 }
 
 /* Audio Animation */
+.right-panel-audio audio {
+    width: 220px;
+}
 .sound-icon {
     display: inline-flex;
     align-items: center;
@@ -497,26 +500,49 @@
     height: 20px;
     animation-duration: 400ms;
 }
-/* .bar:nth-child(16) {
-    height: 2px;
-    animation-duration: 427ms;
+/* End */
+
+.chat-slider-modal .MuiDialog-container .MuiPaper-root {
+    width: 600px;
 }
-.bar:nth-child(17) {
-    height: 6px;
-    animation-duration: 441ms;
+.chat-slider-modal img {
+    height: 420px;
+    margin: 0 auto;
 }
-.bar:nth-child(18) {
-    height: 10px;
-    animation-duration: 419ms;
+.bubble.max-w-50 {
+    cursor: pointer;
 }
-.bar:nth-child(19) {
-    height: 6px;
-    animation-duration: 487ms;
+.chat-slider-modal-height {
+    min-height: calc(100vh - 170px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.bar:nth-child(20) {
-    height: 10px;
-    animation-duration: 442ms;
-} */
+/* Blink Animation */
+.blink {
+    animation: blinker 0.6s linear infinite;
+    background-color: #f31506;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    display: inline-flex;
+    position: relative;
+    top: 5px;
+    margin-left: 15px;
+  }
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+  .blink-one {
+    animation: blinker-one 1s linear infinite;
+  }
+  @keyframes blinker-one {
+    0% {
+      opacity: 0;
+    }
+  }
 
 
 @media only screen and (max-width: 767px) {
@@ -550,6 +576,14 @@
     .write-post textarea {
         padding-right: 0px !important;
     }
+    .bubble.max-w-50 {
+        max-width: 100%;
+    }
+    audio {
+        zoom: 117%;
+        width: 210px;
+        height: 40px;
+    }
     
 }
 @media only screen and (max-width: 576px) {
@@ -575,10 +609,7 @@
     .gantt-min-height {
         height: calc(100vh - 40px) !important;
     }
-    audio {
-        width: 100px;
-        height: 40px;
-    }
+    
 }
 @media only screen and (max-width: 480px) {
     .team-chat-sidebar {

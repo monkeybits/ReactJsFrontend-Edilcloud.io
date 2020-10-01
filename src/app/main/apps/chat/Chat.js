@@ -15,7 +15,6 @@ import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils'
 import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
-import ImagePreviewDialog from './ImagePreviewDialog';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -102,6 +101,7 @@ function Chat(props) {
 	const selectedContactId = useSelector(({ chatApp }) => chatApp.contacts.selectedContactId);
 	const chat = useSelector(({ chatApp }) => chatApp.chat);
 	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
+	const audioRef = useRef(null);
 
 	const inputRef = useRef(null);
 	const user = useSelector(({ chatApp }) => chatApp.user);
@@ -110,16 +110,11 @@ function Chat(props) {
 	const classes = useStyles(props);
 	const chatRef = useRef(null);
 	const [messageText, setMessageText] = useState('');
-	const [chatLength, setChatLength] = useState(0);
 	const userInfo = decodeDataFromToken();
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
 
 	useEffect(() => {
 		scrollToBottom();
-		// if (chat?.chats?.length && chat.chats.length != chatLength) {
-		// 	setChatLength(chat.chats.length);
-
-		// }
 	}, [chat?.chats]);
 
 	function scrollToBottom() {
@@ -143,10 +138,12 @@ function Chat(props) {
 
 	function onMessageSubmit(ev) {
 		ev.preventDefault();
+		if (audioRef.current) {
+			audioRef.current.sendDirectToChat();
+		}
 		if (messageText === '' && !images) {
 			return;
 		}
-
 		dispatch(Actions.sendMessage(messageText, setMessageText, images, setImages));
 	}
 	const addPhoto = async e => {
@@ -178,6 +175,20 @@ function Chat(props) {
 			...fileList
 		];
 		setImages(fileList);
+	};
+	const sendAudioDirectToChat = file => {
+		let fileType = file.type?.split('/')[0];
+		let fileList = images ? images : [];
+
+		fileList = [
+			{
+				file: file,
+				imgPath: URL.createObjectURL(file),
+				fileType
+			},
+			...fileList
+		];
+		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
 	};
 	return (
 		<div className={clsx('flex flex-col relative chat-box', props.className)}>
@@ -217,8 +228,13 @@ function Chat(props) {
 												{contact.first_name + ' ' + contact.last_name}
 											</Typography>
 										)}
-										<div className="leading-normal mb-10">{item.body}</div>
+										<div className="leading-normal mb-10">{item.body} </div>
 										<ViewFile files={item.files} />
+										{contact.id == userIdFromCompany && item.waitingToSend ? (
+											<Icon className="float-right">access_time</Icon>
+										) : (
+											<Icon className="float-right">check</Icon>
+										)}
 									</div>
 									{isLastMessageOfGroup(item, i) && (
 										<Typography
@@ -281,7 +297,11 @@ function Chat(props) {
 						onChange={onInputChange}
 						value={messageText}
 					/>
-					<AudioRecord afterRecordComplete={addAudio} />
+					<AudioRecord
+						afterRecordComplete={addAudio}
+						ref={audioRef}
+						sendDirectToChat={sendAudioDirectToChat}
+					/>
 					<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
 					<IconButton className="image mr-48" onClick={() => inputRef.current.click()} aria-label="Add photo">
 						<Icon>photo</Icon>

@@ -150,6 +150,7 @@ function Chat(props) {
 	const [messageText, setMessageText] = useState('');
 	const [images, setImages] = useState(null);
 	const inputRef = useRef(null);
+	const audioRef = useRef(null);
 
 	useEffect(() => {
 		scrollToBottom();
@@ -165,6 +166,9 @@ function Chat(props) {
 
 	const onMessageSubmit = ev => {
 		ev.preventDefault();
+		if (audioRef.current) {
+			audioRef.current.sendDirectToChat();
+		}
 		if (messageText === '') {
 			return;
 		}
@@ -200,6 +204,20 @@ function Chat(props) {
 		];
 		setImages(fileList);
 	};
+	const sendAudioDirectToChat = file => {
+		let fileType = file.type?.split('/')[0];
+		let fileList = images ? images : [];
+
+		fileList = [
+			{
+				file: file,
+				imgPath: URL.createObjectURL(file),
+				fileType
+			},
+			...fileList
+		];
+		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
+	};
 	return (
 		<Paper elevation={3} className={clsx('flex flex-col', props.className)}>
 			{useMemo(() => {
@@ -229,7 +247,7 @@ function Chat(props) {
 								</Typography>
 							</div>
 						) : chat?.chats?.length ? (
-							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40 me-right-align">
+							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40 me-right-align right-panel-audio">
 								{chat.chats.map((item, i) => {
 									const contact = item.sender;
 									const color = contacts.length && contacts?.filter(c => c.id == contact.id);
@@ -263,7 +281,16 @@ function Chat(props) {
 														</Typography>
 													)}
 													<div className="leading-normal mb-10">{item.body}</div>
-													<ViewFile files={item.files} />
+													<ViewFile
+														open={props.open}
+														setOpen={props.setOpen}
+														files={item.files}
+													/>
+													{contact.id == userIdFromCompany && item.waitingToSend ? (
+														<Icon className="float-right">access_time</Icon>
+													) : (
+														<Icon className="float-right">check</Icon>
+													)}
 												</div>
 											</div>
 											{isLastMessageOfGroup(item, i) && (
@@ -329,7 +356,12 @@ function Chat(props) {
 							onChange={onInputChange}
 							value={messageText}
 						/>
-						<AudioRecord afterRecordComplete={addAudio} />
+						<AudioRecord
+							afterRecordComplete={addAudio}
+							ref={audioRef}
+							sendDirectToChat={sendAudioDirectToChat}
+						/>
+
 						<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
 						<IconButton
 							className="image mr-48"
