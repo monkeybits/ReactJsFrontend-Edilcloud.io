@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 const MicRecorder = require('mic-recorder-to-mp3');
 const recorder = new MicRecorder({
-	bitRate: 128
+	bitRate: 320
 });
 export default class AudioRecord extends React.Component {
 	constructor(props) {
