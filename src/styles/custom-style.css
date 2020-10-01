@@ -407,6 +407,9 @@
 }
 
 /* Audio Animation */
+.right-panel-audio audio {
+    width: 220px;
+}
 .sound-icon {
     display: inline-flex;
     align-items: center;
@@ -550,6 +553,14 @@
     .write-post textarea {
         padding-right: 0px !important;
     }
+    .bubble.max-w-50 {
+        max-width: 100%;
+    }
+    audio {
+        zoom: 117%;
+        width: 210px;
+        height: 40px;
+    }
     
 }
 @media only screen and (max-width: 576px) {
@@ -575,10 +586,7 @@
     .gantt-min-height {
         height: calc(100vh - 40px) !important;
     }
-    audio {
-        width: 100px;
-        height: 40px;
-    }
+    
 }
 @media only screen and (max-width: 480px) {
     .team-chat-sidebar {
