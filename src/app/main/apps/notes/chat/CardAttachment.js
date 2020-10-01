@@ -27,7 +27,7 @@ function CardAttachment(props) {
 		setAnchorEl(null);
 	}
 	const itemImage = () => (
-		<div className="flex w-full mb-16 px-16" key={props.item.id}>
+		<div className="flex w-full mb-16 px-16" key={props.item.id} onClick={props.openImage}>
 			<div className="flex items-center justify-center min-w-128 w-128 h-128">
 				<Paper className="rounded-4 overflow-hidden" elevation={1}>
 					<img className="block h-128 w-128 object-cover" src={props.item.media_url} alt="attachment" />

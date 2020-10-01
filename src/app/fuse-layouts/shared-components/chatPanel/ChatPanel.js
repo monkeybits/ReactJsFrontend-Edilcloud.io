@@ -15,7 +15,7 @@ import Chat from './Chat';
 import ContactList from './ContactList';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-import  WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
+import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -67,14 +67,14 @@ function ChatPanel(props) {
 	const state = useSelector(({ chatPanel }) => chatPanel.state);
 	const user = useSelector(({ chatPanel }) => chatPanel.user);
 	const ref = useRef();
-
+	const [open, setOpen] = useState(false);
 	const classes = useStyles(props);
 	const selectedContact = contacts.find(_contact => _contact.id === selectedContactId);
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
 
 	const handleDocumentKeyDown = useCallback(
 		event => {
-			if (keycode(event) === 'esc') {
+			if (keycode(event) === 'esc' && !open) {
 				dispatch(Actions.closeChatPanel());
 			}
 		},
@@ -103,23 +103,24 @@ function ChatPanel(props) {
 	/**
 	 * Click Away Listener
 	 */
-	useEffect(() => {
-		function handleDocumentClick(ev) {
-			if (ref.current && !ref.current.contains(ev.target)) {
-				dispatch(Actions.closeChatPanel());
-			}
-		}
+	// useEffect(() => {
+	// 	function handleDocumentClick(ev) {
+	// 		if (ref.current && !ref.current.contains(ev.target) && !open) {
+	// 			dispatch(Actions.closeChatPanel());
+	// 		}
+	// 	}
 
-		if (state) {
-			document.addEventListener('click', handleDocumentClick, true);
-		} else {
-			document.removeEventListener('click', handleDocumentClick, true);
-		}
+	// 	if (state) {
+	// 		document.addEventListener('click', handleDocumentClick, true);
+	// 	} else {
+	// 		document.removeEventListener('click', handleDocumentClick, true);
+	// 	}
 
-		return () => {
-			document.removeEventListener('click', handleDocumentClick);
-		};
-	}, [state, dispatch]);
+	// 	return () => {
+	// 		document.removeEventListener('click', handleDocumentClick);
+	// 	};
+	// }, [state, dispatch]);
+	
 	// if (contacts.length < 1) {
 	// 	return null;
 	// }
@@ -161,7 +162,7 @@ function ChatPanel(props) {
 								</div>
 							)}
 							<div className="flex px-4">
-								<IconButton onClick={ev => dispatch(Actions.closeChatPanel())} color="inherit">
+								<IconButton onClick={ev => !open && dispatch(Actions.closeChatPanel())} color="inherit">
 									<Icon>close</Icon>
 								</IconButton>
 							</div>
@@ -169,7 +170,9 @@ function ChatPanel(props) {
 					</AppBar>
 					<Paper className="flex flex-1 flex-row min-h-px">
 						{(!state || !user?.id) && <ContactList className="flex flex-shrink-0" />}
-						{state && user?.id && <Chat className="flex flex-1 z-10 muliple-images-overflow-x" />}
+						{state && user?.id && (
+							<Chat {...{ open, setOpen }} className="flex flex-1 z-10 muliple-images-overflow-x" />
+						)}
 					</Paper>
 				</div>
 			</div>

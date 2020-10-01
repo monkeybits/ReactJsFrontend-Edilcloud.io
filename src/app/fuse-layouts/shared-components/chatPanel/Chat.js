@@ -281,7 +281,11 @@ function Chat(props) {
 														</Typography>
 													)}
 													<div className="leading-normal mb-10">{item.body}</div>
-													<ViewFile files={item.files} />
+													<ViewFile
+														open={props.open}
+														setOpen={props.setOpen}
+														files={item.files}
+													/>
 													{contact.id == userIdFromCompany && item.waitingToSend ? (
 														<Icon className="float-right">access_time</Icon>
 													) : (
