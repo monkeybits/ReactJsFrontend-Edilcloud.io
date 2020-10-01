@@ -229,7 +229,7 @@ function Chat(props) {
 								</Typography>
 							</div>
 						) : chat?.chats?.length ? (
-							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40 me-right-align">
+							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40 me-right-align right-panel-audio">
 								{chat.chats.map((item, i) => {
 									const contact = item.sender;
 									const color = contacts.length && contacts?.filter(c => c.id == contact.id);
