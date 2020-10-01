@@ -78,7 +78,7 @@ function Boards(props) {
 		apiCall(
 			APPROVE_LIST,
 			{},
-			(results) => {
+			results => {
 				if (Array.isArray(results)) {
 					let filterdBoards = results.filter(d => d.company && d.status);
 					dispatch({
@@ -116,9 +116,11 @@ function Boards(props) {
 	};
 	const redirectAfterGetNewToken = company_profile_id => {
 		const myCustomUniqueUserId = company_profile_id;
-		window.OneSignal.push(function() {
-			window.OneSignal.setExternalUserId(myCustomUniqueUserId);
-		});
+		if (window.OneSignal) {
+			window.OneSignal.push(function () {
+				window.OneSignal.setExternalUserId(myCustomUniqueUserId);
+			});
+		}
 		apiCall(
 			REFRESH_TOKEN(company_profile_id),
 			{
