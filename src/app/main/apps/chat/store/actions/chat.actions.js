@@ -71,14 +71,13 @@ export function sendMessage(messageText, setMessageText, images, setImages) {
 		apiCall(
 			SEND_MESSAGE_API(userInfo.extra.profile.company),
 			formData,
-			chat => {
-				setImages(null);
-				setMessageText('');
-			},
+			chat => {},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()
 		);
+		setImages(null);
+		setMessageText('');
 	};
 }
 

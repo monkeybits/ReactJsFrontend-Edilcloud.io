@@ -102,6 +102,7 @@ function Chat(props) {
 	const selectedContactId = useSelector(({ chatApp }) => chatApp.contacts.selectedContactId);
 	const chat = useSelector(({ chatApp }) => chatApp.chat);
 	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
+	const audioRef = useRef(null);
 
 	const inputRef = useRef(null);
 	const user = useSelector(({ chatApp }) => chatApp.user);
@@ -138,10 +139,12 @@ function Chat(props) {
 
 	function onMessageSubmit(ev) {
 		ev.preventDefault();
+		if (audioRef.current) {
+			audioRef.current.sendDirectToChat();
+		}
 		if (messageText === '' && !images) {
 			return;
 		}
-
 		dispatch(Actions.sendMessage(messageText, setMessageText, images, setImages));
 	}
 	const addPhoto = async e => {
@@ -173,6 +176,20 @@ function Chat(props) {
 			...fileList
 		];
 		setImages(fileList);
+	};
+	const sendAudioDirectToChat = file => {
+		let fileType = file.type?.split('/')[0];
+		let fileList = images ? images : [];
+
+		fileList = [
+			{
+				file: file,
+				imgPath: URL.createObjectURL(file),
+				fileType
+			},
+			...fileList
+		];
+		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
 	};
 	return (
 		<div className={clsx('flex flex-col relative chat-box', props.className)}>
@@ -276,7 +293,11 @@ function Chat(props) {
 						onChange={onInputChange}
 						value={messageText}
 					/>
-					<AudioRecord afterRecordComplete={addAudio} />
+					<AudioRecord
+						afterRecordComplete={addAudio}
+						ref={audioRef}
+						sendDirectToChat={sendAudioDirectToChat}
+					/>
 					<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
 					<IconButton className="image mr-48" onClick={() => inputRef.current.click()} aria-label="Add photo">
 						<Icon>photo</Icon>

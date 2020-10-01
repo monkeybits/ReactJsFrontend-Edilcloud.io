@@ -150,6 +150,7 @@ function Chat(props) {
 	const [messageText, setMessageText] = useState('');
 	const [images, setImages] = useState(null);
 	const inputRef = useRef(null);
+	const audioRef = useRef(null);
 
 	useEffect(() => {
 		scrollToBottom();
@@ -165,6 +166,9 @@ function Chat(props) {
 
 	const onMessageSubmit = ev => {
 		ev.preventDefault();
+		if (audioRef.current) {
+			audioRef.current.sendDirectToChat();
+		}
 		if (messageText === '') {
 			return;
 		}
@@ -199,6 +203,20 @@ function Chat(props) {
 			...fileList
 		];
 		setImages(fileList);
+	};
+	const sendAudioDirectToChat = file => {
+		let fileType = file.type?.split('/')[0];
+		let fileList = images ? images : [];
+
+		fileList = [
+			{
+				file: file,
+				imgPath: URL.createObjectURL(file),
+				fileType
+			},
+			...fileList
+		];
+		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
 	};
 	return (
 		<Paper elevation={3} className={clsx('flex flex-col', props.className)}>
@@ -329,7 +347,12 @@ function Chat(props) {
 							onChange={onInputChange}
 							value={messageText}
 						/>
-						<AudioRecord afterRecordComplete={addAudio} />
+						<AudioRecord
+							afterRecordComplete={addAudio}
+							ref={audioRef}
+							sendDirectToChat={sendAudioDirectToChat}
+						/>
+
 						<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
 						<IconButton
 							className="image mr-48"
