@@ -24,7 +24,7 @@ export function getChat(contactId) {
 			GET_MESSAGES_API,
 			{},
 			chat => {
-				if (global.socket) {
+				if (global.socket && chat &&chat[chat.length - 1]) {
 					setTimeout(() => {
 						global.socket.emit('join', {
 							room: chat[chat.length - 1].talk.code,

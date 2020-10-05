@@ -85,8 +85,7 @@ function TodoListItem(props) {
 			GET_ACTIVITY_OF_TASK(props.todo.id),
 			{},
 			results => {
-				setTaskDetail(results.results);
-				setOpen(true);
+				setTaskDetail(results);
 			},
 			err => console.log(err),
 			METHOD.GET,
@@ -147,7 +146,8 @@ function TodoListItem(props) {
 								<div
 									className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm bg-green text-white')}
 								>
-								<Icon className="text-16 mt-4">check_circle</Icon>	<span className="mx-4">Completed</span>
+									<Icon className="text-16 mt-4">check_circle</Icon>{' '}
+									<span className="mx-4">Completed</span>
 								</div>
 							) : moment().diff(moment(props.todo.date_start)) > 0 ? (
 								moment().diff(moment(props.todo.date_end)) > 0 ? (

@@ -13,7 +13,7 @@ export function getProjects() {
 		apiCall(
 			PROJECT_LIST,
 			{},
-			({ results }) => {
+			( results ) => {
 				if (Array.isArray(results)) {
 					dispatch({
 						type: GET_CONTACTS,
