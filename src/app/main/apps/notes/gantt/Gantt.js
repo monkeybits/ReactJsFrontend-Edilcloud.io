@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { gantt } from 'dhtmlx-gantt';
 import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
+import 'dhtmlx-gantt/codebase/api.js';
 import './Gantt.css';
 import connect from 'react-redux/es/connect/connect';
 import moment from 'moment';
@@ -16,6 +17,51 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
 // ],
 // links: [{ id: 1, source: 1, target: 2, type: '0' }]
+
+function to_snake_case(name){
+	return (name + "").toLowerCase().replace(/ /, "_");
+}
+
+function loadTable(mapping, data){
+	var ganttDataset = {
+		data:[],
+		links: []
+	};
+
+	data.forEach(function(item){
+		var copy = {};
+		for(var i in item){
+			if(mapping[i]){
+				copy[mapping[i]] = item[i];
+			}else{
+				copy[to_snake_case(i)] = item[i];
+			}
+
+			copy.open = true;
+			if(copy.wbs){
+				var wbs = copy.wbs + "";
+				copy.id = wbs;
+				var parts = wbs.split(".");
+				parts.pop();
+				copy.parent = parts.join(".");
+			}
+		}
+		ganttDataset.data.push(copy);
+	});
+
+	gantt.clearAll();
+	gantt.parse(ganttDataset);
+
+}
+
+function getOptions(selectedIndex){
+	return [
+		"wbs", "text", "start_date", "duration", "end_date", "id", "parent"
+	].map(function(name, index){
+		return "<option value='"+name+"' "+(selectedIndex == index ? "selected":"")+">" + name +"</option>";
+	}).join("");
+}
+
 class Gantt extends Component {
 	constructor(props) {
 		super(props);
@@ -173,15 +219,15 @@ class Gantt extends Component {
 				this.props.openNewTodoDialog();
 			}
 		};
-
 		// gantt.templates.task_class = function (start, end, task) {
-		// 	console.log({ tasktasktask: task });
-		// 	if (task.progress > 0.5) {
-		// 		return '';
-		// 	} else {
+		// 	console.log({ start, end: moment().diff(moment(task.data.date_end)), task });
+		// 	if (moment().diff(moment(task.data.date_end)) > 0) {
 		// 		return 'important';
+		// 	} else {
+		// 		return '';
 		// 	}
 		// };
+
 		this.setState({
 			tasks
 		});
@@ -222,13 +268,103 @@ class Gantt extends Component {
 		const { zoom } = this.props;
 		this.setZoom(zoom);
 		return (
-			<div
-				ref={input => {
-					this.ganttContainer = input;
-				}}
-				style={{ width: '100%', height: '100%' }}
-				className="gantt-min-height"
-			></div>
+			<>
+				<p>
+					You can use any XLSX file or download this sample{' '}
+					<a class="xlsx-sample" href="../common/DemoProject.xlsx" target="_blank">
+						DemoProject.xlsx
+					</a>
+				</p>
+				<p>
+					<form>
+						<input type="file" id="excelFile" name="file" accept=".xlsx,.xls" />
+						<button
+							id="excelImportBtn"
+							type="button"
+							onClick={() => {
+								var fileInput = document.getElementById('excelFile');
+								if (fileInput.files[0]) {
+									gantt.importFromExcel({
+										server: 'https://export.dhtmlx.com/gantt',
+										data: fileInput.files[0],
+										callback: function (project) {
+											if (project) {
+												var header = [];
+												var headerControls = [];
+												var body = [];
+
+												project.forEach(function (task) {
+													var cols = [];
+													if (!header.length) {
+														for (var i in task) {
+															header.push(i);
+														}
+														header.forEach(function (col, index) {
+															cols.push('<th>' + col + '</th>');
+															headerControls.push(
+																"<td><select data-column-mapping='" +
+																	col +
+																	"'>" +
+																	getOptions(index) +
+																	'</select>'
+															);
+														});
+														body.push('<tr>' + cols.join('') + '</tr>');
+														body.push('<tr>' + headerControls.join('') + '</tr>');
+													}
+													cols = [];
+													header.forEach(function (col) {
+														cols.push('<td>' + task[col] + '</td>');
+													});
+													body.push('<tr>' + cols.join('') + '</tr>');
+												});
+
+												var div = gantt.modalbox({
+													title: 'Assign columns',
+													type: 'excel-form',
+													text: '<table>' + body.join('') + '</table>',
+													buttons: [
+														{ label: 'Save', css: 'link_save_btn', value: 'save' },
+														{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
+													],
+													callback: function (result) {
+														switch (result) {
+															case 'save':
+																var selects = div.querySelectorAll(
+																	'[data-column-mapping]'
+																);
+																var mapping = {};
+																selects.forEach(function (select) {
+																	mapping[
+																		select.getAttribute('data-column-mapping')
+																	] = select.value;
+																});
+																loadTable(mapping, project);
+																break;
+															case 'cancel':
+																//Cancel
+																break;
+														}
+													}
+												});
+											}
+										}
+									});
+								}
+							}}
+						>
+							Load from Excel
+						</button>
+					</form>
+				</p>
+				<div
+					ref={input => {
+						this.ganttContainer = input;
+					}}
+					style={{ width: '100%', height: '100%' }}
+					className="gantt-min-height"
+				></div>
+			</>
 		);
 	}
 }
