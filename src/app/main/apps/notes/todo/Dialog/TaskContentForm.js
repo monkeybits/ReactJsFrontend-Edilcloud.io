@@ -173,7 +173,7 @@ const IOSSlider = withStyles({
 function TaskContentForm(props) {
 	const dispatch = useDispatch();
 	const taskContent = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
-	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog.data);
+	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data?.data);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [profileData, setProfileData] = useState([]);
 	const [profiles, setProfiles] = useState([]);
@@ -212,6 +212,7 @@ function TaskContentForm(props) {
 			setCompany(company);
 		}
 		if (taskContentData) {
+			console.log({ taskContentData, date_start: taskContentData.date_start });
 			setTaskDate({
 				startDate: new Date(taskContentData.date_start),
 				endDate: new Date(taskContentData.date_end)

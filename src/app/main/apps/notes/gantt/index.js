@@ -15,7 +15,7 @@ function GanttWrapper(props) {
 	const routeParams = useParams();
 
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getTodos(routeParams.id));
+		dispatch(Actions.getTodos(routeParams.id,true));
 		return () => {
 			dispatch({
 				type: Actions.GET_TODOS,

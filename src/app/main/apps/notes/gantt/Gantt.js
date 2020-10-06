@@ -12,6 +12,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import axios from 'app/services/axiosConfig';
+import { Button } from '@material-ui/core';
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
@@ -152,18 +153,32 @@ class Gantt extends Component {
 				var startDate = moment(moment(data.date_start).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
 				var endDate = moment(moment(data.date_end).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
 				let duration = endDate.diff(startDate, 'days');
-				return {
-					...{
-						id: index + 1,
-						text: data.name,
-						start_date: data.date_start,
-						end_date: data.date_end, // end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
-						duration: duration + 1,
-						progress: data.progress / 100,
-						mainId: data.id
-					},
-					data
-				};
+				return data.parent == 0
+					? {
+							...{
+								id: data.id,
+								text: data.name,
+								start_date: data.date_start,
+								end_date: data.date_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
+								duration: duration + 1,
+								progress: data.progress / 100,
+								mainId: data.id
+							},
+							data
+					  }
+					: {
+							...{
+								id: data.id,
+								text: data.title,
+								start_date: data.datetime_start,
+								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
+								duration: duration + 1,
+								progress: data.progress / 100,
+								mainId: data.id,
+								parent: data.task
+							},
+							data
+					  };
 			});
 			if (JSON.stringify(newtasks) !== JSON.stringify(this.state.tasks.data)) {
 				this.ganttInit(todos);
@@ -181,36 +196,51 @@ class Gantt extends Component {
 				var endDate = moment(moment(data.date_end).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
 				let duration = endDate.diff(startDate, 'days');
 				// let duration = moment(data.date_start, 'DD.MM.YYYY').diff(moment(data.date_end, 'DD.MM.YYYY'), 'days');
-				console.log(
-					typeof duration,
-					duration,
-					data.date_start,
-					data.date_end,
-					startDate,
-					endDate,
-					endDate.diff(startDate, 'days')
-				);
-				return {
-					...{
-						id: index + 1,
-						text: data.name,
-						start_date: data.date_start,
-						end_date: data.date_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
-						duration: duration + 1,
-						progress: data.progress / 100,
-						mainId: data.id
-					},
-					data
-				};
+				// console.log(
+				// 	typeof duration,
+				// 	duration,
+				// 	data.date_start,
+				// 	data.date_end,
+				// 	startDate,
+				// 	endDate,
+				// 	endDate.diff(startDate, 'days')
+				// );
+				return data.parent == 0
+					? {
+							...{
+								id: data.id,
+								text: data.name,
+								start_date: data.date_start,
+								end_date: data.date_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
+								duration: duration + 1,
+								progress: data.progress / 100,
+								mainId: data.id
+							},
+							data
+					  }
+					: {
+							...{
+								id: data.id,
+								text: data.title,
+								start_date: data.datetime_start,
+								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
+								duration: duration + 1,
+								progress: data.progress / 100,
+								mainId: data.id,
+								parent: data.task
+							},
+							data
+					  };
 			})
 		};
 		gantt.config.xml_date = '%Y-%m-%d %H:%i';
 		gantt.init(this.ganttContainer);
 		gantt.parse(tasks);
 		gantt.showLightbox = id => {
-			let captureData = this.state.tasks.data?.[id - 1]?.data;
-			console.log({ object: this.state.tasks.data[id - 1], id, data: this.state.tasks.data });
-			if (this.state.tasks.data[id - 1]) {
+			let captureData = this.state.tasks.data.filter(task => task.id == id);
+			captureData = captureData && captureData.length ? captureData[0] : undefined; //?.[id - 1]?.data;
+			console.log({ captureData, id, data: this.state.tasks.data });
+			if (captureData) {
 				return this.props.openTaskContent(captureData);
 			} else {
 				this.props.openNewTodoDialog();
@@ -270,7 +300,7 @@ class Gantt extends Component {
 			})
 			.then(res => {
 				console.log(res);
-				this.props.getTodos(this.props.match.params.id);
+				this.props.getTodos(this.props.match.params.id, true);
 			})
 			.catch(err => console.log(err));
 	};
@@ -279,9 +309,45 @@ class Gantt extends Component {
 		this.setZoom(zoom);
 		return (
 			<>
+				<div>
+					<Button
+						onClick={() =>
+							gantt.exportToPDF({
+								name: 'mygantt.pdf',
+								header: '<h1>My company</h1>',
+								footer: '<h4>Bottom line</h4>',
+								locale: 'en',
+								start: '01-04-2013',
+								end: '11-04-2013',
+								skin: 'terrace',
+								server: 'https://export.dhtmlx.com/gantt',
+								raw: true
+							})
+						}
+					>
+						Export to PDF
+					</Button>
+					<Button
+						onClick={() =>
+							gantt.exportToPNG({
+								name: 'mygantt.png',
+								header: '<h1>My company</h1>',
+								footer: '<h4>Bottom line</h4>',
+								locale: 'en',
+								start: '01-04-2013',
+								end: '11-04-2013',
+								skin: 'terrace',
+								server: 'https://export.dhtmlx.com/gantt',
+								raw: true
+							})
+						}
+					>
+						Export to PNG
+					</Button>
+				</div>
 				<p>
 					You can use any XLSX file or download this sample{' '}
-					<a class="xlsx-sample" href="../common/DemoProject.xlsx" target="_blank">
+					<a class="xlsx-sample" href="/assets/files/DemoProject.xlsx" target="_blank">
 						DemoProject.xlsx
 					</a>
 				</p>
