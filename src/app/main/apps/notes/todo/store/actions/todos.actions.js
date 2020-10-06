@@ -2,7 +2,7 @@ import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
 	ADD_TASK_TO_PROJECT,
-	GET_TASK_LIST,
+	GET_TASK_LIST,GET_GANTT_TASK_LIST,
 	ADD_ACTIVITY_TO_TASK,
 	EDIT_TASK_TO_PROJECT,
 	EDIT_ACTIVITY_TO_TASK
@@ -32,12 +32,12 @@ export const CLOSE_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE ACTIVITY TODO DIALOG
 export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING (PROJECT)';
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER (PROJECT)';
 
-export function getTodos(pid) {
+export function getTodos(pid,isGantt) {
 	// const request = axios.get('/api/todo-app/todos', { params });
 
 	return dispatch => {
 		apiCall(
-			GET_TASK_LIST(pid),
+			isGantt ?	GET_GANTT_TASK_LIST(pid):	GET_TASK_LIST(pid),
 			{},
 			results => {
 				dispatch({
