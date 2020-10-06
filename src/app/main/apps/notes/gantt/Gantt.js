@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { gantt } from 'dhtmlx-gantt';
 import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
-import 'dhtmlx-gantt/codebase/api.js';
 import './Gantt.css';
 import connect from 'react-redux/es/connect/connect';
 import moment from 'moment';
