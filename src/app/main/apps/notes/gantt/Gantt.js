@@ -9,40 +9,41 @@ import { bindActionCreators } from 'redux';
 import { fileDragAndDrop } from './common/dhx_file_dnd';
 import { withRouter } from 'react-router';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { EDIT_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
+import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
+import axios from 'app/services/axiosConfig';
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
 // ],
 // links: [{ id: 1, source: 1, target: 2, type: '0' }]
 
-function to_snake_case(name){
-	return (name + "").toLowerCase().replace(/ /, "_");
+function to_snake_case(name) {
+	return (name + '').toLowerCase().replace(/ /, '_');
 }
 
-function loadTable(mapping, data){
+function loadTable(mapping, data) {
 	var ganttDataset = {
-		data:[],
+		data: [],
 		links: []
 	};
 
-	data.forEach(function(item){
+	data.forEach(function (item) {
 		var copy = {};
-		for(var i in item){
-			if(mapping[i]){
+		for (var i in item) {
+			if (mapping[i]) {
 				copy[mapping[i]] = item[i];
-			}else{
+			} else {
 				copy[to_snake_case(i)] = item[i];
 			}
 
 			copy.open = true;
-			if(copy.wbs){
-				var wbs = copy.wbs + "";
+			if (copy.wbs) {
+				var wbs = copy.wbs + '';
 				copy.id = wbs;
-				var parts = wbs.split(".");
+				var parts = wbs.split('.');
 				parts.pop();
-				copy.parent = parts.join(".");
+				copy.parent = parts.join('.');
 			}
 		}
 		ganttDataset.data.push(copy);
@@ -50,15 +51,16 @@ function loadTable(mapping, data){
 
 	gantt.clearAll();
 	gantt.parse(ganttDataset);
-
 }
 
-function getOptions(selectedIndex){
-	return [
-		"wbs", "text", "start_date", "duration", "end_date", "id", "parent"
-	].map(function(name, index){
-		return "<option value='"+name+"' "+(selectedIndex == index ? "selected":"")+">" + name +"</option>";
-	}).join("");
+function getOptions(selectedIndex) {
+	return ['wbs', 'text', 'start_date', 'duration', 'end_date', 'id', 'parent']
+		.map(function (name, index) {
+			return (
+				"<option value='" + name + "' " + (selectedIndex == index ? 'selected' : '') + '>' + name + '</option>'
+			);
+		})
+		.join('');
 }
 
 class Gantt extends Component {
@@ -140,10 +142,6 @@ class Gantt extends Component {
 	};
 	shouldComponentUpdate(nextProps) {
 		const { todos } = nextProps;
-		console.log({
-			todos: Object.values(todos.entities),
-			tasks: this.state.tasks
-		});
 		if (!this.state.tasks) {
 			//this.state.tasks?.length !== Object.values(todos.entities)
 			this.ganttInit(todos);
@@ -262,7 +260,20 @@ class Gantt extends Component {
 				break;
 		}
 	}
-
+	handleUploadListOfTasks = list => {
+		let token = localStorage.getItem('jwt_access_token');
+		axios
+			.post(ADD_TASK_TO_PROJECT(this.props.match.params.id), list, {
+				headers: {
+					Authorization: `JWT ${token}`
+				}
+			})
+			.then(res => {
+				console.log(res);
+				this.props.getTodos(this.props.match.params.id);
+			})
+			.catch(err => console.log(err));
+	};
 	render() {
 		const { zoom } = this.props;
 		this.setZoom(zoom);
@@ -286,12 +297,21 @@ class Gantt extends Component {
 									gantt.importFromExcel({
 										server: 'https://export.dhtmlx.com/gantt',
 										data: fileInput.files[0],
-										callback: function (project) {
+										callback: project => {
 											if (project) {
 												var header = [];
 												var headerControls = [];
 												var body = [];
-
+												let listOfData = project.map(item => ({
+													name: item['Task name'],
+													progress: item['Completed percentage'],
+													date_start: item['Start time']
+														? moment(item['Start time']).format('YYYY-MM-DD')
+														: undefined,
+													date_end: item['End time']
+														? moment(item['End time']).format('YYYY-MM-DD')
+														: undefined
+												}));
 												project.forEach(function (task) {
 													var cols = [];
 													if (!header.length) {
@@ -326,19 +346,20 @@ class Gantt extends Component {
 														{ label: 'Save', css: 'link_save_btn', value: 'save' },
 														{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
 													],
-													callback: function (result) {
+													callback: result => {
 														switch (result) {
 															case 'save':
-																var selects = div.querySelectorAll(
-																	'[data-column-mapping]'
-																);
-																var mapping = {};
-																selects.forEach(function (select) {
-																	mapping[
-																		select.getAttribute('data-column-mapping')
-																	] = select.value;
-																});
-																loadTable(mapping, project);
+																this.handleUploadListOfTasks(listOfData, () => {});
+																// var selects = div.querySelectorAll(
+																// 	'[data-column-mapping]'
+																// );
+																// var mapping = {};
+																// selects.forEach(function (select) {
+																// 	mapping[
+																// 		select.getAttribute('data-column-mapping')
+																// 	] = select.value;
+																// });
+																// loadTable(mapping, project);
 																break;
 															case 'cancel':
 																//Cancel
@@ -377,7 +398,8 @@ function mapDispatchToProps(dispatch) {
 		{
 			openTaskContent: Actions.openTaskContent,
 			openNewTodoDialog: Actions.openNewTodoDialog,
-			editTodo: Actions.editTodo
+			editTodo: Actions.editTodo,
+			getTodos: Actions.getTodos
 		},
 		dispatch
 	);
