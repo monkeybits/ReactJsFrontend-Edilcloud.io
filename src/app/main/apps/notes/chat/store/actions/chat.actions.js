@@ -30,7 +30,7 @@ export function getChat(pid) {
 			GET_PROJECT_MESSAGES_API(pid),
 			{},
 			chat => {
-				if (global.socket) {
+				if (global.socket && chat &&chat[chat.length - 1]) {
 					setTimeout(() => {
 						global.socket.emit('join', {
 							room: chat[chat.length - 1].talk.code,

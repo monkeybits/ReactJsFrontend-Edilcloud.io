@@ -7,8 +7,10 @@ import { useParams } from 'react-router';
 import CreatePostDialog from '../todo/CreatePostDialog';
 import TodoDialog from '../todo/TodoDialog';
 import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
+import useScript from './useScript';
 
 function GanttWrapper(props) {
+	useScript('https://export.dhtmlx.com/gantt/api.js');
 	const dispatch = useDispatch();
 	const routeParams = useParams();
 

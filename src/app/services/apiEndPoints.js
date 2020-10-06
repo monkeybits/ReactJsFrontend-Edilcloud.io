@@ -71,7 +71,7 @@ export const SEARCH_PROJECT_CORDINATOR = searchString =>
 	`/api/frontend/profile/company/approve/staff_list/?exclude__role__in=w,m&filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&no_page=no_page`;
 
 export const ADD_PROJECT = `/api/frontend/project/project/add/`;
-export const PROJECT_LIST = `/api/frontend/profile/company/project_list/`;
+export const PROJECT_LIST = `/api/frontend/profile/company/project_list/?no_page=no_page`;
 export const PROJECT_INVIATION_LIST = `/api/frontend/project/team/inviation_list/`;
 export const PROJECT_DETAIL = id => `/api/frontend/project/project/${id}/`;
 export const DISABLE_PROJECT = id => `/api/frontend/project/project/disable/${id}/`;

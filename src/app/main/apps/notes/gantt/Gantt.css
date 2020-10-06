@@ -1,11 +1,11 @@
 .gantt-min-height {
     min-height: calc(100vh - 195px);
 }
-/* .important{
+.important{
     border:2px solid red;
     color:red;
     background:red;
 }
 .important .gantt_task_progress{
     background: #ff5956;
-} */
+}
