@@ -42,7 +42,9 @@ import { Slider, withStyles, CircularProgress } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import { useParams } from 'react-router';
 import CreatePostForm from '../CreatePostForm';
-import { decodeDataFromToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -173,7 +175,7 @@ const IOSSlider = withStyles({
 function TaskContentForm(props) {
 	const dispatch = useDispatch();
 	const taskContent = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
-	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data?.data);
+	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [profileData, setProfileData] = useState([]);
 	const [profiles, setProfiles] = useState([]);
@@ -188,7 +190,7 @@ function TaskContentForm(props) {
 		endDate: undefined
 	});
 	const [value, setValue] = React.useState(0);
-	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
+	const getName = profile => profile.first_name + ' ' + profile.last_name;
 	useEffect(() => {
 		if (companies && companies.length && taskContentData) {
 			let company = [...companies]
@@ -213,175 +215,44 @@ function TaskContentForm(props) {
 		}
 		if (taskContentData) {
 			console.log({ taskContentData, date_start: taskContentData.date_start });
-			setTaskDate({
-				startDate: new Date(taskContentData.date_start),
-				endDate: new Date(taskContentData.date_end)
-			});
-			setProgress(taskContentData.progress);
+			if (taskContentData.isGantt) {
+				if (taskContentData.parent == 1) {
+					//parrent 1 means its activty
+					setTaskDate({
+						startDate: new Date(taskContentData.datetime_start),
+						endDate: new Date(taskContentData.datetime_end)
+					});
+					setProgress(taskContentData.progress);
+					setProfileData(
+						taskContentData.workers.map(profile => ({
+							data: profile,
+							value: getName(profile),
+							label: <span className="flex items-center">{getName(profile)}</span>
+						}))
+					);
+					getProjectCompanyTeamProfiles();
+				} else {
+					setTaskDate({
+						startDate: new Date(taskContentData.date_start),
+						endDate: new Date(taskContentData.date_end)
+					});
+					setProgress(taskContentData.progress);
+				}
+			} else {
+				setTaskDate({
+					startDate: new Date(taskContentData.date_start),
+					endDate: new Date(taskContentData.date_end)
+				});
+				setProgress(taskContentData.progress);
+			}
 		}
 	}, [companies, taskContentData]);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
-	let labels = [
-		{
-			id: '26022e4129ad3a5sc28b36cd',
-			name: 'High Priority',
-			class: 'bg-red text-white'
-		},
-		{
-			id: '56027e4119ad3a5dc28b36cd',
-			name: 'Design',
-			class: 'bg-orange text-white'
-		},
-		{
-			id: '5640635e19ad3a5dc21416b2',
-			name: 'App',
-			class: 'bg-blue text-white'
-		},
-		{
-			id: '6540635g19ad3s5dc31412b2',
-			name: 'Feature',
-			class: 'bg-green text-white'
-		}
-	];
-	let activities = [
-		{
-			id: 1,
-			type: 'comment',
-			idMember: '56027c1930450d8bf7b10758',
-			message: 'We should be able to add moment.js without any problems',
-			time: '12 mins. ago'
-		},
-		{
-			id: 2,
-			type: 'comment',
-			idMember: '36027j1930450d8bf7b10158',
-			message: 'I added a link for a page that might help us deciding the colors',
-			time: '30 mins. ago'
-		},
-		{
-			id: 3,
-			type: 'attachment',
-			idMember: '36027j1930450d8bf7b10158',
-			message: 'attached a link',
-			time: '45 mins. ago'
-		}
-	];
-	let members = [
-		{
-			id: '56027c1930450d8bf7b10758',
-			name: 'Alice Freeman',
-			avatar: 'assets/images/avatars/alice.jpg'
-		},
-		{
-			id: '26027s1930450d8bf7b10828',
-			name: 'Danielle Obrien',
-			avatar: 'assets/images/avatars/danielle.jpg'
-		},
-		{
-			id: '76027g1930450d8bf7b10958',
-			name: 'James Lewis',
-			avatar: 'assets/images/avatars/james.jpg'
-		},
-		{
-			id: '36027j1930450d8bf7b10158',
-			name: 'John Doe',
-			avatar: 'assets/images/avatars/Velazquez.jpg'
-		}
-	];
-	let attachments = [
-		{
-			id: '12027cafbe3b52ecf2ef632c',
-			name: 'header-.jpg',
-			src: 'assets/images/scrumboard/header-1.jpg',
-			time: 'Added Nov 3 at 15:22AM',
-			type: 'image'
-		},
-		{
-			id: '55027ced1e1a12ecf1fced2a',
-			name: 'header-2.jpg',
-			src: 'assets/images/scrumboard/header-2.jpg',
-			time: 'Added Nov 1 at 12:34PM',
-			type: 'image'
-		},
-		{
-			id: '56027cfcbe1b72ecf1fc452a',
-			name: 'calendar-app-design.jpg',
-			src: 'assets/images/scrumboard/calendar.jpg',
-			time: 'Added Nov 1 at 12:34PM',
-			type: 'image'
-		},
-		{
-			id: '67027cahbe3b52ecf2dc631c',
-			url: 'assets/images/scrumboard/calendar.jpg',
-			time: 'Added Nov 3 at 15:22AM',
-			type: 'link'
-		},
-		{
-			id: '5603a2ae2bbd55bb2db57478',
-			name: 'mail-app-design.jpg',
-			src: 'assets/images/scrumboard/mail.jpg',
-			time: 'Added Nov 1 at 12:34PM',
-			type: 'image'
-		},
-		{
-			id: '12027cafbe3b52ecf2ef632c',
-			name: 'header-.jpg',
-			src: 'assets/images/scrumboard/header-1.jpg',
-			time: 'Added Nov 3 at 15:22AM',
-			type: 'image'
-		},
-		{
-			id: '12027cafbe3b52ecf2ef632c',
-			name: 'header-.jpg',
-			src: 'assets/images/scrumboard/header-1.jpg',
-			time: 'Added Nov 3 at 15:22AM',
-			type: 'image'
-		},
-		{
-			id: '55027ced1e1a12ecf1fced2a',
-			name: 'header-2.jpg',
-			src: 'assets/images/scrumboard/header-2.jpg',
-			time: 'Added Nov 1 at 12:34PM',
-			type: 'image'
-		}
-	];
-	let checklists = [
-		{
-			id: 'dbfb.99bd0ad37dabc.e05046f0c824d.18f26bb524c96.78bebc8488634.240c0ee6a5e45.4cb872965',
-			name: 'Pages',
-			checkItems: [
-				{
-					id: 1,
-					name: 'Login',
-					checked: true
-				},
-				{
-					id: 2,
-					name: 'Register',
-					checked: true
-				},
-				{
-					id: 3,
-					name: 'Lost Password',
-					checked: false
-				},
-				{
-					id: 4,
-					name: 'Recover Password',
-					checked: false
-				},
-				{
-					id: 5,
-					name: 'Activate Account',
-					checked: false
-				}
-			]
-		}
-	];
+
 	const { form: cardForm, handleChange, setForm, setInForm } = useForm({
-		name: taskContentData?.name,
-		description: taskContentData?.note
+		name: taskContentData?.parent == 1 ? taskContentData?.title : taskContentData?.name,
+		description: taskContentData?.parent == 1 ? taskContentData?.description : taskContentData?.note
 	});
 	const dueDate = cardForm && cardForm.due ? moment(cardForm.due).format(moment.HTML5_FMT.DATE) : '';
 
@@ -438,21 +309,38 @@ function TaskContentForm(props) {
 	const handleSubmit = () => {
 		setLoading(true);
 		dispatch(
-			Actions.editTodo(
-				{
-					...cardForm,
-					id: taskContentData.id,
-					company,
-					profile: profileData,
-					progress,
-					...taskDate
-				},
-				routeParams.id,
-				taskContent.type,
-				() => {
-					dispatch(Actions.closeTaskContent());
-				}
-			)
+			taskContentData.isGantt && taskContentData.parent == 1
+				? Actions.editActivityFromGantt(
+						{
+							...cardForm,
+							id: taskContentData.id,
+							profile: profileData,
+							...taskDate
+						},
+						routeParams.id,
+						() => {
+							dispatch(Actions.closeTaskContent());
+						},
+						taskContentData.isGantt,
+						setLoading
+				  )
+				: Actions.editTodo(
+						{
+							...cardForm,
+							id: taskContentData.id,
+							company,
+							profile: profileData,
+							progress,
+							...taskDate
+						},
+						routeParams.id,
+						taskContent.type,
+						() => {
+							dispatch(Actions.closeTaskContent());
+						},
+						taskContentData.isGantt,
+						setLoading
+				  )
 		);
 	};
 	const getIsDisabled = () => projectDetail.company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
@@ -462,6 +350,18 @@ function TaskContentForm(props) {
 		companyDetail: companyDetail.id,
 		getRole: getRole()
 	});
+
+	const getProjectCompanyTeamProfiles = value => {
+		console.log(routeParams.id, taskContentData, value);
+		// apiCall(
+		// 	GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, taskContentData.assigned_company.id, value),
+		// 	{},
+		// 	res => setProfiles(res),
+		// 	err => console.log(err),
+		// 	METHOD.GET,
+		// 	getHeaderToken()
+		// );
+	};
 	return (
 		<>
 			<DialogTitle component="div" className="p-0">
@@ -532,7 +432,7 @@ function TaskContentForm(props) {
 							}}
 						/>
 					</div>
-					{taskContent.type === 'activity' ? (
+					{taskContentData?.isGantt && taskContentData?.parent == 1 ? (
 						<div className="mt-8 mb-16 select-dropdown">
 							<FuseChipSelect
 								isDisabled={getIsDisabled()}
@@ -646,17 +546,19 @@ function TaskContentForm(props) {
 							<Icon className="icon">calendar_today</Icon>
 						</div>
 					</div>
-					<div className="mt-24 mx-12 zoom-125">
-						<IOSSlider
-							aria-label="ios slider"
-							disabled={getIsDisabled()}
-							defaultValue={0}
-							marks={marks}
-							onChange={(e, v) => setProgress(v)}
-							value={progress}
-							valueLabelDisplay="on"
-						/>
-					</div>
+					{taskContentData?.isGantt && taskContentData?.parent == 1 ? null : (
+						<div className="mt-24 mx-12 zoom-125">
+							<IOSSlider
+								aria-label="ios slider"
+								disabled={getIsDisabled()}
+								defaultValue={0}
+								marks={marks}
+								onChange={(e, v) => setProgress(v)}
+								value={progress}
+								valueLabelDisplay="on"
+							/>
+						</div>
+					)}
 					<Button
 						className="mt-16 float-right"
 						aria-label="save"

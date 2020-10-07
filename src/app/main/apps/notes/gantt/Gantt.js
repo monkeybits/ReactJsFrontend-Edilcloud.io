@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { gantt } from 'dhtmlx-gantt';
 import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
 import './Gantt.css';
+// import './dhtmlxgantt.css';
 import connect from 'react-redux/es/connect/connect';
 import moment from 'moment';
 import * as Actions from '../todo/store/actions';
@@ -162,6 +163,7 @@ class Gantt extends Component {
 								end_date: data.date_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								duration: duration + 1,
 								progress: data.progress / 100,
+								company: data?.assigned_company?.name,
 								mainId: data.id
 							},
 							data
@@ -174,6 +176,7 @@ class Gantt extends Component {
 								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								duration: duration + 1,
 								progress: data.progress / 100,
+								company: data?.assigned_company?.name,
 								mainId: data.id,
 								parent: data.task
 							},
@@ -214,6 +217,7 @@ class Gantt extends Component {
 								end_date: data.date_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								duration: duration + 1,
 								progress: data.progress / 100,
+								company: data?.assigned_company?.name,
 								mainId: data.id
 							},
 							data
@@ -226,6 +230,7 @@ class Gantt extends Component {
 								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								duration: duration + 1,
 								progress: data.progress / 100,
+								company: data?.assigned_company?.name,
 								mainId: data.id,
 								parent: data.task
 							},
@@ -234,26 +239,115 @@ class Gantt extends Component {
 			})
 		};
 		gantt.config.xml_date = '%Y-%m-%d %H:%i';
+
+		console.log({
+			columns: gantt.config.columns
+		});
+		gantt.config.columns = [
+			{ name: 'text', label: 'Task name', align: 'center', tree: true, width: 150 },
+			{ name: 'start_date', label: 'Start Date', width: 100 },
+			{ name: 'end_date', label: 'End Date', width: 100 },
+			{ name: 'company', label: 'Company', width: 100 },
+			{ name: 'add', width: 44, min_width: 44, max_width: 44 }
+		];
+		// start block for resize
+		gantt.config.layout = {
+			css: 'gantt_container',
+			cols: [
+				{
+					width: 500,
+					min_width: 400,
+
+					// adding horizontal scrollbar to the grid via the scrollX attribute
+					rows: [
+						{ view: 'grid', scrollX: 'gridScroll', scrollable: true, scrollY: 'scrollVer' },
+						{ view: 'scrollbar', id: 'gridScroll' }
+					]
+				},
+				{ resizer: true, width: 1 },
+				{
+					rows: [
+						{ view: 'timeline', scrollX: 'scrollHor', scrollY: 'scrollVer' },
+						{ view: 'scrollbar', id: 'scrollHor' }
+					]
+				},
+				{ view: 'scrollbar', id: 'scrollVer' }
+			]
+		};
+		// end block for resize
+
+		// marker
+			// gantt.plugins({
+			// 	marker: true
+			// });
+
+			// var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+			// var today = new Date(2018, 3, 5);
+			// gantt.addMarker({
+			// 	start_date: today,
+			// 	css: 'today',
+			// 	text: 'Today',
+			// 	title: 'Today: ' + dateToStr(today)
+			// });
+
+			// var start = new Date(2018, 2, 28);
+			// gantt.addMarker({
+			// 	start_date: start,
+			// 	css: 'status_line',
+			// 	text: 'Start project',
+			// 	title: 'Start project: ' + dateToStr(start)
+			// });
+
+			// gantt.config.scale_height = 50;
+			// gantt.config.scales = [
+			// 	{ unit: 'day', step: 1, format: '%j, %D' },
+			// 	{ unit: 'month', step: 1, format: '%F, %Y' }
+			// ];
+		// end of marker
 		gantt.init(this.ganttContainer);
 		gantt.parse(tasks);
+		gantt.templates.grid_row_class = function (start, end, task) {
+			console.log({ start, end, task });
+			if (task.$level >= 1) {
+				return 'nested_task';
+			}
+			return '';
+		};
 		gantt.showLightbox = id => {
-			let captureData = this.state.tasks.data.filter(task => task.id == id);
-			captureData = captureData && captureData.length ? captureData[0] : undefined; //?.[id - 1]?.data;
-			console.log({ captureData, id, data: this.state.tasks.data });
-			if (captureData) {
-				return this.props.openTaskContent(captureData);
+			console.log({ ganttData: gantt.getTask(id) });
+			if (gantt.getTask(id).$new == true) {
+				if (gantt.getTask(id).$level == 1) {
+					let captureData = this.state.tasks.data.filter(task => task.id == gantt.getTask(id).parent);
+					captureData = captureData && captureData.length ? captureData[0] : undefined;
+					gantt.deleteTask(id);
+					return this.props.openAddActivityTodoDialog({ ...captureData.data, isGantt: true });
+				} else {
+					gantt.deleteTask(id);
+					return this.props.openNewTodoDialog();
+				}
 			} else {
-				this.props.openNewTodoDialog();
+				let captureData = this.state.tasks.data.filter(task => task.id == id);
+				captureData = captureData && captureData.length ? captureData[0] : undefined;
+				console.log({ captureData, id, data: this.state.tasks.data });
+				if (captureData) {
+					return this.props.openTaskContent({ ...captureData.data, isGantt: true });
+				} else {
+					this.props.openNewTodoDialog();
+				}
 			}
 		};
-		// gantt.templates.task_class = function (start, end, task) {
-		// 	console.log({ start, end: moment().diff(moment(task.data.date_end)), task });
-		// 	if (moment().diff(moment(task.data.date_end)) > 0) {
-		// 		return 'important';
-		// 	} else {
-		// 		return '';
-		// 	}
-		// };
+		gantt.templates.task_class = function (start, end, task) {
+			console.log({ start, end, task });
+			// console.log({ start, end: moment().diff(moment(task.data.date_end)), task });
+			if (task.parent) {
+				return 'nested_task_right';
+			}
+			// if (moment().diff(moment(task.data.date_end)) > 0) {
+			// 	return 'important';
+			// } else {
+			// 	return '';
+			// }
+		};
 
 		this.setState({
 			tasks
@@ -465,7 +559,8 @@ function mapDispatchToProps(dispatch) {
 			openTaskContent: Actions.openTaskContent,
 			openNewTodoDialog: Actions.openNewTodoDialog,
 			editTodo: Actions.editTodo,
-			getTodos: Actions.getTodos
+			getTodos: Actions.getTodos,
+			openAddActivityTodoDialog: Actions.openAddActivityTodoDialog
 		},
 		dispatch
 	);

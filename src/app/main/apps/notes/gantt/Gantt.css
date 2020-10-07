@@ -1,11 +1,28 @@
 .gantt-min-height {
-    min-height: calc(100vh - 195px);
+	min-height: calc(100vh - 195px);
 }
-.important{
-    border:2px solid red;
-    color:red;
-    background:red;
+.nested_task {
+	background-color: #DEDEDE !important;;
 }
-.important .gantt_task_progress{
-    background: #ff5956;
+.nested_task .gantt_add {
+	display: none !important;
+}
+.important {
+	border: 2px solid red;
+	color: red;
+	background: red;
+}
+.important .gantt_task_progress {
+	background: #ff5956;
+}
+.nested_task_right {
+	border: 2px solid lightgreen;
+	color: lightgreen;
+	background: lightgreen;
+}
+.nested_task_right .gantt_task_progress {
+	background: green
+}
+.status_line {
+    background-color: #0ca30a;
 }

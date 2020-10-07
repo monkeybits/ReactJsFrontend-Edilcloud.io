@@ -2,7 +2,8 @@ import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
 	ADD_TASK_TO_PROJECT,
-	GET_TASK_LIST,GET_GANTT_TASK_LIST,
+	GET_TASK_LIST,
+	GET_GANTT_TASK_LIST,
 	ADD_ACTIVITY_TO_TASK,
 	EDIT_TASK_TO_PROJECT,
 	EDIT_ACTIVITY_TO_TASK
@@ -32,12 +33,12 @@ export const CLOSE_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE ACTIVITY TODO DIALOG
 export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING (PROJECT)';
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER (PROJECT)';
 
-export function getTodos(pid,isGantt) {
+export function getTodos(pid, isGantt) {
 	// const request = axios.get('/api/todo-app/todos', { params });
 
 	return dispatch => {
 		apiCall(
-			isGantt ?	GET_GANTT_TASK_LIST(pid):	GET_TASK_LIST(pid),
+			isGantt ? GET_GANTT_TASK_LIST(pid) : GET_TASK_LIST(pid),
 			{},
 			results => {
 				dispatch({
@@ -171,7 +172,7 @@ export function closeActivityTodoDialog() {
 		type: CLOSE_ACTIVITY_TODO_DIALOG
 	};
 }
-export function addTodo(todo, pid, todoDialogType, closeTodoDialog) {
+export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 	// console.log({
 	// 	todo
 	// });
@@ -198,7 +199,7 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog) {
 			todoDialogType == 'new' ? ADD_TASK_TO_PROJECT(pid) : ADD_ACTIVITY_TO_TASK(todo.id),
 			values,
 			res => {
-				dispatch(getTodos(pid));
+				dispatch(getTodos(pid, isGantt));
 				closeTodoDialog();
 			},
 			err => console.log(err),
@@ -246,7 +247,40 @@ export function editActivity(todo, pid, setLoading) {
 		);
 	};
 }
-export function editTodo(todo, pid, todoDialogType, closeTodoDialog) {
+
+export function editActivityFromGantt(todo, pid, closeTodoDialog, isGantt, setLoading) {
+	// console.log({
+	// 	todo
+	// });
+	return dispatch => {
+		console.log({ todo });
+		let values = {
+			title: todo.name,
+			description: todo.description,
+			datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
+			datetime_end: moment(todo.endDate).format('YYYY-MM-DD'),
+			workers: todo.profile?.length
+				? todo.profile.map(d => (d.data.profile ? d.data.profile.id : d.data.id))
+				: undefined
+		};
+		apiCall(
+			EDIT_ACTIVITY_TO_TASK(todo.id),
+			values,
+			res => {
+				console.log(res);
+				toast.success('Updated');
+				setLoading(false);
+				dispatch(getTodos(pid, isGantt));
+				closeTodoDialog();
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
+}
+
+export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, setLoading) {
 	console.log({
 		todo
 	});
@@ -277,7 +311,8 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog) {
 			todoDialogType == 'new' ? EDIT_TASK_TO_PROJECT(todo.id) : ADD_ACTIVITY_TO_TASK(todo.id),
 			values,
 			res => {
-				dispatch(getTodos(pid));
+				setLoading(false);
+				dispatch(getTodos(pid, isGantt));
 				closeTodoDialog();
 			},
 			err => console.log(err),
