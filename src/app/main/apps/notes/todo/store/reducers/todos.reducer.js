@@ -47,7 +47,7 @@ const todosReducer = (state = initialState, action) => {
 					props: {
 						open: true
 					},
-					data: null
+					data: action.data ? action.data : null
 				}
 			};
 		}
