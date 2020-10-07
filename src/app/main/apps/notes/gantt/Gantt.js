@@ -277,32 +277,32 @@ class Gantt extends Component {
 		// end block for resize
 
 		// marker
-			// gantt.plugins({
-			// 	marker: true
-			// });
+		// gantt.plugins({
+		// 	marker: true
+		// });
 
-			// var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
-			// var today = new Date(2018, 3, 5);
-			// gantt.addMarker({
-			// 	start_date: today,
-			// 	css: 'today',
-			// 	text: 'Today',
-			// 	title: 'Today: ' + dateToStr(today)
-			// });
+		// var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+		// var today = new Date(2018, 3, 5);
+		// gantt.addMarker({
+		// 	start_date: today,
+		// 	css: 'today',
+		// 	text: 'Today',
+		// 	title: 'Today: ' + dateToStr(today)
+		// });
 
-			// var start = new Date(2018, 2, 28);
-			// gantt.addMarker({
-			// 	start_date: start,
-			// 	css: 'status_line',
-			// 	text: 'Start project',
-			// 	title: 'Start project: ' + dateToStr(start)
-			// });
+		// var start = new Date(2018, 2, 28);
+		// gantt.addMarker({
+		// 	start_date: start,
+		// 	css: 'status_line',
+		// 	text: 'Start project',
+		// 	title: 'Start project: ' + dateToStr(start)
+		// });
 
-			// gantt.config.scale_height = 50;
-			// gantt.config.scales = [
-			// 	{ unit: 'day', step: 1, format: '%j, %D' },
-			// 	{ unit: 'month', step: 1, format: '%F, %Y' }
-			// ];
+		// gantt.config.scale_height = 50;
+		// gantt.config.scales = [
+		// 	{ unit: 'day', step: 1, format: '%j, %D' },
+		// 	{ unit: 'month', step: 1, format: '%F, %Y' }
+		// ];
 		// end of marker
 		gantt.init(this.ganttContainer);
 		gantt.parse(tasks);
@@ -323,7 +323,7 @@ class Gantt extends Component {
 					return this.props.openAddActivityTodoDialog({ ...captureData.data, isGantt: true });
 				} else {
 					gantt.deleteTask(id);
-					return this.props.openNewTodoDialog();
+					return this.props.openNewTodoDialog({ isGantt: true });
 				}
 			} else {
 				let captureData = this.state.tasks.data.filter(task => task.id == id);

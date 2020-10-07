@@ -128,9 +128,10 @@ export function closeTaskContent() {
 	};
 }
 
-export function openNewTodoDialog() {
+export function openNewTodoDialog(data) {
 	return {
-		type: OPEN_NEW_TODO_DIALOG
+		type: OPEN_NEW_TODO_DIALOG,
+		data
 	};
 }
 export function openTimelineDialog(todo) {
