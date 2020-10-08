@@ -17,6 +17,9 @@
 .hide_tree_icon .gantt_tree_icon {
 	display: none !important;
 }
+.hide_progress_drag .gantt_task_progress_drag{
+    display:none !important;
+  }
 .important {
 	border: 2px solid red;
 	color: red;

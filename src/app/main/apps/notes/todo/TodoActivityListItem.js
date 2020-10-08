@@ -16,7 +16,7 @@ import StarBorder from '@material-ui/icons/StarBorder';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
+import { EDIT_ACTIVITY_TO_TASK, GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 import MembersMenu from './Dialog/toolbar/MembersMenu';
@@ -39,7 +39,7 @@ function TodoActivityListItem(props) {
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
 	const [open, setOpen] = React.useState(false);
-	const [completed, setCompleted] = React.useState(false);
+	const [completed, setCompleted] = React.useState(props.todo.status == 'to-do' ? false : true);
 	const [taskDetail, setTaskDetail] = useState([]);
 	const classes = useStyles(props);
 	let members = [
@@ -84,12 +84,35 @@ function TodoActivityListItem(props) {
 			setOpen(!open);
 		}
 	};
+	const editTodoActivty = status => {
+		let values = {
+			title: props.todo.title,
+			description: props.todo.description,
+			datetime_start: props.todo.datetime_start,
+			datetime_end: props.todo.datetime_end,
+			workers: props.todo.workers?.length ? props.todo.workers.map(d => d.id) : undefined,
+			status: status ? 'completed' : 'to-do'
+		};
+
+		// console.log({ todo, values });
+		apiCall(
+			EDIT_ACTIVITY_TO_TASK(props.todo.id),
+			values,
+			res => {},
+			err => {
+				setCompleted(!status);
+				console.log(err);
+			},
+			METHOD.PUT,
+			getHeaderToken()
+		);
+		setCompleted(status);
+	};
 	return (
 		<>
 			<ListItem
 				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-16 px-0 sm:px-8')}
 				checked={completed}
-				onChange={() => setCompleted(prev => !prev)}
 				onClick={ev => {
 					ev.preventDefault();
 					dispatch(Actions.openTimelineDialog({ todo: props.todo, task: props.task }));
@@ -101,8 +124,11 @@ function TodoActivityListItem(props) {
 				<Checkbox
 					tabIndex={-1}
 					disableRipple
-					checked={props.todo.completed}
-					// onChange={() => dispatch(Actions.toggleCompleted(props.todo))}
+					checked={completed}
+					onChange={e => {
+						console.log(e.target.checked);
+						editTodoActivty(e.target.checked);
+					}}
 					onClick={ev => ev.stopPropagation()}
 				/>
 
@@ -110,7 +136,7 @@ function TodoActivityListItem(props) {
 					<Typography
 						variant="subtitle1"
 						className="todo-title"
-						color={props.todo.completed ? 'textSecondary' : 'inherit'}
+						color={completed ? 'textSecondary' : 'inherit'}
 					>
 						{props.todo.title}
 					</Typography>

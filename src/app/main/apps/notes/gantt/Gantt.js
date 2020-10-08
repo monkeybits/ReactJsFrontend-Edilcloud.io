@@ -10,10 +10,11 @@ import { bindActionCreators } from 'redux';
 import { fileDragAndDrop } from './common/dhx_file_dnd';
 import { withRouter } from 'react-router';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
+import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT, EDIT_ACTIVITY_TO_TASK } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import axios from 'app/services/axiosConfig';
 import { Button } from '@material-ui/core';
+import { toast } from 'react-toastify';
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
@@ -70,22 +71,12 @@ class Gantt extends Component {
 		super(props);
 
 		this.state = {
-			tasks: undefined
+			tasks: undefined,
+			zoomLevel: 2
 		};
 		this.fileDnD = null;
 	}
-	// initGanttDataProcessor() {
-	// 	const onDataUpdated = this.props.onDataUpdated;
-	// 	this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
-	// 		console.log({ entityType, action, item, id });
-	// 		return new Promise((resolve, reject) => {
-	// 			if (onDataUpdated) {
-	// 				onDataUpdated(entityType, action, item, id);
-	// 			}
-	// 			return resolve();
-	// 		});
-	// 	});
-	// }
+
 	componentWillUnmount() {
 		if (this.dataProcessor) {
 			this.dataProcessor.destructor();
@@ -99,23 +90,35 @@ class Gantt extends Component {
 		// gantt.parse(tasks);
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
 			return new Promise((resolve, reject) => {
+				console.log({ entityType, action, item, id });
+
 				// if (onDataUpdated) {
 				// onDataUpdated(entityType, action, item, id);
-				console.log({ entityType, action, item, id });
-				this.editTodo(
-					{
-						name: item.data.name,
-						description: item.data.note,
+				// console.log({ entityType, action, item, id });
+				if (item.parent == 0) {
+					this.editTodo(
+						{
+							name: item.data.name,
+							description: item.data.note,
+							id: item.data.id,
+							company: item.data.assigned_company,
+							progress: item.data.progress,
+							date_start: item.start_date,
+							date_end: item.end_date
+						},
+						this.props.match.params.id
+					);
+				} else {
+					this.editTodoActivty({
+						name: item.data.title,
+						description: item.data.description,
 						id: item.data.id,
-						company: item.data.assigned_company,
-						progress: item.data.progress,
+						profile: item.data.workers,
 						date_start: item.start_date,
 						date_end: item.end_date
-					},
-					this.props.match.params.id
-				);
+					});
+				}
 				resolve();
-				// }
 			});
 		});
 	}
@@ -132,11 +135,34 @@ class Gantt extends Component {
 			alert: false,
 			starred: false
 		};
-		console.log({ values });
+		// console.log({ values });
 		apiCall(
 			EDIT_TASK_TO_PROJECT(todo.id),
 			values,
-			res => {},
+			res => {
+				toast.success('Updated');
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
+	editTodoActivty = todo => {
+		let values = {
+			title: todo.name,
+			description: todo.description,
+			datetime_start: moment(todo.date_start).format('YYYY-MM-DD'),
+			datetime_end: moment(todo.date_end).format('YYYY-MM-DD'),
+			workers: todo.profile?.length ? todo.profile.map(d => d.id) : undefined
+		};
+
+		// console.log({ todo, values });
+		apiCall(
+			EDIT_ACTIVITY_TO_TASK(todo.id),
+			values,
+			res => {
+				toast.success('Updated');
+			},
 			err => console.log(err),
 			METHOD.PUT,
 			getHeaderToken()
@@ -176,7 +202,7 @@ class Gantt extends Component {
 								start_date: data.datetime_start,
 								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								duration: duration + 1,
-								progress: data.progress / 100,
+								progress: data.status == 'completed' ? 1 : 0,
 								company: data?.assigned_company?.name,
 								mainId: data.id,
 								parent: data.task
@@ -230,7 +256,7 @@ class Gantt extends Component {
 								start_date: data.datetime_start,
 								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								duration: duration + 1,
-								progress: data.progress / 100,
+								progress: data.status == 'completed' ? 1 : 0,
 								company: data?.assigned_company?.name,
 								mainId: data.id,
 								parent: data.task
@@ -275,36 +301,35 @@ class Gantt extends Component {
 		// end block for resize
 
 		// marker
-		// gantt.plugins({
-		// 	marker: true
-		// });
+			// gantt.plugins({
+			// 	marker: true
+			// });
 
-		// var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
-		// var today = new Date(2018, 3, 5);
-		// gantt.addMarker({
-		// 	start_date: today,
-		// 	css: 'today',
-		// 	text: 'Today',
-		// 	title: 'Today: ' + dateToStr(today)
-		// });
+			// var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+			// var today = new Date(2018, 3, 5);
+			// gantt.addMarker({
+			// 	start_date: today,
+			// 	css: 'today',
+			// 	text: 'Today',
+			// 	title: 'Today: ' + dateToStr(today)
+			// });
 
-		// var start = new Date(2018, 2, 28);
-		// gantt.addMarker({
-		// 	start_date: start,
-		// 	css: 'status_line',
-		// 	text: 'Start project',
-		// 	title: 'Start project: ' + dateToStr(start)
-		// });
+			// var start = new Date(2018, 2, 28);
+			// gantt.addMarker({
+			// 	start_date: start,
+			// 	css: 'status_line',
+			// 	text: 'Start project',
+			// 	title: 'Start project: ' + dateToStr(start)
+			// });
 
-		// gantt.config.scale_height = 50;
-		// gantt.config.scales = [
-		// 	{ unit: 'day', step: 1, format: '%j, %D' },
-		// 	{ unit: 'month', step: 1, format: '%F, %Y' }
-		// ];
+			// gantt.config.scale_height = 50;
+			// gantt.config.scales = [
+			// 	{ unit: 'day', step: 1, format: '%j, %D' },
+			// 	{ unit: 'month', step: 1, format: '%F, %Y' }
+			// ];
 		// end of marker
 		gantt.init(this.ganttContainer);
 		gantt.parse(tasks);
-
 		gantt.showLightbox = id => {
 			console.log({ ganttData: gantt.getTask(id) });
 			if (gantt.getTask(id).$new == true) {
@@ -377,10 +402,10 @@ class Gantt extends Component {
 			return '';
 		};
 		gantt.templates.task_class = function (start, end, task) {
-			console.log({ start, end, task });
+			// console.log({ start, end, task });
 			// console.log({ start, end: moment().diff(moment(task.data.date_end)), task });
 			if (task.parent) {
-				return 'nested_task_right';
+				return 'nested_task_right hide_progress_drag';
 			}
 			// if (moment().diff(moment(task.data.date_end)) > 0) {
 			// 	return 'important';
@@ -394,27 +419,41 @@ class Gantt extends Component {
 	}
 	setZoom(value) {
 		switch (value) {
-			case 'Hours':
+			case 'Hours' || 1:
 				gantt.config.scale_unit = 'day';
 				gantt.config.date_scale = '%d %M';
-
 				gantt.config.scale_height = 60;
 				gantt.config.min_column_width = 30;
 				gantt.config.subscales = [{ unit: 'hour', step: 1, date: '%H' }];
 				break;
-			case 'Days':
+			case 'Days' || 2:
 				gantt.config.min_column_width = 70;
 				gantt.config.scale_unit = 'week';
 				gantt.config.date_scale = '#%W';
 				gantt.config.subscales = [{ unit: 'day', step: 1, date: '%d %M' }];
 				gantt.config.scale_height = 60;
 				break;
-			case 'Months':
+			case 'Months' || 3:
 				gantt.config.min_column_width = 70;
 				gantt.config.scale_unit = 'month';
 				gantt.config.date_scale = '%F';
 				gantt.config.scale_height = 60;
 				gantt.config.subscales = [{ unit: 'week', step: 1, date: '#%W' }];
+				break;
+			case 'Years' || 4:
+				// {subscale_unit: "year", unit: "year", step: 1, date: "%Y"},
+				// {
+				// 	unit: "year", step: 5, template: function (date) {
+				// 		var dateToStr = gantt.date.date_to_str("%Y");
+				// 		var endDate = gantt.date.add(gantt.date.add(date, 5, "year"), -1, "day");
+				// 		return dateToStr(date) + " - " + dateToStr(endDate);
+				// 	}
+				// }
+				gantt.config.min_column_width = 70;
+				gantt.config.scale_unit = 'year';
+				gantt.config.date_scale = '%Y';
+				gantt.config.scale_height = 60;
+				gantt.config.subscales = [{ unit: 'year', step: 1, date: '%d %M %Y' }];
 				break;
 			default:
 				break;
@@ -434,145 +473,223 @@ class Gantt extends Component {
 			})
 			.catch(err => console.log(err));
 	};
+	closeAll() {
+		gantt.eachTask(function (task) {
+			task.$open = false;
+		});
+		gantt.render();
+	}
+
+	openAll() {
+		gantt.eachTask(function (task) {
+			task.$open = true;
+		});
+		gantt.render();
+	}
+	zoomIn = () => {
+		if (this.state.zoomLevel < 4) {
+			this.setState(
+				prev => ({
+					zoomLevel: prev.zoomLevel + 1
+				}),
+				() => this.setZoom(this.state.zoomLevel)
+			);
+		}
+	};
+	zoomOut = () => {
+		if (this.state.zoomLevel > 0) {
+			this.setState(
+				prev => ({
+					zoomLevel: prev.zoomLevel - 1
+				}),
+				() => this.setZoom(this.state.zoomLevel)
+			);
+		}
+	};
 	render() {
 		const { zoom } = this.props;
 		this.setZoom(zoom);
 		return (
 			<>
-				<div>
-					<Button
-						onClick={() =>
-							gantt.exportToPDF({
-								name: 'mygantt.pdf',
-								header: '<h1>My company</h1>',
-								footer: '<h4>Bottom line</h4>',
-								locale: 'en',
-								start: '01-04-2013',
-								end: '11-04-2013',
-								skin: 'terrace',
-								server: 'https://export.dhtmlx.com/gantt',
-								raw: true
-							})
-						}
-					>
-						Export to PDF
-					</Button>
-					<Button
-						onClick={() =>
-							gantt.exportToPNG({
-								name: 'mygantt.png',
-								header: '<h1>My company</h1>',
-								footer: '<h4>Bottom line</h4>',
-								locale: 'en',
-								start: '01-04-2013',
-								end: '11-04-2013',
-								skin: 'terrace',
-								server: 'https://export.dhtmlx.com/gantt',
-								raw: true
-							})
-						}
-					>
-						Export to PNG
-					</Button>
-				</div>
-				<p>
-					You can use any XLSX file or download this sample{' '}
-					<a class="xlsx-sample" href="/assets/files/DemoProject.xlsx" target="_blank">
-						DemoProject.xlsx
-					</a>
-				</p>
-				<p>
-					<form>
-						<input type="file" id="excelFile" name="file" accept=".xlsx,.xls" />
-						<button
-							id="excelImportBtn"
-							type="button"
-							onClick={() => {
-								var fileInput = document.getElementById('excelFile');
-								if (fileInput.files[0]) {
-									gantt.importFromExcel({
-										server: 'https://export.dhtmlx.com/gantt',
-										data: fileInput.files[0],
-										callback: project => {
-											if (project) {
-												var header = [];
-												var headerControls = [];
-												var body = [];
-												let listOfData = project.map(item => ({
-													name: item['Task name'],
-													progress: item['Completed percentage'],
-													date_start: item['Start time']
-														? moment(item['Start time']).format('YYYY-MM-DD')
-														: undefined,
-													date_end: item['End time']
-														? moment(item['End time']).format('YYYY-MM-DD')
-														: undefined
-												}));
-												project.forEach(function (task) {
-													var cols = [];
-													if (!header.length) {
-														for (var i in task) {
-															header.push(i);
+				<div className="px-32">
+					<div>
+						<Button
+							onClick={() =>
+								gantt.exportToPDF({
+									name: 'mygantt.pdf',
+									header: '<h1>My company</h1>',
+									footer: '<h4>Bottom line</h4>',
+									locale: 'en',
+									start: '01-04-2013',
+									end: '11-04-2013',
+									skin: 'terrace',
+									server: 'https://export.dhtmlx.com/gantt',
+									raw: true
+								})
+							}
+							variant="contained"
+							color="secondary"
+							className="mr-12 ml-20 md:ml-0"
+						>
+							Export to PDF
+						</Button>
+						<Button
+							className="mr-12 ml-20 md:ml-0"
+							onClick={() =>
+								gantt.exportToPNG({
+									name: 'mygantt.png',
+									header: '<h1>My company</h1>',
+									footer: '<h4>Bottom line</h4>',
+									locale: 'en',
+									start: '01-04-2013',
+									end: '11-04-2013',
+									skin: 'terrace',
+									server: 'https://export.dhtmlx.com/gantt',
+									raw: true
+								})
+							}
+							variant="contained"
+							color="secondary"
+						>
+							Export to PNG
+						</Button>
+						<Button
+							className="mr-12 ml-20 md:ml-0"
+							variant="contained"
+							color="secondary"
+							onClick={this.closeAll}
+						>
+							Collapse All
+						</Button>
+						<Button
+							className="mr-12 ml-20 md:ml-0"
+							variant="contained"
+							color="secondary"
+							onClick={this.openAll}
+						>
+							Expand All
+						</Button>
+						<Button
+							className="mr-12 ml-20 md:ml-0"
+							variant="contained"
+							color="secondary"
+							onClick={this.zoomIn}
+						>
+							Zoom in
+						</Button>
+						<Button
+							className="mr-12 ml-20 md:ml-0"
+							variant="contained"
+							color="secondary"
+							onClick={this.zoomOut}
+						>
+							Zoom out
+						</Button>
+						{/* <button onClick={() => toggleMode(this)}>Zoom to Fit</button> */}
+					</div>
+					<p className="my-12">
+						You can use any XLSX file or download this sample{' '}
+						<a class="xlsx-sample" href="/assets/files/DemoProject.xlsx" target="_blank">
+							DemoProject.xlsx
+						</a>
+					</p>
+					<p className="mb-12">
+						<form className="flex flex-wrap items-center">
+							<input type="file" id="excelFile" name="file" accept=".xlsx,.xls" />
+							<Button
+								id="excelImportBtn"
+								type="button"
+								onClick={() => {
+									var fileInput = document.getElementById('excelFile');
+									if (fileInput.files[0]) {
+										gantt.importFromExcel({
+											server: 'https://export.dhtmlx.com/gantt',
+											data: fileInput.files[0],
+											callback: project => {
+												if (project) {
+													var header = [];
+													var headerControls = [];
+													var body = [];
+													let listOfData = project.map(item => ({
+														name: item['Task name'],
+														progress: item['Completed percentage'],
+														date_start: item['Start time']
+															? moment(item['Start time']).format('YYYY-MM-DD')
+															: undefined,
+														date_end: item['End time']
+															? moment(item['End time']).format('YYYY-MM-DD')
+															: undefined
+													}));
+													project.forEach(function (task) {
+														var cols = [];
+														if (!header.length) {
+															for (var i in task) {
+																header.push(i);
+															}
+															header.forEach(function (col, index) {
+																cols.push('<th>' + col + '</th>');
+																headerControls.push(
+																	"<td><select data-column-mapping='" +
+																		col +
+																		"'>" +
+																		getOptions(index) +
+																		'</select>'
+																);
+															});
+															body.push('<tr>' + cols.join('') + '</tr>');
+															body.push('<tr>' + headerControls.join('') + '</tr>');
 														}
-														header.forEach(function (col, index) {
-															cols.push('<th>' + col + '</th>');
-															headerControls.push(
-																"<td><select data-column-mapping='" +
-																	col +
-																	"'>" +
-																	getOptions(index) +
-																	'</select>'
-															);
+														cols = [];
+														header.forEach(function (col) {
+															cols.push('<td>' + task[col] + '</td>');
 														});
 														body.push('<tr>' + cols.join('') + '</tr>');
-														body.push('<tr>' + headerControls.join('') + '</tr>');
-													}
-													cols = [];
-													header.forEach(function (col) {
-														cols.push('<td>' + task[col] + '</td>');
 													});
-													body.push('<tr>' + cols.join('') + '</tr>');
-												});
 
-												var div = gantt.modalbox({
-													title: 'Assign columns',
-													type: 'excel-form',
-													text: '<table>' + body.join('') + '</table>',
-													buttons: [
-														{ label: 'Save', css: 'link_save_btn', value: 'save' },
-														{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
-													],
-													callback: result => {
-														switch (result) {
-															case 'save':
-																this.handleUploadListOfTasks(listOfData, () => {});
-																// var selects = div.querySelectorAll(
-																// 	'[data-column-mapping]'
-																// );
-																// var mapping = {};
-																// selects.forEach(function (select) {
-																// 	mapping[
-																// 		select.getAttribute('data-column-mapping')
-																// 	] = select.value;
-																// });
-																// loadTable(mapping, project);
-																break;
-															case 'cancel':
-																//Cancel
-																break;
+													var div = gantt.modalbox({
+														title: 'Assign columns',
+														type: 'excel-form',
+														text: '<table>' + body.join('') + '</table>',
+														buttons: [
+															{ label: 'Save', css: 'link_save_btn', value: 'save' },
+															{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
+														],
+														callback: result => {
+															switch (result) {
+																case 'save':
+																	this.handleUploadListOfTasks(listOfData, () => {});
+																	// var selects = div.querySelectorAll(
+																	// 	'[data-column-mapping]'
+																	// );
+																	// var mapping = {};
+																	// selects.forEach(function (select) {
+																	// 	mapping[
+																	// 		select.getAttribute('data-column-mapping')
+																	// 	] = select.value;
+																	// });
+																	// loadTable(mapping, project);
+																	break;
+																case 'cancel':
+																	//Cancel
+																	break;
+															}
 														}
-													}
-												});
+													});
+												}
 											}
-										}
-									});
-								}
-							}}
-						>
-							Load from Excel
-						</button>
-					</form>
-				</p>
+										});
+									}
+								}}
+								size="small"
+								variant="contained"
+								className="px-12 pt-4 ml-12 load-from-excel"
+							>
+								Load from Excel
+							</Button>
+						</form>
+					</p>
+				</div>
+
 				<div
 					ref={input => {
 						this.ganttContainer = input;
