@@ -13,9 +13,10 @@ function GanttWrapper(props) {
 	useScript('https://export.dhtmlx.com/gantt/api.js');
 	const dispatch = useDispatch();
 	const routeParams = useParams();
-
+	const company = useSelector(({ chatApp }) => chatApp?.company);
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getTodos(routeParams.id,true));
+		dispatch(Actions.getTodos(routeParams.id, true));
 		return () => {
 			dispatch({
 				type: Actions.GET_TODOS,
@@ -25,7 +26,7 @@ function GanttWrapper(props) {
 	}, [dispatch, routeParams]);
 	return (
 		<>
-			<Gantt {...props} />
+			<Gantt {...{ ...props, company, projectDetail }} />
 			<CreatePostDialog />
 			<TodoDialog />
 			<TaskContentDialog />

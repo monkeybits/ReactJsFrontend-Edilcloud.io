@@ -219,7 +219,7 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 	// 		]).then(() => dispatch(updateTodos()))
 	// 	);
 }
-export function editActivity(todo, pid, setLoading) {
+export function editActivity(todo, pid, setLoading, isGantt) {
 	// console.log({
 	// 	todo
 	// });
@@ -238,6 +238,10 @@ export function editActivity(todo, pid, setLoading) {
 			EDIT_ACTIVITY_TO_TASK(todo.id),
 			values,
 			res => {
+				if (isGantt) {
+					dispatch(getTodos(pid, isGantt));
+					dispatch(closeTimelineDialog());
+				}
 				console.log(res);
 				setLoading(false);
 				toast.success('Updated');
