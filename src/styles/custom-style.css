@@ -405,6 +405,9 @@
 .muliple-images-overflow-x {
     overflow-x: hidden;
 }
+.MuiFab-secondary:hover, .MuiButton-containedSecondary:hover {
+    background-color: #24c0cc;
+}
 
 /* Audio Animation */
 .right-panel-audio audio {
@@ -584,6 +587,9 @@
         width: 210px;
         height: 40px;
     }
+    .MuiInputBase-input {
+        height: 1em !important;
+    }
     
 }
 @media only screen and (max-width: 576px) {
@@ -611,6 +617,7 @@
     }
     
 }
+
 @media only screen and (max-width: 480px) {
     .team-chat-sidebar {
         transform: translate3d(600px,0,0);
@@ -627,5 +634,11 @@
     .team-chat-sidebar {
         transform: translate3d(470px,0,0);
         width: 100%;
+    }
+}
+@media only screen and (max-width: 360px) {
+    .load-from-excel {
+        margin-top: 15px;
+        margin-left: 18px;
     }
 }
