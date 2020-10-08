@@ -212,7 +212,7 @@ class Gantt extends Component {
 								start_date: data.datetime_start,
 								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								duration: duration + 1,
-								progress: data.status== 'completed' ? 1 : 0,
+								progress: data.status == 'completed' ? 1 : 0,
 								company: data?.assigned_company?.name,
 								mainId: data.id,
 								parent: data.task
@@ -266,7 +266,7 @@ class Gantt extends Component {
 								start_date: data.datetime_start,
 								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								duration: duration + 1,
-								progress: data.status== 'completed' ? 1 : 0,
+								progress: data.status == 'completed' ? 1 : 0,
 								company: data?.assigned_company?.name,
 								mainId: data.id,
 								parent: data.task
@@ -377,7 +377,9 @@ class Gantt extends Component {
 				}
 			}
 		};
-
+		gantt.plugins({
+			fullscreen: true
+		});
 		this.setState({
 			tasks
 		});
