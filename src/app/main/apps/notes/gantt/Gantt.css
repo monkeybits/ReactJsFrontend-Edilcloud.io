@@ -2,9 +2,19 @@
 	min-height: calc(100vh - 195px);
 }
 .nested_task {
-	background-color: #DEDEDE !important;;
+	background-color: #dedede !important;
 }
 .nested_task .gantt_add {
+	display: none !important;
+}
+
+.hide_add .gantt_add {
+	display: none !important;
+}
+.hide_add.gantt_grid_head_add {
+	display: none !important;
+}
+.hide_tree_icon .gantt_tree_icon {
 	display: none !important;
 }
 .important {
@@ -21,8 +31,8 @@
 	background: lightgreen;
 }
 .nested_task_right .gantt_task_progress {
-	background: green
+	background: green;
 }
 .status_line {
-    background-color: #0ca30a;
+	background-color: #0ca30a;
 }

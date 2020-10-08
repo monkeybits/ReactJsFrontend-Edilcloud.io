@@ -278,7 +278,8 @@ export default function EditActivityForm(props) {
 									...taskDate
 								},
                                 routeParams.id,
-                                setLoading
+								setLoading,
+								todoDialog.data.isGantt
 							)
 						);
 					}}

@@ -11,7 +11,7 @@ import { fileDragAndDrop } from './common/dhx_file_dnd';
 import { withRouter } from 'react-router';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import axios from 'app/services/axiosConfig';
 import { Button } from '@material-ui/core';
 // data: [
@@ -144,6 +144,7 @@ class Gantt extends Component {
 	};
 	shouldComponentUpdate(nextProps) {
 		const { todos } = nextProps;
+		this.templatePermissions();
 		if (!this.state.tasks) {
 			//this.state.tasks?.length !== Object.values(todos.entities)
 			this.ganttInit(todos);
@@ -240,11 +241,8 @@ class Gantt extends Component {
 		};
 		gantt.config.xml_date = '%Y-%m-%d %H:%i';
 
-		console.log({
-			columns: gantt.config.columns
-		});
 		gantt.config.columns = [
-			{ name: 'text', label: 'Task name', align: 'center', tree: true, width: 150 },
+			{ name: 'text', label: 'Task name', tree: true, width: 150 },
 			{ name: 'start_date', label: 'Start Date', width: 100 },
 			{ name: 'end_date', label: 'End Date', width: 100 },
 			{ name: 'company', label: 'Company', width: 100 },
@@ -306,13 +304,7 @@ class Gantt extends Component {
 		// end of marker
 		gantt.init(this.ganttContainer);
 		gantt.parse(tasks);
-		gantt.templates.grid_row_class = function (start, end, task) {
-			console.log({ start, end, task });
-			if (task.$level >= 1) {
-				return 'nested_task';
-			}
-			return '';
-		};
+
 		gantt.showLightbox = id => {
 			console.log({ ganttData: gantt.getTask(id) });
 			if (gantt.getTask(id).$new == true) {
@@ -330,11 +322,59 @@ class Gantt extends Component {
 				captureData = captureData && captureData.length ? captureData[0] : undefined;
 				console.log({ captureData, id, data: this.state.tasks.data });
 				if (captureData) {
-					return this.props.openTaskContent({ ...captureData.data, isGantt: true });
+					if (captureData.data.parent) {
+						return this.props.openTimelineDialog({
+							todo: captureData.data,
+							task: gantt.getTask(captureData.parent).data,
+							isGantt: true
+						});
+					} else {
+						const userInfo = decodeDataFromToken();
+						const getRole = () => userInfo?.extra?.profile.role;
+						if (getRole() == 'o' || getRole() == 'd') {
+							return this.props.openTaskContent({ ...captureData.data, isGantt: true });
+						} else {
+							return null;
+						}
+					}
 				} else {
-					this.props.openNewTodoDialog();
+					return this.props.openNewTodoDialog();
 				}
 			}
+		};
+
+		this.setState({
+			tasks
+		});
+	};
+	templatePermissions = () => {
+		const userInfo = decodeDataFromToken();
+		const getRole = () => userInfo?.extra?.profile.role;
+		gantt.templates.grid_header_class = (CN, C) => {
+			if (CN == 'add') {
+				if (this.props.projectDetail.company?.id != this.props.company.id) {
+					return 'hide_add';
+				} else if (getRole() == 'w' || getRole() == 'm') {
+					return 'hide_add';
+				}
+			}
+		};
+		gantt.templates.grid_row_class = (start, end, task) => {
+			// console.log({
+			// 	start,
+			// 	end,
+			// 	task,
+			// 	assigned_company: task.data.assigned_company,
+			// 	company: this.props.company.id
+			// });
+			if (task.$level >= 1) {
+				return 'nested_task';
+			} else if (!task.company) {
+				return 'hide_add';
+			} else if (task.data.assigned_company?.id != this.props.company.id) {
+				return 'hide_add hide_tree_icon';
+			}
+			return '';
 		};
 		gantt.templates.task_class = function (start, end, task) {
 			console.log({ start, end, task });
@@ -348,10 +388,6 @@ class Gantt extends Component {
 			// 	return '';
 			// }
 		};
-
-		this.setState({
-			tasks
-		});
 	};
 	componentDidUpdate() {
 		gantt.render();
@@ -560,7 +596,8 @@ function mapDispatchToProps(dispatch) {
 			openNewTodoDialog: Actions.openNewTodoDialog,
 			editTodo: Actions.editTodo,
 			getTodos: Actions.getTodos,
-			openAddActivityTodoDialog: Actions.openAddActivityTodoDialog
+			openAddActivityTodoDialog: Actions.openAddActivityTodoDialog,
+			openTimelineDialog: Actions.openTimelineDialog
 		},
 		dispatch
 	);
