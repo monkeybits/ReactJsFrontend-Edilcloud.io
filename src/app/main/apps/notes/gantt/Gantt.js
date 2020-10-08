@@ -10,10 +10,11 @@ import { bindActionCreators } from 'redux';
 import { fileDragAndDrop } from './common/dhx_file_dnd';
 import { withRouter } from 'react-router';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
+import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT, EDIT_ACTIVITY_TO_TASK } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import axios from 'app/services/axiosConfig';
 import { Button } from '@material-ui/core';
+import { toast } from 'react-toastify';
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
@@ -99,23 +100,35 @@ class Gantt extends Component {
 		// gantt.parse(tasks);
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
 			return new Promise((resolve, reject) => {
+				console.log({ entityType, action, item, id });
+
 				// if (onDataUpdated) {
 				// onDataUpdated(entityType, action, item, id);
-				console.log({ entityType, action, item, id });
-				this.editTodo(
-					{
-						name: item.data.name,
-						description: item.data.note,
+				// console.log({ entityType, action, item, id });
+				if (item.parent == 0) {
+					this.editTodo(
+						{
+							name: item.data.name,
+							description: item.data.note,
+							id: item.data.id,
+							company: item.data.assigned_company,
+							progress: item.data.progress,
+							date_start: item.start_date,
+							date_end: item.end_date
+						},
+						this.props.match.params.id
+					);
+				} else {
+					this.editTodoActivty({
+						name: item.data.title,
+						description: item.data.description,
 						id: item.data.id,
-						company: item.data.assigned_company,
-						progress: item.data.progress,
+						profile: item.data.workers,
 						date_start: item.start_date,
 						date_end: item.end_date
-					},
-					this.props.match.params.id
-				);
+					});
+				}
 				resolve();
-				// }
 			});
 		});
 	}
@@ -132,11 +145,34 @@ class Gantt extends Component {
 			alert: false,
 			starred: false
 		};
-		console.log({ values });
+		// console.log({ values });
 		apiCall(
 			EDIT_TASK_TO_PROJECT(todo.id),
 			values,
-			res => {},
+			res => {
+				toast.success('Updated');
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
+	editTodoActivty = todo => {
+		let values = {
+			title: todo.name,
+			description: todo.description,
+			datetime_start: moment(todo.date_start).format('YYYY-MM-DD'),
+			datetime_end: moment(todo.date_end).format('YYYY-MM-DD'),
+			workers: todo.profile?.length ? todo.profile.map(d => d.id) : undefined
+		};
+
+		// console.log({ todo, values });
+		apiCall(
+			EDIT_ACTIVITY_TO_TASK(todo.id),
+			values,
+			res => {
+				toast.success('Updated');
+			},
 			err => console.log(err),
 			METHOD.PUT,
 			getHeaderToken()
@@ -176,7 +212,7 @@ class Gantt extends Component {
 								start_date: data.datetime_start,
 								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								duration: duration + 1,
-								progress: data.progress / 100,
+								progress: data.status== 'completed' ? 1 : 0,
 								company: data?.assigned_company?.name,
 								mainId: data.id,
 								parent: data.task
@@ -230,7 +266,7 @@ class Gantt extends Component {
 								start_date: data.datetime_start,
 								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								duration: duration + 1,
-								progress: data.progress / 100,
+								progress: data.status== 'completed' ? 1 : 0,
 								company: data?.assigned_company?.name,
 								mainId: data.id,
 								parent: data.task
@@ -304,7 +340,6 @@ class Gantt extends Component {
 		// end of marker
 		gantt.init(this.ganttContainer);
 		gantt.parse(tasks);
-
 		gantt.showLightbox = id => {
 			console.log({ ganttData: gantt.getTask(id) });
 			if (gantt.getTask(id).$new == true) {
@@ -377,10 +412,10 @@ class Gantt extends Component {
 			return '';
 		};
 		gantt.templates.task_class = function (start, end, task) {
-			console.log({ start, end, task });
+			// console.log({ start, end, task });
 			// console.log({ start, end: moment().diff(moment(task.data.date_end)), task });
 			if (task.parent) {
-				return 'nested_task_right';
+				return 'nested_task_right hide_progress_drag';
 			}
 			// if (moment().diff(moment(task.data.date_end)) > 0) {
 			// 	return 'important';

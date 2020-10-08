@@ -11,10 +11,11 @@ import * as Actions from './store/actions';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
 import DatePicker from 'react-datepicker';
-import { Button, CircularProgress, Slider, withStyles } from '@material-ui/core';
+import { Button, CircularProgress, Select, Slider, withStyles } from '@material-ui/core';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
+import { Autocomplete } from '@material-ui/lab';
 
 const defaultFormState = {
 	id: '',
@@ -127,7 +128,7 @@ export default function EditActivityForm(props) {
 	const [company, setCompany] = useState([]);
 	const [profiles, setProfiles] = useState([]);
 	const [profileData, setProfileData] = useState([]);
-	const [progress, setProgress] = useState(0);
+	const [progress, setProgress] = useState('to-do');
 	const [loading, setLoading] = useState(false);
 	const routeParams = useParams();
 	const [taskDate, setTaskDate] = useState({
@@ -146,6 +147,7 @@ export default function EditActivityForm(props) {
 				startDate: new Date(todoDialog.data.todo.datetime_start),
 				endDate: new Date(todoDialog.data.todo.datetime_end)
 			});
+			setProgress(todoDialog.data.todo.status);
 			setProfileData(
 				todoDialog.data.todo.workers.map(profile => ({
 					data: profile,
@@ -253,7 +255,22 @@ export default function EditActivityForm(props) {
 					<Icon className="icon">calendar_today</Icon>
 				</div>
 			</div>
-			<div className="mt-24 mx-12 zoom-125">
+			{/* <div className="mt-8 mb-16"> */}
+			<FormControl className="mt-8 mb-16">
+				<Select native value={progress} onChange={e => setProgress(e.target.value)}>
+					<option value={'to-do'}>to-do</option>
+					<option value={'completed'}>completed</option>
+				</Select>
+			</FormControl>
+			{/* <Autocomplete
+					options={['to-do', 'completed']}
+					inputValue={progress}
+					getOptionLabel={option => option}
+					renderInput={params => <TextField variant="outlined" {...params} value={progress} />}
+					onInputChange={(e, value) => setProgress(value)}
+				/> */}
+			{/* </div> */}
+			{/* <div className="mt-24 mx-12 zoom-125">
 				<IOSSlider
 					aria-label="ios slider"
 					defaultValue={0}
@@ -261,7 +278,7 @@ export default function EditActivityForm(props) {
 					onChange={(e, v) => setProgress(v)}
 					valueLabelDisplay="on"
 				/>
-			</div>
+			</div> */}
 			<div className="px-16">
 				<Button
 					variant="contained"
@@ -277,7 +294,7 @@ export default function EditActivityForm(props) {
 									progress,
 									...taskDate
 								},
-                                routeParams.id,
+								routeParams.id,
 								setLoading,
 								todoDialog.data.isGantt
 							)

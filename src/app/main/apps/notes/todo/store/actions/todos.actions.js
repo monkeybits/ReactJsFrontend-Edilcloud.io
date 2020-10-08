@@ -230,6 +230,7 @@ export function editActivity(todo, pid, setLoading, isGantt) {
 			description: todo.notes,
 			datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
 			datetime_end: moment(todo.endDate).format('YYYY-MM-DD'),
+			status: todo.progress,
 			workers: todo.profile?.length
 				? todo.profile.map(d => (d.data.profile ? d.data.profile.id : d.data.id))
 				: undefined
