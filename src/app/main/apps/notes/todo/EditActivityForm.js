@@ -152,7 +152,7 @@ export default function EditActivityForm(props) {
 				todoDialog.data.todo.workers.map(profile => ({
 					data: profile,
 					value: getName(profile),
-					label: <span className="flex items-center">{getName(profile)}</span>
+					label: <span className="flex items-center pl-12">{getName(profile)}</span>
 				}))
 			);
 			return () => {
@@ -210,6 +210,7 @@ export default function EditActivityForm(props) {
 					value: getUsername(profile),
 					label: <span className="flex items-center">{getUsername(profile)}</span>
 				}))}
+				className="select-dropdown mb-12"
 			/>
 
 			<FormControl className="mt-8 mb-16" required fullWidth>
@@ -256,7 +257,7 @@ export default function EditActivityForm(props) {
 				</div>
 			</div>
 			{/* <div className="mt-8 mb-16"> */}
-			<FormControl className="mt-8 mb-16">
+			<FormControl className="mt-8 mb-16" variant="outlined" required fullWidth>
 				<Select native value={progress} onChange={e => setProgress(e.target.value)}>
 					<option value={'to-do'}>to-do</option>
 					<option value={'completed'}>completed</option>
@@ -279,7 +280,7 @@ export default function EditActivityForm(props) {
 					valueLabelDisplay="on"
 				/>
 			</div> */}
-			<div className="px-16">
+			<div>
 				<Button
 					variant="contained"
 					color="primary"

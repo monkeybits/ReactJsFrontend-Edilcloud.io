@@ -474,6 +474,7 @@ class Gantt extends Component {
 		this.setZoom(zoom);
 		return (
 			<>
+			<div className="px-32">
 				<div>
 					<Button
 						onClick={() =>
@@ -489,6 +490,9 @@ class Gantt extends Component {
 								raw: true
 							})
 						}
+						variant="contained"
+						color="secondary"
+						className="mr-12 ml-20 md:ml-0"
 					>
 						Export to PDF
 					</Button>
@@ -506,20 +510,22 @@ class Gantt extends Component {
 								raw: true
 							})
 						}
+						variant="contained"
+						color="secondary"
 					>
 						Export to PNG
 					</Button>
 				</div>
-				<p>
+				<p className="my-12">
 					You can use any XLSX file or download this sample{' '}
 					<a class="xlsx-sample" href="/assets/files/DemoProject.xlsx" target="_blank">
 						DemoProject.xlsx
 					</a>
 				</p>
-				<p>
-					<form>
+				<p className="mb-12">
+					<form className="flex flex-wrap items-center">
 						<input type="file" id="excelFile" name="file" accept=".xlsx,.xls" />
-						<button
+						<Button
 							id="excelImportBtn"
 							type="button"
 							onClick={() => {
@@ -603,11 +609,15 @@ class Gantt extends Component {
 									});
 								}
 							}}
+							size="small"
+							variant="contained"
+							className="px-12 pt-4 ml-12 load-from-excel"
 						>
 							Load from Excel
-						</button>
+						</Button>
 					</form>
 				</p>
+			</div>
 				<div
 					ref={input => {
 						this.ganttContainer = input;
