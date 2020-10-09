@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
 function ProjectTabs({ value, setValue }) {
 	const classes = useStyles();
 	const [zoom, setZoom] = useState({
-		currentZoom: 'Days'
+		currentZoom: 'Months'
 	});
 
 	const handleZoomChange = zoom => {

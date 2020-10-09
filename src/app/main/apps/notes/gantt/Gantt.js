@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { gantt } from 'dhtmlx-gantt';
 import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
 import './Gantt.css';
-// import './dhtmlxgantt.css';
+import './dhtmlxgantt.css';
 import connect from 'react-redux/es/connect/connect';
 import moment from 'moment';
 import * as Actions from '../todo/store/actions';
@@ -15,6 +15,18 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import axios from 'app/services/axiosConfig';
 import { Button } from '@material-ui/core';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faFilePdf,
+	faFile,
+	faFileExcel,
+	faFileVideo,
+	faFileAudio,
+	faFileImage,
+	faFileWord,
+	faFileCode,
+	faFileArchive
+} from '@fortawesome/free-regular-svg-icons';
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
@@ -65,7 +77,12 @@ function getOptions(selectedIndex) {
 		})
 		.join('');
 }
-
+function shiftTask(task_id, direction) {
+	var task = gantt.getTask(task_id);
+	task.start_date = gantt.date.add(task.start_date, direction, 'day');
+	task.end_date = gantt.calculateEndDate(task.start_date, task.duration);
+	gantt.updateTask(task.id);
+}
 class Gantt extends Component {
 	constructor(props) {
 		super(props);
@@ -139,9 +156,7 @@ class Gantt extends Component {
 		apiCall(
 			EDIT_TASK_TO_PROJECT(todo.id),
 			values,
-			res => {
-				toast.success('Updated');
-			},
+			res => {},
 			err => console.log(err),
 			METHOD.PUT,
 			getHeaderToken()
@@ -160,9 +175,7 @@ class Gantt extends Component {
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(todo.id),
 			values,
-			res => {
-				toast.success('Updated');
-			},
+			res => {},
 			err => console.log(err),
 			METHOD.PUT,
 			getHeaderToken()
@@ -301,33 +314,34 @@ class Gantt extends Component {
 		// end block for resize
 
 		// marker
-			// gantt.plugins({
-			// 	marker: true
-			// });
+		// gantt.plugins({
+		// 	marker: true
+		// });
 
-			// var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
-			// var today = new Date(2018, 3, 5);
-			// gantt.addMarker({
-			// 	start_date: today,
-			// 	css: 'today',
-			// 	text: 'Today',
-			// 	title: 'Today: ' + dateToStr(today)
-			// });
+		// var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+		// var today = new Date(2018, 3, 5);
+		// gantt.addMarker({
+		// 	start_date: today,
+		// 	css: 'today',
+		// 	text: 'Today',
+		// 	title: 'Today: ' + dateToStr(today)
+		// });
 
-			// var start = new Date(2018, 2, 28);
-			// gantt.addMarker({
-			// 	start_date: start,
-			// 	css: 'status_line',
-			// 	text: 'Start project',
-			// 	title: 'Start project: ' + dateToStr(start)
-			// });
+		// var start = new Date(2018, 2, 28);
+		// gantt.addMarker({
+		// 	start_date: start,
+		// 	css: 'status_line',
+		// 	text: 'Start project',
+		// 	title: 'Start project: ' + dateToStr(start)
+		// });
 
-			// gantt.config.scale_height = 50;
-			// gantt.config.scales = [
-			// 	{ unit: 'day', step: 1, format: '%j, %D' },
-			// 	{ unit: 'month', step: 1, format: '%F, %Y' }
-			// ];
+		// gantt.config.scale_height = 50;
+		// gantt.config.scales = [
+		// 	{ unit: 'day', step: 1, format: '%j, %D' },
+		// 	{ unit: 'month', step: 1, format: '%F, %Y' }
+		// ];
 		// end of marker
+
 		gantt.init(this.ganttContainer);
 		gantt.parse(tasks);
 		gantt.showLightbox = id => {
@@ -367,7 +381,16 @@ class Gantt extends Component {
 				}
 			}
 		};
-
+		gantt.templates.scale_cell_class = function(date){
+			if(date.getDay()==0||date.getDay()==6){
+				return "weekend";
+			}
+		};
+		gantt.templates.timeline_cell_class = function(task,date){
+			if(date.getDay()==0||date.getDay()==6){ 
+				return "weekend" ;
+			}
+		};
 		this.setState({
 			tasks
 		});
@@ -413,6 +436,31 @@ class Gantt extends Component {
 			// 	return '';
 			// }
 		};
+		gantt.plugins({
+			multiselect: true,
+			marker: true
+		});
+		var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+		var markerId = gantt.addMarker({
+			start_date: new Date(),
+			css: 'today',
+			text: 'Now',
+			title: dateToStr(new Date())
+		});
+		gantt.getMarker(markerId);
+
+		var min = this.state.tasks?.data.reduce(function (a, b) {
+			return a.start_date < b.start_date ? a.start_date : b.start_date;
+		}, {});
+		if (typeof min == 'string') {
+			markerId = gantt.addMarker({
+				start_date: new Date(min),
+				css: 'status_line',
+				text: 'Start project',
+				title: 'Start project: ' //+ dateToStr(new Date(min))
+			});
+			gantt.getMarker(markerId);
+		}
 	};
 	componentDidUpdate() {
 		gantt.render();
@@ -506,87 +554,57 @@ class Gantt extends Component {
 			);
 		}
 	};
+	exportPNG = () => {
+		gantt.exportToPNG({
+			name: 'mygantt.png',
+			header: '<h1>My company</h1>',
+			footer: '<h4>Bottom line</h4>',
+			locale: 'en',
+			start: '01-04-2013',
+			end: '11-04-2013',
+			skin: 'terrace',
+			server: 'https://export.dhtmlx.com/gantt',
+			raw: true
+		});
+	};
+	exportPDF = () => {
+		gantt.exportToPDF({
+			name: 'mygantt.pdf',
+			header: '<h1>My company</h1>',
+			footer: '<h4>Bottom line</h4>',
+			locale: 'en',
+			start: '01-04-2013',
+			end: '11-04-2013',
+			skin: 'terrace',
+			server: 'https://export.dhtmlx.com/gantt',
+			raw: true
+		});
+	};
+	exportMSProject = () => {
+		gantt.exportToMSProject({
+			skip_circular_links: false,
+			server: 'https://export.dhtmlx.com/gantt'
+		});
+	};
+	exportExcel = () => {
+		gantt.exportToExcel();
+	};
+	moveForward = () => {
+		gantt.eachSelectedTask(function (task_id) {
+			shiftTask(task_id, 1);
+		});
+	};
+	moveBackward = () => {
+		gantt.eachSelectedTask(function (task_id) {
+			shiftTask(68, -1);
+		});
+	};
 	render() {
 		const { zoom } = this.props;
 		this.setZoom(zoom);
 		return (
 			<>
 				<div className="px-32">
-					<div>
-						<Button
-							onClick={() =>
-								gantt.exportToPDF({
-									name: 'mygantt.pdf',
-									header: '<h1>My company</h1>',
-									footer: '<h4>Bottom line</h4>',
-									locale: 'en',
-									start: '01-04-2013',
-									end: '11-04-2013',
-									skin: 'terrace',
-									server: 'https://export.dhtmlx.com/gantt',
-									raw: true
-								})
-							}
-							variant="contained"
-							color="secondary"
-							className="mr-12 ml-20 md:ml-0"
-						>
-							Export to PDF
-						</Button>
-						<Button
-							className="mr-12 ml-20 md:ml-0"
-							onClick={() =>
-								gantt.exportToPNG({
-									name: 'mygantt.png',
-									header: '<h1>My company</h1>',
-									footer: '<h4>Bottom line</h4>',
-									locale: 'en',
-									start: '01-04-2013',
-									end: '11-04-2013',
-									skin: 'terrace',
-									server: 'https://export.dhtmlx.com/gantt',
-									raw: true
-								})
-							}
-							variant="contained"
-							color="secondary"
-						>
-							Export to PNG
-						</Button>
-						<Button
-							className="mr-12 ml-20 md:ml-0"
-							variant="contained"
-							color="secondary"
-							onClick={this.closeAll}
-						>
-							Collapse All
-						</Button>
-						<Button
-							className="mr-12 ml-20 md:ml-0"
-							variant="contained"
-							color="secondary"
-							onClick={this.openAll}
-						>
-							Expand All
-						</Button>
-						<Button
-							className="mr-12 ml-20 md:ml-0"
-							variant="contained"
-							color="secondary"
-							onClick={this.zoomIn}
-						>
-							Zoom in
-						</Button>
-						<Button
-							className="mr-12 ml-20 md:ml-0"
-							variant="contained"
-							color="secondary"
-							onClick={this.zoomOut}
-						>
-							Zoom out
-						</Button>
-						{/* <button onClick={() => toggleMode(this)}>Zoom to Fit</button> */}
-					</div>
 					<p className="my-12">
 						You can use any XLSX file or download this sample{' '}
 						<a class="xlsx-sample" href="/assets/files/DemoProject.xlsx" target="_blank">
@@ -689,14 +707,100 @@ class Gantt extends Component {
 						</form>
 					</p>
 				</div>
+				<div class="demo-main-container">
+					<div class="header gantt-demo-header">
+						<ul class="gantt-controls">
+							<li class="gantt-menu-item" onClick={this.closeAll}>
+								<a data-action="collapseAll">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_collapse_all_24.png" />
+									Collapse All
+								</a>
+							</li>
+							<li class="gantt-menu-item gantt-menu-item-last" onClick={this.openAll}>
+								<a data-action="expandAll">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_expand_all_24.png" />
+									Expand All
+								</a>
+							</li>
+							<li class="gantt-menu-item" onClick={this.moveForward}>
+								<a data-action="toggleAutoScheduling">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_auto_scheduling_24.png" />
+									Move Forword
+								</a>
+							</li>
+							<li class="gantt-menu-item" onClick={this.moveBackward}>
+								<a data-action="toggleCriticalPath">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_critical_path_24.png" />
+									Move Backward
+								</a>
+							</li>
+							<li class="gantt-menu-item gantt-menu-item-right">
+								<a data-action="fullscreen">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_fullscreen_24.png" />
+									Fullscreen
+								</a>
+							</li>
+							<li class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last">
+								<a data-action="zoomToFit">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_to_fit_24.png" />
+									Zoom to Fit
+								</a>
+							</li>
+							<li class="gantt-menu-item gantt-menu-item-right">
+								<a data-action="zoomOut">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_out.png" />
+									Zoom Out
+								</a>
+							</li>
+							<li class="gantt-menu-item gantt-menu-item-right">
+								<a data-action="zoomIn">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_in.png" />
+									Zoom In
+								</a>
+							</li>
+							<li class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last">
+								<a>
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
+									Export
+								</a>
+								<ul class="gantt-controls">
+									<li class="gantt-menu-item" onClick={this.exportPDF}>
+										<a data-action="toPDF">
+											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
+											PDF
+										</a>
+									</li>
+									<li class="gantt-menu-item" onClick={this.exportPNG}>
+										<a data-action="toPNG">
+											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
+											PNG
+										</a>
+									</li>
+									<li class="gantt-menu-item" onClick={this.exportExcel}>
+										<a data-action="toExcel">
+											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
+											Excel
+										</a>
+									</li>
+									<li class="gantt-menu-item" onClick={this.exportMSProject}>
+										<a data-action="toMSProject">
+											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
+											MS Project
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
 
-				<div
-					ref={input => {
-						this.ganttContainer = input;
-					}}
-					style={{ width: '100%', height: '100%' }}
-					className="gantt-min-height"
-				></div>
+					<div
+						ref={input => {
+							this.ganttContainer = input;
+						}}
+						style={{ width: '100%', height: '100%' }}
+						className="gantt-min-height"
+					></div>
+				</div>
 			</>
 		);
 	}
