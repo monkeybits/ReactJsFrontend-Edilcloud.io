@@ -88,6 +88,7 @@ class Gantt extends Component {
 		super(props);
 
 		this.state = {
+			toggleLeft: false,
 			tasks: undefined,
 			zoomLevel: 2
 		};
@@ -280,68 +281,72 @@ class Gantt extends Component {
 		};
 		gantt.config.xml_date = '%Y-%m-%d %H:%i';
 
-		gantt.config.columns = [
-			{ name: 'text', label: 'Task name', tree: true, width: 150 },
-			{ name: 'start_date', label: 'Start Date', width: 100 },
-			{ name: 'end_date', label: 'End Date', width: 100 },
-			{ name: 'company', label: 'Company', width: 100 },
-			{ name: 'add', width: 44, min_width: 44, max_width: 44 }
-		];
-		// start block for resize
-		gantt.config.layout = {
-			css: 'gantt_container',
-			cols: [
-				{
-					width: 500,
-					min_width: 400,
+		if (this.state.toggleLeft) {
+			gantt.config.columns = [];
+			// start block for resize
+			gantt.config.layout = {
+				css: 'gantt_container',
+				cols: [
+					{
+						rows: [
+							{ view: 'timeline', scrollX: 'scrollHor', scrollY: 'scrollVer' },
+							{ view: 'scrollbar', id: 'scrollHor' }
+						]
+					},
+					{ view: 'scrollbar', id: 'scrollVer' }
+				]
+			};
+		} else {
+			gantt.config.columns = [
+				{ name: 'text', label: 'Task name', tree: true, width: 150 },
+				{ name: 'start_date', label: 'Start Date', width: 100 },
+				{ name: 'end_date', label: 'End Date', width: 100 },
+				{ name: 'company', label: 'Company', width: 100 },
+				{ name: 'add', width: 44, min_width: 44, max_width: 44 }
+			];
+			// start block for resize
+			console.log({ layout: gantt.config.layout });
+			gantt.config.layout = {
+				css: 'gantt_container',
+				cols: [
+					{
+						width: 500,
+						min_width: 400,
 
-					// adding horizontal scrollbar to the grid via the scrollX attribute
-					rows: [
-						{ view: 'grid', scrollX: 'gridScroll', scrollable: true, scrollY: 'scrollVer' },
-						{ view: 'scrollbar', id: 'gridScroll' }
-					]
-				},
-				{ resizer: true, width: 1 },
-				{
-					rows: [
-						{ view: 'timeline', scrollX: 'scrollHor', scrollY: 'scrollVer' },
-						{ view: 'scrollbar', id: 'scrollHor' }
-					]
-				},
-				{ view: 'scrollbar', id: 'scrollVer' }
-			]
-		};
+						// adding horizontal scrollbar to the grid via the scrollX attribute
+						rows: [
+							{ view: 'grid', scrollX: 'gridScroll', scrollable: true, scrollY: 'scrollVer' },
+							{ view: 'scrollbar', id: 'gridScroll' }
+						]
+					},
+					{ resizer: true, width: 1 },
+					{
+						rows: [
+							{ view: 'timeline', scrollX: 'scrollHor', scrollY: 'scrollVer' },
+							{ view: 'scrollbar', id: 'scrollHor' }
+						]
+					},
+					{ view: 'scrollbar', id: 'scrollVer' }
+				]
+			};
+		}
+		gantt.plugins({
+			fullscreen: true
+		});
 		// end block for resize
-
-		// marker
-		// gantt.plugins({
-		// 	marker: true
-		// });
-
-		// var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
-		// var today = new Date(2018, 3, 5);
-		// gantt.addMarker({
-		// 	start_date: today,
-		// 	css: 'today',
-		// 	text: 'Today',
-		// 	title: 'Today: ' + dateToStr(today)
-		// });
-
-		// var start = new Date(2018, 2, 28);
-		// gantt.addMarker({
-		// 	start_date: start,
-		// 	css: 'status_line',
-		// 	text: 'Start project',
-		// 	title: 'Start project: ' + dateToStr(start)
-		// });
-
-		// gantt.config.scale_height = 50;
-		// gantt.config.scales = [
-		// 	{ unit: 'day', step: 1, format: '%j, %D' },
-		// 	{ unit: 'month', step: 1, format: '%F, %Y' }
-		// ];
-		// end of marker
-
+		gantt.attachEvent('onTemplatesReady', function () {
+			var toggle = document.getElementById('fullScreen');
+			toggle.onclick = function () {
+				if (!gantt.getState().fullscreen) {
+					gantt.expand();
+				} else {
+					gantt.collapse();
+				}
+			};
+		});
+		gantt.ext.fullscreen.getFullscreenElement = function () {
+			return document.getElementById('myCover');
+		};
 		gantt.init(this.ganttContainer);
 		gantt.parse(tasks);
 		gantt.showLightbox = id => {
@@ -381,14 +386,14 @@ class Gantt extends Component {
 				}
 			}
 		};
-		gantt.templates.scale_cell_class = function(date){
-			if(date.getDay()==0||date.getDay()==6){
-				return "weekend";
+		gantt.templates.scale_cell_class = function (date) {
+			if (date.getDay() == 0 || date.getDay() == 6) {
+				return 'weekend';
 			}
 		};
-		gantt.templates.timeline_cell_class = function(task,date){
-			if(date.getDay()==0||date.getDay()==6){ 
-				return "weekend" ;
+		gantt.templates.timeline_cell_class = function (task, date) {
+			if (date.getDay() == 0 || date.getDay() == 6) {
+				return 'weekend';
 			}
 		};
 		this.setState({
@@ -440,6 +445,7 @@ class Gantt extends Component {
 			multiselect: true,
 			marker: true
 		});
+
 		var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
 		var markerId = gantt.addMarker({
 			start_date: new Date(),
@@ -599,11 +605,19 @@ class Gantt extends Component {
 			shiftTask(68, -1);
 		});
 	};
+	toggleLeftPanel = () => {
+		this.setState(
+			prev => ({
+				toggleLeft: !prev.toggleLeft
+			}),
+			() => this.ganttInit(this.props.todos)
+		);
+	};
 	render() {
 		const { zoom } = this.props;
 		this.setZoom(zoom);
 		return (
-			<>
+			<div >
 				<div className="px-32">
 					<p className="my-12">
 						You can use any XLSX file or download this sample{' '}
@@ -707,9 +721,13 @@ class Gantt extends Component {
 						</form>
 					</p>
 				</div>
+
 				<div class="demo-main-container">
 					<div class="header gantt-demo-header">
 						<ul class="gantt-controls">
+							<li class="gantt-menu-item" onClick={this.toggleLeftPanel}>
+								<a data-action="collapseAll">Toggle left</a>
+							</li>
 							<li class="gantt-menu-item" onClick={this.closeAll}>
 								<a data-action="collapseAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_collapse_all_24.png" />
@@ -734,7 +752,13 @@ class Gantt extends Component {
 									Move Backward
 								</a>
 							</li>
-							<li class="gantt-menu-item gantt-menu-item-right">
+							<li
+								class="gantt-menu-item gantt-menu-item-right"
+								id="fullScreen"
+								// onClick={() => {
+								// 	gantt.ext.fullscreen.toggle();
+								// }}
+							>
 								<a data-action="fullscreen">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_fullscreen_24.png" />
 									Fullscreen
@@ -801,7 +825,7 @@ class Gantt extends Component {
 						className="gantt-min-height"
 					></div>
 				</div>
-			</>
+			</div>
 		);
 	}
 }
