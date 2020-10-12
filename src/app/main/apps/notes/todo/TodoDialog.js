@@ -410,6 +410,7 @@ function TodoDialog(props) {
 						</div>
 					) : (
 						companies &&
+						company &&
 						!!companies.length && (
 							<div className="mt-8 mb-16 select-dropdown">
 								<FuseChipSelect
@@ -428,22 +429,24 @@ function TodoDialog(props) {
 										setCompany(value.splice(value.length - 1));
 									}}
 									value={company}
-									options={companies.map(company => ({
-										data: company,
-										value: company.profile?.company?.name,
-										label: (
-											<span className="flex items-center">
-												<Icon
-													className="list-item-icon mr-4"
-													style={{ color: company.profile?.company?.color_project }}
-													color="action"
-												>
-													label
-												</Icon>{' '}
-												{company.profile.company.name}
-											</span>
-										)
-									}))}
+									options={companies.map(companyData => {
+										return {
+											data: companyData,
+											value: companyData?.profile?.company?.name,
+											label: (
+												<span className="flex items-center">
+													<Icon
+														className="list-item-icon mr-4"
+														style={{ color: companyData?.profile?.company?.color_project }}
+														color="action"
+													>
+														label
+													</Icon>{' '}
+													{companyData?.profile?.company.name}
+												</span>
+											)
+										};
+									})}
 								/>
 							</div>
 						)

@@ -157,7 +157,9 @@ class Gantt extends Component {
 		apiCall(
 			EDIT_TASK_TO_PROJECT(todo.id),
 			values,
-			res => {},
+			res => {
+				this.props.getTodos(this.props.match.params.id, true);
+			},
 			err => console.log(err),
 			METHOD.PUT,
 			getHeaderToken()
@@ -460,7 +462,7 @@ class Gantt extends Component {
 		}, {});
 		if (typeof min == 'string') {
 			markerId = gantt.addMarker({
-				start_date: new Date(min),
+				start_date: new Date(min.split('-')),
 				css: 'status_line',
 				text: 'Start project',
 				title: 'Start project: ' //+ dateToStr(new Date(min))
@@ -617,7 +619,7 @@ class Gantt extends Component {
 		const { zoom } = this.props;
 		this.setZoom(zoom);
 		return (
-			<div >
+			<div>
 				<div className="px-32">
 					<p className="my-12">
 						You can use any XLSX file or download this sample{' '}
