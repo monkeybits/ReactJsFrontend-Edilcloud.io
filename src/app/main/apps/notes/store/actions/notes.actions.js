@@ -17,12 +17,12 @@ export const UPDATE_NOTE = '[NOTES APP] UPDATE NOTE';
 export const REMOVE_NOTE = '[NOTES APP] REMOVE NOTE';
 export const TOGGLE_VARIATE_DESC_SIZE = '[NOTES APP] TOGGLE VARIATE DESC SIZE';
 
-export function getProjects() {
+export function getProjects(handleSetLoading) {
 	return dispatch => {
 		apiCall(
 			PROJECT_LIST,
 			{},
-			( results ) => {
+			results => {
 				if (Array.isArray(results)) {
 					dispatch({
 						type: GET_PROJECTS,
@@ -32,6 +32,9 @@ export function getProjects() {
 						}))
 					});
 				}
+				handleSetLoading({
+					loadingProjects: false
+				});
 			},
 			err => console.log(err),
 			METHOD.GET,
@@ -40,7 +43,7 @@ export function getProjects() {
 	};
 }
 
-export function getRequest() {
+export function getRequest(handleSetLoading) {
 	return dispatch => {
 		apiCall(
 			PROJECT_INVIATION_LIST,
@@ -57,6 +60,9 @@ export function getRequest() {
 						}))
 					});
 				}
+				handleSetLoading({
+					loadingProjectRequest: false
+				});
 			},
 			err => console.log(err),
 			METHOD.GET,

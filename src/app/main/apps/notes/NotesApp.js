@@ -1,6 +1,6 @@
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import withReducer from 'app/store/withReducer';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import LabelsDialog from './dialogs/labels/LabelsDialog';
 import NoteDialog from './dialogs/note/NoteDialog';
@@ -21,6 +21,10 @@ import { decodeDataFromToken } from 'app/services/serviceUtils';
 function NotesApp(props) {
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
+	const [loading, setLoading] = useState({
+		loadingProjects: false,
+		loadingProjectRequest: false
+	});
 	const getRole = () => userInfo?.extra?.profile.role;
 	const useStyles = makeStyles(theme => ({
 		addButton: {
@@ -30,19 +34,27 @@ function NotesApp(props) {
 			zIndex: 99,
 			[theme.breakpoints.down('md')]: {
 				right: 24,
-				bottom: 24,
+				bottom: 24
 			}
 		}
 	}));
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
-
+	const handleSetLoading = data =>
+		setLoading(loading=>({
+			...loading,
+			...data
+		}));
 	useEffect(() => {
 		dispatch({
 			type: Actions.RESET_PROEJECTS
 		});
-		dispatch(Actions.getProjects());
-		dispatch(Actions.getRequest());
+		handleSetLoading({
+			loadingProjects: true,
+			loadingProjectRequest: true
+		});
+		dispatch(Actions.getProjects(handleSetLoading));
+		dispatch(Actions.getRequest(handleSetLoading));
 	}, [dispatch]);
 
 	return (
@@ -58,7 +70,7 @@ function NotesApp(props) {
 				content={
 					<div className="flex flex-col w-full items-center">
 						{/* <NewNote /> */}
-						<NoteList />
+						<NoteList {...loading} />
 						<AddProjectDialog />
 						{/* <NoteDialog /> */}
 						{/* <LabelsDialog /> */}
@@ -69,16 +81,18 @@ function NotesApp(props) {
 				ref={pageLayout}
 				// innerScroll
 			/>
-		{(getRole() == 'o' || getRole() == 'd') &&	<FuseAnimate animation="transition.expandIn" delay={300}>
-				<Fab
-					color="primary"
-					aria-label="add"
-					className={classes.addButton}
-					onClick={() => dispatch(Actions.openProjectDialog('new'))}
-				>
-					<FontAwesomeIcon icon={faPlus} size="1x" />
-				</Fab>
-			</FuseAnimate>}
+			{(getRole() == 'o' || getRole() == 'd') && (
+				<FuseAnimate animation="transition.expandIn" delay={300}>
+					<Fab
+						color="primary"
+						aria-label="add"
+						className={classes.addButton}
+						onClick={() => dispatch(Actions.openProjectDialog('new'))}
+					>
+						<FontAwesomeIcon icon={faPlus} size="1x" />
+					</Fab>
+				</FuseAnimate>
+			)}
 		</>
 	);
 }

@@ -64,9 +64,7 @@ export function sendMessage(messageText, setMessageText, pid, images, setImages)
 		};
 		var formData = new FormData();
 		for (let key in values) {
-			if (values[key]) {
 				formData.append(key, values[key]);
-			}
 		}
 		if (images) {
 			const acceptedFiles = images.map(d => d.file);

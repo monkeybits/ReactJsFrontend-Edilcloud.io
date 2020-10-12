@@ -100,8 +100,17 @@
     object-fit: cover;
     border: 1px solid #e6e4e4;
 }
+.font-size-14 {
+    font-size: 14px !important;
+}
+.font-size-16 {
+    font-size: 16px;
+}
 .font-size-18 {
     font-size: 18px;
+}
+.font-size-20 {
+    font-size: 20px;
 }
 .bg-grey {
     background-color: #718096;
@@ -288,9 +297,6 @@
     font-size: 17px;
     margin-top: 5px;
 }
-.font-size-14 {
-    font-size: 14px !important;
-}
 .post-icons .image, .post-icons .send  {
     position: absolute;
     top: 50%;
@@ -360,6 +366,15 @@
 .gantt-min-height {
     height: calc(100vh - 90px) !important;
 }
+.gantt-custom-full-screen {
+    zoom: 100% !important;
+}
+.gantt-custom-full-screen #fuse-navbar, .gantt-custom-full-screen #fuse-navbar ~ div > header, .gantt-custom-full-screen .custom-tab-header, .gantt-custom-full-screen .team-chat-sidebar, .gantt-custom-full-screen .custom-gantt-toolbar, .gantt-custom-full-screen .zoom-bar, .gantt-custom-full-screen #fuse-layout > div:nth-child(2), .gantt-custom-full-screen .min-h-72.h-72, #fuse-settings {
+    display: none;
+}
+.gantt-custom-full-screen .tabs-content, .gantt-custom-full-screen .pb-80 {
+    padding-bottom: 0px !important;
+}
 .custom-zoom-bar {
     padding: 15px 15px 15px 35px;
 }
@@ -370,7 +385,7 @@
     margin-right: 5px;
 }
 .bg-body {
-    background: #262526;
+    background: #fdf2fd;
 }
 .custom-bg ~ .inner-scroll {
     background-color: transparent;

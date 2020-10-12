@@ -5,6 +5,7 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const GET_CONTACTS = '[CHAT PANEL] GET CONTACTS';
 export const SET_SELECTED_CONTACT_ID = '[CHAT PANEL] SET SELECTED CONTACT ID';
+export const UPDATE_CONTECT_COUNT = '[CHAT PANEL] UPDATE_CONTECT_COUNT';
 export const REMOVE_SELECTED_CONTACT_ID = '[CHAT PANEL] REMOVE SELECTED CONTACT ID';
 export const REMOVE_SELECTED_CONTACTS = '[CHAT PANEL] REMOVE SELECTED CONTACTS';
 
@@ -13,7 +14,7 @@ export function getProjects() {
 		apiCall(
 			PROJECT_LIST,
 			{},
-			( results ) => {
+			results => {
 				if (Array.isArray(results)) {
 					dispatch({
 						type: GET_CONTACTS,
@@ -23,12 +24,29 @@ export function getProjects() {
 							type: 'project'
 						}))
 					});
+					if (global.socket) {
+						results.map(d => {
+							let code = d.talks?.[d.talks?.length - 1]?.code;
+							if (code) {
+								global.socket.emit('join', {
+									room: code,
+									name: ''
+								});
+							}
+						});
+					}
 				}
 			},
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
 		);
+	};
+}
+export function updateContactCount(contactMessage) {
+	return {
+		type: UPDATE_CONTECT_COUNT,
+		payload: contactMessage
 	};
 }
 export function setselectedContactId(contactId) {

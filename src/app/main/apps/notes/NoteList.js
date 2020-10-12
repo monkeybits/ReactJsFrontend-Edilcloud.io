@@ -28,6 +28,8 @@ import ProjectListitem from './ProjectDetail/ProjectListitem';
 import ReuestsDrawer from '../scrumboard/boards/ReuestsDrawer';
 import { Badge } from '@material-ui/core';
 import { ACCEPT_PROJECT_INVITATION, REJECT_PROJECT_INVITATION } from 'app/services/apiEndPoints';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 const useStyles = makeStyles(theme => ({
 	// root: {
 	// 	maxWidth: 345,
@@ -122,13 +124,24 @@ function NoteList(props) {
 		setIsShowRequests(false);
 	};
 	if (projects.length === 0) {
-		return (
-			<div className="flex flex-1 items-center justify-center h-full">
-				<Typography color="textSecondary" variant="h5">
-					There are no projects!
-				</Typography>
-			</div>
-		);
+		if (props.loadingProjects || props.loadingProjectRequest) {
+			return (
+				<div className="flex flex-1 flex-col items-center justify-center">
+					<Typography className="text-20 mb-16" color="textSecondary">
+						Loading projects...
+					</Typography>
+					<LinearProgress className="w-xs" color="secondary" />
+				</div>
+			);
+		} else {
+			return (
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						There are no projects!
+					</Typography>
+				</div>
+			);
+		}
 	}
 	return (
 		<>

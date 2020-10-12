@@ -29,6 +29,7 @@ export const ACTIVATE_MEMBER = id => `/api/frontend/profile/company/profile_enab
 export const GET_MESSAGES_API = '/api/frontend/profile/company/message_list/all/?no_page=no_page';
 export const GET_PROJECT_MESSAGES_API = pid => `/api/frontend/project/project/${pid}/message_list/?no_page=no_page`;
 export const SEND_MESSAGE_API = cid => `/api/frontend/message/message/company/${cid}/add/`;
+export const DELETE_MESSAGE = mid => `/api/frontend/message/message/delete/${mid}/`;
 export const SEND_PROJECT_MESSAGE_API = pid => `/api/frontend/message/message/project/${pid}/add/`;
 export const COMPANY_DETAIL = '/api/frontend/profile/company/detail/';
 export const ADD_PHOTO = cid => `/api/frontend/media/photo/company/${cid}/add/`;

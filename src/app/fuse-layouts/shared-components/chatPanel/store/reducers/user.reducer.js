@@ -6,7 +6,10 @@ const userReducer = (state = {}, action) => {
 		case Actions.GET_USER_DATA: {
 			return { ...action.payload };
 		}
-		case Actions.GET_CHAT: {
+		case Actions.CHAT_IS_LOADING: {
+			return { ...state, loadingChat: action.payload, showUser: true };
+		}
+		case Actions.ADD_USER_DATA: {
 			return {
 				...state,
 				...action.chatUserData
@@ -16,7 +19,9 @@ const userReducer = (state = {}, action) => {
 			return getUpdatedUser(state, action);
 		}
 		case Actions.REMOVE_CHAT: {
-			return {};
+			return {
+				showUser: false
+			};
 		}
 		default:
 			return state;
