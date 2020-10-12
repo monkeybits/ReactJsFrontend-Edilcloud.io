@@ -3,7 +3,7 @@ import { setselectedContactId } from './contacts.actions';
 import { closeMobileChatsSidebar } from './sidebars.actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-import { GET_MESSAGES_API, SEND_MESSAGE_API, COMPANY_DETAIL } from 'app/services/apiEndPoints';
+import { GET_MESSAGES_API, SEND_MESSAGE_API, COMPANY_DETAIL, DELETE_MESSAGE } from 'app/services/apiEndPoints';
 
 export const GET_CHAT = '[CHAT APP] GET CHAT';
 export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT';
@@ -24,7 +24,7 @@ export function getChat(contactId) {
 			GET_MESSAGES_API,
 			{},
 			chat => {
-				if (global.socket && chat &&chat[chat.length - 1]) {
+				if (global.socket && chat && chat[chat.length - 1]) {
 					setTimeout(() => {
 						global.socket.emit('join', {
 							room: chat[chat.length - 1].talk.code,
@@ -48,6 +48,18 @@ export function getChat(contactId) {
 export function removeChat() {
 	return {
 		type: REMOVE_CHAT
+	};
+}
+export function deleteMessage(mid) {
+	return (dispatch, getState) => {
+		apiCall(
+			DELETE_MESSAGE(mid),
+			{},
+			chat => {},
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
 	};
 }
 export function sendMessage(messageText, setMessageText, images, setImages) {

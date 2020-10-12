@@ -11,9 +11,11 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getChatToken } from 'app/services/serviceUtils';
 
 export const GET_CHAT = '[CHAT PANEL] GET CHAT';
+export const ADD_USER_DATA = '[CHAT PANEL] ADD_USER_DATA';
 export const REMOVE_CHAT = '[CHAT PANEL] REMOVE CHAT';
 export const SEND_MESSAGE = '[CHAT PANEL] SEND MESSAGE';
 export const UPDATE_CHAT_LOG = '[CHAT PANEL] UPDATE_CHAT_LOG';
+export const CHAT_IS_LOADING = '[CHAT PANEL] CHAT_IS_LOADING';
 
 export function updateChatLog(update) {
 	return {
@@ -21,14 +23,25 @@ export function updateChatLog(update) {
 		update
 	};
 }
+export function loadingChat(payload) {
+	return {
+		type: CHAT_IS_LOADING,
+		payload
+	};
+}
 
 export function getChat(contact) {
 	return (dispatch, getState) => {
+		dispatch(loadingChat(true));
+		dispatch({
+			type: ADD_USER_DATA,
+			chatUserData: contact
+		});
 		apiCall(
 			contact.type == 'company' ? GET_MESSAGES_API : GET_PROJECT_MESSAGES_API(contact.id),
 			{},
 			chat => {
-				if (global.socket && chat &&chat[chat.length - 1]) {
+				if (global.socket && chat && chat[chat.length - 1]) {
 					global.socket.emit('join', {
 						room: chat[chat.length - 1].talk.code,
 						name: chat[chat.length - 1].sender.first_name
@@ -37,14 +50,13 @@ export function getChat(contact) {
 				dispatch({
 					type: GET_CHAT,
 					chat: chat,
-					chatUserData: contact
 				});
+				dispatch(loadingChat(false));
 			},
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
 		);
-
 	};
 }
 
@@ -62,9 +74,7 @@ export function sendMessage(messageText, setMessageText, user, images, setImages
 		};
 		var formData = new FormData();
 		for (let key in values) {
-			if (values[key]) {
-				formData.append(key, values[key]);
-			}
+			formData.append(key, values[key]);
 		}
 		if (images) {
 			const acceptedFiles = images.map(d => d.file);

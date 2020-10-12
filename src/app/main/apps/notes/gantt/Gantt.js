@@ -340,9 +340,13 @@ class Gantt extends Component {
 			var toggle = document.getElementById('fullScreen');
 			toggle.onclick = function () {
 				if (!gantt.getState().fullscreen) {
+					document.body.className = 'gantt-custom-full-screen';
 					gantt.expand();
 				} else {
-					gantt.collapse();
+					document.body.className = '';
+					setTimeout(() => {
+						gantt.collapse();
+					}, 300);
 				}
 			};
 		});
@@ -619,7 +623,7 @@ class Gantt extends Component {
 		const { zoom } = this.props;
 		this.setZoom(zoom);
 		return (
-			<div >
+			<div>
 				<div className="px-32 custom-gantt-toolbar">
 					<p className="my-12">
 						You can use any XLSX file or download this sample{' '}

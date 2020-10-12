@@ -15,6 +15,7 @@ import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils'
 import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
+import MessageMoreOptions from './MessageMoreOptions';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -219,6 +220,7 @@ function Chat(props) {
 											{contact.first_name.split('')[0]}
 										</Avatar>
 									)}
+
 									<div className="bubble items-center justify-center p-12 max-w-50">
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
@@ -228,7 +230,8 @@ function Chat(props) {
 												{contact.first_name + ' ' + contact.last_name}
 											</Typography>
 										)}
-										<div className="leading-normal font-size-16 mb-10">{item.body} </div>
+										<MessageMoreOptions className='text-right' item={item} deleteMessage={Actions.deleteMessage} />
+										<div className="leading-normal mb-10">{item.body} </div>
 										<ViewFile files={item.files} />
 										{contact.id == userIdFromCompany && item.waitingToSend ? (
 											<Icon className="float-right font-size-16">access_time</Icon>

@@ -169,7 +169,7 @@ function Chat(props) {
 		if (audioRef.current) {
 			audioRef.current.sendDirectToChat();
 		}
-		if (messageText === '') {
+		if (messageText === '' && !images) {
 			return;
 		}
 		dispatch(Actions.sendMessage(messageText, setMessageText, user, images, setImages));

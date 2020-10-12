@@ -16,6 +16,7 @@ import ContactList from './ContactList';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -120,7 +121,7 @@ function ChatPanel(props) {
 	// 		document.removeEventListener('click', handleDocumentClick);
 	// 	};
 	// }, [state, dispatch]);
-	
+
 	// if (contacts.length < 1) {
 	// 	return null;
 	// }
@@ -168,9 +169,10 @@ function ChatPanel(props) {
 							</div>
 						</Toolbar>
 					</AppBar>
+					{user?.loadingChat && <LinearProgress color="secondary" />}
 					<Paper className="flex flex-1 flex-row min-h-px">
-						{(!state || !user?.id) && <ContactList className="flex flex-shrink-0" />}
-						{state && user?.id && (
+						{(!state || !user?.showUser) && <ContactList className="flex flex-shrink-0" />}
+						{state && user?.showUser && (
 							<Chat {...{ open, setOpen }} className="flex flex-1 z-10 muliple-images-overflow-x" />
 						)}
 					</Paper>
