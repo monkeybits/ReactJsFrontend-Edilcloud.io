@@ -619,8 +619,8 @@ class Gantt extends Component {
 		const { zoom } = this.props;
 		this.setZoom(zoom);
 		return (
-			<div>
-				<div className="px-32">
+			<div >
+				<div className="px-32 custom-gantt-toolbar">
 					<p className="my-12">
 						You can use any XLSX file or download this sample{' '}
 						<a class="xlsx-sample" href="/assets/files/DemoProject.xlsx" target="_blank">

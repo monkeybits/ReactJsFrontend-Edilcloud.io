@@ -228,12 +228,12 @@ function Chat(props) {
 												{contact.first_name + ' ' + contact.last_name}
 											</Typography>
 										)}
-										<div className="leading-normal mb-10">{item.body} </div>
+										<div className="leading-normal font-size-16 mb-10">{item.body} </div>
 										<ViewFile files={item.files} />
 										{contact.id == userIdFromCompany && item.waitingToSend ? (
-											<Icon className="float-right">access_time</Icon>
+											<Icon className="float-right font-size-16">access_time</Icon>
 										) : (
-											<Icon className="float-right">check</Icon>
+											<Icon className="float-right font-size-16">check</Icon>
 										)}
 									</div>
 									{isLastMessageOfGroup(item, i) && (
