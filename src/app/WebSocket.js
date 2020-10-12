@@ -36,6 +36,9 @@ export default ({ children }) => {
 				if (getStae().chatPanel.state) {
 					dispatch(chatPanelActions.updateChatLog(msg));
 				}
+				if(msg.message.talk.content_type_name == 'project'){
+					dispatch(chatPanelActions.updateContactCount(msg));
+				}
 				if (
 					msg.message.talk.content_type_name == 'project' &&
 					getStae().notesApp?.project?.projectDetail?.id == msg.message.talk.object_id

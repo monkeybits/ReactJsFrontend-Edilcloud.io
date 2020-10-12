@@ -4,13 +4,35 @@ const initialState = {
 	entities: [],
 	selectedContactId: null
 };
-
+const getUpdatedEntities = (entities, msg) => {
+	return entities.map(entity => {
+		if (entity.id == msg.message.talk.object_id) {
+			return {
+				...entity,
+				talks: [
+					{
+						...entity.talks[0],
+						unread_count: entity.talks[0].unread_count + 1
+					}
+				]
+			};
+		} else {
+			return entity;
+		}
+	});
+};
 const contactsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_CONTACTS: {
 			return {
 				...state,
 				entities: [...action.payload]
+			};
+		}
+		case Actions.UPDATE_CONTECT_COUNT: {
+			return {
+				...state,
+				entities: getUpdatedEntities(state.entities, action.payload)
 			};
 		}
 		case Actions.SET_SELECTED_CONTACT_ID: {

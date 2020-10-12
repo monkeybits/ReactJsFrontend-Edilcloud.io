@@ -128,7 +128,9 @@ function ContactList(props) {
 					onClick={() => handleContactClick(contact)}
 					className={clsx(classes.contactButton, { active: selectedContactId === contact.id })}
 				>
-					{/* {contact.unread && <div className={classes.unreadBadge}>{contact.unread}</div>} */}
+					{contact.talks?.length && (
+						<div className={classes.unreadBadge}>{contact.talks[0].unread_count}</div>
+					)}
 					<div className={clsx(contact.status, classes.status)} />
 					<Avatar src={contact.logo} alt={contact.name}>
 						{!contact.logo || contact.logo === '' ? contact.name[0] : ''}
