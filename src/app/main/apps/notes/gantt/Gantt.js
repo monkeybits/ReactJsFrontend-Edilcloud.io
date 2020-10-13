@@ -184,7 +184,7 @@ class Gantt extends Component {
 			getHeaderToken()
 		);
 	};
-	shouldComponentUpdate(nextProps) {
+	shouldComponentUpdate(nextProps, nextState) {
 		const { todos } = nextProps;
 		this.templatePermissions();
 		if (!this.state.tasks) {
@@ -451,27 +451,28 @@ class Gantt extends Component {
 			multiselect: true,
 			marker: true
 		});
-
-		var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
-		var markerId = gantt.addMarker({
-			start_date: new Date(),
-			css: 'today',
-			text: 'Now',
-			title: dateToStr(new Date())
-		});
-		gantt.getMarker(markerId);
-
-		var min = this.state.tasks?.data.reduce(function (a, b) {
-			return a.start_date < b.start_date ? a.start_date : b.start_date;
-		}, {});
-		if (typeof min == 'string') {
-			markerId = gantt.addMarker({
-				start_date: new Date(min.split('-')),
-				css: 'status_line',
-				text: 'Start project',
-				title: 'Start project: ' //+ dateToStr(new Date(min))
+		if (this.state.tasks?.data?.length) {
+			var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+			var markerId = gantt.addMarker({
+				start_date: new Date(),
+				css: 'today',
+				text: 'Now',
+				title: dateToStr(new Date())
 			});
 			gantt.getMarker(markerId);
+
+			var min = this.state.tasks?.data.reduce(function (a, b) {
+				return a?.start_date < b?.start_date ? a?.start_date : b?.start_date;
+			}, {});
+			if (typeof min == 'string') {
+				markerId = gantt.addMarker({
+					start_date: new Date(min.split('-')),
+					css: 'status_line',
+					text: 'Start project',
+					title: 'Start project: ' //+ dateToStr(new Date(min))
+				});
+				gantt.getMarker(markerId);
+			}
 		}
 	};
 	componentDidUpdate() {
