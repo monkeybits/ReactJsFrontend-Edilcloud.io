@@ -49,7 +49,7 @@ export function getChat(contact) {
 				}
 				dispatch({
 					type: GET_CHAT,
-					chat: chat,
+					chat: chat
 				});
 				dispatch(loadingChat(false));
 			},
@@ -67,6 +67,7 @@ export function removeChat() {
 }
 
 export function sendMessage(messageText, setMessageText, user, images, setImages) {
+	console.log({ messageText, setMessageText, user, images, setImages });
 	return (dispatch, getState) => {
 		const userInfo = decodeDataFromToken();
 		let values = {

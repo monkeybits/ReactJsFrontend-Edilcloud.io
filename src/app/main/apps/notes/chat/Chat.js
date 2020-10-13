@@ -195,7 +195,7 @@ function Chat(props) {
 			},
 			...fileList
 		];
-		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
+		dispatch(Actions.sendMessage(messageText, setMessageText, routeParams.id, fileList, setImages));
 	};
 	return (
 		<div className={clsx('flex flex-col relative chat-box', props.className)}>

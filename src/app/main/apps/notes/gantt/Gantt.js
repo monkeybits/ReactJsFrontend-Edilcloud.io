@@ -619,6 +619,84 @@ class Gantt extends Component {
 			() => this.ganttInit(this.props.todos)
 		);
 	};
+	importExcel = fileInput => {
+		if (fileInput.files[0]) {
+			gantt.importFromExcel({
+				server: 'https://export.dhtmlx.com/gantt',
+				data: fileInput.files[0],
+				callback: project => {
+					if (project) {
+						var header = [];
+						var headerControls = [];
+						var body = [];
+						let listOfData = project.map(item => ({
+							name: item['Task name'],
+							progress: item['Completed percentage'],
+							date_start: item['Start time']
+								? moment(item['Start time']).format('YYYY-MM-DD')
+								: undefined,
+							date_end: item['End time'] ? moment(item['End time']).format('YYYY-MM-DD') : undefined
+						}));
+						project.forEach(function (task) {
+							var cols = [];
+							if (!header.length) {
+								for (var i in task) {
+									header.push(i);
+								}
+								header.forEach(function (col, index) {
+									cols.push('<th>' + col + '</th>');
+									headerControls.push(
+										"<td><select data-column-mapping='" +
+											col +
+											"'>" +
+											getOptions(index) +
+											'</select>'
+									);
+								});
+								body.push('<tr>' + cols.join('') + '</tr>');
+								body.push('<tr>' + headerControls.join('') + '</tr>');
+							}
+							cols = [];
+							header.forEach(function (col) {
+								cols.push('<td>' + task[col] + '</td>');
+							});
+							body.push('<tr>' + cols.join('') + '</tr>');
+						});
+
+						var div = gantt.modalbox({
+							title: 'Assign columns',
+							type: 'excel-form',
+							text: '<table>' + body.join('') + '</table>',
+							buttons: [
+								{ label: 'Save', css: 'link_save_btn', value: 'save' },
+								{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
+							],
+							callback: result => {
+								switch (result) {
+									case 'save':
+										this.handleUploadListOfTasks(listOfData, () => {});
+										// var selects = div.querySelectorAll(
+										// 	'[data-column-mapping]'
+										// );
+										// var mapping = {};
+										// selects.forEach(function (select) {
+										// 	mapping[
+										// 		select.getAttribute('data-column-mapping')
+										// 	] = select.value;
+										// });
+										// loadTable(mapping, project);
+										break;
+									case 'cancel':
+										//Cancel
+										break;
+								}
+							}
+						});
+					}
+				}
+			});
+		}
+	};
 	render() {
 		const { zoom } = this.props;
 		this.setZoom(zoom);
@@ -633,97 +711,14 @@ class Gantt extends Component {
 					</p>
 					<p className="mb-12">
 						<form className="flex flex-wrap items-center">
-							<input type="file" id="excelFile" name="file" accept=".xlsx,.xls" />
-							<Button
-								id="excelImportBtn"
-								type="button"
-								onClick={() => {
-									var fileInput = document.getElementById('excelFile');
-									if (fileInput.files[0]) {
-										gantt.importFromExcel({
-											server: 'https://export.dhtmlx.com/gantt',
-											data: fileInput.files[0],
-											callback: project => {
-												if (project) {
-													var header = [];
-													var headerControls = [];
-													var body = [];
-													let listOfData = project.map(item => ({
-														name: item['Task name'],
-														progress: item['Completed percentage'],
-														date_start: item['Start time']
-															? moment(item['Start time']).format('YYYY-MM-DD')
-															: undefined,
-														date_end: item['End time']
-															? moment(item['End time']).format('YYYY-MM-DD')
-															: undefined
-													}));
-													project.forEach(function (task) {
-														var cols = [];
-														if (!header.length) {
-															for (var i in task) {
-																header.push(i);
-															}
-															header.forEach(function (col, index) {
-																cols.push('<th>' + col + '</th>');
-																headerControls.push(
-																	"<td><select data-column-mapping='" +
-																		col +
-																		"'>" +
-																		getOptions(index) +
-																		'</select>'
-																);
-															});
-															body.push('<tr>' + cols.join('') + '</tr>');
-															body.push('<tr>' + headerControls.join('') + '</tr>');
-														}
-														cols = [];
-														header.forEach(function (col) {
-															cols.push('<td>' + task[col] + '</td>');
-														});
-														body.push('<tr>' + cols.join('') + '</tr>');
-													});
-
-													var div = gantt.modalbox({
-														title: 'Assign columns',
-														type: 'excel-form',
-														text: '<table>' + body.join('') + '</table>',
-														buttons: [
-															{ label: 'Save', css: 'link_save_btn', value: 'save' },
-															{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
-														],
-														callback: result => {
-															switch (result) {
-																case 'save':
-																	this.handleUploadListOfTasks(listOfData, () => {});
-																	// var selects = div.querySelectorAll(
-																	// 	'[data-column-mapping]'
-																	// );
-																	// var mapping = {};
-																	// selects.forEach(function (select) {
-																	// 	mapping[
-																	// 		select.getAttribute('data-column-mapping')
-																	// 	] = select.value;
-																	// });
-																	// loadTable(mapping, project);
-																	break;
-																case 'cancel':
-																	//Cancel
-																	break;
-															}
-														}
-													});
-												}
-											}
-										});
-									}
-								}}
-								size="small"
-								variant="contained"
-								className="px-12 pt-4 ml-12 load-from-excel"
-							>
-								Load from Excel
-							</Button>
+							<input
+								type="file"
+								id="excelFile"
+								name="file"
+								accept=".xlsx,.xls"
+								onChange={e => this.importExcel(e.target)}
+								hidden
+							/>
 						</form>
 					</p>
 				</div>
@@ -758,6 +753,25 @@ class Gantt extends Component {
 									Move Backward
 								</a>
 							</li>
+							<li class="gantt-menu-item">
+								<a>
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
+									Import
+								</a>
+								<ul class="gantt-controls">
+									<li
+										class="gantt-menu-item"
+										onClick={() => {
+											document.getElementById('excelFile').click();
+										}}
+									>
+										<a data-action="toExcel">
+											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
+											Excel
+										</a>
+									</li>
+								</ul>
+							</li>
 							<li
 								class="gantt-menu-item gantt-menu-item-right"
 								id="fullScreen"
@@ -788,6 +802,7 @@ class Gantt extends Component {
 									Zoom In
 								</a>
 							</li>
+
 							<li class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last">
 								<a>
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />

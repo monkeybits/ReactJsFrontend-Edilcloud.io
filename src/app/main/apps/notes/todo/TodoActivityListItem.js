@@ -113,6 +113,7 @@ function TodoActivityListItem(props) {
 			<ListItem
 				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-16 px-0 sm:px-8')}
 				checked={completed}
+				style={{ borderLeft: '7px solid', borderLeftColor: props.task.assigned_company?.color_project }}
 				onClick={ev => {
 					ev.preventDefault();
 					dispatch(Actions.openTimelineDialog({ todo: props.todo, task: props.task }));
@@ -121,17 +122,6 @@ function TodoActivityListItem(props) {
 				dense
 				button
 			>
-				<Checkbox
-					tabIndex={-1}
-					disableRipple
-					checked={completed}
-					onChange={e => {
-						console.log(e.target.checked);
-						editTodoActivty(e.target.checked);
-					}}
-					onClick={ev => ev.stopPropagation()}
-				/>
-
 				<div className="flex flex-1 flex-col mb-8 relative overflow-hidden px-8">
 					<Typography
 						variant="subtitle1"
@@ -227,6 +217,16 @@ function TodoActivityListItem(props) {
 							// idMembers={cardForm.idMembers}
 						/>
 					</div>
+					<Checkbox
+						tabIndex={-1}
+						disableRipple
+						checked={completed}
+						onChange={e => {
+							console.log(e.target.checked);
+							editTodoActivty(e.target.checked);
+						}}
+						onClick={ev => ev.stopPropagation()}
+					/>
 				</div>
 			</ListItem>
 		</>
