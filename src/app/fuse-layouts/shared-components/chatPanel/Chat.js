@@ -216,7 +216,7 @@ function Chat(props) {
 			},
 			...fileList
 		];
-		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
+		dispatch(Actions.sendMessage(messageText, setMessageText, user, fileList, setImages));
 	};
 	return (
 		<Paper elevation={3} className={clsx('flex flex-col', props.className)}>

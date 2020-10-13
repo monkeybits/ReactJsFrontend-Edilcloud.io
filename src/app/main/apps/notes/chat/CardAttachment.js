@@ -49,7 +49,7 @@ function CardAttachment(props) {
 			return itemImage();
 		}
 		case 'audio': {
-			return wrapper(<FontAwesomeIcon icon={faFileAudio} style={{ color: 'brown', fontSize: '6.4rem' }} />);
+			return <audio controls src={props.item.media_url} />;
 		}
 		case 'video': {
 			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '6.4rem' }} />);
