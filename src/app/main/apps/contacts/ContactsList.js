@@ -14,7 +14,12 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
 import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-
+import './contact-cards.css';
+import Grid from '@material-ui/core/Grid';
+import ContactCard from './ContactCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
+import { TramOutlined } from '@material-ui/icons';
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
 		order === 'ASC'
@@ -44,6 +49,7 @@ function ContactsList(props) {
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [userData, setUserData] = useState(null);
+	const [viewTable, setViewTable] = useState(false);
 	const [filteredData, setFilteredData] = useState(null);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
@@ -244,6 +250,14 @@ function ContactsList(props) {
 	};
 	return (
 		<>
+			<div className="flex">
+				<IconButton onClick={() => setViewTable(false)} className={!viewTable ? 'text-green-700' : ''}>
+					<FontAwesomeIcon icon={faTh} />
+				</IconButton>
+				<IconButton onClick={() => setViewTable(true)}>
+					<FontAwesomeIcon icon={faList} className={viewTable ? 'text-green-700' : ''} />
+				</IconButton>
+			</div>
 			<DeleteConfirmDialog
 				text={
 					userData && (
@@ -264,17 +278,33 @@ function ContactsList(props) {
 				onYes={onDeactivate}
 				onNo={colseDeleteContactDialog}
 			/>
-			<FuseAnimate animation="transition.slideUpIn" delay={200}>
-				<ContactsTable
-					columns={columns}
-					data={filteredData}
-					onRowClick={(ev, row) => {
-						if (row) {
-							dispatch(Actions.openViewContactDialog(row.original));
-						}
-					}}
-				/>
-			</FuseAnimate>
+			{viewTable ? (
+				<FuseAnimate animation="transition.slideUpIn" delay={200}>
+					<ContactsTable
+						columns={columns}
+						data={filteredData}
+						onRowClick={(ev, row) => {
+							if (row) {
+								dispatch(Actions.openViewContactDialog(row.original));
+							}
+						}}
+					/>
+				</FuseAnimate>
+			) : (
+				<Grid container spacing={12}>
+					{filteredData &&
+						filteredData.map((data, index) => {
+							return (
+								<ContactCard
+									editPermission={
+										getRole() == 'o' || getRole() == 'd' || data.email == userInfo?.email
+									}
+									{...data}
+								/>
+							);
+						})}
+				</Grid>
+			)}
 		</>
 	);
 }
