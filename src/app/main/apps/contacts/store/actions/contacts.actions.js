@@ -279,7 +279,7 @@ export function addContact(values, isExisting) {
 	};
 }
 
-export function updateContact(values, id) {
+export function updateContact(values, id, hideContectCalls) {
 	return (dispatch, getState) => {
 		var formData = new FormData();
 		for (let key in values) {
@@ -289,7 +289,9 @@ export function updateContact(values, id) {
 			UPDATE_MEMBER(id),
 			formData,
 			res => {
-				dispatch(getContacts());
+				if (!hideContectCalls) {
+					dispatch(getContacts());
+				}
 			},
 			err => console.log(err),
 			METHOD.PUT,
