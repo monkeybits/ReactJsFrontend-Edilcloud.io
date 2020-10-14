@@ -23,6 +23,12 @@
 .hide_progress_drag .gantt_task_progress_drag {
 	display: none !important;
 }
+.hide_date_drag .gantt_task_drag.task_right{
+	display: none !important;
+}
+.hide_date_drag .gantt_task_drag.task_left{
+	display: none !important;
+}
 .important {
 	border: 2px solid red;
 	color: red;
