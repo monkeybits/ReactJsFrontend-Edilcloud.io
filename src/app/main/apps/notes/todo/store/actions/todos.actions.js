@@ -41,6 +41,7 @@ export function getTodos(pid, isGantt) {
 			isGantt ? GET_GANTT_TASK_LIST(pid) : GET_TASK_LIST(pid),
 			{},
 			results => {
+				console.log({ ganttresultsAPI: results });
 				dispatch({
 					type: GET_TODOS,
 					payload: results
