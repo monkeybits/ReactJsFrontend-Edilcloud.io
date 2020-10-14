@@ -340,7 +340,11 @@ class Gantt extends Component {
 					} else {
 						const userInfo = decodeDataFromToken();
 						const getRole = () => userInfo?.extra?.profile.role;
-						if (getRole() == 'o' || getRole() == 'd') {
+						if (
+							(this.props.projectDetail.company?.id == this.props.company.id ||
+								captureData.data?.assigned_company?.id == this.props.company.id) &&
+							(getRole() == 'o' || getRole() == 'd')
+						) {
 							return this.props.openTaskContent({ ...captureData.data, isGantt: true });
 						} else {
 							return null;
