@@ -102,10 +102,7 @@ class Gantt extends Component {
 		}
 	}
 	componentDidMount() {
-		// gantt.config.xml_date = '%Y-%m-%d %H:%i';
-		// const { tasks } = this.props;
-		// gantt.init(this.ganttContainer);
-		// gantt.parse(tasks);
+		gantt.clearAll();
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
 			return new Promise((resolve, reject) => {
 				console.log({ entityType, action, item, id });
@@ -207,6 +204,7 @@ class Gantt extends Component {
 								duration: duration + 1,
 								progress: data.progress / 100,
 								company: data?.assigned_company?.name,
+								parent: 0,
 								mainId: data.id
 							},
 							data
@@ -242,15 +240,11 @@ class Gantt extends Component {
 				var endDate = moment(moment(data.date_end).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
 				let duration = endDate.diff(startDate, 'days');
 				// let duration = moment(data.date_start, 'DD.MM.YYYY').diff(moment(data.date_end, 'DD.MM.YYYY'), 'days');
-				// console.log(
-				// 	typeof duration,
-				// 	duration,
-				// 	data.date_start,
-				// 	data.date_end,
-				// 	startDate,
-				// 	endDate,
-				// 	endDate.diff(startDate, 'days')
-				// );
+				console.log({
+					data,
+					parent: data.parent,
+					parentId: data.task
+				});
 				return data.parent == 0
 					? {
 							...{
@@ -261,6 +255,7 @@ class Gantt extends Component {
 								duration: duration + 1,
 								progress: data.progress / 100,
 								company: data?.assigned_company?.name,
+								parent: 0,
 								mainId: data.id
 							},
 							data
@@ -534,19 +529,22 @@ class Gantt extends Component {
 			})
 			.catch(err => console.log(err));
 	};
-	closeAll() {
+	closeAll = () => {
 		gantt.eachTask(function (task) {
 			task.$open = false;
 		});
 		gantt.render();
-	}
+	};
 
-	openAll() {
-		gantt.eachTask(function (task) {
-			task.$open = true;
+	openAll = () => {
+		gantt.eachTask(task => {
+			console.log({ task });
+			if (task.data.assigned_company?.id == this.props.company.id) {
+				task.$open = true;
+			}
 		});
 		gantt.render();
-	}
+	};
 	zoomIn = () => {
 		if (this.state.zoomLevel < 4) {
 			this.setState(

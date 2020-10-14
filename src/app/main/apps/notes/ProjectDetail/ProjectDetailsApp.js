@@ -16,7 +16,7 @@ import ProjectInfo from './ProjectInfo';
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();
-	const [value, setValue] = React.useState(0);
+	const [value, setValue] = React.useState(4);
 	const [openDialog, setOpenDialog] = React.useState(false);
 	const pageLayout = useRef(null);
 	const match = useRouteMatch();
