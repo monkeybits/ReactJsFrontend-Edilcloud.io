@@ -26,9 +26,10 @@ const initialState = {
 const todosReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS: {
+			console.log({ payload: action.payload });
 			return {
 				...state,
-				entities: _.keyBy(action.payload, 'id'),
+				entities: {...action.payload},
 				searchText: '',
 				routeParams: action.routeParams
 			};
@@ -36,7 +37,7 @@ const todosReducer = (state = initialState, action) => {
 		case Actions.UPDATE_TODOS: {
 			return {
 				...state,
-				entities: _.keyBy(action.payload, 'id')
+				entities: action.payload
 			};
 		}
 		case Actions.OPEN_NEW_TODO_DIALOG: {

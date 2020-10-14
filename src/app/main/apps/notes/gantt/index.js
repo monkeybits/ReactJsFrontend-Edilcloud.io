@@ -18,10 +18,10 @@ function GanttWrapper(props) {
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getTodos(routeParams.id, true));
 		return () => {
-			dispatch({
-				type: Actions.GET_TODOS,
-				payload: []
-			});
+			// dispatch({
+			// 	type: Actions.GET_TODOS,
+			// 	payload: []
+			// });
 		};
 	}, [dispatch, routeParams]);
 	return (

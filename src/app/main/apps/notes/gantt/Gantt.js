@@ -96,10 +96,10 @@ class Gantt extends Component {
 	}
 
 	componentWillUnmount() {
-		if (this.dataProcessor) {
-			this.dataProcessor.destructor();
-			this.dataProcessor = null;
-		}
+		// if (this.dataProcessor) {
+		// 	this.dataProcessor.destructor();
+		// 	this.dataProcessor = null;
+		// }
 	}
 	componentDidMount() {
 		gantt.clearAll();
@@ -183,68 +183,24 @@ class Gantt extends Component {
 	};
 	shouldComponentUpdate(nextProps, nextState) {
 		const { todos } = nextProps;
-		this.templatePermissions();
-		if (!this.state.tasks) {
-			//this.state.tasks?.length !== Object.values(todos.entities)
+		if (this.props.todos && todos && JSON.stringify(todos) !== JSON.stringify(this.props.todos)) {
+			this.templatePermissions();
 			this.ganttInit(todos);
 			return true;
-		} else if (this.state.tasks && this.state.tasks.data) {
-			/// .length !== Object.values(todos.entities).length
-			let newtasks = Object.values(todos.entities).map((data, index) => {
-				var startDate = moment(moment(data.date_start).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
-				var endDate = moment(moment(data.date_end).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
-				let duration = endDate.diff(startDate, 'days');
-				return data.parent == 0
-					? {
-							...{
-								id: data.id,
-								text: data.name,
-								start_date: data.date_start,
-								end_date: data.date_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
-								duration: duration + 1,
-								progress: data.progress / 100,
-								company: data?.assigned_company?.name,
-								parent: 0,
-								mainId: data.id
-							},
-							data
-					  }
-					: {
-							...{
-								id: data.id,
-								text: data.title,
-								start_date: data.datetime_start,
-								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
-								duration: duration + 1,
-								progress: data.status == 'completed' ? 1 : 0,
-								company: data?.assigned_company?.name,
-								mainId: data.id,
-								parent: data.task
-							},
-							data
-					  };
-			});
-			if (JSON.stringify(newtasks) !== JSON.stringify(this.state.tasks.data)) {
-				this.ganttInit(todos);
-				return true;
-			}
-			if (this.props.zoom !== nextProps.zoom) {
-				return true;
-			}
+		}
+
+		if (this.props.zoom !== nextProps.zoom && this.state.tasks) {
+			this.createGantt(this.state.tasks);
+			return true;
 		}
 	}
+
 	ganttInit = todos => {
+		// alert();
+		let allTodos = todos.entities;
+		console.log({ allTodos });
 		let tasks = {
-			data: Object.values(todos.entities).map((data, index) => {
-				var startDate = moment(moment(data.date_start).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
-				var endDate = moment(moment(data.date_end).format('DD.MM.YYYY'), 'DD.MM.YYYY"');
-				let duration = endDate.diff(startDate, 'days');
-				// let duration = moment(data.date_start, 'DD.MM.YYYY').diff(moment(data.date_end, 'DD.MM.YYYY'), 'days');
-				console.log({
-					data,
-					parent: data.parent,
-					parentId: data.task
-				});
+			data: Object.values(todos.entities).map((data, i) => {
 				return data.parent == 0
 					? {
 							...{
@@ -252,7 +208,6 @@ class Gantt extends Component {
 								text: data.name,
 								start_date: data.date_start,
 								end_date: data.date_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
-								duration: duration + 1,
 								progress: data.progress / 100,
 								company: data?.assigned_company?.name,
 								parent: 0,
@@ -262,11 +217,11 @@ class Gantt extends Component {
 					  }
 					: {
 							...{
-								id: data.id,
+								id: Math.floor(Math.random() * 9999),
 								text: data.title,
 								start_date: data.datetime_start,
 								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
-								duration: duration + 1,
+
 								progress: data.status == 'completed' ? 1 : 0,
 								company: data?.assigned_company?.name,
 								mainId: data.id,
@@ -276,6 +231,15 @@ class Gantt extends Component {
 					  };
 			})
 		};
+		console.log({ tasks });
+		this.setState(
+			{
+				tasks
+			},
+			() => this.createGantt(tasks)
+		);
+	};
+	createGantt = tasks => {
 		gantt.config.xml_date = '%Y-%m-%d %H:%i';
 
 		if (this.state.toggleLeft) {
@@ -397,9 +361,6 @@ class Gantt extends Component {
 				return 'weekend';
 			}
 		};
-		this.setState({
-			tasks
-		});
 	};
 	templatePermissions = () => {
 		const userInfo = decodeDataFromToken();
