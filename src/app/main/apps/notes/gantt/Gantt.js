@@ -395,11 +395,14 @@ class Gantt extends Component {
 			}
 			return '';
 		};
-		gantt.templates.task_class = function (start, end, task) {
-			// console.log({ start, end, task });
+		gantt.templates.task_class = (start, end, task) => {
+			console.log({ start, end, task });
 			// console.log({ start, end: moment().diff(moment(task.data.date_end)), task });
 			if (task.parent) {
 				return 'nested_task_right hide_progress_drag';
+			}
+			if (task.parent == 0 && this.props.projectDetail.company?.id != this.props.company.id) {
+				return 'hide_date_drag';
 			}
 			// if (moment().diff(moment(task.data.date_end)) > 0) {
 			// 	return 'important';
