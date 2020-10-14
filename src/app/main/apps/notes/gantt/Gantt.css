@@ -14,8 +14,11 @@
 .hide_add.gantt_grid_head_add {
 	display: none !important;
 }
-.hide_tree_icon .gantt_tree_icon {
+.hide_tree_icon .gantt_tree_icon.gantt_open{
 	display: none !important;
+}
+.hide_tree_icon .gantt_folder_closed {
+	margin-left: 18px;
 }
 .hide_progress_drag .gantt_task_progress_drag {
 	display: none !important;
