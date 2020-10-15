@@ -32,7 +32,72 @@ import {
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
 // ],
 // links: [{ id: 1, source: 1, target: 2, type: '0' }]
-
+function ganttInitZoom() {
+	var zoomConfig = {
+		maxColumnWidth: 92,
+		minColumnWidth: 20,
+		levels: [
+			{
+				name: 'day1',
+				min_column_width: 92,
+				scales: [
+					{ unit: 'month', step: 1, format: '%M %Y' },
+					{ unit: 'day', step: 1, format: '%d %M' }
+				]
+			},
+			{
+				name: 'day2',
+				min_column_width: 80,
+				scales: [
+					{ unit: 'month', step: 1, format: '%M %Y' },
+					{ unit: 'day', step: 1, format: '%d %M' }
+				]
+			},
+			{
+				name: 'day3',
+				min_column_width: 68,
+				scales: [
+					{ unit: 'month', step: 1, format: '%M %Y' },
+					{ unit: 'day', step: 1, format: '%d %M' }
+				]
+			},
+			{
+				name: 'month1',
+				min_column_width: 56,
+				scales: [
+					{ unit: 'year', step: 1, format: '%Y' },
+					{ unit: 'month', step: 1, format: '%M %Y' }
+				]
+			},
+			{
+				name: 'month2',
+				min_column_width: 44,
+				scales: [
+					{ unit: 'year', step: 1, format: '%Y' },
+					{ unit: 'month', step: 1, format: '%M %Y' }
+				]
+			},
+			{
+				name: 'month3',
+				min_column_width: 32,
+				scales: [
+					{ unit: 'year', step: 1, format: '%Y' },
+					{ unit: 'month', step: 1, format: '%M %Y' }
+				]
+			},
+			{
+				name: "years",
+				scales: [
+					{unit: "year", step: 1, format: "%Y"},
+				],
+				round_dnd_dates: false,
+				min_column_width: 20,
+				scale_height: 60
+			}
+		]
+	};
+	gantt.ext.zoom.init(zoomConfig);
+}
 function to_snake_case(name) {
 	return (name + '').toLowerCase().replace(/ /, '_');
 }
@@ -79,9 +144,17 @@ function getOptions(selectedIndex) {
 }
 function shiftTask(task_id, direction) {
 	var task = gantt.getTask(task_id);
+	console.log({
+		task
+	});
 	task.start_date = gantt.date.add(task.start_date, direction, 'day');
 	task.end_date = gantt.calculateEndDate(task.start_date, task.duration);
 	gantt.updateTask(task.id);
+}
+function sortHolders(a, b) {
+	console.log({ a, b });
+
+	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
 }
 class Gantt extends Component {
 	constructor(props) {
@@ -96,16 +169,48 @@ class Gantt extends Component {
 	}
 
 	componentWillUnmount() {
-		// if (this.dataProcessor) {
-		// 	this.dataProcessor.destructor();
-		// 	this.dataProcessor = null;
-		// }
+		if (this.dataProcessor) {
+			this.dataProcessor.destructor();
+			this.dataProcessor = null;
+		}
 	}
 	componentDidMount() {
 		gantt.clearAll();
+		ganttInitZoom();
+		this.addDragEvent();
+		gantt.plugins({
+			multiselect: true,
+			fullscreen: true
+		});
+		gantt.config.multiselect = true;
+		document.addEventListener('fullscreenchange', exitHandler);
+		document.addEventListener('webkitfullscreenchange', exitHandler);
+		document.addEventListener('mozfullscreenchange', exitHandler);
+		document.addEventListener('MSFullscreenChange', exitHandler);
+
+		function exitHandler() {
+			if (
+				!document.fullscreenElement &&
+				!document.webkitIsFullScreen &&
+				!document.mozFullScreen &&
+				!document.msFullscreenElement
+			) {
+				if (!gantt.getState().fullscreen) {
+					document.body.className = '';
+				}
+			}
+		}
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
 			return new Promise((resolve, reject) => {
-				console.log({ entityType, action, item, id });
+				console.log({
+					name: item.data.name,
+					description: item.data.note,
+					id: item.data.id,
+					company: item.data.assigned_company,
+					progress: item.data.progress,
+					date_start: item.start_date,
+					date_end: item.end_date
+				});
 
 				// if (onDataUpdated) {
 				// onDataUpdated(entityType, action, item, id);
@@ -144,13 +249,13 @@ class Gantt extends Component {
 			progress: todo.progress,
 			date_start: moment(todo.date_start).format('YYYY-MM-DD'),
 			date_end: moment(todo.date_end).format('YYYY-MM-DD'),
-			assigned_company: todo.company[0] ? todo.company[0].data.profile.company.id : undefined,
+			assigned_company: todo.company && todo.company[0] ? todo.company[0].data.profile.company.id : null,
 			project: pid,
 			date_completed: null,
 			alert: false,
 			starred: false
 		};
-		// console.log({ values });
+		console.log({ values });
 		apiCall(
 			EDIT_TASK_TO_PROJECT(todo.id),
 			values,
@@ -186,6 +291,7 @@ class Gantt extends Component {
 		if (this.props.todos && todos && JSON.stringify(todos) !== JSON.stringify(this.props.todos)) {
 			this.templatePermissions();
 			this.ganttInit(todos);
+
 			return true;
 		}
 
@@ -196,9 +302,12 @@ class Gantt extends Component {
 	}
 
 	ganttInit = todos => {
-		// alert();
+		gantt.clearAll();
 		let allTodos = todos.entities;
 		console.log({ allTodos });
+		gantt.config.start_date = new Date([2018]);
+		gantt.config.end_date = new Date([2022]);
+
 		let tasks = {
 			data: Object.values(todos.entities).map((data, i) => {
 				return data.parent == 0
@@ -232,12 +341,20 @@ class Gantt extends Component {
 			})
 		};
 		console.log({ tasks });
+		this.createMarker(tasks);
 		this.setState(
 			{
 				tasks
 			},
 			() => this.createGantt(tasks)
 		);
+	};
+	unSelectAllTask = () => {
+		gantt.batchUpdate(function () {
+			gantt.eachSelectedTask(function (task_id) {
+				gantt.unselectTask(task_id);
+			});
+		});
 	};
 	createGantt = tasks => {
 		gantt.config.xml_date = '%Y-%m-%d %H:%i';
@@ -291,12 +408,12 @@ class Gantt extends Component {
 				]
 			};
 		}
-		gantt.plugins({
-			fullscreen: true
-		});
+
 		// end block for resize
 		gantt.attachEvent('onTemplatesReady', function () {
 			var toggle = document.getElementById('fullScreen');
+			// document.addEventListener('keyup', e => console.log(e.key));
+
 			toggle.onclick = function () {
 				if (!gantt.getState().fullscreen) {
 					document.body.className = 'gantt-custom-full-screen';
@@ -314,6 +431,8 @@ class Gantt extends Component {
 		};
 		gantt.init(this.ganttContainer);
 		gantt.parse(tasks);
+		gantt.sort(sortHolders);
+		this.unSelectAllTask();
 		gantt.showLightbox = id => {
 			console.log({ ganttData: gantt.getTask(id) });
 			if (gantt.getTask(id).$new == true) {
@@ -396,7 +515,7 @@ class Gantt extends Component {
 			return '';
 		};
 		gantt.templates.task_class = (start, end, task) => {
-			console.log({ start, end, task });
+			// console.log({ start, end, task });
 			// console.log({ start, end: moment().diff(moment(task.data.date_end)), task });
 			if (task.parent) {
 				return 'nested_task_right hide_progress_drag';
@@ -411,10 +530,11 @@ class Gantt extends Component {
 			// }
 		};
 		gantt.plugins({
-			multiselect: true,
 			marker: true
 		});
-		if (this.state.tasks?.data?.length) {
+	};
+	createMarker = tasks => {
+		if (tasks.data?.length) {
 			var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
 			var markerId = gantt.addMarker({
 				start_date: new Date(),
@@ -423,13 +543,13 @@ class Gantt extends Component {
 				title: dateToStr(new Date())
 			});
 			gantt.getMarker(markerId);
-
-			var min = this.state.tasks?.data.reduce(function (a, b) {
-				return a?.start_date < b?.start_date ? a?.start_date : b?.start_date;
-			}, {});
-			if (typeof min == 'string') {
-				markerId = gantt.addMarker({
-					start_date: new Date(min.split('-')),
+			let startDates = tasks.data.map(a => new Date(a.start_date.split('-')));
+			let min = new Date(Math.min.apply(null, startDates));
+			// min.setDate(min.getDate() + 1);
+			console.log({ min });
+			{
+				let markerId = gantt.addMarker({
+					start_date: min,
 					css: 'status_line',
 					text: 'Start project',
 					title: 'Start project: ' //+ dateToStr(new Date(min))
@@ -458,7 +578,7 @@ class Gantt extends Component {
 				gantt.config.scale_height = 60;
 				break;
 			case 'Months' || 3:
-				gantt.config.min_column_width = 70;
+				gantt.config.min_column_width = 44;
 				gantt.config.scale_unit = 'month';
 				gantt.config.date_scale = '%F';
 				gantt.config.scale_height = 60;
@@ -514,24 +634,15 @@ class Gantt extends Component {
 		gantt.render();
 	};
 	zoomIn = () => {
-		if (this.state.zoomLevel < 4) {
-			this.setState(
-				prev => ({
-					zoomLevel: prev.zoomLevel + 1
-				}),
-				() => this.setZoom(this.state.zoomLevel)
-			);
-		}
+		gantt.ext.zoom.zoomIn();
+		gantt.render();
 	};
 	zoomOut = () => {
-		if (this.state.zoomLevel > 0) {
-			this.setState(
-				prev => ({
-					zoomLevel: prev.zoomLevel - 1
-				}),
-				() => this.setZoom(this.state.zoomLevel)
-			);
-		}
+		gantt.ext.zoom.zoomOut();
+		gantt.render();
+	};
+	setZoomDefaultLevel = () => {
+		gantt.ext.zoom.setLevel('years');
 	};
 	exportPNG = () => {
 		gantt.exportToPNG({
@@ -575,7 +686,7 @@ class Gantt extends Component {
 	};
 	moveBackward = () => {
 		gantt.eachSelectedTask(function (task_id) {
-			shiftTask(68, -1);
+			shiftTask(task_id, -1);
 		});
 	};
 	toggleLeftPanel = () => {
@@ -633,7 +744,7 @@ class Gantt extends Component {
 						var div = gantt.modalbox({
 							title: 'Assign columns',
 							type: 'excel-form',
-							text: '<table>' + body.join('') + '</table>',
+							text: '<div class="table-responsive"> <table class="table m-0">' + body.join('') + '</table> </div>',
 							buttons: [
 								{ label: 'Save', css: 'link_save_btn', value: 'save' },
 								{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
@@ -663,6 +774,10 @@ class Gantt extends Component {
 				}
 			});
 		}
+	};
+	addDragEvent = () => {
+		gantt.config.autoscroll = true;
+		gantt.config.autoscroll_speed = 50;
 	};
 	render() {
 		const { zoom } = this.props;
@@ -751,19 +866,19 @@ class Gantt extends Component {
 									Fullscreen
 								</a>
 							</li>
-							<li class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last">
+							<li class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last" onClick={this.setZoomDefaultLevel}>
 								<a data-action="zoomToFit">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_to_fit_24.png" />
 									Zoom to Fit
 								</a>
 							</li>
-							<li class="gantt-menu-item gantt-menu-item-right">
+							<li class="gantt-menu-item gantt-menu-item-right" onClick={this.zoomOut}>
 								<a data-action="zoomOut">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_out.png" />
 									Zoom Out
 								</a>
 							</li>
-							<li class="gantt-menu-item gantt-menu-item-right">
+							<li class="gantt-menu-item gantt-menu-item-right" onClick={this.zoomIn}>
 								<a data-action="zoomIn">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_in.png" />
 									Zoom In
