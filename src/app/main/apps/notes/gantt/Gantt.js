@@ -744,7 +744,7 @@ class Gantt extends Component {
 						var div = gantt.modalbox({
 							title: 'Assign columns',
 							type: 'excel-form',
-							text: '<table>' + body.join('') + '</table>',
+							text: '<div class="table-responsive"> <table class="table m-0">' + body.join('') + '</table> </div>',
 							buttons: [
 								{ label: 'Save', css: 'link_save_btn', value: 'save' },
 								{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
