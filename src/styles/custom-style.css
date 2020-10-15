@@ -536,6 +536,9 @@
     align-items: center;
     justify-content: center;
 }
+.custom-padding-small {
+    padding-bottom: 30px !important;
+}
 /* Blink Animation */
 .blink {
     animation: blinker 0.6s linear infinite;
@@ -629,6 +632,9 @@
     }
     .gantt-min-height {
         height: calc(100vh - 40px) !important;
+    }
+    .gantt_modal_box {
+        min-width: 380px !important;
     }
     
 }

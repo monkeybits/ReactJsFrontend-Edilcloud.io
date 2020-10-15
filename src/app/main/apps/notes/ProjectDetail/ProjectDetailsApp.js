@@ -31,8 +31,8 @@ function ProjectDetails(props) {
 		<>
 			<FusePageSimple
 				classes={{
-					contentWrapper: havePaddingTabs.includes(value) ? 'p-16 sm:p-24 pb-80' : 'pb-80',
-					content: 'flex min-h-full tabs-content',
+					contentWrapper: value==4 ? 'p-16 sm:p-24': havePaddingTabs.includes(value) ? 'p-16 sm:p-24 pb-80' : 'pb-80',
+					content: 'flex min-h-full tabs-content custom-padding-small',
 					leftSidebar: 'w-256 border-0',
 					header: 'min-h-72 h-72 '
 				}}
