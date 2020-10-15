@@ -186,14 +186,15 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 						progress: todo.progress,
 						date_start: moment(todo.startDate).format('YYYY-MM-DD'),
 						date_end: moment(todo.endDate).format('YYYY-MM-DD'),
-						assigned_company: todo.company[0] ? todo.company[0].data.profile.company.id : undefined
+						assigned_company:
+							todo.company && todo.company[0] ? todo.company[0].data.profile.company.id : null
 				  }
 				: {
 						title: todo.title,
 						description: todo.notes,
 						datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
 						datetime_end: moment(todo.endDate).format('YYYY-MM-DD'),
-						workers: todo.profile?.length ? todo.profile.map(d => d.data.profile.id) : undefined
+						workers: todo.profile?.length ? todo.profile.map(d => d.data.profile.id) : null
 				  };
 		// console.log({ values });
 		apiCall(

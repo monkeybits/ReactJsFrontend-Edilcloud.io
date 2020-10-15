@@ -100,7 +100,7 @@
     background-color: #dadada !important;
 }
 
-.gantt-menu-item .menu-item-disabled{
+.gantt-menu-item.menu-item-disabled{
     color: #818181 !important;
     pointer-events:none;
 }
