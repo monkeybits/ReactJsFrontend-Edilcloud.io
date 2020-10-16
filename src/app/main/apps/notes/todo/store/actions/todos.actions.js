@@ -33,6 +33,9 @@ export const CLOSE_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE ACTIVITY TODO DIALOG
 export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING (PROJECT)';
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER (PROJECT)';
 
+function sortHolders(a, b) {
+	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+}
 export function getTodos(pid, isGantt) {
 	// const request = axios.get('/api/todo-app/todos', { params });
 
@@ -44,7 +47,7 @@ export function getTodos(pid, isGantt) {
 				console.log({ ganttresultsAPI: results });
 				dispatch({
 					type: GET_TODOS,
-					payload: results
+					payload: results.sort(sortHolders)
 				});
 			},
 			err => console.log(err),
