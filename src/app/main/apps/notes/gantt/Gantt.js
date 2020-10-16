@@ -25,7 +25,9 @@ import {
 	faFileImage,
 	faFileWord,
 	faFileCode,
-	faFileArchive
+	faFileArchive,
+	faArrowAltCircleLeft,
+	faArrowAltCircleRight
 } from '@fortawesome/free-regular-svg-icons';
 import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 // data: [
@@ -35,6 +37,7 @@ import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 // links: [{ id: 1, source: 1, target: 2, type: '0' }]
 function ganttInitZoom() {
 	var zoomConfig = {
+		startDate: new Date(),
 		maxColumnWidth: 92,
 		minColumnWidth: 20,
 		levels: [
@@ -869,21 +872,23 @@ class Gantt extends Component {
 								</a>
 							</li>
 							{permissionByRole && (
-								<li class="gantt-menu-item" onClick={() => this.ganttCallback(this.moveForward)}>
-									<a data-action="toggleAutoScheduling">
-										<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_auto_scheduling_24.png" />
-										<span class="header-text">Move Forword</span>
-									</a>
-								</li>
-							)}
-							{permissionByRole && (
 								<li class="gantt-menu-item" onClick={() => this.ganttCallback(this.moveBackward)}>
 									<a data-action="toggleCriticalPath">
-										<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_critical_path_24.png" />
+										<FontAwesomeIcon icon={faArrowAltCircleLeft} style={{ fontSize: '1.5rem' }} />
+
 										<span class="header-text">Move Backward</span>
 									</a>
 								</li>
 							)}
+							{permissionByRole && (
+								<li class="gantt-menu-item" onClick={() => this.ganttCallback(this.moveForward)}>
+									<a data-action="toggleAutoScheduling">
+										<FontAwesomeIcon icon={faArrowAltCircleRight} style={{ fontSize: '1.5rem' }} />
+										<span class="header-text">Move Forword</span>
+									</a>
+								</li>
+							)}
+
 							{isUserHavePermssionsFromAdmin && (
 								<li class="gantt-menu-item">
 									<a>
