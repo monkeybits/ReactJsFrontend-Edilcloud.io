@@ -121,7 +121,7 @@ export default function ProjectListitem({
 				title={name}
 			/>
 			<CardContent>
-				{isApproved ? <Link to={`${match.path}/${id}`}>{name}</Link> : name}
+				{isApproved ? <Link className="font-size-17" to={`${match.path}/${id}`}>{name}</Link> : name}
 				<Typography variant="body2" color="textSecondary" component="p">
 					{description}
 				</Typography>

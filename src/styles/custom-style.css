@@ -106,6 +106,9 @@
 .font-size-16 {
     font-size: 16px;
 }
+.font-size-17 {
+    font-size: 17px;
+}
 .font-size-18 {
     font-size: 18px;
 }
@@ -360,11 +363,12 @@
     width: auto;
 }
 .gantt-container {
-    min-height: calc(100vh - 90px);
+    /* min-height: calc(100vh - 90px); */
     overflow-y: auto;
 }
 .gantt-min-height {
-    height: calc(100vh - 90px) !important;
+    /* height: calc(100vh - 90px) !important; */
+    zoom: 120%;
 }
 .gantt-custom-full-screen {
     zoom: 100% !important;
@@ -630,11 +634,35 @@
     .gantt-container {
         min-height: auto;
     }
-    .gantt-min-height {
+    /* .gantt-min-height {
         height: calc(100vh - 40px) !important;
-    }
+    } */
     .gantt_modal_box {
         min-width: 380px !important;
+    }
+    .demo-main-container {
+        zoom: 120%;
+    }
+    .demo-main-container .gantt-controls {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+    }
+    .gantt-menu-item-last {
+        border-right: none !important;
+    }
+    .demo-main-container .gantt-menu-item {
+        padding: 0px 10px !important;
+    }
+    .gantt-menu-item a {
+        font-size: 12px;
+    }
+    .gantt_tree_content {
+        font-size: 11px !important;
     }
     
 }
