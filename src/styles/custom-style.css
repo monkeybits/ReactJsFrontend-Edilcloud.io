@@ -379,6 +379,21 @@
 .gantt-custom-full-screen .tabs-content, .gantt-custom-full-screen .pb-80 {
     padding-bottom: 0px !important;
 }
+.demo-main-container .gantt-controls {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+}
+.gantt-menu-item-last {
+    border-right: none !important;
+}
+.demo-main-container .gantt-menu-item {
+    padding: 0px 10px !important;
+}
 .custom-zoom-bar {
     padding: 15px 15px 15px 35px;
 }
@@ -643,21 +658,8 @@
     .demo-main-container {
         zoom: 120%;
     }
-    .demo-main-container .gantt-controls {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-    }
-    .gantt-menu-item-last {
-        border-right: none !important;
-    }
-    .demo-main-container .gantt-menu-item {
-        padding: 0px 10px !important;
-    }
+    
+    
     .gantt-menu-item a {
         font-size: 12px;
     }
