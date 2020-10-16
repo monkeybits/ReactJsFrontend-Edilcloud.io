@@ -27,6 +27,7 @@ import {
 	faFileCode,
 	faFileArchive
 } from '@fortawesome/free-regular-svg-icons';
+import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
@@ -150,6 +151,7 @@ class Gantt extends Component {
 		super(props);
 
 		this.state = {
+			loading: false,
 			toggleLeft: false,
 			tasks: undefined,
 			zoomLevel: 2
@@ -277,10 +279,12 @@ class Gantt extends Component {
 	};
 	shouldComponentUpdate(nextProps, nextState) {
 		const { todos } = nextProps;
+		if (this.state.toggleLeft != nextState.toggleLeft) {
+			return true;
+		}
 		if (this.props.todos && todos && JSON.stringify(todos) !== JSON.stringify(this.props.todos)) {
 			this.templatePermissions();
 			this.ganttInit(todos);
-
 			return true;
 		}
 
@@ -291,7 +295,6 @@ class Gantt extends Component {
 	}
 
 	ganttInit = todos => {
-		gantt.clearAll();
 		let allTodos = todos.entities;
 		console.log({ allTodos });
 		gantt.config.start_date = new Date([2018]);
@@ -329,22 +332,19 @@ class Gantt extends Component {
 					  };
 			})
 		};
-		console.log({ tasks });
 		this.createMarker(tasks);
-		this.setState(
-			{
-				tasks
-			},
-			() => this.createGantt(tasks)
+		this.ganttCallback(
+			() =>
+				this.setState(
+					{
+						tasks
+					},
+					() => this.createGantt(tasks)
+				),
+			() => gantt.clearAll()
 		);
 	};
-	unSelectAllTask = () => {
-		gantt.batchUpdate(function () {
-			gantt.eachSelectedTask(function (task_id) {
-				gantt.unselectTask(task_id);
-			});
-		});
-	};
+
 	createGantt = tasks => {
 		gantt.config.xml_date = '%Y-%m-%d %H:%i';
 
@@ -448,11 +448,7 @@ class Gantt extends Component {
 					} else {
 						const userInfo = decodeDataFromToken();
 						const getRole = () => userInfo?.extra?.profile.role;
-						if (
-							(this.props.projectDetail.company?.id == this.props.company.id ||
-								captureData.data?.assigned_company?.id == this.props.company.id) &&
-							(getRole() == 'o' || getRole() == 'd')
-						) {
+						if (getRole() == 'o' || getRole() == 'd') {
 							return this.props.openTaskContent({ ...captureData.data, isGantt: true });
 						} else {
 							return null;
@@ -473,6 +469,9 @@ class Gantt extends Component {
 				return 'weekend';
 			}
 		};
+		this.setState({
+			loading: false
+		});
 	};
 	templatePermissions = () => {
 		const userInfo = decodeDataFromToken();
@@ -487,36 +486,38 @@ class Gantt extends Component {
 			}
 		};
 		gantt.templates.grid_row_class = (start, end, task) => {
-			// console.log({
-			// 	start,
-			// 	end,
-			// 	task,
-			// 	assigned_company: task.data.assigned_company,
-			// 	company: this.props.company.id
-			// });
+			const userInfo = decodeDataFromToken();
+			const getRole = () => userInfo?.extra?.profile.role;
+			let className = '';
 			if (task.$level >= 1) {
-				return 'nested_task';
-			} else if (!task.company) {
-				return 'hide_add';
-			} else if (task.data.assigned_company?.id != this.props.company.id) {
-				return 'hide_add hide_tree_icon';
+				className += ' nested_task';
 			}
-			return '';
+			if (!task.company) {
+				className += ' hide_add';
+			}
+			if (task.data.assigned_company?.id != this.props.company.id) {
+				className += ' hide_add hide_tree_icon';
+			}
+			return className;
 		};
 		gantt.templates.task_class = (start, end, task) => {
 			// console.log({ start, end, task });
 			// console.log({ start, end: moment().diff(moment(task.data.date_end)), task });
+			let className = '';
 			if (task.parent) {
-				return 'nested_task_right hide_progress_drag';
+				className += ' nested_task_right hide_progress_drag';
 			}
 			if (task.parent == 0 && this.props.projectDetail.company?.id != this.props.company.id) {
-				return 'hide_date_drag';
+				className += ' hide_date_drag';
 			}
-			// if (moment().diff(moment(task.data.date_end)) > 0) {
-			// 	return 'important';
-			// } else {
-			// 	return '';
-			// }
+			if (
+				task.parent == 0 &&
+				task.data.assigned_company?.id != this.props.company.id &&
+				this.props.company.id != this.props.projectDetail.company?.id
+			) {
+				className += ' block_row_events';
+			}
+			return className;
 		};
 		gantt.plugins({
 			marker: true
@@ -592,6 +593,34 @@ class Gantt extends Component {
 				break;
 		}
 	}
+	onTaskSelectHandler = () => {
+		// gantt.attachEvent('onTaskSelected', id => {
+		//any custom logic here
+		const userInfo = decodeDataFromToken();
+		const getRole = () => userInfo?.extra?.profile.role;
+		gantt.batchUpdate(() => {
+			gantt.eachSelectedTask(task_id => {
+				let task = gantt.getTask(task_id);
+				if (task.$level == 1) {
+					return;
+				} else if (
+					this.props.company.id != this.props.projectDetail.company?.id &&
+					(getRole() == 'o' || getRole() == 'd')
+				) {
+					console.log({ insidetask: task });
+					gantt.unselectTask(task_id);
+				}
+			});
+		});
+		// });
+	};
+	unSelectAllTask = () => {
+		gantt.batchUpdate(function () {
+			gantt.eachSelectedTask(function (task_id) {
+				gantt.unselectTask(task_id);
+			});
+		});
+	};
 	handleUploadListOfTasks = list => {
 		let token = localStorage.getItem('jwt_access_token');
 		axios
@@ -679,12 +708,15 @@ class Gantt extends Component {
 		});
 	};
 	toggleLeftPanel = () => {
-		this.setState(
-			prev => ({
-				toggleLeft: !prev.toggleLeft
-			}),
-			() => this.ganttInit(this.props.todos)
-		);
+		if (!this.state.loading) {
+			this.setState(
+				prev => ({
+					toggleLeft: !prev.toggleLeft,
+					loading: true
+				}),
+				() => this.ganttInit(this.props.todos)
+			);
+		}
 	};
 	importExcel = fileInput => {
 		if (fileInput.files[0]) {
@@ -771,9 +803,29 @@ class Gantt extends Component {
 		gantt.config.autoscroll = true;
 		gantt.config.autoscroll_speed = 50;
 	};
+	ganttCallback = (actionCall, permissionsCall = this.onTaskSelectHandler) => {
+		let myFirstPromise = new Promise((resolve, reject) => {
+			// We call resolve(...) when what we were doing asynchronously was successful, and reject(...) when it failed.
+			// In this example, we use setTimeout(...) to simulate async code.
+			// In reality, you will probably be using something like XHR or an HTML5 API.
+			permissionsCall();
+			resolve();
+		});
+
+		myFirstPromise.then(() => {
+			// successMessage is whatever we passed in the resolve(...) function above.
+			// It doesn't have to be a string, but if it is only a succeed message, it probably will be.
+			actionCall();
+		});
+	};
 	render() {
 		// const { zoom } = this.props;
 		// this.setZoom(zoom);
+		const userInfo = decodeDataFromToken();
+		const getRole = () => userInfo?.extra?.profile.role;
+		const permissionByRole = getRole() == 'o' || getRole() == 'd';
+		const isUserHavePermssionsFromAdmin =
+			this.props.company?.id == this.props.projectDetail?.company?.id && permissionByRole;
 		return (
 			<div>
 				{/* <div className="px-32 custom-gantt-toolbar">
@@ -785,14 +837,7 @@ class Gantt extends Component {
 					</p>
 					<p className="mb-12">
 						<form className="flex flex-wrap items-center">
-							<input
-								type="file"
-								id="excelFile"
-								name="file"
-								accept=".xlsx,.xls"
-								onChange={e => this.importExcel(e.target)}
-								hidden
-							/>
+							
 						</form>
 					</p>
 				</div> */}
@@ -801,91 +846,79 @@ class Gantt extends Component {
 					<div class="header gantt-demo-header">
 						<ul class="gantt-controls">
 							<li class="gantt-menu-item" onClick={this.toggleLeftPanel}>
-								<a data-action="collapseAll">Toggle left</a>
+								<a data-action="collapseAll">
+									{this.state.toggleLeft ? (
+										<FontAwesomeIcon icon={faToggleOff} style={{ fontSize: '1.5rem' }} />
+									) : (
+										<FontAwesomeIcon icon={faToggleOn} style={{ fontSize: '1.5rem' }} />
+									)}
+
+									<span class="header-text"> Toggle left </span>
+								</a>
 							</li>
 							<li class="gantt-menu-item" onClick={this.closeAll}>
 								<a data-action="collapseAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_collapse_all_24.png" />
-									Collapse All
+									<span class="header-text">Collapse</span>
 								</a>
 							</li>
 							<li class="gantt-menu-item gantt-menu-item-last" onClick={this.openAll}>
 								<a data-action="expandAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_expand_all_24.png" />
-									Expand All
+									<span class="header-text">Expand</span>
 								</a>
 							</li>
-							<li class="gantt-menu-item" onClick={this.moveForward}>
-								<a data-action="toggleAutoScheduling">
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_auto_scheduling_24.png" />
-									Move Forword
-								</a>
-							</li>
-							<li class="gantt-menu-item" onClick={this.moveBackward}>
-								<a data-action="toggleCriticalPath">
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_critical_path_24.png" />
-									Move Backward
-								</a>
-							</li>
+							{permissionByRole && (
+								<li class="gantt-menu-item" onClick={() => this.ganttCallback(this.moveForward)}>
+									<a data-action="toggleAutoScheduling">
+										<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_auto_scheduling_24.png" />
+										<span class="header-text">Move Forword</span>
+									</a>
+								</li>
+							)}
+							{permissionByRole && (
+								<li class="gantt-menu-item" onClick={() => this.ganttCallback(this.moveBackward)}>
+									<a data-action="toggleCriticalPath">
+										<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_critical_path_24.png" />
+										<span class="header-text">Move Backward</span>
+									</a>
+								</li>
+							)}
+							{isUserHavePermssionsFromAdmin && (
+								<li class="gantt-menu-item">
+									<a>
+										<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
+										<span class="header-text">Import</span>
+									</a>
+									<ul class="gantt-controls">
+										<li
+											class="gantt-menu-item"
+											onClick={() => {
+												document.getElementById('excelFile').click();
+											}}
+										>
+											<input
+												type="file"
+												id="excelFile"
+												name="file"
+												accept=".xlsx,.xls"
+												onChange={e => this.importExcel(e.target)}
+												hidden
+											/>
+											<a data-action="toExcel">
+												<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
+												Excel
+											</a>
+										</li>
+									</ul>
+								</li>
+							)}
 							<li class="gantt-menu-item">
 								<a>
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
-									Import
+									<span class="header-text">Export</span>
 								</a>
-								<ul class="gantt-controls">
-									<li
-										class="gantt-menu-item"
-										onClick={() => {
-											document.getElementById('excelFile').click();
-										}}
-									>
-										<a data-action="toExcel">
-											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
-											Excel
-										</a>
-									</li>
-								</ul>
-							</li>
-							<li
-								class="gantt-menu-item gantt-menu-item-right"
-								id="fullScreen"
-								// onClick={() => {
-								// 	gantt.ext.fullscreen.toggle();
-								// }}
-							>
-								<a data-action="fullscreen">
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_fullscreen_24.png" />
-									Fullscreen
-								</a>
-							</li>
-							<li
-								class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last"
-								onClick={this.setZoomDefaultLevel}
-							>
-								<a data-action="zoomToFit">
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_to_fit_24.png" />
-									Zoom to Fit
-								</a>
-							</li>
-							<li class="gantt-menu-item gantt-menu-item-right" onClick={this.zoomOut}>
-								<a data-action="zoomOut">
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_out.png" />
-									Zoom Out
-								</a>
-							</li>
-							<li class="gantt-menu-item gantt-menu-item-right" onClick={this.zoomIn}>
-								<a data-action="zoomIn">
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_in.png" />
-									Zoom In
-								</a>
-							</li>
-
-							<li class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last">
-								<a>
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
-									Export
-								</a>
-								<ul class="gantt-controls">
+								<ul class="gantt-controls w-125">
 									<li class="gantt-menu-item" onClick={this.exportPDF}>
 										<a data-action="toPDF">
 											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
@@ -911,6 +944,37 @@ class Gantt extends Component {
 										</a>
 									</li>
 								</ul>
+							</li>
+
+							<li class="gantt-menu-item gantt-menu-item-last" onClick={this.setZoomDefaultLevel}>
+								<a data-action="zoomToFit">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_to_fit_24.png" />
+									<span class="header-text">Zoom to Fit</span>
+								</a>
+							</li>
+							<li class="gantt-menu-item" onClick={this.zoomOut}>
+								<a data-action="zoomOut">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_out.png" />
+									<span class="header-text">Zoom Out</span>
+								</a>
+							</li>
+							<li class="gantt-menu-item" onClick={this.zoomIn}>
+								<a data-action="zoomIn">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_in.png" />
+									<span class="header-text">Zoom In</span>
+								</a>
+							</li>
+							<li
+								class="gantt-menu-item"
+								id="fullScreen"
+								// onClick={() => {
+								// 	gantt.ext.fullscreen.toggle();
+								// }}
+							>
+								<a data-action="fullscreen">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_fullscreen_24.png" />
+									<span class="header-text">Fullscreen</span>
+								</a>
 							</li>
 						</ul>
 					</div>

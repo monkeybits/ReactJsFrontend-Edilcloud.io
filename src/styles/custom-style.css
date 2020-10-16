@@ -106,6 +106,9 @@
 .font-size-16 {
     font-size: 16px;
 }
+.font-size-17 {
+    font-size: 17px;
+}
 .font-size-18 {
     font-size: 18px;
 }
@@ -360,14 +363,18 @@
     width: auto;
 }
 .gantt-container {
-    min-height: calc(100vh - 90px);
+    /* min-height: calc(100vh - 90px); */
     overflow-y: auto;
 }
 .gantt-min-height {
-    height: calc(100vh - 90px) !important;
+    /* height: calc(100vh - 90px) !important; */
+    zoom: 120%;
 }
 .gantt-custom-full-screen {
     zoom: 100% !important;
+}
+.w-125 {
+    width: 125px;
 }
 .gantt-custom-full-screen #fuse-navbar, .gantt-custom-full-screen #fuse-navbar ~ div > header, .gantt-custom-full-screen .custom-tab-header, .gantt-custom-full-screen .team-chat-sidebar, .gantt-custom-full-screen .custom-gantt-toolbar, .gantt-custom-full-screen .zoom-bar, .gantt-custom-full-screen #fuse-layout > div:nth-child(2), .gantt-custom-full-screen .min-h-72.h-72, #fuse-settings {
     display: none;
@@ -375,6 +382,12 @@
 .gantt-custom-full-screen .tabs-content, .gantt-custom-full-screen .pb-80 {
     padding-bottom: 0px !important;
 }
+.gantt-menu-item-last {
+    border-right: none !important;
+}
+/* .demo-main-container .gantt-menu-item {
+    padding: 0px 10px !important;
+} */
 .custom-zoom-bar {
     padding: 15px 15px 15px 35px;
 }
@@ -565,7 +578,16 @@
     }
   }
 
-
+@media only screen and (max-width: 1024px) and (min-width: 992px) {
+    .gantt-menu-item a {
+        padding: 0px 7px !important;
+    }
+}  
+@media only screen and (max-width: 991px) { 
+    .gantt-menu-item a .header-text {
+        display: none;
+    }
+}
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
         min-width: 100px !important;
@@ -630,11 +652,21 @@
     .gantt-container {
         min-height: auto;
     }
-    .gantt-min-height {
+    /* .gantt-min-height {
         height: calc(100vh - 40px) !important;
-    }
+    } */
     .gantt_modal_box {
         min-width: 380px !important;
+    }
+    .demo-main-container {
+        zoom: 120%;
+    }
+    .gantt-menu-item a {
+        font-size: 12px;
+        padding: 0px 3px !important;
+    }
+    .gantt_tree_content {
+        font-size: 11px !important;
     }
     
 }
@@ -655,6 +687,9 @@
     .team-chat-sidebar {
         transform: translate3d(470px,0,0);
         width: 100%;
+    }
+    .gantt-menu-item a {
+        padding: 0px !important;
     }
 }
 @media only screen and (max-width: 360px) {
