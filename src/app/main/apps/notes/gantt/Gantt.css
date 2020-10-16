@@ -7,14 +7,16 @@
 .nested_task .gantt_add {
 	display: none !important;
 }
-
+.nested_task.gantt_selected{
+	background-color: #fff3a1 !important
+}
 .hide_add .gantt_add {
 	display: none !important;
 }
 .hide_add.gantt_grid_head_add {
 	display: none !important;
 }
-.hide_tree_icon .gantt_tree_icon.gantt_open{
+.hide_tree_icon .gantt_tree_icon.gantt_open {
 	display: none !important;
 }
 .hide_tree_icon .gantt_folder_closed {
@@ -23,10 +25,10 @@
 .hide_progress_drag .gantt_task_progress_drag {
 	display: none !important;
 }
-.hide_date_drag .gantt_task_drag.task_right{
+.hide_date_drag .gantt_task_drag.task_right {
 	display: none !important;
 }
-.hide_date_drag .gantt_task_drag.task_left{
+.hide_date_drag .gantt_task_drag.task_left {
 	display: none !important;
 }
 .important {
@@ -68,17 +70,24 @@
 }
 .gantt_modal_box .gantt_popup_text {
 	max-height: 500px;
-    overflow-y: auto;
+	overflow-y: auto;
 	margin: 0px;
 }
 .gantt_modal_box .gantt_popup_title {
 	border-bottom: 1px solid #dee2e6;
-    height: 55px;
-    line-height: 55px;
+	height: 55px;
+	line-height: 55px;
 }
 .gantt_popup_button {
 	line-height: 28px;
 	background: #232428;
-    color: #fff;
+	color: #fff;
 }
-
+.gantt_row.block_row_events  {
+	pointer-events: none !important;
+	touch-action: none;
+}
+.gantt_task_line.block_row_events  {
+	pointer-events: none !important;
+	touch-action: none;
+}
