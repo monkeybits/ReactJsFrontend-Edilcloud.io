@@ -103,14 +103,14 @@ function ProjectTabs({ value, setValue }) {
 				<FileManagerApp />
 			</TabPanel>
 			<TabPanel value={value} index={4}>
-				<div>
-					<div className="zoom-bar custom-zoom-bar">
+				{/* <div> */}
+				{/* <div className="zoom-bar custom-zoom-bar">
 						<Toolbar zoom={zoom.currentZoom} onZoomChange={handleZoomChange} />
-					</div>
-					<div id="myCover" className="gantt-container">
-						<Gantt zoom={zoom.currentZoom} />
-					</div>
+					</div> */}
+				<div id="myCover" className="gantt-container">
+					<Gantt zoom={zoom.currentZoom} />
 				</div>
+				{/* </div> */}
 			</TabPanel>
 			<AppBar className="fixed custom-tab-header right-0 bottom-0">
 				<BottomNavigation

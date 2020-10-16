@@ -38,61 +38,52 @@ function ganttInitZoom() {
 		minColumnWidth: 20,
 		levels: [
 			{
+				name: 'hour1',
+				scale_unit: 'day',
+				date_scale: '%d %M',
+				scale_height: 60,
+				min_column_width: 30,
+				subscales: [{ unit: 'hour', step: 1, date: '%H' }]
+			},
+			{
+				name: 'hour2',
+				scale_unit: 'day',
+				date_scale: '%d %M',
+				scale_height: 60,
+				min_column_width: 45,
+				subscales: [{ unit: 'hour', step: 1, date: '%H' }]
+			},
+			{
 				name: 'day1',
-				min_column_width: 92,
-				scales: [
-					{ unit: 'month', step: 1, format: '%M %Y' },
-					{ unit: 'day', step: 1, format: '%d %M' }
-				]
+				min_column_width: 60,
+				scale_unit: 'week',
+				date_scale: '#%W',
+				subscales: [{ unit: 'day', step: 1, date: '%d %M' }],
+				scale_height: 60
 			},
 			{
 				name: 'day2',
-				min_column_width: 80,
-				scales: [
-					{ unit: 'month', step: 1, format: '%M %Y' },
-					{ unit: 'day', step: 1, format: '%d %M' }
-				]
-			},
-			{
-				name: 'day3',
-				min_column_width: 68,
-				scales: [
-					{ unit: 'month', step: 1, format: '%M %Y' },
-					{ unit: 'day', step: 1, format: '%d %M' }
-				]
+				min_column_width: 70,
+				scale_unit: 'week',
+				date_scale: '#%W',
+				subscales: [{ unit: 'day', step: 1, date: '%d %M' }],
+				scale_height: 60
 			},
 			{
 				name: 'month1',
-				min_column_width: 56,
-				scales: [
-					{ unit: 'year', step: 1, format: '%Y' },
-					{ unit: 'month', step: 1, format: '%M %Y' }
-				]
+				min_column_width: 80,
+				scale_unit: 'month',
+				date_scale: '%F',
+				scale_height: 60,
+				subscales: [{ unit: 'week', step: 1, date: '#%W' }]
 			},
 			{
-				name: 'month2',
-				min_column_width: 44,
-				scales: [
-					{ unit: 'year', step: 1, format: '%Y' },
-					{ unit: 'month', step: 1, format: '%M %Y' }
-				]
-			},
-			{
-				name: 'month3',
-				min_column_width: 32,
-				scales: [
-					{ unit: 'year', step: 1, format: '%Y' },
-					{ unit: 'month', step: 1, format: '%M %Y' }
-				]
-			},
-			{
-				name: "years",
-				scales: [
-					{unit: "year", step: 1, format: "%Y"},
-				],
-				round_dnd_dates: false,
-				min_column_width: 20,
-				scale_height: 60
+				name: 'year1',
+				min_column_width: 92,
+				scale_unit: 'year',
+				date_scale: '%Y',
+				scale_height: 60,
+				subscales: [{ unit: 'year', step: 1, date: '%d %M %Y' }]
 			}
 		]
 	};
@@ -152,8 +143,6 @@ function shiftTask(task_id, direction) {
 	gantt.updateTask(task.id);
 }
 function sortHolders(a, b) {
-	console.log({ a, b });
-
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
 }
 class Gantt extends Component {
@@ -642,7 +631,7 @@ class Gantt extends Component {
 		gantt.render();
 	};
 	setZoomDefaultLevel = () => {
-		gantt.ext.zoom.setLevel('years');
+		gantt.ext.zoom.setLevel('month1');
 	};
 	exportPNG = () => {
 		gantt.exportToPNG({
@@ -744,7 +733,10 @@ class Gantt extends Component {
 						var div = gantt.modalbox({
 							title: 'Assign columns',
 							type: 'excel-form',
-							text: '<div class="table-responsive"> <table class="table m-0">' + body.join('') + '</table> </div>',
+							text:
+								'<div class="table-responsive"> <table class="table m-0">' +
+								body.join('') +
+								'</table> </div>',
 							buttons: [
 								{ label: 'Save', css: 'link_save_btn', value: 'save' },
 								{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
@@ -780,11 +772,11 @@ class Gantt extends Component {
 		gantt.config.autoscroll_speed = 50;
 	};
 	render() {
-		const { zoom } = this.props;
-		this.setZoom(zoom);
+		// const { zoom } = this.props;
+		// this.setZoom(zoom);
 		return (
 			<div>
-				<div className="px-32 custom-gantt-toolbar">
+				{/* <div className="px-32 custom-gantt-toolbar">
 					<p className="my-12">
 						You can use any XLSX file or download this sample{' '}
 						<a class="xlsx-sample" href="/assets/files/DemoProject.xlsx" target="_blank">
@@ -803,7 +795,7 @@ class Gantt extends Component {
 							/>
 						</form>
 					</p>
-				</div>
+				</div> */}
 
 				<div class="demo-main-container">
 					<div class="header gantt-demo-header">
@@ -866,7 +858,10 @@ class Gantt extends Component {
 									Fullscreen
 								</a>
 							</li>
-							<li class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last" onClick={this.setZoomDefaultLevel}>
+							<li
+								class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last"
+								onClick={this.setZoomDefaultLevel}
+							>
 								<a data-action="zoomToFit">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_to_fit_24.png" />
 									Zoom to Fit
