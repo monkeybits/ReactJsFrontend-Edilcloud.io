@@ -801,36 +801,36 @@ class Gantt extends Component {
 					<div class="header gantt-demo-header">
 						<ul class="gantt-controls">
 							<li class="gantt-menu-item" onClick={this.toggleLeftPanel}>
-								<a data-action="collapseAll">Toggle left</a>
+								<a data-action="collapseAll"><span class="header-text"> Toggle left </span></a>
 							</li>
 							<li class="gantt-menu-item" onClick={this.closeAll}>
 								<a data-action="collapseAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_collapse_all_24.png" />
-									Collapse All
+									<span class="header-text">Collapse All </span>
 								</a>
 							</li>
 							<li class="gantt-menu-item gantt-menu-item-last" onClick={this.openAll}>
 								<a data-action="expandAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_expand_all_24.png" />
-									Expand All
+									<span class="header-text">Expand All</span>
 								</a>
 							</li>
 							<li class="gantt-menu-item" onClick={this.moveForward}>
 								<a data-action="toggleAutoScheduling">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_auto_scheduling_24.png" />
-									Move Forword
+									<span class="header-text">Move Forword</span>
 								</a>
 							</li>
 							<li class="gantt-menu-item" onClick={this.moveBackward}>
 								<a data-action="toggleCriticalPath">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_critical_path_24.png" />
-									Move Backward
+									<span class="header-text">Move Backward</span>
 								</a>
 							</li>
 							<li class="gantt-menu-item">
 								<a>
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
-									Import
+									<span class="header-text">Import</span>
 								</a>
 								<ul class="gantt-controls">
 									<li
@@ -846,46 +846,12 @@ class Gantt extends Component {
 									</li>
 								</ul>
 							</li>
-							<li
-								class="gantt-menu-item gantt-menu-item-right"
-								id="fullScreen"
-								// onClick={() => {
-								// 	gantt.ext.fullscreen.toggle();
-								// }}
-							>
-								<a data-action="fullscreen">
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_fullscreen_24.png" />
-									Fullscreen
-								</a>
-							</li>
-							<li
-								class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last"
-								onClick={this.setZoomDefaultLevel}
-							>
-								<a data-action="zoomToFit">
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_to_fit_24.png" />
-									Zoom to Fit
-								</a>
-							</li>
-							<li class="gantt-menu-item gantt-menu-item-right" onClick={this.zoomOut}>
-								<a data-action="zoomOut">
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_out.png" />
-									Zoom Out
-								</a>
-							</li>
-							<li class="gantt-menu-item gantt-menu-item-right" onClick={this.zoomIn}>
-								<a data-action="zoomIn">
-									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_in.png" />
-									Zoom In
-								</a>
-							</li>
-
-							<li class="gantt-menu-item gantt-menu-item-right gantt-menu-item-last">
+							<li class="gantt-menu-item">
 								<a>
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
-									Export
+									<span class="header-text">Export</span>
 								</a>
-								<ul class="gantt-controls">
+								<ul class="gantt-controls w-125">
 									<li class="gantt-menu-item" onClick={this.exportPDF}>
 										<a data-action="toPDF">
 											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
@@ -911,6 +877,39 @@ class Gantt extends Component {
 										</a>
 									</li>
 								</ul>
+							</li>
+							<li
+								class="gantt-menu-item gantt-menu-item-last"
+								onClick={this.setZoomDefaultLevel}
+							>
+								<a data-action="zoomToFit">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_to_fit_24.png" />
+									<span class="header-text">Zoom to Fit</span>
+								</a>
+							</li>
+							<li class="gantt-menu-item" onClick={this.zoomOut}>
+								<a data-action="zoomOut">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_out.png" />
+									<span class="header-text">Zoom Out</span>
+								</a>
+							</li>
+							<li class="gantt-menu-item" onClick={this.zoomIn}>
+								<a data-action="zoomIn">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_in.png" />
+									<span class="header-text">Zoom In</span>
+								</a>
+							</li>
+							<li
+								class="gantt-menu-item"
+								id="fullScreen"
+								// onClick={() => {
+								// 	gantt.ext.fullscreen.toggle();
+								// }}
+							>
+								<a data-action="fullscreen">
+									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_fullscreen_24.png" />
+									<span class="header-text">Fullscreen</span>
+								</a>
 							</li>
 						</ul>
 					</div>

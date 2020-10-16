@@ -373,27 +373,21 @@
 .gantt-custom-full-screen {
     zoom: 100% !important;
 }
+.w-125 {
+    width: 125px;
+}
 .gantt-custom-full-screen #fuse-navbar, .gantt-custom-full-screen #fuse-navbar ~ div > header, .gantt-custom-full-screen .custom-tab-header, .gantt-custom-full-screen .team-chat-sidebar, .gantt-custom-full-screen .custom-gantt-toolbar, .gantt-custom-full-screen .zoom-bar, .gantt-custom-full-screen #fuse-layout > div:nth-child(2), .gantt-custom-full-screen .min-h-72.h-72, #fuse-settings {
     display: none;
 }
 .gantt-custom-full-screen .tabs-content, .gantt-custom-full-screen .pb-80 {
     padding-bottom: 0px !important;
 }
-.demo-main-container .gantt-controls {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    text-align: center;
-    white-space: nowrap;
-}
 .gantt-menu-item-last {
     border-right: none !important;
 }
-.demo-main-container .gantt-menu-item {
+/* .demo-main-container .gantt-menu-item {
     padding: 0px 10px !important;
-}
+} */
 .custom-zoom-bar {
     padding: 15px 15px 15px 35px;
 }
@@ -584,7 +578,16 @@
     }
   }
 
-
+@media only screen and (max-width: 1024px) and (min-width: 992px) {
+    .gantt-menu-item a {
+        padding: 0px 7px !important;
+    }
+}  
+@media only screen and (max-width: 991px) { 
+    .gantt-menu-item a .header-text {
+        display: none;
+    }
+}
 @media only screen and (max-width: 767px) {
     .tabs-content header.custom-tab-header .MuiTab-root{
         min-width: 100px !important;
@@ -658,10 +661,9 @@
     .demo-main-container {
         zoom: 120%;
     }
-    
-    
     .gantt-menu-item a {
         font-size: 12px;
+        padding: 0px 3px !important;
     }
     .gantt_tree_content {
         font-size: 11px !important;
@@ -685,6 +687,9 @@
     .team-chat-sidebar {
         transform: translate3d(470px,0,0);
         width: 100%;
+    }
+    .gantt-menu-item a {
+        padding: 0px !important;
     }
 }
 @media only screen and (max-width: 360px) {
