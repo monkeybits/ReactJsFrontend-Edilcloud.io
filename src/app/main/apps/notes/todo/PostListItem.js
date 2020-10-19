@@ -21,6 +21,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
 	ADD_COMMENT_TO_POST,
+	ADD_POST_TO_ACTIVITY,
+	ADD_POST_TO_TASK,
 	EDIT_POST,
 	GET_COMMENT_OF_POST,
 	SHARE_ACTIVITY_POST_TO_TASK
@@ -34,18 +36,22 @@ import CommentListItem from './CommentListItem';
 import moment from 'moment';
 import SendIcon from '@material-ui/icons/Send';
 import PostedImages from './PostedImages';
-import { Collapse } from '@material-ui/core';
+import { Box, CircularProgress, Collapse } from '@material-ui/core';
 import FuseUtils from '@fuse/utils';
 import { red } from '@material-ui/core/colors';
 import { toast } from 'react-toastify';
-
-export default function PostListItem({ currnetPost }) {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+ 
+export default function PostListItem({ currnetPost, isTask, taskId, callRetryAfterSuccess, showPrgress }) {
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
 	const [open, setOpen] = React.useState(true);
 	const [post, setPost] = React.useState({});
 	const [postComments, setPostComments] = useState([]);
+	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
+
 	useEffect(() => {
 		console.log({ currnetPost });
 		setPost(currnetPost);
@@ -154,6 +160,20 @@ export default function PostListItem({ currnetPost }) {
 			getHeaderToken()
 		);
 	};
+	const retryToPost = () => {
+		apiCall(
+			isTask ? ADD_POST_TO_TASK(taskId) : ADD_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
+			currnetPost.formData,
+			res => {
+				callRetryAfterSuccess(currnetPost.unique_code);
+			},
+			(err, request, error) => {
+				console.log({ myError: err, request, error });
+			},
+			METHOD.POST,
+			getHeaderToken()
+		);
+	};
 	if (!Object.entries(post).length) {
 		return null;
 	}
@@ -167,6 +187,29 @@ export default function PostListItem({ currnetPost }) {
 				}
 				action={
 					<div className="px-8">
+						{showPrgress && (
+							<>
+								{currnetPost.retryOption ? (
+									<Button onClick={retryToPost}>Retry</Button>
+								) : (
+									<Box position="relative" display="inline-flex">
+										<CircularProgress size={20} color="secondary" />
+										<Box
+											top={0}
+											left={0}
+											bottom={0}
+											right={0}
+											position="absolute"
+											display="flex"
+											alignItems="center"
+											justifyContent="center"
+										>
+											<FontAwesomeIcon icon={faUpload} style={{ fontSize: '1.5rem' }} />
+										</Box>
+									</Box>
+								)}
+							</>
+						)}
 						<IconButton
 							onClick={ev => {
 								ev.preventDefault();

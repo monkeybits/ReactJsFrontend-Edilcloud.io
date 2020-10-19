@@ -29,7 +29,7 @@ import {
 	faArrowAltCircleLeft,
 	faArrowAltCircleRight
 } from '@fortawesome/free-regular-svg-icons';
-import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
@@ -913,6 +913,16 @@ class Gantt extends Component {
 											<a data-action="toExcel">
 												<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
 												Excel
+											</a>
+										</li>
+										<li class="gantt-menu-item">
+											<a
+												class="xlsx-sample"
+												href="/assets/files/DemoProject.xlsx"
+												target="_blank"
+											>
+												<FontAwesomeIcon icon={faDownload} style={{ fontSize: '1.5rem' }} />
+												DemoProject.xlsx
 											</a>
 										</li>
 									</ul>

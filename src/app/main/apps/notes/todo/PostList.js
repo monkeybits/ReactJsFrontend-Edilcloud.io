@@ -27,11 +27,20 @@ import * as Actions from './store/actions';
 import PostListItem from './PostListItem';
 import moment from 'moment';
 
-function PostList({ posts }) {
+function PostList({ posts, isTask, taskId, callRetryAfterSuccess, showPrgress }) {
 	if (!posts || posts?.length == 0) {
 		return null;
 	}
-	return posts.map((post, index) => <PostListItem key={index} currnetPost={post} />);
+	return posts.map((post, index) => (
+		<PostListItem
+			showPrgress={showPrgress}
+			isTask={isTask}
+			taskId={taskId}
+			key={index}
+			currnetPost={post}
+			callRetryAfterSuccess={callRetryAfterSuccess}
+		/>
+	));
 }
 
 export default PostList;

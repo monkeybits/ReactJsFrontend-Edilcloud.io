@@ -57,6 +57,7 @@ export default function PostedImages(props) {
 	const handleStepChange = step => {
 		setActiveStep(step);
 	};
+	console.log({ images: props.images[activeStep] });
 	return (
 		<div className={clsx(classes.root, 'd-block mx-auto o-contain')}>
 			<AutoPlaySwipeableViews
@@ -72,12 +73,16 @@ export default function PostedImages(props) {
 				)} */}
 				{props.images.map((step, index) => (
 					<div key={step.label}>
-						{Math.abs(activeStep - index) <= 2 ? (
-							props.images[activeStep]?.type == 'image' || true ? (
-								<img className={classes.img} src={props.images[activeStep].media_url} />
-							) : (
-								<video className={classes.img} src={props.images[activeStep].imgPath} autoPlay />
-							)
+						{Math.abs(activeStep - index) <= 2 && props.images[activeStep]?.type ? (
+							<>
+								{console.log('fileType', props.images[activeStep]?.type)}
+								{/* // props.images[activeStep]?.type == 'image' || true ? ( */}
+								{props.images[activeStep]?.type?.split('/')[0] == 'image' ? (
+									<img className={classes.img} src={props.images[activeStep].media_url} />
+								) : (
+									<video className={classes.img} src={props.images[activeStep].media_url} autoPlay />
+								)}
+							</>
 						) : null}
 					</div>
 				))}

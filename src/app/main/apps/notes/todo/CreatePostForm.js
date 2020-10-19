@@ -34,10 +34,15 @@ import ImagesPreview from './ImagesPreview';
 import PostList from './PostList';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
+const uuidv1 = require('uuid/v1');
 
 function CreatePostForm({ isTask, taskId }) {
 	const dispatch = useDispatch();
+	const [, updateState] = React.useState();
+	const forceUpdate = React.useCallback(() => updateState({}), []);
+
 	const [data, setData] = useState({ posts: [] });
+	const [offilePosts, setOffilePosts] = useState({});
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
 	const [viewCroper, setViewCroper] = useState(false);
@@ -75,10 +80,20 @@ function CreatePostForm({ isTask, taskId }) {
 	};
 	const createPost = async () => {
 		var formData = new FormData();
+		const unique_code = uuidv1();
 		let values = {
-			text
+			text,
+			unique_code
 		};
-
+		let media_set = [];
+		if (images) {
+			media_set = images.map(d => ({
+				extension: d.extension,
+				media_url: d.imgPath,
+				name: d.file.name,
+				type: d.type
+			}));
+		}
 		if (images) {
 			const acceptedFiles = images.map(d => d.file);
 			let i = 0;
@@ -90,23 +105,61 @@ function CreatePostForm({ isTask, taskId }) {
 		for (let key in values) {
 			if (values[key]) formData.append(key, values[key]);
 		}
+
+		const tempPost = {
+			formData,
+			text,
+			author: { user: { username: 'chaitnya16' } },
+			media_set,
+			unique_code
+		};
+		console.log({ media_set });
+		let tempOfflinePosts = { ...offilePosts, [unique_code]: tempPost };
+		setOffilePosts(tempOfflinePosts);
 		apiCall(
 			isTask ? ADD_POST_TO_TASK(taskId) : ADD_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
 			formData,
 			res => {
-				setData({
-					posts: data.posts ? [res, ...data.posts] : [res]
-				});
-				document.getElementById('addPost').value = '';
-				setImages(null);
+				console.log({ res });
+				delete tempOfflinePosts[res.unique_code];
+				setOffilePosts(tempOfflinePosts);
 				getPosts();
 			},
-			err => console.log(err),
+			err => {
+				// console.log({ myError: err, unique_code, tempOfflinePosts });
+				// let tempPosts = { ...offilePosts };
+				tempOfflinePosts[unique_code] = {
+					...tempOfflinePosts[unique_code],
+					retryOption: true
+				};
+				console.log({ myError: err, tempOfflinePosts });
+				setOffilePosts(tempOfflinePosts);
+				forceUpdate();
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);
+		document.getElementById('addPost').value = '';
+		setImages(null);
 	};
-
+	// const createPostOffline = (formData, unique_code) => {
+	// 	let media_set = [];
+	// 	if (images) {
+	// 		media_set = images.map(d => ({
+	// 			extension: d.extension,
+	// 			media_url: d.imgPath,
+	// 			name: d.file.name,
+	// 			type: d.file.type
+	// 		}));
+	// 	}
+	// 	const tempPost = {
+	// 		formData,
+	// 		text,
+	// 		author: { user: { username: 'chaitnya16' } },
+	// 		media_set
+	// 	};
+	// 	setOffilePosts(prev => ({ ...prev, [unique_code]: tempPost }));
+	// };
 	const addPhoto = async e => {
 		const files = e.currentTarget.files;
 		const fileToCompress = e.currentTarget.files[0];
@@ -133,12 +186,16 @@ function CreatePostForm({ isTask, taskId }) {
 
 		let file = [];
 		for (var i = 0; i < files.length; i++) {
+			let fileType = files[i].type?.split('/');
+			console.log({ fileType });
 			file = [
 				...file,
 				{
-					file: await getCompressFile(files[i]),
+					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
-					fileType: files[i].type?.split('/')[0]
+					fileType: fileType[0],
+					extension: '.' + fileType[1],
+					type: fileType.join('/')
 				}
 			];
 			setImages(file);
@@ -162,6 +219,13 @@ function CreatePostForm({ isTask, taskId }) {
 		};
 		// console.log('Fileurl', URL.createObjectURL(FuseUtils.dataURItoFile(url)));
 		setImages(images);
+	};
+	const callRetryAfterSuccess = unique_code => {
+		let tempPosts = { ...offilePosts };
+		console.log({ tempPosts, unique_code });
+		delete tempPosts[unique_code];
+		setOffilePosts(tempPosts);
+		getPosts();
 	};
 	if (!data) {
 		return null;
@@ -222,6 +286,13 @@ function CreatePostForm({ isTask, taskId }) {
 					{/* <Divider className="my-32" /> */}
 				</div>
 
+				<PostList
+					showPrgress={true}
+					isTask={isTask}
+					taskId={taskId}
+					posts={Object.values(offilePosts)}
+					callRetryAfterSuccess={callRetryAfterSuccess}
+				/>
 				<PostList posts={data.posts} />
 				<PostList posts={data.sharedPosts} />
 			</div>
