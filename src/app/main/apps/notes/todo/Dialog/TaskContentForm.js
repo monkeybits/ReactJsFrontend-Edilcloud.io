@@ -367,7 +367,15 @@ function TaskContentForm(props) {
 			<DialogTitle component="div" className="p-0">
 				<AppBar position="static" elevation={1}>
 					<Toolbar className="flex w-full overflow-x-auto px-8 sm:px-16">
-						<div className="flex flex-1">Task</div>
+						<div className="flex flex-1">
+							<div className="my-12">
+								{taskContentData?.project && (
+									<div className="font-extrabold">{taskContentData?.project.name}</div>
+								)}
+								<div className="text-base opacity-75">{taskContentData?.name}</div>
+							</div>
+						</div>
+
 						<IconButton color="inherit" onClick={ev => dispatch(Actions.closeTaskContent())}>
 							<Icon>close</Icon>
 						</IconButton>
@@ -375,7 +383,7 @@ function TaskContentForm(props) {
 				</AppBar>
 			</DialogTitle>
 
-			<DialogContent className="p-0 sm:p-10">
+			<DialogContent id="dialog-content" className="p-0 sm:p-10">
 				<TabPanel value={value} index={0} class="write-post-img-full">
 					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
 				</TabPanel>

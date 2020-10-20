@@ -40,7 +40,8 @@ function CreatePostForm({ isTask, taskId }) {
 	const dispatch = useDispatch();
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
-
+	const user = useSelector(({ auth }) => auth.user.data.company);
+	const [tempAuthor, setTempAuthor] = useState({});
 	const [data, setData] = useState({ posts: [] });
 	const [offilePosts, setOffilePosts] = useState({});
 	const [text, setText] = useState('');
@@ -52,6 +53,13 @@ function CreatePostForm({ isTask, taskId }) {
 	});
 	const inputRef = useRef(null);
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
+	useEffect(() => {
+		if (user) {
+			setTempAuthor({
+				...user
+			});
+		}
+	}, [user]);
 	useEffect(() => {
 		if (todoDialog.data?.todo?.id) {
 			getPosts();
@@ -109,7 +117,7 @@ function CreatePostForm({ isTask, taskId }) {
 		const tempPost = {
 			formData,
 			text,
-			author: { user: { username: 'chaitnya16' } },
+			author: tempAuthor,
 			media_set,
 			unique_code
 		};
@@ -220,12 +228,16 @@ function CreatePostForm({ isTask, taskId }) {
 		// console.log('Fileurl', URL.createObjectURL(FuseUtils.dataURItoFile(url)));
 		setImages(images);
 	};
-	const callRetryAfterSuccess = unique_code => {
+	const callRetryAfterSuccess = (unique_code, res) => {
 		let tempPosts = { ...offilePosts };
-		console.log({ tempPosts, unique_code });
-		delete tempPosts[unique_code];
+		tempPosts[unique_code] = {
+			...tempPosts[unique_code],
+			...res,
+			retryOption: false,
+			successAfterRetry: true
+		};
 		setOffilePosts(tempPosts);
-		getPosts();
+		forceUpdate();
 	};
 	if (!data) {
 		return null;
@@ -287,14 +299,15 @@ function CreatePostForm({ isTask, taskId }) {
 				</div>
 
 				<PostList
-					showPrgress={true}
+					isOffline
+					tempAuthor={tempAuthor}
 					isTask={isTask}
 					taskId={taskId}
 					posts={Object.values(offilePosts)}
 					callRetryAfterSuccess={callRetryAfterSuccess}
 				/>
-				<PostList posts={data.posts} />
-				<PostList posts={data.sharedPosts} />
+				<PostList tempAuthor={tempAuthor} posts={data.posts} />
+				<PostList tempAuthor={tempAuthor} posts={data.sharedPosts} />
 			</div>
 		</div>
 	);

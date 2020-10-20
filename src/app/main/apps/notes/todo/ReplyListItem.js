@@ -28,8 +28,36 @@ import ImagesPreview from './ImagesPreview';
 import PostList from './PostList';
 import moment from 'moment';
 import PostedImages from './PostedImages';
-
-export default function ReplyListItem({ post, comment, getReplies, commentId, author, handleReplyClick }) {
+import { Box, CircularProgress, Collapse } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+export default function ReplyListItem({
+	post,
+	comment,
+	getReplies,
+	commentId,
+	author,
+	handleReplyClick,
+	callRetryReplySuccess,
+	isOffline
+}) {
+	const [isRetryingPostReply, setIsRetryingPostReply] = useState(false);
+	const retryToPostReply = () => {
+		setIsRetryingPostReply(true);
+		apiCall(
+			ADD_COMMENT_TO_POST(post.id),
+			comment.formData,
+			res => {
+				setIsRetryingPostReply(false);
+				callRetryReplySuccess(comment.unique_code);
+			},
+			err => {
+				setIsRetryingPostReply(false);
+			},
+			METHOD.POST,
+			getHeaderToken()
+		);
+	};
 	return (
 		<div key={comment.id}>
 			<ListItem className="px-0 -mx-8">
@@ -48,27 +76,52 @@ export default function ReplyListItem({ post, comment, getReplies, commentId, au
 					}
 					secondary={comment.text}
 				/>
+				{isOffline && (
+					<>
+						{comment.retryOption && !isRetryingPostReply ? (
+							<Button onClick={retryToPostReply}>Retry</Button>
+						) : (
+							<Box position="relative" display="inline-flex">
+								<CircularProgress size={20} color="secondary" />
+								<Box
+									top={0}
+									left={0}
+									bottom={0}
+									right={0}
+									position="absolute"
+									display="flex"
+									alignItems="center"
+									justifyContent="center"
+								>
+									<FontAwesomeIcon icon={faUpload} style={{ fontSize: '1.5rem' }} />
+								</Box>
+							</Box>
+						)}
+					</>
+				)}
 			</ListItem>
 			<div className="posted-images comment-post-img">
 				<PostedImages images={comment.media_set} hideNavigation />
 			</div>
-			<div className="flex items-center ml-44 mb-8">
-				<Button size="small" aria-label="Add to favorites">
-					<Icon className="text-16" color="action">
-						favorite
-					</Icon>
-					<Typography className="normal-case mx-4">Like</Typography>
-				</Button>
-				<Button onClick={handleReplyClick} className="normal-case">
-					Reply
-				</Button>
-				<Typography className="mx-12 font-size-14" variant="caption">
-					{
-						moment.parseZone(comment.created_date).fromNow() //format('LL')
-					}
-				</Typography>
-				<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
-			</div>
+			{!isOffline && (
+				<div className="flex items-center ml-44 mb-8">
+					<Button size="small" aria-label="Add to favorites">
+						<Icon className="text-16" color="action">
+							favorite
+						</Icon>
+						<Typography className="normal-case mx-4">Like</Typography>
+					</Button>
+					<Button onClick={handleReplyClick} className="normal-case">
+						Reply
+					</Button>
+					<Typography className="mx-12 font-size-14" variant="caption">
+						{
+							moment.parseZone(comment.created_date).fromNow() //format('LL')
+						}
+					</Typography>
+					<Icon className="text-14 mx-8 cursor-pointer">flag</Icon>
+				</div>
+			)}
 		</div>
 	);
 }

@@ -221,17 +221,19 @@ function CreatePostDialog(props) {
 							<CloseIcon />
 						</IconButton>
 					</div>
-					<Typography variant="subtitle1" color="inherit">
-						{todoDialog.type === 'new'
-							? 'New Todo'
-							: todoDialog.type === 'activity'
-							? 'New Activity'
-							: 'Edit Todo'}
-					</Typography>
+					<div className="my-10">
+						{todoDialog.data?.task?.project && (
+							<Typography variant="subtitle1" color="inherit">
+								<div className="font-extrabold">{todoDialog.data?.task?.project.name}</div>
+							</Typography>
+						)}
+						<div className="my-4">{todoDialog.data?.task?.name}</div>
+						<div>{todoDialog.data?.todo?.title}</div>
+					</div>
 				</Toolbar>
 			</AppBar>
 
-			<DialogContent classes={{ root: 'p-0' }}>
+			<DialogContent id="dialog-content" classes={{ root: 'p-0' }}>
 				<TabPanel value={value} index={0}>
 					<CreatePostForm />
 				</TabPanel>
