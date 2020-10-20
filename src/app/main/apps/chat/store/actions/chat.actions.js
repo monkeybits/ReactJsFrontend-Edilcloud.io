@@ -10,6 +10,7 @@ export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT';
 export const SEND_MESSAGE = '[CHAT APP] SEND MESSAGE';
 export const COMPANY_INFO = '[CHAT APP] COMPANY INFO';
 export const UPDATE_CHAT_LOG = '[CHAT APP] UPDATE_CHAT_LOG';
+const uuidv1 = require('uuid/v1');
 
 export function updateChatLog(update) {
 	return {
@@ -64,6 +65,18 @@ export function deleteMessage(mid) {
 }
 export function sendMessage(messageText, setMessageText, images, setImages) {
 	return (dispatch, getState) => {
+		const getChats = () => getState().chatApp.chat.chats;
+		const unique_code = uuidv1();
+		let files = [];
+		if (images) {
+			files = images.map(d => ({
+				extension: d.extension,
+				media_url: d.imgPath,
+				name: d.file.name,
+				type: d.type
+			}));
+		}
+
 		const userInfo = decodeDataFromToken();
 		let values = {
 			body: messageText
@@ -80,16 +93,77 @@ export function sendMessage(messageText, setMessageText, images, setImages) {
 				i += 1;
 			}
 		}
+		let msg = {
+			body: messageText,
+			files,
+			sender: {
+				id: 6,
+				first_name: 'cheeta',
+				last_name: 'parikh',
+				photo: 'http://back.edilcloud.ml/media/profile/photo/pa/parikh_hzZQ2fw',
+				is_shared: false,
+				is_in_showroom: false
+			},
+			waitingToSend: true,
+			unique_code,
+			formData
+		};
+		dispatch(
+			updateChatLog({
+				message: msg
+			})
+		);
 		apiCall(
 			SEND_MESSAGE_API(userInfo.extra.profile.company),
 			formData,
 			chat => {},
-			err => console.log(err),
+			err => {
+				const findUnique_code = element => element?.unique_code == unique_code;
+
+				let chats = getChats();
+				let index = chats.findIndex(findUnique_code);
+				chats[index] = {
+					...chats[index],
+					retryOption: true
+				};
+				dispatch({
+					type: GET_CHAT,
+					chat: chats,
+					userChatData: {}
+				});
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);
 		setImages(null);
 		setMessageText('');
+	};
+}
+
+export function retryToSendMessage(chatItem) {
+	return (dispatch, getState) => {
+		const userInfo = decodeDataFromToken();
+		const getChats = () => getState().chatApp.chat.chats;
+
+		const formData = chatItem.formData;
+		apiCall(
+			SEND_MESSAGE_API(userInfo.extra.profile.company),
+			formData,
+			chat => {
+				const findUnique_code = element => element?.unique_code == chatItem.unique_code;
+				let chats = getChats();
+				let index = chats.findIndex(findUnique_code);
+				delete chats[index];
+				dispatch({
+					type: GET_CHAT,
+					chat: chats,
+					userChatData: {}
+				});
+			},
+			err => {},
+			METHOD.POST,
+			getHeaderToken()
+		);
 	};
 }
 

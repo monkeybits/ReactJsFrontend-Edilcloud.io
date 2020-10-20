@@ -42,8 +42,9 @@ import { red } from '@material-ui/core/colors';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
- 
-export default function PostListItem({ currnetPost, isTask, taskId, callRetryAfterSuccess, showPrgress }) {
+const uuidv1 = require('uuid/v1');
+
+export default function PostListItem({ currnetPost, isTask, taskId, callRetryAfterSuccess, isOffline, tempAuthor }) {
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
@@ -51,7 +52,11 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 	const [post, setPost] = React.useState({});
 	const [postComments, setPostComments] = useState([]);
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
+	const [offlinePostComments, setofflinePostComments] = useState({});
+	const [isRetryingPost, setIsRetryingPost] = useState(false);
 
+	const [, updateState] = React.useState();
+	const forceUpdate = React.useCallback(() => updateState({}), []);
 	useEffect(() => {
 		console.log({ currnetPost });
 		setPost(currnetPost);
@@ -63,10 +68,24 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 		}
 	}, [post.comment_set]);
 	const handlePostComment = e => {
+		e.preventDefault();
+		if (!text && !images) return;
+		const unique_code = uuidv1();
+		let media_set = [];
+		if (images) {
+			media_set = images.map(d => ({
+				extension: d.extension,
+				media_url: d.imgPath,
+				name: d.file.name,
+				type: d.type
+			}));
+		}
+
 		var formData = new FormData();
 		formData.append('parent', '');
 		let values = {
-			text
+			text,
+			unique_code
 		};
 		if (images) {
 			const acceptedFiles = images.map(d => d.file);
@@ -77,17 +96,36 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 			}
 		}
 		for (let key in values) {
-			if (values[key]) formData.append(key, values[key]);
+			formData.append(key, values[key]);
 		}
-		e.preventDefault();
-		if (!text) return;
+		const tempComment = {
+			author: tempAuthor,
+			replies_set: [],
+			media_set,
+			text: text,
+			unique_code,
+			parent: null,
+			formData
+		};
+		let tempofflinePostComments = { ...offlinePostComments, [unique_code]: tempComment };
+		setofflinePostComments(tempofflinePostComments);
 		apiCall(
 			ADD_COMMENT_TO_POST(post.id),
 			formData,
 			res => {
+				delete tempofflinePostComments[res.unique_code];
+				setofflinePostComments(tempofflinePostComments);
 				getComments();
 			},
-			err => console.log(err),
+			err => {
+				tempofflinePostComments[unique_code] = {
+					...tempofflinePostComments[unique_code],
+					retryOption: true
+				};
+				console.log({ myErrorComment: err, tempofflinePostComments });
+				setofflinePostComments(tempofflinePostComments);
+				forceUpdate();
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);
@@ -126,12 +164,15 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 		const files = e.currentTarget.files;
 		let file = [];
 		for (var i = 0; i < files.length; i++) {
+			let fileType = files[i].type?.split('/');
 			file = [
 				...file,
 				{
-					file: await getCompressFile(files[i]),
+					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
-					fileType: files[i].type?.split('/')[0]
+					fileType: fileType[0],
+					extension: '.' + fileType[1],
+					type: fileType.join('/')
 				}
 			];
 			setImages(file);
@@ -161,18 +202,29 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 		);
 	};
 	const retryToPost = () => {
+		setIsRetryingPost(true);
 		apiCall(
 			isTask ? ADD_POST_TO_TASK(taskId) : ADD_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
 			currnetPost.formData,
 			res => {
-				callRetryAfterSuccess(currnetPost.unique_code);
+				callRetryAfterSuccess(currnetPost.unique_code, res);
+				setIsRetryingPost(false);
 			},
 			(err, request, error) => {
 				console.log({ myError: err, request, error });
+				setIsRetryingPost(false);
 			},
 			METHOD.POST,
 			getHeaderToken()
 		);
+	};
+	const showComments = () => Object.values(offlinePostComments).length || (postComments && postComments.length > 0);
+	const commentsLength = () => Object.values(offlinePostComments).length + postComments.length;
+	const callRetryCommentSuccess = unique_code => {
+		let tempofflinePostComments = { ...offlinePostComments };
+		delete tempofflinePostComments[unique_code];
+		setofflinePostComments(tempofflinePostComments);
+		getComments();
 	};
 	if (!Object.entries(post).length) {
 		return null;
@@ -187,9 +239,9 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 				}
 				action={
 					<div className="px-8">
-						{showPrgress && (
+						{isOffline && !currnetPost.successAfterRetry && (
 							<>
-								{currnetPost.retryOption ? (
+								{currnetPost.retryOption && !isRetryingPost ? (
 									<Button onClick={retryToPost}>Retry</Button>
 								) : (
 									<Box position="relative" display="inline-flex">
@@ -270,7 +322,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 			</CardActions>
 
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
-				{postComments && postComments.length > 0 && (
+				{showComments() && (
 					<div className="">
 						<div
 							className="flex items-center ml-52 my-16 cursor-pointer"
@@ -280,7 +332,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 								setOpen(!open);
 							}}
 						>
-							<Typography className="underline">{postComments.length} comments</Typography>
+							<Typography className="underline">{commentsLength()} comments</Typography>
 							<Icon className="text-16 mx-4" color="action">
 								{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 							</Icon>
@@ -288,45 +340,66 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 						<Collapse in={open} timeout="auto" unmountOnExit>
 							<List>
 								{postComments.map((comment, index) => (
-									<CommentListItem key={index} post={post} comment={comment} />
+									<CommentListItem
+										tempAuthor={tempAuthor}
+										key={index}
+										post={post}
+										comment={comment}
+									/>
+								))}
+								{Object.values(offlinePostComments).map((comment, index) => (
+									<CommentListItem
+										isOffline
+										key={comment.unique_code}
+										callRetryCommentSuccess={callRetryCommentSuccess}
+										post={post}
+										comment={comment}
+									/>
 								))}
 							</List>
 						</Collapse>
 					</div>
 				)}
 
-				<div className="flex flex-auto -mx-4">
-					<Avatar className="mx-4" src="assets/images/avatars/profile.jpg" />
-					<div className="flex-1 mx-4">
-						<Paper elevation={0} className="w-full relative post-icons">
-							<Input
-								className="p-8 w-full border-1"
-								id={String(post.id)}
-								classes={{ root: 'text-13' }}
-								placeholder="Add a comment.."
-								multiline
-								rows="2"
-								margin="none"
-								disableUnderline
-								onChange={e => setText(e.target.value)}
-							/>
-							<IconButton
-								className="image p-0"
-								onClick={() => inputRef.current.click()}
-								aria-label="Add photo"
-							>
-								<Icon>photo</Icon>
-							</IconButton>
-							<input hidden type="file" accept="image/*, video/*" ref={inputRef} onChange={addPhoto} />
-							<IconButton
-								className="send p-0"
-								onClick={handlePostComment}
-								aria-label="Send"
-								disabled={!text.length}
-							>
-								<Icon>send</Icon>
-							</IconButton>
-							{/* <Button
+				{(!isOffline || currnetPost.successAfterRetry) && (
+					<div className="flex flex-auto -mx-4">
+						<Avatar className="mx-4" src="assets/images/avatars/profile.jpg" />
+						<div className="flex-1 mx-4">
+							<Paper elevation={0} className="w-full relative post-icons">
+								<Input
+									className="p-8 w-full border-1"
+									id={String(post.id)}
+									classes={{ root: 'text-13' }}
+									placeholder="Add a comment.."
+									multiline
+									rows="2"
+									margin="none"
+									disableUnderline
+									onChange={e => setText(e.target.value)}
+								/>
+								<IconButton
+									className="image p-0"
+									onClick={() => inputRef.current.click()}
+									aria-label="Add photo"
+								>
+									<Icon>photo</Icon>
+								</IconButton>
+								<input
+									hidden
+									type="file"
+									accept="image/*, video/*"
+									ref={inputRef}
+									onChange={addPhoto}
+								/>
+								<IconButton
+									className="send p-0"
+									onClick={handlePostComment}
+									aria-label="Send"
+									disabled={!text.length}
+								>
+									<Icon>send</Icon>
+								</IconButton>
+								{/* <Button
 								disabled={!text.length}
 								onClick={handlePostComment}
 								className="normal-case"
@@ -336,14 +409,15 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 							>
 								Post Comment
 							</Button> */}
-						</Paper>
-						{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
-						{/* <div className="card-footer flex items-center relative">
+							</Paper>
+							{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
+							{/* <div className="card-footer flex items-center relative">
 							<div className="flex-1 items-center post-icons">
 							</div>
 						</div> */}
+						</div>
 					</div>
-				</div>
+				)}
 			</AppBar>
 		</Card>
 	);

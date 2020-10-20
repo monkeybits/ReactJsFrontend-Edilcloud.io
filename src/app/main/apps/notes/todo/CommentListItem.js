@@ -29,16 +29,22 @@ import ReplyListItem from './ReplyListItem';
 import moment from 'moment';
 import PostedImages from './PostedImages';
 import FuseUtils from '@fuse/utils';
-import { Collapse } from '@material-ui/core';
+import { Box, CircularProgress, Collapse } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+const uuidv1 = require('uuid/v1');
 
-export default function CommentListItem({ post, comment }) {
+export default function CommentListItem({ post, comment, isOffline, callRetryCommentSuccess, tempAuthor }) {
 	const inputRef = useRef(null);
 	const [open, setOpen] = React.useState(false);
 	const [images, setImages] = useState(null);
 	const [text, setText] = useState('');
 	const [isReplying, setIsReplying] = useState(false);
+	const [isRetryingPostComment, setisRetryingPostComment] = useState(false);
 	const [replyComments, setReplyComments] = useState([]);
-
+	const [offlineCommentReplies, setofflineCommentReplies] = useState({});
+	const [, updateState] = React.useState();
+	const forceUpdate = React.useCallback(() => updateState({}), []);
 	useEffect(() => {
 		setReplyComments(comment.replies_set);
 		return () => {
@@ -46,11 +52,25 @@ export default function CommentListItem({ post, comment }) {
 		};
 	}, [comment.replies_set]);
 	const handlePostComment = e => {
+		e.preventDefault();
+		if (!text) return;
+		const unique_code = uuidv1();
+		let media_set = [];
+		if (images) {
+			media_set = images.map(d => ({
+				extension: d.extension,
+				media_url: d.imgPath,
+				name: d.file.name,
+				type: d.type
+			}));
+		}
+
 		var formData = new FormData();
 		formData.append('parent', '');
 		let values = {
 			text,
-			parent: comment.id
+			parent: comment.id,
+			unique_code
 		};
 		if (images) {
 			const acceptedFiles = images.map(d => d.file);
@@ -63,16 +83,36 @@ export default function CommentListItem({ post, comment }) {
 		for (let key in values) {
 			formData.append(key, values[key]);
 		}
-		e.preventDefault();
-		if (!text) return;
+		const tempReply = {
+			author: tempAuthor,
+			replies_set: [],
+			media_set,
+			text: text,
+			unique_code,
+			parent: null,
+			formData
+		};
+		let tempofflineCommentReplies = { ...offlineCommentReplies, [unique_code]: tempReply };
+		setofflineCommentReplies(tempofflineCommentReplies);
+
 		apiCall(
 			ADD_COMMENT_TO_POST(post.id),
 			formData,
 			res => {
+				delete tempofflineCommentReplies[res.unique_code];
+				setofflineCommentReplies(tempofflineCommentReplies);
 				getReplies();
 				setIsReplying(false);
 			},
-			err => console.log(err),
+			err => {
+				tempofflineCommentReplies[unique_code] = {
+					...tempofflineCommentReplies[unique_code],
+					retryOption: true
+				};
+				console.log({ myErrorComment: err, tempofflineCommentReplies });
+				setofflineCommentReplies(tempofflineCommentReplies);
+				forceUpdate();
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);
@@ -96,12 +136,15 @@ export default function CommentListItem({ post, comment }) {
 		const files = e.currentTarget.files;
 		let file = [];
 		for (var i = 0; i < files.length; i++) {
+			let fileType = files[i].type?.split('/');
 			file = [
 				...file,
 				{
-					file: await getCompressFile(files[i]),
+					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
-					fileType: files[i].type?.split('/')[0]
+					fileType: fileType[0],
+					extension: '.' + fileType[1],
+					type: fileType.join('/')
 				}
 			];
 			setImages(file);
@@ -115,6 +158,31 @@ export default function CommentListItem({ post, comment }) {
 		};
 		// console.log('Fileurl', URL.createObjectURL(FuseUtils.dataURItoFile(url)));
 		setImages(images);
+	};
+	const retryToPostComment = () => {
+		setisRetryingPostComment(true);
+		apiCall(
+			ADD_COMMENT_TO_POST(post.id),
+			comment.formData,
+			res => {
+				setisRetryingPostComment(false);
+				callRetryCommentSuccess(comment.unique_code);
+			},
+			err => {
+				setisRetryingPostComment(false);
+			},
+			METHOD.POST,
+			getHeaderToken()
+		);
+	};
+	const showReplies = () => Object.values(offlineCommentReplies).length || replyComments.length > 0;
+	const repliesLength = () => Object.values(offlineCommentReplies).length + replyComments.length;
+	const callRetryReplySuccess = unique_code => {
+		let tempofflineCommentReplies = { ...offlineCommentReplies };
+		delete tempofflineCommentReplies[unique_code];
+		setofflineCommentReplies(tempofflineCommentReplies);
+		setIsReplying(false);
+		getReplies();
 	};
 	return (
 		<div key={comment.id}>
@@ -134,52 +202,76 @@ export default function CommentListItem({ post, comment }) {
 					}
 					secondary={comment.text}
 				/>
+				{isOffline && (
+					<>
+						{comment.retryOption && !isRetryingPostComment ? (
+							<Button onClick={retryToPostComment}>Retry</Button>
+						) : (
+							<Box position="relative" display="inline-flex">
+								<CircularProgress size={20} color="secondary" />
+								<Box
+									top={0}
+									left={0}
+									bottom={0}
+									right={0}
+									position="absolute"
+									display="flex"
+									alignItems="center"
+									justifyContent="center"
+								>
+									<FontAwesomeIcon icon={faUpload} style={{ fontSize: '1.5rem' }} />
+								</Box>
+							</Box>
+						)}
+					</>
+				)}
 			</ListItem>
 			<div className="posted-images comment-post-img">
 				<PostedImages images={comment.media_set} hideNavigation />
 			</div>
-			<div className="flex flex-wrap items-center ml-44">
-				<Button size="small" aria-label="Add to favorites">
-					<Icon className="text-16" color="action">
-						favorite
-					</Icon>
-					<Typography className="normal-case mx-4">Like</Typography>
-				</Button>
-				<Button
-					onClick={() => {
-						setIsReplying(prev => !prev);
-						setText('@' + comment.author.user.username);
-						setTimeout(() => {
-							if (!isReplying) {
-								document.getElementById(String(comment.id)).focus();
-							}
-						}, 100);
-					}}
-					className="normal-case"
-				>
-					Reply
-				</Button>
-				<Typography className="mx-12" variant="caption">
-					{
-						moment.parseZone(comment.created_date).fromNow() //format('LL')
-					}
-				</Typography>
-				<div
-					className="flex items-center ml-auto cursor-pointer"
-					onClick={ev => {
-						ev.preventDefault();
-						ev.stopPropagation();
-						setOpen(!open);
-					}}
-				>
-					<Typography className="underline">{replyComments.length} Replies</Typography>
-					<Icon className="text-16 mx-4" color="action">
-						{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
-					</Icon>
+			{!isOffline && (
+				<div className="flex flex-wrap items-center ml-44">
+					<Button size="small" aria-label="Add to favorites">
+						<Icon className="text-16" color="action">
+							favorite
+						</Icon>
+						<Typography className="normal-case mx-4">Like</Typography>
+					</Button>
+					<Button
+						onClick={() => {
+							setIsReplying(prev => !prev);
+							setText('@' + comment.author.user.username);
+							setTimeout(() => {
+								if (!isReplying) {
+									document.getElementById(String(comment.id)).focus();
+								}
+							}, 100);
+						}}
+						className="normal-case"
+					>
+						Reply
+					</Button>
+					<Typography className="mx-12" variant="caption">
+						{
+							moment.parseZone(comment.created_date).fromNow() //format('LL')
+						}
+					</Typography>
+					<div
+						className="flex items-center ml-auto cursor-pointer"
+						onClick={ev => {
+							ev.preventDefault();
+							ev.stopPropagation();
+							setOpen(!open);
+						}}
+					>
+						<Typography className="underline">{repliesLength()} Replies</Typography>
+						<Icon className="text-16 mx-4" color="action">
+							{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
+						</Icon>
+					</div>
 				</div>
-			</div>
-
-			{replyComments.length > 0 && (
+			)}
+			{showReplies() && (
 				<Collapse in={open} timeout="auto" unmountOnExit>
 					<div className="ml-56">
 						<List className="clearfix">
@@ -192,12 +284,43 @@ export default function CommentListItem({ post, comment }) {
 									comment={reply}
 									getReplies={getReplies}
 									handleReplyClick={() => {
-										setIsReplying(true);
-										setText('@' + reply.author.user.username);
-										setTimeout(() => {
-											let element = document.getElementById(String(comment.id));
-											element.focus();
-										}, 100);
+										if (isReplying) {
+											setIsReplying(false);
+											setText('');
+										} else {
+											setIsReplying(true);
+											setText('@' + reply.author.user.username);
+											setTimeout(() => {
+												let element = document.getElementById(String(comment.id));
+												element.focus();
+											}, 100);
+										}
+									}}
+								/>
+							))}
+							{Object.values(offlineCommentReplies).map((reply, index) => (
+								<ReplyListItem
+									isOffline
+									key={reply.unique_code}
+									callRetryReplySuccess={callRetryReplySuccess}
+									commentId={comment.id}
+									author={tempAuthor}
+									key={index}
+									post={post}
+									comment={reply}
+									getReplies={getReplies}
+									handleReplyClick={() => {
+										if (isReplying) {
+											setIsReplying(false);
+											setText('');
+										} else {
+											setIsReplying(true);
+											setText('@' + reply.author.user.username);
+											setTimeout(() => {
+												let element = document.getElementById(String(comment.id));
+												element.focus();
+											}, 100);
+										}
 									}}
 								/>
 							))}
@@ -227,13 +350,7 @@ export default function CommentListItem({ post, comment }) {
 						>
 							<Icon>photo</Icon>
 						</IconButton>
-						<input
-							hidden
-							type="file"
-							accept="image/*, video/*"
-							ref={inputRef}
-							onChange={addPhoto}
-						/>
+						<input hidden type="file" accept="image/*, video/*" ref={inputRef} onChange={addPhoto} />
 						<IconButton
 							className="send p-0"
 							onClick={handlePostComment}

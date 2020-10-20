@@ -16,7 +16,7 @@ import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
 import MessageMoreOptions from './MessageMoreOptions';
-
+import RetryToSendMessage from './RetryToSendMessage';
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
@@ -151,13 +151,15 @@ function Chat(props) {
 		const files = e.currentTarget.files;
 		let file = [];
 		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/')[0];
+			let fileType = files[i].type?.split('/');
 			file = [
 				...file,
 				{
-					file: fileType == 'image' ? await getCompressFile(files[i]) : files[i],
+					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
-					fileType
+					fileType: fileType[0],
+					extension: '.' + fileType[1],
+					type: fileType.join('/')
 				}
 			];
 			setImages(file);
@@ -230,11 +232,14 @@ function Chat(props) {
 												{contact.first_name + ' ' + contact.last_name}
 											</Typography>
 										)}
-										<MessageMoreOptions
-											className="text-right"
-											item={item}
-											deleteMessage={Actions.deleteMessage}
-										/>
+										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
+										{!item.waitingToSend && (
+											<MessageMoreOptions
+												className="text-right"
+												item={item}
+												deleteMessage={Actions.deleteMessage}
+											/>
+										)}
 										<div className="leading-normal mb-10">{item.body} </div>
 										<ViewFile files={item.files} />
 										{contact.id == userIdFromCompany && item.waitingToSend ? (
