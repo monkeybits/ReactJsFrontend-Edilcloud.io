@@ -16,6 +16,7 @@ export const REMOVE_CHAT = '[CHAT PANEL] REMOVE CHAT';
 export const SEND_MESSAGE = '[CHAT PANEL] SEND MESSAGE';
 export const UPDATE_CHAT_LOG = '[CHAT PANEL] UPDATE_CHAT_LOG';
 export const CHAT_IS_LOADING = '[CHAT PANEL] CHAT_IS_LOADING';
+const uuidv1 = require('uuid/v1');
 
 export function updateChatLog(update) {
 	return {
@@ -69,9 +70,23 @@ export function removeChat() {
 export function sendMessage(messageText, setMessageText, user, images, setImages) {
 	console.log({ messageText, setMessageText, user, images, setImages });
 	return (dispatch, getState) => {
+		const getChats = () => getState().chatPanel.chat.chats;
+		const getUser = () => getState().auth.user.data.company;
+		const unique_code = uuidv1();
+		let files = [];
+		if (images) {
+			files = images.map(d => ({
+				extension: d.extension,
+				media_url: d.imgPath,
+				name: d.file.name,
+				type: d.type
+			}));
+		}
+		console.log({ images });
 		const userInfo = decodeDataFromToken();
 		let values = {
-			body: messageText
+			body: messageText,
+			unique_code
 		};
 		var formData = new FormData();
 		for (let key in values) {
@@ -85,15 +100,68 @@ export function sendMessage(messageText, setMessageText, user, images, setImages
 				i += 1;
 			}
 		}
+
+		const { id, first_name, last_name, photo, is_shared, is_in_showroom } = getUser();
+		let msg = {
+			body: messageText,
+			files,
+			sender: {
+				id,
+				first_name,
+				last_name,
+				photo,
+				is_shared,
+				is_in_showroom
+			},
+			waitingToSend: true,
+			unique_code,
+			user,
+			formData
+		};
+		dispatch(
+			updateChatLog({
+				message: msg
+			})
+		);
 		apiCall(
 			user.type == 'company'
 				? SEND_MESSAGE_API(userInfo.extra.profile.company)
 				: SEND_PROJECT_MESSAGE_API(user.id),
 			formData,
-			chat => {
-				setImages(null);
-				setMessageText('');
+			chat => {},
+			err => {
+				const findUnique_code = element => element?.unique_code == unique_code;
+				let chats = getChats();
+				let index = chats.findIndex(findUnique_code);
+				if (chats[index]) {
+					chats[index] = {
+						...chats[index],
+						retryOption: true
+					};
+					dispatch({
+						type: GET_CHAT,
+						chat: chats,
+						userChatData: {}
+					});
+				}
 			},
+			METHOD.POST,
+			getHeaderToken()
+		);
+		setImages(null);
+		setMessageText('');
+	};
+}
+export function retryToSendMessage(chatItem) {
+	return (dispatch, getState) => {
+		const formData = chatItem.formData;
+		const userInfo = decodeDataFromToken();
+		apiCall(
+			chatItem.user.type == 'company'
+				? SEND_MESSAGE_API(userInfo.extra.profile.company)
+				: SEND_PROJECT_MESSAGE_API(chatItem.user.id),
+			formData,
+			chat => {},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()

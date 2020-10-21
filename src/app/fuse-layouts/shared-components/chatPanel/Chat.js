@@ -15,6 +15,7 @@ import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils'
 import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
+import RetryToSendMessage from './RetryToSendMessage';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -178,41 +179,47 @@ function Chat(props) {
 		const files = e.currentTarget.files;
 		let file = [];
 		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/')[0];
+			let fileType = files[i].type?.split('/');
 			file = [
 				...file,
 				{
-					file: fileType == 'image' ? await getCompressFile(files[i]) : files[i],
+					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
-					fileType
+					fileType: fileType[0],
+					extension: '.' + fileType[1],
+					type: fileType.join('/')
 				}
 			];
 			setImages(file);
 		}
 	};
 	const addAudio = file => {
-		let fileType = file.type?.split('/')[0];
+		let fileType = file.type?.split('/');
 		let fileList = images ? images : [];
 
 		fileList = [
 			{
 				file: file,
 				imgPath: URL.createObjectURL(file),
-				fileType
+				fileType: fileType[0],
+				extension: '.' + fileType[1],
+				type: fileType.join('/')
 			},
 			...fileList
 		];
 		setImages(fileList);
 	};
 	const sendAudioDirectToChat = file => {
-		let fileType = file.type?.split('/')[0];
+		let fileType = file.type?.split('/');
 		let fileList = images ? images : [];
 
 		fileList = [
 			{
 				file: file,
 				imgPath: URL.createObjectURL(file),
-				fileType
+				fileType: fileType[0],
+				extension: '.' + fileType[1],
+				type: fileType.join('/')
 			},
 			...fileList
 		];
@@ -280,6 +287,8 @@ function Chat(props) {
 															{contact.first_name + ' ' + contact.last_name}
 														</Typography>
 													)}
+													<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
+
 													<div className="leading-normal font-size-16 mb-10">{item.body}</div>
 													<ViewFile
 														open={props.open}

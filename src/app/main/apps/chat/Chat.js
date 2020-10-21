@@ -166,28 +166,32 @@ function Chat(props) {
 		}
 	};
 	const addAudio = file => {
-		let fileType = file.type?.split('/')[0];
+		let fileType = file.type?.split('/');
 		let fileList = images ? images : [];
 
 		fileList = [
 			{
 				file: file,
 				imgPath: URL.createObjectURL(file),
-				fileType
+				fileType: fileType[0],
+				extension: '.' + fileType[1],
+				type: fileType.join('/')
 			},
 			...fileList
 		];
 		setImages(fileList);
 	};
 	const sendAudioDirectToChat = file => {
-		let fileType = file.type?.split('/')[0];
+		let fileType = file.type?.split('/');
 		let fileList = images ? images : [];
 
 		fileList = [
 			{
 				file: file,
 				imgPath: URL.createObjectURL(file),
-				fileType
+				fileType: fileType[0],
+				extension: '.' + fileType[1],
+				type: fileType.join('/')
 			},
 			...fileList
 		];
