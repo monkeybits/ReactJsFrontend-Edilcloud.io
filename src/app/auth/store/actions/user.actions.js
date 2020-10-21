@@ -170,9 +170,9 @@ export function setUserData(user) {
 	};
 }
 
-export const getCompanyProfile = () => {
+export const getCompanyProfile = token => {
 	return dispatch => {
-		const userData = decodeDataFromToken();
+		const userData = jwtDecode(token);
 		apiCall(
 			GET_COMPANY_PROFILE(userData.extra.profile.id),
 			{},

@@ -133,10 +133,8 @@ function Boards(props) {
 				saveToken(res.token);
 				setIsLoading(false);
 				dispatch(Actions.resetFile());
+				dispatch(authActions.getCompanyProfile(res.token));
 				props.history.push('/apps/todo/all');
-				setTimeout(() => {
-					dispatch(authActions.getCompanyProfile());
-				}, 1000);
 			},
 			err => {
 				setIsLoading(false);
