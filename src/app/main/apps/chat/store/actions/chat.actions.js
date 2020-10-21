@@ -67,6 +67,9 @@ export function sendMessage(messageText, setMessageText, images, setImages) {
 	return (dispatch, getState) => {
 		const getChats = () => getState().chatApp.chat.chats;
 		const getUser = () => getState().auth.user.data.company;
+		console.log({
+			user: getUser()
+		});
 		const unique_code = uuidv1();
 		let files = [];
 		if (images) {

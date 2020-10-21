@@ -157,7 +157,8 @@ class Gantt extends Component {
 			loading: false,
 			toggleLeft: false,
 			tasks: undefined,
-			zoomLevel: 2
+			zoomLevel: 2,
+			expandAll: false
 		};
 		this.fileDnD = null;
 	}
@@ -274,7 +275,9 @@ class Gantt extends Component {
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(todo.id),
 			values,
-			res => {},
+			res => {
+				this.props.getTodos(this.props.match.params.id, true);
+			},
 			err => console.log(err),
 			METHOD.PUT,
 			getHeaderToken()
@@ -425,6 +428,9 @@ class Gantt extends Component {
 		gantt.parse(tasks);
 		gantt.sort(sortHolders);
 		this.unSelectAllTask();
+		if (this.state.expandAll) {
+			this.openAll();
+		}
 		gantt.showLightbox = id => {
 			console.log({ ganttData: gantt.getTask(id) });
 			if (gantt.getTask(id).$new == true) {
@@ -639,6 +645,9 @@ class Gantt extends Component {
 			.catch(err => console.log(err));
 	};
 	closeAll = () => {
+		this.setState({
+			expandAll: false
+		});
 		gantt.eachTask(function (task) {
 			task.$open = false;
 		});
@@ -646,6 +655,9 @@ class Gantt extends Component {
 	};
 
 	openAll = () => {
+		this.setState({
+			expandAll: true
+		});
 		gantt.eachTask(task => {
 			console.log({ task });
 			if (task.data.assigned_company?.id == this.props.company.id) {

@@ -18,7 +18,7 @@ class Auth extends Component {
 	};
 
 	componentDidMount() {
-		const outsidePlatformPaths = ['user-account-activation', 'reset-password-confirm','register'];
+		const outsidePlatformPaths = ['user-account-activation', 'reset-password-confirm', 'register'];
 		const { location } = this.props;
 		const { pathname } = location;
 		const outsidePath = outsidePlatformPaths.filter(d => String(pathname).includes(d));
@@ -38,7 +38,7 @@ class Auth extends Component {
 				.then(() => {
 					this.setState({ waitAuthCheck: false });
 					this.getUser();
-					this.getCompanyProfile();
+					this.getCompanyProfileData();
 				})
 				.catch(() => {
 					this.setState({ waitAuthCheck: false });
@@ -56,16 +56,8 @@ class Auth extends Component {
 			getHeaderToken()
 		);
 	};
-	getCompanyProfile = () => {
-		const userData = decodeDataFromToken();
-		apiCall(
-			GET_COMPANY_PROFILE(userData.extra.profile.id),
-			{},
-			company => this.props.setUserCompanyData({ company }), //
-			err => console.log(err),
-			METHOD.GET,
-			getHeaderToken()
-		);
+	getCompanyProfileData = () => {
+		this.props.getCompanyProfile();
 	};
 	jwtCheck = () =>
 		new Promise((resolve, reject) => {
@@ -181,7 +173,7 @@ function mapDispatchToProps(dispatch) {
 		{
 			logout: userActions.logoutUser,
 			setUserData: userActions.setUserData,
-			setUserCompanyData: userActions.setUserCompanyData,
+			getCompanyProfile: userActions.getCompanyProfile,
 			setUserDataAuth0: userActions.setUserDataAuth0,
 			setUserDataFirebase: userActions.setUserDataFirebase,
 			showMessage: Actions.showMessage,

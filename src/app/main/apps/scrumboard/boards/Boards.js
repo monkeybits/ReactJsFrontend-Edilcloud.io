@@ -78,7 +78,7 @@ function Boards(props) {
 		apiCall(
 			APPROVE_LIST,
 			{},
-			(results) => {
+			results => {
 				if (Array.isArray(results)) {
 					let filterdBoards = results.filter(d => d.company && d.status);
 					dispatch({
@@ -127,6 +127,9 @@ function Boards(props) {
 				setIsLoading(false);
 				dispatch(Actions.resetFile());
 				props.history.push('/apps/todo/all');
+				setTimeout(() => {
+					dispatch(authActions.getCompanyProfile());
+				}, 1000);
 			},
 			err => {
 				setIsLoading(false);
