@@ -134,6 +134,9 @@ function Boards(props) {
 				setIsLoading(false);
 				dispatch(Actions.resetFile());
 				props.history.push('/apps/todo/all');
+				setTimeout(() => {
+					dispatch(authActions.getCompanyProfile());
+				}, 1000);
 			},
 			err => {
 				setIsLoading(false);

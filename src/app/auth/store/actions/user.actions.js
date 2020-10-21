@@ -7,7 +7,9 @@ import * as MessageActions from 'app/store/actions/fuse/message.actions';
 import * as FuseActions from 'app/store/actions/fuse';
 import firebase from 'firebase/app';
 import jwtDecode from 'jwt-decode';
-import { getTokenOnly } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getHeaderToken, getTokenOnly } from 'app/services/serviceUtils';
+import { GET_COMPANY_PROFILE } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
 export const SET_USER_DATA = '[USER] SET DATA';
 export const SET_USER_COMPANY_DATA = '[USER] SET COMPANY DATA';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
@@ -167,6 +169,20 @@ export function setUserData(user) {
 		});
 	};
 }
+
+export const getCompanyProfile = () => {
+	return dispatch => {
+		const userData = decodeDataFromToken();
+		apiCall(
+			GET_COMPANY_PROFILE(userData.extra.profile.id),
+			{},
+			company => dispatch(setUserCompanyData({ company })), //
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+};
 
 export function setUserCompanyData(company) {
 	return dispatch => {
