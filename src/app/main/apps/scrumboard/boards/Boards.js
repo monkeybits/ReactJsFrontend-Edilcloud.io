@@ -126,7 +126,7 @@ function Boards(props) {
 				saveToken(res.token);
 				setIsLoading(false);
 				dispatch(Actions.resetFile());
-				dispatch(authActions.getCompanyProfile());
+				dispatch(authActions.getCompanyProfile(res.token));
 				props.history.push('/apps/todo/all');
 			},
 			err => {

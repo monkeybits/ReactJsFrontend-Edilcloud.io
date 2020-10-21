@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
-import { getMainProfileId, getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
+import { getMainProfileId, getHeaderToken, decodeDataFromToken, getTokenOnly } from 'app/services/serviceUtils';
 import { GET_MAIN_PROFILE, GET_COMPANY_PROFILE } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 
@@ -57,7 +57,7 @@ class Auth extends Component {
 		);
 	};
 	getCompanyProfileData = () => {
-		this.props.getCompanyProfile();
+		this.props.getCompanyProfile(getTokenOnly());
 	};
 	jwtCheck = () =>
 		new Promise((resolve, reject) => {
