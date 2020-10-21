@@ -43,7 +43,19 @@ export default ({ children }) => {
 					msg.message.talk.content_type_name == 'project' &&
 					getState().notesApp?.project?.projectDetail?.id == msg.message.talk.object_id
 				) {
-					dispatch(ProjectChatActions.updateChatLog(msg));
+					const getChats = () => getState().chatAppProject.chat.chats;
+					const findUnique_code = element => element?.unique_code == msg.message.unique_code;
+					let chats = getChats();
+					const index = chats.findIndex(findUnique_code);
+				
+					if (chats[index]) {
+						chats[index] = msg.message
+						dispatch({
+							type: ProjectChatActions.GET_CHAT,
+							chat: chats,
+							userChatData: {}
+						});
+					}
 				} else {
 					const getChats = () => getState().chatApp.chat.chats;
 					const findUnique_code = element => element?.unique_code == msg.message.unique_code;
@@ -54,7 +66,7 @@ export default ({ children }) => {
 						index
 					});
 					if (chats[index]) {
-						chats[index] = { ...msg.message };
+						chats[index] = msg.message
 						dispatch({
 							type: companyChatActions.GET_CHAT,
 							chat: chats,
