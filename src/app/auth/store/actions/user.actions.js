@@ -41,7 +41,7 @@ const authUserData = {
 						position: 'below'
 					},
 					footer: {
-						display: true,
+						display: false,
 						style: 'fixed',
 						position: 'below'
 					},
@@ -50,10 +50,10 @@ const authUserData = {
 			},
 			customScrollbars: true,
 			theme: {
-				main: 'defaultDark',
-				navbar: 'defaultDark',
-				toolbar: 'defaultDark',
-				footer: 'defaultDark'
+				main: 'default',
+				navbar: 'mainThemeDark',
+				toolbar: 'mainThemeLight',
+				footer: 'mainThemeDark'
 			}
 		},
 		shortcuts: ['calendar', 'mail', 'contacts']
