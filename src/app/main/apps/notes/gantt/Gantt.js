@@ -147,7 +147,8 @@ function shiftTask(task_id, direction) {
 	gantt.updateTask(task.id);
 }
 function sortHolders(a, b) {
-	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+	console.log({ a, b });
+	return a.mainId > b.mainId ? 1 : a.mainId < b.mainId ? -1 : 0;
 }
 class Gantt extends Component {
 	constructor(props) {
@@ -176,7 +177,8 @@ class Gantt extends Component {
 		this.addDragEvent();
 		gantt.plugins({
 			multiselect: true,
-			fullscreen: true
+			fullscreen: true,
+			marker: true
 		});
 		gantt.config.multiselect = true;
 		document.addEventListener('fullscreenchange', exitHandler);
@@ -302,6 +304,9 @@ class Gantt extends Component {
 			this.createGantt(this.state.tasks);
 			return true;
 		}
+		// if (!this.state.tasks) {
+		// 	return true;
+		// }
 	}
 
 	ganttInit = todos => {
@@ -318,7 +323,7 @@ class Gantt extends Component {
 								id: data.id,
 								text: data.name,
 								start_date: data.date_start,
-								end_date: data.date_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
+								end_date: data.date_end, //new Date(data.date_end.split('-'), 23, 59, 59, 100), //new Date(2018, 11, 24, 23, 59, 59, 100), //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								progress: data.progress / 100,
 								company: data?.assigned_company?.name,
 								parent: 0,
@@ -331,8 +336,7 @@ class Gantt extends Component {
 								id: Math.floor(Math.random() * 9999),
 								text: data.title,
 								start_date: data.datetime_start,
-								end_date: data.datetime_end, //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
-
+								end_date: data.datetime_end, //new Date(data.datetime_end.split('-'), 23, 59, 59, 100), //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								progress: data.status == 'completed' ? 1 : 0,
 								company: data?.assigned_company?.name,
 								mainId: data.id,
@@ -407,7 +411,14 @@ class Gantt extends Component {
 				]
 			};
 		}
-
+		gantt.templates.grid_date_format = function (date, column) {
+			if (column === 'end_date') {
+				let newDate = new Date(date.setHours(23, 59, 59, 100));
+				return moment(newDate).format('YYYY-MM-DD');
+			} else {
+				return moment(date).format('YYYY-MM-DD');
+			}
+		};
 		// end block for resize
 		if (gantt._onTemplatesReadyHandler) {
 			gantt.detachEvent(gantt._onTemplatesReadyHandler);
@@ -471,7 +482,6 @@ class Gantt extends Component {
 					if (savedTask.$level == 1) {
 						let captureData = this.state.tasks.data.filter(task => task.id == savedTask.parent);
 						captureData = captureData && captureData.length ? captureData[0] : undefined;
-
 						this.props.openAddActivityTodoDialog({ ...captureData.data, isGantt: true });
 					} else {
 						this.props.openNewTodoDialog({ isGantt: true });
@@ -546,6 +556,8 @@ class Gantt extends Component {
 		gantt.templates.task_class = (start, end, task) => {
 			// console.log({ start, end, task });
 			// console.log({ start, end: moment().diff(moment(task.data.date_end)), task });
+			const userInfo = decodeDataFromToken();
+			const getRole = () => userInfo?.extra?.profile.role;
 			let className = '';
 			if (task.parent) {
 				className += ' nested_task_right hide_progress_drag';
@@ -554,17 +566,14 @@ class Gantt extends Component {
 				className += ' hide_date_drag';
 			}
 			if (
-				task.parent == 0 &&
-				task.data?.assigned_company?.id != this.props.company.id &&
-				this.props.company.id != this.props.projectDetail.company?.id
+				(task.parent == 0 && this.props.company.id != this.props.projectDetail.company?.id) ||
+				(getRole() == 'm' ||
+				getRole() == 'w')
 			) {
 				className += ' block_row_events';
 			}
 			return className;
 		};
-		gantt.plugins({
-			marker: true
-		});
 	};
 	createMarker = tasks => {
 		console.log({ allTasks: tasks.data });
