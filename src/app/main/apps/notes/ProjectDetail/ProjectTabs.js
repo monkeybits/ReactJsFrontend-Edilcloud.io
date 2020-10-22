@@ -102,7 +102,7 @@ function ProjectTabs({ value, setValue }) {
 			<TabPanel value={value} index={3} className="no-data-height-full">
 				<FileManagerApp />
 			</TabPanel>
-			<TabPanel value={value} index={4}>
+			<TabPanel value={value} index={4} className="gantt-height-full">
 				{/* <div> */}
 				{/* <div className="zoom-bar custom-zoom-bar">
 						<Toolbar zoom={zoom.currentZoom} onZoomChange={handleZoomChange} />

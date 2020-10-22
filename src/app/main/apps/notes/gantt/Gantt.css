@@ -1,6 +1,6 @@
-.gantt-min-height {
+/* .gantt-min-height {
 	min-height: calc(100vh - 195px);
-}
+} */
 .nested_task {
 	background-color: #dedede !important;
 }
