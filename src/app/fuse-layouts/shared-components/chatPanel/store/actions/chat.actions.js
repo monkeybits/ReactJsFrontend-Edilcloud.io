@@ -42,12 +42,12 @@ export function getChat(contact) {
 			contact.type == 'company' ? GET_MESSAGES_API : GET_PROJECT_MESSAGES_API(contact.id),
 			{},
 			chat => {
-				if (global.socket && chat && chat[chat.length - 1]) {
-					global.socket.emit('join', {
-						room: chat[chat.length - 1].talk.code,
-						name: chat[chat.length - 1].sender.first_name
-					});
-				}
+				// if (global.socket && chat && chat[chat.length - 1]) {
+				// 	global.socket.emit('join', {
+				// 		room: chat[chat.length - 1].talk.code,
+				// 		name: chat[chat.length - 1].sender.first_name
+				// 	});
+				// }
 				dispatch({
 					type: GET_CHAT,
 					chat: chat

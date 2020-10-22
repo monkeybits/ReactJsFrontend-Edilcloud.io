@@ -24,17 +24,17 @@ export function getProjects() {
 							type: 'project'
 						}))
 					});
-					if (global.socket) {
-						results.map(d => {
-							let code = d.talks?.[d.talks?.length - 1]?.code;
-							if (code) {
-								global.socket.emit('join', {
-									room: code,
-									name: ''
-								});
-							}
-						});
-					}
+					// if (global.socket) {
+					// 	results.map(d => {
+					// 		let code = d.talks?.[d.talks?.length - 1]?.code;
+					// 		if (code) {
+					// 			global.socket.emit('join', {
+					// 				room: code,
+					// 				name: ''
+					// 			});
+					// 		}
+					// 	});
+					// }
 				}
 			},
 			err => console.log(err),

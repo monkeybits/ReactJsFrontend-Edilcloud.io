@@ -24,77 +24,101 @@ export default ({ children }) => {
 		// 	roomId: roomId,
 		// 	data: message
 		// };
-		global.socket.emit('chat_channel', message);
+		// global.socket.emit('chat_channel', message);
 		// dispatch(updateChatLog(payload));
 	};
 
 	if (!global.socket) {
-		global.socket = io.connect(WS_BASE);
-		global.socket.on('chat_channel', msg => {
-			console.log({ msg });
-			dispatch((dispatch, getState) => {
-				if (getState().chatPanel.state) {
-					const getChats = () => getState().chatPanel.chat.chats;
-					const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-					let chats = getChats();
-					const index = chats.findIndex(findUnique_code);
+		global.socket = new WebSocket(`ws://35.176.179.55:8000/ws/chat/chat_message/`);
+		global.socket.onmessage = function (e) {
+			const data = JSON.parse(e.data);
+			console.log({ socketData: data });
+			// global.socket.send(
+			// 	JSON.stringify({
+			// 		message: {
+			// 			read_check: true,
+			// 			message: data.message
+			// 		}
+			// 	})
+			// );
+			// if (data.message['dest']['id'] === parseInt(profile_id)) {
+			// 	document.querySelector('#chat-log').value += (data.message + '\n');
+			// 	console.log(data.message['dest']['id']);
+			// 	console.log(profile_id);
+			// 		 chatSocket.send(JSON.stringify({
+			// 		'message': {
+			// 			'read_check': true,
+			// 			'message': data.message
+			// 		}
+			// 	}));
+			// }
+		};
+		// global.socket = io.connect(WS_BASE);
+		// global.socket.on('chat_channel', msg => {
+		// 	console.log({ msg });
+		// 	dispatch((dispatch, getState) => {
+		// 		if (getState().chatPanel.state) {
+		// 			const getChats = () => getState().chatPanel.chat.chats;
+		// 			const findUnique_code = element => element?.unique_code == msg.message.unique_code;
+		// 			let chats = getChats();
+		// 			const index = chats.findIndex(findUnique_code);
 
-					if (chats[index]) {
-						chats[index] = msg.message;
-						dispatch({
-							type: chatPanelActions.GET_CHAT,
-							chat: chats,
-							userChatData: {}
-						});
-					}
-				}
-				if (msg.message.talk.content_type_name == 'project') {
-					dispatch(chatPanelActions.updateContactCount(msg));
-				}
-				if (
-					msg.message.talk.content_type_name == 'project' &&
-					getState().notesApp?.project?.projectDetail?.id == msg.message.talk.object_id &&
-					getState().chatAppProject.chat
-				) {
-					const getChats = () => getState().chatAppProject.chat.chats;
-					const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-					let chats = getChats();
-					const index = chats.findIndex(findUnique_code);
+		// 			if (chats[index]) {
+		// 				chats[index] = msg.message;
+		// 				dispatch({
+		// 					type: chatPanelActions.GET_CHAT,
+		// 					chat: chats,
+		// 					userChatData: {}
+		// 				});
+		// 			}
+		// 		}
+		// 		if (msg.message.talk.content_type_name == 'project') {
+		// 			dispatch(chatPanelActions.updateContactCount(msg));
+		// 		}
+		// 		if (
+		// 			msg.message.talk.content_type_name == 'project' &&
+		// 			getState().notesApp?.project?.projectDetail?.id == msg.message.talk.object_id &&
+		// 			getState().chatAppProject.chat
+		// 		) {
+		// 			const getChats = () => getState().chatAppProject.chat.chats;
+		// 			const findUnique_code = element => element?.unique_code == msg.message.unique_code;
+		// 			let chats = getChats();
+		// 			const index = chats.findIndex(findUnique_code);
 
-					if (chats[index]) {
-						chats[index] = msg.message;
-						dispatch({
-							type: ProjectChatActions.GET_CHAT,
-							chat: chats,
-							userChatData: {}
-						});
-					} else {
-						dispatch(ProjectChatActions.updateChatLog(msg));
-					}
-				} else {
-					const getChats = () => getState().chatApp.chat?.chats;
-					const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-					let chats = getChats();
-					if (chats) {
-						let index = chats.findIndex(findUnique_code);
-						console.log({
-							chats,
-							index
-						});
-						if (chats[index]) {
-							chats[index] = msg.message;
-							dispatch({
-								type: companyChatActions.GET_CHAT,
-								chat: chats,
-								userChatData: {}
-							});
-						} else {
-							dispatch(companyChatActions.updateChatLog(msg));
-						}
-					}
-				}
-			});
-		});
+		// 			if (chats[index]) {
+		// 				chats[index] = msg.message;
+		// 				dispatch({
+		// 					type: ProjectChatActions.GET_CHAT,
+		// 					chat: chats,
+		// 					userChatData: {}
+		// 				});
+		// 			} else {
+		// 				dispatch(ProjectChatActions.updateChatLog(msg));
+		// 			}
+		// 		} else {
+		// 			const getChats = () => getState().chatApp.chat?.chats;
+		// 			const findUnique_code = element => element?.unique_code == msg.message.unique_code;
+		// 			let chats = getChats();
+		// 			if (chats) {
+		// 				let index = chats.findIndex(findUnique_code);
+		// 				console.log({
+		// 					chats,
+		// 					index
+		// 				});
+		// 				if (chats[index]) {
+		// 					chats[index] = msg.message;
+		// 					dispatch({
+		// 						type: companyChatActions.GET_CHAT,
+		// 						chat: chats,
+		// 						userChatData: {}
+		// 					});
+		// 				} else {
+		// 					dispatch(companyChatActions.updateChatLog(msg));
+		// 				}
+		// 			}
+		// 		}
+		// 	});
+		// });
 
 		ws = {
 			socket: global.socket,
