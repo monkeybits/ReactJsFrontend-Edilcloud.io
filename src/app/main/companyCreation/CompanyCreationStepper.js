@@ -148,7 +148,7 @@ function CompanyCreationStepper({ user, history }) {
 			vat_number: form.vat_number,
 			email: form.email,
 			phone: form.phone,
-			logo: file && file.fileData ? getCompressFile(file.fileData) : undefined
+			logo: file && file.fileData ? await getCompressFile(file.fileData) : undefined
 		};
 		let token = localStorage.getItem('jwt_access_token');
 		for (let key in values) {
