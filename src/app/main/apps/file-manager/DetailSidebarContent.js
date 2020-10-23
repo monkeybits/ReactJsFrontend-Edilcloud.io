@@ -46,7 +46,7 @@ function DetailSidebarContent(props) {
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={600}>
 			<div className="file-details p-16 sm:p-24">
-				<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
+				<div className="preview file-icon flex items-center justify-center mb-12">
 					{selectedItem.type == 'photo' ? (
 						<img src={selectedItem.photo} />
 					) : selectedItem.extension == 'pdf' ? (
