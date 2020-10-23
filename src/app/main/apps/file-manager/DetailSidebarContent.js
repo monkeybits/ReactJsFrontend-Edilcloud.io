@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import ReadPDF from './ReadPDF'
+import ReadPDF from './ReadPDF';
 
 const useStyles = makeStyles({
 	table: {
@@ -46,8 +46,8 @@ function DetailSidebarContent(props) {
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={600}>
 			<div className="file-details p-16 sm:p-24">
-				<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
-					{/* {selectedItem.type == 'photo' ? (
+				<div className="preview file-icon flex items-center justify-center mb-12">
+					{selectedItem.type == 'photo' ? (
 						<img src={selectedItem.photo} />
 					) : selectedItem.extension == 'pdf' ? (
 						<ReadPDF file={selectedItem.document} />
@@ -57,7 +57,7 @@ function DetailSidebarContent(props) {
 								{selectedItem.type == 'video' ? 'movie' : selectedItem.type}
 							</Icon>
 						</FuseAnimate>
-					)} */}
+					)}
 				</div>
 
 				<FormControlLabel
