@@ -10,6 +10,7 @@ export const TYPOLOGY_LIST = '/api/frontend/product/typology/?no_page=no_page&or
 export const TYPOLOGY_LIST_BY_CODE = typelogyCode =>
 	`/api/frontend/product/typology/${typelogyCode}/category_list/?no_page=no_page&order_by__name=name`;
 export const USER_ADD_COMPANY = '/api/frontend/profile/company/add/';
+export const USER_EDIT_COMPANY = cid => `/api/frontend/profile/company/${cid}/edit/`;
 export const APPROVE_LIST = '/api/frontend/profile/profile/approve_list/?no_page=no_page';
 export const REQUEST_LIST = '/api/frontend/profile/profile/request_list/';
 export const RESET_PASSWORD = '/api/frontend/user/password/reset/confirm/';

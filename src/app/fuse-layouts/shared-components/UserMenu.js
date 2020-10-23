@@ -10,7 +10,7 @@ import * as authActions from 'app/auth/store/actions';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { getMainProfileId, getHeaderToken } from 'app/services/serviceUtils';
+import { getMainProfileId, getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
 
@@ -30,6 +30,8 @@ function UserMenu(props) {
 	const userMenuClose = () => {
 		setUserMenu(null);
 	};
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	return (
 		<>
 			<Button className="h-64" onClick={userMenuClick}>
@@ -39,7 +41,7 @@ function UserMenu(props) {
 
 				<div className="hidden md:flex flex-col mx-12 items-start">
 					<Typography component="span" className="normal-case font-600 flex">
-							{userData?.first_name} {userData?.last_name}
+						{userData?.first_name} {userData?.last_name}
 					</Typography>
 					<Typography className="text-11 capitalize" color="textSecondary">
 						Main profile
@@ -104,6 +106,22 @@ function UserMenu(props) {
 							</ListItemIcon>
 							<ListItemText primary="Edit main profile" />
 						</MenuItem>
+						{(getRole() == 'd' || getRole() == 'o') && (
+							<MenuItem
+								component={Link}
+								to={{
+									pathname: '/edit-company',
+									state: { nextPath: history.location.pathname }
+								}}
+								onClick={userMenuClose}
+								role="button"
+							>
+								<ListItemIcon className="min-w-40">
+									<Icon>edit</Icon>
+								</ListItemIcon>
+								<ListItemText primary="Edit Company" />
+							</MenuItem>
+						)}
 						<MenuItem
 							onClick={() => {
 								dispatch(authActions.logoutUser());

@@ -183,7 +183,18 @@ export const getCompanyProfile = token => {
 		);
 	};
 };
-
+export const getCompanyProfileById = id => {
+	return dispatch => {
+		apiCall(
+			GET_COMPANY_PROFILE(id),
+			{},
+			company => dispatch(setUserCompanyData({ company })), //
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+};
 export function setUserCompanyData(company) {
 	return dispatch => {
 		dispatch({

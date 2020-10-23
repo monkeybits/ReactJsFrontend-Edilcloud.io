@@ -475,6 +475,10 @@
     animation: sound 0ms -800ms linear infinite alternate;
     transition: height 0.8s;
 }
+.photo-viewer-container{
+    height: 100% !important;
+    width: 100% !important;
+}
 @keyframes sound {
     0% {
         height: 6px;

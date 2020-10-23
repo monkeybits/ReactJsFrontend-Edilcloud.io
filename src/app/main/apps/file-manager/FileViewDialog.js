@@ -1,5 +1,5 @@
 import IconButton from '@material-ui/core/IconButton';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import FileViewer from './FileViewer';
 import { useSelector, useDispatch } from 'react-redux';
+import { Button } from '@material-ui/core';
 
 const styles = theme => ({
 	root: {
@@ -52,14 +53,44 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 function FileViewDialog({ isOpenViewFile, closeViewFile }) {
+	const [currentIndex, setcurrentIndex] = useState(0);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
-	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
+	const Allfiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
+	const index = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
+	const [selectedItem, setSelectedItem] = useState(null);
+	useEffect(() => {
+		setcurrentIndex(index);
+	}, [index]);
+	useEffect(() => {
+		if (Array.isArray(Allfiles) && files[currentIndex]) {
+			let fileIndex = Allfiles.findIndex(element => element?.mainId == files[currentIndex].mainId);
+			// console.log('selectedItem', fileIndex, files[currentIndex]);
+			// if (selectedItem) {
+			// 	setSelectedItem(Allfiles[index]);
+			// } else if (fileIndex >= 0) {
+			// 	setSelectedItem(Allfiles[fileIndex]);
+			// }
+			setSelectedItem(files[currentIndex]);
+		}
+	}, [currentIndex, Allfiles]);
+	console.log({ selectedItem });
+	console.log('selectedItem', selectedItem, files);
+	const handlePrevious = () => {
+		if (currentIndex > 0) {
+			setcurrentIndex(i => i - 1);
+		}
+	};
+	const handleNext = () => {
+		if (currentIndex < Allfiles?.length - 1) {
+			setcurrentIndex(i => i + 1);
+		}
+	};
 	const url =
-		selectedItem && selectedItem.type == 'photo'
-			? selectedItem.photo
-			: selectedItem.type == 'video'
-			? selectedItem.video
-			: selectedItem.document;
+		selectedItem && selectedItem?.type == 'photo'
+			? selectedItem?.photo
+			: selectedItem?.type == 'video'
+			? selectedItem?.video
+			: selectedItem?.document;
 	return (
 		<Dialog
 			onClose={closeViewFile}
@@ -69,11 +100,30 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 			fullWidth="true"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closeViewFile}>
-				View File
+				{selectedItem?.title}
 			</DialogTitle>
 			<DialogContent dividers>
-				<FileViewer file={url} type={selectedItem.extension} />
+				{selectedItem?.type == 'photo' ? (
+					<img src={selectedItem?.photo} />
+				) : selectedItem?.type == 'video' ? (
+					<video autoPlay src={selectedItem?.video} />
+				) : (
+					<FileViewer file={url} type={selectedItem?.extension} />
+				)}
 			</DialogContent>
+			<DialogActions className="p-8">
+				<Button variant="contained" color="primary" disabled={currentIndex == 0} onClick={handlePrevious}>
+					Previous
+				</Button>
+				<Button
+					variant="contained"
+					color="primary"
+					disabled={currentIndex == Allfiles?.length - 1}
+					onClick={handleNext}
+				>
+					Next
+				</Button>
+			</DialogActions>
 		</Dialog>
 	);
 }

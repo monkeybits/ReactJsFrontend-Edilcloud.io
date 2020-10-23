@@ -21,7 +21,13 @@ import {
 	REFUSE_INVITATION
 } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import { getHeaderToken, getTokenOnly, saveToken, saveMainProfileId } from 'app/services/serviceUtils';
+import {
+	getHeaderToken,
+	getTokenOnly,
+	saveToken,
+	saveMainProfileId,
+	decodeDataFromToken
+} from 'app/services/serviceUtils';
 import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import * as authActions from 'app/auth/store/actions';
 import ReuestsDrawer from './ReuestsDrawer';
@@ -30,6 +36,7 @@ import { Avatar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import * as FuseActions from 'app/store/actions';
+import MoreOptionsCompany from './MoreOptionsCompany';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -161,6 +168,13 @@ function Boards(props) {
 		getRequest();
 		setIsShowRequests(false);
 	};
+	const handleMoreAction = (action, company) => {
+		if (action == 'Edit') {
+			console.log({ company });
+			dispatch(authActions.setUserCompanyData({ company }));
+			props.history.push('/edit-company');
+		}
+	};
 	return isLoading ? (
 		<FuseSplashScreen />
 	) : (
@@ -210,9 +224,15 @@ function Boards(props) {
 										) : (
 											<>
 												{board.isApproved ? (
-													<Avatar src={board.logo} variant="square" className="company-img">
-														{board.name.split('')[0]}
-													</Avatar>
+													<>
+														<Avatar
+															src={board.logo}
+															variant="square"
+															className="company-img"
+														>
+															{board.name.split('')[0]}
+														</Avatar>
+													</>
 												) : (
 													<Badge
 														invisible={board.isApproved}
