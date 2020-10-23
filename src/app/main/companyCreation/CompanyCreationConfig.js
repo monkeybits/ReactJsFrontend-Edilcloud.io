@@ -26,6 +26,10 @@ const CompanyCreationConfig = {
 		{
 			path: '/create-company',
 			component: React.lazy(() => import('./CompanyCreationStepper'))
+		},
+		{
+			path: '/edit-company',
+			component: React.lazy(() => import('./CompanyCreationStepper'))
 		}
 	]
 };

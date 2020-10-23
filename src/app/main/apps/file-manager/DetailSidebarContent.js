@@ -47,7 +47,7 @@ function DetailSidebarContent(props) {
 		<FuseAnimate animation="transition.slideUpIn" delay={600}>
 			<div className="file-details p-16 sm:p-24">
 				<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
-					{selectedItem.type == 'photo' ? (
+					{/* {selectedItem.type == 'photo' ? (
 						<img src={selectedItem.photo} />
 					) : selectedItem.extension == 'pdf' ? (
 						<ReadPDF file={selectedItem.document} />
@@ -57,7 +57,7 @@ function DetailSidebarContent(props) {
 								{selectedItem.type == 'video' ? 'movie' : selectedItem.type}
 							</Icon>
 						</FuseAnimate>
-					)}
+					)} */}
 				</div>
 
 				<FormControlLabel
