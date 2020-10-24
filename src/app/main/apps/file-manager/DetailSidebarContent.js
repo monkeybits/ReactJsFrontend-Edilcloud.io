@@ -59,7 +59,6 @@ function DetailSidebarContent(props) {
 						</FuseAnimate>
 					)}
 				</div>
-
 				<FormControlLabel
 					className="offline-switch"
 					control={<Switch checked={selectedItem.offline} aria-label="Available Offline" />}
