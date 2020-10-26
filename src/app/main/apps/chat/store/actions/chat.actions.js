@@ -25,14 +25,14 @@ export function getChat(contactId) {
 			GET_MESSAGES_API,
 			{},
 			chat => {
-				if (global.socket && chat && chat[chat.length - 1]) {
-					setTimeout(() => {
-						global.socket.emit('join', {
-							room: chat[chat.length - 1].talk.code,
-							name: chat[chat.length - 1].sender.first_name
-						});
-					}, 400);
-				}
+				// if (global.socket && chat && chat[chat.length - 1]) {
+				// 	setTimeout(() => {
+				// 		global.socket.emit('join', {
+				// 			room: chat[chat.length - 1].talk.code,
+				// 			name: chat[chat.length - 1].sender.first_name
+				// 		});
+				// 	}, 400);
+				// }
 				return dispatch({
 					type: GET_CHAT,
 					chat: chat,
