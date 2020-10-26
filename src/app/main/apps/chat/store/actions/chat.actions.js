@@ -122,13 +122,7 @@ export function sendMessage(messageText, setMessageText, images, setImages) {
 		apiCall(
 			SEND_MESSAGE_API(userInfo.extra.profile.company),
 			formData,
-			chat => {
-				// global.socket.send(
-				// 	JSON.stringify({
-				// 		message: chat
-				// 	})
-				// );
-			},
+			chat => {},
 			err => {
 				const findUnique_code = element => element?.unique_code == unique_code;
 
