@@ -14,7 +14,9 @@ export const apiCall = (
 	onSuccess,
 	onFailure,
 	method = METHOD.POST,
-	DyanamicConfig = {},
+	DyanamicConfig = {
+		'Content-Type': 'application/json; charset=utf-8'
+	},
 	isNeedFullResponse = false,
 	unique_code = undefined
 ) => {

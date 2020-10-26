@@ -29,6 +29,7 @@ export const ACTIVATE_MEMBER = id => `/api/frontend/profile/company/profile_enab
 
 export const GET_MESSAGES_API = '/api/frontend/profile/company/message_list/all/?no_page=no_page';
 export const GET_PROJECT_MESSAGES_API = pid => `/api/frontend/project/project/${pid}/message_list/?no_page=no_page`;
+export const READ_ALL_MESSAGES = tid => `/api/frontend/message/talk/${tid}/read_all/`;
 export const SEND_MESSAGE_API = cid => `/api/frontend/message/message/company/${cid}/add/`;
 export const DELETE_MESSAGE = mid => `/api/frontend/message/message/delete/${mid}/`;
 export const SEND_PROJECT_MESSAGE_API = pid => `/api/frontend/message/message/project/${pid}/add/`;
@@ -66,9 +67,9 @@ export const SEARCH_USER_BY_EMAIL = searchString =>
 export const ACCEPT_INVITATION = (uidb36, token) => `/api/frontend/profile/profile/accept_invite/${uidb36}-${token}/`;
 export const REFUSE_INVITATION = (uidb36, token) => `/api/frontend/profile/profile/refuse_invite/${uidb36}-${token}/`;
 
-export const GET_MAIN_PROFILE = id => `/api/frontend/profile/profile/${id}`;
+export const GET_MAIN_PROFILE = id => `/api/frontend/profile/profile/${id}/`;
 
-export const GET_COMPANY_PROFILE = id => `/api/frontend/profile/company/profile_detail/${id}`;
+export const GET_COMPANY_PROFILE = id => `/api/frontend/profile/company/profile_detail/${id}/`;
 export const SEARCH_PROJECT_CORDINATOR = searchString =>
 	`/api/frontend/profile/company/approve/staff_list/?exclude__role__in=w,m&filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&no_page=no_page`;
 

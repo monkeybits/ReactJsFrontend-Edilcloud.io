@@ -3,7 +3,13 @@ import { setselectedContactId } from './contacts.actions';
 import { closeMobileChatsSidebar } from './sidebars.actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-import { GET_MESSAGES_API, SEND_MESSAGE_API, COMPANY_DETAIL, DELETE_MESSAGE } from 'app/services/apiEndPoints';
+import {
+	GET_MESSAGES_API,
+	SEND_MESSAGE_API,
+	COMPANY_DETAIL,
+	DELETE_MESSAGE,
+	READ_ALL_MESSAGES
+} from 'app/services/apiEndPoints';
 
 export const GET_CHAT = '[CHAT APP] GET CHAT';
 export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT';
@@ -33,6 +39,9 @@ export function getChat(contactId) {
 				// 		});
 				// 	}, 400);
 				// }
+				if (chat && chat[chat.length - 1]) {
+					dispatch(readAllMessages(chat[chat.length - 1].talk.id));
+				}
 				return dispatch({
 					type: GET_CHAT,
 					chat: chat,
@@ -162,7 +171,18 @@ export function retryToSendMessage(chatItem) {
 		);
 	};
 }
-
+export function readAllMessages(talkCode) {
+	return (dispatch, getState) => {
+		apiCall(
+			READ_ALL_MESSAGES(talkCode),
+			{},
+			chat => {},
+			err => console.log(err),
+			METHOD.POST,
+			getHeaderToken()
+		);
+	};
+}
 export function companyInfo() {
 	return (dispatch, getState) => {
 		apiCall(

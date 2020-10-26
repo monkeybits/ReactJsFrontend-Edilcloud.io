@@ -38,7 +38,7 @@ export default ({ children }) => {
 					});
 				}
 			}
-			if (msg.message.talk.content_type_name == 'project') {
+			if (msg.message.talk.content_type_name == "project") {
 				dispatch(chatPanelActions.updateContactCount(msg));
 			}
 			if (
@@ -106,72 +106,12 @@ export default ({ children }) => {
 				passMessage(data);
 			}
 		};
-		// global.socket = io.connect(WS_BASE);
-		// global.socket.on('chat_channel', msg => {
-		// 	console.log({ msg });
-		// 	dispatch((dispatch, getState) => {
-		// 		if (getState().chatPanel.state) {
-		// 			const getChats = () => getState().chatPanel.chat.chats;
-		// 			const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-		// 			let chats = getChats();
-		// 			const index = chats.findIndex(findUnique_code);
-
-		// 			if (chats[index]) {
-		// 				chats[index] = msg.message;
-		// 				dispatch({
-		// 					type: chatPanelActions.GET_CHAT,
-		// 					chat: chats,
-		// 					userChatData: {}
-		// 				});
-		// 			}
-		// 		}
-		// 		if (msg.message.talk.content_type_name == 'project') {
-		// 			dispatch(chatPanelActions.updateContactCount(msg));
-		// 		}
-		// 		if (
-		// 			msg.message.talk.content_type_name == 'project' &&
-		// 			getState().notesApp?.project?.projectDetail?.id == msg.message.talk.object_id &&
-		// 			getState().chatAppProject.chat
-		// 		) {
-		// 			const getChats = () => getState().chatAppProject.chat.chats;
-		// 			const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-		// 			let chats = getChats();
-		// 			const index = chats.findIndex(findUnique_code);
-
-		// 			if (chats[index]) {
-		// 				chats[index] = msg.message;
-		// 				dispatch({
-		// 					type: ProjectChatActions.GET_CHAT,
-		// 					chat: chats,
-		// 					userChatData: {}
-		// 				});
-		// 			} else {
-		// 				dispatch(ProjectChatActions.updateChatLog(msg));
-		// 			}
-		// 		} else {
-		// 			const getChats = () => getState().chatApp.chat?.chats;
-		// 			const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-		// 			let chats = getChats();
-		// 			if (chats) {
-		// 				let index = chats.findIndex(findUnique_code);
-		// 				console.log({
-		// 					chats,
-		// 					index
-		// 				});
-		// 				if (chats[index]) {
-		// 					chats[index] = msg.message;
-		// 					dispatch({
-		// 						type: companyChatActions.GET_CHAT,
-		// 						chat: chats,
-		// 						userChatData: {}
-		// 					});
-		// 				} else {
-		// 					dispatch(companyChatActions.updateChatLog(msg));
-		// 				}
-		// 			}
-		// 		}
-		// 	});
-		// });
+		global.socket.onclose = function (event) {
+			console.log('WebSocket is closed now.');
+			setTimeout(function () {
+				global.socket = new WebSocket(WS_BASE);
+			}, 1000);
+		};
 
 		ws = {
 			socket: global.socket,

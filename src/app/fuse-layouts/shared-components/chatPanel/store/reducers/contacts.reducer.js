@@ -14,12 +14,39 @@ const getUpdatedEntities = (entities, msg) => {
 						...entity.talks[0],
 						unread_count: entity.talks[0].unread_count + 1
 					}
+				],
+				last_message_created: new Date()
+			};
+		} else {
+			return entity;
+		}
+	});
+};
+const resetTheMessageCount = (entities, id) => {
+	return entities.map(entity => {
+		if (entity.id == id) {
+			return {
+				...entity,
+				talks: [
+					{
+						...entity.talks[0],
+						unread_count: 0
+					}
 				]
 			};
 		} else {
 			return entity;
 		}
 	});
+};
+const sortByDate = arr => {
+	if (Array.isArray(arr)) {
+		arr.sort(function (a, b) {
+			// Turn your strings into dates, and then subtract them
+			// to get a value that is either negative, positive, or zero.
+			return new Date(b.last_message_created) - new Date(a.last_message_created);
+		});
+	}
 };
 const contactsReducer = (state = initialState, action) => {
 	switch (action.type) {
@@ -33,6 +60,12 @@ const contactsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				entities: getUpdatedEntities(state.entities, action.payload)
+			};
+		}
+		case Actions.RESET_CONTECT_COUNT: {
+			return {
+				...state,
+				entities: resetTheMessageCount(state.entities, action.payload)
 			};
 		}
 		case Actions.SET_SELECTED_CONTACT_ID: {
