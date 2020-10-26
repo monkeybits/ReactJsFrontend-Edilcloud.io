@@ -5,7 +5,8 @@ import {
 	GET_MESSAGES_API,
 	SEND_MESSAGE_API,
 	GET_PROJECT_MESSAGES_API,
-	SEND_PROJECT_MESSAGE_API
+	SEND_PROJECT_MESSAGE_API,
+	READ_ALL_MESSAGES
 } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getChatToken } from 'app/services/serviceUtils';
@@ -15,6 +16,7 @@ export const ADD_USER_DATA = '[CHAT PANEL] ADD_USER_DATA';
 export const REMOVE_CHAT = '[CHAT PANEL] REMOVE CHAT';
 export const SEND_MESSAGE = '[CHAT PANEL] SEND MESSAGE';
 export const UPDATE_CHAT_LOG = '[CHAT PANEL] UPDATE_CHAT_LOG';
+export const RESET_CONTECT_COUNT = '[CHAT PANEL] RESET_CONTECT_COUNT';
 export const CHAT_IS_LOADING = '[CHAT PANEL] CHAT_IS_LOADING';
 const uuidv1 = require('uuid/v1');
 
@@ -42,11 +44,14 @@ export function getChat(contact) {
 			contact.type == 'company' ? GET_MESSAGES_API : GET_PROJECT_MESSAGES_API(contact.id),
 			{},
 			chat => {
-				if (global.socket && chat && chat[chat.length - 1]) {
-					global.socket.emit('join', {
-						room: chat[chat.length - 1].talk.code,
-						name: chat[chat.length - 1].sender.first_name
-					});
+				// if (global.socket && chat && chat[chat.length - 1]) {
+				// 	global.socket.emit('join', {
+				// 		room: chat[chat.length - 1].talk.code,
+				// 		name: chat[chat.length - 1].sender.first_name
+				// 	});
+				// }
+				if (chat && chat[chat.length - 1]) {
+					dispatch(readAllMessages(chat[chat.length - 1].talk.id));
 				}
 				dispatch({
 					type: GET_CHAT,
@@ -66,7 +71,12 @@ export function removeChat() {
 		type: REMOVE_CHAT
 	};
 }
-
+export function resetContactCount(contactMessage) {
+	return {
+		type: RESET_CONTECT_COUNT,
+		payload: contactMessage
+	};
+}
 export function sendMessage(messageText, setMessageText, user, images, setImages) {
 	console.log({ messageText, setMessageText, user, images, setImages });
 	return (dispatch, getState) => {
@@ -162,6 +172,21 @@ export function retryToSendMessage(chatItem) {
 				: SEND_PROJECT_MESSAGE_API(chatItem.user.id),
 			formData,
 			chat => {},
+			err => console.log(err),
+			METHOD.POST,
+			getHeaderToken()
+		);
+	};
+}
+export function readAllMessages(talkCode) {
+	return (dispatch, getState) => {
+		const projectId = getState().chatPanel.user?.id;
+		apiCall(
+			READ_ALL_MESSAGES(talkCode),
+			{},
+			chat => {
+				dispatch(resetContactCount(projectId));
+			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()

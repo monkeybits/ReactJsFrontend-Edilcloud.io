@@ -101,7 +101,11 @@ function VerticalLinearStepper({ user, history }) {
 				}
 			})
 			.then(res => {
-				history.push('/create-company');
+				if (res.data.is_invited) {
+					history.push('/apps/companies');
+				} else {
+					history.push('/create-company');
+				}
 			})
 			.catch(err => {
 				console.log(err);

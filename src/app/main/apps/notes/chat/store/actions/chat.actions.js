@@ -8,6 +8,7 @@ import {
 	SEND_MESSAGE_API,
 	COMPANY_DETAIL,
 	GET_PROJECT_MESSAGES_API,
+	READ_ALL_MESSAGES,
 	SEND_PROJECT_MESSAGE_API
 } from 'app/services/apiEndPoints';
 const uuidv1 = require('uuid/v1');
@@ -31,13 +32,16 @@ export function getChat(pid) {
 			GET_PROJECT_MESSAGES_API(pid),
 			{},
 			chat => {
-				if (global.socket && chat && chat[chat.length - 1]) {
-					setTimeout(() => {
-						global.socket.emit('join', {
-							room: chat[chat.length - 1].talk.code,
-							name: chat[chat.length - 1].sender.first_name
-						});
-					}, 400);
+				// if (global.socket && chat && chat[chat.length - 1]) {
+				// 	setTimeout(() => {
+				// 		global.socket.emit('join', {
+				// 			room: chat[chat.length - 1].talk.code,
+				// 			name: chat[chat.length - 1].sender.first_name
+				// 		});
+				// 	}, 400);
+				// }
+				if (chat && chat[chat.length - 1]) {
+					dispatch(readAllMessages(chat[chat.length - 1].talk.id));
 				}
 				return dispatch({
 					type: GET_CHAT,
@@ -137,6 +141,18 @@ export function sendMessage(messageText, setMessageText, pid, images, setImages)
 		);
 		setImages(null);
 		setMessageText('');
+	};
+}
+export function readAllMessages(talkCode) {
+	return (dispatch, getState) => {
+		apiCall(
+			READ_ALL_MESSAGES(talkCode),
+			{},
+			chat => {},
+			err => console.log(err),
+			METHOD.POST,
+			getHeaderToken()
+		);
 	};
 }
 export function retryToSendMessage(chatItem) {
