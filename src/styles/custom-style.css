@@ -362,10 +362,7 @@
     height: 160px;
     width: auto;
 }
-.gantt-container {
-    /* min-height: calc(100vh - 90px); */
-    /* overflow-y: auto; */
-}
+
 .gantt-min-height {
     /* height: calc(100vh - 90px) !important; */
     zoom: 120%;
