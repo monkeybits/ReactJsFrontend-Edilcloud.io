@@ -86,38 +86,38 @@ export default ({ children }) => {
 		});
 	};
 
-	// if (!global.socket) {
-	// 	global.socket = WebSocket(WS_BASE);
-	// 	global.socket.onmessage = function (e) {
-	// 		const data = JSON.parse(e.data);
-	// 		console.log({ socketData: data });
-	// 		const userInfo = decodeDataFromToken();
-	// 		const getUserId = () => userInfo?.extra?.profile.id;
+	if (!global.socket) {
+		global.socket = WebSocket(WS_BASE);
+		global.socket.onmessage = function (e) {
+			const data = JSON.parse(e.data);
+			console.log({ socketData: data });
+			const userInfo = decodeDataFromToken();
+			const getUserId = () => userInfo?.extra?.profile.id;
 
-	// 		if (data.message['dest']['id'] === parseInt(getUserId())) {
-	// 			global.socket.send(
-	// 				JSON.stringify({
-	// 					message: {
-	// 						read_check: true,
-	// 						message: data.message
-	// 					}
-	// 				})
-	// 			);
-	// 			passMessage(data);
-	// 		}
-	// 	};
-	// 	global.socket.onclose = function (event) {
-	// 		console.log('WebSocket is closed now.');
-	// 		setTimeout(function () {
-	// 			global.socket = new WebSocket(WS_BASE);
-	// 		}, 1000);
-	// 	};
+			if (data.message['dest']['id'] === parseInt(getUserId())) {
+				global.socket.send(
+					JSON.stringify({
+						message: {
+							read_check: true,
+							message: data.message
+						}
+					})
+				);
+				passMessage(data);
+			}
+		};
+		global.socket.onclose = function (event) {
+			console.log('WebSocket is closed now.');
+			setTimeout(function () {
+				global.socket = new WebSocket(WS_BASE);
+			}, 1000);
+		};
 
-	// 	ws = {
-	// 		socket: global.socket,
-	// 		sendMessage: passMessage
-	// 	};
-	// }
+		ws = {
+			socket: global.socket,
+			sendMessage: passMessage
+		};
+	}
 
 	return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;
 };
