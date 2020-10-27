@@ -87,7 +87,7 @@ export default ({ children }) => {
 	};
 
 	if (!global.socket) {
-		global.socket = WebSocket(WS_BASE);
+		global.socket = new WebSocket(WS_BASE);
 		global.socket.onmessage = function (e) {
 			const data = JSON.parse(e.data);
 			console.log({ socketData: data });
