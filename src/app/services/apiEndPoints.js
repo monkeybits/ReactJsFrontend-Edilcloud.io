@@ -101,6 +101,8 @@ export const ADD_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid
 export const ADD_POST_TO_TASK = tid => `/api/frontend/project/task/${tid}/add_post/`;
 export const GET_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/post_list/`;
 export const GET_POST_FOR_TASK = tid => `/api/frontend/project/task/${tid}/post_list/`;
+export const DELETE_COMMENT = cid => `/api/frontend/project/comment/delete/${cid}/`;
+export const EDIT_COMMENT = cid => `/api/frontend/project/comment/${cid}/edit/`;
 export const ADD_COMMENT_TO_POST = pid => `/api/frontend/project/post/${pid}/add_comment/`;
 export const GET_COMMENT_OF_POST = pid => `/api/frontend/project/post/${pid}/comment_list/`;
 export const GET_REPLIES_OF_COMMENT = cid => `/api/frontend/project/comment/${cid}/replies_list/`;

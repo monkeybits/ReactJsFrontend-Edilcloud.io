@@ -19,8 +19,8 @@ import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST, DELETE_COMMENT, EDIT_COMMENT } from 'app/services/apiEndPoints';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import * as Actions from './store/actions';
@@ -39,9 +39,11 @@ export default function ReplyListItem({
 	author,
 	handleReplyClick,
 	callRetryReplySuccess,
+	afterDeleteComment,
 	isOffline
 }) {
 	const [isRetryingPostReply, setIsRetryingPostReply] = useState(false);
+	const [isEditing, setIsEditing] = useState(false);
 	const retryToPostReply = () => {
 		setIsRetryingPostReply(true);
 		apiCall(
@@ -58,6 +60,31 @@ export default function ReplyListItem({
 			getHeaderToken()
 		);
 	};
+	const editComment = () => {
+		apiCall(
+			EDIT_COMMENT(comment.id),
+			comment.formData,
+			res => {
+				console.log('edited', res);
+			},
+			err => {},
+			METHOD.POST,
+			getHeaderToken()
+		);
+	};
+	const handleDeleteComment = e => {
+		e.preventDefault();
+		apiCall(
+			DELETE_COMMENT(comment.id),
+			{},
+			res => afterDeleteComment(),
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
+	const userInfo = decodeDataFromToken();
+	const getUserId = () => userInfo?.extra?.profile.id;
 	return (
 		<div key={comment.id}>
 			<ListItem className="px-0 -mx-8">
@@ -114,6 +141,14 @@ export default function ReplyListItem({
 					<Button onClick={handleReplyClick} className="normal-case">
 						Reply
 					</Button>
+					{getUserId() == comment.author.id && (
+						<Button onClick={handleDeleteComment} size="small" aria-label="Add to favorites">
+							<Icon className="text-16" color="action">
+								delete_outline
+							</Icon>
+							<Typography className="normal-case mx-4">Delete</Typography>
+						</Button>
+					)}
 					<Typography className="mx-12 font-size-14" variant="caption">
 						{
 							moment.parseZone(comment.created_date).fromNow() //format('LL')
