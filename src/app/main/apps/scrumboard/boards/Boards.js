@@ -36,7 +36,6 @@ import { Avatar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import * as FuseActions from 'app/store/actions';
-import MoreOptionsCompany from './MoreOptionsCompany';
 
 const useStyles = makeStyles(theme => ({
 	root: {
