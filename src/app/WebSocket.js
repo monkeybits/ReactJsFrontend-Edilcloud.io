@@ -2,12 +2,13 @@
 
 import React, { createContext } from 'react';
 import io from 'socket.io-client';
-import { WS_BASE } from './config';
+import { WS_BASE_LOCAL, WS_BASE_DEV } from './config';
 import { useDispatch, useSelector } from 'react-redux';
 import * as companyChatActions from './main/apps/chat/store/actions';
 import * as chatPanelActions from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
 import * as ProjectChatActions from './main/apps/notes/chat/store/actions';
 import { decodeDataFromToken } from './services/serviceUtils';
+import LetterAvatars from './main/documentation/material-ui-components/components/avatars/LetterAvatars';
 // import * as chatPanelActions from '../';src/app/fuse-layouts/shared-components/chatPanel/store/actions/chat.actions.js
 // import moduleName from '../../../'
 
@@ -18,8 +19,13 @@ export { WebSocketContext };
 export default ({ children }) => {
 	// let socket;
 	let ws;
+	let WS_BASE;
 	const dispatch = useDispatch();
-
+	if (window.location.host.includes('localhost')) {
+		WS_BASE = WS_BASE_LOCAL
+	} else {
+		WS_BASE = WS_BASE_DEV
+	}
 	const passMessage = msg => {
 		console.log({ msg });
 		dispatch((dispatch, getState) => {
