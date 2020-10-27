@@ -38,7 +38,7 @@ export default ({ children }) => {
 					});
 				}
 			}
-			if (msg.message.talk.content_type_name == "project") {
+			if (msg.message.talk.content_type_name == 'project') {
 				dispatch(chatPanelActions.updateContactCount(msg));
 			}
 			if (
@@ -90,11 +90,12 @@ export default ({ children }) => {
 		global.socket = new WebSocket(WS_BASE);
 		global.socket.onmessage = function (e) {
 			const data = JSON.parse(e.data);
-			console.log({ socketData: data });
 			const userInfo = decodeDataFromToken();
 			const getUserId = () => userInfo?.extra?.profile.id;
-
+			console.log({ socketData: data, id: getUserId(), desiId: data.message['dest']['id'] });
+			passMessage(data);
 			if (data.message['dest']['id'] === parseInt(getUserId())) {
+			
 				global.socket.send(
 					JSON.stringify({
 						message: {
@@ -103,7 +104,6 @@ export default ({ children }) => {
 						}
 					})
 				);
-				passMessage(data);
 			}
 		};
 		global.socket.onclose = function (event) {
