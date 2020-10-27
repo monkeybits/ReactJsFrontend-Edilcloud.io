@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as companyChatActions from './main/apps/chat/store/actions';
 import * as chatPanelActions from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
 import * as ProjectChatActions from './main/apps/notes/chat/store/actions';
-import { decodeDataFromToken } from './services/serviceUtils';
 // import * as chatPanelActions from '../';src/app/fuse-layouts/shared-components/chatPanel/store/actions/chat.actions.js
 // import moduleName from '../../../'
 
@@ -20,102 +19,86 @@ export default ({ children }) => {
 	let ws;
 	const dispatch = useDispatch();
 
-	const passMessage = msg => {
-		console.log({ msg });
-		dispatch((dispatch, getState) => {
-			if (getState().chatPanel.state) {
-				const getChats = () => getState().chatPanel.chat.chats;
-				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-				let chats = getChats();
-				const index = chats.findIndex(findUnique_code);
+	const sendMessage = message => {
+		// const payload = {
+		// 	roomId: roomId,
+		// 	data: message
+		// };
+		global.socket.emit('chat_channel', message);
+		// dispatch(updateChatLog(payload));
+	};
 
-				if (chats[index]) {
-					chats[index] = msg.message;
-					dispatch({
-						type: chatPanelActions.GET_CHAT,
-						chat: chats,
-						userChatData: {}
-					});
-				}
-			}
-			if (msg.message.talk.content_type_name == 'project') {
-				dispatch(chatPanelActions.updateContactCount(msg));
-			}
-			if (
-				msg.message.talk.content_type_name == 'project' &&
-				getState().notesApp?.project?.projectDetail?.id == msg.message.talk.object_id &&
-				getState().chatAppProject.chat
-			) {
-				const getChats = () => getState().chatAppProject.chat.chats;
-				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-				let chats = getChats();
-				const index = chats.findIndex(findUnique_code);
+	if (!global.socket) {
+		global.socket = io.connect(WS_BASE);
+		global.socket.on('chat_channel', msg => {
+			console.log({ msg });
+			dispatch((dispatch, getState) => {
+				if (getState().chatPanel.state) {
+					const getChats = () => getState().chatPanel.chat.chats;
+					const findUnique_code = element => element?.unique_code == msg.message.unique_code;
+					let chats = getChats();
+					const index = chats.findIndex(findUnique_code);
 
-				if (chats[index]) {
-					chats[index] = msg.message;
-					dispatch({
-						type: ProjectChatActions.GET_CHAT,
-						chat: chats,
-						userChatData: {}
-					});
-				} else {
-					dispatch(ProjectChatActions.updateChatLog(msg));
-				}
-			} else {
-				const getChats = () => getState().chatApp.chat?.chats;
-				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-				let chats = getChats();
-				if (chats) {
-					let index = chats.findIndex(findUnique_code);
-					console.log({
-						chats,
-						index
-					});
 					if (chats[index]) {
 						chats[index] = msg.message;
 						dispatch({
-							type: companyChatActions.GET_CHAT,
+							type: chatPanelActions.GET_CHAT,
+							chat: chats,
+							userChatData: {}
+						});
+					}
+				}
+				if (msg.message.talk.content_type_name == 'project') {
+					dispatch(chatPanelActions.updateContactCount(msg));
+				}
+				if (
+					msg.message.talk.content_type_name == 'project' &&
+					getState().notesApp?.project?.projectDetail?.id == msg.message.talk.object_id &&
+					getState().chatAppProject.chat
+				) {
+					const getChats = () => getState().chatAppProject.chat.chats;
+					const findUnique_code = element => element?.unique_code == msg.message.unique_code;
+					let chats = getChats();
+					const index = chats.findIndex(findUnique_code);
+
+					if (chats[index]) {
+						chats[index] = msg.message;
+						dispatch({
+							type: ProjectChatActions.GET_CHAT,
 							chat: chats,
 							userChatData: {}
 						});
 					} else {
-						dispatch(companyChatActions.updateChatLog(msg));
+						dispatch(ProjectChatActions.updateChatLog(msg));
+					}
+				} else {
+					const getChats = () => getState().chatApp.chat?.chats;
+					const findUnique_code = element => element?.unique_code == msg.message.unique_code;
+					let chats = getChats();
+					if (chats) {
+						let index = chats.findIndex(findUnique_code);
+						console.log({
+							chats,
+							index
+						});
+						if (chats[index]) {
+							chats[index] = msg.message;
+							dispatch({
+								type: companyChatActions.GET_CHAT,
+								chat: chats,
+								userChatData: {}
+							});
+						} else {
+							dispatch(companyChatActions.updateChatLog(msg));
+						}
 					}
 				}
-			}
+			});
 		});
-	};
-
-	if (!global.socket) {
-		global.socket = new WebSocket(WS_BASE);
-		global.socket.onmessage = function (e) {
-			const data = JSON.parse(e.data);
-			const userInfo = decodeDataFromToken();
-			const getUserId = () => userInfo?.extra?.profile.id;
-			console.log({ socketData: data, id: getUserId(), desiId: data.message['dest']['id'] });
-			passMessage(data);
-			if (data.message['dest']['id'] === parseInt(getUserId())) {
-			
-				global.socket.send(
-					JSON.stringify({
-						message: {
-							read_check: true,
-							message: data.message
-						}
-					})
-				);
-			}
-		};
-		global.socket.onclose = function (event) {
-			console.log('WebSocket is closed now.');
-			setTimeout(function () {
-				global.socket = new WebSocket(WS_BASE);
-			}, 1000);
-		};
 
 		ws = {
 			socket: global.socket,
-			sendMessage: passMessage
+			sendMessage
 		};
 	}
 
