@@ -19,8 +19,14 @@ import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST, GET_REPLIES_OF_COMMENT } from 'app/services/apiEndPoints';
-import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
+import {
+	ADD_COMMENT_TO_POST,
+	GET_COMMENT_OF_POST,
+	DELETE_COMMENT,
+	GET_REPLIES_OF_COMMENT,
+	EDIT_COMMENT
+} from 'app/services/apiEndPoints';
+import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import * as Actions from './store/actions';
@@ -34,13 +40,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 const uuidv1 = require('uuid/v1');
 
-export default function CommentListItem({ post, comment, isOffline, callRetryCommentSuccess, tempAuthor }) {
+export default function CommentListItem({
+	post,
+	comment,
+	isOffline,
+	callRetryCommentSuccess,
+	tempAuthor,
+	afterDeleteComment
+}) {
 	const inputRef = useRef(null);
 	const [open, setOpen] = React.useState(false);
 	const [images, setImages] = useState(null);
 	const [text, setText] = useState('');
 	const [isReplying, setIsReplying] = useState(false);
 	const [isRetryingPostComment, setisRetryingPostComment] = useState(false);
+	const [isEditing, setIsEditing] = useState(false);
 	const [replyComments, setReplyComments] = useState([]);
 	const [offlineCommentReplies, setofflineCommentReplies] = useState({});
 	const [, updateState] = React.useState();
@@ -175,8 +189,32 @@ export default function CommentListItem({ post, comment, isOffline, callRetryCom
 			getHeaderToken()
 		);
 	};
+	const handleDeleteComment = e => {
+		e.preventDefault();
+		apiCall(
+			DELETE_COMMENT(comment.id),
+			{},
+			res => afterDeleteComment(),
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
+	const editComment = () => {
+		apiCall(
+			EDIT_COMMENT(comment.id),
+			comment.formData,
+			res => {
+				console.log('edited', res);
+			},
+			err => {},
+			METHOD.POST,
+			getHeaderToken()
+		);
+	};
 	const showReplies = () => Object.values(offlineCommentReplies).length || replyComments.length > 0;
 	const repliesLength = () => Object.values(offlineCommentReplies).length + replyComments.length;
+	const deleteCommentByIndex = index => setReplyComments(prevComments => prevComments.filter((d, i) => i != index));
 	const callRetryReplySuccess = unique_code => {
 		let tempofflineCommentReplies = { ...offlineCommentReplies };
 		delete tempofflineCommentReplies[unique_code];
@@ -184,6 +222,8 @@ export default function CommentListItem({ post, comment, isOffline, callRetryCom
 		setIsReplying(false);
 		getReplies();
 	};
+	const userInfo = decodeDataFromToken();
+	const getUserId = () => userInfo?.extra?.profile.id;
 	return (
 		<div key={comment.id}>
 			<ListItem className="px-0">
@@ -191,17 +231,63 @@ export default function CommentListItem({ post, comment, isOffline, callRetryCom
 					{' '}
 					{comment.author.user.username[0]}
 				</Avatar>
-				<ListItemText
-					className="p-12 py-10 comment-p bg-post-section w-auto flex-none"
-					primary={
-						<div className="flex comment-section">
-							<Typography color="initial" paragraph={false}>
-								{comment.author.user.username}
-							</Typography>
-						</div>
-					}
-					secondary={comment.text}
-				/>
+				{isEditing ? (
+					<div className="flex-1 mx-4">
+						<Paper elevation={0} className="w-full relative post-icons">
+							<Input
+								className="p-8 w-full border-1"
+							
+								classes={{ root: 'text-13' }}
+								placeholder="Add a comment.."
+								value={comment.text}
+								multiline
+								rows="2"
+								margin="none"
+								disableUnderline
+								onChange={e => setText(e.target.value)}
+							/>
+							<IconButton
+								className="image p-0"
+								onClick={() => inputRef.current.click()}
+								aria-label="Add photo"
+							>
+								<Icon>photo</Icon>
+							</IconButton>
+							<input hidden type="file" accept="image/*, video/*" ref={inputRef} onChange={addPhoto} />
+							<IconButton
+								className="send p-0"
+								onClick={handlePostComment}
+								aria-label="Send"
+								disabled={!text.length}
+							>
+								<Icon>send</Icon>
+							</IconButton>
+							{/* <Button
+							disabled={!text.length}
+							onClick={handlePostComment}
+							className="normal-case"
+							variant="contained"
+							color="primary"
+							size="small"
+						>
+							Reply Comment
+						</Button> */}
+						</Paper>
+						{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
+					</div>
+				) : (
+					<ListItemText
+						className="p-12 py-10 comment-p bg-post-section w-auto flex-none"
+						primary={
+							<div className="flex comment-section">
+								<Typography color="initial" paragraph={false}>
+									{comment.author.user.username}
+								</Typography>
+							</div>
+						}
+						secondary={comment.text}
+					/>
+				)}
 				{isOffline && (
 					<>
 						{comment.retryOption && !isRetryingPostComment ? (
@@ -229,7 +315,16 @@ export default function CommentListItem({ post, comment, isOffline, callRetryCom
 			<div className="posted-images comment-post-img">
 				<PostedImages images={comment.media_set} hideNavigation />
 			</div>
-			{!isOffline && (
+			{!isOffline && isEditing ? (
+				<div className="flex flex-wrap items-center ml-44">
+					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
+						<Typography className="normal-case mx-4">Cancel</Typography>
+					</Button>
+					<Button className="mx-2" variant="contained" size="small" color="secondary">
+						<Typography className="normal-case mx-4">Save</Typography>
+					</Button>
+				</div>
+			) : (
 				<div className="flex flex-wrap items-center ml-44">
 					<Button size="small" aria-label="Add to favorites">
 						<Icon className="text-16" color="action">
@@ -251,6 +346,22 @@ export default function CommentListItem({ post, comment, isOffline, callRetryCom
 					>
 						Reply
 					</Button>
+					{getUserId() == comment.author.id && (
+						<Button onClick={handleDeleteComment} size="small" aria-label="Add to favorites">
+							<Icon className="text-16" color="action">
+								delete_outline
+							</Icon>
+							<Typography className="normal-case mx-4">Delete</Typography>
+						</Button>
+					)}
+					{getUserId() == comment.author.id && (
+						<Button onClick={() => setIsEditing(true)} size="small" aria-label="Add to favorites">
+							<Icon className="text-16" color="action">
+								edit
+							</Icon>
+							<Typography className="normal-case mx-4">Edit</Typography>
+						</Button>
+					)}
 					<Typography className="mx-12" variant="caption">
 						{
 							moment.parseZone(comment.created_date).fromNow() //format('LL')
@@ -283,6 +394,7 @@ export default function CommentListItem({ post, comment, isOffline, callRetryCom
 									post={post}
 									comment={reply}
 									getReplies={getReplies}
+									afterDeleteComment={() => deleteCommentByIndex(index)}
 									handleReplyClick={() => {
 										if (isReplying) {
 											setIsReplying(false);

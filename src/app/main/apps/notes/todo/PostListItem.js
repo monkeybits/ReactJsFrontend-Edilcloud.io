@@ -226,6 +226,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 		setofflinePostComments(tempofflinePostComments);
 		getComments();
 	};
+	const deleteCommentByIndex = index => setPostComments(prevComments => prevComments.filter((d, i) => i != index));
 	if (!Object.entries(post).length) {
 		return null;
 	}
@@ -345,6 +346,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 										key={index}
 										post={post}
 										comment={comment}
+										afterDeleteComment={() => deleteCommentByIndex(index)}
 									/>
 								))}
 								{Object.values(offlinePostComments).map((comment, index) => (
