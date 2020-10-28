@@ -29,6 +29,7 @@ import { Menu, MenuItem, Switch } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { DISABLE_PROJECT, ENABLE_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
+import * as ProjectChatActions from 'app/main/apps/notes/chat/store/actions';
 
 export default function ProjectListitem({
 	index,
@@ -36,9 +37,19 @@ export default function ProjectListitem({
 	classes
 }) {
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
-	const { id, name, description, company, logo, date_start, status, date_end, profiles, isApproved } = projects[
-		index
-	];
+	const {
+		id,
+		name,
+		description,
+		company,
+		logo,
+		date_start,
+		status,
+		date_end,
+		profiles,
+		isApproved,
+		talks
+	} = projects[index];
 	const [expanded, setExpanded] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -121,7 +132,13 @@ export default function ProjectListitem({
 				title={name}
 			/>
 			<CardContent>
-				{isApproved ? <Link className="font-size-17" to={`${match.path}/${id}`}>{name}</Link> : name}
+				{isApproved ? (
+					<Link className="font-size-17" to={`${match.path}/${id}`}>
+						{name}
+					</Link>
+				) : (
+					name
+				)}
 				<Typography variant="body2" color="textSecondary" component="p">
 					{description}
 				</Typography>

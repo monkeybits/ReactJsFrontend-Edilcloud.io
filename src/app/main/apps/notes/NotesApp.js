@@ -49,10 +49,10 @@ function NotesApp(props) {
 		dispatch({
 			type: Actions.RESET_PROEJECTS
 		});
-		handleSetLoading({
-			loadingProjects: true,
-			loadingProjectRequest: true
-		});
+		// handleSetLoading({
+		// 	loadingProjects: true,
+		// 	loadingProjectRequest: true
+		// });
 		dispatch(Actions.getProjects(handleSetLoading));
 		dispatch(Actions.getRequest(handleSetLoading));
 	}, [dispatch]);

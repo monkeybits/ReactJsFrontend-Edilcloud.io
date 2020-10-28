@@ -23,7 +23,7 @@ export default ({ children }) => {
 	const passMessage = msg => {
 		console.log({ msg });
 		dispatch((dispatch, getState) => {
-			if (getState().chatPanel.state) {
+			if (getState().chatPanel.state) { // chat panel
 				const getChats = () => getState().chatPanel.chat.chats;
 				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
 				let chats = getChats();
@@ -38,8 +38,11 @@ export default ({ children }) => {
 					});
 				}
 			}
-			if (msg.message.talk.content_type_name == 'project') {
+			if (msg.message.talk.content_type_name == 'project') { // project chat sidebar update count
 				dispatch(chatPanelActions.updateContactCount(msg));
+			}
+			else{ // company chat sidebar update count
+				dispatch(companyChatActions.updateContactCount(msg));
 			}
 			if (
 				msg.message.talk.content_type_name == 'project' &&
@@ -92,15 +95,14 @@ export default ({ children }) => {
 			const data = JSON.parse(e.data);
 			const userInfo = decodeDataFromToken();
 			const getUserId = () => userInfo?.extra?.profile.id;
-			console.log({ socketData: data, id: getUserId(), desiId: data.message['dest']['id'] });
-			passMessage(data);
-			if (data.message['dest']['id'] === parseInt(getUserId())) {
-			
+			console.log({ socketData: data, id: getUserId() });
+			if (data.message.message['dest']?.['id'] === parseInt(getUserId())) {
+				passMessage(data.message);
 				global.socket.send(
 					JSON.stringify({
 						message: {
 							read_check: true,
-							message: data.message
+							message: data.message.message
 						}
 					})
 				);

@@ -45,6 +45,7 @@ export default function CommentListItem({
 	comment,
 	isOffline,
 	callRetryCommentSuccess,
+	needToGetComments,
 	tempAuthor,
 	afterDeleteComment
 }) {
@@ -52,6 +53,7 @@ export default function CommentListItem({
 	const [open, setOpen] = React.useState(false);
 	const [images, setImages] = useState(null);
 	const [text, setText] = useState('');
+	const [editText, setEditText] = useState('');
 	const [isReplying, setIsReplying] = useState(false);
 	const [isRetryingPostComment, setisRetryingPostComment] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
@@ -134,14 +136,22 @@ export default function CommentListItem({
 		setText('');
 		document.getElementById(String(comment.id)).value = '';
 	};
-	const getReplies = () => {
+	const getReplies = setIsEditing => {
 		apiCall(
 			GET_REPLIES_OF_COMMENT(comment.id),
 			{},
 			res => {
 				setReplyComments(res.results);
+				if (setIsEditing) {
+					setIsEditing(false);
+				}
 			},
-			err => console.log(err),
+			err => {
+				if (setIsEditing) {
+					setIsEditing(false);
+				}
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -201,14 +211,22 @@ export default function CommentListItem({
 		);
 	};
 	const editComment = () => {
+		var formData = new FormData();
+		let values = {
+			text: editText
+		};
+		for (let key in values) {
+			formData.append(key, values[key]);
+		}
 		apiCall(
 			EDIT_COMMENT(comment.id),
-			comment.formData,
+			formData,
 			res => {
 				console.log('edited', res);
+				needToGetComments(setIsEditing);
 			},
 			err => {},
-			METHOD.POST,
+			METHOD.PUT,
 			getHeaderToken()
 		);
 	};
@@ -236,44 +254,16 @@ export default function CommentListItem({
 						<Paper elevation={0} className="w-full relative post-icons">
 							<Input
 								className="p-8 w-full border-1"
-							
 								classes={{ root: 'text-13' }}
 								placeholder="Add a comment.."
-								value={comment.text}
+								value={editText}
 								multiline
 								rows="2"
 								margin="none"
 								disableUnderline
-								onChange={e => setText(e.target.value)}
+								onChange={e => setEditText(e.target.value)}
 							/>
-							<IconButton
-								className="image p-0"
-								onClick={() => inputRef.current.click()}
-								aria-label="Add photo"
-							>
-								<Icon>photo</Icon>
-							</IconButton>
-							<input hidden type="file" accept="image/*, video/*" ref={inputRef} onChange={addPhoto} />
-							<IconButton
-								className="send p-0"
-								onClick={handlePostComment}
-								aria-label="Send"
-								disabled={!text.length}
-							>
-								<Icon>send</Icon>
-							</IconButton>
-							{/* <Button
-							disabled={!text.length}
-							onClick={handlePostComment}
-							className="normal-case"
-							variant="contained"
-							color="primary"
-							size="small"
-						>
-							Reply Comment
-						</Button> */}
 						</Paper>
-						{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
 					</div>
 				) : (
 					<ListItemText
@@ -312,15 +302,24 @@ export default function CommentListItem({
 					</>
 				)}
 			</ListItem>
-			<div className="posted-images comment-post-img">
-				<PostedImages images={comment.media_set} hideNavigation />
-			</div>
+			{!isEditing && (
+				<div className="posted-images comment-post-img">
+					<PostedImages images={comment.media_set} hideNavigation />
+				</div>
+			)}
 			{!isOffline && isEditing ? (
 				<div className="flex flex-wrap items-center ml-44">
 					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
 						<Typography className="normal-case mx-4">Cancel</Typography>
 					</Button>
-					<Button className="mx-2" variant="contained" size="small" color="secondary">
+					<Button
+						disabled={!editText.length}
+						onClick={editComment}
+						className="mx-2"
+						variant="contained"
+						size="small"
+						color="secondary"
+					>
 						<Typography className="normal-case mx-4">Save</Typography>
 					</Button>
 				</div>
@@ -355,7 +354,14 @@ export default function CommentListItem({
 						</Button>
 					)}
 					{getUserId() == comment.author.id && (
-						<Button onClick={() => setIsEditing(true)} size="small" aria-label="Add to favorites">
+						<Button
+							onClick={() => {
+								setEditText(comment.text);
+								setIsEditing(true);
+							}}
+							size="small"
+							aria-label="Add to favorites"
+						>
 							<Icon className="text-16" color="action">
 								edit
 							</Icon>

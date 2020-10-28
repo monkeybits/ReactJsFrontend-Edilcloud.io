@@ -133,14 +133,22 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 		document.getElementById(String(post.id)).value = '';
 		setText('');
 	};
-	const getComments = () => {
+	const getComments = setIsEditing => {
 		apiCall(
 			GET_COMMENT_OF_POST(post.id),
 			{},
 			res => {
 				setPostComments(res.results);
+				if (setIsEditing) {
+					setIsEditing(false);
+				}
 			},
-			err => console.log(err),
+			err => {
+				if (setIsEditing) {
+					setIsEditing(false);
+				}
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -347,6 +355,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 										post={post}
 										comment={comment}
 										afterDeleteComment={() => deleteCommentByIndex(index)}
+										needToGetComments={getComments}
 									/>
 								))}
 								{Object.values(offlinePostComments).map((comment, index) => (

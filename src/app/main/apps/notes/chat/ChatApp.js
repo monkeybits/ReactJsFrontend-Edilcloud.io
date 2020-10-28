@@ -123,6 +123,7 @@ function ChatApp(props) {
 	useEffect(() => {
 		dispatch(Actions.companyInfo());
 	}, [dispatch]);
+
 	useEffect(() => {
 		// if (company.can_access_chat && routeParams.id) {
 		dispatch(Actions.getUserData(routeParams.id));
@@ -140,7 +141,7 @@ function ChatApp(props) {
 		// } else {
 		// 	props.history.push('/apps/todo/all');
 		// }
-	}, [dispatch, company, routeParams]);
+	}, [dispatch, company, routeParams, projectDetail]);
 	return (
 		<WebSocketProvider>
 			<div className={clsx(classes.root, 'h-full p-20 inner-height')}>
