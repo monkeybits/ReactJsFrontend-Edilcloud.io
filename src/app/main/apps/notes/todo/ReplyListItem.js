@@ -40,9 +40,10 @@ export default function ReplyListItem({
 	handleReplyClick,
 	callRetryReplySuccess,
 	afterDeleteComment,
-	isOffline
+	isOffline,
 }) {
 	const [isRetryingPostReply, setIsRetryingPostReply] = useState(false);
+	const [editText, setEditText] = useState('');
 	const [isEditing, setIsEditing] = useState(false);
 	const retryToPostReply = () => {
 		setIsRetryingPostReply(true);
@@ -60,18 +61,6 @@ export default function ReplyListItem({
 			getHeaderToken()
 		);
 	};
-	const editComment = () => {
-		apiCall(
-			EDIT_COMMENT(comment.id),
-			comment.formData,
-			res => {
-				console.log('edited', res);
-			},
-			err => {},
-			METHOD.POST,
-			getHeaderToken()
-		);
-	};
 	const handleDeleteComment = e => {
 		e.preventDefault();
 		apiCall(
@@ -80,6 +69,26 @@ export default function ReplyListItem({
 			res => afterDeleteComment(),
 			err => console.log(err),
 			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
+	const editComment = () => {
+		var formData = new FormData();
+		let values = {
+			text: editText
+		};
+		for (let key in values) {
+			formData.append(key, values[key]);
+		}
+		apiCall(
+			EDIT_COMMENT(comment.id),
+			formData,
+			res => {
+				console.log('edited', res);
+				getReplies(setIsEditing);
+			},
+			err => {},
+			METHOD.PUT,
 			getHeaderToken()
 		);
 	};
@@ -92,17 +101,35 @@ export default function ReplyListItem({
 					{' '}
 					{comment.author.user.username[0]}
 				</Avatar>
-				<ListItemText
-					className="p-12 py-10 comment-p bg-post-section w-auto flex-none"
-					primary={
-						<div className="flex comment-section">
-							<Typography color="initial" paragraph={false}>
-								{comment.author.user.username}
-							</Typography>
-						</div>
-					}
-					secondary={comment.text}
-				/>
+				{isEditing ? (
+					<div className="flex-1 mx-4">
+						<Paper elevation={0} className="w-full relative post-icons">
+							<Input
+								className="p-8 w-full border-1"
+								classes={{ root: 'text-13' }}
+								placeholder="Add a comment.."
+								value={editText}
+								multiline
+								rows="2"
+								margin="none"
+								disableUnderline
+								onChange={e => setEditText(e.target.value)}
+							/>
+						</Paper>
+					</div>
+				) : (
+					<ListItemText
+						className="p-12 py-10 comment-p bg-post-section w-auto flex-none"
+						primary={
+							<div className="flex comment-section">
+								<Typography color="initial" paragraph={false}>
+									{comment.author.user.username}
+								</Typography>
+							</div>
+						}
+						secondary={comment.text}
+					/>
+				)}
 				{isOffline && (
 					<>
 						{comment.retryOption && !isRetryingPostReply ? (
@@ -130,7 +157,23 @@ export default function ReplyListItem({
 			<div className="posted-images comment-post-img">
 				<PostedImages images={comment.media_set} hideNavigation />
 			</div>
-			{!isOffline && (
+			{!isOffline && isEditing ? (
+				<div className="flex flex-wrap items-center ml-44">
+					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
+						<Typography className="normal-case mx-4">Cancel</Typography>
+					</Button>
+					<Button
+						disabled={!editText.length}
+						onClick={editComment}
+						className="mx-2"
+						variant="contained"
+						size="small"
+						color="secondary"
+					>
+						<Typography className="normal-case mx-4">Save</Typography>
+					</Button>
+				</div>
+			) : (
 				<div className="flex items-center ml-44 mb-8">
 					<Button size="small" aria-label="Add to favorites">
 						<Icon className="text-16" color="action">
@@ -147,6 +190,21 @@ export default function ReplyListItem({
 								delete_outline
 							</Icon>
 							<Typography className="normal-case mx-4">Delete</Typography>
+						</Button>
+					)}
+					{getUserId() == comment.author.id && (
+						<Button
+							onClick={() => {
+								setEditText(comment.text);
+								setIsEditing(true);
+							}}
+							size="small"
+							aria-label="Add to favorites"
+						>
+							<Icon className="text-16" color="action">
+								edit
+							</Icon>
+							<Typography className="normal-case mx-4">Edit</Typography>
 						</Button>
 					)}
 					<Typography className="mx-12 font-size-14" variant="caption">

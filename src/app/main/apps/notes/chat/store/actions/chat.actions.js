@@ -11,6 +11,7 @@ import {
 	READ_ALL_MESSAGES,
 	SEND_PROJECT_MESSAGE_API
 } from 'app/services/apiEndPoints';
+import { resetContactCount } from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
 const uuidv1 = require('uuid/v1');
 
 export const GET_CHAT = '[CHAT APP] GET CHAT (PROJECT)';
@@ -41,7 +42,7 @@ export function getChat(pid) {
 				// 	}, 400);
 				// }
 				if (chat && chat[chat.length - 1]) {
-					dispatch(readAllMessages(chat[chat.length - 1].talk.id));
+					dispatch(readAllMessages(chat[chat.length - 1].talk.id, pid));
 				}
 				return dispatch({
 					type: GET_CHAT,
@@ -143,15 +144,19 @@ export function sendMessage(messageText, setMessageText, pid, images, setImages)
 		setMessageText('');
 	};
 }
-export function readAllMessages(talkCode) {
+export function readAllMessages(talkCode, pid) {
+	console.log({ talkCode, pid });
 	return (dispatch, getState) => {
 		apiCall(
 			READ_ALL_MESSAGES(talkCode),
 			{},
-			chat => {},
+			chat => {
+				dispatch(resetContactCount(pid));
+			},
 			err => console.log(err),
 			METHOD.POST,
-			getHeaderToken()
+			getHeaderToken(),
+			true
 		);
 	};
 }

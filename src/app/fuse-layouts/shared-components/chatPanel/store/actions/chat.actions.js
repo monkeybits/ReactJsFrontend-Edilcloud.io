@@ -72,6 +72,7 @@ export function removeChat() {
 	};
 }
 export function resetContactCount(contactMessage) {
+	console.log({contactMessage})
 	return {
 		type: RESET_CONTECT_COUNT,
 		payload: contactMessage

@@ -15,6 +15,7 @@ export const GET_CHAT = '[CHAT APP] GET CHAT';
 export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT';
 export const SEND_MESSAGE = '[CHAT APP] SEND MESSAGE';
 export const COMPANY_INFO = '[CHAT APP] COMPANY INFO';
+export const UPDATE_CONTECT_COUNT = '[CHAT APP] UPDATE_CONTECT_COUNT';
 export const UPDATE_CHAT_LOG = '[CHAT APP] UPDATE_CHAT_LOG';
 const uuidv1 = require('uuid/v1');
 
@@ -24,7 +25,12 @@ export function updateChatLog(update) {
 		update
 	};
 }
-
+export function updateContactCount(contactMessage) {
+	return {
+		type: UPDATE_CONTECT_COUNT,
+		payload: contactMessage
+	};
+}
 export function getChat(contactId) {
 	return (dispatch, getState) => {
 		apiCall(
