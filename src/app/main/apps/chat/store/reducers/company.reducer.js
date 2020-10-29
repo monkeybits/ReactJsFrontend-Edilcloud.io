@@ -25,6 +25,18 @@ const company = (state = initialState, action) => {
 				last_message_created: new Date()
 			};
 		}
+		case Actions.RESET_CONTECT_COUNT: {
+			return {
+				...state,
+				talks: [
+					{
+						...state.talks[0],
+						unread_count: 0
+					}
+				],
+				last_message_created: new Date()
+			};
+		}
 		default: {
 			return state;
 		}

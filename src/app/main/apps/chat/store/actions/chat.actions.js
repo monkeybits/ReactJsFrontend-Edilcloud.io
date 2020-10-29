@@ -16,6 +16,7 @@ export const REMOVE_CHAT = '[CHAT APP] REMOVE CHAT';
 export const SEND_MESSAGE = '[CHAT APP] SEND MESSAGE';
 export const COMPANY_INFO = '[CHAT APP] COMPANY INFO';
 export const UPDATE_CONTECT_COUNT = '[CHAT APP] UPDATE_CONTECT_COUNT';
+export const RESET_CONTECT_COUNT = '[CHAT APP] RESET_CONTECT_COUNT';
 export const UPDATE_CHAT_LOG = '[CHAT APP] UPDATE_CHAT_LOG';
 const uuidv1 = require('uuid/v1');
 
@@ -29,6 +30,11 @@ export function updateContactCount(contactMessage) {
 	return {
 		type: UPDATE_CONTECT_COUNT,
 		payload: contactMessage
+	};
+}
+export function resetCount() {
+	return {
+		type: RESET_CONTECT_COUNT
 	};
 }
 export function getChat(contactId) {
@@ -182,7 +188,9 @@ export function readAllMessages(talkCode) {
 		apiCall(
 			READ_ALL_MESSAGES(talkCode),
 			{},
-			chat => {},
+			chat => {
+				dispatch(resetCount());
+			},
 			err => console.log(err),
 			METHOD.POST,
 			getHeaderToken()

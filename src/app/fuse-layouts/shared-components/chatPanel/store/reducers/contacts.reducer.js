@@ -1,3 +1,4 @@
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 import * as Actions from '../actions';
 
 const initialState = {
@@ -5,8 +6,10 @@ const initialState = {
 	selectedContactId: null
 };
 const getUpdatedEntities = (entities, msg) => {
+	const userInfo = decodeDataFromToken();
+	const getUserId = () => userInfo?.extra?.profile.id;
 	return entities.map(entity => {
-		if (entity.id == msg.message.talk.object_id) {
+		if (entity.id == msg.message.talk.object_id && getUserId() != msg.message.sender.id) {
 			return {
 				...entity,
 				talks: [

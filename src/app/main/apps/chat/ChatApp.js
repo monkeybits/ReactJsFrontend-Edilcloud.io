@@ -12,7 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Chat from './Chat';
 import ChatsSidebar from './ChatsSidebar';
@@ -23,7 +23,7 @@ import reducer from './store/reducers';
 import UserSidebar from './UserSidebar';
 import { withRouter } from 'react-router';
 import { GET_CHAT } from './store/actions';
-import  WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
+import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 
 const drawerWidth = 400;
 const headerHeight = 200;
@@ -115,6 +115,7 @@ function ChatApp(props) {
 	const userSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.userSidebarOpen);
 	const contactSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.contactSidebarOpen);
 	const ws = useContext(WebSocketContext);
+	const [isMounted, setIsMounted] = useState(false);
 
 	const classes = useStyles(props);
 
@@ -125,10 +126,14 @@ function ChatApp(props) {
 	useEffect(() => {
 		if (company.can_access_chat) {
 			dispatch(Actions.getUserData());
-			dispatch(Actions.getContacts());
-			dispatch(Actions.getChat());
+			if (!isMounted) {
+				dispatch(Actions.getContacts());
+				dispatch(Actions.getChat());
+				setIsMounted(true);
+			}
 			// let callMessageList = setInterval(() => dispatch(Actions.getChat()), 1000);
 			return () => {
+				setIsMounted(false);
 				dispatch({
 					type: GET_CHAT,
 					chat: [],
