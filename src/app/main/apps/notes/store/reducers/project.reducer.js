@@ -33,6 +33,7 @@ function sortByProperty(array, property, order = 'ASC') {
 			: 0
 	);
 }
+const deleteByProjectId = (projects = [], pid) => projects.filter(project => project.id != pid);
 const labelsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_PROJECTS: {
@@ -45,6 +46,12 @@ const labelsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				entities: sortByProperty(mergeArray(action.payload), 'name')
+			};
+		}
+		case Actions.DELETE_PROJECT_ACTION: {
+			return {
+				...state,
+				entities: deleteByProjectId(state.entities, action.pid)
 			};
 		}
 		case Actions.GET_PROJECT_DETAIL: {

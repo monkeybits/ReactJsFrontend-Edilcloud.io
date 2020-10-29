@@ -21,14 +21,15 @@ export default ({ children }) => {
 	let WS_BASE;
 	const dispatch = useDispatch();
 	if (window.location.host.includes('localhost')) {
-		WS_BASE = WS_BASE_LOCAL
+		WS_BASE = WS_BASE_LOCAL;
 	} else {
-		WS_BASE = WS_BASE_DEV
+		WS_BASE = WS_BASE_DEV;
 	}
 	const passMessage = msg => {
 		console.log({ msg });
 		dispatch((dispatch, getState) => {
-			if (getState().chatPanel.state) { // chat panel
+			if (getState().chatPanel.state) {
+				// chat panel
 				const getChats = () => getState().chatPanel.chat.chats;
 				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
 				let chats = getChats();
@@ -43,10 +44,11 @@ export default ({ children }) => {
 					});
 				}
 			}
-			if (msg.message.talk.content_type_name == 'project') { // project chat sidebar update count
+			if (msg.message.talk.content_type_name == 'project') {
+				// project chat sidebar update count
 				dispatch(chatPanelActions.updateContactCount(msg));
-			}
-			else{ // company chat sidebar update count
+			} else {
+				// company chat sidebar update count
 				dispatch(companyChatActions.updateContactCount(msg));
 			}
 			if (

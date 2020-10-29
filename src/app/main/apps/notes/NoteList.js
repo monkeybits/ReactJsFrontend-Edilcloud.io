@@ -78,7 +78,6 @@ function NoteList(props) {
 	const [isShowRequests, setIsShowRequests] = useState(false);
 	const [request, setRequest] = useState({});
 	const [filteredData, setFilteredData] = useState([]);
-
 	useEffect(() => {
 		function filterData() {
 			const { params } = props.match;

@@ -151,7 +151,7 @@ export function readAllMessages(talkCode, pid) {
 			READ_ALL_MESSAGES(talkCode),
 			{},
 			chat => {
-				dispatch(resetContactCount(pid));
+				// dispatch(resetContactCount(pid));
 			},
 			err => console.log(err),
 			METHOD.POST,

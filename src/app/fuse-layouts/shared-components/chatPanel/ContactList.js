@@ -104,21 +104,21 @@ function ContactList(props) {
 	};
 	useEffect(() => {
 		let newContacts = [];
-		if (contacts && contacts.length) {
-			newContacts = contacts.sort(function (a, b) {
+		if (company && company.id && contacts) {
+			newContacts = [
+				{
+					...company,
+					type: 'company'
+				},
+				...contacts
+			].sort(function (a, b) {
 				// Turn your strings into dates, and then subtract them
 				// to get a value that is either negative, positive, or zero.
 				return new Date(b.last_message_created) - new Date(a.last_message_created);
 			});
 		}
 		if (company && company.id) {
-			setallContacts([
-				{
-					...company,
-					type: 'company'
-				},
-				...newContacts
-			]);
+			setallContacts(newContacts);
 		}
 	}, [contacts, company]);
 	const ContactButton = ({ contact }) => {
