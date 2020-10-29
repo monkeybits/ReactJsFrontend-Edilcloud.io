@@ -51,7 +51,7 @@ export function getChat(contact) {
 				// 	});
 				// }
 				if (chat && chat[chat.length - 1]) {
-					dispatch(readAllMessages(chat[chat.length - 1].talk.id));
+					dispatch(readAllMessages(chat[chat.length - 1].talk.id, contact.type));
 				}
 				dispatch({
 					type: GET_CHAT,
@@ -72,7 +72,7 @@ export function removeChat() {
 	};
 }
 export function resetContactCount(contactMessage) {
-	console.log({contactMessage})
+	console.log({ contactMessage });
 	return {
 		type: RESET_CONTECT_COUNT,
 		payload: contactMessage
@@ -179,14 +179,20 @@ export function retryToSendMessage(chatItem) {
 		);
 	};
 }
-export function readAllMessages(talkCode) {
+export function readAllMessages(talkCode, type) {
 	return (dispatch, getState) => {
 		const projectId = getState().chatPanel.user?.id;
 		apiCall(
 			READ_ALL_MESSAGES(talkCode),
 			{},
 			chat => {
-				dispatch(resetContactCount(projectId));
+				if (type == 'company') {
+					dispatch({
+						type: '[CHAT APP] RESET_CONTECT_COUNT'
+					});
+				} else {
+					dispatch(resetContactCount(projectId));
+				}
 			},
 			err => console.log(err),
 			METHOD.POST,
