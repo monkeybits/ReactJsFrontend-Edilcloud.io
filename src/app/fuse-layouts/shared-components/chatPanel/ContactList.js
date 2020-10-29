@@ -128,7 +128,7 @@ function ContactList(props) {
 					onClick={() => handleContactClick(contact)}
 					className={clsx(classes.contactButton, { active: selectedContactId === contact.id })}
 				>
-					{contact.talks?.length && (
+					{contact.talks?.length && !!contact.talks[0].unread_count && (
 						<div className={classes.unreadBadge}>{contact.talks[0].unread_count}</div>
 					)}
 					<div className={clsx(contact.status, classes.status)} />
