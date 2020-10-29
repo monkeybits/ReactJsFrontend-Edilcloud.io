@@ -80,7 +80,7 @@ function JWTRegisterTab({ history }) {
 				<TextFieldFormsy
 					className="mb-16"
 					type="text"
-					name="fname"
+					name="first_name"
 					label="First name"
 					validations={{
 						minLength: 4
@@ -104,7 +104,7 @@ function JWTRegisterTab({ history }) {
 				<TextFieldFormsy
 					className="mb-16"
 					type="text"
-					name="lname"
+					name="last_name"
 					label="Last name"
 					validations={{
 						minLength: 4
