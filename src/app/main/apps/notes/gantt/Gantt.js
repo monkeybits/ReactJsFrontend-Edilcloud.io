@@ -287,23 +287,28 @@ class Gantt extends Component {
 		);
 	};
 	shouldComponentUpdate(nextProps, nextState) {
-		const { todos } = nextProps;
-		if (this.state.toggleLeft != nextState.toggleLeft) {
+		const { todos, company } = nextProps;
+		if (JSON.stringify(company) != JSON.stringify(this.props.company)) {
 			return true;
-		}
-		if (this.state.openTasks.length != nextState.openTasks.length) {
+		} else if (this.state.openTasks.length != nextState.openTasks.length) {
 			return true;
-		}
-		if (this.props.todos && todos && JSON.stringify(todos) !== JSON.stringify(this.props.todos)) {
+		} else if (
+			this.props.todos?.entities &&
+			todos?.entities &&
+			JSON.stringify(todos.entities) !== JSON.stringify(this.props.todos.entities)
+		) {
 			this.templatePermissions();
 			this.ganttInit(todos);
 			return true;
+		} else {
+			return false;
 		}
 
-		if (this.props.zoom !== nextProps.zoom && this.state.tasks) {
-			this.createGantt(this.state.tasks);
-			return true;
-		}
+		// if (this.props.zoom !== nextProps.zoom && this.state.tasks) {
+		// 	this.createGantt(this.state.tasks);
+		// 	return true;
+		// }
+
 		// if (!this.state.tasks) {
 		// 	return true;
 		// }
@@ -567,8 +572,8 @@ class Gantt extends Component {
 			}
 			if (
 				(task.parent == 0 && this.props.company.id != this.props.projectDetail.company?.id) ||
-				(getRole() == 'm' ||
-				getRole() == 'w')
+				getRole() == 'm' ||
+				getRole() == 'w'
 			) {
 				className += ' block_row_events';
 			}
