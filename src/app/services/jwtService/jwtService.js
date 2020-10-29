@@ -51,7 +51,11 @@ class JwtService extends FuseUtils.EventEmitter {
 	createUser = data => {
 		return new Promise((resolve, reject) => {
 			axios
-				.post(USER_REGISTRATION, data)
+				.post(USER_REGISTRATION, data, {
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
 				.then(response => {
 					if (response.data) {
 						// this.setSession(response.data.access_token);
