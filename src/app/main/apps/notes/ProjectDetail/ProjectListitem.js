@@ -89,7 +89,14 @@ export default function ProjectListitem({
 		dispatch(Actions.updateProjectDetail({ ...projects[index], index }));
 		dispatch(Actions.openProjectDialog('edit'));
 	};
-
+	const handleArchiveProject = () => {
+		handleClose();
+		console.log('archive called');
+	};
+	const handleDeleteProject = () => {
+		handleClose();
+		dispatch(Actions.deleteProject(id));
+	};
 	return (
 		<Card className="h-full flex flex-col">
 			<CardHeader
@@ -113,12 +120,14 @@ export default function ProjectListitem({
 								onClose={handleClose}
 								PaperProps={{}}
 							>
-								{status ? (
+								{/* {status ? (
 									<MenuItem onClick={handleDeactivate}>Deactivate</MenuItem>
 								) : (
 									<MenuItem onClick={handleDeactivate}>Activate</MenuItem>
-								)}
+								)} */}
 								<MenuItem onClick={handleUpdateProject}>Update Project Details</MenuItem>
+								<MenuItem onClick={handleArchiveProject}>Archive</MenuItem>
+								<MenuItem onClick={handleDeleteProject}>Delete</MenuItem>
 							</Menu>
 						</div>
 					)
