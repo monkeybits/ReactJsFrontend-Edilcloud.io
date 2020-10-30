@@ -42,6 +42,8 @@ export default ({ children }) => {
 						chat: chats,
 						userChatData: {}
 					});
+				} else {
+					dispatch(chatPanelActions.updateChatLog(msg));
 				}
 			}
 			if (msg.message.talk.content_type_name == 'project') {
