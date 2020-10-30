@@ -33,7 +33,7 @@ function formatBytes(a, b = 2) {
 const addTypeInArray = (arr = [], type) =>
 	arr.map((d, i) => ({ ...d, mainId: d.id, id: i, type, size: formatBytes(d.size) }));
 const mergeArray = (oldArr = [], newArr = []) =>
-	[...newArr,...oldArr].reduce((arr, current) => {
+	[...newArr, ...oldArr].reduce((arr, current) => {
 		const x = arr.find(item => item.mainId === current.mainId);
 		if (!x) {
 			return arr.concat([current]);
@@ -174,6 +174,11 @@ const filesReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				folderPath: [...state.folderPath, action.payload]
+			};
+		case Actions.UPDATE_FOLDER_PATH:
+			return {
+				...state,
+				folderPath: [...action.payload]
 			};
 		case Actions.POP_FOLDER_PATH:
 			let folderPath = state.folderPath;

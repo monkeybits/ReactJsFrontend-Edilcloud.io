@@ -63,13 +63,13 @@ const useStylesList = makeStyles(theme => ({
 }));
 function FileGrid(props) {
 	const dispatch = useDispatch();
-	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
-	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.files);
-	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
-	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
+	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
+	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
+	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
+	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
 	const currentFolderPath = folderPath[folderPath.length - 1];
-	const selectedItemId = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
-	const searchText = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.searchText);
+	const selectedItemId = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
+	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
 	const [currentFolders, setCurrentFolders] = useState([]);
 	const [currentFiles, setCurrentFiles] = useState([]);
 	const classes = useStyles();
