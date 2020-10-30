@@ -10,12 +10,18 @@ import Breadcrumb from './Breadcrumb';
 import DetailSidebarContent from './DetailSidebarContent';
 import DetailSidebarHeader from './DetailSidebarHeader';
 import FileList from './FileList';
+import FileGrid from './FileGrid';
 import MainSidebarContent from './MainSidebarContent';
 import MainSidebarHeader from './MainSidebarHeader';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import { makeStyles, Button, TextField, CircularProgress, LinearProgress } from '@material-ui/core';
-import { ADD_PHOTO_PROJECT, ADD_FOLDER_PROJECT, ADD_VIDEO_PROJECT, ADD_DOCUMENT_PROJECT } from 'app/services/apiEndPoints';
+import {
+	ADD_PHOTO_PROJECT,
+	ADD_FOLDER_PROJECT,
+	ADD_VIDEO_PROJECT,
+	ADD_DOCUMENT_PROJECT
+} from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { withRouter } from 'react-router';
@@ -43,7 +49,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import MoveFileDialog from './MoveFileDialog';
 import { useParams } from 'react-router-dom';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -105,6 +112,8 @@ function FileManagerApp(props) {
 		file: null,
 		fileType: null
 	});
+	const [viewTable, setViewTable] = useState(false);
+
 	const [radioBtnValue, setRadioBtnValue] = useState('folder');
 	const [progress, setProgress] = React.useState(0);
 	const [path, setPath] = useState('');
@@ -280,6 +289,17 @@ function FileManagerApp(props) {
 									/>
 								</Paper>
 							</FuseAnimate>
+							<div className="flex">
+								<IconButton
+									onClick={() => setViewTable(false)}
+									className={!viewTable ? 'text-green-700' : ''}
+								>
+									<FontAwesomeIcon icon={faTh} />
+								</IconButton>
+								<IconButton onClick={() => setViewTable(true)}>
+									<FontAwesomeIcon icon={faList} className={viewTable ? 'text-green-700' : ''} />
+								</IconButton>
+							</div>
 						</div>
 						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
 						<div className="flex flex-1 items-end">
@@ -312,7 +332,7 @@ function FileManagerApp(props) {
 						)}
 					</div>
 				}
-				content={<FileList pageLayout={pageLayout} />}
+				content={viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}

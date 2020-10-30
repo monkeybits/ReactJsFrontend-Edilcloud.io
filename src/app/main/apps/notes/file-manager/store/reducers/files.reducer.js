@@ -176,6 +176,11 @@ const filesReducer = (state = initialState(), action) => {
 				...state,
 				folderPath: [...state.folderPath, action.payload]
 			};
+		case Actions.UPDATE_FOLDER_PATH:
+			return {
+				...state,
+				folderPath: [...action.payload]
+			};
 		case Actions.POP_FOLDER_PATH:
 			let folderPath = state.folderPath;
 			folderPath.pop();
