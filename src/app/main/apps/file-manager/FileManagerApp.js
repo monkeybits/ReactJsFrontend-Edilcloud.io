@@ -42,6 +42,9 @@ import imageCompression from 'browser-image-compression';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import MoveFileDialog from './MoveFileDialog';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
+import FileGrid from './FileGrid';
 
 const styles = theme => ({
 	root: {
@@ -108,6 +111,7 @@ function FileManagerApp(props) {
 	const [progress, setProgress] = React.useState(0);
 	const [path, setPath] = useState('');
 	const [filePath, setFilePath] = useState('');
+	const [viewTable, setViewTable] = useState(false);
 	const [title, setTitle] = useState(undefined);
 	const [description, setDescription] = useState(undefined);
 	const [open, setOpen] = React.useState(false);
@@ -285,6 +289,17 @@ function FileManagerApp(props) {
 									/>
 								</Paper>
 							</FuseAnimate>
+							<div className="flex">
+								<IconButton
+									onClick={() => setViewTable(false)}
+									className={!viewTable ? 'text-green-700' : ''}
+								>
+									<FontAwesomeIcon icon={faTh} />
+								</IconButton>
+								<IconButton onClick={() => setViewTable(true)}>
+									<FontAwesomeIcon icon={faList} className={viewTable ? 'text-green-700' : ''} />
+								</IconButton>
+							</div>
 						</div>
 						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
 						<div className="flex flex-1 items-end">
@@ -317,7 +332,7 @@ function FileManagerApp(props) {
 						)}
 					</div>
 				}
-				content={<FileList pageLayout={pageLayout} />}
+				content={viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}
@@ -336,8 +351,8 @@ function FileManagerApp(props) {
 					}}
 				/>
 			</FuseAnimate>
-		<MoveFileDialog />
-		
+			<MoveFileDialog />
+
 			<Dialog
 				onClose={handleClose}
 				aria-labelledby="customized-dialog-title"

@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
  */
 export default function FileGridItem({ tileData, pageLayout }) {
 	const dispatch = useDispatch();
-	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
+	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const classes = useStyles();
 	const getCssColor = fileType =>
 		fileType == 'pdf'
