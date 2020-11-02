@@ -1,3 +1,4 @@
+import FuseAnimate from '@fuse/core/FuseAnimate';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
@@ -20,6 +21,8 @@ import clsx from 'clsx';
 import * as Actions from './store/actions';
 import { Icon } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
@@ -67,60 +70,60 @@ export default function FileGridItem({ tileData, pageLayout }) {
 			? { color: 'green' }
 			: {};
 	return (
-		<div className={classes.root}>
-			<GridList cellHeight={180} className={classes.gridList}>
-				{tileData.map(tile => (
-					<GridListTile key={tile.img}>
-						{tile.type == 'video' ? (
-							<FontAwesomeIcon
-								icon={faFileVideo}
-								style={{ ...getCssColor(tile.type), fontSize: '2.4rem' }}
-							/>
-						) : tile.type == 'photo' ? (
-							<img src={tile.photo} alt={tile.title} />
-						) : (
-							<FontAwesomeIcon
-								icon={
-									tile.type == 'document'
-										? tile.extension == 'pdf'
-											? faFilePdf
-											: tile.extension == 'docx'
-											? faFileWord
-											: tile.extension == 'xlsx'
-											? faFileExcel
-											: tile.extension == 'mp3'
-											? faFileAudio
+			<div className={classes.root}>
+				<GridList cellHeight={180} className={classes.gridList}>
+					{tileData.map(tile => (
+						<GridListTile key={tile.img}>
+							{tile.type == 'video' ? (
+								<FontAwesomeIcon
+									icon={faFileVideo}
+									style={{ ...getCssColor(tile.type), fontSize: '2.4rem' }}
+								/>
+							) : tile.type == 'photo' ? (
+								<LazyLoadImage delayTime={300} src={tile.photo} alt={tile.title} />
+							) : (
+								<FontAwesomeIcon
+									icon={
+										tile.type == 'document'
+											? tile.extension == 'pdf'
+												? faFilePdf
+												: tile.extension == 'docx'
+												? faFileWord
+												: tile.extension == 'xlsx'
+												? faFileExcel
+												: tile.extension == 'mp3'
+												? faFileAudio
+												: faFile
 											: faFile
-										: faFile
+									}
+									style={{ ...getCssColor(tile.extension), fontSize: '2.4rem' }}
+								/>
+							)}
+							<GridListTileBar
+								title={tile.title}
+								subtitle={<span>size: {tile.size}</span>}
+								actionIcon={
+									<IconButton
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											pageLayout.current.toggleRightSidebar();
+											const findIndex = [...allFiles].findIndex(
+												element => element.mainId == tile.mainId && element.type == tile.type
+											);
+											let fileData = allFiles[findIndex];
+											dispatch(Actions.setSelectedItem(fileData.id));
+										}}
+										aria-label={`info about ${tile.title}`}
+										className={classes.icon}
+									>
+										<InfoIcon />
+									</IconButton>
 								}
-								style={{ ...getCssColor(tile.extension), fontSize: '2.4rem' }}
 							/>
-						)}
-						<GridListTileBar
-							title={tile.title}
-							subtitle={<span>size: {tile.size}</span>}
-							actionIcon={
-								<IconButton
-									onClick={ev => {
-										ev.preventDefault();
-										ev.stopPropagation();
-										pageLayout.current.toggleRightSidebar();
-										const findIndex = [...allFiles].findIndex(
-											element => element.mainId == tile.mainId && element.type == tile.type
-										);
-										let fileData = allFiles[findIndex];
-										dispatch(Actions.setSelectedItem(fileData.id));
-									}}
-									aria-label={`info about ${tile.title}`}
-									className={classes.icon}
-								>
-									<InfoIcon />
-								</IconButton>
-							}
-						/>
-					</GridListTile>
-				))}
-			</GridList>
-		</div>
+						</GridListTile>
+					))}
+				</GridList>
+			</div>
 	);
 }

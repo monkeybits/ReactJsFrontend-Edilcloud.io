@@ -10,8 +10,20 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import FileViewer from './FileViewer';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '@material-ui/core';
-
+import { Button, Icon } from '@material-ui/core';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import ReadPDF from './ReadPDF';
+import clsx from 'clsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faFilePdf,
+	faFile,
+	faFileExcel,
+	faFileVideo,
+	faFileAudio,
+	faFileImage,
+	faFileWord
+} from '@fortawesome/free-regular-svg-icons';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -53,28 +65,28 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 function FileViewDialog({ isOpenViewFile, closeViewFile }) {
-	const [currentIndex, setcurrentIndex] = useState(0);
+	const [currentIndex, setcurrentIndex] = useState(null);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const Allfiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
 	const index = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const [selectedItem, setSelectedItem] = useState(null);
 	useEffect(() => {
-		setcurrentIndex(index);
-	}, [index]);
+		console.log({ currentIndex });
+		let fileData = Allfiles[currentIndex];
+		setSelectedItem(fileData);
+	}, [currentIndex]);
 	useEffect(() => {
-		if (Array.isArray(Allfiles) && files[currentIndex]) {
-			let fileIndex = Allfiles.findIndex(element => element?.mainId == files[currentIndex].mainId);
-			// console.log('selectedItem', fileIndex, files[currentIndex]);
-			// if (selectedItem) {
-			// 	setSelectedItem(Allfiles[index]);
-			// } else if (fileIndex >= 0) {
-			// 	setSelectedItem(Allfiles[fileIndex]);
-			// }
-			setSelectedItem(files[currentIndex]);
+		if (Array.isArray(Allfiles) && files[index]) {
+			let tile = files[index];
+			const findIndex = Allfiles.findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
+			console.log({ findIndex, Allfiles });
+			if (findIndex >= 0) {
+				setcurrentIndex(findIndex);
+				let fileData = Allfiles[findIndex];
+				setSelectedItem(fileData);
+			}
 		}
-	}, [currentIndex, Allfiles]);
-	console.log({ selectedItem });
-	console.log('selectedItem', selectedItem, files);
+	}, [index, Allfiles, files]);
 	const handlePrevious = () => {
 		if (currentIndex > 0) {
 			setcurrentIndex(i => i - 1);
@@ -85,12 +97,18 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 			setcurrentIndex(i => i + 1);
 		}
 	};
-	const url =
-		selectedItem && selectedItem?.type == 'photo'
-			? selectedItem?.photo
-			: selectedItem?.type == 'video'
-			? selectedItem?.video
-			: selectedItem?.document;
+	const getCssColor = fileType =>
+		fileType == 'pdf'
+			? { color: 'red' }
+			: fileType == 'video'
+			? { color: 'red' }
+			: fileType == 'mp3'
+			? { color: 'brown' }
+			: fileType == 'docx'
+			? { color: 'blue' }
+			: fileType == 'xlsx'
+			? { color: 'green' }
+			: {};
 	return (
 		<Dialog
 			onClose={closeViewFile}
@@ -104,11 +122,28 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 			</DialogTitle>
 			<DialogContent dividers>
 				{selectedItem?.type == 'photo' ? (
-					<img src={selectedItem?.photo} />
+					<LazyLoadImage delayTime={300} src={selectedItem?.photo} alt={selectedItem?.title} />
 				) : selectedItem?.type == 'video' ? (
 					<video autoPlay src={selectedItem?.video} />
+				) : selectedItem?.extension == 'pdf' ? (
+					<ReadPDF height={700} file={selectedItem.document} />
 				) : (
-					<FileViewer file={url} type={selectedItem?.extension} />
+					<FontAwesomeIcon
+						icon={
+							selectedItem?.type == 'document'
+								? selectedItem?.extension == 'pdf'
+									? faFilePdf
+									: selectedItem?.extension == 'docx'
+									? faFileWord
+									: selectedItem?.extension == 'xlsx'
+									? faFileExcel
+									: selectedItem?.extension == 'mp3'
+									? faFileAudio
+									: faFile
+								: faFile
+						}
+						style={{ ...getCssColor(selectedItem?.extension), fontSize: '2.4rem' }}
+					/>
 				)}
 			</DialogContent>
 			<DialogActions className="p-8">

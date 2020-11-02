@@ -21,9 +21,9 @@ function Breadcrumb({ className, selected }) {
 				return (
 					<span key={i} className="flex items-center">
 						{i == 0 ? (
-							<Button onClick={() => updatePath(i)}>My Drive</Button>
+							<Button className='font-bold underline' onClick={() => updatePath(i)}>My Drive</Button>
 						) : (
-							<Button onClick={() => updatePath(i)}>{folderName}</Button>
+							<Button className='font-bold underline' onClick={() => updatePath(i)}>{folderName}</Button>
 						)}
 						{selected.length - 1 !== i && <Icon>chevron_right</Icon>}
 					</span>

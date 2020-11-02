@@ -73,6 +73,8 @@ function FileGrid(props) {
 	const [currentFolders, setCurrentFolders] = useState([]);
 	const [currentFiles, setCurrentFiles] = useState([]);
 	const classes = useStyles();
+	const [, updateState] = React.useState();
+	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const classesListItems = useStylesList();
 	const checkData = data => (data ? data : '-');
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
@@ -162,42 +164,44 @@ function FileGrid(props) {
 		);
 	}
 	return (
-		<div>
-			{!!currentFolders.length && (
-				<>
-					{' '}
-					<Typography variant="h6">Folders</Typography>
-					<Grid container spacing={12}>
-						{currentFolders.map(d => (
-							<Grid
-								className="px-12 mb-32"
-								item
-								xs={12}
-								sm={6}
-								md={4}
-								xl={3}
-								onClick={() => dispatch(Actions.setFolderPath(d.path))}
-							>
-								<ListItem className={classesListItems.root}>
-									<ListItemIcon>
-										<FolderIcon />
-									</ListItemIcon>
-									<ListItemText primary={d.title} secondary={null} />
-								</ListItem>
-							</Grid>
-						))}
-					</Grid>
-				</>
-			)}
-			{!!currentFiles.length && (
-				<>
-					<Typography variant="h6">Files</Typography>
-					<Grid container spacing={12}>
-						<FileGridItem tileData={currentFiles} {...props} />
-					</Grid>
-				</>
-			)}
-		</div>
+		<FuseAnimate animation="transition.slideUpIn" delay={300}>
+			<div>
+				{!!currentFolders.length && (
+					<>
+						{' '}
+						<Typography variant="h6">Folders</Typography>
+						<Grid container spacing={12}>
+							{currentFolders.map(d => (
+								<Grid
+									className="px-12 mb-32"
+									item
+									xs={12}
+									sm={6}
+									md={4}
+									xl={3}
+									onClick={() => dispatch(Actions.setFolderPath(d.path))}
+								>
+									<ListItem className={classesListItems.root}>
+										<ListItemIcon>
+											<FolderIcon />
+										</ListItemIcon>
+										<ListItemText primary={d.title} secondary={null} />
+									</ListItem>
+								</Grid>
+							))}
+						</Grid>
+					</>
+				)}
+				{!!currentFiles.length && (
+					<>
+						<Typography variant="h6">Files</Typography>
+						<Grid container spacing={12}>
+							<FileGridItem tileData={currentFiles} {...props} />
+						</Grid>
+					</>
+				)}
+			</div>
+		</FuseAnimate>
 	);
 }
 
