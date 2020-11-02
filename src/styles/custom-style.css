@@ -619,7 +619,7 @@
     border-bottom: 1px solid#ECECEE;
     margin-top: 10px;
 }
-.custom-modal-new header .right-m-12 {
+.custom-modal-new .right-m-12, .custom-modal-new header .right-m-12  {
     right: -12px;
 }
 .select-dropdown p {
@@ -663,6 +663,7 @@
     position: relative;
     height: 56px !important;
     width: 56px !important;
+    color: #2196F3;
 }
 .custom-progress-chart .MuiCircularProgress-static::before {
     position: absolute;
@@ -676,9 +677,16 @@
 .custom-progress-chart svg circle{
     stroke-width: 3;
 }
+.custom-progress-chart .MuiTypography-colorTextSecondary {
+    color: #1E2129;
+}
 .custom-outlined-btn button {
     background-color: #ffffff;
     border: 1px solid #ECECEE;
+    color: #2196F3;
+}   
+.custom-outlined-btn button svg {
+    color: #2196F3;
 }
 .custom-ios-slider-dropdown {
     position: absolute;
@@ -704,6 +712,36 @@
     border-radius: 100%;
     font-size: 19px;
     margin-right: 8px;
+}
+.custom-tab-header {
+    box-shadow: 0 -1px 3px #00000029;
+}
+.custom-tab-header button {
+    color: #5C616F;
+    padding: 8px 12px 8px;
+    border-bottom: 3px solid transparent;
+}
+.custom-tab-header button > span {
+    flex-direction: row !important;
+}
+.custom-tab-header button > span .material-icons {
+    margin-right: 8px;
+}
+.custom-tab-header button.Mui-selected {
+    color: #2196F3;
+    border-bottom: 3px solid #2196F3;
+}
+.custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
+    font-size: inherit;
+}
+.timeline-modal .custom-tab-header {
+    margin: 15px 45px 0px 33px;
+    border-bottom: 1px solid#ECECEE;
+    width: auto;
+    box-shadow: none;
+}
+.timeline-modal .custom-tab-header button {
+    font-size: 15px;
 }
 
 @media only screen and (max-width: 1024px) and (min-width: 992px) {

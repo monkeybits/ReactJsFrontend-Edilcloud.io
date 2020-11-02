@@ -212,27 +212,34 @@ function CreatePostDialog(props) {
 			onClose={closeTodoDialog}
 			fullWidth
 			maxWidth="sm"
-			className="rs-dialog-sm-full"
+			className="rs-dialog-sm-full custom-modal-new timeline-modal"
 		>
-			<AppBar position="static" elevation={1}>
-				<Toolbar className="flex w-full">
-					<div className="absolute right-0 mr-4">
-						<IconButton onClick={closeTodoDialog} edge="start" color="inherit" aria-label="close">
-							<CloseIcon />
-						</IconButton>
-					</div>
-					<div className="my-10">
-						{todoDialog.data?.task?.project && (
-							<Typography variant="subtitle1" color="inherit">
-								<div className="font-extrabold">{todoDialog.data?.task?.project.name}</div>
+			<div className="custom-tab-header flex justify-start relative">
+				<BottomNavigation
+					value={value}
+					onChange={(event, newValue) => {
+						setValue(newValue);
+					}}
+					showLabels
+				>
+					<BottomNavigationAction label="Timeline" wrapped {...a11yProps(0)} />
+					<BottomNavigationAction label="Activity" {...a11yProps(1)} />
+				</BottomNavigation>
+				<div className="absolute right-m-12">
+					<IconButton onClick={closeTodoDialog} edge="start" color="inherit" aria-label="close">
+						<CloseIcon />
+					</IconButton>
+				</div>
+			</div>
+			<div className="">
+			{todoDialog.data?.task?.project && (
+							<Typography variant="h6" color="inherit">
+								<div>{todoDialog.data?.task?.project.name}</div>
 							</Typography>
 						)}
 						<div className="my-4">{todoDialog.data?.task?.name}</div>
 						<div>{todoDialog.data?.todo?.title}</div>
-					</div>
-				</Toolbar>
-			</AppBar>
-
+			</div>
 			<DialogContent id="dialog-content" classes={{ root: 'p-0' }}>
 				<TabPanel value={value} index={0}>
 					<CreatePostForm />
@@ -241,18 +248,7 @@ function CreatePostDialog(props) {
 					<EditActivityForm />
 				</TabPanel>
 			</DialogContent>
-			<DialogActions>
-				<BottomNavigation
-					value={value}
-					onChange={(event, newValue) => {
-						setValue(newValue);
-					}}
-					showLabels
-				>
-					<BottomNavigationAction icon={<FavoriteIcon />} label="Timeline" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction icon={<Icon>edit</Icon>} label="Activity" {...a11yProps(1)} />
-				</BottomNavigation>
-			</DialogActions>
+			
 		</Dialog>
 	);
 }
