@@ -226,19 +226,21 @@ function CreatePostDialog(props) {
 					<BottomNavigationAction label="Activity" {...a11yProps(1)} />
 				</BottomNavigation>
 				<div className="absolute right-m-12">
-					<IconButton onClick={closeTodoDialog} edge="start" color="inherit" aria-label="close">
+					<IconButton onClick={closeTodoDialog} edge="start" color="inherit" aria-label="close" className="close-icon">
 						<CloseIcon />
 					</IconButton>
 				</div>
 			</div>
-			<div className="">
-			{todoDialog.data?.task?.project && (
-							<Typography variant="h6" color="inherit">
-								<div>{todoDialog.data?.task?.project.name}</div>
-							</Typography>
-						)}
-						<div className="my-4">{todoDialog.data?.task?.name}</div>
+			<div className="mt-24 mx-32 todo-bg-footer p-12 px-20 rounded">
+				{todoDialog.data?.task?.project && (
+						<Typography variant="h6" color="inherit">
+							<div>{todoDialog.data?.task?.project.name}</div>
+						</Typography>
+					)}
+					<div className="flex items-center">
+						<div className="my-4">{todoDialog.data?.task?.name}</div>  <span className="mx-12"> > </span>
 						<div>{todoDialog.data?.todo?.title}</div>
+					</div>
 			</div>
 			<DialogContent id="dialog-content" classes={{ root: 'p-0' }}>
 				<TabPanel value={value} index={0}>

@@ -244,9 +244,9 @@ function CreatePostForm({ isTask, taskId }) {
 	}
 	return (
 		<div className="md:flex max-w-2xl">
-			<div className="flex flex-col flex-1">
+			<div className="flex flex-col flex-1 ml-8">
 				<div>
-					<Card className="w-full overflow-hidden post-form mb-32 post-card-clx">
+					<Card className="w-full overflow-hidden post-form mb-20 post-card-clx">
 						<Input
 							id="addPost"
 							className="p-16 w-full write-post"
@@ -266,21 +266,24 @@ function CreatePostForm({ isTask, taskId }) {
 							color="default"
 							elevation={0}
 						>
-							<div className="flex-1 items-center">
-								<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo">
-									<Icon>photo</Icon>
-								</IconButton>
-								<input
-									hidden
-									multiple
-									type="file"
-									accept="image/*, video/*"
-									ref={inputRef}
-									onChange={addPhoto}
-								/>
+							<div className="add-photo-image bg-white p-10 rounded">
+									<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo">
+										<Icon>photo</Icon>
+									</IconButton>
+									<input
+										hidden
+										multiple
+										type="file"
+										accept="image/*, video/*"
+										ref={inputRef}
+										onChange={addPhoto}
+									/>
+								Add Photos
 							</div>
-
-							<div className="p-8">
+						</AppBar>
+						
+					</Card>
+					<div className="flex justify-end">
 								<Button
 									onClick={createPost}
 									variant="contained"
@@ -292,9 +295,6 @@ function CreatePostForm({ isTask, taskId }) {
 									POST
 								</Button>
 							</div>
-						</AppBar>
-					</Card>
-
 					{/* <Divider className="my-32" /> */}
 				</div>
 

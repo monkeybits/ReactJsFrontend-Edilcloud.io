@@ -716,7 +716,7 @@
 .custom-tab-header {
     box-shadow: 0 -1px 3px #00000029;
 }
-.custom-tab-header button {
+.custom-tab-header button:not(.close-icon) {
     color: #5C616F;
     padding: 8px 12px 8px;
     border-bottom: 3px solid transparent;
@@ -740,8 +740,37 @@
     width: auto;
     box-shadow: none;
 }
-.timeline-modal .custom-tab-header button {
-    font-size: 15px;
+.timeline-modal .custom-tab-header button:not(.close-icon) {
+    padding: 6px 15px 6px;
+}
+.timeline-modal .custom-tab-header .MuiBottomNavigationAction-label {
+    font-size: 1.5rem;
+}
+.timeline-modal .right-m-12 {
+    top: 8px;
+}
+.timeline-modal .right-m-12 button svg  {
+    font-size: 20px;
+}
+.timeline-modal .right-m-12 button svg  {
+    font-size: 20px;
+}
+.custom-modal-new.timeline-modal header .add-photo-image {
+    border-bottom: none;
+    margin: 7px 0px 7px 15px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: #2196F3;
+}
+.custom-modal-new.timeline-modal header {
+    background-color: rgb(236 236 238 / 0.30);
+}
+.add-photo-image button {
+    padding: 0px;
+    margin-right: 10px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    color: #2196F3;
 }
 
 @media only screen and (max-width: 1024px) and (min-width: 992px) {
