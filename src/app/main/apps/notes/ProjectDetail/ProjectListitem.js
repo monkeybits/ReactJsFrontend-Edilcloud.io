@@ -92,6 +92,7 @@ export default function ProjectListitem({
 	const handleArchiveProject = () => {
 		handleClose();
 		console.log('archive called');
+		dispatch(Actions.archiveProject(id));
 	};
 	const handleDeleteProject = () => {
 		handleClose();

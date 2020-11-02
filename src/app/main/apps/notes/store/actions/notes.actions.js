@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { PROJECT_LIST, PROJECT_DETAIL, PROJECT_INVIATION_LIST, DELETE_PROJECT } from 'app/services/apiEndPoints';
+import { PROJECT_LIST, PROJECT_DETAIL, PROJECT_INVIATION_LIST, DELETE_PROJECT, ARCHIVE_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const GET_NOTES = '[NOTES APP] GET NOTES';
@@ -9,6 +9,7 @@ export const RESET_PROEJECTS = '[PROJECTS APP] RESET PROJECTS';
 export const TOGGLE_PROJECT_STATUS = '[PROJECTS APP] TOGGLE PROJECT STATUS';
 export const GET_PROJECT_DETAIL = '[PROJECTS APP] GET PROJECTS DETAIL';
 export const DELETE_PROJECT_ACTION = '[PROJECTS APP] DELETE_PROJECT';
+export const ARCHIVE_PROJECT_ACTION = '[PROJECTS APP] ARCHIVE_PROJECT';
 export const GET_PROJECT_LIST = '[PROJECTS APP] GET PROJECTS LIST';
 export const SET_SEARCH_TEXT = '[NOTES APP] SET SEARCH TEXT';
 export const OPEN_NOTE_DIALOG = '[NOTES APP] OPEN NOTE DIALOG';
@@ -98,6 +99,20 @@ export function deleteProject(pid) {
 			},
 			err => console.log(err),
 			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
+}
+export function archiveProject(pid) {
+	return dispatch => {
+		apiCall(
+			ARCHIVE_PROJECT(pid),
+			{},
+			res => {
+				dispatch(deleteFromStore(pid));
+			},
+			err => console.log(err),
+			METHOD.PUT,
 			getHeaderToken()
 		);
 	};
