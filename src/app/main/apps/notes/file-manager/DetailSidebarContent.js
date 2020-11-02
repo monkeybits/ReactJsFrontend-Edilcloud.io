@@ -8,7 +8,17 @@ import clsx from 'clsx';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-
+import ReadPDF from './ReadPDF';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faFilePdf,
+	faFile,
+	faFileExcel,
+	faFileVideo,
+	faFileAudio,
+	faFileImage,
+	faFileWord
+} from '@fortawesome/free-regular-svg-icons';
 const useStyles = makeStyles({
 	table: {
 		'& th': {
@@ -42,15 +52,49 @@ function DetailSidebarContent(props) {
 	}
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
 	const checkData = data => (data ? data : '-');
+	const getCssColor = fileType =>
+	fileType == 'pdf'
+		? { color: 'red' }
+		: fileType == 'video'
+		? { color: 'red' }
+		: fileType == 'mp3'
+		? { color: 'brown' }
+		: fileType == 'docx'
+		? { color: 'blue' }
+		: fileType == 'xlsx'
+		? { color: 'green' }
+		: {};
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={600}>
 			<div className="file-details p-16 sm:p-24">
-				<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
-					<FuseAnimate animation="transition.expandIn" delay={300}>
-						<Icon className={clsx(classes.typeIcon, selectedItem.type, 'text-48')}>
-							{selectedItem.type == 'video' ? 'movie' : selectedItem.type}
-						</Icon>
-					</FuseAnimate>
+			<div className="preview file-icon flex items-center justify-center mb-12">
+					{selectedItem.type == 'photo' ? (
+						<img src={selectedItem.photo} />
+					) : selectedItem.extension == 'pdf' ? (
+						<ReadPDF height={256} width={270} file={selectedItem.document} />
+					) : selectedItem.type == 'video' ? (
+						<FontAwesomeIcon
+							icon={faFileVideo}
+							style={{ ...getCssColor(selectedItem.type), fontSize: '2.4rem' }}
+						/>
+					) : (
+						<FontAwesomeIcon
+							icon={
+								selectedItem.type == 'document'
+									? selectedItem.extension == 'pdf'
+										? faFilePdf
+										: selectedItem.extension == 'docx'
+										? faFileWord
+										: selectedItem.extension == 'xlsx'
+										? faFileExcel
+										: selectedItem.extension == 'mp3'
+										? faFileAudio
+										: faFile
+									: faFile
+							}
+							style={{ ...getCssColor(selectedItem.extension), fontSize: '2.4rem' }}
+						/>
+					)}
 				</div>
 
 				<FormControlLabel

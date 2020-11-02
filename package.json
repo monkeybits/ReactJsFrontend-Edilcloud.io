@@ -68,6 +68,7 @@
         "react-frame-component": "4.1.2",
         "react-i18next": "11.5.0",
         "react-konva": "^16.13.0-6",
+        "react-lazy-load-image-component": "^1.5.0",
         "react-masonry-css": "1.0.14",
         "react-number-format": "4.4.1",
         "react-pdf": "^5.0.0",
