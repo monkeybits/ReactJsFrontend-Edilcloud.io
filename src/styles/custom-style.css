@@ -659,6 +659,52 @@
 .leading-normal {
     word-break: break-word;
 }
+.custom-progress-chart .MuiCircularProgress-static {
+    position: relative;
+    height: 56px !important;
+    width: 56px !important;
+}
+.custom-progress-chart .MuiCircularProgress-static::before {
+    position: absolute;
+    content: "";
+    height: 56px;
+    width: 56px;
+    border: 3px solid #ECECEE;
+    border-radius: 100%;
+    z-index: -1;
+}
+.custom-progress-chart svg circle{
+    stroke-width: 3;
+}
+.custom-outlined-btn button {
+    background-color: #ffffff;
+    border: 1px solid #ECECEE;
+}
+.custom-ios-slider-dropdown {
+    position: absolute;
+    top: 0px;
+    left: -50px;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px #00000029 !important;
+}
+.custom-member-menu {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 12px;
+}
+.custom-member-menu span {
+    background: #ECECEE;
+    height: 28px;
+    width: 28px;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 100%;
+    font-size: 19px;
+    margin-right: 8px;
+}
 
 @media only screen and (max-width: 1024px) and (min-width: 992px) {
     .gantt-menu-item a {

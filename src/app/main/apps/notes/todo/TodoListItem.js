@@ -26,6 +26,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import Button from '@material-ui/core/Button';
+import PlaylistAddOutlinedIcon from '@material-ui/icons/PlaylistAddOutlined';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -208,39 +211,63 @@ function TodoListItem(props) {
 							)}
 						</div>
 					</div>
-					<div>
-						<Box position="relative" display="inline-flex">
-							<CircularProgress color="secondary" variant="static" value={props.todo.progress} />
-							<Box
-								top={0}
-								left={0}
-								bottom={0}
-								right={0}
-								position="absolute"
-								display="flex"
-								alignItems="center"
-								justifyContent="center"
-							>
-								<Typography variant="caption" component="div" color="textSecondary">
-									{props.todo.progress}%
-								</Typography>
-							</Box>
-						</Box>
-						{props.todo.assigned_company?.id == company.id && (
-							<div className="flex items-center">
-								<IconButton
-									onClick={ev => {
-										ev.preventDefault();
-										ev.stopPropagation();
-										if (props.todo.assigned_company) {
-											dispatch(Actions.openAddActivityTodoDialog(props.todo));
-										}
-									}}
+					<div className="custom-progress-chart">
+						<div className="flex justify-end relative">
+							<Box position="relative" display="inline-flex">
+								<CircularProgress color="secondary" variant="static" value={props.todo.progress} />
+								<Box
+									top={0}
+									left={0}
+									bottom={0}
+									right={0}
+									position="absolute"
+									display="flex"
+									alignItems="center"
+									justifyContent="center"
 								>
-									<Icon>playlist_add</Icon>
-									
-								</IconButton>
-								Add
+									<Typography variant="caption" component="div" color="textSecondary">
+										{props.todo.progress}%
+									</Typography>
+								</Box>
+							</Box>
+							<div className="custom-ios-slider-dropdown">
+								<small className="block mb-6">Set Task Progress</small>
+								<div>IOS Slider Here</div>
+							</div>
+						</div>
+						{props.todo.assigned_company?.id == company.id && (
+							<div className="flex items-center mt-8">
+								<div>
+									<Tooltip title="There is a issue with some tree are not clean on site" placement="top">
+										<IconButton>
+											<Icon>info_outlined</Icon>
+										</IconButton>
+									</Tooltip>
+								</div>
+								<div className="custom-outlined-btn">
+								<Button
+									variant="outlined"
+									color="primary"
+									className={classes.button}
+									startIcon={<PlaylistAddOutlinedIcon />}
+								>
+									Add
+								</Button>
+									{/* <IconButton
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											if (props.todo.assigned_company) {
+												dispatch(Actions.openAddActivityTodoDialog(props.todo));
+											}
+										}}
+									>
+										<Icon>playlist_add</Icon>
+										
+									</IconButton>
+									Add */}
+								</div>
+								
 							</div>
 						)}
 					</div>
