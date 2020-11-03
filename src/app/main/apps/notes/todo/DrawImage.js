@@ -10,10 +10,13 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import { Stage, Layer } from 'react-konva';
 import Rectangle from './Rectangle';
+import DialogActions from '@material-ui/core/DialogActions';
 import { addLine } from './line';
 import { addTextNode } from './textNode';
 import Image from './Image';
 import { Button, ButtonGroup, Modal } from '@material-ui/core';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Icon from '@material-ui/core/Icon';
 
 const uuidv1 = require('uuid/v1');
 
@@ -251,23 +254,36 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 
 	return (
 		<>
-			<Modal open={open} onClose={onClose} fullWidth className="rs-dialog-sm-full zoom-125">
-				<div className="home-page">
-					<ButtonGroup className="bg-gray-700">
-						<Button variant="secondary" onClick={drawLine}>
+			<Dialog open={open} onClose={onClose} fullWidth className="rs-dialog-sm-full zoom-125 custom-drawing-modal">
+				<DialogTitle component="div" className="p-0">
+					<AppBar position="static" elevation={1}>
+						<Toolbar className="flex w-full overflow-x-auto px-8 sm:px-16">
+							<div className="flex flex-1">
+								<div className="my-12">
+									<div className="font-size-18">Drawing</div>
+								</div>
+							</div>
+							<IconButton color="inherit">
+								<Icon>close</Icon>
+							</IconButton>
+						</Toolbar>
+					</AppBar>
+				</DialogTitle>
+				<DialogContent id="dialog-content" className="p-0 sm:p-10">
+					<ButtonGroup className="mb-12">
+						<Button variant="primary" onClick={drawLine}>
 							Line
 						</Button>
-						<Button variant="secondary" onClick={eraseLine}>
+						<Button variant="primary" onClick={eraseLine}>
 							Erase
 						</Button>
-						<Button variant="secondary" onClick={undo}>
+						<Button variant="primary" onClick={undo}>
 							Undo
 						</Button>
-
-						<Button style={{ marginRight: '3px' }} variant="secondary" onClick={zoomIn}>
+						<Button style={{ marginRight: '3px' }} variant="primary" onClick={zoomIn}>
 							ZoomIn +
 						</Button>
-						<Button style={{ marginRight: '3px' }} variant="secondary" onClick={zoomOut}>
+						<Button style={{ marginRight: '3px' }} variant="primary" onClick={zoomOut}>
 							Zoom Out -
 						</Button>
 					</ButtonGroup>
@@ -327,7 +343,11 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 							})}
 						</Layer>
 					</Stage>
+				</DialogContent>
+				<DialogActions className="p-16 px-20">
 					<Button
+					variant="contained"
+					color="primary"
 						onClick={() => {
 							// setImageProps({
 							// 	width,
@@ -342,8 +362,8 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 					>
 						save
 					</Button>
-				</div>
-			</Modal>
+				</DialogActions>
+			</Dialog>
 		</>
 	);
 }
