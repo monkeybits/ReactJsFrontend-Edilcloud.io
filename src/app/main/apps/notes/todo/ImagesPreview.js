@@ -64,8 +64,6 @@ export default function ImagesPreview(props) {
 	return (
 		<div className={clsx(classes.root, 'd-block mx-auto o-contain')}>
 			<DrawImage
-				height={ImagePropert.height}
-				width={ImagePropert.width}
 				imgSrc={props.images[activeStep].imgPath}
 				open={openDrawer}
 				onClose={() => setOpenDrawer(false)}

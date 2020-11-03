@@ -13,11 +13,11 @@ import Rectangle from './Rectangle';
 import { addLine } from './line';
 import { addTextNode } from './textNode';
 import Image from './Image';
-import { Button, ButtonGroup } from '@material-ui/core';
+import { Button, ButtonGroup, Modal } from '@material-ui/core';
 
 const uuidv1 = require('uuid/v1');
 
-export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
+function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 	const [stageScale, setStageScale] = useState([1]);
 	const [stageX, setStageX] = useState([0]);
 	const [stageY, setStageY] = useState([0]);
@@ -113,10 +113,10 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 	};
 	const drawLine = () => {
 		selectShape(null);
-		addLine(stageEl.current.getStage(), layerEl.current);
+		addLine(stageEl.getStage(), layerEl.current);
 	};
 	const eraseLine = () => {
-		addLine(stageEl.current.getStage(), layerEl.current, 'erase');
+		addLine(stageEl.getStage(), layerEl.current, 'erase');
 	};
 	const drawText = () => {
 		const id = addTextNode(stageEl.current.getStage(), layerEl.current);
@@ -151,9 +151,9 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 	};
 
 	const zoomIn = () => {
-		const scaleBy = 2.01;
-		const oldScale = stageEl.current.scaleX();
-		const stage = stageEl.current.getStage();
+		const scaleBy = 1.01;
+		const oldScale = stageEl.scaleX();
+		const stage = stageEl.getStage();
 		const newScale = oldScale * scaleBy;
 
 		const mousePointTo = {
@@ -168,9 +168,9 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 	};
 
 	const zoomOut = () => {
-		const scaleBy = 2.01;
-		const oldScale = stageEl.current.scaleX();
-		const stage = stageEl.current.getStage();
+		const scaleBy = 1.01;
+		const oldScale = stageEl.scaleX();
+		const stage = stageEl.getStage();
 		const newScale = oldScale / scaleBy;
 
 		const mousePointTo = {
@@ -215,9 +215,8 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 		forceUpdate();
 
 		setTimeout(() => {
-			var dataURL = stageEl.current.getStage().toDataURL({ pixelRatio: 3 });
-			replaceUrl(dataURL);
-			// downloadURI(dataURL, 'stage.png');
+			var dataURL = stageEl.getStage().toDataURL({ pixelRatio: 3 });
+			downloadURI(dataURL, 'stage.png');
 			onClose();
 		}, 100);
 	};
@@ -251,96 +250,101 @@ export default function DrawImage({ open, onClose, imgSrc, replaceUrl, width, he
 	});
 
 	return (
-		<Dialog open={open} onClose={onClose} fullWidth className="rs-dialog-sm-full">
-			<AppBar position="static" elevation={1}>
-				<Toolbar className="flex w-full">
-					<div className="absolute right-0 mr-4">
-						<IconButton onClick={onClose} edge="start" color="inherit" aria-label="close">
-							<CloseIcon />
-						</IconButton>
-					</div>
-					<Typography variant="subtitle1" color="inherit">
-						Draw Image
-					</Typography>
-				</Toolbar>
-			</AppBar>
+		<>
+			<Modal open={open} onClose={onClose} fullWidth className="rs-dialog-sm-full zoom-125">
+				<div className="home-page">
+					<ButtonGroup className="bg-gray-700">
+						<Button variant="secondary" onClick={drawLine}>
+							Line
+						</Button>
+						<Button variant="secondary" onClick={eraseLine}>
+							Erase
+						</Button>
+						<Button variant="secondary" onClick={undo}>
+							Undo
+						</Button>
 
-			<DialogContent classes={{ root: 'p-0' }} className="zoom-125">
-				<ButtonGroup>
-					<Button variant="secondary" onClick={drawLine}>
-						Line
-					</Button>
-					<Button variant="secondary" onClick={eraseLine}>
-						Erase
-					</Button>
-					<Button variant="secondary" onClick={undo}>
-						Undo
-					</Button>
+						<Button style={{ marginRight: '3px' }} variant="secondary" onClick={zoomIn}>
+							ZoomIn +
+						</Button>
+						<Button style={{ marginRight: '3px' }} variant="secondary" onClick={zoomOut}>
+							Zoom Out -
+						</Button>
+					</ButtonGroup>
+					<input style={{ display: 'none' }} type="file" ref={fileUploadEl} onChange={fileChange} />
+					{/* <Stage
+			  width={imageProps.width}
+			  height={imageProps.height}
+			  ref={stageEl}
+			  onMouseDown={(e) => {
+				// deselect when clicked on empty area
+				const clickedOnEmpty = e.target === e.target.getStage();
+				if (clickedOnEmpty) {
+				  selectShape(null);
+				}
+			  }}
+			> */}
 
-					<Button style={{ marginRight: '3px' }} variant="secondary" onClick={zoomIn}>
-						ZoomIn +
-					</Button>
-					<Button style={{ marginRight: '3px' }} variant="secondary" onClick={zoomOut}>
-						Zoom Out -
-					</Button>
-				</ButtonGroup>
-				{/* <input style={{ display: 'none' }} type="file" ref={fileUploadEl} onChange={fileChange} /> */}
-				<Stage
-					style={{ overFlow: 'scroll', background: '#DFD9D9' }}
-					width={imageProps.width}
-					height={imageProps.height}
-					onWheel={handleWheel}
-					scaleX={stageScale}
-					scaleY={stageScale}
-					x={stageX}
-					y={stageY}
-					ref={stageEl}
-					onMouseDown={e => {
-						// deselect when clicked on empty area
-						const clickedOnEmpty = e.target === e.target.getStage();
-						if (clickedOnEmpty) {
-							selectShape(null);
-						}
-					}}
-				>
-					<Layer ref={layerEl}>
-						{images.map((image, i) => {
-							return (
-								<Image
-									key={i}
-									imageUrl={image.content}
-									isSelected={image.id === selectedId}
-									onSelect={() => {
-										selectShape(image.id);
-									}}
-									saveImageWidthHeight={imgprops => saveImageWidthHeight(imgprops)}
-									onChange={newAttrs => {
-										const imgs = images.slice();
-										imgs[i] = newAttrs;
-									}}
-									getMyRef={ref => (imageRef = ref)}
-									imageProps={imageProps}
-								/>
-							);
-						})}
-					</Layer>
-				</Stage>
-			</DialogContent>
-			<Button
-				onClick={() => {
-					setImageProps({
-						width,
-						height
-					});
-					setTimeout(() => {
-						convertosvg();
-					}, 400);
+					<Stage
+						style={{ overFlow: 'scroll', background: '#DFD9D9' }}
+						width={imageProps.width}
+						height={imageProps.height}
+						onWheel={handleWheel}
+						scaleX={stageScale}
+						scaleY={stageScale}
+						x={stageX}
+						y={stageY}
+						ref={ref => {
+							stageEl = ref;
+						}}
+						onMouseDown={e => {
+							// deselect when clicked on empty area
+							const clickedOnEmpty = e.target === e.target.getStage();
+							if (clickedOnEmpty) {
+								selectShape(null);
+							}
+						}}
+					>
+						<Layer ref={layerEl}>
+							{images.map((image, i) => {
+								return (
+									<Image
+										key={i}
+										imageUrl={image.content}
+										isSelected={image.id === selectedId}
+										onSelect={() => {
+											selectShape(image.id);
+										}}
+										saveImageWidthHeight={imgprops => saveImageWidthHeight(imgprops)}
+										onChange={newAttrs => {
+											const imgs = images.slice();
+											imgs[i] = newAttrs;
+										}}
+										getMyRef={ref => (imageRef = ref)}
+										imageProps={imageProps}
+									/>
+								);
+							})}
+						</Layer>
+					</Stage>
+					<Button
+						onClick={() => {
+							// setImageProps({
+							// 	width,
+							// 	height
+							// });
+							setTimeout(() => {
+								convertosvg();
+							}, 400);
 
-					// console.log('imageRef', imageRef.getClientRect())
-				}}
-			>
-				save
-			</Button>
-		</Dialog>
+							// console.log('imageRef', imageRef.getClientRect())
+						}}
+					>
+						save
+					</Button>
+				</div>
+			</Modal>
+		</>
 	);
 }
+export default DrawImage;
