@@ -309,7 +309,7 @@
 .post-icons .send {
     right: 20px;
 }
-.konvajs-content {
+/* .konvajs-content {
     margin: 0 auto;
     max-width: 100%;
     max-height: calc(100vh - 43px);
@@ -317,7 +317,7 @@
 .konvajs-content canvas {
     width: 100% !important;
     height: 100% !important;
-}
+} */
 .o-contain img {
     object-fit: contain;
 }
