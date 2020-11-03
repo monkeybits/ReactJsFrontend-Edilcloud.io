@@ -283,12 +283,12 @@ function CreatePostForm({ isTask, taskId }) {
 						</AppBar>
 						
 					</Card>
-					<div className="flex justify-end">
+					<div className="flex justify-end mb-20">
 								<Button
 									onClick={createPost}
 									variant="contained"
 									color="primary"
-									size="small"
+									size="medium"
 									aria-label="post"
 									disabled={!text.length}
 								>

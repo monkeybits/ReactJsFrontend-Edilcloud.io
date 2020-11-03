@@ -176,7 +176,7 @@ export default function EditActivityForm(props) {
 	const getUsername = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
 
 	return (
-		<div className="pl-10 sm:mt-10">
+		<div className="pl-10">
 			<FormControl className="mt-8 mb-16" required fullWidth>
 				<TextField
 					label="Task Title"

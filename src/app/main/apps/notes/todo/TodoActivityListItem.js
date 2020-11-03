@@ -171,7 +171,7 @@ function TodoActivityListItem(props) {
 						/>
 						</div>
 						<div className="flex items-center mb-8 ml-32">
-							<div className="flex items-center">
+							<div className="flex items-center flex-wrap">
 							{props.todo.progress == 100 ? (
 								<div className={clsx('flex items-center px-8 py-4 rounded-sm bg-green text-white')}>
 									<Icon className="text-16 mt-4">check_circle</Icon>{' '}

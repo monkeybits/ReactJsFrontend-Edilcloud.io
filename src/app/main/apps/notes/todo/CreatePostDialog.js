@@ -231,13 +231,13 @@ function CreatePostDialog(props) {
 					</IconButton>
 				</div>
 			</div>
-			<div className="mt-24 mx-32 todo-bg-footer p-12 px-20 rounded">
+			<div className="mt-24 mx-24 sm:mx-32 todo-bg-footer p-12 px-20 rounded">
 				{todoDialog.data?.task?.project && (
-						<Typography variant="h6" color="inherit">
+						<Typography variant="h6" color="inherit" className="font-size-18">
 							<div>{todoDialog.data?.task?.project.name}</div>
 						</Typography>
 					)}
-					<div className="flex items-center">
+					<div className="flex items-center font-size-12">
 						<div className="my-4">{todoDialog.data?.task?.name}</div>  <span className="mx-12"> > </span>
 						<div>{todoDialog.data?.todo?.title}</div>
 					</div>
