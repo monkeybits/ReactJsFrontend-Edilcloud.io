@@ -26,6 +26,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import Button from '@material-ui/core/Button';
+import PlaylistAddOutlinedIcon from '@material-ui/icons/PlaylistAddOutlined';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -97,7 +100,7 @@ function TodoListItem(props) {
 	return (
 		<>
 			<Card
-				className={clsx(classes.card, 'w-full mt-10 rounded-4 cursor-pointer border-1')}
+				className={clsx(classes.card, 'w-full mt-10 rounded-4 cursor-pointer border-1 shadow-none')}
 				onClick={() =>
 					getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''
 				}
@@ -124,7 +127,7 @@ function TodoListItem(props) {
 						</Tooltip>
 						</div>
 						{/* content can be below */}
-						<div className="flex items-center mb-6 -mx-4">
+						<div className="flex items-center mb-6">
 							{props.todo.assigned_company && (
 								<TodoChip
 									title={props.todo.assigned_company?.name}
@@ -132,19 +135,19 @@ function TodoListItem(props) {
 								/>
 							)}
 						</div>
-						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit uppercase">
+						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit font-semibold mb-6">
 							{' '}
 							{props.todo.name}{' '}
 						</Typography>
-						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary">
+						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary font-medium font-size-12 mb-6">
 							{projectDetail?.name}
 						</Typography>
 
 						{/* dates below */}
-						<div className="flex items-center mb-8">
+						<div className="flex items-center flex-wrap">
 							{props.todo.progress == 100 ? (
 								<div
-									className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm bg-green text-white')}
+									className={clsx('flex items-center px-8 py-4 mx-4 rounded bg-green text-white')}
 								>
 									<Icon className="text-16 mt-4">check_circle</Icon>{' '}
 									<span className="mx-4">Completed</span>
@@ -152,81 +155,125 @@ function TodoListItem(props) {
 							) : moment().diff(moment(props.todo.date_start)) > 0 ? (
 								moment().diff(moment(props.todo.date_end)) > 0 ? (
 									<>
-										<div className={clsx('flex items-center px-8 py-4 rounded-sm text-white')}>
-											<Icon className="text-16">access_time</Icon>
-											<span className="mx-4">
-												{moment(props.todo.date_start).format('MMM Do YY')}
-											</span>
-										</div>
-										<div
-											className={clsx(
-												'flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white'
-											)}
-										>
-											<Icon className="text-16">access_time</Icon>
-											<span className="mx-4">
-												{moment(props.todo.date_end).format('MMM Do YY')}
-											</span>
-										</div>
+									<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
+										{/* <Icon className="text-16">access_time</Icon> */}
+										{/* <span className="mx-4"> */}
+										Start:	{moment(props.todo.date_start).format('MMM Do YY')}
+										{/* </span> */}
+									</div>
+									<div
+										className={clsx(
+											'flex items-center px-8 py-4 rounded bg-red text-white font-size-12 ml-12'
+										)}
+									>
+										{/* <Icon className="text-16">access_time</Icon> */}
+										{/* <span className="mx-4"> */}
+										Ends: {moment(props.todo.date_end).format('MMM Do YY')}
+										{/* </span> */}
+									</div>
+									
 									</>
 								) : (
 									<>
 										<div
 											className={clsx(
-												'flex items-center px-8 py-4 bg-green rounded-sm text-white'
+												'flex items-center px-8 py-4 bg-green rounded text-white font-size-12'
 											)}
 										>
-											<Icon className="text-16">access_time</Icon>
-											<span className="mx-4">
-												{moment(props.todo.date_start).format('MMM Do YY')}
-											</span>
+											{/* <Icon className="text-16">access_time</Icon> */}
+											{/* <span className="mx-4"> */}
+											Start:	{moment(props.todo.date_start).format('MMM Do YY')}
+											{/* </span> */}
 										</div>
-										<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
-											<Icon className="text-16">access_time</Icon>
-											<span className="mx-4">
-												{moment(props.todo.date_end).format('MMM Do YY')}
-											</span>
+										<div className={clsx('flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12')}>
+											{/* <Icon className="text-16">access_time</Icon> */}
+											{/* <span className="mx-4"> */}
+											Ends:	{moment(props.todo.date_end).format('MMM Do YY')}
+											{/* </span> */}
 										</div>
 									</>
 								)
 							) : (
 								<>
-									<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
-										<Icon className="text-16">access_time</Icon>
-										<span className="mx-4">
-											{moment(props.todo.date_start).format('MMM Do YY')}
-										</span>
+									<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
+										{/* <Icon className="text-16">access_time</Icon> */}
+										{/* <span className="mx-4"> */}
+										Start:	{moment(props.todo.date_start).format('MMM Do YY')}
+										{/* </span> */}
 									</div>
-									<div className={clsx('flex items-center px-8 py-4 mx-4 rounded-sm text-white')}>
-										<Icon className="text-16">access_time</Icon>
-										<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
+									<div className={clsx('flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12')}>
+										{/* <Icon className="text-16">access_time</Icon> */}
+										{/* <span className="mx-4"> */}
+										Ends:	{moment(props.todo.date_end).format('MMM Do YY')}
+										{/* </span> */}
 									</div>
 								</>
 							)}
 						</div>
 					</div>
-					<div className="flex items-center -mt-12">
-						<Box position="relative" display="inline-flex">
-							<CircularProgress color="secondary" variant="static" value={props.todo.progress} />
-							<Box
-								top={0}
-								left={0}
-								bottom={0}
-								right={0}
-								position="absolute"
-								display="flex"
-								alignItems="center"
-								justifyContent="center"
-							>
-								<Typography variant="caption" component="div" color="textSecondary">
-									{props.todo.progress}%
-								</Typography>
+					<div className="custom-progress-chart">
+						<div className="flex justify-end relative">
+							<Box position="relative" display="inline-flex">
+								<CircularProgress color="secondary" variant="static" value={props.todo.progress} />
+								<Box
+									top={0}
+									left={0}
+									bottom={0}
+									right={0}
+									position="absolute"
+									display="flex"
+									alignItems="center"
+									justifyContent="center"
+								>
+									<Typography variant="caption" component="div" color="textSecondary">
+										{props.todo.progress}%
+									</Typography>
+								</Box>
 							</Box>
-						</Box>
+							<div className="custom-ios-slider-dropdown">
+								<small className="block mb-6">Set Task Progress</small>
+								<div>IOS Slider Here</div>
+							</div>
+						</div>
+						{props.todo.assigned_company?.id == company.id && (
+							<div className="flex items-center mt-8">
+								<div>
+									<Tooltip title="There is a issue with some tree are not clean on site" placement="top">
+										<IconButton>
+											<Icon>info_outlined</Icon>
+										</IconButton>
+									</Tooltip>
+								</div>
+								<div className="custom-outlined-btn">
+								<Button
+									variant="outlined"
+									color="primary"
+									className={classes.button}
+									startIcon={<PlaylistAddOutlinedIcon />}
+								>
+									Add
+								</Button>
+									{/* <IconButton
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											if (props.todo.assigned_company) {
+												dispatch(Actions.openAddActivityTodoDialog(props.todo));
+											}
+										}}
+									>
+										<Icon>playlist_add</Icon>
+										
+									</IconButton>
+									Add */}
+								</div>
+								
+							</div>
+						)}
 					</div>
 					{/* <div className="flex items-center mb-12 -mx-4">
 						{moment().diff(moment(props.todo.date_end)) > 0 && (
-							<div className="flex items-center px-8 py-4 mx-4 rounded-sm bg-red text-white">
+							<div className="flex items-center px-8 py-4 mx-4 rounded bg-red text-white">
 								<Icon className="text-16">access_time</Icon>
 								<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
 							</div>
@@ -245,33 +292,20 @@ function TodoListItem(props) {
 				</div>
 
 				{/* footer */}
-				<div className="flex justify-between h-48 px-16 border-t-1">
+				<div className="flex h-48 px-16 border-t-1 todo-bg-footer">
 					{/* left side footer */}
-					
-					<div className="flex items-center -mx-6">
-						<div className="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white">
+					{/* <div className="flex items-center mr-16">
+						<div className="flex items-center px-8 py-4 mx-4 rounded bg-grey-700 text-white">
 							<Icon className="text-16">check_circle</Icon>
 							<span className="mx-4">2/7</span>
 						</div>
-					</div>
+					</div> */}
 					{/* right side footer */}
-					<div className="flex items-center justify-end -mx-6">
-						{props.todo.assigned_company?.id == company.id && (
-							<IconButton
-								onClick={ev => {
-									ev.preventDefault();
-									ev.stopPropagation();
-									if (props.todo.assigned_company) {
-										dispatch(Actions.openAddActivityTodoDialog(props.todo));
-									}
-								}}
-							>
-								<Icon>playlist_add</Icon>
-							</IconButton>
-						)}
+					<div className="flex items-center">
+						
 						{props.todo.assigned_company?.id == company.id && (
 							<div
-								className="flex items-center px-8 py-4 mx-4 rounded-sm bg-grey-700 text-white"
+								className="flex items-center"
 								onClick={ev => {
 									if (open) {
 										ev.preventDefault();
@@ -286,14 +320,16 @@ function TodoListItem(props) {
 									}
 								}}
 							>
-								<Icon className="text-16">check_circle</Icon>
-								<span className="mx-4">Open Activities list</span>
-								<span className="mx-4"> 0/{taskDetail?.length}</span>
+								{/* <Icon className="text-16">check_circle</Icon> */}
+								<span className="mx-4">Task Activities</span>
+								<span className="mx-4"> (0/{taskDetail?.length})</span>
 
 								{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}
 							</div>
 						)}
 					</div>
+
+					
 				</div>
 			</Card>
 			<Collapse in={open} timeout="auto" unmountOnExit>
