@@ -10,6 +10,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import { Stage, Layer } from 'react-konva';
 import Rectangle from './Rectangle';
+import DialogActions from '@material-ui/core/DialogActions';
 import { addLine } from './line';
 import { addTextNode } from './textNode';
 import Image from './Image';
@@ -251,7 +252,7 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 
 	return (
 		<>
-			<Modal open={open} onClose={onClose} fullWidth className="rs-dialog-sm-full zoom-125">
+			<Dialog open={open} onClose={onClose} fullWidth className="rs-dialog-sm-full zoom-125 custom-drawing-modal">
 				<div className="home-page">
 					<ButtonGroup className="bg-gray-700">
 						<Button variant="secondary" onClick={drawLine}>
@@ -327,6 +328,8 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 							})}
 						</Layer>
 					</Stage>
+				</div>
+				<DialogActions>
 					<Button
 						onClick={() => {
 							// setImageProps({
@@ -342,8 +345,8 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 					>
 						save
 					</Button>
-				</div>
-			</Modal>
+				</DialogActions>
+			</Dialog>
 		</>
 	);
 }
