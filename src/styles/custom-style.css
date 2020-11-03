@@ -100,6 +100,9 @@
     object-fit: cover;
     border: 1px solid #e6e4e4;
 }
+.font-size-12 {
+    font-size: 12px !important;
+}
 .font-size-14 {
     font-size: 14px !important;
 }
@@ -240,9 +243,9 @@
     z-index: 99;
     right: 0px;
 }
-.zoom-125 {
+/* .zoom-125 {
     zoom: 125% !important;
-}
+} */
 /* #SpeedDialexample-actions span span {
     top: -28px;
     left: 0;
@@ -267,6 +270,12 @@
 }
 .bg-custom-grey {
     background: #e8e8e8;
+}
+.bg-custom-light-grey {
+    background: #ECECEE;
+}
+.todo-bg-footer {
+    background: rgb(236 236 238 / 0.30);
 }
 .post-form textarea {
     min-height: 2em;
@@ -362,17 +371,17 @@
     height: 160px;
     width: auto;
 }
-.gantt-container {
-    /* min-height: calc(100vh - 90px); */
-    /* overflow-y: auto; */
-}
-.gantt-min-height {
-    /* height: calc(100vh - 90px) !important; */
+/* .gantt-container {
+    min-height: calc(100vh - 90px);
+    overflow-y: auto;
+} */
+/* .gantt-min-height {
+    height: calc(100vh - 90px) !important;
     zoom: 120%;
-}
-.gantt-custom-full-screen {
+} */
+/* .gantt-custom-full-screen {
     zoom: 100% !important;
-}
+} */
 .w-125 {
     width: 125px;
 }
@@ -414,9 +423,11 @@
 }
 .custom-bg ~ .inner-scroll {
     background-color: transparent;
+    box-shadow: none;
 } 
 .custom-bg ~ .inner-scroll > div:first-child {
-    background-color: #262526;
+    background-color: #ffffff;
+    border-radius: 4px 4px 0px 0px;
 }
 .post-form .write-post textarea {
     padding-right: 0px;
@@ -594,123 +605,179 @@
     }
   }
 
-@media only screen and (max-width: 1024px) and (min-width: 992px) {
-    .gantt-menu-item a {
-        padding: 0px 7px !important;
-    }
-}  
-@media only screen and (max-width: 991px) { 
-    .gantt-menu-item a .header-text {
-        display: none;
-    }
-}
-@media only screen and (max-width: 767px) {
-    .tabs-content header.custom-tab-header .MuiTab-root{
-        min-width: 100px !important;
-    }
-    .custom-playlist-icon, .custom-error-icon {
-        right: 50px;
-    }
-    .custom-edit-icon {
-        right: 10px;
-    }   
-    .select-dropdown .MuiInputBase-input {
-        height: auto !important;
-    }
-    .team-chat-sidebar .team-chat-body {
-        width: 100%;
-    }
-    .no-data-height-full {
-        min-height: calc(100vh - 192px);
-    }
-    .no-data-height-full > div > p {
-        height: 100vh;
-    }
-    .custom-float-btn {
-        right: 0px !important;
-    }
-    .tabs-content {
-        padding-bottom: 0px;
-    }
-    .write-post textarea {
-        padding-right: 0px !important;
-    }
-    .bubble.max-w-50 {
-        max-width: 100%;
-    }
-    audio {
-        zoom: 117%;
-        width: 210px;
-        height: 40px;
-    }
-    .MuiInputBase-input {
-        height: 1em !important;
-    }
-    
-}
-@media only screen and (max-width: 576px) {
-    .team-chat-sidebar {
-        transform: translate3d(725px,0,0);
-        width: 100%;
-    }
-    .max-height-100 {
-        max-height: calc(100% - 0px) !important;
-    }
-    .alerted-post-modal-width .MuiPaper-root.MuiDrawer-paper {
-        width: 100%;
-    }
-    .alerted-post-modal-accordion {
-        width: 100% !important;
-    }
-    .comment-post-img img {
-        height: 120px;
-    }
-    /* .gantt-container {
-        min-height: auto;
-    } */
-    /* .gantt-min-height {
-        height: calc(100vh - 40px) !important;
-    } */
-    .gantt_modal_box {
-        min-width: 380px !important;
-    }
-    .demo-main-container {
-        zoom: 120%;
-    }
-    .gantt-menu-item a {
-        font-size: 12px;
-        padding: 0px 3px !important;
-    }
-    .gantt_tree_content {
-        font-size: 11px !important;
-    }
-    
-}
 
-@media only screen and (max-width: 480px) {
-    .team-chat-sidebar {
-        transform: translate3d(600px,0,0);
-        width: 100%;
-    }
+/* New Design Update   */
+.custom-modal-new header {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #fff;
+    box-shadow: none;
 }
-@media only screen and (max-width: 420px) {
-    .team-chat-sidebar {
-        transform: translate3d(530px,0,0);
-        width: 100%;
-    }
+.custom-modal-new header button svg {
+    font-size: 1.8rem;
 }
-@media only screen and (max-width: 380px) {
-    .team-chat-sidebar {
-        transform: translate3d(470px,0,0);
-        width: 100%;
-    }
-    .gantt-menu-item a {
-        padding: 0px !important;
-    }
+.custom-modal-new header > div {
+    border-bottom: 1px solid#ECECEE;
+    margin-top: 10px;
 }
-@media only screen and (max-width: 360px) {
-    .load-from-excel {
-        margin-top: 15px;
-        margin-left: 18px;
-    }
+.custom-modal-new .right-m-12, .custom-modal-new header .right-m-12  {
+    right: -12px;
+}
+.select-dropdown p {
+    font-size: 14px;
+}
+.custom-modal-new .MuiPaper-rounded {
+    border-radius: 8px;
+}
+.custom-modal-new .fuse-chip-select__indicator-separator {
+    background-color: transparent;
+}
+/* Slider */
+.custom-ios-slider .MuiSlider-thumb {
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: -9px !important;
+    margin-left: -9px !important;
+    box-shadow: 0 3px 6px #00000029 !important;
+    background-color: #3880ff !important;
+}
+.custom-ios-slider .MuiSlider-rail {
+    background-color: #BBDEFB !important;
+}
+.custom-ios-slider .MuiSlider-mark {
+    width: 4px !important;
+    height: 2px !important;
+    margin-top: 0px !important;
+    background-color: #3880ff !important;
+}
+.custom-ios-slider .MuiSlider-markActive {
+    background-color: #ffffff !important;
+}
+.custom-ios-slider .MuiSlider-valueLabel {
+    top: -20px !important;
+    left: calc(-50% + 1px) !important;
+}
+.leading-normal {
+    word-break: break-word;
+}
+.custom-progress-chart .MuiCircularProgress-static {
+    position: relative;
+    height: 56px !important;
+    width: 56px !important;
+    color: #2196F3;
+}
+.custom-progress-chart .MuiCircularProgress-static::before {
+    position: absolute;
+    content: "";
+    height: 56px;
+    width: 56px;
+    border: 3px solid #ECECEE;
+    border-radius: 100%;
+    z-index: -1;
+}
+.custom-progress-chart svg circle{
+    stroke-width: 3;
+}
+.custom-progress-chart .MuiTypography-colorTextSecondary {
+    color: #1E2129;
+}
+.custom-outlined-btn button {
+    background-color: #ffffff;
+    border: 1px solid #ECECEE;
+    color: #2196F3;
+}   
+.custom-outlined-btn button svg {
+    color: #2196F3;
+}
+.custom-ios-slider-dropdown {
+    position: absolute;
+    top: 0px;
+    left: -50px;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px #00000029 !important;
+}
+.custom-member-menu {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 12px;
+}
+.custom-member-menu span {
+    background: #ECECEE;
+    height: 28px;
+    width: 28px;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 100%;
+    font-size: 19px;
+    margin-right: 8px;
+}
+.custom-tab-header {
+    box-shadow: 0 -1px 3px #00000029;
+}
+.custom-tab-header button:not(.close-icon) {
+    color: #5C616F;
+    padding: 8px 12px 8px;
+    border-bottom: 3px solid transparent;
+}
+.custom-tab-header button > span {
+    flex-direction: row !important;
+}
+.custom-tab-header button > span .material-icons {
+    margin-right: 8px;
+}
+.custom-tab-header button.Mui-selected {
+    color: #2196F3;
+    border-bottom: 3px solid #2196F3;
+}
+.custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
+    font-size: inherit;
+}
+.timeline-modal .custom-tab-header {
+    margin: 15px 45px 0px 33px;
+    border-bottom: 1px solid#ECECEE;
+    width: auto;
+    box-shadow: none;
+}
+.timeline-modal .custom-tab-header button:not(.close-icon) {
+    padding: 6px 15px 6px;
+}
+.timeline-modal .custom-tab-header .MuiBottomNavigationAction-label {
+    font-size: 1.5rem;
+}
+.timeline-modal .right-m-12 {
+    top: 8px;
+}
+.timeline-modal .right-m-12 button svg  {
+    font-size: 20px;
+}
+.timeline-modal .right-m-12 button svg  {
+    font-size: 20px;
+}
+.custom-modal-new.timeline-modal header .add-photo-image {
+    border-bottom: none;
+    margin: 7px 0px 7px 15px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: #2196F3;
+}
+.custom-modal-new.timeline-modal header {
+    background-color: rgb(236 236 238 / 0.30);
+}
+.add-photo-image button {
+    padding: 0px;
+    margin-right: 10px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    color: #2196F3;
+}
+.MuiButton-containedPrimary {
+    color: #fff;
+    background-color: #2196F3;
+    box-shadow: none;
+}
+.MuiButton-containedPrimary:hover {
+    background-color: #008eff;
+    box-shadow: none;
 }

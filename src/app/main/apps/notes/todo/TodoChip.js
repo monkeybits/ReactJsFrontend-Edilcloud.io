@@ -6,16 +6,17 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
 		alignItems: 'center',
-		height: 21,
-		borderRadius: 2,
-		padding: '0 6px',
-		fontSize: 11,
-		backgroundColor: 'rgba(0,0,0,.08);'
+		// height: 21,
+		// borderRadius: 2,
+		// padding: '0 6px',
+		fontSize: 12,
+		color: '#5C616F',
+		// backgroundColor: 'rgba(0,0,0,.08);'
 	},
 	color: {
-		width: 25,
-		height: 8,
-		marginRight: 4,
+		width: 12,
+		height: 12,
+		marginRight: 6,
 		borderRadius: '50%'
 	}
 }));

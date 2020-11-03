@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import React, { useState } from 'react';
 import ToolbarMenu from './ToolbarMenu';
+import PersonIcon from '@material-ui/icons/Person';
 
 function MembersMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -21,10 +22,14 @@ function MembersMenu(props) {
 	}
 
 	return (
-		<div>
-			<IconButton color="inherit" onClick={handleMenuOpen}>
+		<div className="inline-block">
+			<div className="custom-member-menu flex items-center" onClick={handleMenuOpen}>
+				<Icon>person</Icon>
+				Assign People
+			</div>
+			{/* <IconButton color="inherit" onClick={handleMenuOpen}>
 				<Icon>account_circle</Icon>
-			</IconButton>
+			</IconButton> */}
 			<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 				<div className="">
 					{props.members &&
