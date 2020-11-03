@@ -162,11 +162,11 @@ function FileGrid(props) {
 		);
 	}
 	return (
-		<div>
+		<div className="px-32">
 			{!!currentFolders.length && (
 				<>
 					{' '}
-					<Typography variant="h6">Folders</Typography>
+					<Typography variant="h6" className="mb-16">Folders</Typography>
 					<Grid container spacing={12}>
 						{currentFolders.map(d => (
 							<Grid

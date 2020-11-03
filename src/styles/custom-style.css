@@ -419,7 +419,7 @@
     margin-right: 5px;
 }
 .bg-body {
-    background: #fdf2fd;
+    background: #f7f7f7;
 }
 .custom-bg ~ .inner-scroll {
     background-color: transparent;
@@ -772,12 +772,43 @@
     border-radius: 4px;
     color: #2196F3;
 }
-.MuiButton-containedPrimary {
+.MuiButton-containedPrimary, .MuiButton-containedSecondary  {
     color: #fff;
     background-color: #2196F3;
     box-shadow: none;
 }
-.MuiButton-containedPrimary:hover {
+.MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover {
     background-color: #008eff;
     box-shadow: none;
+}
+.bg-white {
+    background: #ffffff !important;
+}
+.left-icon-btn button {
+    color: #868686;
+}
+.search-white-box, .file-box-shadow, .table-shadow  {
+    box-shadow: 0 1px 3px #00000029 !important;
+}
+.search-white-box span {
+    color: #1e2125 !important;
+}
+.search-white-box input {
+    color: rgba(0, 0, 0, 0.87);
+}
+.file-box-shadow button {
+    border-right: 1px solid #ececec;
+    font-size: 19px;
+    padding: 12px 17px;
+    border-radius: 6px;
+    background: #fff;
+}
+.text-dark {
+    color: #212121;
+}
+.MuiTableCell-root {
+    padding: 12px;
+}
+.actions-dropdown .MuiListItemIcon-root{
+    min-width: 36px;
 }
