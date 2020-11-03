@@ -54,9 +54,9 @@ function DetailSidebarContent(props) {
 				</div>
 
 				<FormControlLabel
-					className="offline-switch"
-					control={<Switch checked={selectedItem.offline} aria-label="Available Offline" />}
+					className="offline-switch asdf"
 					label="Available Offline"
+					control={<Switch checked={selectedItem.offline} aria-label="Available Offline" />}
 				/>
 
 				<Typography variant="subtitle1" className="py-16">

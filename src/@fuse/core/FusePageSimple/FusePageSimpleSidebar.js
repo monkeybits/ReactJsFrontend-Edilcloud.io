@@ -50,7 +50,7 @@ function FusePageSimpleSidebar(props, ref) {
 				<Hidden mdDown>
 					<Drawer
 						variant="permanent"
-						className={clsx(classes.sidebarWrapper, props.variant)}
+						className={clsx(classes.sidebarWrapper, props.variant, 'custom-fuse-page-right-sidebar')}
 						open={isOpen}
 						classes={{
 							paper: clsx(

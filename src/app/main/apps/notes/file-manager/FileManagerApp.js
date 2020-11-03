@@ -326,7 +326,7 @@ function FileManagerApp(props) {
 							</FuseAnimate> */}
 						</div>
 						{isUploadingFiles && (
-							<div className="linear-progress">
+							<div className="linear-progress custom-color">
 								<LinearProgressWithLabel progress={progress} />
 							</div>
 						)}

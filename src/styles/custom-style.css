@@ -812,3 +812,10 @@
 .actions-dropdown .MuiListItemIcon-root{
     min-width: 36px;
 }
+.custom-fuse-page-right-sidebar .permanent {
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.87);
+}
+.linear-progress.custom-color p {
+    color: rgba(0, 0, 0, 0.87);
+}
