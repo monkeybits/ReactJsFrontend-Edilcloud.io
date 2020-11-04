@@ -199,7 +199,7 @@
     top: 67px;
     padding: 0px 35px 0px 10px;
 }
-.custom-float-btn {
+/* .custom-float-btn {
     position: fixed;
     top: 100px;
 }
@@ -207,14 +207,15 @@
     position: fixed;
     bottom: 80px !important;
     right: 20px !important;
-}
+} */
 .custom-float-btn > button, .add-file-btn  {
-    color: rgba(0, 0, 0, 0.87);
-    background-color: #61dafb;
+    color: #ffffff;
+    background-color: #2196F3;
+    box-shadow: none;
 }
 .custom-float-btn > button:hover, .add-file-btn:hover {
-    background-color: #33c2f8;
-    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+    background-color: #2196F3;
+    box-shadow: none;
 }
 .add-file-btn {
     padding: 6px 13px;
@@ -238,10 +239,10 @@
     background-color: rgb(255 255 255 / 0.90);
 }
 .speeddial-btn {
-    position: absolute;
-    bottom: 0px;
-    z-index: 99;
-    right: 0px;
+    position: fixed;
+    bottom: 12px;
+    z-index: 9999;
+    right: 80px;
 }
 /* .zoom-125 {
     zoom: 125% !important;
@@ -812,10 +813,67 @@
 .actions-dropdown .MuiListItemIcon-root{
     min-width: 36px;
 }
+.actions-dropdown.small .MuiListItemIcon-root{
+    min-width: 28px;
+}
 .custom-fuse-page-right-sidebar .permanent {
+    height: auto;
+    min-height: auto;
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
 }
 .linear-progress.custom-color p {
+    color: rgba(0, 0, 0, 0.87);
+}
+.close-icon.list-view-icon svg {
+    font-size: 18px;
+}
+.offline-switch > span:first-child {
+    order: 2;
+    margin-left: auto;
+}
+.offline-switch span:last-child {
+    font-weight: 700;
+}
+.folder-grid .MuiListItemIcon-root {
+    min-width: 34px;
+}
+.folder-grid .MuiTypography-body1 {
+    font-weight: 600;
+}
+.file-folder-grid h6 {
+    font-size: 1.7rem;
+}
+.file-grid-view > div {
+    background-color: transparent;
+}
+.file-grid-view li {
+    height: auto !important;
+    padding: 0px !important;
+    margin: 0px 15px 15px 0px;
+    box-shadow: 0 3px 6px #00000029 !important;
+    border-radius: 10px;
+    width: 47.5% !important;;
+}
+.file-grid-view li:nth-child(2n) {
+    margin-right: 0px !important;
+}
+.file-grid-view img {
+    position: relative;
+    top: 0;
+    transform: none !important;
+    left: 0;
+    right: 0px;
+    width: 100%;
+    height: 184px;
+    border-radius: 10px 10px 0px 0px;
+}
+.file-grid-view img ~ div {
+    position: relative;
+    background: #fff;
+    border-radius: 0px 0px 10px 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.file-grid-view .MuiGridListTileBar-titleWrap, .file-grid-view .MuiGridListTileBar-actionIcon button {
     color: rgba(0, 0, 0, 0.87);
 }

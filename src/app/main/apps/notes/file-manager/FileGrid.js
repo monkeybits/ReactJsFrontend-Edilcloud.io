@@ -58,7 +58,8 @@ const useStyles = makeStyles({
 const useStylesList = makeStyles(theme => ({
 	root: {
 		borderRadius: '5%',
-		backgroundColor: '#8080801c'
+		backgroundColor: '#fff',
+		boxShadow: '0 3px 6px #00000029'
 	}
 }));
 function FileGrid(props) {
@@ -162,15 +163,15 @@ function FileGrid(props) {
 		);
 	}
 	return (
-		<div className="px-32">
+		<div className="file-folder-grid px-32">
 			{!!currentFolders.length && (
 				<>
 					{' '}
-					<Typography variant="h6" className="mb-16">Folders</Typography>
+					<Typography variant="h6" className="font-400 uppercase text-gray-600 mb-16">Folders</Typography>
 					<Grid container spacing={12}>
 						{currentFolders.map(d => (
 							<Grid
-								className="px-12 mb-32"
+								className="px-10 mb-32 folder-grid"
 								item
 								xs={12}
 								sm={6}
@@ -191,8 +192,8 @@ function FileGrid(props) {
 			)}
 			{!!currentFiles.length && (
 				<>
-					<Typography variant="h6">Files</Typography>
-					<Grid container spacing={12}>
+					<Typography variant="h6" className="font-400 uppercase text-gray-600 mb-16">Files</Typography>
+					<Grid container spacing={12} className="file-grid-view">
 						<FileGridItem tileData={currentFiles} {...props} />
 					</Grid>
 				</>

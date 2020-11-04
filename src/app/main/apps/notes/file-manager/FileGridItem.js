@@ -20,6 +20,8 @@ import clsx from 'clsx';
 import * as Actions from './store/actions';
 import { Icon } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
@@ -116,7 +118,10 @@ export default function FileGridItem({ tileData, pageLayout }) {
 								>
 									<InfoIcon />
 								</IconButton>
+								
 							}
+							
+
 						/>
 					</GridListTile>
 				))}

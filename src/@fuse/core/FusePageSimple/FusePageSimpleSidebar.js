@@ -51,6 +51,7 @@ function FusePageSimpleSidebar(props, ref) {
 					<Drawer
 						variant="permanent"
 						className={clsx(classes.sidebarWrapper, props.variant, 'custom-fuse-page-right-sidebar')}
+						id="right-sidebar-file"
 						open={isOpen}
 						classes={{
 							paper: clsx(
