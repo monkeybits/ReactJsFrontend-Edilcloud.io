@@ -9,6 +9,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import ReadPDF from './ReadPDF';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 
 const useStyles = makeStyles({
 	table: {
@@ -46,7 +52,7 @@ function DetailSidebarContent(props) {
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={600}>
 			<div className="file-details p-16 sm:p-24">
-				<div className="preview file-icon flex items-center justify-center mb-12">
+				<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
 					{selectedItem.type == 'photo' ? (
 						<img src={selectedItem.photo} />
 					) : selectedItem.extension == 'pdf' ? (
@@ -59,17 +65,18 @@ function DetailSidebarContent(props) {
 						</FuseAnimate>
 					)}
 				</div>
-
+			</div>
+			<div className="px-24 py-10 border-b-1">
 				<FormControlLabel
-					className="offline-switch"
+					className="offline-switch flex m-0"
 					control={<Switch checked={selectedItem.offline} aria-label="Available Offline" />}
 					label="Available Offline"
 				/>
-
-				<Typography variant="subtitle1" className="py-16">
+			</div>
+			<div className="px-24 py-12 border-b-1">
+				<Typography variant="subtitle1" className="py-10 uppercase text-gray-500">
 					Info
 				</Typography>
-
 				<table className={clsx(classes.table, 'w-full text-justify')}>
 					<tbody>
 						<tr className="type">
@@ -108,6 +115,28 @@ function DetailSidebarContent(props) {
 						</tr>
 					</tbody>
 				</table>
+			</div>
+			<div className="px-10 py-12 border-b-1">
+				<MenuList className="flex items-center actions-dropdown p-0 small">
+					<MenuItem>
+						<ListItemIcon>
+							<GetAppOutlinedIcon fontSize="medium" />
+						</ListItemIcon>
+						<Typography variant="inherit">Download</Typography>
+					</MenuItem>
+					<MenuItem>
+						<ListItemIcon>
+							<DeleteOutlineOutlinedIcon fontSize="medium" />
+						</ListItemIcon>
+						<Typography variant="inherit">Delete</Typography>
+					</MenuItem>
+					<MenuItem>
+						<ListItemIcon>
+							<MoreVertIcon fontSize="medium" />
+						</ListItemIcon>
+						<Typography variant="inherit">More</Typography>
+					</MenuItem>
+				</MenuList>
 			</div>
 		</FuseAnimate>
 	);

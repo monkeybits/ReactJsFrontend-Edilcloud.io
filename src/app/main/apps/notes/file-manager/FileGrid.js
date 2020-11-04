@@ -171,7 +171,7 @@ function FileGrid(props) {
 					<Grid container spacing={12}>
 						{currentFolders.map(d => (
 							<Grid
-								className="px-10 mb-32 folder-grid"
+								className="px-10 mb-20 sm:mb-32 folder-grid"
 								item
 								xs={12}
 								sm={6}

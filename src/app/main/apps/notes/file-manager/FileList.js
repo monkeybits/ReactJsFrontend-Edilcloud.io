@@ -158,7 +158,7 @@ function FileList(props) {
 		);
 	}
 	return (
-		<div className="px-20">
+		<div className="file-folder-grid px-20">
 			<FuseAnimate animation="transition.slideUpIn" delay={300}>
 				<Table className="bg-white rounded table-shadow">
 					<TableHead>
@@ -316,44 +316,6 @@ function FileList(props) {
 												))}
 											</Menu>
 										</div>
-										{/* <MenuList>
-											<MenuItem>
-												<ListItemIcon>
-													<SendIcon fontSize="small" />
-												</ListItemIcon>
-												<Typography variant="inherit">Share</Typography>
-											</MenuItem>
-											<MenuItem>
-												<ListItemIcon>
-													<SendIcon fontSize="small" />
-												</ListItemIcon>
-												<Typography variant="inherit">Move to</Typography>
-											</MenuItem>
-											<MenuItem>
-												<ListItemIcon>
-													<SendIcon fontSize="small" />
-												</ListItemIcon>
-												<Typography variant="inherit">Change Color</Typography>
-											</MenuItem>
-											<MenuItem>
-												<ListItemIcon>
-													<SendIcon fontSize="small" />
-												</ListItemIcon>
-												<Typography variant="inherit">Add to Starred</Typography>
-											</MenuItem>
-											<MenuItem>
-												<ListItemIcon>
-													<SendIcon fontSize="small" />
-												</ListItemIcon>
-												<Typography variant="inherit">Download</Typography>
-											</MenuItem>
-											<MenuItem>
-												<ListItemIcon>
-													<SendIcon fontSize="small" />
-												</ListItemIcon>
-												<Typography variant="inherit">Delete</Typography>
-											</MenuItem>
-										</MenuList> */}
 									</TableCell>
 								</TableRow>
 							);

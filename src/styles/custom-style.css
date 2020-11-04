@@ -785,24 +785,29 @@
 .bg-white {
     background: #ffffff !important;
 }
-.left-icon-btn button {
-    color: #868686;
-}
-.search-white-box, .file-box-shadow, .table-shadow  {
+.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button  {
     box-shadow: 0 1px 3px #00000029 !important;
 }
 .search-white-box span {
     color: #1e2125 !important;
+    margin-left: 5px;
 }
 .search-white-box input {
     color: rgba(0, 0, 0, 0.87);
 }
-.file-box-shadow button {
+.file-box-shadow button, .left-icon-btn > button {
     border-right: 1px solid #ececec;
     font-size: 19px;
     padding: 12px 17px;
     border-radius: 6px;
     background: #fff;
+    color: #868686;
+}
+.file-box-shadow button:first-child {
+    border-radius: 6px 0px 0px 6px;
+}
+.file-box-shadow button:last-child {
+    border-radius: 0px 6px 6px 0px;
 }
 .text-dark {
     color: #212121;
@@ -846,6 +851,7 @@
 }
 .file-grid-view > div {
     background-color: transparent;
+    width: 100%;
 }
 .file-grid-view li {
     height: auto !important;
@@ -858,7 +864,7 @@
 .file-grid-view li:nth-child(2n) {
     margin-right: 0px !important;
 }
-.file-grid-view img {
+.file-grid-view img, .file-grid-view .MuiGridListTile-tile > svg  {
     position: relative;
     top: 0;
     transform: none !important;
@@ -868,7 +874,7 @@
     height: 184px;
     border-radius: 10px 10px 0px 0px;
 }
-.file-grid-view img ~ div {
+.file-grid-view img ~ div, .file-grid-view .MuiGridListTile-tile > svg ~ div {
     position: relative;
     background: #fff;
     border-radius: 0px 0px 10px 10px;
@@ -877,6 +883,6 @@
 .file-grid-view .MuiGridListTileBar-titleWrap, .file-grid-view .MuiGridListTileBar-actionIcon button {
     color: rgba(0, 0, 0, 0.87);
 }
-.asdfsaf {
-    align-self: start;
+.file-folder-grid {
+    margin-top: -25px;
 }

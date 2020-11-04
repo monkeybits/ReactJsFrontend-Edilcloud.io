@@ -61,14 +61,14 @@ function DetailSidebarContent(props) {
 						</FuseAnimate>
 					</div>
 				</div>
-				<div className="p-24 sm:py-10 border-b-1">
+				<div className="px-24 py-10 border-b-1">
 					<FormControlLabel
 						className="offline-switch flex m-0"
 						label="Available Offline"
 						control={<Switch checked={selectedItem.offline} aria-label="Available Offline" />}
 					/>
 				</div>
-				<div className="p-24 py-12 border-b-1">
+				<div className="px-24 py-12 border-b-1">
 					<Typography variant="subtitle2" className="py-10 uppercase text-gray-500">
 						Info
 					</Typography>
@@ -111,7 +111,7 @@ function DetailSidebarContent(props) {
 						</tbody>
 					</table>
 				</div>
-				<div className="p-24 py-12 px-10 border-b-1">
+				<div className="px-10 py-12 border-b-1">
 					<MenuList className="flex items-center actions-dropdown p-0 small">
 						<MenuItem>
 							<ListItemIcon>

@@ -7,6 +7,13 @@
     .tabs-content .MuiBox-root button {
         right: 20px !important;
     }
+    .tabs-content .MuiBox-root .left-icon-btn button,
+    .tabs-content .MuiBox-root .custom-fuse-page-right-sidebar button  {
+        right: 0px !important;
+    }
+    .speeddial-btn {
+        right: 0px;
+    }
 }
 @media only screen and (max-width: 1024px) and (min-width: 992px) {
     .gantt-menu-item a {
@@ -104,6 +111,10 @@
     .MuiTypography-body2 {
         font-size: 1.2rem;
     }
+    .file-grid-view li {
+        width: 100% !important;
+    }
+    
     
     
 }
