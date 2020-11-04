@@ -228,7 +228,7 @@ export function editActivity(todo, pid, setLoading, isGantt) {
 	// 	todo
 	// });
 	return dispatch => {
-		console.log({ todo });
+		console.log(todo, todo.profile);
 		let values = {
 			title: todo.title,
 			description: todo.notes,
