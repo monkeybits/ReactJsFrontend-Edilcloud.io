@@ -1,5 +1,9 @@
 import axios from 'axios';
-
+import { ADD_ACTIVITY_TO_TASK, EDIT_TASK_TO_PROJECT, GET_ALL_PROJECT_TASKS } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import moment from 'moment';
+import { toast } from 'react-toastify';
 export const GET_TODOS = '[TODO APP] GET TODOS';
 export const UPDATE_TODOS = '[TODO APP] UPDATE TODOS';
 export const TOGGLE_STARRED = '[TODO APP] TOGGLE STARRED';
@@ -15,24 +19,32 @@ export const OPEN_EDIT_TODO_DIALOG = '[TODO APP] OPEN EDIT TODO DIALOG';
 export const CLOSE_EDIT_TODO_DIALOG = '[TODO APP] CLOSE EDIT TODO DIALOG';
 export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING';
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER';
-
+export const OPEN_TASK_CONTENT_DIALOG = '[TODO APP] OPEN TASK CONTENT DIALOG';
+export const CLOSE_TASK_CONTENT_DIALOG = '[TODO APP] CLOSE TASK CONTENT DIALOG';
 
 export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG';
 export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG';
 export const OPEN_ACTIVITY_TODO_DIALOG = '[TODO APP] OPEN ACTIVITY TODO DIALOG';
 export const CLOSE_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE ACTIVITY TODO DIALOG';
-
+function sortHolders(a, b) {
+	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+}
 export function getTodos(params) {
-	const request = axios.get('/api/todo-app/todos', { params });
-
-	return dispatch =>
-		request.then(response =>
-			dispatch({
-				type: GET_TODOS,
-				routeParams: params,
-				payload: response.data
-			})
+	return dispatch => {
+		apiCall(
+			GET_ALL_PROJECT_TASKS,
+			{},
+			results => {
+				dispatch({
+					type: GET_TODOS,
+					payload: results.sort(sortHolders)
+				});
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
 		);
+	};
 }
 
 export function updateTodos() {
@@ -90,7 +102,12 @@ export function updateTodo(todo) {
 			]).then(() => dispatch(updateTodos()));
 		});
 }
-
+export function openTaskContent(data) {
+	return {
+		type: OPEN_TASK_CONTENT_DIALOG,
+		data
+	};
+}
 export function openNewTodoDialog() {
 	return {
 		type: OPEN_NEW_TODO_DIALOG
@@ -128,7 +145,59 @@ export function addTodo(todo) {
 			]).then(() => dispatch(updateTodos()))
 		);
 }
-
+export function openAddActivityTodoDialog(data) {
+	return dispatch =>
+		dispatch({
+			type: OPEN_ACTIVITY_TODO_DIALOG,
+			data
+		});
+}
+export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, setLoading) {
+	console.log({
+		todo
+	});
+	return dispatch => {
+		let values =
+			todoDialogType == 'new'
+				? {
+						name: todo.name,
+						note: todo.description,
+						progress: todo.progress,
+						date_start: moment(todo.startDate).format('YYYY-MM-DD'),
+						date_end: moment(todo.endDate).format('YYYY-MM-DD'),
+						assigned_company: todo.company[0] ? todo.company[0].data.profile.company.id : undefined,
+						project: pid,
+						date_completed: null,
+						alert: false,
+						starred: false
+				  }
+				: {
+						title: todo.title,
+						description: todo.notes,
+						datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
+						datetime_end: moment(todo.endDate).format('YYYY-MM-DD'),
+						profile: todo.profile[0] ? todo.profile[0].data.profile.id : undefined
+				  };
+		apiCall(
+			todoDialogType == 'new' ? EDIT_TASK_TO_PROJECT(todo.id) : ADD_ACTIVITY_TO_TASK(todo.id),
+			values,
+			res => {
+				setLoading(false);
+				dispatch(getTodos(pid, isGantt));
+				closeTodoDialog();
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
+}
+export function openTimelineDialog(todo) {
+	return {
+		type: OPEN_TIMELINE_DIALOG,
+		todo
+	};
+}
 export function removeTodo(todoId) {
 	const request = axios.post('/api/todo-app/remove-todo', todoId);
 

@@ -119,3 +119,4 @@ export const GET_SHARED_POSTS_FOR_TASKS = tid => `/api/frontend/project/task/${t
 export const ADD_ATTCHMENTS_TO_TASK = tid => `/api/frontend/project/task/${tid}/attachment_add/`;
 export const EDIT_POST = pid => `/api/frontend/project/post/${pid}/edit/`;
 export const GET_GANTT_TASK_LIST = pid => `/api/frontend/project/gantt/project/${pid}/task_list/?no_page=no_page`;
+export const GET_ALL_PROJECT_TASKS = `/api/frontend/dashboard/projects/?no_page=no_page`;

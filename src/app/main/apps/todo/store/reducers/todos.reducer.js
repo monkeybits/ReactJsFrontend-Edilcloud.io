@@ -13,16 +13,23 @@ const initialState = {
 			open: false
 		},
 		data: null
+	},
+	taskContentDialog: {
+		type: 'new',
+		props: {
+			open: false
+		},
+		data: null
 	}
 };
 
 const todosReducer = (state = initialState, action) => {
-	console.log({ action });
 	switch (action.type) {
 		case Actions.GET_TODOS: {
+			console.log({ payload: action.payload });
 			return {
 				...state,
-				entities: _.keyBy(action.payload, 'id'),
+				entities: {...action.payload},
 				searchText: '',
 				routeParams: action.routeParams
 			};
@@ -30,7 +37,7 @@ const todosReducer = (state = initialState, action) => {
 		case Actions.UPDATE_TODOS: {
 			return {
 				...state,
-				entities: _.keyBy(action.payload, 'id')
+				entities: action.payload
 			};
 		}
 		case Actions.OPEN_NEW_TODO_DIALOG: {
@@ -40,6 +47,30 @@ const todosReducer = (state = initialState, action) => {
 					type: 'new',
 					props: {
 						open: true
+					},
+					data: action.data ? action.data : null
+				}
+			};
+		}
+		case Actions.OPEN_TASK_CONTENT_DIALOG: {
+			return {
+				...state,
+				taskContentDialog: {
+					type: 'new',
+					props: {
+						open: true
+					},
+					data: action.data
+				}
+			};
+		}
+		case Actions.CLOSE_TASK_CONTENT_DIALOG: {
+			return {
+				...state,
+				taskContentDialog: {
+					type: 'new',
+					props: {
+						open: false
 					},
 					data: null
 				}

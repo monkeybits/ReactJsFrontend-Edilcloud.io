@@ -48,18 +48,17 @@ function TodoList(props) {
 	}
 
 	return (
-		<List className="p-0">
-			<FuseAnimateGroup
-				enter={{
-					animation: 'transition.slideUpBigIn'
-				}}
-			>
-				{filteredData.map(todo => (
-					<TodoListItem todo={todo} key={todo.id} />
-				))}
-			</FuseAnimateGroup>
-		</List>
+		// <List className="p-0">
+		<FuseAnimateGroup
+			enter={{
+				animation: 'transition.slideUpBigIn'
+			}}
+		>
+			{filteredData.map((todo, index) => (
+				<TodoListItem todo={todo} key={todo.id} index={index} />
+			))}
+		</FuseAnimateGroup>
+		// </List>
 	);
 }
-
 export default TodoList;
