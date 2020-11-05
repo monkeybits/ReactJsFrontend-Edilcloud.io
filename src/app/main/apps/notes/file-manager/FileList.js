@@ -25,6 +25,13 @@ import {
 	faFileImage,
 	faFileWord
 } from '@fortawesome/free-regular-svg-icons';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import SendIcon from '@material-ui/icons/Send';
+import Menu from '@material-ui/core/Menu';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 
 const useStyles = makeStyles({
 	typeIcon: {
@@ -42,6 +49,7 @@ const useStyles = makeStyles({
 		}
 	}
 });
+const options = ['Share', 'Move to', 'Change Color', 'Add to Starred', 'Download', 'Delete' ];
 function FileList(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
@@ -88,6 +96,16 @@ function FileList(props) {
 				])
 			);
 		}
+	};
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const open = Boolean(anchorEl);
+
+	const handleClick = event => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
 	};
 	useEffect(() => {
 		setAllFilesInit();
@@ -140,130 +158,172 @@ function FileList(props) {
 		);
 	}
 	return (
-		<FuseAnimate animation="transition.slideUpIn" delay={300}>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableCell className="max-w-64 w-64 p-0 text-center"> </TableCell>
-						<TableCell>Name</TableCell>
-						<TableCell className="hidden sm:table-cell">Type</TableCell>
-						<TableCell className="hidden sm:table-cell">Owner</TableCell>
-						<TableCell className="text-center hidden sm:table-cell">Size</TableCell>
-						<TableCell className="hidden sm:table-cell">Modified</TableCell>
-						<TableCell></TableCell>
-						<TableCell></TableCell>
-					</TableRow>
-				</TableHead>
-
-				<TableBody>
-					{currentFolderPath != '' && (
+		<div className="file-folder-grid px-20">
+			<FuseAnimate animation="transition.slideUpIn" delay={300}>
+				<Table className="bg-white rounded table-shadow">
+					<TableHead>
 						<TableRow>
-							<TableCell onClick={() => dispatch(Actions.popFolderPath())}>
-								<IconButton aria-label="back" size="small">
-									<Icon>more_horiz</Icon>
-								</IconButton>
-							</TableCell>
-							<TableCell></TableCell>
-							<TableCell className="hidden sm:table-cell"></TableCell>
-							<TableCell className="hidden sm:table-cell"></TableCell>
-							<TableCell className="hidden sm:table-cell"></TableCell>
-							<TableCell className="hidden sm:table-cell"></TableCell>
+							<TableCell className="max-w-64 w-64 p-0 text-center"> </TableCell>
+							<TableCell>Name</TableCell>
+							<TableCell className="hidden sm:table-cell">Type</TableCell>
+							<TableCell className="hidden sm:table-cell">Owner</TableCell>
+							<TableCell className="text-center hidden sm:table-cell">Size</TableCell>
+							<TableCell className="hidden sm:table-cell">Modified</TableCell>
 							<TableCell></TableCell>
 							<TableCell></TableCell>
+							<TableCell>Actions</TableCell>
 						</TableRow>
-					)}
-					{Object.entries(allFiles).map(([key, n]) => {
-						return (
-							<TableRow
-								key={n.id}
-								hover
-								onClick={event =>
-									n.type == 'folder'
-										? dispatch(Actions.setFolderPath(n.path))
-										: dispatch(Actions.setSelectedItem(n.id))
-								}
-								selected={n.id === selectedItemId}
-								className="cursor-pointer"
-							>
-								<TableCell className="max-w-64 w-64 p-0 text-center">
-									{/* <Icon className={clsx(classes.typeIcon, n.type)}>
-										{n.type == 'video' ? 'movie' : n.type}{' '}
-									</Icon> */}
-									{n.type == 'video' ? (
-										<FontAwesomeIcon
-											icon={faFileVideo}
-											style={{ ...getCssColor(n.type), fontSize: '2.4rem' }}
-										/>
-									) : n.type == 'photo' ? (
-										<FontAwesomeIcon
-											icon={faFileImage}
-											style={{ color: 'black', fontSize: '2.4rem' }}
-										/>
-									) : n.type == 'folder' ? (
-										<Icon className={clsx(classes.typeIcon, n.type)}>folder</Icon>
-									) : (
-										<FontAwesomeIcon
-											icon={
-												n.type == 'document'
-													? n.extension == 'pdf'
-														? faFilePdf
-														: n.extension == 'docx'
-														? faFileWord
-														: n.extension == 'xlsx'
-														? faFileExcel
-														: n.extension == 'mp3'
-														? faFileAudio
-														: faFile
-													: faFile
-											}
-											style={{ ...getCssColor(n.extension), fontSize: '2.4rem' }}
-										/>
-									)}
-								</TableCell>
-								<TableCell>{n.title}</TableCell>
-								<TableCell className="hidden sm:table-cell">{n.type}</TableCell>
-								<TableCell className="hidden sm:table-cell">{checkData(n.owner)}</TableCell>
-								<TableCell className="text-center hidden sm:table-cell">
-									{n.size === '' ? '-' : n.size}
-								</TableCell>
-								<TableCell className="hidden sm:table-cell">
-									{n.date_last_modify ? getdate(n.date_last_modify) : '-'}
-								</TableCell>
+					</TableHead>
 
-								<TableCell>
-									<IconButton
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											dispatch(Actions.openMoveFileDialog(n));
-										}}
-										aria-label="open right sidebar"
-									>
-										<Icon>transform</Icon>
+					<TableBody>
+						{currentFolderPath != '' && (
+							<TableRow>
+								<TableCell onClick={() => dispatch(Actions.popFolderPath())}>
+									<IconButton aria-label="back" size="small">
+										<Icon>more_horiz</Icon>
 									</IconButton>
 								</TableCell>
-
-								{/* <Hidden lgUp> */}
-								<TableCell>
-									<IconButton
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											props.pageLayout.current.toggleRightSidebar();
-											dispatch(Actions.setSelectedItem(n.id));
-										}}
-										aria-label="open right sidebar"
-									>
-										<Icon>info</Icon>
-									</IconButton>
-								</TableCell>
-								{/* </Hidden> */}
+								<TableCell></TableCell>
+								<TableCell className="hidden sm:table-cell"></TableCell>
+								<TableCell className="hidden sm:table-cell"></TableCell>
+								<TableCell className="hidden sm:table-cell"></TableCell>
+								<TableCell className="hidden sm:table-cell"></TableCell>
+								<TableCell></TableCell>
+								<TableCell></TableCell>
+								<TableCell>Actions</TableCell>
 							</TableRow>
-						);
-					})}
-				</TableBody>
-			</Table>
-		</FuseAnimate>
+						)}
+						{Object.entries(allFiles).map(([key, n]) => {
+							return (
+								<TableRow
+									key={n.id}
+									hover
+									onClick={event =>
+										n.type == 'folder'
+											? dispatch(Actions.setFolderPath(n.path))
+											: dispatch(Actions.setSelectedItem(n.id))
+									}
+									selected={n.id === selectedItemId}
+									className="cursor-pointer"
+								>
+									<TableCell className="max-w-64 w-64 p-0 text-center">
+										{/* <Icon className={clsx(classes.typeIcon, n.type)}>
+											{n.type == 'video' ? 'movie' : n.type}{' '}
+										</Icon> */}
+										{n.type == 'video' ? (
+											<FontAwesomeIcon
+												icon={faFileVideo}
+												style={{ ...getCssColor(n.type), fontSize: '2.4rem' }}
+											/>
+										) : n.type == 'photo' ? (
+											<FontAwesomeIcon
+												icon={faFileImage}
+												style={{ color: 'black', fontSize: '2.4rem' }}
+											/>
+										) : n.type == 'folder' ? (
+											<Icon className={clsx(classes.typeIcon, n.type)}>folder</Icon>
+										) : (
+											<FontAwesomeIcon
+												icon={
+													n.type == 'document'
+														? n.extension == 'pdf'
+															? faFilePdf
+															: n.extension == 'docx'
+															? faFileWord
+															: n.extension == 'xlsx'
+															? faFileExcel
+															: n.extension == 'mp3'
+															? faFileAudio
+															: faFile
+														: faFile
+												}
+												style={{ ...getCssColor(n.extension), fontSize: '2.4rem' }}
+											/>
+										)}
+									</TableCell>
+									<TableCell>{n.title}</TableCell>
+									<TableCell className="hidden sm:table-cell">{n.type}</TableCell>
+									<TableCell className="hidden sm:table-cell">{checkData(n.owner)}</TableCell>
+									<TableCell className="text-center hidden sm:table-cell">
+										{n.size === '' ? '-' : n.size}
+									</TableCell>
+									<TableCell className="hidden sm:table-cell">
+										{n.date_last_modify ? getdate(n.date_last_modify) : '-'}
+									</TableCell>
+
+									<TableCell>
+										<IconButton
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												dispatch(Actions.openMoveFileDialog(n));
+											}}
+											aria-label="open right sidebar"
+										>
+											<Icon>transform</Icon>
+										</IconButton>
+									</TableCell>
+
+									{/* <Hidden lgUp> */}
+									<TableCell>
+										<IconButton
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												props.pageLayout.current.toggleRightSidebar();
+												dispatch(Actions.setSelectedItem(n.id));
+											}}
+											aria-label="open right sidebar"
+										>
+											<Icon>info</Icon>
+										</IconButton>
+									</TableCell>
+									{/* </Hidden> */}
+
+									<TableCell>
+										<div className="actions-dropdown">
+											<IconButton
+												aria-label="more"
+												aria-controls="long-menu"
+												aria-haspopup="true"
+												onClick={handleClick}
+											>
+												<MoreVertIcon />
+											</IconButton>
+											<Menu
+												id="long-menu"
+												anchorEl={anchorEl}
+												keepMounted
+												open={open}
+												onClose={handleClose}
+												PaperProps={{
+													style: {
+														width: '20ch'
+													}
+												}}
+											>
+												{options.map(option => (
+													<MenuItem
+														key={option}
+														selected={option === 'Pyxis'}
+														onClick={handleClose}
+													>
+														<ListItemIcon>
+															<PriorityHighIcon fontSize="small" />
+														</ListItemIcon>
+														<Typography variant="inherit"> {option}</Typography>
+													</MenuItem>
+												))}
+											</Menu>
+										</div>
+									</TableCell>
+								</TableRow>
+							);
+						})}
+					</TableBody>
+				</Table>
+			</FuseAnimate>
+		</div>
 	);
 }
 

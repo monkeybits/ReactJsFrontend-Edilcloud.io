@@ -61,10 +61,10 @@ function NotesApp(props) {
 		<>
 			<FusePageSimple
 				classes={{
-					contentWrapper: 'p-16 sm:p-24 pb-80 sm:pb-80',
+					contentWrapper: 'p-16 sm:p-24 md:px-32 pb-80 sm:pb-80',
 					content: 'flex min-h-full',
 					leftSidebar: 'w-256 border-0',
-					header: 'min-h-72 h-72'
+					header: 'project_list p-16 sm:p-24'
 				}}
 				header={<NotesHeader pageLayout={pageLayout} />}
 				content={
