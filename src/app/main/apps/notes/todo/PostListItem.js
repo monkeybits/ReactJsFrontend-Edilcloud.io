@@ -51,7 +51,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 	const [open, setOpen] = React.useState(true);
 	const [post, setPost] = React.useState({});
 	const [postComments, setPostComments] = useState([]);
-	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
+	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	const [offlinePostComments, setofflinePostComments] = useState({});
 	const [isRetryingPost, setIsRetryingPost] = useState(false);
 

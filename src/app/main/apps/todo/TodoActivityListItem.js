@@ -19,7 +19,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_ACTIVITY_TO_TASK, GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
-import MembersMenu from './Dialog/toolbar/MembersMenu';
+import MembersMenu from '../notes/todo/Dialog/toolbar/MembersMenu';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import WorkerProfiles from './WorkerProfiles';
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 function TodoActivityListItem(props) {
 	const dispatch = useDispatch();
-	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
+	const labels = useSelector(({ todoApp }) => todoApp.labels);
 	const [open, setOpen] = React.useState(false);
 	const [completed, setCompleted] = React.useState(props.todo.status == 'to-do' ? false : true);
 	const [taskDetail, setTaskDetail] = useState([]);

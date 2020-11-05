@@ -37,7 +37,7 @@ function MembersMenu(props) {
 		let tempMembers = members;
 		tempMembers[index] = {
 			...tempMembers[index],
-			isChecked: event.target.checked
+			is_exists: event.target.checked
 		};
 		props.addWorkers(tempMembers);
 		setMembers(tempMembers);
@@ -47,7 +47,7 @@ function MembersMenu(props) {
 		event.stopPropagation();
 		setCheckedAll(event.target.checked);
 		let tempMembers = members;
-		tempMembers = tempMembers.map(d => ({ ...d, isChecked: event.target.checked }));
+		tempMembers = tempMembers.map(d => ({ ...d, is_exists: event.target.checked }));
 		props.addWorkers(tempMembers);
 		setMembers(tempMembers);
 		forceUpdate();
@@ -69,7 +69,7 @@ function MembersMenu(props) {
 							return (
 								<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
 									<Checkbox
-										checked={member.isChecked}
+										checked={member.is_exists}
 										onClick={stopsEvents}
 										onChange={e => handleChange(e, index)}
 									/>
