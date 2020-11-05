@@ -41,7 +41,7 @@ const statusArr = [
 
 function ChatsSidebar(props) {
 	const dispatch = useDispatch();
-	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
+	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities).filter(contact => contact.can_access_chat);
 	const user = useSelector(({ chatApp }) => chatApp.user);
 
 	const [searchText, setSearchText] = useState('');

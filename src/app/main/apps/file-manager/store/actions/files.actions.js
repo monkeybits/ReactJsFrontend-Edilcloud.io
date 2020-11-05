@@ -12,7 +12,20 @@ export const GET_FOLDERS = '[FILE MANAGER APP] GET FOLDERS';
 export const SET_SEARCH_TEXT = '[FILE MANAGER APP] SET SEARCH TEXT';
 export const HANDLE_UPLOAD_LOADING = '[FILE MANAGER APP] HANDLE UPLOAD LOADING';
 export const RESET_FILES = '[FILE MANAGER APP] RESET FILES';
+export const FILE_MOVE_OPEN_DIALOG = '[FILE MANAGER APP] FILE MOVE OPEN DIALOG';
+export const FILE_MOVE_CLOSE_DIALOG = '[FILE MANAGER APP] FILE MOVE CLOSE DIALOG';
 
+export function openMoveFileDialog(payload) {
+	return {
+		type: FILE_MOVE_OPEN_DIALOG,
+		payload
+	};
+}
+export function closeMoveFileDialog() {
+	return {
+		type: FILE_MOVE_CLOSE_DIALOG
+	};
+}
 export function getFiles(cid) {
 	return (dispatch, getState) => {
 		dispatch(getPhotos(cid));
@@ -108,9 +121,23 @@ export function setAllFiles(payload) {
 		payload
 	};
 }
-export function deleteFile(payload) {
-	return {
-		type: DELETE_FILE,
-		payload
+export function deleteFile(id, fileType, deleteId, selectedItem) {
+	return (dispatch, getState) => {
+		const userInfo = decodeDataFromToken();
+		const cid = userInfo.extra?.profile?.company;
+		if (fileType == 'folder') {
+			dispatch(getFolders(cid));
+		}
+		// else if (fileType == 'photo') {
+		// 	dispatch(getPhotos(cid));
+		// } else if (fileType == 'video') {
+		// 	dispatch(getVideos(cid));
+		// } else if (fileType == 'document') {
+		// 	dispatch(getDocuments(cid));
+		// }
+		dispatch({
+			type: DELETE_FILE,
+			payload: { id, fileType, deleteId, selectedItem }
+		});
 	};
 }

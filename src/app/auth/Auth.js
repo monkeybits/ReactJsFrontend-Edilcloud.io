@@ -8,6 +8,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
+import { getMainProfileId, getHeaderToken, decodeDataFromToken, getTokenOnly } from 'app/services/serviceUtils';
+import { GET_MAIN_PROFILE, GET_COMPANY_PROFILE } from 'app/services/apiEndPoints';
+import { METHOD, apiCall } from 'app/services/baseUrl';
 
 class Auth extends Component {
 	state = {
@@ -15,7 +18,7 @@ class Auth extends Component {
 	};
 
 	componentDidMount() {
-		const outsidePlatformPaths = ['user-account-activation', 'reset-password-confirm'];
+		const outsidePlatformPaths = ['user-account-activation', 'reset-password-confirm', 'register'];
 		const { location } = this.props;
 		const { pathname } = location;
 		const outsidePath = outsidePlatformPaths.filter(d => String(pathname).includes(d));
@@ -29,19 +32,36 @@ class Auth extends Component {
 				// Comment the lines which you do not use
 				// this.firebaseCheck(),
 				// this.auth0Check(),
-				
+
 				this.jwtCheck()
-			]).then(() => {
-				this.setState({ waitAuthCheck: false });
-			});
+			])
+				.then(() => {
+					this.setState({ waitAuthCheck: false });
+					this.getUser();
+					this.getCompanyProfileData();
+				})
+				.catch(() => {
+					this.setState({ waitAuthCheck: false });
+				});
 		}
 	}
-
+	getUser = () => {
+		const mainProfileId = getMainProfileId();
+		apiCall(
+			GET_MAIN_PROFILE(mainProfileId),
+			{},
+			res => this.props.setUserData(res),
+			err => console.log({ err }),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+	getCompanyProfileData = () => {
+		this.props.getCompanyProfile(getTokenOnly());
+	};
 	jwtCheck = () =>
-		new Promise(resolve => {
+		new Promise((resolve, reject) => {
 			jwtService.on('onAutoLogin', () => {
-				this.props.showMessage({ message: 'Logging in with JWT' });
-
 				/**
 				 * Sign in and retrieve user data from Api
 				 */
@@ -55,9 +75,9 @@ class Auth extends Component {
 						this.props.showMessage({ message: 'Logged in with JWT' });
 					})
 					.catch(error => {
-						this.props.showMessage({ message: error });
+						this.props.showMessage({ message: 'Failed to login with token.' });
 
-						resolve();
+						reject();
 					});
 			});
 
@@ -153,6 +173,7 @@ function mapDispatchToProps(dispatch) {
 		{
 			logout: userActions.logoutUser,
 			setUserData: userActions.setUserData,
+			getCompanyProfile: userActions.getCompanyProfile,
 			setUserDataAuth0: userActions.setUserDataAuth0,
 			setUserDataFirebase: userActions.setUserDataFirebase,
 			showMessage: Actions.showMessage,

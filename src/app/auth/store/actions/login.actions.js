@@ -21,7 +21,7 @@ export function submitLogin({ email, password }) {
 				apiCall(
 					APPROVE_LIST,
 					{},
-					({ results }) => {
+					(results) => {
 						if (Array.isArray(results)) {
 							let boards = results.filter(d => d.is_main);
 

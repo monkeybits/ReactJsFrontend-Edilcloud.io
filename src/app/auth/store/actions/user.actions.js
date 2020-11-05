@@ -7,8 +7,11 @@ import * as MessageActions from 'app/store/actions/fuse/message.actions';
 import * as FuseActions from 'app/store/actions/fuse';
 import firebase from 'firebase/app';
 import jwtDecode from 'jwt-decode';
-import { getTokenOnly } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getHeaderToken, getTokenOnly } from 'app/services/serviceUtils';
+import { GET_COMPANY_PROFILE } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
 export const SET_USER_DATA = '[USER] SET DATA';
+export const SET_USER_COMPANY_DATA = '[USER] SET COMPANY DATA';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
 
@@ -29,7 +32,7 @@ const authUserData = {
 					scroll: 'content',
 					navbar: {
 						display: true,
-						folded: true,
+						folded: false,
 						position: 'left'
 					},
 					toolbar: {
@@ -38,7 +41,7 @@ const authUserData = {
 						position: 'below'
 					},
 					footer: {
-						display: true,
+						display: false,
 						style: 'fixed',
 						position: 'below'
 					},
@@ -136,7 +139,8 @@ export function setUserData(user) {
 		...authUserData,
 		role: decode ? 'user' : []
 	};
-	return dispatch => {
+	return (dispatch, getState) => {
+		const guestUser = getState().auth.user.data;
 		/*
         You can redirect the logged-in user to a specific route depending on his role
          */
@@ -159,13 +163,46 @@ export function setUserData(user) {
 			payload: decode
 				? {
 						...userData,
-						data: { ...userData.data, displayName: decode.username, ...decode }
+						data: { ...userData.data, ...guestUser, displayName: decode.username, ...decode, user }
 				  }
 				: userData
 		});
 	};
 }
 
+export const getCompanyProfile = token => {
+	return dispatch => {
+		const userData = jwtDecode(token);
+		apiCall(
+			GET_COMPANY_PROFILE(userData.extra.profile.id),
+			{},
+			company => dispatch(setUserCompanyData({ company })), //
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+};
+export const getCompanyProfileById = id => {
+	return dispatch => {
+		apiCall(
+			GET_COMPANY_PROFILE(id),
+			{},
+			company => dispatch(setUserCompanyData({ company })), //
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+};
+export function setUserCompanyData(company) {
+	return dispatch => {
+		dispatch({
+			type: SET_USER_COMPANY_DATA,
+			payload: company
+		});
+	};
+}
 /**
  * Update User Settings
  */

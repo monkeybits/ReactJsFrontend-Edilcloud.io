@@ -40,7 +40,7 @@ function TimelineTab() {
 						animation: 'transition.slideUpBigIn'
 					}}
 				>
-					<div>
+					{/* <div>
 						<Card className="w-full overflow-hidden">
 							<Input
 								className="p-16 w-full"
@@ -78,7 +78,7 @@ function TimelineTab() {
 						</Card>
 
 						<Divider className="my-32" />
-					</div>
+					</div> */}
 
 					{data.posts.map(post => (
 						<Card key={post.id} className="mb-32 overflow-hidden">
@@ -230,7 +230,7 @@ function TimelineTab() {
 				</FuseAnimateGroup>
 			</div>
 
-			<div className="flex flex-col md:w-320">
+			{/* <div className="flex flex-col md:w-320">
 				<FuseAnimateGroup
 					enter={{
 						animation: 'transition.slideUpBigIn'
@@ -277,7 +277,7 @@ function TimelineTab() {
 						</CardContent>
 					</Card>
 				</FuseAnimateGroup>
-			</div>
+			</div> */}
 		</div>
 	);
 }

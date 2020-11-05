@@ -17,21 +17,81 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions/index';
 import reducer from './store/reducers';
+import TimelineTab from 'app/main/pages/profile/tabs/TimelineTab';
+
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Checkbox } from '@material-ui/core';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { ALERTED_POSTS_TASKS, ALERTED_POSTS_ACTIVITY } from 'app/services/apiEndPoints';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import PostList from 'app/main/apps/notes/todo/PostList';
+import clsx from 'clsx';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		width: 280
+		width: 450
 	}
 }));
 
+const useStylesAccordion = makeStyles(theme => ({
+	root: {
+		width: '100%'
+	},
+	heading: {
+		fontSize: theme.typography.pxToRem(15),
+		fontWeight: theme.typography.fontWeightRegular
+	}
+}));
 function QuickPanel(props) {
 	const dispatch = useDispatch();
 	const data = useSelector(({ quickPanel }) => quickPanel.data);
 	const state = useSelector(({ quickPanel }) => quickPanel.state);
+	const classesAccordion = useStylesAccordion();
 
 	const classes = useStyles();
 	const [checked, setChecked] = useState('notifications');
-
+	const [listTask, setListTask] = useState([]);
+	const [listActivity, setListActivity] = useState([]);
+	useEffect(() => {
+		if (state) {
+			getAlertPostTask();
+			getAlertPostActivity();
+		}
+		return () => {
+			setListActivity([]);
+			setListTask([]);
+		};
+	}, [state]);
+	const getAlertPostTask = () => {
+		apiCall(
+			ALERTED_POSTS_TASKS,
+			{},
+			results => {
+				let items = results.map(d => ({ ...d, type: 'tasks' }));
+				setListTask(items);
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+	const getAlertPostActivity = () => {
+		apiCall(
+			ALERTED_POSTS_ACTIVITY,
+			{},
+			results => {
+				let items = results.map(d => ({ ...d, type: 'activity' }));
+				setListActivity(items);
+			},
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
 	const handleToggle = value => () => {
 		const currentIndex = checked.indexOf(value);
 		const newChecked = [...checked];
@@ -52,92 +112,47 @@ function QuickPanel(props) {
 	return (
 		<Drawer
 			classes={{ paper: classes.root }}
+			className="alerted-post-modal-width"
 			open={state}
 			anchor="right"
 			onClose={ev => dispatch(Actions.toggleQuickPanel())}
 		>
 			<FuseScrollbars>
-				<ListSubheader component="div">Today</ListSubheader>
-
-				<div className="mb-0 py-16 px-24">
-					<Typography className="mb-12 text-32" color="textSecondary">
-						{moment().format('dddd')}
-					</Typography>
-					<div className="flex">
-						<Typography className="leading-none text-32" color="textSecondary">
-							{moment().format('DD')}
-						</Typography>
-						<Typography className="leading-none text-16" color="textSecondary">
-							th
-						</Typography>
-						<Typography className="leading-none text-32" color="textSecondary">
-							{moment().format('MMMM')}
-						</Typography>
+				<div className="flex justify-between items-center">
+					{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
+					<Typography className="mx-16 text-16" color="inherit">Alerted posts</Typography>
+					<div className="px-4">
+						<IconButton onClick={ev => dispatch(Actions.toggleQuickPanel())} color="inherit">
+							<Icon>close</Icon>
+						</IconButton>
 					</div>
 				</div>
-				<Divider />
-				<List>
-					<ListSubheader component="div">Events</ListSubheader>
-					{data &&
-						data.events.map(event => (
-							<ListItem key={event.id}>
-								<ListItemText primary={event.title} secondary={event.detail} />
-							</ListItem>
-						))}
-				</List>
-				<Divider />
-				<List>
-					<ListSubheader component="div">Notes</ListSubheader>
-					{data &&
-						data.notes.map(note => (
-							<ListItem key={note.id}>
-								<ListItemText primary={note.title} secondary={note.detail} />
-							</ListItem>
-						))}
-				</List>
-				<Divider />
-				<List>
-					<ListSubheader component="div">Quick Settings</ListSubheader>
-					<ListItem>
-						<ListItemIcon className="min-w-40">
-							<Icon>notifications</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Notifications" />
-						<ListItemSecondaryAction>
-							<Switch
-								color="primary"
-								onChange={handleToggle('notifications')}
-								checked={checked.indexOf('notifications') !== -1}
-							/>
-						</ListItemSecondaryAction>
-					</ListItem>
-					<ListItem>
-						<ListItemIcon className="min-w-40">
-							<Icon>cloud</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Cloud Sync" />
-						<ListItemSecondaryAction>
-							<Switch
-								color="secondary"
-								onChange={handleToggle('cloudSync')}
-								checked={checked.indexOf('cloudSync') !== -1}
-							/>
-						</ListItemSecondaryAction>
-					</ListItem>
-					<ListItem>
-						<ListItemIcon className="min-w-40">
-							<Icon>brightness_high</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Retro Thrusters" />
-						<ListItemSecondaryAction>
-							<Switch
-								color="primary"
-								onChange={handleToggle('retroThrusters')}
-								checked={checked.indexOf('retroThrusters') !== -1}
-							/>
-						</ListItemSecondaryAction>
-					</ListItem>
-				</List>
+				<div className={clsx(classes.root, 'alerted-post-modal-accordion')}>
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel1a-content"
+							id="panel1a-header"
+						>
+							<Typography className={classes.heading}>Tasks</Typography>
+						</AccordionSummary>
+						<AccordionDetails className="flex-wrap">
+							<PostList posts={listTask} />
+						</AccordionDetails>
+					</Accordion>
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel2a-content"
+							id="panel2a-header"
+						>
+							<Typography className={classes.heading}>Activities</Typography>
+						</AccordionSummary>
+						<AccordionDetails  className="flex-wrap">
+							<PostList posts={listActivity} />
+						</AccordionDetails>
+					</Accordion>
+				</div>
 			</FuseScrollbars>
 		</Drawer>
 	);

@@ -17,6 +17,7 @@ const initialState = {
 };
 
 const todosReducer = (state = initialState, action) => {
+	console.log({ action });
 	switch (action.type) {
 		case Actions.GET_TODOS: {
 			return {
@@ -44,6 +45,18 @@ const todosReducer = (state = initialState, action) => {
 				}
 			};
 		}
+		case Actions.OPEN_TIMELINE_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'new',
+					props: {
+						openTimelineDialog: true
+					},
+					data: action.todo
+				}
+			};
+		}
 		case Actions.CLOSE_NEW_TODO_DIALOG: {
 			return {
 				...state,
@@ -51,6 +64,18 @@ const todosReducer = (state = initialState, action) => {
 					type: 'new',
 					props: {
 						open: false
+					},
+					data: null
+				}
+			};
+		}
+		case Actions.CLOSE_TIMELINE_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'new',
+					props: {
+						openTimelineDialog: false
 					},
 					data: null
 				}
@@ -73,6 +98,30 @@ const todosReducer = (state = initialState, action) => {
 				...state,
 				todoDialog: {
 					type: 'edit',
+					props: {
+						open: false
+					},
+					data: null
+				}
+			};
+		}
+		case Actions.OPEN_ACTIVITY_TODO_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'activity',
+					props: {
+						open: true
+					},
+					data: action.data
+				}
+			};
+		}
+		case Actions.CLOSE_ACTIVITY_TODO_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'activity',
 					props: {
 						open: false
 					},

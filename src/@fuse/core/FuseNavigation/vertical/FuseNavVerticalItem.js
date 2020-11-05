@@ -68,7 +68,7 @@ function FuseNavVerticalItem(props) {
 	return (
 		<ListItem
 			button
-			disabled={(checkHasPermissOnChat.length && !company.can_access_chat) || (checkHasPermissOnFile.length && !company.can_access_chat)}
+			disabled={(checkHasPermissOnChat.length && !company.can_access_chat) || (checkHasPermissOnFile.length && !company.can_access_files)}
 			component={NavLinkAdapter}
 			to={item.url}
 			activeClassName="active"

@@ -121,7 +121,7 @@ function TodoSidebarContent(props) {
 									key={label.id}
 									className={classes.listItem}
 								>
-									<Icon className="list-item-icon" style={{ color: label.color }} color="action">
+									<Icon className="list-item-icon" style={{ color: '#388E3C' }} color="action">
 										label
 									</Icon>
 									<ListItemText primary={label.title} disableTypography />

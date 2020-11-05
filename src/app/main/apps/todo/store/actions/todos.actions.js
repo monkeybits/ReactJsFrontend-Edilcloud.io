@@ -16,6 +16,12 @@ export const CLOSE_EDIT_TODO_DIALOG = '[TODO APP] CLOSE EDIT TODO DIALOG';
 export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING';
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER';
 
+
+export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG';
+export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG';
+export const OPEN_ACTIVITY_TODO_DIALOG = '[TODO APP] OPEN ACTIVITY TODO DIALOG';
+export const CLOSE_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE ACTIVITY TODO DIALOG';
+
 export function getTodos(params) {
 	const request = axios.get('/api/todo-app/todos', { params });
 

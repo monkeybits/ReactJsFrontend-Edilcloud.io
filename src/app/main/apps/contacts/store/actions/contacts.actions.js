@@ -11,6 +11,7 @@ import {
 } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
+import { toast } from 'react-toastify';
 
 export const GET_CONTACTS = '[CONTACTS APP] GET CONTACTS';
 export const FILTER_BY = '[CONTACTS APP] FILTER BY';
@@ -33,7 +34,7 @@ export const TOGGLE_STARRED_CONTACT = '[CONTACTS APP] TOGGLE STARRED CONTACT';
 export const TOGGLE_STARRED_CONTACTS = '[CONTACTS APP] TOGGLE STARRED CONTACTS';
 export const SET_CONTACTS_STARRED = '[CONTACTS APP] SET CONTACTS STARRED ';
 
-export function resetContact(routeParams) {
+export function resetContact() {
 	return (dispatch, getState) => {
 		dispatch({
 			type: RESET_CONTACTS
@@ -56,15 +57,15 @@ export function filterByKey(filterKey) {
 		});
 	};
 }
-export function getContacts(routeParams) {
+export function getContacts() {
 	return (dispatch, getState) => {
-		dispatch(getApprovedContacts(routeParams));
-		dispatch(getWaitingContacts(routeParams));
-		dispatch(getRefusedContacts(routeParams));
-		dispatch(getDeactivatedContacts(routeParams));
+		dispatch(getApprovedContacts());
+		dispatch(getWaitingContacts());
+		dispatch(getRefusedContacts());
+		dispatch(getDeactivatedContacts());
 	};
 }
-export function getApprovedContacts(routeParams) {
+export function getApprovedContacts() {
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_STAFF_LIST,
@@ -90,8 +91,7 @@ export function getApprovedContacts(routeParams) {
 				}
 				return dispatch({
 					type: GET_CONTACTS,
-					payload: results,
-					routeParams
+					payload: results
 				});
 			},
 			err => {
@@ -102,7 +102,7 @@ export function getApprovedContacts(routeParams) {
 		);
 	};
 }
-export function getWaitingContacts(routeParams) {
+export function getWaitingContacts() {
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_WAITING_STAFF_LIST,
@@ -128,8 +128,7 @@ export function getWaitingContacts(routeParams) {
 				}
 				return dispatch({
 					type: GET_WAITING_CONTACTS,
-					payload: results,
-					routeParams
+					payload: results
 				});
 			},
 			err => {
@@ -140,7 +139,7 @@ export function getWaitingContacts(routeParams) {
 		);
 	};
 }
-export function getRefusedContacts(routeParams) {
+export function getRefusedContacts() {
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_REFUSED_STAFF_LIST,
@@ -165,9 +164,8 @@ export function getRefusedContacts(routeParams) {
 					});
 				}
 				return dispatch({
-					type: GET_WAITING_CONTACTS,
-					payload: results,
-					routeParams
+					type: GET_REFUSED_CONTACTS,
+					payload: results
 				});
 			},
 			err => {
@@ -178,7 +176,7 @@ export function getRefusedContacts(routeParams) {
 		);
 	};
 }
-export function getDeactivatedContacts(routeParams) {
+export function getDeactivatedContacts() {
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_DISABLED_STAFF_LIST,
@@ -204,8 +202,7 @@ export function getDeactivatedContacts(routeParams) {
 				}
 				return dispatch({
 					type: GET_DEACTIVATED_CONTACTS,
-					payload: results,
-					routeParams
+					payload: results
 				});
 			},
 			err => {
@@ -261,7 +258,6 @@ export function closeViewContactDialog() {
 }
 export function addContact(values, isExisting) {
 	return (dispatch, getState) => {
-		const { routeParams } = getState().contactsApp.contacts;
 		var formData = new FormData();
 		for (let key in values) {
 			if (values[key] || key == 'can_access_chat' || key == 'can_access_files') {
@@ -272,18 +268,19 @@ export function addContact(values, isExisting) {
 			isExisting ? ADD_EXISTING_MEMBER(values.id) : ADD_NEW_MEMBER,
 			formData,
 			res => {
-				dispatch(getContacts(routeParams));
+				dispatch(getContacts());
 			},
-			err => console.log(err),
+			err => {
+				toast.error(err.detail);
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);
 	};
 }
 
-export function updateContact(values, id) {
+export function updateContact(values, id, hideContectCalls) {
 	return (dispatch, getState) => {
-		const { routeParams } = getState().contactsApp.contacts;
 		var formData = new FormData();
 		for (let key in values) {
 			if (values[key] || key == 'can_access_chat' || key == 'can_access_files') formData.append(key, values[key]);
@@ -292,7 +289,9 @@ export function updateContact(values, id) {
 			UPDATE_MEMBER(id),
 			formData,
 			res => {
-				dispatch(getContacts(routeParams));
+				if (!hideContectCalls) {
+					dispatch(getContacts());
+				}
 			},
 			err => console.log(err),
 			METHOD.PUT,
@@ -303,8 +302,6 @@ export function updateContact(values, id) {
 
 export function removeContacts(contactIds) {
 	return (dispatch, getState) => {
-		const { routeParams } = getState().contactsApp.contacts;
-
 		const request = axios.post('/api/contacts-app/remove-contacts', {
 			contactIds
 		});
@@ -314,15 +311,13 @@ export function removeContacts(contactIds) {
 				dispatch({
 					type: REMOVE_CONTACTS
 				})
-			]).then(() => dispatch(getContacts(routeParams)))
+			]).then(() => dispatch(getContacts()))
 		);
 	};
 }
 
 export function toggleStarredContact(contactId) {
 	return (dispatch, getState) => {
-		const { routeParams } = getState().contactsApp.contacts;
-
 		const request = axios.post('/api/contacts-app/toggle-starred-contact', {
 			contactId
 		});
@@ -333,15 +328,13 @@ export function toggleStarredContact(contactId) {
 					type: TOGGLE_STARRED_CONTACT
 				}),
 				dispatch(getUserData())
-			]).then(() => dispatch(getContacts(routeParams)))
+			]).then(() => dispatch(getContacts()))
 		);
 	};
 }
 
 export function toggleStarredContacts(contactIds) {
 	return (dispatch, getState) => {
-		const { routeParams } = getState().contactsApp.contacts;
-
 		const request = axios.post('/api/contacts-app/toggle-starred-contacts', {
 			contactIds
 		});
@@ -352,15 +345,13 @@ export function toggleStarredContacts(contactIds) {
 					type: TOGGLE_STARRED_CONTACTS
 				}),
 				dispatch(getUserData())
-			]).then(() => dispatch(getContacts(routeParams)))
+			]).then(() => dispatch(getContacts()))
 		);
 	};
 }
 
 export function setContactsStarred(contactIds) {
 	return (dispatch, getState) => {
-		const { routeParams } = getState().contactsApp.contacts;
-
 		const request = axios.post('/api/contacts-app/set-contacts-starred', {
 			contactIds
 		});
@@ -371,15 +362,13 @@ export function setContactsStarred(contactIds) {
 					type: SET_CONTACTS_STARRED
 				}),
 				dispatch(getUserData())
-			]).then(() => dispatch(getContacts(routeParams)))
+			]).then(() => dispatch(getContacts()))
 		);
 	};
 }
 
 export function setContactsUnstarred(contactIds) {
 	return (dispatch, getState) => {
-		const { routeParams } = getState().contactsApp.contacts;
-
 		const request = axios.post('/api/contacts-app/set-contacts-unstarred', {
 			contactIds
 		});
@@ -390,7 +379,7 @@ export function setContactsUnstarred(contactIds) {
 					type: SET_CONTACTS_STARRED
 				}),
 				dispatch(getUserData())
-			]).then(() => dispatch(getContacts(routeParams)))
+			]).then(() => dispatch(getContacts()))
 		);
 	};
 }

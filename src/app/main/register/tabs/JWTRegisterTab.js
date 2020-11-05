@@ -77,6 +77,53 @@ function JWTRegisterTab({ history }) {
 					variant="outlined"
 					required
 				/>
+				<TextFieldFormsy
+					className="mb-16"
+					type="text"
+					name="first_name"
+					label="First name"
+					validations={{
+						minLength: 4
+					}}
+					validationErrors={{
+						minLength: 'Min character length is 4'
+					}}
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<Icon className="text-20" color="action">
+									person
+								</Icon>
+							</InputAdornment>
+						)
+					}}
+					variant="outlined"
+					required
+				/>
+
+				<TextFieldFormsy
+					className="mb-16"
+					type="text"
+					name="last_name"
+					label="Last name"
+					validations={{
+						minLength: 4
+					}}
+					validationErrors={{
+						minLength: 'Min character length is 4'
+					}}
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<Icon className="text-20" color="action">
+									person
+								</Icon>
+							</InputAdornment>
+						)
+					}}
+					variant="outlined"
+					required
+				/>
 
 				<TextFieldFormsy
 					className="mb-16"
@@ -145,7 +192,12 @@ function JWTRegisterTab({ history }) {
 				/>
 				<FormControlLabel
 					control={
-						<Checkbox checked={state.termsFile} onChange={handleChange} name="termsFile" color="secondary" />
+						<Checkbox
+							checked={state.termsFile}
+							onChange={handleChange}
+							name="termsFile"
+							color="secondary"
+						/>
 					}
 					label="terms file"
 				/>

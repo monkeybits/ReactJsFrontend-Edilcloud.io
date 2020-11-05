@@ -14,8 +14,17 @@ const user = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.SET_USER_DATA: {
 			return {
-				...initialState,
+				...state,
 				...action.payload
+			};
+		}
+		case Actions.SET_USER_COMPANY_DATA: {
+			return {
+				...state,
+				data: {
+					...state.data,
+					...action.payload
+				}
 			};
 		}
 		case Actions.REMOVE_USER_DATA: {

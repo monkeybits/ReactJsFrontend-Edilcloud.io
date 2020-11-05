@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from '../../services/axiosConfig';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import { USER_MAIN_PROFILE } from 'app/services/apiEndPoints';
 import clsx from 'clsx';
 import { darken } from '@material-ui/core/styles/colorManipulator';
@@ -81,13 +81,13 @@ function VerticalLinearStepper({ user, history }) {
 	const handleReset = () => {
 		setActiveStep(0);
 	};
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		var formData = new FormData();
 		let values = {
 			first_name: form.fname,
 			last_name: form.lname,
 			language: value == 'English' ? 'en' : 'it',
-			photo: file && file.fileData ? file.fileData : undefined
+			photo: file && file.fileData ? await getCompressFile(file.fileData) : undefined
 		};
 		let token = localStorage.getItem('jwt_access_token');
 		for (let key in values) {
@@ -101,7 +101,11 @@ function VerticalLinearStepper({ user, history }) {
 				}
 			})
 			.then(res => {
-				history.push('/create-company');
+				if (res.data.is_invited) {
+					history.push('/apps/companies');
+				} else {
+					history.push('/create-company');
+				}
 			})
 			.catch(err => {
 				console.log(err);
