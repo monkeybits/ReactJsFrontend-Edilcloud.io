@@ -14,7 +14,12 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
 import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-
+import './contact-cards.css';
+import Grid from '@material-ui/core/Grid';
+import ContactCard from './ContactCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
+import { TramOutlined } from '@material-ui/icons';
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
 		order === 'ASC'
@@ -44,6 +49,7 @@ function ContactsList(props) {
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [userData, setUserData] = useState(null);
+	const [viewTable, setViewTable] = useState(false);
 	const [filteredData, setFilteredData] = useState(null);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
@@ -103,13 +109,21 @@ function ContactsList(props) {
 				Header: 'Email',
 				accessor: 'email',
 				sortable: true,
-				Cell: ({ row }) => <a href={`mailto:${row.original.email}`}>{row.original.email}</a>
+				Cell: ({ row }) => (
+					<a onClick={e => e.stopPropagation()} href={`mailto:${row.original.email}`}>
+						{row.original.email}
+					</a>
+				)
 			},
 			{
 				Header: 'Phone',
 				accessor: 'phone',
 				sortable: true,
-				Cell: ({ row }) => <a href={`tel:${row.original.phone}`}>{row.original.phone}</a>
+				Cell: ({ row }) => (
+					<a onClick={e => e.stopPropagation()} href={`tel:${row.original.phone}`}>
+						{row.original.phone}
+					</a>
+				)
 			},
 			{
 				id: 'action',
@@ -160,7 +174,8 @@ function ContactsList(props) {
 		switch (filterKey) {
 			case 'all':
 				results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
-				setFilteredData(results);
+				let deactivatedUsers = sortByProperty(getFilteredArray(deactivated, searchText), 'name');
+				setFilteredData([...results, ...deactivatedUsers]);
 				break;
 			case 'approved':
 				results = sortByProperty(getFilteredArray(approved, searchText), 'name');
@@ -202,7 +217,7 @@ function ContactsList(props) {
 	};
 	useEffect(() => {
 		setContacts(filterKey);
-	}, [contacts, filterKey, searchText]);
+	}, [contacts, filterKey, searchText, deactivated]);
 
 	if (!filteredData) {
 		return null;
@@ -218,8 +233,8 @@ function ContactsList(props) {
 		);
 	}
 	const onDeactivate = () => {
-		const { id, email } = userData;
-		let url = filterKey == 'deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
+		const { id, email, status } = userData;
+		let url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
 		apiCall(
 			url,
 			{},
@@ -235,33 +250,61 @@ function ContactsList(props) {
 	};
 	return (
 		<>
+			<div className="flex">
+				<IconButton onClick={() => setViewTable(false)} className={!viewTable ? 'text-green-700' : ''}>
+					<FontAwesomeIcon icon={faTh} />
+				</IconButton>
+				<IconButton onClick={() => setViewTable(true)}>
+					<FontAwesomeIcon icon={faList} className={viewTable ? 'text-green-700' : ''} />
+				</IconButton>
+			</div>
 			<DeleteConfirmDialog
 				text={
-					<>
-						<Typography>
-							Are you sure want to {filterKey == 'deactivated' ? 'activate' : 'deactivate'} ?
-						</Typography>
-						{filterKey != 'deactivated' && (
-							<Typography>Account will be deactivated untill you not activet this user again!</Typography>
-						)}
-					</>
+					userData && (
+						<>
+							<Typography>
+								Are you sure want to {userData.status == 'Deactivated' ? 'activate' : 'deactivate'} ?
+							</Typography>
+							{userData.status != 'Deactivated' && (
+								<Typography>
+									Account will be deactivated untill you not activet this user again!
+								</Typography>
+							)}
+						</>
+					)
 				}
 				isOpenDeleteDialog={isOpenDeleteDialog}
 				colseDeleteFileDialog={colseDeleteContactDialog}
 				onYes={onDeactivate}
 				onNo={colseDeleteContactDialog}
 			/>
-			<FuseAnimate animation="transition.slideUpIn" delay={200}>
-				<ContactsTable
-					columns={columns}
-					data={filteredData}
-					onRowClick={(ev, row) => {
-						if (row) {
-							dispatch(Actions.openViewContactDialog(row.original));
-						}
-					}}
-				/>
-			</FuseAnimate>
+			{viewTable ? (
+				<FuseAnimate animation="transition.slideUpIn" delay={200}>
+					<ContactsTable
+						columns={columns}
+						data={filteredData}
+						onRowClick={(ev, row) => {
+							if (row) {
+								dispatch(Actions.openViewContactDialog(row.original));
+							}
+						}}
+					/>
+				</FuseAnimate>
+			) : (
+				<Grid container spacing={12}>
+					{filteredData &&
+						filteredData.map((data, index) => {
+							return (
+								<ContactCard
+									editPermission={
+										getRole() == 'o' || getRole() == 'd' || data.email == userInfo?.email
+									}
+									{...data}
+								/>
+							);
+						})}
+				</Grid>
+			)}
 		</>
 	);
 }

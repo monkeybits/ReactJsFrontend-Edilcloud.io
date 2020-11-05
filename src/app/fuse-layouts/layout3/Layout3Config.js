@@ -11,7 +11,7 @@ const config = {
 			position: 'above'
 		},
 		footer: {
-			display: true,
+			display: false,
 			style: 'fixed'
 		},
 		leftSidePanel: {

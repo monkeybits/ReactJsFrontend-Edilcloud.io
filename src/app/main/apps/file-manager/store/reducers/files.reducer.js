@@ -3,10 +3,20 @@ import * as Actions from '../actions';
 
 const initialState = () => ({
 	allFiles: [],
+	photos: [],
+	videos: [],
+	documents: [],
 	files: [],
 	searchText: '',
 	folderPath: [''],
-	isUploadingFiles: false
+	isUploadingFiles: false,
+	moveFileDialog: {
+		type: 'moveFile',
+		props: {
+			open: false
+		},
+		data: {}
+	}
 });
 
 function formatBytes(a, b = 2) {
@@ -23,7 +33,7 @@ function formatBytes(a, b = 2) {
 const addTypeInArray = (arr = [], type) =>
 	arr.map((d, i) => ({ ...d, mainId: d.id, id: i, type, size: formatBytes(d.size) }));
 const mergeArray = (oldArr = [], newArr = []) =>
-	[...oldArr, ...newArr].reduce((arr, current) => {
+	[...newArr, ...oldArr].reduce((arr, current) => {
 		const x = arr.find(item => item.mainId === current.mainId);
 		if (!x) {
 			return arr.concat([current]);
@@ -47,6 +57,69 @@ function sortByProperty(array, property, order = 'ASC') {
 	);
 }
 const chnageIds = (arr = []) => arr.map((d, i) => ({ ...d, id: i }));
+const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) => {
+	if (fileType == 'folder') {
+		return {
+			...state,
+			allFiles: chnageIds(
+				sortByProperty(
+					state.allFiles.filter(f => f.id != indexId),
+					'title'
+				)
+			),
+			folders: state.folders.filter(f => f.path != deleteId),
+			files: state.files.filter(f => !f.folder_relative_path.includes(deleteId)),
+			photos: {
+				...state.photos,
+				results: state.photos.results.filter(f => !f.folder_relative_path.includes(deleteId))
+			},
+			videos: {
+				...state.videos,
+				results: state.videos.results.filter(f => !f.folder_relative_path.includes(deleteId))
+			},
+			documents: {
+				...state.documents,
+				results: state.documents.results.filter(f => !f.folder_relative_path.includes(deleteId))
+			}
+		};
+	} else if (fileType == 'photo') {
+		return {
+			...state,
+			allFiles: chnageIds(
+				sortByProperty(
+					state.allFiles.filter(f => f.id != indexId),
+					'title'
+				)
+			),
+			photos: { ...state.photos, results: state.photos.results.filter(f => f.id != deleteId) },
+			files: state.files.filter(f => f.mainId != deleteId)
+		};
+	} else if (fileType == 'video') {
+		return {
+			...state,
+			allFiles: chnageIds(
+				sortByProperty(
+					state.allFiles.filter(f => f.id != indexId),
+					'title'
+				)
+			),
+			videos: { ...state.videos, results: state.videos.results.filter(f => f.id != deleteId) },
+			files: state.files.filter(f => f.mainId != deleteId)
+		};
+	} else {
+		return {
+			...state,
+			allFiles: chnageIds(
+				sortByProperty(
+					state.allFiles.filter(f => f.id != indexId),
+					'title'
+				)
+			),
+			documents: { ...state.documents, results: state.documents.results.filter(f => f.id != deleteId) },
+			files: state.files.filter(f => f.mainId != deleteId)
+		};
+	}
+};
 const filesReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_ALL_FILES:
@@ -102,6 +175,11 @@ const filesReducer = (state = initialState(), action) => {
 				...state,
 				folderPath: [...state.folderPath, action.payload]
 			};
+		case Actions.UPDATE_FOLDER_PATH:
+			return {
+				...state,
+				folderPath: [...action.payload]
+			};
 		case Actions.POP_FOLDER_PATH:
 			let folderPath = state.folderPath;
 			folderPath.pop();
@@ -115,17 +193,39 @@ const filesReducer = (state = initialState(), action) => {
 				isUploadingFiles: action.payload
 			};
 		case Actions.DELETE_FILE:
-			return {
-				...state,
-				allFiles: chnageIds(
-					sortByProperty(
-						state.allFiles.filter(f => f.id != action.payload),
-						'title'
-					)
-				)
-			};
+			return deleteFileOrFolder(
+				action.payload.fileType,
+				state,
+				action.payload.id,
+				action.payload.deleteId,
+				action.payload.selectedItem
+			);
 		case Actions.RESET_FILES: {
 			return initialState();
+		}
+		case Actions.FILE_MOVE_OPEN_DIALOG: {
+			return {
+				...state,
+				moveFileDialog: {
+					type: 'moveFile',
+					props: {
+						open: true
+					},
+					data: action.payload
+				}
+			};
+		}
+		case Actions.FILE_MOVE_CLOSE_DIALOG: {
+			return {
+				...state,
+				moveFileDialog: {
+					type: 'moveFile',
+					props: {
+						open: false
+					},
+					data: {}
+				}
+			};
 		}
 		default:
 			return state;

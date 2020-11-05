@@ -17,7 +17,7 @@ import reducer from './store/reducers';
 import { makeStyles, Button, TextField, CircularProgress, LinearProgress } from '@material-ui/core';
 import { ADD_PHOTO, ADD_FOLDER, ADD_VIDEO, ADD_DOCUMENT } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { withRouter } from 'react-router';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -37,6 +37,15 @@ import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import TransitionAlerts from './TransitionAlerts.js';
+import FloatingButtonUpload from './FloatingButtonUpload';
+import imageCompression from 'browser-image-compression';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppBar from '@material-ui/core/AppBar';
+import MoveFileDialog from './MoveFileDialog';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
+import FileGrid from './FileGrid';
+
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -74,6 +83,11 @@ const DialogActions = withStyles(theme => ({
 	root: {
 		margin: 0,
 		padding: theme.spacing(1)
+	},
+	rightSidebar: {
+		'&.fileInfoSidebar': {
+			backgroundColor: '#fff'
+		}
 	}
 }))(MuiDialogActions);
 
@@ -97,7 +111,7 @@ function FileManagerApp(props) {
 	const [progress, setProgress] = React.useState(0);
 	const [path, setPath] = useState('');
 	const [filePath, setFilePath] = useState('');
-	const [folderName, setFolderName] = useState(undefined);
+	const [viewTable, setViewTable] = useState(false);
 	const [title, setTitle] = useState(undefined);
 	const [description, setDescription] = useState(undefined);
 	const [open, setOpen] = React.useState(false);
@@ -137,23 +151,45 @@ function FileManagerApp(props) {
 			});
 		}
 	};
-	const handleUpload = () => {
+	const resetOpenForm = () => {
+		setFile({
+			file: null,
+			fileType: null
+		});
+		setTitle(undefined);
+		setFilePath('');
+		setDescription(undefined);
+		seterror({
+			fileError: '',
+			titleError: '',
+			descError: '',
+			nameError: ''
+		});
+	};
+
+	const handleUpload = async () => {
 		if (isUploading == false) {
 			setIsUploading(true);
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
 			const { fileType, file } = fileData;
-			if (!fileType && radioBtnValue == 'file') return;
 
+			if (!fileType && radioBtnValue == 'file') return;
+			handleClose();
 			let formData = new FormData();
 			let datakey = fileType == 'image' ? 'photo' : fileType == 'video' ? 'video' : 'document';
 			let values =
 				radioBtnValue == 'folder'
 					? {
 							name: title,
-							path
+							path: files.folders && !!files.folders.length ? path : ''
 					  }
-					: { [datakey]: file, title, description, additional_path: filePath ? filePath : '' };
+					: {
+							[datakey]: fileType == 'image' ? await getCompressFile(file) : file,
+							title,
+							description,
+							additional_path: filePath ? filePath : ''
+					  };
 			for (let key in values) {
 				formData.append(key, values[key]);
 			}
@@ -203,28 +239,30 @@ function FileManagerApp(props) {
 					}
 				}
 			);
-			setIsOpenDrawer(false);
+
 			setIsUploading(false);
 			setTitle('');
 		}
 	};
 	const handleClose = () => {
+		resetOpenForm();
 		setIsOpenDrawer(false);
 	};
 	const handleRadioChange = event => {
 		setRadioBtnValue(event.target.value);
 	};
+	const canSubmit = () => (radioBtnValue == 'folder' ? title?.length : title?.length && fileData.file);
 	return (
 		<>
 			<FusePageSimple
 				classes={{
-					root: 'bg-red',
+					root: 'bg-red fileInfoSidebar',
 					header: 'h-96 min-h-96 sm:h-160 sm:min-h-160',
 					sidebarHeader: 'h-96 min-h-96 sm:h-160 sm:min-h-160',
 					rightSidebar: 'w-320'
 				}}
 				header={
-					<div className="flex flex-col flex-1 p-8 sm:p-12 relative">
+					<div className="flex flex-col flex-1 p-8 sm:p-12 relative z-50">
 						<div className="flex items-center justify-between">
 							<IconButton
 								onClick={() => {
@@ -251,10 +289,21 @@ function FileManagerApp(props) {
 									/>
 								</Paper>
 							</FuseAnimate>
+							<div className="flex">
+								<IconButton
+									onClick={() => setViewTable(false)}
+									className={!viewTable ? 'text-green-700' : ''}
+								>
+									<FontAwesomeIcon icon={faTh} />
+								</IconButton>
+								<IconButton onClick={() => setViewTable(true)}>
+									<FontAwesomeIcon icon={faList} className={viewTable ? 'text-green-700' : ''} />
+								</IconButton>
+							</div>
 						</div>
 						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
 						<div className="flex flex-1 items-end">
-							<FuseAnimate animation="transition.expandIn" delay={600}>
+							{/* <FuseAnimate animation="transition.expandIn" delay={600}>
 								<Fab
 									onClick={() => setIsOpenDrawer(true)}
 									color="secondary"
@@ -263,7 +312,8 @@ function FileManagerApp(props) {
 								>
 									<Icon>add</Icon>
 								</Fab>
-							</FuseAnimate>
+							</FuseAnimate> */}
+
 							<FuseAnimate delay={200}>
 								<div>
 									{folderPath && (
@@ -275,10 +325,14 @@ function FileManagerApp(props) {
 								</div>
 							</FuseAnimate>
 						</div>
-						{isUploadingFiles && <LinearProgressWithLabel progress={progress} />}
+						{isUploadingFiles && (
+							<div className="linear-progress">
+								<LinearProgressWithLabel progress={progress} />
+							</div>
+						)}
 					</div>
 				}
-				content={<FileList pageLayout={pageLayout} />}
+				content={viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}
@@ -287,6 +341,18 @@ function FileManagerApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
+			<FuseAnimate animation="transition.expandIn" delay={600}>
+				<FloatingButtonUpload
+					color="secondary"
+					className=" ltr:left-0 rtl:right-0 mx-16 z-999"
+					callAction={name => {
+						setIsOpenDrawer(true);
+						return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
+					}}
+				/>
+			</FuseAnimate>
+			<MoveFileDialog />
+
 			<Dialog
 				onClose={handleClose}
 				aria-labelledby="customized-dialog-title"
@@ -294,26 +360,22 @@ function FileManagerApp(props) {
 				maxWidth="xs"
 				fullWidth="true"
 			>
-				<DialogTitle id="customized-dialog-title" onClose={handleClose}>
+				{/* <DialogTitle id="customized-dialog-title" onClose={handleClose}>
 					Upload File
-				</DialogTitle>
+				</DialogTitle> */}
+				<AppBar position="static" elevation={1}>
+					<Toolbar>
+						<div className="absolute right-0">
+							<IconButton onClick={handleClose} edge="start" color="inherit" aria-label="close">
+								<CloseIcon />
+							</IconButton>
+						</div>
+						<Typography variant="subtitle1" color="inherit">
+							Upload File
+						</Typography>
+					</Toolbar>
+				</AppBar>
 				<DialogContent dividers>
-					<div>
-						<FormControl component="fieldset">
-							<RadioGroup
-								row
-								aria-label="position"
-								name="position"
-								defaultValue="folder"
-								value={radioBtnValue}
-								onChange={handleRadioChange}
-							>
-								<FormControlLabel value="folder" control={<Radio color="secondary" />} label="Folder" />
-								<FormControlLabel value="file" control={<Radio color="secondary" />} label="File" />
-							</RadioGroup>
-						</FormControl>
-					</div>
-
 					{radioBtnValue == 'folder' ? (
 						<>
 							<div>
@@ -329,6 +391,7 @@ function FileManagerApp(props) {
 										setTitle(value);
 									}}
 									helperText={error.nameError}
+									variant="outlined"
 								/>
 							</div>
 							{files.folders && !!files.folders.length && (
@@ -341,7 +404,10 @@ function FileManagerApp(props) {
 										renderOption={(option, { selected }) => <>{option.path}</>}
 										renderInput={params => <TextField {...params} label="Path" />}
 										onInputChange={(e, value) => setPath(value)}
-										defaultValue={currentFolderPath?.[0]}
+										variant="outlined"
+										defaultValue={
+											files.folders && !!files.folders.length ? currentFolderPath?.[0] : ''
+										}
 									/>
 								</div>
 							)}
@@ -360,6 +426,7 @@ function FileManagerApp(props) {
 										resetError();
 										setTitle(value);
 									}}
+									variant="outlined"
 									helperText={error.titleError}
 								/>
 							</div>
@@ -371,6 +438,7 @@ function FileManagerApp(props) {
 									className="mt-8 mb-16 w-full"
 									multiline
 									rows={4}
+									variant="outlined"
 									onChange={({ target: { value } }) => {
 										resetError();
 										setDescription(value);
@@ -384,6 +452,7 @@ function FileManagerApp(props) {
 									type="file"
 									className="mt-8 mb-16 w-full"
 									onChange={addFile}
+									variant="outlined"
 									helperText={error.fileError}
 								/>
 							</div>
@@ -398,14 +467,21 @@ function FileManagerApp(props) {
 										renderInput={params => <TextField {...params} label="Path" />}
 										onInputChange={(e, value) => setFilePath(value)}
 										defaultValue={currentFolderPath?.[0]}
+										variant="outlined"
 									/>
 								</div>
 							)}
 						</>
 					)}
 				</DialogContent>
-				<DialogActions>
-					<Button autoFocus onClick={handleUpload} variant="contained" color="secondary">
+				<DialogActions className="p-16">
+					<Button
+						autoFocus
+						disabled={!canSubmit()}
+						onClick={handleUpload}
+						variant="contained"
+						color="secondary"
+					>
 						{radioBtnValue == 'folder' ? 'Create' : 'Upload'}
 					</Button>
 				</DialogActions>

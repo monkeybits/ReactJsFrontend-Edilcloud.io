@@ -9,12 +9,14 @@ import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import keycode from 'keycode';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Chat from './Chat';
 import ContactList from './ContactList';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
+import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	panel: {
 		position: 'absolute',
-		width: 360,
+		width: 350,
 		backgroundColor: theme.palette.background.paper,
 		boxShadow: theme.shadows[3],
 		top: 0,
@@ -39,10 +41,11 @@ const useStyles = makeStyles(theme => ({
 		right: 0,
 		margin: 0,
 		zIndex: 1000,
-		transform: 'translate3d(290px,0,0)',
+		transform: 'translate3d(280px,0,0)',
 		overflow: 'hidden',
 		[theme.breakpoints.down('md')]: {
-			transform: 'translate3d(360px,0,0)',
+			transform: 'translate3d(350px,0,0)',
+			maxWidth: '100%',
 			boxShadow: 'none',
 			'&.opened': {
 				boxShadow: theme.shadows[5]
@@ -63,14 +66,16 @@ function ChatPanel(props) {
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
 	const state = useSelector(({ chatPanel }) => chatPanel.state);
+	const user = useSelector(({ chatPanel }) => chatPanel.user);
 	const ref = useRef();
-
+	const [open, setOpen] = useState(false);
 	const classes = useStyles(props);
 	const selectedContact = contacts.find(_contact => _contact.id === selectedContactId);
+	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
 
 	const handleDocumentKeyDown = useCallback(
 		event => {
-			if (keycode(event) === 'esc') {
+			if (keycode(event) === 'esc' && !open) {
 				dispatch(Actions.closeChatPanel());
 			}
 		},
@@ -78,12 +83,15 @@ function ChatPanel(props) {
 	);
 
 	useEffect(() => {
-		dispatch(Actions.getUserData());
-		dispatch(Actions.getContacts());
+		// dispatch(Actions.getUserData());
+		// let callMessageList = setInterval(() => dispatch(Actions.getProjects()), 1000);
+		dispatch(Actions.getProjects());
 		return () => {
+			// clearInterval(callMessageList);
+			dispatch(Actions.removeContacts());
 			document.removeEventListener('keydown', handleDocumentKeyDown);
 		};
-	}, [dispatch, handleDocumentKeyDown]);
+	}, [dispatch, handleDocumentKeyDown, projects]);
 
 	useEffect(() => {
 		if (state) {
@@ -96,66 +104,81 @@ function ChatPanel(props) {
 	/**
 	 * Click Away Listener
 	 */
-	useEffect(() => {
-		function handleDocumentClick(ev) {
-			if (ref.current && !ref.current.contains(ev.target)) {
-				dispatch(Actions.closeChatPanel());
-			}
-		}
+	// useEffect(() => {
+	// 	function handleDocumentClick(ev) {
+	// 		if (ref.current && !ref.current.contains(ev.target) && !open) {
+	// 			dispatch(Actions.closeChatPanel());
+	// 		}
+	// 	}
 
-		if (state) {
-			document.addEventListener('click', handleDocumentClick, true);
-		} else {
-			document.removeEventListener('click', handleDocumentClick, true);
-		}
+	// 	if (state) {
+	// 		document.addEventListener('click', handleDocumentClick, true);
+	// 	} else {
+	// 		document.removeEventListener('click', handleDocumentClick, true);
+	// 	}
 
-		return () => {
-			document.removeEventListener('click', handleDocumentClick);
-		};
-	}, [state, dispatch]);
+	// 	return () => {
+	// 		document.removeEventListener('click', handleDocumentClick);
+	// 	};
+	// }, [state, dispatch]);
 
+	// if (contacts.length < 1) {
+	// 	return null;
+	// }
 	return (
-		<div className={classes.root}>
-			<div className={clsx(classes.panel, { opened: state }, 'flex flex-col')} ref={ref}>
-				<AppBar position="static" elevation={1}>
-					<Toolbar className="px-4">
-						{(!state || !selectedContactId) && (
-							<div className="flex flex-1 items-center px-4">
-								<IconButton
-									className=""
-									color="inherit"
-									onClick={ev => dispatch(Actions.openChatPanel())}
-								>
-									<Icon className="text-32">chat</Icon>
-								</IconButton>
-								{!selectedContactId && (
-									<Typography className="mx-8 text-16" color="inherit">
-										Team Chat
+		<WebSocketProvider>
+			<div className={classes.root}>
+				<div className={clsx(classes.panel, { opened: state }, 'flex flex-col team-chat-sidebar')} ref={ref}>
+					<AppBar position="static" elevation={1}>
+						<Toolbar className="px-4">
+							{(!state || !user?.id) && (
+								<div className="flex flex-1 items-center px-4">
+									<IconButton
+										className=""
+										color="inherit"
+										onClick={ev => dispatch(Actions.openChatPanel())}
+									>
+										<Icon className="text-32">chat</Icon>
+									</IconButton>
+									{!user?.id && (
+										<Typography className="mx-8 text-16" color="inherit">
+											Team Chat
+										</Typography>
+									)}
+								</div>
+							)}
+							{state && user?.id && (
+								<div className="flex">
+									<IconButton onClick={ev => dispatch(Actions.removeChat())} color="inherit">
+										<Icon>arrow_back</Icon>
+									</IconButton>
+								</div>
+							)}
+							{state && user?.id && (
+								<div className="flex flex-1 items-center px-12">
+									<Avatar src={user.logo} />
+									<Typography className="mx-16 text-16" color="inherit">
+										{user.name}
 									</Typography>
-								)}
+								</div>
+							)}
+							<div className="flex px-4">
+								<IconButton onClick={ev => !open && dispatch(Actions.closeChatPanel())} color="inherit">
+									<Icon>close</Icon>
+								</IconButton>
 							</div>
+						</Toolbar>
+					</AppBar>
+					{user?.loadingChat && <LinearProgress color="secondary" />}
+					<Paper className="flex flex-1 flex-row min-h-px">
+						{(!state || !user?.showUser) && <ContactList className="flex flex-shrink-0" />}
+						{state && user?.showUser && (
+							<Chat {...{ open, setOpen }} className="flex flex-1 z-10 muliple-images-overflow-x" />
 						)}
-						{state && selectedContact && (
-							<div className="flex flex-1 items-center px-12">
-								<Avatar src={selectedContact.avatar} />
-								<Typography className="mx-16 text-16" color="inherit">
-									{selectedContact.name}
-								</Typography>
-							</div>
-						)}
-						<div className="flex px-4">
-							<IconButton onClick={ev => dispatch(Actions.closeChatPanel())} color="inherit">
-								<Icon>close</Icon>
-							</IconButton>
-						</div>
-					</Toolbar>
-				</AppBar>
-				<Paper className="flex flex-1 flex-row min-h-px">
-					<ContactList className="flex flex-shrink-0" />
-					<Chat className="flex flex-1 z-10" />
-				</Paper>
+					</Paper>
+				</div>
 			</div>
-		</div>
+		</WebSocketProvider>
 	);
 }
 

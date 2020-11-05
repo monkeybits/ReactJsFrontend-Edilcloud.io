@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 export const GET_LABELS = '[NOTES APP] GET LABELS';
-export const LABELS_DIALOG_OPEN = '[NOTES APP] LABELS DIALOG OPEN';
-export const LABELS_DIALOG_CLOSE = '[NOTES APP] LABELS DIALOG CLOSE';
-export const UPDATE_LABELS = '[NOTES APP] LABELS UPDATE LABELS';
+export const LABELS_DIALOG_OPEN = '[PROJECT APP] PROJECT DIALOG OPEN';
+export const LABELS_DIALOG_CLOSE = '[PROJECT APP] PROJECT DIALOG CLOSE';
+export const UPDATE_LABELS = '[PROJECT APP] PROJECT UPDATE PROJECT';
+export const DIALOG_PROJECT_OPEN = '[PROJECT APP] PROJECT DIALOG OPEN';
+export const DIALOG_PROJECT_CLOSE = '[PROJECT APP] PROJECT DIALOG CLOSE';
 
 export function getLabels() {
 	const request = axios.get('/api/notes-app/labels');
@@ -35,8 +37,20 @@ export function openLabelsDialog() {
 	};
 }
 
+export function openProjectDialog(dialogType) {
+	return {
+		type: DIALOG_PROJECT_OPEN,
+		dialogType
+	};
+}
+
 export function closeLabelsDialog() {
 	return {
 		type: LABELS_DIALOG_CLOSE
+	};
+}
+export function closeProjectDialog() {
+	return {
+		type: DIALOG_PROJECT_CLOSE
 	};
 }

@@ -1,3 +1,4 @@
+import _ from '@lodash';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import Icon from '@material-ui/core/Icon';
@@ -11,13 +12,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-import { APPROVE_LIST, REFRESH_TOKEN, REQUEST_LIST } from 'app/services/apiEndPoints';
+import {
+	APPROVE_LIST,
+	REFRESH_TOKEN,
+	REQUEST_LIST,
+	GET_MAIN_PROFILE,
+	ACCEPT_INVITATION,
+	REFUSE_INVITATION
+} from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import { getHeaderToken, getTokenOnly, saveToken } from 'app/services/serviceUtils';
+import {
+	getHeaderToken,
+	getTokenOnly,
+	saveToken,
+	saveMainProfileId,
+	decodeDataFromToken
+} from 'app/services/serviceUtils';
 import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
+import * as authActions from 'app/auth/store/actions';
 import ReuestsDrawer from './ReuestsDrawer';
 import Badge from '@material-ui/core/Badge';
 import { Avatar } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
+import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
+import * as FuseActions from 'app/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -49,8 +67,10 @@ const useStyles = makeStyles(theme => ({
 function Boards(props) {
 	const dispatch = useDispatch();
 	const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
+	const settings = useSelector(({ fuse }) => fuse.settings.current);
 	const classes = useStyles(props);
 	const [isShowRequests, setIsShowRequests] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [request, setRequest] = useState({});
 
 	useEffect(() => {
@@ -64,7 +84,7 @@ function Boards(props) {
 		apiCall(
 			APPROVE_LIST,
 			{},
-			({ results }) => {
+			results => {
 				if (Array.isArray(results)) {
 					let filterdBoards = results.filter(d => d.company && d.status);
 					dispatch({
@@ -101,18 +121,42 @@ function Boards(props) {
 		);
 	};
 	const redirectAfterGetNewToken = company_profile_id => {
+		const myCustomUniqueUserId = company_profile_id;
+		if (window.Print) {
+			window.Print.postMessage(myCustomUniqueUserId.toString());
+		}
+		window.OneSignal.push(function () {
+			window.OneSignal.setExternalUserId(myCustomUniqueUserId);
+		});
 		apiCall(
 			REFRESH_TOKEN(company_profile_id),
 			{
 				token: getTokenOnly()
 			},
 			res => {
+				getMainProfile(res.main_profile);
+				saveMainProfileId(res.main_profile);
 				saveToken(res.token);
+				setIsLoading(false);
 				dispatch(Actions.resetFile());
+				dispatch(authActions.getCompanyProfile(res.token));
 				props.history.push('/apps/todo/all');
 			},
-			err => console.log(err),
+			err => {
+				setIsLoading(false);
+				console.log(err);
+			},
 			METHOD.POST
+		);
+	};
+	const getMainProfile = mainProfileId => {
+		apiCall(
+			GET_MAIN_PROFILE(mainProfileId),
+			{},
+			res => dispatch(authActions.setUserData(res)),
+			err => console.log({ err }),
+			METHOD.GET,
+			getHeaderToken()
 		);
 	};
 	const handleInvitation = () => {
@@ -123,7 +167,16 @@ function Boards(props) {
 		getRequest();
 		setIsShowRequests(false);
 	};
-	return (
+	const handleMoreAction = (action, company) => {
+		if (action == 'Edit') {
+			console.log({ company });
+			dispatch(authActions.setUserCompanyData({ company }));
+			props.history.push('/edit-company');
+		}
+	};
+	return isLoading ? (
+		<FuseSplashScreen />
+	) : (
 		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
 				<FuseAnimate>
@@ -132,58 +185,86 @@ function Boards(props) {
 					</Typography>
 				</FuseAnimate>
 				<div>
-					<FuseAnimateGroup
-						className="flex flex-wrap w-full justify-center py-32 px-16"
-						enter={{
-							animation: 'transition.slideUpBigIn',
-							duration: 300
-						}}
-					>
-						{boards.map(board => (
-							<div className="w-224 h-224 p-16" key={board.id}>
-								<Link
-									// to={`/apps/companies/${board.id}/${board.uri}`}
-									onClick={() => {
-										if (!!board.isApproved) {
-											redirectAfterGetNewToken(board.company_profile_id);
-										} else {
-											setIsShowRequests(true);
+					<div className="flex flex-wrap w-full justify-center py-32 px-16">
+						{!!boards.length &&
+							boards.map(board => (
+								<div className="w-224 h-224 p-16" key={board.id}>
+									<Link
+										to="#"
+										onClick={e => {
+											e.preventDefault();
+											e.stopPropagation();
 											setRequest(board);
-										}
-									}}
-									className={clsx(
-										classes.board,
-										'flex flex-col items-center justify-center w-full h-full rounded py-24'
-									)}
-									role="button"
-								>
-									{board.isApproved ? (
-										<Avatar src={board.logo} variant="square">
-											{board.name.split('')[0]}
-										</Avatar>
-									) : (
-										<Badge
-											invisible={board.isApproved}
-											color="secondary"
-											onClick={e => {
-												e.stopPropagation();
-												e.preventDefault();
+											if (!!board.isApproved) {
+												setIsLoading(true);
+												// dispatch(
+												// 	FuseActions.setDefaultSettings(
+												// 		_.set({}, 'layout.config.toolbar.display', false)
+												// 	)
+												// );
+												redirectAfterGetNewToken(board.company_profile_id);
+											} else {
 												setIsShowRequests(true);
 												setRequest(board);
-											}}
+											}
+										}}
+										className={clsx(
+											classes.board,
+											'flex flex-col items-center justify-center w-full h-full rounded py-24'
+										)}
+										role="button"
+									>
+										{board.company_profile_id == request.company_profile_id && isLoading ? (
+											<Skeleton style={{ background: 'darkgrey' }}>
+												<Avatar src={board.logo} variant="square" className="company-img">
+													{board.name.split('')[0]}
+												</Avatar>
+											</Skeleton>
+										) : (
+											<>
+												{board.isApproved ? (
+													<>
+														<Avatar
+															src={board.logo}
+															variant="square"
+															className="company-img"
+														>
+															{board.name.split('')[0]}
+														</Avatar>
+													</>
+												) : (
+													<Badge
+														invisible={board.isApproved}
+														color="secondary"
+														onClick={e => {
+															e.stopPropagation();
+															e.preventDefault();
+															setIsShowRequests(true);
+															setRequest(board);
+														}}
+													>
+														<Avatar
+															src={board.logo}
+															variant="square"
+															className="company-img"
+														>
+															{board.name.split('')[0]}
+														</Avatar>
+														{/* <Icon className="text-56">assessment</Icon> */}
+													</Badge>
+												)}
+											</>
+										)}
+
+										<Typography
+											className="text-16 font-300 text-center pt-16 px-32"
+											color="inherit"
 										>
-											<Avatar src={board.logo} variant="square">
-												{board.name.split('')[0]}
-											</Avatar>
-											{/* <Icon className="text-56">assessment</Icon> */}
-										</Badge>
-									)}
-									<Typography className="text-16 font-300 text-center pt-16 px-32" color="inherit">
-										{board.name}
-									</Typography>
-								</Link>
-							</div>
-						))}
+											{board.name}
+										</Typography>
+									</Link>
+								</div>
+							))}
 						<div className="w-224 h-224 p-16">
 							<div
 								className={clsx(
@@ -202,7 +283,7 @@ function Boards(props) {
 								</Typography>
 							</div>
 						</div>
-					</FuseAnimateGroup>
+					</div>
 				</div>
 			</div>
 			<ReuestsDrawer
@@ -210,6 +291,8 @@ function Boards(props) {
 				isShowRequests={isShowRequests}
 				setIsShowRequests={setIsShowRequests}
 				request={request}
+				acceptAPI={ACCEPT_INVITATION(request.uidb36, request.token)}
+				rejectAPI={REFUSE_INVITATION(request.uidb36, request.token)}
 			/>
 		</div>
 	);

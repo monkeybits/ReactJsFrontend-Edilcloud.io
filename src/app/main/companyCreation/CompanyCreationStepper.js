@@ -8,21 +8,22 @@ import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams, withRouter } from 'react-router-dom';
 import axios from '../../services/axiosConfig';
 import { USER_MAIN_PROFILE } from 'app/services/apiEndPoints';
 import CompanyDetails from './CompanyDetails';
 import CompanyCategory from './CompanyCategory';
 import FileUpload from '../mainProfile/FileUpload';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { TYPOLOGY_LIST, TYPOLOGY_LIST_BY_CODE, USER_ADD_COMPANY } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { TYPOLOGY_LIST, TYPOLOGY_LIST_BY_CODE, USER_ADD_COMPANY, USER_EDIT_COMPANY } from 'app/services/apiEndPoints';
+import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import clsx from 'clsx';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { darken } from '@material-ui/core/styles/colorManipulator';
+import * as Actions from 'app/main/apps/chat/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -60,7 +61,7 @@ function getStepContent(step, elementProps) {
 }
 
 function CompanyCreationStepper({ user, history }) {
-	const { form, handleChange, resetForm } = useForm({
+	const { form, handleChange, resetForm, setForm } = useForm({
 		name: '',
 		desc: '',
 		email: '',
@@ -68,8 +69,27 @@ function CompanyCreationStepper({ user, history }) {
 		url: '',
 		phone: ''
 	});
+	const company = useSelector(({ chatApp }) => chatApp.company);
+	const dispatch = useDispatch();
 	const [typologyList, setTypologyList] = React.useState([]);
 	const [optionList, setOptionList] = React.useState([]);
+	const [isEdit, setIsEdit] = React.useState(false);
+	const routeHistory = useHistory();
+
+	const classes = useStyles();
+
+	const [activeStep, setActiveStep] = React.useState(0);
+	const steps = getSteps();
+	const [value, setValue] = React.useState('English');
+	const [file, setFile] = React.useState(null);
+	const [error, setError] = React.useState({
+		name: [],
+		slug: [],
+		url: [],
+		email: [],
+		vat_number: [],
+		phone: []
+	});
 	useEffect(() => {
 		apiCall(
 			TYPOLOGY_LIST,
@@ -110,21 +130,30 @@ function CompanyCreationStepper({ user, history }) {
 			getHeaderToken()
 		);
 	}, []);
-
-	const classes = useStyles();
-	const [activeStep, setActiveStep] = React.useState(0);
-	const steps = getSteps();
-	const [value, setValue] = React.useState('English');
-	const [file, setFile] = React.useState(null);
-	const [error, setError] = React.useState({
-		name: [],
-		slug: [],
-		url: [],
-		email: [],
-		vat_number: [],
-		phone: []
-	});
-
+	useEffect(() => {
+		dispatch(Actions.companyInfo());
+	}, []);
+	useEffect(() => {
+		if (routeHistory) {
+			console.log({ routeHistory });
+			if (routeHistory.location.pathname == '/edit-company') {
+				setIsEdit(true);
+				console.log({ company });
+				setFile({
+					imagePreviewUrl: company.logo
+				});
+				setForm({
+					id: company.id,
+					name: company.name,
+					desc: company.description,
+					email: company.email,
+					vat_number: company.vat_number,
+					url: company.url,
+					phone: company.phone
+				});
+			}
+		}
+	}, [routeHistory, company]);
 	const handleNext = () => {
 		setActiveStep(prevActiveStep => prevActiveStep + 1);
 		if (activeStep == 2) {
@@ -139,30 +168,44 @@ function CompanyCreationStepper({ user, history }) {
 	const handleReset = () => {
 		setActiveStep(0);
 	};
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		var formData = new FormData();
 		let values = {
 			name: form.name,
-			slug: form.name,
+			slug: form.name.split(' ').join('_'),
+			description: form.desc,
 			url: form.url,
 			vat_number: form.vat_number,
 			email: form.email,
 			phone: form.phone,
-			logo: file && file.fileData ? file.fileData : undefined
+			logo: file && file.fileData ? await getCompressFile(file.fileData) : undefined
 		};
 		let token = localStorage.getItem('jwt_access_token');
 		for (let key in values) {
 			if (values[key]) formData.append(key, values[key]);
 		}
-		axios
-			.post(USER_ADD_COMPANY, formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-					Authorization: `JWT ${token}`
-				}
-			})
+		let request = isEdit
+			? axios.put(USER_EDIT_COMPANY(company.id), formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+						Authorization: `JWT ${token}`
+					}
+			  })
+			: axios.post(USER_ADD_COMPANY, formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+						Authorization: `JWT ${token}`
+					}
+			  });
+
+		request
 			.then(res => {
-				history.push('/apps/companies');
+				if (isEdit) {
+					console.log('routeHistorynextPath', routeHistory.location.state.nextPath);
+					routeHistory.push(routeHistory.location.state.nextPath);
+				} else {
+					routeHistory.push('/apps/companies');
+				}
 			})
 			.catch(err => {
 				const { name, url, email, vat_number, phone } = err.response.data;

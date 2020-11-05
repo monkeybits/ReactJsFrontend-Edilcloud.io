@@ -46,9 +46,7 @@ function DetailSidebarHeader({ setProgress }) {
 				apiurl,
 				{},
 				({ headers, data }) => {
-					var file = new File([data], `${selectedItem.title}`, {
-						type: headers['content-type']
-					});
+					var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
 					FileSaver.saveAs(file);
 					dispatch(Actions.onUploadHandleLoading(false));
 				},
@@ -73,19 +71,25 @@ function DetailSidebarHeader({ setProgress }) {
 	const handleDelete = () => {
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
+		const fileType = selectedItem.type;
+		const mainId = selectedItem.mainId;
 		const url =
-			selectedItem.type == 'folder'
+			fileType == 'folder'
 				? FOLDER_DELETE(cid, selectedItem.path)
-				: selectedItem.type == 'photo'
+				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
-				: selectedItem.type == 'video'
+				: fileType == 'video'
 				? VIDEO_DELETE(selectedItem.mainId)
 				: DOCUMENT_DELETE(selectedItem.mainId);
 		apiCall(
 			url,
 			{},
 			res => {
-				dispatch(Actions.deleteFile(selectedItem.id));
+				if (fileType == 'folder') {
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
+				} else {
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
+				}
 				colseDeleteFileDialog();
 			},
 			err => console.log(err),

@@ -35,7 +35,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { SEARCH_USER_BY_EMAIL } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -87,6 +87,8 @@ function ContactDialog(props) {
 		file: undefined,
 		imagePreviewUrl: undefined
 	});
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const getPhoto = fileData => {
 		let reader = new FileReader();
 
@@ -197,7 +199,7 @@ function ContactDialog(props) {
 		}
 	}
 
-	function handleSubmit(event) {
+	const handleSubmit = async event => {
 		// fields accept in the api
 		// 'first_name', 'last_name', 'email',
 		// 'language', 'position', 'user', 'phone',
@@ -216,18 +218,27 @@ function ContactDialog(props) {
 			email,
 			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
 			language: value == 'English' ? 'en' : 'it',
-			photo: fileData.file,
+			photo: await getCompressFile(fileData.file),
 			position,
 			phone,
 			...permission
 		};
 		if (contactDialog.type === 'new') {
-			dispatch(Actions.addContact({ ...newformData, photo: fileData.file }, isExisting));
+			dispatch(
+				Actions.addContact(
+					{
+						...newformData,
+						photo: await getCompressFile(fileData.file),
+						id: isExisting ? newformData.id : undefined
+					},
+					isExisting
+				)
+			);
 		} else {
 			dispatch(Actions.updateContact(newformData, id));
 		}
 		closeComposeDialog();
-	}
+	};
 
 	function handleRemove() {
 		dispatch(Actions.removeContact(form.id));
@@ -258,7 +269,7 @@ function ContactDialog(props) {
 			<AppBar position="static" elevation={1}>
 				<Toolbar>
 					<div className="absolute top-0 right-0 mr-4">
-						<IconButton edge="start" color="inherit" aria-label="close">
+						<IconButton onClick={closeComposeDialog} edge="start" color="inherit" aria-label="close">
 							<CloseIcon />
 						</IconButton>
 					</div>
@@ -307,6 +318,7 @@ function ContactDialog(props) {
 				<div className="mb-24 block mx-auto">
 					<Button
 						variant={permission.can_access_files ? 'contained' : 'outlined'}
+						disabled={getRole() == 'm' || getRole() == 'w'}
 						size="small"
 						color="secondary"
 						className="mr-8"
@@ -323,6 +335,7 @@ function ContactDialog(props) {
 						variant={permission.can_access_chat ? 'contained' : 'outlined'}
 						size="small"
 						color="secondary"
+						disabled={getRole() == 'm' || getRole() == 'w'}
 						onClick={() =>
 							setPermission(prev => ({
 								...prev,
@@ -467,6 +480,7 @@ function ContactDialog(props) {
 						</div>
 						<TextField
 							className="mb-24"
+							disabled={getRole() == 'm' || getRole() == 'w'}
 							label="Job title"
 							id="position"
 							name="position"

@@ -11,8 +11,12 @@ import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-import { decodeDataFromToken } from 'app/services/serviceUtils';
-
+import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
+import ViewFile from './ViewFile';
+import SendMessageFilePreview from './SendMessageFilePreview';
+import AudioRecord from 'app/AudioRecord';
+import MessageMoreOptions from './MessageMoreOptions';
+import RetryToSendMessage from './RetryToSendMessage';
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
@@ -98,8 +102,11 @@ function Chat(props) {
 	const selectedContactId = useSelector(({ chatApp }) => chatApp.contacts.selectedContactId);
 	const chat = useSelector(({ chatApp }) => chatApp.chat);
 	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
+	const audioRef = useRef(null);
 
+	const inputRef = useRef(null);
 	const user = useSelector(({ chatApp }) => chatApp.user);
+	const [images, setImages] = useState(null);
 
 	const classes = useStyles(props);
 	const chatRef = useRef(null);
@@ -108,9 +115,7 @@ function Chat(props) {
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
 
 	useEffect(() => {
-		if (chat) {
-			// scrollToBottom();
-		}
+		scrollToBottom();
 	}, [chat?.chats]);
 
 	function scrollToBottom() {
@@ -134,13 +139,64 @@ function Chat(props) {
 
 	function onMessageSubmit(ev) {
 		ev.preventDefault();
-		if (messageText === '') {
-			return;
+		console.log(audioRef.current);
+		if (audioRef.current) {
+			audioRef.current.sendDirectToChat();
 		}
-
-		dispatch(Actions.sendMessage(messageText, setMessageText));
+		if (messageText.length || images) {
+			dispatch(Actions.sendMessage(messageText, setMessageText, images, setImages));
+		}
 	}
+	const addPhoto = async e => {
+		const files = e.currentTarget.files;
+		let file = [];
+		for (var i = 0; i < files.length; i++) {
+			let fileType = files[i].type?.split('/');
+			file = [
+				...file,
+				{
+					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
+					imgPath: URL.createObjectURL(files[i]),
+					fileType: fileType[0],
+					extension: '.' + fileType[1],
+					type: fileType.join('/')
+				}
+			];
+			setImages(file);
+		}
+	};
+	const addAudio = file => {
+		let fileType = file.type?.split('/');
+		let fileList = images ? images : [];
 
+		fileList = [
+			{
+				file: file,
+				imgPath: URL.createObjectURL(file),
+				fileType: fileType[0],
+				extension: '.' + fileType[1],
+				type: fileType.join('/')
+			},
+			...fileList
+		];
+		setImages(fileList);
+	};
+	const sendAudioDirectToChat = file => {
+		let fileType = file.type?.split('/');
+		let fileList = images ? images : [];
+
+		fileList = [
+			{
+				file: file,
+				imgPath: URL.createObjectURL(file),
+				fileType: fileType[0],
+				extension: '.' + fileType[1],
+				type: fileType.join('/')
+			},
+			...fileList
+		];
+		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
+	};
 	return (
 		<div className={clsx('flex flex-col relative chat-box', props.className)}>
 			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
@@ -170,6 +226,7 @@ function Chat(props) {
 											{contact.first_name.split('')[0]}
 										</Avatar>
 									)}
+
 									<div className="bubble items-center justify-center p-12 max-w-50">
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
@@ -179,7 +236,21 @@ function Chat(props) {
 												{contact.first_name + ' ' + contact.last_name}
 											</Typography>
 										)}
-										<div className="leading-normal">{item.body}</div>
+										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
+										{!item.waitingToSend && (
+											<MessageMoreOptions
+												className="text-right"
+												item={item}
+												deleteMessage={Actions.deleteMessage}
+											/>
+										)}
+										<div className="leading-normal mb-10">{item.body} </div>
+										<ViewFile files={item.files} />
+										{contact.id == userIdFromCompany && item.waitingToSend ? (
+											<Icon className="float-right font-size-16">access_time</Icon>
+										) : (
+											<Icon className="float-right font-size-16">check</Icon>
+										)}
 									</div>
 									{isLastMessageOfGroup(item, i) && (
 										<Typography
@@ -207,7 +278,21 @@ function Chat(props) {
 				)}
 			</FuseScrollbars>
 
-			<form onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8">
+			<form autoComplete="off" onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8">
+				<div className="multiple-images flex flex-row overflow-x-auto">
+					{images &&
+						images.map((item, index) => (
+							<SendMessageFilePreview
+								item={item}
+								card={{}}
+								// makeCover={makeCover}
+								// removeCover={removeCover}
+								// removeAttachment={removeAttachment}
+								onRemove={() => setImages(prev => prev.filter((d, i) => i != index))}
+								key={item.id}
+							/>
+						))}
+				</div>
 				<Paper className="flex items-center relative rounded-24" elevation={1}>
 					<TextField
 						autoFocus={false}
@@ -228,6 +313,15 @@ function Chat(props) {
 						onChange={onInputChange}
 						value={messageText}
 					/>
+					<AudioRecord
+						afterRecordComplete={addAudio}
+						ref={audioRef}
+						sendDirectToChat={sendAudioDirectToChat}
+					/>
+					<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
+					<IconButton className="image mr-48" onClick={() => inputRef.current.click()} aria-label="Add photo">
+						<Icon>photo</Icon>
+					</IconButton>
 					<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
 						<Icon className="text-24" color="action">
 							send

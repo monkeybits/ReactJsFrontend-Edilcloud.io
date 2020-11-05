@@ -11,6 +11,11 @@ import moment from 'moment/moment';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
+import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
+import ViewFile from './ViewFile';
+import SendMessageFilePreview from './SendMessageFilePreview';
+import AudioRecord from 'app/AudioRecord';
+import RetryToSendMessage from './RetryToSendMessage';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -46,7 +51,6 @@ const useStyles = makeStyles(theme => ({
 		},
 		'&.me': {
 			paddingLeft: 40,
-
 			'& $avatar': {
 				order: 2,
 				margin: '0 0 0 16px'
@@ -79,8 +83,8 @@ const useStyles = makeStyles(theme => ({
 			}
 		},
 		'&.contact + .me, &.me + .contact': {
-			paddingTop: 20,
-			marginTop: 20
+			// paddingTop: 20,
+			marginTop: 10
 		},
 		'&.first-of-group': {
 			'& $bubble': {
@@ -116,13 +120,13 @@ const useStyles = makeStyles(theme => ({
 		lineHeight: 1.2
 	},
 	time: {
-		position: 'absolute',
-		display: 'none',
+		position: 'relative',
+		// display: 'none',
 		width: '100%',
 		fontSize: 11,
 		marginTop: 8,
-		top: '100%',
-		left: 0,
+		// top: '100%',
+		// left: 0,
 		whiteSpace: 'nowrap'
 	},
 	bottom: {
@@ -140,10 +144,14 @@ function Chat(props) {
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
 	const chat = useSelector(({ chatPanel }) => chatPanel.chat);
 	const user = useSelector(({ chatPanel }) => chatPanel.user);
-
+	const userInfo = decodeDataFromToken();
+	const userIdFromCompany = userInfo?.extra?.profile?.id;
 	const classes = useStyles();
 	const chatScroll = useRef(null);
 	const [messageText, setMessageText] = useState('');
+	const [images, setImages] = useState(null);
+	const inputRef = useRef(null);
+	const audioRef = useRef(null);
 
 	useEffect(() => {
 		scrollToBottom();
@@ -159,30 +167,80 @@ function Chat(props) {
 
 	const onMessageSubmit = ev => {
 		ev.preventDefault();
-		if (messageText === '') {
+		if (audioRef.current) {
+			audioRef.current.sendDirectToChat();
+		}
+		if (messageText === '' && !images) {
 			return;
 		}
-		dispatch(Actions.sendMessage(messageText, chat.id, user.id)).then(() => {
-			setMessageText('');
-		});
+		dispatch(Actions.sendMessage(messageText, setMessageText, user, images, setImages));
 	};
+	const addPhoto = async e => {
+		const files = e.currentTarget.files;
+		let file = [];
+		for (var i = 0; i < files.length; i++) {
+			let fileType = files[i].type?.split('/');
+			file = [
+				...file,
+				{
+					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
+					imgPath: URL.createObjectURL(files[i]),
+					fileType: fileType[0],
+					extension: '.' + fileType[1],
+					type: fileType.join('/')
+				}
+			];
+			setImages(file);
+		}
+	};
+	const addAudio = file => {
+		let fileType = file.type?.split('/');
+		let fileList = images ? images : [];
 
+		fileList = [
+			{
+				file: file,
+				imgPath: URL.createObjectURL(file),
+				fileType: fileType[0],
+				extension: '.' + fileType[1],
+				type: fileType.join('/')
+			},
+			...fileList
+		];
+		setImages(fileList);
+	};
+	const sendAudioDirectToChat = file => {
+		let fileType = file.type?.split('/');
+		let fileList = images ? images : [];
+
+		fileList = [
+			{
+				file: file,
+				imgPath: URL.createObjectURL(file),
+				fileType: fileType[0],
+				extension: '.' + fileType[1],
+				type: fileType.join('/')
+			},
+			...fileList
+		];
+		dispatch(Actions.sendMessage(messageText, setMessageText, user, fileList, setImages));
+	};
 	return (
 		<Paper elevation={3} className={clsx('flex flex-col', props.className)}>
 			{useMemo(() => {
 				const shouldShowContactAvatar = (item, i) => {
-					return (
-						item.who === selectedContactId &&
-						((chat.dialog[i + 1] && chat.dialog[i + 1].who !== selectedContactId) || !chat.dialog[i + 1])
-					);
+					return i < chat.chats.length && chat.chats[i - 1] && chat.chats[i - 1].sender.id != item.sender.id;
 				};
 
 				const isFirstMessageOfGroup = (item, i) => {
-					return i === 0 || (chat.dialog[i - 1] && chat.dialog[i - 1].who !== item.who);
+					return i === 0 || (chat.chats[i - 1] && chat.chats[i - 1].sender.id != item.sender.id);
 				};
 
 				const isLastMessageOfGroup = (item, i) => {
-					return i === chat.dialog.length - 1 || (chat.dialog[i + 1] && chat.dialog[i + 1].who !== item.who);
+					return (
+						i === chat.chats.length - 1 ||
+						(chat.chats[i + 1] && chat.chats[i + 1].sender.id != item.sender.id)
+					);
 				};
 				return (
 					<FuseScrollbars ref={chatScroll} className="flex flex-1 flex-col overflow-y-auto">
@@ -195,33 +253,63 @@ function Chat(props) {
 									Select a contact to start a conversation.
 								</Typography>
 							</div>
-						) : chat.dialog.length > 0 ? (
-							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40">
-								{chat.dialog.map((item, i) => {
-									const contact =
-										item.who === user.id
-											? user
-											: contacts.find(_contact => _contact.id === item.who);
+						) : chat?.chats?.length ? (
+							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40 me-right-align right-panel-audio">
+								{chat.chats.map((item, i) => {
+									const contact = item.sender;
+									const color = contacts.length && contacts?.filter(c => c.id == contact.id);
 									return (
 										<div
 											key={item.time}
 											className={clsx(
 												classes.messageRow,
-												{ me: item.who === user.id },
-												{ contact: item.who !== user.id },
+												{ me: contact.id == userIdFromCompany },
+												{ contact: contact.id != userIdFromCompany },
 												{ 'first-of-group': isFirstMessageOfGroup(item, i) },
 												{ 'last-of-group': isLastMessageOfGroup(item, i) }
 											)}
 										>
-											{shouldShowContactAvatar(item, i) && (
-												<Avatar className={classes.avatar} src={contact.avatar} />
+											{isLastMessageOfGroup(item, i) && contact.id != userIdFromCompany && (
+												<Avatar
+													className="avatar absolute ltr:left-0 rtl:right-0 m-0 -mx-32 top-0"
+													src={contact.photo}
+												>
+													{contact.first_name.split('')[0]}
+												</Avatar>
 											)}
 											<div className={classes.bubble}>
-												<div className={classes.message}>{item.message}</div>
-												<Typography className={classes.time} color="textSecondary">
+												<div className={classes.message}>
+													{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
+														<Typography
+															style={{ color: color?.[0]?.contactNameColor }}
+															className="text-xs mb-6"
+														>
+															{contact.first_name + ' ' + contact.last_name}
+														</Typography>
+													)}
+													<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
+
+													<div className="leading-normal font-size-16 mb-10">{item.body}</div>
+													<ViewFile
+														open={props.open}
+														setOpen={props.setOpen}
+														files={item.files}
+													/>
+													{contact.id == userIdFromCompany && item.waitingToSend ? (
+														<Icon className="float-right font-size-16">access_time</Icon>
+													) : (
+														<Icon className="float-right font-size-16">check</Icon>
+													)}
+												</div>
+											</div>
+											{isLastMessageOfGroup(item, i) && (
+												<Typography
+													className={clsx(classes.time, 'mb-12')}
+													color="textSecondary"
+												>
 													{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
 												</Typography>
-											</div>
+											)}
 										</div>
 									);
 								})}
@@ -243,6 +331,20 @@ function Chat(props) {
 			}, [chat, classes, contacts, selectedContactId, user])}
 			{chat && (
 				<form onSubmit={onMessageSubmit} className={clsx(classes.bottom, 'py-16 px-8')}>
+					<div className="multiple-images flex flex-row overflow-x-auto">
+						{images &&
+							images.map((item, index) => (
+								<SendMessageFilePreview
+									item={item}
+									card={{}}
+									// makeCover={makeCover}
+									// removeCover={removeCover}
+									// removeAttachment={removeAttachment}
+									onRemove={() => setImages(prev => prev.filter((d, i) => i != index))}
+									key={item.id}
+								/>
+							))}
+					</div>
 					<Paper className={clsx(classes.inputWrapper, 'flex items-center relative')}>
 						<TextField
 							autoFocus={false}
@@ -263,6 +365,20 @@ function Chat(props) {
 							onChange={onInputChange}
 							value={messageText}
 						/>
+						<AudioRecord
+							afterRecordComplete={addAudio}
+							ref={audioRef}
+							sendDirectToChat={sendAudioDirectToChat}
+						/>
+
+						<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
+						<IconButton
+							className="image mr-48"
+							onClick={() => inputRef.current.click()}
+							aria-label="Add photo"
+						>
+							<Icon>photo</Icon>
+						</IconButton>
 						<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
 							<Icon className="text-24" color="action">
 								send
