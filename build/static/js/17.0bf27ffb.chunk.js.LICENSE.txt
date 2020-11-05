@@ -1,0 +1,55 @@
+/*
+        object-assign
+        (c) Sindre Sorhus
+        @license MIT
+        */
+
+/*
+@license
+
+dhtmlxGantt v.7.0.9 Standard
+
+This version of dhtmlxGantt is distributed under GPL 2.0 license and can be legally used in GPL projects.
+
+To use dhtmlxGantt in non-GPL projects (and get Pro version of the product), please obtain Commercial/Enterprise or Ultimate license on our site https://dhtmlx.com/docs/products/dhtmlxGantt/#licensing or contact us at sales@dhtmlx.com
+
+(c) XB Software Ltd.
+
+*/
+
+/*!
+        Copyright (c) 2017 Jed Watson.
+        Licensed under the MIT License (MIT), see
+        http://jedwatson.github.io/classnames
+        */
+
+/*!
+      * The buffer module from node.js, for the browser.
+      *
+      * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+      * @license  MIT
+      */
+
+/*! http://mths.be/fromcodepoint v0.1.0 by @mathias */
+
+/**
+ * @licstart The following is the entire license notice for the
+ * Javascript code in this page
+ *
+ * Copyright 2020 Mozilla Foundation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @licend The above is the entire license notice for the
+ * Javascript code in this page
+ */
