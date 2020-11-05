@@ -243,9 +243,9 @@
     z-index: 99;
     right: 0px;
 }
-/* .zoom-125 {
+.zoom-125 {
     zoom: 125% !important;
-} */
+}
 /* #SpeedDialexample-actions span span {
     top: -28px;
     left: 0;
@@ -697,6 +697,12 @@
     border-radius: 4px;
     box-shadow: 0 3px 6px #00000029 !important;
 }
+.custom-ios-slider-dropdown.page {
+    left: -180px;
+    padding: 12px;
+    width: 250px;
+    z-index: 1;
+}   
 .custom-member-menu {
     background-color: #ffffff;
     border-radius: 4px;

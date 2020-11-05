@@ -334,8 +334,8 @@ function TodoListItem(props) {
 								</Box>
 							</Box>
 							{showProgress && (
-								<div className="custom-ios-slider-dropdown">
-									<small className="block mb-6">Set Task Progress</small>
+								<div className="custom-ios-slider-dropdown page zoom-125">
+									<small className="block mb-24">Set Task Progress</small>
 									<div>
 										<IOSSlider
 											aria-label="ios slider"
