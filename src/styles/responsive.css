@@ -111,8 +111,15 @@
     .MuiTypography-body2 {
         font-size: 1.2rem;
     }
-    .file-grid-view li {
+    .file-grid li {
         width: 100% !important;
+    }
+    .project_card .project_card_avatar {
+        margin-top: 2px;
+    }
+    .project_card .project_card_avatar > div {
+        height: 35px;
+        width: 35px;
     }
     
     

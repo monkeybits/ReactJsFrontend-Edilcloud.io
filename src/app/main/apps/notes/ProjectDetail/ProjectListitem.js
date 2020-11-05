@@ -30,12 +30,22 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { DISABLE_PROJECT, ENABLE_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import * as ProjectChatActions from 'app/main/apps/notes/chat/store/actions';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import PropTypes from 'prop-types';
+import { Box } from '@material-ui/core';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import Divider from '@material-ui/core/Divider';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import CloudQueueIcon from '@material-ui/icons/CloudQueue';
 
-export default function ProjectListitem({
-	index,
-	// project: { id, name, description, logo, date_start, status, date_end, profiles },
-	classes
-}) {
+
+export default function ProjectListitem(props) {
+	const {
+		index,
+		// project: { id, name, description, logo, date_start, status, date_end, profiles },
+		classes
+	} = props;
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const {
 		id,
@@ -97,21 +107,59 @@ export default function ProjectListitem({
 		handleClose();
 		dispatch(Actions.deleteProject(id));
 	};
+	const [value, setValue] = React.useState(0);
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+	TabPanel.propTypes = {
+		children: PropTypes.node,
+		index: PropTypes.any.isRequired,
+		value: PropTypes.any.isRequired
+	};
+	function a11yProps(index) {
+		return {
+			id: `scrollable-auto-tab-${index}`,
+			'aria-controls': `scrollable-auto-tabpanel-${index}`
+		};
+	}
+	function TabPanel(props) {
+		const { children, value, index, ...other } = props;
+
+		return (
+			<div
+				role="tabpanel"
+				hidden={value !== index}
+				id={`scrollable-auto-tabpanel-${index}`}
+				aria-labelledby={`scrollable-auto-tab-${index}`}
+				{...other}
+			>
+				{value === index && (
+					<Box p={3}>
+						<Typography>{children}</Typography>
+					</Box>
+				)}
+			</div>
+		);
+	}
+	const useStyles = makeStyles(theme => ({
+		root: {
+			flexGrow: 1,
+			width: '100%',
+			backgroundColor: theme.palette.background.paper
+		}
+	}));
+
 	return (
-		<Card className="h-full flex flex-col">
+		<Card className="h-full flex flex-col project_card">
 			<CardHeader
-				avatar={
-					<Avatar aria-label="recipe" src={company?.logo} className={classes.avatar}>
-						{company?.name?.split('')[0]}
-					</Avatar>
-				}
 				action={
 					!!isApproved &&
 					(getRole() == 'o' || getRole() == 'd') && (
 						<div>
-							<IconButton onClick={handleClick} aria-label="settings">
+							{/* <IconButton onClick={handleClick} aria-label="settings">
 								<MoreVertIcon />
-							</IconButton>
+							</IconButton> */}
 							<Menu
 								id="long-menu"
 								anchorEl={anchorEl}
@@ -132,15 +180,185 @@ export default function ProjectListitem({
 						</div>
 					)
 				}
-				title={company?.name} //
-				subheader={moment(date_start).format('MMM DD, YYYY')}
+				title={company?.name}
+				// subheader={moment(date_start).format('MMM DD, YYYY')}
+				subheader={<small> Mannheim Sandhofen Baden-Württemberg</small>}
+				//
+				avatar={
+					<div className="project_card_avatar">
+						<Avatar aria-label="recipe" src={company?.logo} className={classes.avatar}>
+							{company?.name?.split('')[0]}
+						</Avatar>
+					</div>
+				}
 			/>
-			<CardMedia
-				className={classes.media}
-				image={logo ? logo : '/assets/images/notes/Building 01.jpg'}
-				title={name}
-			/>
-			<CardContent>
+			<div className="project_card_action">
+				<IconButton onClick={handleClick} aria-label="settings">
+					<MoreHorizIcon />
+				</IconButton>
+			</div>
+			<Tabs
+				value={value}
+				indicatorColor="primary"
+				textColor="primary"
+				onChange={handleChange}
+				aria-label="tabs example"
+				className="project_tabs"
+			>
+				<Tab label="About" {...a11yProps(0)} />
+				<Tab label="Insights" {...a11yProps(1)} />
+				<Tab label="Weather" {...a11yProps(2)} />
+			</Tabs>
+			<TabPanel value={value} index={0} className="tab_panel">
+				Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+				industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+				scrambled it to make a type specimen
+				<div className="flex overflow-x-auto nowrap about-image-section mt-16">
+					<img src="/assets/images/notes/Building 01.jpg" />
+					<img src="/assets/images/notes/Building 01.jpg" />
+					<img src="/assets/images/notes/Building 01.jpg" />
+					<img src="/assets/images/notes/Building 01.jpg" />
+					<a href="javascript:;" className="more-pic">
+						<MoreHorizIcon />
+					</a>
+				</div>
+			</TabPanel>
+			<TabPanel value={value} index={1} className="tab_panel">
+				<Typography variant="subtitle1" className="text-gray-500 font-500 mb-12">Tasks</Typography>
+				<div className="flex items-center justify-between mb-16">
+					<Typography variant="subtitle2">All</Typography>
+					<div className="bg-gray text-white inline text-11 font-500 px-8 py-4 rounded-4">
+							20
+					</div>
+				</div>
+				<div className="flex items-center justify-between mb-16">
+					<Typography variant="subtitle2">Today</Typography>
+					<div className="bg-blue text-white inline text-11 font-500 px-8 py-4 rounded-4">
+							5
+					</div>
+				</div>
+				<div className="flex items-center justify-between mb-16">
+					<Typography variant="subtitle2">Late</Typography>
+					<div className="bg-red text-white inline text-11 font-500 px-8 py-4 rounded-4">
+							3
+					</div>
+				</div>
+				<div className="flex items-center justify-between mb-16">
+					<Typography variant="subtitle2">Upcoming</Typography>
+					<div className="bg-orange text-white inline text-11 font-500 px-8 py-4 rounded-4">
+							12
+					</div>
+				</div>
+			</TabPanel>
+			<TabPanel value={value} index={2} className="tab_panel">
+				<div className="flex items-center justify-between">
+					<div className="flex items-center">
+						{/* <Icon color="action">location_on</Icon> */}
+						<LocationOnIcon /> 
+						<Typography className="text-16 mx-8">
+							New York
+						</Typography>
+					</div>
+					<IconButton aria-label="more">
+						<Icon>more_vert</Icon>
+					</IconButton>
+				</div>
+				<div className="flex items-center justify-center p-16 pb-32">
+					<Icon className="meteocons text-40 cloud_size ltr:mr-8 rtl:ml-8" color="action">
+						<CloudQueueIcon />
+					</Icon>
+					<Typography className="text-44 mx-8" color="textSecondary">
+						21
+					</Typography>
+					<Typography className="text-48 font-300" color="textSecondary">
+						°
+					</Typography>
+					<Typography className="text-44 font-300" color="textSecondary">
+						C
+					</Typography>
+				</div>
+				<Divider />
+				<div className="flex justify-between items-center p-16">
+					<div className="flex items-center">
+						<Icon className="meteocons text-14 mr-4" color="action">
+							windy
+						</Icon>
+						<Typography className="mx-4">
+							12
+						</Typography>
+						<Typography color="textSecondary">KMH</Typography>
+					</div>
+
+					<div className="flex items-center">
+						<Icon className="meteocons text-14 mr-4" color="action">
+							compass
+						</Icon>
+						<Typography className="mx-4">
+							NW
+						</Typography>
+					</div>
+
+					<div className="flex items-center">
+						<Icon className="meteocons text-14 mr-4" color="action">
+							rainy
+						</Icon>
+						<Typography className="mx-4">
+							98%
+						</Typography>
+					</div>
+				</div>
+				<Divider />
+				<div className="w-full py-16">
+					
+						<div className="flex items-center justify-between w-full py-6 px-12">
+							<Typography className="text-15">Sunday</Typography>
+							<div className="flex items-center">
+								<Icon className="meteocons text-24 ltr:mr-16 rtl:ml-16" color="action">
+									rainy
+								</Icon>
+								<Typography className="text-20">21</Typography>
+								<Typography className="text-20" color="textSecondary">
+									&deg;
+								</Typography>
+								<Typography className="text-20" color="textSecondary">
+									C
+								</Typography>
+							</div>
+						</div>
+						<div className="flex items-center justify-between w-full py-6 px-12">
+							<Typography className="text-15">Monday</Typography>
+							<div className="flex items-center">
+								<Icon className="meteocons text-24 ltr:mr-16 rtl:ml-16" color="action">
+									rainy
+								</Icon>
+								<Typography className="text-20">22</Typography>
+								<Typography className="text-20" color="textSecondary">
+									&deg;
+								</Typography>
+								<Typography className="text-20" color="textSecondary">
+									C
+								</Typography>
+							</div>
+						</div>
+						<div className="flex items-center justify-between w-full py-6 px-12">
+							<Typography className="text-15">Tuesday</Typography>
+							<div className="flex items-center">
+								<Icon className="meteocons text-24 ltr:mr-16 rtl:ml-16" color="action">
+									rainy
+								</Icon>
+								<Typography className="text-20">21</Typography>
+								<Typography className="text-20" color="textSecondary">
+									&deg;
+								</Typography>
+								<Typography className="text-20" color="textSecondary">
+									C
+								</Typography>
+							</div>
+						</div>
+					
+				</div>
+			</TabPanel>
+			{/* <CardContent>
 				{isApproved ? (
 					<Link className="font-size-17" to={`${match.path}/${id}`}>
 						{name}
@@ -151,16 +369,16 @@ export default function ProjectListitem({
 				<Typography variant="body2" color="textSecondary" component="p">
 					{description}
 				</Typography>
-			</CardContent>
-			<CardActions disableSpacing className="mt-auto">
-				<IconButton aria-label="add to favorites">
+			</CardContent> */}
+			<CardActions disableSpacing className="border-t-1 mt-auto">
+				{/* <IconButton aria-label="add to favorites">
 					<FavoriteIcon />
 				</IconButton>
 				<IconButton aria-label="share">
 					<ShareIcon />
-				</IconButton>
+				</IconButton> */}
 				<IconButton
-					className={clsx(classes.expand, {
+					className={clsx(classes.expand, 'py-0', {
 						[classes.expandOpen]: expanded
 					})}
 					// onClick={handleExpandClick}

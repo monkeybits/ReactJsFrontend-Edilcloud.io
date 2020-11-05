@@ -168,10 +168,10 @@ function FileGrid(props) {
 				<>
 					{' '}
 					<Typography variant="h6" className="font-400 uppercase text-gray-600 mb-16">Folders</Typography>
-					<Grid container spacing={12}>
+					<Grid container spacing={16} className="folder-grid">
 						{currentFolders.map(d => (
 							<Grid
-								className="px-10 mb-20 sm:mb-32 folder-grid"
+								className="px-10 mb-20 sm:mb-32"
 								item
 								xs={12}
 								sm={6}
@@ -193,7 +193,7 @@ function FileGrid(props) {
 			{!!currentFiles.length && (
 				<>
 					<Typography variant="h6" className="font-400 uppercase text-gray-600 mb-16">Files</Typography>
-					<Grid container spacing={12} className="file-grid-view">
+					<Grid container spacing={12} className="file-grid">
 						<FileGridItem tileData={currentFiles} {...props} />
 					</Grid>
 				</>

@@ -193,7 +193,7 @@ function FileGrid(props) {
 			{!!currentFiles.length && (
 				<>
 					<Typography variant="h6" className="font-400 uppercase text-gray-600 mb-16">Files</Typography>
-					<Grid container spacing={12} className="file-grid-view">
+					<Grid container spacing={12} className="file-grid">
 						<FileGridItem tileData={currentFiles} {...props} />
 					</Grid>
 				</>

@@ -29,6 +29,8 @@ import ReuestsDrawer from '../scrumboard/boards/ReuestsDrawer';
 import { Badge } from '@material-ui/core';
 import { ACCEPT_PROJECT_INVITATION, REJECT_PROJECT_INVITATION } from 'app/services/apiEndPoints';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({
 	// root: {
@@ -146,14 +148,28 @@ function NoteList(props) {
 		<>
 			<div className="flex flex-wrap w-full">
 				<div className={classes.root}>
-					<Grid container spacing={12}>
+					<div className="flex items-center justify-between my-16 sm:my-12 sm:mb-20 pb-16 border-b-1">
+						<Typography variant="h6">All Projects</Typography>
+						<Button
+							variant="contained"
+							color="secondary"
+							className={classes.button, 'm-0'}
+							startIcon={<AddIcon />}
+						>
+							Add Project
+						</Button>
+					</div>
+					<div className="mb-16">
+						<Typography variant="subtitle1" className="font-size-18 font-600">Edil Cloud (My Company)</Typography>
+					</div>
+					<Grid container spacing={12} className="grid-space-remove">
 						{projects.map((project, index) => {
 							return project.isApproved ? (
-								<Grid className="px-12 mb-32" item xs={12} sm={6} md={4} xl={3}>
+								<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
 									<ProjectListitem key={index} index={index} {...{ project, classes, setRequest }} />
 								</Grid>
 							) : (
-								<Grid className="px-12 mb-32" item xs={12} sm={6} md={4} xl={3}>
+								<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
 									{' '}
 									<Badge
 										invisible={project.isApproved}

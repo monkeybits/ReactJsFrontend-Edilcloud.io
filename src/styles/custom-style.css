@@ -840,6 +840,10 @@
 .offline-switch span:last-child {
     font-weight: 700;
 }
+.folder-grid  {
+    margin-left: -1.0rem;
+    margin-right: -1.0rem;
+}
 .folder-grid .MuiListItemIcon-root {
     min-width: 34px;
 }
@@ -849,11 +853,11 @@
 .file-folder-grid h6 {
     font-size: 1.7rem;
 }
-.file-grid-view > div {
+.file-grid > div {
     background-color: transparent;
     width: 100%;
 }
-.file-grid-view li {
+.file-grid li {
     height: auto !important;
     padding: 0px !important;
     margin: 0px 15px 15px 0px;
@@ -861,10 +865,10 @@
     border-radius: 10px;
     width: 47.5% !important;;
 }
-.file-grid-view li:nth-child(2n) {
+.file-grid li:nth-child(2n) {
     margin-right: 0px !important;
 }
-.file-grid-view img, .file-grid-view .MuiGridListTile-tile > svg  {
+.file-grid img, .file-grid .MuiGridListTile-tile > svg  {
     position: relative;
     top: 0;
     transform: none !important;
@@ -874,15 +878,107 @@
     height: 184px;
     border-radius: 10px 10px 0px 0px;
 }
-.file-grid-view img ~ div, .file-grid-view .MuiGridListTile-tile > svg ~ div {
+.file-grid img ~ div, .file-grid .MuiGridListTile-tile > svg ~ div {
     position: relative;
     background: #fff;
     border-radius: 0px 0px 10px 10px;
     border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
-.file-grid-view .MuiGridListTileBar-titleWrap, .file-grid-view .MuiGridListTileBar-actionIcon button {
+.file-grid .MuiGridListTileBar-titleWrap, .file-grid .MuiGridListTileBar-actionIcon button {
     color: rgba(0, 0, 0, 0.87);
 }
 .file-folder-grid {
     margin-top: -25px;
+}
+.project_list {
+    background: #ffffff;
+}
+.project_box .project_card {
+    border: 1px solid #ececec;
+    box-shadow: 0 1px 3px #00000029 !important;
+}
+.project_box .project_card .MuiCardHeader-root {
+    position: relative;
+    padding-bottom: 5px;
+    background: rgb(184 184 184 / 19%);
+}
+.project_card .project_card_avatar {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-top: -8px;
+}
+.project_card .MuiCardHeader-avatar {
+    margin: 0px;
+}
+.project_card .MuiCardHeader-title {
+    font-weight: 600;
+}
+.project_card .MuiCardHeader-content {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding-right: 58px;
+}
+[class*="border-"] {
+    border-color: #ececec;
+}
+.grid-space-remove {
+    margin-right: -1.2rem;
+    margin-left: -1.2rem;
+}
+.project_tabs {
+    background-color: rgb(184 184 184 / 19%);
+}
+.project_tabs button {
+    min-width: auto;
+    text-transform: capitalize;   
+    border-bottom: 3px solid transparent;
+    font-size: 13px;
+    font-weight: 700;
+}
+.project_tabs button.Mui-selected {
+    border-bottom: 3px solid #2196F3;
+    color: #2196F3;
+}
+.project_tabs .MuiTabs-indicator {
+    width: 0px !important;
+}
+.project_card_action {
+    position: relative;
+}
+.project_card_action button {
+    position: absolute;
+    right: 0px;
+    z-index: 1;
+}
+.about-image-section img {
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    margin-right: 6px;
+}
+.tab_panel .MuiBox-root {
+    padding: 18px 16px;
+}
+.more-pic {
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    border-radius: 100%;
+    text-align: center;
+    background: rgb(184 184 184 / 19%);
+    color: #767676 !important;
+    cursor: pointer;
+    display: block;
+} 
+.project_card_action button {
+    font-size: 20px;
+}
+.cloud_size {
+    width: auto;
+    height: auto;
+}
+.cloud_size svg {
+    font-size: 50px;
 }
