@@ -11,9 +11,8 @@ import TodoList from './TodoList';
 import TodoSidebarContent from './TodoSidebarContent';
 import TodoSidebarHeader from './TodoSidebarHeader';
 import TodoToolbar from './TodoToolbar';
-import CreatePostDialog from '../notes/todo/CreatePostDialog';
-import TaskContentDialog from '../notes/todo/Dialog/TaskContentDialog';
-import TodoDialog from './TodoDialog';
+import CreatePostDialog from './CreatePostDialog';
+import TaskContentDialog from './TaskContentDialog';
 
 function TodoApp(props) {
 	const dispatch = useDispatch();
@@ -46,9 +45,8 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			{/* <CreatePostDialog objKey={'todoApp'} /> */}
-			<TodoDialog objKey={'todoApp'} />
-			{/* <TaskContentDialog objKey={'todoApp'} /> */}
+			<CreatePostDialog  />
+			<TaskContentDialog  />
 		</>
 	);
 }

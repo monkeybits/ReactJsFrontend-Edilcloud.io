@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_ACTIVITY_TO_TASK, EDIT_TASK_TO_PROJECT, GET_ALL_PROJECT_TASKS } from 'app/services/apiEndPoints';
+import { ADD_ACTIVITY_TO_TASK, EDIT_ACTIVITY_TO_TASK, EDIT_TASK_TO_PROJECT, GET_ALL_PROJECT_TASKS } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
@@ -63,7 +63,55 @@ export function updateTodos() {
 		);
 	};
 }
-
+export function closeTimelineDialog() {
+	return {
+		type: CLOSE_TIMELINE_DIALOG
+	};
+}
+export function closeActivityTodoDialog() {
+	return {
+		type: CLOSE_ACTIVITY_TODO_DIALOG
+	};
+}
+export function closeTaskContent() {
+	return {
+		type: CLOSE_TASK_CONTENT_DIALOG
+	};
+}
+export function editActivity(todo, pid, setLoading, isGantt) {
+	// console.log({
+	// 	todo
+	// });
+	return dispatch => {
+		console.log(todo, todo.profile);
+		let values = {
+			title: todo.title,
+			description: todo.notes,
+			datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
+			datetime_end: moment(todo.endDate).format('YYYY-MM-DD'),
+			status: todo.progress,
+			workers: todo.profile?.length
+				? todo.profile.map(d => (d.data.profile ? d.data.profile.id : d.data.id))
+				: undefined
+		};
+		apiCall(
+			EDIT_ACTIVITY_TO_TASK(todo.id),
+			values,
+			res => {
+				if (isGantt) {
+					dispatch(getTodos(pid, isGantt));
+					dispatch(closeTimelineDialog());
+				}
+				console.log(res);
+				setLoading(false);
+				toast.success('Updated');
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
+}
 export function toggleCompleted(todo) {
 	const newTodo = {
 		...todo,

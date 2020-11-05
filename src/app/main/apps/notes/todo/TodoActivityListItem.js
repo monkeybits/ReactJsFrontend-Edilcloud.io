@@ -118,7 +118,7 @@ function TodoActivityListItem(props) {
 		let ids = [];
 		let profileIds = [];
 		if (Array.isArray(workers)) {
-			ids = workers.filter(w => w.isChecked);
+			ids = workers.filter(w => w.is_exists);
 		}
 		console.log({ ids });
 		if (Array.isArray(props.todo.workers)) {
