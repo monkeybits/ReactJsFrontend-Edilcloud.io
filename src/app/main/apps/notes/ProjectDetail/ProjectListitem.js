@@ -39,7 +39,6 @@ import Divider from '@material-ui/core/Divider';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
 
-
 export default function ProjectListitem(props) {
 	const {
 		index,
@@ -180,7 +179,15 @@ export default function ProjectListitem(props) {
 						</div>
 					)
 				}
-				title={company?.name}
+				title={
+					isApproved ? (
+						<Link className="font-size-17" to={`${match.path}/${id}`}>
+							{name}
+						</Link>
+					) : (
+						name
+					)
+				}
 				// subheader={moment(date_start).format('MMM DD, YYYY')}
 				subheader={<small> Mannheim Sandhofen Baden-Württemberg</small>}
 				//
@@ -224,40 +231,32 @@ export default function ProjectListitem(props) {
 				</div>
 			</TabPanel>
 			<TabPanel value={value} index={1} className="tab_panel">
-				<Typography variant="subtitle1" className="text-gray-500 font-500 mb-12">Tasks</Typography>
+				<Typography variant="subtitle1" className="text-gray-500 font-500 mb-12">
+					Tasks
+				</Typography>
 				<div className="flex items-center justify-between mb-16">
 					<Typography variant="subtitle2">All</Typography>
-					<div className="bg-gray text-white inline text-11 font-500 px-8 py-4 rounded-4">
-							20
-					</div>
+					<div className="bg-gray text-white inline text-11 font-500 px-8 py-4 rounded-4">20</div>
 				</div>
 				<div className="flex items-center justify-between mb-16">
 					<Typography variant="subtitle2">Today</Typography>
-					<div className="bg-blue text-white inline text-11 font-500 px-8 py-4 rounded-4">
-							5
-					</div>
+					<div className="bg-blue text-white inline text-11 font-500 px-8 py-4 rounded-4">5</div>
 				</div>
 				<div className="flex items-center justify-between mb-16">
 					<Typography variant="subtitle2">Late</Typography>
-					<div className="bg-red text-white inline text-11 font-500 px-8 py-4 rounded-4">
-							3
-					</div>
+					<div className="bg-red text-white inline text-11 font-500 px-8 py-4 rounded-4">3</div>
 				</div>
 				<div className="flex items-center justify-between mb-16">
 					<Typography variant="subtitle2">Upcoming</Typography>
-					<div className="bg-orange text-white inline text-11 font-500 px-8 py-4 rounded-4">
-							12
-					</div>
+					<div className="bg-orange text-white inline text-11 font-500 px-8 py-4 rounded-4">12</div>
 				</div>
 			</TabPanel>
 			<TabPanel value={value} index={2} className="tab_panel">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center">
 						{/* <Icon color="action">location_on</Icon> */}
-						<LocationOnIcon /> 
-						<Typography className="text-16 mx-8">
-							New York
-						</Typography>
+						<LocationOnIcon />
+						<Typography className="text-16 mx-8">New York</Typography>
 					</div>
 					<IconButton aria-label="more">
 						<Icon>more_vert</Icon>
@@ -283,9 +282,7 @@ export default function ProjectListitem(props) {
 						<Icon className="meteocons text-14 mr-4" color="action">
 							windy
 						</Icon>
-						<Typography className="mx-4">
-							12
-						</Typography>
+						<Typography className="mx-4">12</Typography>
 						<Typography color="textSecondary">KMH</Typography>
 					</div>
 
@@ -293,69 +290,63 @@ export default function ProjectListitem(props) {
 						<Icon className="meteocons text-14 mr-4" color="action">
 							compass
 						</Icon>
-						<Typography className="mx-4">
-							NW
-						</Typography>
+						<Typography className="mx-4">NW</Typography>
 					</div>
 
 					<div className="flex items-center">
 						<Icon className="meteocons text-14 mr-4" color="action">
 							rainy
 						</Icon>
-						<Typography className="mx-4">
-							98%
-						</Typography>
+						<Typography className="mx-4">98%</Typography>
 					</div>
 				</div>
 				<Divider />
 				<div className="w-full py-16">
-					
-						<div className="flex items-center justify-between w-full py-6 px-12">
-							<Typography className="text-15">Sunday</Typography>
-							<div className="flex items-center">
-								<Icon className="meteocons text-24 ltr:mr-16 rtl:ml-16" color="action">
-									rainy
-								</Icon>
-								<Typography className="text-20">21</Typography>
-								<Typography className="text-20" color="textSecondary">
-									&deg;
-								</Typography>
-								<Typography className="text-20" color="textSecondary">
-									C
-								</Typography>
-							</div>
+					<div className="flex items-center justify-between w-full py-6 px-12">
+						<Typography className="text-15">Sunday</Typography>
+						<div className="flex items-center">
+							<Icon className="meteocons text-24 ltr:mr-16 rtl:ml-16" color="action">
+								rainy
+							</Icon>
+							<Typography className="text-20">21</Typography>
+							<Typography className="text-20" color="textSecondary">
+								&deg;
+							</Typography>
+							<Typography className="text-20" color="textSecondary">
+								C
+							</Typography>
 						</div>
-						<div className="flex items-center justify-between w-full py-6 px-12">
-							<Typography className="text-15">Monday</Typography>
-							<div className="flex items-center">
-								<Icon className="meteocons text-24 ltr:mr-16 rtl:ml-16" color="action">
-									rainy
-								</Icon>
-								<Typography className="text-20">22</Typography>
-								<Typography className="text-20" color="textSecondary">
-									&deg;
-								</Typography>
-								<Typography className="text-20" color="textSecondary">
-									C
-								</Typography>
-							</div>
+					</div>
+					<div className="flex items-center justify-between w-full py-6 px-12">
+						<Typography className="text-15">Monday</Typography>
+						<div className="flex items-center">
+							<Icon className="meteocons text-24 ltr:mr-16 rtl:ml-16" color="action">
+								rainy
+							</Icon>
+							<Typography className="text-20">22</Typography>
+							<Typography className="text-20" color="textSecondary">
+								&deg;
+							</Typography>
+							<Typography className="text-20" color="textSecondary">
+								C
+							</Typography>
 						</div>
-						<div className="flex items-center justify-between w-full py-6 px-12">
-							<Typography className="text-15">Tuesday</Typography>
-							<div className="flex items-center">
-								<Icon className="meteocons text-24 ltr:mr-16 rtl:ml-16" color="action">
-									rainy
-								</Icon>
-								<Typography className="text-20">21</Typography>
-								<Typography className="text-20" color="textSecondary">
-									&deg;
-								</Typography>
-								<Typography className="text-20" color="textSecondary">
-									C
-								</Typography>
-							</div>
+					</div>
+					<div className="flex items-center justify-between w-full py-6 px-12">
+						<Typography className="text-15">Tuesday</Typography>
+						<div className="flex items-center">
+							<Icon className="meteocons text-24 ltr:mr-16 rtl:ml-16" color="action">
+								rainy
+							</Icon>
+							<Typography className="text-20">21</Typography>
+							<Typography className="text-20" color="textSecondary">
+								&deg;
+							</Typography>
+							<Typography className="text-20" color="textSecondary">
+								C
+							</Typography>
 						</div>
-					
+					</div>
 				</div>
 			</TabPanel>
 			{/* <CardContent>
