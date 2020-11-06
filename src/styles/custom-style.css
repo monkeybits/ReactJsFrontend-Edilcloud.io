@@ -1,104 +1,11 @@
-.profile-img {
-    height: 160px;
-    width: 160px;
-    object-fit: cover;
+/* ********************************************************************************************
+    Custom CSS
+*********************************************************************************************** */
+body {
+    color: #1E2129;
 }
-.text-2xl {
-    font-size: 2.0rem;
-}
-.custom-autocomplete > div, .react-datepicker-wrapper > div {
-    display: inline-flex !important;
-    width: 100%;
-}
-.custom-autocomplete input, .react-datepicker-wrapper input {
-    font: inherit;
-    color: currentColor;
-    width: 100% ;
-    border: 1px solid rgba(0, 0, 0, 0.23);
-    height: 1.1876em;
-    margin: 0;
-    display: block;
-    padding: 18.5px 14px;
-    min-width: 0;
-    background: none;
-    box-sizing: content-box;
-    animation-name: mui-auto-fill-cancel;
-    letter-spacing: inherit;
-    -webkit-tap-highlight-color: transparent;
-    border-radius: 0.5rem;
-}
-.react-datepicker-wrapper input {
-    padding: 17.5px 14px;
-}
-.custom-autocomplete input:hover, .react-datepicker-wrapper input:hover {
-    border-color: rgba(0, 0, 0, 0.87);
-}
-.custom-autocomplete > div input ~ div {
-    z-index: 9;
-}
-.react-datepicker-wrapper {
-    display: block;
-}
-.edit-icon, .delete-icon  {
-    position: absolute;
-    top: -2px;
-    right: 3px;
-    height: 25px;
-    width: 25px;
-    line-height: 25px;
-    background: #ffffff;
-    color: #192d3e !important;
-}
-.delete-icon {
-    bottom: 0px;
-    top: inherit;
-}
-.edit-icon .MuiSvgIcon-fontSizeSmall, .delete-icon .MuiSvgIcon-fontSizeSmall  {
-    font-size: 1.6rem;
-}
-.max-w-50 {
-    max-width: 50%;
-}
-.chat-box .me p {
-    width: 100%;
-    text-align: right;
-}
-.company-img {
-    height: 70px;
-    width: 70px;
-}
-.custom-dropdown .MuiInputBase-input > div {
-    padding-top: 9px !important;
-    padding-left: 15px !important;
-    padding-bottom: 9px;
-}
-.custom-dropdown .MuiInputBase-input > div p {
-    left: 17px !important;
-}
-.react-datepicker {
-    font-size: 1.1rem;
-}
-.react-datepicker-popper {
-    z-index: 999;
-}
-.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
-    font-size: 1.5rem;
-}
-.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-    width: 2.5rem;
-    line-height: 2.5rem;
-}
-.react-datepicker__navigation {
-    top: 12px;
-}
-.MuiChip-label {
-    padding-left: 0px;
-}
-.custom-img {
-    height: 120px;
-    width: 120px;
-    object-fit: cover;
-    border: 1px solid #e6e4e4;
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
+    color: #1E2129;
 }
 .font-size-12 {
     font-size: 12px !important;
@@ -118,96 +25,107 @@
 .font-size-20 {
     font-size: 20px;
 }
+.text-2xl {
+    font-size: 2.0rem;
+}
 .bg-grey {
     background-color: #718096;
     color: #fff !important;
 }
-.project-edit-position {
-    top: 4px !important;
-    right: -7px !important;
+.bg-body {
+    background: #f7f7f7;
 }
-.custom-tab-header {
-    width: calc(100% - 64px);
-    top: auto;
+.bg-white {
+    background: #ffffff !important;
 }
-.tabs-content {
-    padding-bottom: 50px;
+.bg-custom-grey {
+    background: #e8e8e8;
 }
-.tabs-content .MuiTabs-flexContainer {
-    justify-content: center;
+.bg-custom-light-grey {
+    background: #ECECEE;
 }
-.tabs-content .MuiBox-root {
-  padding: 0px !important;
+.todo-bg-footer {
+    background: rgb(236 236 238 / 0.30);
 }
-.tabs-content > .flex.flex-col > div {
-   background-color: transparent;
+[class*="border-"] {
+    border-color: #ececec;
+}
+.border-bottom {
+    border-bottom: 2px solid #EEEEEE !important;
+}
+.text-default {
+    color: #1E2129;
+}
+.text-muted {
+    color: #9EA1A9 !important;
+}
+.text-custom {
+    color: #3C4252;
+}
+.text-custom-1 {
+    color: #5C616F;
+}
+.text-primary {
+    color: #1976D2 !important;
+}
+.text-dark {
+    color: #212121;
+}
+.MuiTableCell-root {
+    padding: 12px;
+}
+.w-125 {
+    width: 125px;
+}
+.max-w-50 {
+    max-width: 50%;
+}
+.max-w-425 {
+    max-width: 425px;
+}
+.ht-100 {
+    height: 100px;
+}
+.flex-fill {
+    -ms-flex: 1 1 auto!important;
+    flex: 1 1 auto!important;
+}
+.justify-content-between {
+    -ms-flex-pack: justify!important;
+    justify-content: space-between!important;
+}
+.o-contain img {
+    object-fit: contain;
+}
+.MuiDivider-root {
+    background-color: #ECECEE;
+}
+a:not([role=button]):hover {
+    text-decoration: none;
+}
+.text-muted:hover {
+    color: #1976D2 !important;
 }
 
-.height-dialogcontent{
-    min-height: 400px;
-}
+/* ********************************************************************************************
+    Button
+*********************************************************************************************** */
 
-.chat-tab-content-height > .MuiBox-root,
-.chat-tab-content-height >  .MuiBox-root > .MuiTypography-root{
-    height: 100%;
+.MuiButton-containedPrimary, .MuiButton-containedSecondary  {
+    color: #fff;
+    background-color: #2196F3;
+    box-shadow: none;
 }
-.no-bg .MuiTypography-root > div > div {
-    background: transparent;
-    height: auto;
+.MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover {
+    background-color: #008eff;
+    box-shadow: none;
 }
-.static-form-label label{
-    transform: translate(10px, -6px) scale(0.75);
-    display: inline-block;
-    transform-origin: top left;
-    color: rgba(0, 0, 0, 0.54);
-    font-size: 1.4rem;
-    font-family: Muli,Roboto,"Helvetica",Arial,sans-serif;
-    font-weight: 400;
-    line-height: 1;
-    background: #FFF;
-    z-index: 1;
-    position: absolute;
-    vertical-align: middle;
-    padding: 0 .5rem;
-    top: 0;
-    left: 0;
+.MuiFab-secondary:hover, .MuiButton-containedSecondary:hover {
+    background-color: #24c0cc;
 }
-.static-form-label:focus label{
-    color:#192d3e;
+.MuiButton-containedSizeLarge {
+    padding: 7px 22px;
 }
-.static-form-label .icon{
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    margin-top: -12px;    
-}
-
-.todoWrapper{
-    padding: 0;
-}
-.todoWrapper [class|=makeStyles-header] {
-    display: none;
-}
-
-.fileInfoSidebar .MuiDrawer-modal[aria-hidden="true"] .MuiDrawer-paperAnchorRight{
-    opacity: 0;
-    pointer-events: none;
-}
-.linear-progress {
-    position: absolute;
-    width: 100%;
-    top: 67px;
-    padding: 0px 35px 0px 10px;
-}
-/* .custom-float-btn {
-    position: fixed;
-    top: 100px;
-}
-.custom-float-btn.file-manage-btn {
-    position: fixed;
-    bottom: 80px !important;
-    right: 20px !important;
-} */
 .custom-float-btn > button, .add-file-btn  {
     color: #ffffff;
     background-color: #2196F3;
@@ -244,23 +162,182 @@
     z-index: 9999;
     right: 80px;
 }
-/* .zoom-125 {
-    zoom: 125% !important;
-} */
-/* #SpeedDialexample-actions span span {
-    top: -28px;
-    left: 0;
-    right: inherit;
-} */
-.me-right-align .me p {
-    text-align: right;
+.custom-outlined-btn button {
+    background-color: #ffffff;
+    border: 1px solid #ECECEE;
+    color: #2196F3;
+}   
+.custom-outlined-btn button svg {
+    color: #2196F3;
 }
-.border-bottom {
-    border-bottom: 2px solid #EEEEEE !important;
+.add-photo-image button {
+    padding: 0px;
+    margin-right: 10px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    color: #2196F3;
+}
+
+/* ********************************************************************************************
+    Form Group
+*********************************************************************************************** */
+.MuiFormLabel-root {
+    color: #9EA1A9;
+}
+.MuiOutlinedInput-input {
+    padding: 16px 14px;
+}
+.MuiInputLabel-outlined {
+    transform: translate(14px, 18px) scale(1);
+}
+.MuiOutlinedInput-notchedOutline {
+    border-color: #ECECEE;
+}
+.MuiIcon-colorAction {
+    color: #3C4252;
+}
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #1E2129;
+}
+.static-form-label label{
+    transform: translate(10px, -6px) scale(0.75);
+    display: inline-block;
+    transform-origin: top left;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 1.4rem;
+    font-family: Muli,Roboto,"Helvetica",Arial,sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    background: #FFF;
+    z-index: 1;
+    position: absolute;
+    vertical-align: middle;
+    padding: 0 .5rem;
+    top: 0;
+    left: 0;
+}
+.static-form-label:focus label{
+    color:#192d3e;
+}
+.static-form-label .icon{
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    margin-top: -12px;    
+}
+
+/* ********************************************************************************************
+    Card
+*********************************************************************************************** */
+.MuiPaper-elevation1 {
+    box-shadow: none;
+    border: 1px solid #ECECEE;
+}
+
+/* ********************************************************************************************
+    Custom Auto Complete
+*********************************************************************************************** */
+.custom-autocomplete > div, .react-datepicker-wrapper > div {
+    display: inline-flex !important;
+    width: 100%;
+}
+.custom-autocomplete input, .react-datepicker-wrapper input {
+    font: inherit;
+    color: currentColor;
+    width: 100% ;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    height: 1.1876em;
+    margin: 0;
+    display: block;
+    padding: 18.5px 14px;
+    min-width: 0;
+    background: none;
+    box-sizing: content-box;
+    animation-name: mui-auto-fill-cancel;
+    letter-spacing: inherit;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 0.5rem;
+}
+.custom-autocomplete input:hover, .react-datepicker-wrapper input:hover {
+    border-color: rgba(0, 0, 0, 0.87);
+}
+.custom-autocomplete > div input ~ div {
+    z-index: 9;
+}
+
+/* ********************************************************************************************
+    React Date Picker
+*********************************************************************************************** */
+.react-datepicker-wrapper {
+    display: block;
+}
+.react-datepicker-wrapper input {
+    padding: 17.5px 14px;
+}
+.react-datepicker {
+    font-size: 1.1rem;
+}
+.react-datepicker-popper {
+    z-index: 999;
+}
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+    font-size: 1.5rem;
+}
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+    width: 2.5rem;
+    line-height: 2.5rem;
+}
+.react-datepicker__navigation {
+    top: 12px;
+}
+
+/* ********************************************************************************************
+    Custom Dropdown
+*********************************************************************************************** */
+.custom-dropdown .MuiInputBase-input > div {
+    padding-top: 9px !important;
+    padding-left: 15px !important;
+    padding-bottom: 9px;
+}
+.custom-dropdown .MuiInputBase-input > div p {
+    left: 17px !important;
 }
 .select-dropdown div > div label ~ div > div > div  {
     padding-top: 10px !important;
     padding-bottom: 10px;
+}
+.select-dropdown p {
+    font-size: 14px;
+}
+.custom-select-remove-border {
+    margin: 0px;
+}
+.custom-select-remove-border .MuiInput-underline:before, .custom-select-remove-border .MuiInput-underline:after {
+    border: none !important;
+}
+.custom-select-remove-border .MuiInputBase-root, .custom-select-remove-border .MuiFormLabel-root {
+    font-size: 12px;
+}
+
+/* ********************************************************************************************
+    Icons
+*********************************************************************************************** */
+.edit-icon, .delete-icon  {
+    position: absolute;
+    top: -2px;
+    right: 3px;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+    background: #ffffff;
+    color: #192d3e !important;
+}
+.delete-icon {
+    bottom: 0px;
+    top: inherit;
+}
+.edit-icon .MuiSvgIcon-fontSizeSmall, .delete-icon .MuiSvgIcon-fontSizeSmall  {
+    font-size: 1.6rem;
 }
 .custom-playlist-icon, .custom-edit-icon, .custom-error-icon {
     position: absolute;
@@ -269,15 +346,67 @@
 .custom-edit-icon {
     right: 50px;
 }
-.bg-custom-grey {
-    background: #e8e8e8;
+
+/* ********************************************************************************************
+    Tab Header & Content
+*********************************************************************************************** */
+.custom-tab-header {
+    width: calc(100% - 64px);
+    top: auto;
 }
-.bg-custom-light-grey {
-    background: #ECECEE;
+.tabs-content {
+    padding-bottom: 50px;
 }
-.todo-bg-footer {
-    background: rgb(236 236 238 / 0.30);
+.tabs-content .MuiTabs-flexContainer {
+    justify-content: center;
 }
+.tabs-content .MuiBox-root {
+  padding: 0px !important;
+}
+.tabs-content > .flex.flex-col > div {
+   background-color: transparent;
+}
+.height-dialogcontent{
+    min-height: 400px;
+}
+.chat-tab-content-height > .MuiBox-root,
+.chat-tab-content-height >  .MuiBox-root > .MuiTypography-root{
+    height: 100%;
+}
+.tabs-content {
+    padding-bottom: 50px;
+}
+.chat-tab-content-height {
+    height: calc(100vh - 192px);
+}
+.chat-tab-content-height .inner-height {
+    height: calc(100vh - 40px);
+}
+.custom-tab-header {
+    box-shadow: 0 -1px 3px #00000029;
+}
+.custom-tab-header button:not(.close-icon) {
+    color: #5C616F;
+    padding: 8px 12px 8px;
+    border-bottom: 3px solid transparent;
+}
+.custom-tab-header button > span {
+    flex-direction: row !important;
+}
+.custom-tab-header button > span .material-icons {
+    margin-right: 8px;
+}
+.custom-tab-header button.Mui-selected {
+    color: #2196F3;
+    border-bottom: 3px solid #2196F3;
+}
+.custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
+    font-size: inherit;
+}
+
+/* ********************************************************************************************
+    Post Section
+*********************************************************************************************** */
 .post-form textarea {
     min-height: 2em;
     height: auto;
@@ -292,7 +421,6 @@
 .post-form .single-icon .custom-textarea textarea, .post-form .single-icon .w-full textarea {
     padding-right: 50px;
 }
-
 .custom-draw-img img  {
     max-width: fit-content;
     margin: 0 auto;
@@ -319,35 +447,6 @@
 .post-icons .send {
     right: 20px;
 }
-.konvajs-content {
-    margin: 0 auto;
-    max-width: 100%;
-    max-height: calc(100vh - 43px);
-}
-.konvajs-content canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
-.o-contain img {
-    object-fit: contain;
-}
-.tabs-content {
-    padding-bottom: 50px;
-}
-.chat-tab-content-height {
-    height: calc(100vh - 192px);
-}
-.chat-tab-content-height .inner-height {
-    height: calc(100vh - 40px);
-}
-.justify-content-between {
-    -ms-flex-pack: justify!important;
-    justify-content: space-between!important;
-}
-.flex-fill {
-    -ms-flex: 1 1 auto!important;
-    flex: 1 1 auto!important;
-}
 .posted-images > div {
     width: 100%;
 }
@@ -372,20 +471,35 @@
     height: 160px;
     width: auto;
 }
-/* .gantt-container {
-    min-height: calc(100vh - 90px);
-    overflow-y: auto;
-} */
-/* .gantt-min-height {
-    height: calc(100vh - 90px) !important;
-    zoom: 120%;
-} */
-/* .gantt-custom-full-screen {
-    zoom: 100% !important;
-} */
-.w-125 {
-    width: 125px;
+.post-form .write-post textarea {
+    padding-right: 0px;
 }
+.write-post-img-full .d-block.mx-auto  {
+    width: 100%;
+}
+.write-post-img-full .d-block.mx-auto img  {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* ********************************************************************************************
+    Konva JS
+*********************************************************************************************** */
+
+.konvajs-content {
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: calc(100vh - 43px);
+}
+.konvajs-content canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ********************************************************************************************
+    Gantt JS
+*********************************************************************************************** */
 .gantt-custom-full-screen #fuse-navbar, .gantt-custom-full-screen #fuse-navbar ~ div > header, .gantt-custom-full-screen .custom-tab-header, .gantt-custom-full-screen .team-chat-sidebar, .gantt-custom-full-screen .custom-gantt-toolbar, .gantt-custom-full-screen .zoom-bar, .gantt-custom-full-screen #fuse-layout > div:nth-child(2), .gantt-custom-full-screen .min-h-72.h-72, #fuse-settings {
     display: none;
 }
@@ -395,12 +509,6 @@
 .gantt-menu-item-last {
     border-right: none !important;
 }
-/* .demo-main-container .gantt-menu-item {
-    padding: 0px 10px !important;
-} */
-/* .demo-main-container {
-    height: calc(100vh - 30px) !important;
-} */
 .demo-main-container {
     height: 100% !important;
 }
@@ -419,49 +527,27 @@
 .custom-zoom-bar .radio-label input {
     margin-right: 5px;
 }
-.bg-body {
-    background: #f7f7f7;
+/* .gantt-container {
+    min-height: calc(100vh - 90px);
+    overflow-y: auto;
 }
-.custom-bg ~ .inner-scroll {
-    background-color: transparent;
-    box-shadow: none;
-} 
-.custom-bg ~ .inner-scroll > div:first-child {
-    background-color: #ffffff;
-    border-radius: 4px 4px 0px 0px;
+.gantt-min-height {
+    height: calc(100vh - 90px) !important;
+    zoom: 120%;
 }
-.post-form .write-post textarea {
-    padding-right: 0px;
+.gantt-custom-full-screen {
+    zoom: 100% !important;
 }
-.write-post-img-full .d-block.mx-auto  {
-    width: 100%;
+.demo-main-container .gantt-menu-item {
+    padding: 0px 10px !important;
 }
-.write-post-img-full .d-block.mx-auto img  {
-    height: 100%;
-    width: 100%;
-    max-width: 100%;
-}
-.sound-wave{
-    display: none;
-}
-.ht-11 {
-    height: 11rem;
-}
-.image-close {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    color: #000;
-    cursor: pointer;
-}
-.muliple-images-overflow-x {
-    overflow-x: hidden;
-}
-.MuiFab-secondary:hover, .MuiButton-containedSecondary:hover {
-    background-color: #24c0cc;
-}
+.demo-main-container {
+    height: calc(100vh - 30px) !important;
+} */
 
-/* Audio Animation */
+/* ********************************************************************************************
+    Audio Animation
+*********************************************************************************************** */
 .right-panel-audio audio {
     width: 220px;
 }
@@ -490,6 +576,12 @@
 .photo-viewer-container{
     height: 100% !important;
     width: 100% !important;
+}
+.sound-wave{
+    display: none;
+}
+.ht-11 {
+    height: 11rem;
 }
 @keyframes sound {
     0% {
@@ -559,28 +651,9 @@
     height: 20px;
     animation-duration: 400ms;
 }
-/* End */
-
-.chat-slider-modal .MuiDialog-container .MuiPaper-root {
-    width: 600px;
-}
-.chat-slider-modal img {
-    height: 420px;
-    margin: 0 auto;
-}
-.bubble.max-w-50 {
-    cursor: pointer;
-}
-.chat-slider-modal-height {
-    min-height: calc(100vh - 170px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.custom-padding-small {
-    padding-bottom: 0px !important;
-}
-/* Blink Animation */
+/* ********************************************************************************************
+    Blink Animation
+*********************************************************************************************** */
 .blink {
     animation: blinker 0.6s linear infinite;
     background-color: #f31506;
@@ -605,60 +678,130 @@
       opacity: 0;
     }
   }
+  
+/* ********************************************************************************************
+    Chat Slider
+*********************************************************************************************** */
+
+.chat-slider-modal .MuiDialog-container .MuiPaper-root {
+    width: 600px;
+}
+.chat-slider-modal img {
+    height: 420px;
+    margin: 0 auto;
+}
+.bubble.max-w-50 {
+    cursor: pointer;
+}
+.chat-slider-modal-height {
+    min-height: calc(100vh - 170px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.custom-padding-small {
+    padding-bottom: 0px !important;
+}
+
+/* ********************************************************************************************
+    Login Page
+*********************************************************************************************** */
+.or-container .w-full {
+    width: 57%;
+}
 
 
-/* New Design Update   */
-.custom-modal-new header {
-    color: rgba(0, 0, 0, 0.87);
-    background-color: #fff;
-    box-shadow: none;
+/* ********************************************************************************************
+    Project List Page
+*********************************************************************************************** */
+.project_list {
+    background: #ffffff;
 }
-.custom-modal-new header button svg {
-    font-size: 1.8rem;
+.project_box .project_card {
+    border: 1px solid #ececec;
+    box-shadow: 0 1px 3px #00000029 !important;
 }
-.custom-modal-new header > div {
-    border-bottom: 1px solid#ECECEE;
-    margin-top: 10px;
+.project_box .project_card .MuiCardHeader-root {
+    position: relative;
+    padding-bottom: 5px;
+    background: rgb(184 184 184 / 19%);
 }
-.custom-modal-new .right-m-12, .custom-modal-new header .right-m-12  {
-    right: -12px;
+.project_card .project_card_avatar {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-top: -8px;
 }
-.select-dropdown p {
-    font-size: 14px;
+.project_card .MuiCardHeader-avatar {
+    margin: 0px;
 }
-.custom-modal-new .MuiPaper-rounded {
-    border-radius: 8px;
+.project_card .MuiCardHeader-title {
+    font-weight: 600;
 }
-.custom-modal-new .fuse-chip-select__indicator-separator {
-    background-color: transparent;
+.project_card .MuiCardHeader-content {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding-right: 58px;
 }
-/* Slider */
-.custom-ios-slider .MuiSlider-thumb {
-    width: 18px !important;
-    height: 18px !important;
-    margin-top: -9px !important;
-    margin-left: -9px !important;
-    box-shadow: 0 3px 6px #00000029 !important;
-    background-color: #3880ff !important;
+.grid-space-remove {
+    margin-right: -1.2rem;
+    margin-left: -1.2rem;
 }
-.custom-ios-slider .MuiSlider-rail {
-    background-color: #BBDEFB !important;
+.project_tabs {
+    background-color: rgb(184 184 184 / 19%);
 }
-.custom-ios-slider .MuiSlider-mark {
-    width: 4px !important;
-    height: 2px !important;
-    margin-top: 0px !important;
-    background-color: #3880ff !important;
+.project_tabs button {
+    min-width: auto;
+    text-transform: capitalize;   
+    border-bottom: 3px solid transparent;
+    font-size: 13px;
+    font-weight: 700;
 }
-.custom-ios-slider .MuiSlider-markActive {
-    background-color: #ffffff !important;
+.project_tabs button.Mui-selected {
+    border-bottom: 3px solid #2196F3;
+    color: #2196F3;
 }
-.custom-ios-slider .MuiSlider-valueLabel {
-    top: -20px !important;
-    left: calc(-50% + 1px) !important;
+.project_tabs .MuiTabs-indicator {
+    width: 0px !important;
 }
-.leading-normal {
-    word-break: break-word;
+.project_card_action {
+    position: relative;
+}
+.project_card_action button {
+    position: absolute;
+    right: 0px;
+    z-index: 1;
+}
+.about-image-section img {
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    margin-right: 6px;
+}
+.tab_panel .MuiBox-root {
+    padding: 18px 16px;
+}
+.more-pic {
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    border-radius: 100%;
+    text-align: center;
+    background: rgb(184 184 184 / 19%);
+    color: #767676 !important;
+    cursor: pointer;
+    display: block;
+} 
+.project_card_action button {
+    font-size: 20px;
+}
+.cloud_size {
+    width: auto;
+    height: auto;
+}
+.cloud_size svg {
+    font-size: 50px;
 }
 .custom-progress-chart .MuiCircularProgress-static {
     position: relative;
@@ -681,23 +824,6 @@
 .custom-progress-chart .MuiTypography-colorTextSecondary {
     color: #1E2129;
 }
-.custom-outlined-btn button {
-    background-color: #ffffff;
-    border: 1px solid #ECECEE;
-    color: #2196F3;
-}   
-.custom-outlined-btn button svg {
-    color: #2196F3;
-}
-.custom-ios-slider-dropdown {
-    position: absolute;
-    top: 0px;
-    left: -50px;
-    background-color: #fff;
-    padding: 12px;
-    border-radius: 4px;
-    box-shadow: 0 3px 6px #00000029 !important;
-}
 .custom-member-menu {
     background-color: #ffffff;
     border-radius: 4px;
@@ -714,77 +840,11 @@
     font-size: 19px;
     margin-right: 8px;
 }
-.custom-tab-header {
-    box-shadow: 0 -1px 3px #00000029;
-}
-.custom-tab-header button:not(.close-icon) {
-    color: #5C616F;
-    padding: 8px 12px 8px;
-    border-bottom: 3px solid transparent;
-}
-.custom-tab-header button > span {
-    flex-direction: row !important;
-}
-.custom-tab-header button > span .material-icons {
-    margin-right: 8px;
-}
-.custom-tab-header button.Mui-selected {
-    color: #2196F3;
-    border-bottom: 3px solid #2196F3;
-}
-.custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
-    font-size: inherit;
-}
-.timeline-modal .custom-tab-header {
-    margin: 15px 45px 0px 33px;
-    border-bottom: 1px solid#ECECEE;
-    width: auto;
-    box-shadow: none;
-}
-.timeline-modal .custom-tab-header button:not(.close-icon) {
-    padding: 6px 15px 6px;
-}
-.timeline-modal .custom-tab-header .MuiBottomNavigationAction-label {
-    font-size: 1.5rem;
-}
-.timeline-modal .right-m-12 {
-    top: 8px;
-}
-.timeline-modal .right-m-12 button svg  {
-    font-size: 20px;
-}
-.timeline-modal .right-m-12 button svg  {
-    font-size: 20px;
-}
-.custom-modal-new.timeline-modal header .add-photo-image {
-    border-bottom: none;
-    margin: 7px 0px 7px 15px;
-    padding: 5px 10px;
-    border-radius: 4px;
-    color: #2196F3;
-}
-.custom-modal-new.timeline-modal header {
-    background-color: rgb(236 236 238 / 0.30);
-}
-.add-photo-image button {
-    padding: 0px;
-    margin-right: 10px;
-    background-color: #ffffff;
-    border-radius: 4px;
-    color: #2196F3;
-}
-.MuiButton-containedPrimary, .MuiButton-containedSecondary  {
-    color: #fff;
-    background-color: #2196F3;
-    box-shadow: none;
-}
-.MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover {
-    background-color: #008eff;
-    box-shadow: none;
-}
-.bg-white {
-    background: #ffffff !important;
-}
+
+/* ********************************************************************************************
+    File Manager Page
+*********************************************************************************************** */
+
 .search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button  {
     box-shadow: 0 1px 3px #00000029 !important;
 }
@@ -808,12 +868,6 @@
 }
 .file-box-shadow button:last-child {
     border-radius: 0px 6px 6px 0px;
-}
-.text-dark {
-    color: #212121;
-}
-.MuiTableCell-root {
-    padding: 12px;
 }
 .actions-dropdown .MuiListItemIcon-root{
     min-width: 36px;
@@ -890,95 +944,173 @@
 .file-folder-grid {
     margin-top: -25px;
 }
-.project_list {
-    background: #ffffff;
+
+
+/* ********************************************************************************************
+    IOS Slider
+*********************************************************************************************** */
+
+.custom-ios-slider .MuiSlider-thumb {
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: -9px !important;
+    margin-left: -9px !important;
+    box-shadow: 0 3px 6px #00000029 !important;
+    background-color: #3880ff !important;
 }
-.project_box .project_card {
-    border: 1px solid #ececec;
-    box-shadow: 0 1px 3px #00000029 !important;
+.custom-ios-slider .MuiSlider-rail {
+    background-color: #BBDEFB !important;
 }
-.project_box .project_card .MuiCardHeader-root {
-    position: relative;
-    padding-bottom: 5px;
-    background: rgb(184 184 184 / 19%);
+.custom-ios-slider .MuiSlider-mark {
+    width: 4px !important;
+    height: 2px !important;
+    margin-top: 0px !important;
+    background-color: #3880ff !important;
 }
-.project_card .project_card_avatar {
+.custom-ios-slider .MuiSlider-markActive {
+    background-color: #ffffff !important;
+}
+.custom-ios-slider .MuiSlider-valueLabel {
+    top: -20px !important;
+    left: calc(-50% + 1px) !important;
+}
+.custom-ios-slider-dropdown {
     position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-top: -8px;
+    top: 0px;
+    left: -50px;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px #00000029 !important;
 }
-.project_card .MuiCardHeader-avatar {
-    margin: 0px;
+
+
+/* ********************************************************************************************
+    Modal
+*********************************************************************************************** */
+.custom-modal-new header {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #fff;
+    box-shadow: none;
 }
-.project_card .MuiCardHeader-title {
-    font-weight: 600;
+.custom-modal-new header button svg {
+    font-size: 1.8rem;
 }
-.project_card .MuiCardHeader-content {
-    font-size: 1.5rem;
-    font-weight: 600;
-    padding-right: 58px;
+.custom-modal-new header > div {
+    border-bottom: 1px solid#ECECEE;
+    margin-top: 10px;
 }
-[class*="border-"] {
-    border-color: #ececec;
+.custom-modal-new .right-m-12, .custom-modal-new header .right-m-12  {
+    right: -12px;
 }
-.grid-space-remove {
-    margin-right: -1.2rem;
-    margin-left: -1.2rem;
+.custom-modal-new .MuiPaper-rounded {
+    border-radius: 8px;
 }
-.project_tabs {
-    background-color: rgb(184 184 184 / 19%);
+.custom-modal-new .fuse-chip-select__indicator-separator {
+    background-color: transparent;
 }
-.project_tabs button {
-    min-width: auto;
-    text-transform: capitalize;   
-    border-bottom: 3px solid transparent;
-    font-size: 13px;
-    font-weight: 700;
-}
-.project_tabs button.Mui-selected {
-    border-bottom: 3px solid #2196F3;
+.custom-modal-new.timeline-modal header .add-photo-image {
+    border-bottom: none;
+    margin: 7px 0px 7px 15px;
+    padding: 5px 10px;
+    border-radius: 4px;
     color: #2196F3;
 }
-.project_tabs .MuiTabs-indicator {
-    width: 0px !important;
+.custom-modal-new.timeline-modal header {
+    background-color: rgb(236 236 238 / 0.30);
 }
-.project_card_action {
-    position: relative;
+.timeline-modal .custom-tab-header {
+    margin: 15px 45px 0px 33px;
+    border-bottom: 1px solid#ECECEE;
+    width: auto;
+    box-shadow: none;
 }
-.project_card_action button {
-    position: absolute;
-    right: 0px;
-    z-index: 1;
+.timeline-modal .custom-tab-header button:not(.close-icon) {
+    padding: 6px 15px 6px;
 }
-.about-image-section img {
-    height: 30px;
-    width: 30px;
-    border-radius: 100%;
-    margin-right: 6px;
+.timeline-modal .custom-tab-header .MuiBottomNavigationAction-label {
+    font-size: 1.5rem;
 }
-.tab_panel .MuiBox-root {
-    padding: 18px 16px;
+.timeline-modal .right-m-12 {
+    top: 8px;
 }
-.more-pic {
-    height: 30px;
-    width: 30px;
-    line-height: 30px;
-    border-radius: 100%;
-    text-align: center;
-    background: rgb(184 184 184 / 19%);
-    color: #767676 !important;
-    cursor: pointer;
-    display: block;
-} 
-.project_card_action button {
+.timeline-modal .right-m-12 button svg  {
     font-size: 20px;
 }
-.cloud_size {
-    width: auto;
+.timeline-modal .right-m-12 button svg  {
+    font-size: 20px;
+}
+
+/* ********************************************************************************************
+    Other CSS
+*********************************************************************************************** */
+.profile-img {
+    height: 160px;
+    width: 160px;
+    object-fit: cover;
+}
+.custom-img {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border: 1px solid #e6e4e4;
+}
+.company-img {
+    height: 70px;
+    width: 70px;
+}
+.chat-box .me p {
+    width: 100%;
+    text-align: right;
+}
+.MuiChip-label {
+    padding-left: 0px;
+}
+.project-edit-position {
+    top: 4px !important;
+    right: -7px !important;
+}
+.no-bg .MuiTypography-root > div > div {
+    background: transparent;
     height: auto;
 }
-.cloud_size svg {
-    font-size: 50px;
+.todoWrapper{
+    padding: 0;
+}
+.todoWrapper [class|=makeStyles-header] {
+    display: none;
+}
+.fileInfoSidebar .MuiDrawer-modal[aria-hidden="true"] .MuiDrawer-paperAnchorRight{
+    opacity: 0;
+    pointer-events: none;
+}
+.linear-progress {
+    position: absolute;
+    width: 100%;
+    top: 67px;
+    padding: 0px 35px 0px 10px;
+}
+.me-right-align .me p {
+    text-align: right;
+}
+.custom-bg ~ .inner-scroll {
+    background-color: transparent;
+    box-shadow: none;
+} 
+.custom-bg ~ .inner-scroll > div:first-child {
+    background-color: #ffffff;
+    border-radius: 4px 4px 0px 0px;
+}
+.image-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #000;
+    cursor: pointer;
+}
+.muliple-images-overflow-x {
+    overflow-x: hidden;
+}
+.leading-normal {
+    word-break: break-word;
 }

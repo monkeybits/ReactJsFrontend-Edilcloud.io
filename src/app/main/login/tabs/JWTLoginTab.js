@@ -58,7 +58,7 @@ function JWTLoginTab(props) {
 				className="flex flex-col justify-center w-full"
 			>
 				<TextFieldFormsy
-					className="mb-16"
+					className="mb-24"
 					type="text"
 					name="email"
 					label="Username/Email"
@@ -69,21 +69,21 @@ function JWTLoginTab(props) {
 					validationErrors={{
 						minLength: 'Min character length is 4'
 					}}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								<Icon className="text-20" color="action">
-									email
-								</Icon>
-							</InputAdornment>
-						)
-					}}
+					// InputProps={{
+					// 	endAdornment: (
+					// 		<InputAdornment position="end">
+					// 			<Icon className="text-20" color="action">
+					// 				email
+					// 			</Icon>
+					// 		</InputAdornment>
+					// 	)
+					// }}
 					variant="outlined"
 					required
 				/>
 				<FormControl error>
 					<TextFieldFormsy
-						className="mb-16"
+						className="mb-24"
 						type="password"
 						name="password"
 						label="Password"
@@ -120,20 +120,21 @@ function JWTLoginTab(props) {
 						/>
 					</FormControl> */}
 
-					<Link className="font-medium" to="/pages/auth/forgot-password">
+					<Link className="text-primary font-600" to="/pages/auth/forgot-password">
 						Forgot Password?
 					</Link>
 				</div>
 				<Button
 					type="submit"
 					variant="contained"
+					size="large"
 					color="primary"
-					className="w-full mx-auto mt-16 normal-case"
-					aria-label="LOG IN"
+					className="w-full mx-auto mt-16 uppercase"
+					aria-label="Sign In"
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Login{'  '} {login.loadingLogin && <CircularProgress size={15} color="secondary" />}
+					Sign In{'  '} {login.loadingLogin && <CircularProgress size={15} color="secondary" />}
 				</Button>
 			</Formsy>
 		</div>
