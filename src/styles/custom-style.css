@@ -299,6 +299,17 @@ a:not([role=button]):hover {
     padding-left: 15px !important;
     padding-bottom: 9px;
 }
+.zoom-125 {
+    zoom: 125% !important;
+}
+/* #SpeedDialexample-actions span span {
+    top: -28px;
+    left: 0;
+    right: inherit;
+} */
+.me-right-align .me p {
+    text-align: right;
+}
 .custom-dropdown .MuiInputBase-input > div p {
     left: 17px !important;
 }
@@ -1021,6 +1032,24 @@ a:not([role=button]):hover {
     color: rgba(0, 0, 0, 0.87);
     background-color: #fff;
     box-shadow: none;
+}
+.custom-ios-slider-dropdown.page {
+   left: -260px;
+    padding: 12px;
+    width: 250px;
+    z-index: 1;
+}   
+.custom-ios-slider-dropdown.page-dashboard {
+    left: -260px;
+    padding: 12px;
+    width: 250px;
+    z-index: 1;
+}   
+.custom-member-menu {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 12px;
 }
 .custom-modal-new header button svg {
     font-size: 1.8rem;

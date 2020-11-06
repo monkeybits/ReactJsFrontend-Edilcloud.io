@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const company = (state = initialState, action) => {
-	console.log({ action });
+	// console.log({ action });
 	switch (action.type) {
 		case Actions.COMPANY_INFO: {
 			return {

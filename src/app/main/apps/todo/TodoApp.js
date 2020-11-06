@@ -6,12 +6,13 @@ import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-import TodoDialog from './TodoDialog';
 import TodoHeader from './TodoHeader';
 import TodoList from './TodoList';
 import TodoSidebarContent from './TodoSidebarContent';
 import TodoSidebarHeader from './TodoSidebarHeader';
 import TodoToolbar from './TodoToolbar';
+import CreatePostDialog from './CreatePostDialog';
+import TaskContentDialog from './TaskContentDialog';
 
 function TodoApp(props) {
 	const dispatch = useDispatch();
@@ -44,7 +45,8 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			<TodoDialog />
+			<CreatePostDialog  />
+			<TaskContentDialog  />
 		</>
 	);
 }

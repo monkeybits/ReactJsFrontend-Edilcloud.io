@@ -88,9 +88,9 @@ const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0
 
 function CreatePostDialog(props) {
 	const dispatch = useDispatch();
-	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
+	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	const [value, setValue] = React.useState(0);
-	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
+	const labels = useSelector(({ todoApp }) => todoApp.labels);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [labelMenuEl, setLabelMenuEl] = useState(null);
 	const { form, handleChange, setForm, resetForm } = useForm({ ...defaultFormState });
@@ -209,6 +209,7 @@ function CreatePostDialog(props) {
 	return (
 		<Dialog
 			open={todoDialog.props.openTimelineDialog}
+			{...todoDialog.props}
 			onClose={closeTodoDialog}
 			fullWidth
 			maxWidth="sm"
