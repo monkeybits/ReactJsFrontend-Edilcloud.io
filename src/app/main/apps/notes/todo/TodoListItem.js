@@ -144,9 +144,6 @@ function TodoListItem(props) {
 		setOpen(!open);
 	};
 	useEffect(() => {
-		console.log({
-			activities: props.todo.activities
-		});
 		setTaskDetail(props.todo.activities);
 	}, [props.todo.activities]);
 	useEffect(() => {
@@ -488,7 +485,13 @@ function TodoListItem(props) {
 						{taskDetail &&
 							!!taskDetail.length &&
 							taskDetail.map(todo => (
-								<TodoActivityListItem task={props.todo} todo={todo} key={todo.id} />
+								<TodoActivityListItem
+									{...props}
+									getDetailOfTask={getDetailOfTask}
+									task={props.todo}
+									todo={todo}
+									key={todo.id}
+								/>
 							))}
 					</FuseAnimateGroup>
 				</List>

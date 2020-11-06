@@ -30,6 +30,7 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import Button from '@material-ui/core/Button';
 import PlaylistAddOutlinedIcon from '@material-ui/icons/PlaylistAddOutlined';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -231,6 +232,9 @@ function TodoListItem(props) {
 						</Typography>
 						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary font-medium font-size-12 mb-6">
 							{projectDetail?.name}
+							{/* <Link className="font-size-17" to={`/apps/projects/${projectDetail.id}`}>
+								{projectDetail?.name}
+							</Link> */}
 						</Typography>
 
 						{/* dates below */}
@@ -312,7 +316,9 @@ function TodoListItem(props) {
 								onClick={ev => {
 									ev.preventDefault();
 									ev.stopPropagation();
-									setShowProgress(prev => !prev);
+									if (props.todo.assigned_company?.id == company.id) {
+										setShowProgress(prev => !prev);
+									}
 								}}
 								position="relative"
 								display="inline-flex"
@@ -334,7 +340,7 @@ function TodoListItem(props) {
 								</Box>
 							</Box>
 							{showProgress && (
-								<div className="custom-ios-slider-dropdown page zoom-125">
+								<div className="custom-ios-slider-dropdown page-dashboard zoom-125">
 									<small className="block mb-24">Set Task Progress</small>
 									<div>
 										<IOSSlider
@@ -352,11 +358,13 @@ function TodoListItem(props) {
 															company: props.todo.assigned_company,
 															progress: v
 														},
-														routeParams.id,
+														projectDetail.id,
 														'new',
 														() => {},
 														false,
-														() => {}
+														() => {
+															setShowProgress(prev => !prev);
+														}
 													)
 												);
 											}}
@@ -488,7 +496,12 @@ function TodoListItem(props) {
 						{taskDetail &&
 							!!taskDetail.length &&
 							taskDetail.map(todo => (
-								<TodoActivityListItem task={props.todo} todo={todo} key={todo.id} />
+								<TodoActivityListItem
+									getDetailOfTask={getDetailOfTask}
+									task={props.todo}
+									todo={todo}
+									key={todo.id}
+								/>
 							))}
 					</FuseAnimateGroup>
 				</List>

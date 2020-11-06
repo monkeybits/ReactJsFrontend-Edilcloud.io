@@ -39,6 +39,7 @@ function MembersMenu(props) {
 			...tempMembers[index],
 			is_exists: event.target.checked
 		};
+		console.log({ tempMembers });
 		props.addWorkers(tempMembers);
 		setMembers(tempMembers);
 	};
@@ -70,8 +71,8 @@ function MembersMenu(props) {
 								<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
 									<Checkbox
 										checked={member.is_exists}
-										onClick={stopsEvents}
-										onChange={e => handleChange(e, index)}
+										// onClick={stopsEvents}
+										onClick={e => handleChange(e, index)}
 									/>
 									<Avatar className="w-32 h-32" src={member.avatar} />
 									<ListItemText className="mx-8">

@@ -983,15 +983,23 @@ a:not([role=button]):hover {
     border-radius: 4px;
     box-shadow: 0 3px 6px #00000029 !important;
 }
-
-
-/* ********************************************************************************************
-    Modal
-*********************************************************************************************** */
-.custom-modal-new header {
-    color: rgba(0, 0, 0, 0.87);
-    background-color: #fff;
-    box-shadow: none;
+.custom-ios-slider-dropdown.page {
+   left: -260px;
+    padding: 12px;
+    width: 250px;
+    z-index: 1;
+}   
+.custom-ios-slider-dropdown.page-dashboard {
+    left: -260px;
+    padding: 12px;
+    width: 250px;
+    z-index: 1;
+}   
+.custom-member-menu {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 12px;
 }
 .custom-modal-new header button svg {
     font-size: 1.8rem;

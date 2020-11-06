@@ -310,7 +310,7 @@ function TaskContentForm(props) {
 					progress,
 					...taskDate
 				},
-				routeParams.id,
+				taskContentData.project.id,
 				taskContent.type,
 				() => {
 					dispatch(Actions.closeTaskContent());
