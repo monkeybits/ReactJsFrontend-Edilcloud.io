@@ -55,7 +55,7 @@ function TodoList(props) {
 				}}
 			>
 				{filteredData.map((todo, index) => (
-					<TodoListItem todo={todo} key={todo.id} index={index} />
+					<TodoListItem {...props} todo={todo} key={todo.id} index={index} />
 				))}
 			</FuseAnimateGroup>
 		// </List>

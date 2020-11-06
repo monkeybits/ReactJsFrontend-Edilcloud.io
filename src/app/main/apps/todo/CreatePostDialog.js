@@ -209,6 +209,7 @@ function CreatePostDialog(props) {
 	return (
 		<Dialog
 			open={todoDialog.props.openTimelineDialog}
+			{...todoDialog.props}
 			onClose={closeTodoDialog}
 			fullWidth
 			maxWidth="sm"

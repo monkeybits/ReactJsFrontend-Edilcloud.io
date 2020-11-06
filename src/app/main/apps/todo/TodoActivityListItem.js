@@ -7,16 +7,16 @@ import ListItem from '@material-ui/core/ListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
-import { Collapse, ListItemIcon, ListItemText, List } from '@material-ui/core';
+import { Collapse, ListItemIcon, ListItemText, List, Avatar } from '@material-ui/core';
 import StarBorder from '@material-ui/icons/StarBorder';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { EDIT_ACTIVITY_TO_TASK, GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
+import { EDIT_ACTIVITY_TO_TASK, GET_ACTIVITY_OF_TASK, GET_STAFF_LIST } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 import MembersMenu from '../notes/todo/Dialog/toolbar/MembersMenu';
@@ -24,7 +24,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import WorkerProfiles from './WorkerProfiles';
 import { useParams } from 'react-router';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
+import ToolbarMenu from '../notes/todo/Dialog/toolbar/ToolbarMenu';
 const useStyles = makeStyles(theme => ({
 	todoItem: {
 		'&.completed': {
@@ -47,29 +49,13 @@ function TodoActivityListItem(props) {
 	const [taskDetail, setTaskDetail] = useState([]);
 	const routeParams = useParams();
 	const classes = useStyles(props);
-
-	let members = [
-		{
-			id: '56027c1930450d8bf7b10758',
-			name: 'Alice Freeman',
-			avatar: 'assets/images/avatars/alice.jpg'
-		},
-		{
-			id: '26027s1930450d8bf7b10828',
-			name: 'Danielle Obrien',
-			avatar: 'assets/images/avatars/danielle.jpg'
-		},
-		{
-			id: '76027g1930450d8bf7b10958',
-			name: 'James Lewis',
-			avatar: 'assets/images/avatars/james.jpg'
-		},
-		{
-			id: '36027j1930450d8bf7b10158',
-			name: 'John Doe',
-			avatar: 'assets/images/avatars/Velazquez.jpg'
-		}
-	];
+	const [anchorEl, setAnchorEl] = useState(null);
+	const [members, setMembers] = useState([]);
+	const [inviteMembers, setInviteMembers] = useState([]);
+	const [checkedAll, setCheckedAll] = useState(false);
+	useEffect(() => {
+		setMembers(props.todo.team_workers);
+	}, [props.todo.team_workers]);
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -146,6 +132,69 @@ function TodoActivityListItem(props) {
 			getHeaderToken()
 		);
 	};
+	const handleMenuOpen = event => {
+		stopsEvents(event);
+		setAnchorEl(event.currentTarget);
+		if (!members.length) {
+			getCompanyApprovedContacts();
+		}
+	};
+
+	const handleMenuClose = event => {
+		stopsEvents(event);
+		setAnchorEl(null);
+		if (!members.length) {
+			props.getDetailOfTask();
+		}
+	};
+	const stopsEvents = event => {
+		event.preventDefault();
+		event.stopPropagation();
+	};
+	const handleSelectAll = event => {
+		event.stopPropagation();
+		setCheckedAll(event.target.checked);
+		let tempMembers = [...members];
+		tempMembers = tempMembers.map(d => ({ ...d, is_exists: true }));
+		setMembers(tempMembers);
+		editWorkers(tempMembers);
+	};
+	const getCompanyApprovedContacts = () => {
+		apiCall(
+			GET_STAFF_LIST,
+			{},
+			res => {
+				let inviteMembers = res.results.filter(m => m.role == 'Worker');
+				console.log(inviteMembers);
+				setInviteMembers(inviteMembers);
+			},
+			err => {
+				console.log(err);
+			},
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+	const addMemberToProject = (event, index) => {
+		event.preventDefault();
+		let invited = [...inviteMembers];
+		let member = invited[index];
+		invited[index] = {
+			...member,
+			is_exists: true
+		};
+		setInviteMembers(invited);
+		dispatch(
+			ContactActions.addMemberToProject(
+				props.task.project.id,
+				{
+					profile: member.id,
+					role: member.role?.split('')?.[0]?.toLocaleLowerCase()
+				},
+				false
+			)
+		);
+	};
 	return (
 		<>
 			<ListItem
@@ -168,7 +217,7 @@ function TodoActivityListItem(props) {
 							checked={completed}
 							onChange={e => {
 								e.stopPropagation();
-								e.preventDefault();
+								// e.preventDefault();
 								editTodoActivty(e.target.checked);
 							}}
 							onClick={ev => ev.stopPropagation()}
@@ -205,14 +254,69 @@ function TodoActivityListItem(props) {
 						</div>
 					</div>
 					<div className="flex items-center ml-44 mb-8">
+						<div className="custom-member-menu flex items-center" onClick={handleMenuOpen}>
+							<Icon>person</Icon>
+							Assign People
+						</div>
+						{/* 
 						<MembersMenu
 							onToggleMember={() => ''}
 							members={props.todo.team_workers}
 							addWorkers={editWorkers}
 							// idMembers={cardForm.idMembers}
-						/>
+						/> */}
 						<WorkerProfiles workers={props.todo.workers} />
 					</div>
+					<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
+						<>
+							{!!members?.length && <Button onClick={handleSelectAll}>Select All </Button>}
+							{!!members?.length ? (
+								members.map((member, index) => {
+									return (
+										<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
+											<Checkbox
+												onClick={ev => ev.stopPropagation()}
+												name={member.first_name}
+												checked={!!member.is_exists}
+												onChange={e => {
+													let tempMembers = [...members];
+													tempMembers[index] = {
+														...tempMembers[index],
+														is_exists: e.target.checked
+													};
+													setMembers(tempMembers);
+													editWorkers(tempMembers);
+												}}
+											/>
+											<Avatar className="w-32 h-32" src={member.avatar} />
+											<ListItemText className="mx-8">
+												{member.first_name} {member.last_name}
+											</ListItemText>
+										</MenuItem>
+									);
+								})
+							) : (
+								<>
+									<Typography variant="subtitle1" className="todo-title p-8">
+										{inviteMembers.length
+											? 'You have no workers in your project, add from below list'
+											: 'You have no workers in your company'}
+									</Typography>
+									{inviteMembers.map((member, index) => {
+										return member.is_exists ? null : (
+											<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
+												<Avatar className="w-32 h-32" src={member.avatar} />
+												<ListItemText className="mx-8">
+													{member.first_name} {member.last_name}
+												</ListItemText>
+												<Button onClick={e => addMemberToProject(e, index)}>Add</Button>
+											</MenuItem>
+										);
+									})}
+								</>
+							)}
+						</>
+					</ToolbarMenu>
 					<div className="flex items-center mb-8 ml-32">
 						<div className="flex items-center flex-wrap">
 							{props.todo.progress == 100 ? (

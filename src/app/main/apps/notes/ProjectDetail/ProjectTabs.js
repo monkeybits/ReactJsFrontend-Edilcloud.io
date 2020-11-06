@@ -91,16 +91,16 @@ function ProjectTabs({ value, setValue }) {
 	return (
 		<div className={classes.root}>
 			<TabPanel value={value} index={0} className="no-data-height-full">
-				<ContactsApp />
+				<ContactsApp {...{ value, setValue }} />
 			</TabPanel>
 			<TabPanel value={value} index={1} className="h-full chat-tab-content-height">
-				<ChatApp />
+				<ChatApp {...{ value, setValue }} />
 			</TabPanel>
 			<TabPanel value={value} index={2} className="no-data-height-full">
-				<TodoApp />
+				<TodoApp {...{ value, setValue }} />
 			</TabPanel>
 			<TabPanel value={value} index={3} className="no-data-height-full">
-				<FileManagerApp />
+				<FileManagerApp {...{ value, setValue }} />
 			</TabPanel>
 			<TabPanel value={value} index={4} className="gantt-height-full">
 				{/* <div> */}
@@ -108,7 +108,7 @@ function ProjectTabs({ value, setValue }) {
 						<Toolbar zoom={zoom.currentZoom} onZoomChange={handleZoomChange} />
 					</div> */}
 				<div id="myCover" className="gantt-container">
-					<Gantt zoom={zoom.currentZoom} />
+					<Gantt zoom={zoom.currentZoom} {...{ value, setValue }} />
 				</div>
 				{/* </div> */}
 			</TabPanel>

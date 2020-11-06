@@ -40,7 +40,7 @@ export const apiCall = (
 	}
 	request
 		.then(response => {
-			console.log({ myResponse: response });
+			// console.log({ myResponse: response });
 
 			if (isNeedFullResponse) {
 				onSuccess(response);
