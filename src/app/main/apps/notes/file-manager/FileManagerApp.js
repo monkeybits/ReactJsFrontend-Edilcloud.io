@@ -257,13 +257,13 @@ function FileManagerApp(props) {
 			<FusePageSimple
 				classes={{
 					root: 'bg-red fileInfoSidebar',
-					header: 'h-96 min-h-96 sm:h-160 sm:min-h-160 px-20',
-					sidebarHeader: 'h-96 min-h-96 sm:h-160 sm:min-h-160',
+					header: 'p-20 bg-body',
+					sidebarHeader: '',
 					rightSidebar: 'w-320'
 				}}
 				header={
-					<div className="flex flex-col flex-1 p-8 sm:p-12 relative z-50">
-						<div className="flex items-center justify-between">
+					<div className="flex flex-col flex-1 relative z-50">
+						<div className="flex items-center justify-between left-icon-btn">
 							<IconButton
 								onClick={() => {
 									pageLayout.current.toggleLeftSidebar();
@@ -273,7 +273,7 @@ function FileManagerApp(props) {
 								<Icon>menu</Icon>
 							</IconButton>
 							<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-								<Paper className="flex p-4 items-center w-full max-w-512 h-48 px-8 py-4" elevation={1}>
+								<Paper className="flex p-4 items-center w-full max-w-512 h-48 px-8 py-4 bg-white search-white-box ml-10" elevation={1}>
 									<Icon color="action">search</Icon>
 
 									<Input
@@ -289,15 +289,15 @@ function FileManagerApp(props) {
 									/>
 								</Paper>
 							</FuseAnimate>
-							<div className="flex">
+							<div className="flex file-box-shadow rounded ml-20">
 								<IconButton
 									onClick={() => setViewTable(false)}
-									className={!viewTable ? 'text-green-700' : ''}
+									className={!viewTable ? 'text-dark' : ''}
 								>
 									<FontAwesomeIcon icon={faTh} />
 								</IconButton>
 								<IconButton onClick={() => setViewTable(true)}>
-									<FontAwesomeIcon icon={faList} className={viewTable ? 'text-green-700' : ''} />
+									<FontAwesomeIcon icon={faList} className={viewTable ? 'text-dark' : ''} />
 								</IconButton>
 							</div>
 						</div>
@@ -314,7 +314,7 @@ function FileManagerApp(props) {
 								</Fab>
 							</FuseAnimate> */}
 
-							<FuseAnimate delay={200}>
+							{/* <FuseAnimate delay={200}>
 								<div>
 									{folderPath && (
 										<Breadcrumb
@@ -323,10 +323,10 @@ function FileManagerApp(props) {
 										/>
 									)}
 								</div>
-							</FuseAnimate>
+							</FuseAnimate> */}
 						</div>
 						{isUploadingFiles && (
-							<div className="linear-progress">
+							<div className="linear-progress custom-color">
 								<LinearProgressWithLabel progress={progress} />
 							</div>
 						)}

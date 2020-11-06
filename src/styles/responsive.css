@@ -1,8 +1,3 @@
-@media (min-width: 600px) {
-    .tabs-content header .MuiTab-root {
-       min-width: 145px !important;
-    }
-}
 @media only screen and (max-width: 1279px) {
     .custom-tab-header {
         width: calc(100% - 0px);
@@ -11,6 +6,23 @@
     }
     .tabs-content .MuiBox-root button {
         right: 20px !important;
+    }
+    .tabs-content .MuiBox-root .left-icon-btn button,
+    .tabs-content .MuiBox-root .custom-fuse-page-right-sidebar button  {
+        right: 0px !important;
+    }
+    .speeddial-btn {
+        right: 0px;
+    }
+}
+@media only screen and (max-width: 1024px) and (min-width: 992px) {
+    .gantt-menu-item a {
+        padding: 0px 7px !important;
+    }
+}  
+@media only screen and (max-width: 991px) { 
+    .gantt-menu-item a .header-text {
+        display: none;
     }
 }
 @media only screen and (max-width: 767px) {
@@ -46,11 +58,160 @@
         padding: 6px 8px !important;
         font-size: 1.2rem !important;
     }
+    .tabs-content header.custom-tab-header .MuiTab-root{
+        min-width: 100px !important;
+    }
+    .custom-playlist-icon, .custom-error-icon {
+        right: 50px;
+    }
+    .custom-edit-icon {
+        right: 10px;
+    }   
+    .select-dropdown .MuiInputBase-input {
+        height: auto !important;
+    }
+    .team-chat-sidebar .team-chat-body {
+        width: 100%;
+    }
+    .no-data-height-full {
+        min-height: calc(100vh - 192px);
+    }
+    .no-data-height-full > div > p {
+        height: 100vh;
+    }
+    .custom-float-btn {
+        right: 0px !important;
+    }
+    .tabs-content {
+        padding-bottom: 0px;
+    }
+    .write-post textarea {
+        padding-right: 0px !important;
+    }
+    .bubble.max-w-50 {
+        max-width: 100%;
+    }
+    audio {
+        /* zoom: 117%; */
+        width: 210px;
+        height: 40px;
+    }
+    .MuiInputBase-input {
+        height: 1em !important;
+    }
+    .timeline-modal .right-m-12 {
+        right: 0px;
+    }
+    .timeline-modal .custom-tab-header {
+        margin: 15px 30px 0px 30px;
+    }
+    .timeline-modal .flex.flex-col.flex-1.ml-8 {
+        margin-left: 0px !important;
+    }
+    .MuiTypography-body2 {
+        font-size: 1.2rem;
+    }
+    .file-grid li {
+        width: 100% !important;
+    }
+    .project_card .project_card_avatar {
+        margin-top: 2px;
+    }
+    .project_card .project_card_avatar > div {
+        height: 35px;
+        width: 35px;
+    }
+    
+    
+    
 }
 @media only screen and (max-width: 600px) {
     .rs-dialog-sm-full .MuiDialog-paperFullWidth{
         width: calc(100% - 0px);
         max-height: calc(100% - 0px);
-        margin: 0;
+        margin: 10px;
+    }
+}
+@media (min-width: 600px) {
+    .tabs-content header .MuiTab-root {
+       min-width: 145px !important;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .custom-modal-new header .MuiToolbar-gutters {
+        margin: 0px 20px 0px 20px;
+    }
+    .team-chat-sidebar {
+        transform: translate3d(725px,0,0);
+        width: 100%;
+    }
+    .max-height-100 {
+        max-height: calc(100% - 0px) !important;
+    }
+    .alerted-post-modal-width .MuiPaper-root.MuiDrawer-paper {
+        width: 100%;
+    }
+    .alerted-post-modal-accordion {
+        width: 100% !important;
+    }
+    .comment-post-img img {
+        height: 120px;
+    }
+    /* .gantt-container {
+        min-height: auto;
+    } */
+    /* .gantt-min-height {
+        height: calc(100vh - 40px) !important;
+    } */
+    .gantt_modal_box {
+        min-width: 380px !important;
+    }
+    /* .demo-main-container {
+        zoom: 120%;
+    } */
+    .gantt-menu-item a {
+        font-size: 12px;
+        padding: 0px 3px !important;
+    }
+    .gantt_tree_content {
+        font-size: 11px !important;
+    }
+    
+}
+
+@media only screen and (max-width: 480px) {
+    .team-chat-sidebar {
+        transform: translate3d(600px,0,0);
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    .team-chat-sidebar {
+        transform: translate3d(530px,0,0);
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 380px) {
+    .team-chat-sidebar {
+        transform: translate3d(470px,0,0);
+        width: 100%;
+    }
+    .gantt-menu-item a {
+        padding: 0px !important;
+    }
+}
+@media only screen and (max-width: 360px) {
+    .load-from-excel {
+        margin-top: 15px;
+        margin-left: 18px;
+    }
+}
+@media (min-width: 280px) {
+    .custom-modal-new header .MuiToolbar-gutters {
+        padding: 0px;
+        margin: 0px 45px 0px 33px;
+    }
+    .custom-modal-new header .MuiToolbar-regular {
+        min-height: 60px;
     }
 }

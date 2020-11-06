@@ -12,13 +12,34 @@ import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { FORGOT_PASSWORD } from 'app/services/apiEndPoints';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`,
 		color: theme.palette.primary.contrastText
-	}
+	},
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 150,
+	  },
+	  selectEmpty: {
+		marginTop: theme.spacing(2),
+	  },
 }));
+
+function SimpleSelect() {
+	const classes = useStyles();
+	const [age, setAge] = React.useState('');
+  
+	const handleChange = (event) => {
+	  setAge(event.target.value);
+	};
+ }
 
 function ForgotPasswordPage({ history }) {
 	const classes = useStyles();
@@ -58,19 +79,15 @@ function ForgotPasswordPage({ history }) {
 		handleChange(e);
 	};
 	return (
-		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32')}>
-			<div className="flex flex-col items-center justify-center w-full">
+		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white')}>
+			<div className="flex flex-col items-center justify-center w-full max-w-425">
 				<FuseAnimate animation="transition.expandIn">
-					<Card className="w-full max-w-384">
-						<CardContent className="flex flex-col items-center justify-center p-32">
-							<div className="w-128">
-								<img src="assets/images/logos/fuse.svg" alt="logo" />
-							</div>
-
-							<Typography variant="h6" className="mt-16 mb-32">
-								RECOVER YOUR PASSWORD
+					<Card className="w-full">
+						<CardContent className="flex flex-col items-center justify-center p-20 sm:p-32">
+							<img className="ht-100" src="assets/images/logos/fuse.svg" alt="logo" />
+							<Typography variant="h5" className="text-center font-600 mt-20 mb-28">
+								Recover Password
 							</Typography>
-
 							<form
 								name="recoverForm"
 								noValidate
@@ -79,7 +96,7 @@ function ForgotPasswordPage({ history }) {
 							>
 								<TextField
 									error={error.email.length}
-									className="mb-16"
+									className="mb-4"
 									label="Email"
 									autoFocus
 									type="email"
@@ -94,23 +111,44 @@ function ForgotPasswordPage({ history }) {
 								<Button
 									variant="contained"
 									color="primary"
-									className="w-224 mx-auto mt-16"
+									size="large"
+									className="w-full mx-auto mt-16 uppercase"
 									aria-label="Reset"
 									disabled={!isFormValid()}
 									type="submit"
 								>
-									SEND RESET LINK
+									Send Reset Link
 								</Button>
 							</form>
 
-							<div className="flex flex-col items-center justify-center pt-32 pb-24">
-								<Link className="font-medium" to="/pages/auth/login">
-									Go back to login
+							<div className="flex flex-col items-center justify-center pt-24">
+								<Link className="text-primary font-600" to="/pages/auth/login">
+									Return to Sign In
 								</Link>
 							</div>
 						</CardContent>
 					</Card>
 				</FuseAnimate>
+				<div className="flex items-center justify-between mt-8 w-full text-default font-600">
+					<FormControl className={clsx(classes.formControl, 'custom-select-remove-border')}>
+						<InputLabel id="demo-simple-select-label">English (United States)</InputLabel>
+						<Select
+						labelId="demo-simple-select-label"
+						id="demo-simple-select"
+						// value={age}
+						// onChange={handleChange}
+						>
+						<MenuItem value={10}>India</MenuItem>
+						<MenuItem value={30}>U.K.</MenuItem>
+						<MenuItem value={20}>Germany</MenuItem>
+						</Select>
+					</FormControl>
+					<div className="flex">
+						<a href="javascript:;" className="text-muted mr-20">Help</a>
+						<a href="javascript:;" className="text-muted mr-20">Privacy</a>
+						<a href="javascript:;" className="text-muted">Terms</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

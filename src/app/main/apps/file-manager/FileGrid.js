@@ -58,7 +58,8 @@ const useStyles = makeStyles({
 const useStylesList = makeStyles(theme => ({
 	root: {
 		borderRadius: '5%',
-		backgroundColor: '#8080801c'
+		backgroundColor: '#fff',
+		boxShadow: '0 3px 6px #00000029'
 	}
 }));
 function FileGrid(props) {
@@ -164,44 +165,42 @@ function FileGrid(props) {
 		);
 	}
 	return (
-		<FuseAnimate animation="transition.slideUpIn" delay={300}>
-			<div>
-				{!!currentFolders.length && (
-					<>
-						{' '}
-						<Typography variant="h6">Folders</Typography>
-						<Grid container spacing={12}>
-							{currentFolders.map(d => (
-								<Grid
-									className="px-12 mb-32"
-									item
-									xs={12}
-									sm={6}
-									md={4}
-									xl={3}
-									onClick={() => dispatch(Actions.setFolderPath(d.path))}
-								>
-									<ListItem className={classesListItems.root}>
-										<ListItemIcon>
-											<FolderIcon />
-										</ListItemIcon>
-										<ListItemText primary={d.title} secondary={null} />
-									</ListItem>
-								</Grid>
-							))}
-						</Grid>
-					</>
-				)}
-				{!!currentFiles.length && (
-					<>
-						<Typography variant="h6">Files</Typography>
-						<Grid container spacing={12}>
-							<FileGridItem tileData={currentFiles} {...props} />
-						</Grid>
-					</>
-				)}
-			</div>
-		</FuseAnimate>
+		<div className="file-folder-grid px-32">
+			{!!currentFolders.length && (
+				<>
+					{' '}
+					<Typography variant="h6" className="font-400 uppercase text-gray-600 mb-16">Folders</Typography>
+					<Grid container spacing={12}>
+						{currentFolders.map(d => (
+							<Grid
+								className="px-10 mb-20 sm:mb-32 folder-grid"
+								item
+								xs={12}
+								sm={6}
+								md={4}
+								xl={3}
+								onClick={() => dispatch(Actions.setFolderPath(d.path))}
+							>
+								<ListItem className={classesListItems.root}>
+									<ListItemIcon>
+										<FolderIcon />
+									</ListItemIcon>
+									<ListItemText primary={d.title} secondary={null} />
+								</ListItem>
+							</Grid>
+						))}
+					</Grid>
+				</>
+			)}
+			{!!currentFiles.length && (
+				<>
+					<Typography variant="h6" className="font-400 uppercase text-gray-600 mb-16">Files</Typography>
+					<Grid container spacing={12} className="file-grid">
+						<FileGridItem tileData={currentFiles} {...props} />
+					</Grid>
+				</>
+			)}
+		</div>
 	);
 }
 

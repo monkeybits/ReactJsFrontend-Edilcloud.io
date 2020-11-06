@@ -1,104 +1,14 @@
-.profile-img {
-    height: 160px;
-    width: 160px;
-    object-fit: cover;
+/* ********************************************************************************************
+    Custom CSS
+*********************************************************************************************** */
+body {
+    color: #1E2129;
 }
-.text-2xl {
-    font-size: 2.0rem;
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
+    color: #1E2129;
 }
-.custom-autocomplete > div, .react-datepicker-wrapper > div {
-    display: inline-flex !important;
-    width: 100%;
-}
-.custom-autocomplete input, .react-datepicker-wrapper input {
-    font: inherit;
-    color: currentColor;
-    width: 100% ;
-    border: 1px solid rgba(0, 0, 0, 0.23);
-    height: 1.1876em;
-    margin: 0;
-    display: block;
-    padding: 18.5px 14px;
-    min-width: 0;
-    background: none;
-    box-sizing: content-box;
-    animation-name: mui-auto-fill-cancel;
-    letter-spacing: inherit;
-    -webkit-tap-highlight-color: transparent;
-    border-radius: 0.5rem;
-}
-.react-datepicker-wrapper input {
-    padding: 17.5px 14px;
-}
-.custom-autocomplete input:hover, .react-datepicker-wrapper input:hover {
-    border-color: rgba(0, 0, 0, 0.87);
-}
-.custom-autocomplete > div input ~ div {
-    z-index: 9;
-}
-.react-datepicker-wrapper {
-    display: block;
-}
-.edit-icon, .delete-icon  {
-    position: absolute;
-    top: -2px;
-    right: 3px;
-    height: 25px;
-    width: 25px;
-    line-height: 25px;
-    background: #ffffff;
-    color: #192d3e !important;
-}
-.delete-icon {
-    bottom: 0px;
-    top: inherit;
-}
-.edit-icon .MuiSvgIcon-fontSizeSmall, .delete-icon .MuiSvgIcon-fontSizeSmall  {
-    font-size: 1.6rem;
-}
-.max-w-50 {
-    max-width: 50%;
-}
-.chat-box .me p {
-    width: 100%;
-    text-align: right;
-}
-.company-img {
-    height: 70px;
-    width: 70px;
-}
-.custom-dropdown .MuiInputBase-input > div {
-    padding-top: 9px !important;
-    padding-left: 15px !important;
-    padding-bottom: 9px;
-}
-.custom-dropdown .MuiInputBase-input > div p {
-    left: 17px !important;
-}
-.react-datepicker {
-    font-size: 1.1rem;
-}
-.react-datepicker-popper {
-    z-index: 999;
-}
-.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
-    font-size: 1.5rem;
-}
-.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-    width: 2.5rem;
-    line-height: 2.5rem;
-}
-.react-datepicker__navigation {
-    top: 12px;
-}
-.MuiChip-label {
-    padding-left: 0px;
-}
-.custom-img {
-    height: 120px;
-    width: 120px;
-    object-fit: cover;
-    border: 1px solid #e6e4e4;
+.font-size-12 {
+    font-size: 12px !important;
 }
 .font-size-14 {
     font-size: 14px !important;
@@ -115,42 +25,179 @@
 .font-size-20 {
     font-size: 20px;
 }
+.text-2xl {
+    font-size: 2.0rem;
+}
 .bg-grey {
     background-color: #718096;
     color: #fff !important;
 }
-.project-edit-position {
-    top: 4px !important;
-    right: -7px !important;
+.bg-body {
+    background: #f7f7f7;
 }
-.custom-tab-header {
-    width: calc(100% - 64px);
-    top: auto;
+.bg-white {
+    background: #ffffff !important;
 }
-.tabs-content {
-    padding-bottom: 50px;
+.bg-custom-grey {
+    background: #e8e8e8;
 }
-.tabs-content .MuiTabs-flexContainer {
-    justify-content: center;
+.bg-custom-light-grey {
+    background: #ECECEE;
 }
-.tabs-content .MuiBox-root {
-  padding: 0px !important;
+.todo-bg-footer {
+    background: rgb(236 236 238 / 0.30);
 }
-.tabs-content > .flex.flex-col > div {
-   background-color: transparent;
+[class*="border-"] {
+    border-color: #ececec;
+}
+.border-bottom {
+    border-bottom: 2px solid #EEEEEE !important;
+}
+.text-default {
+    color: #1E2129;
+}
+.text-muted {
+    color: #9EA1A9 !important;
+}
+.text-custom {
+    color: #3C4252;
+}
+.text-custom-1 {
+    color: #5C616F;
+}
+.text-primary {
+    color: #1976D2 !important;
+}
+.text-dark {
+    color: #212121;
+}
+.MuiTableCell-root {
+    padding: 12px;
+}
+.w-125 {
+    width: 125px;
+}
+.max-w-50 {
+    max-width: 50%;
+}
+.max-w-425 {
+    max-width: 425px;
+}
+.ht-100 {
+    height: 100px;
+}
+.flex-fill {
+    -ms-flex: 1 1 auto!important;
+    flex: 1 1 auto!important;
+}
+.justify-content-between {
+    -ms-flex-pack: justify!important;
+    justify-content: space-between!important;
+}
+.o-contain img {
+    object-fit: contain;
+}
+.MuiDivider-root {
+    background-color: #ECECEE;
+}
+a:not([role=button]):hover {
+    text-decoration: none;
+}
+.text-muted:hover {
+    color: #1976D2 !important;
 }
 
-.height-dialogcontent{
-    min-height: 400px;
+/* ********************************************************************************************
+    Button
+*********************************************************************************************** */
+
+.MuiButton-containedPrimary, .MuiButton-containedSecondary  {
+    color: #fff;
+    background-color: #2196F3;
+    box-shadow: none;
+}
+.MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover {
+    background-color: #008eff;
+    box-shadow: none;
+}
+.MuiFab-secondary:hover, .MuiButton-containedSecondary:hover {
+    background-color: #24c0cc;
+}
+.MuiButton-containedSizeLarge {
+    padding: 7px 22px;
+}
+.custom-float-btn > button, .add-file-btn  {
+    color: #ffffff;
+    background-color: #2196F3;
+    box-shadow: none;
+}
+.custom-float-btn > button:hover, .add-file-btn:hover {
+    background-color: #2196F3;
+    box-shadow: none;
+}
+.add-file-btn {
+    padding: 6px 13px;
+    font-size: 15px
+}
+.upload-btn {
+    color: #fff;
+    background-color: #323338;
+    padding: 6px 13px;
+    font-size: 15px
+}
+.upload-btn:hover {
+    background-color: #131417;
+}
+#SpeedDialexample-actions button {
+    background-color: #fff;
+    color: #000;
+    margin-right: 15px;
+}
+#SpeedDialexample-actions button:hover {
+    background-color: rgb(255 255 255 / 0.90);
+}
+.speeddial-btn {
+    position: fixed;
+    bottom: 12px;
+    z-index: 9999;
+    right: 80px;
+}
+.custom-outlined-btn button {
+    background-color: #ffffff;
+    border: 1px solid #ECECEE;
+    color: #2196F3;
+}   
+.custom-outlined-btn button svg {
+    color: #2196F3;
+}
+.add-photo-image button {
+    padding: 0px;
+    margin-right: 10px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    color: #2196F3;
 }
 
-.chat-tab-content-height > .MuiBox-root,
-.chat-tab-content-height >  .MuiBox-root > .MuiTypography-root{
-    height: 100%;
+/* ********************************************************************************************
+    Form Group
+*********************************************************************************************** */
+.MuiFormLabel-root {
+    color: #9EA1A9;
 }
-.no-bg .MuiTypography-root > div > div {
-    background: transparent;
-    height: auto;
+.MuiOutlinedInput-input {
+    padding: 16px 14px;
+}
+.MuiInputLabel-outlined {
+    transform: translate(14px, 18px) scale(1);
+}
+.MuiOutlinedInput-notchedOutline {
+    border-color: #ECECEE;
+}
+.MuiIcon-colorAction {
+    color: #3C4252;
+}
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #1E2129;
 }
 .static-form-label label{
     transform: translate(10px, -6px) scale(0.75);
@@ -179,84 +226,118 @@
     margin-top: -12px;    
 }
 
-.todoWrapper{
-    padding: 0;
-}
-.todoWrapper [class|=makeStyles-header] {
-    display: none;
+/* ********************************************************************************************
+    Card
+*********************************************************************************************** */
+.MuiPaper-elevation1 {
+    box-shadow: none;
+    border: 1px solid #ECECEE;
 }
 
-.fileInfoSidebar .MuiDrawer-modal[aria-hidden="true"] .MuiDrawer-paperAnchorRight{
-    opacity: 0;
-    pointer-events: none;
-}
-.linear-progress {
-    position: absolute;
+/* ********************************************************************************************
+    Custom Auto Complete
+*********************************************************************************************** */
+.custom-autocomplete > div, .react-datepicker-wrapper > div {
+    display: inline-flex !important;
     width: 100%;
-    top: 67px;
-    padding: 0px 35px 0px 10px;
 }
-.custom-float-btn {
-    position: fixed;
-    top: 100px;
+.custom-autocomplete input, .react-datepicker-wrapper input {
+    font: inherit;
+    color: currentColor;
+    width: 100% ;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    height: 1.1876em;
+    margin: 0;
+    display: block;
+    padding: 18.5px 14px;
+    min-width: 0;
+    background: none;
+    box-sizing: content-box;
+    animation-name: mui-auto-fill-cancel;
+    letter-spacing: inherit;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 0.5rem;
 }
-.custom-float-btn.file-manage-btn {
-    position: fixed;
-    bottom: 80px !important;
-    right: 20px !important;
+.custom-autocomplete input:hover, .react-datepicker-wrapper input:hover {
+    border-color: rgba(0, 0, 0, 0.87);
 }
-.custom-float-btn > button, .add-file-btn  {
-    color: rgba(0, 0, 0, 0.87);
-    background-color: #61dafb;
+.custom-autocomplete > div input ~ div {
+    z-index: 9;
 }
-.custom-float-btn > button:hover, .add-file-btn:hover {
-    background-color: #33c2f8;
-    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+
+/* ********************************************************************************************
+    React Date Picker
+*********************************************************************************************** */
+.react-datepicker-wrapper {
+    display: block;
 }
-.add-file-btn {
-    padding: 6px 13px;
-    font-size: 15px
+.react-datepicker-wrapper input {
+    padding: 17.5px 14px;
 }
-.upload-btn {
-    color: #fff;
-    background-color: #323338;
-    padding: 6px 13px;
-    font-size: 15px
+.react-datepicker {
+    font-size: 1.1rem;
 }
-.upload-btn:hover {
-    background-color: #131417;
+.react-datepicker-popper {
+    z-index: 999;
 }
-#SpeedDialexample-actions button {
-    background-color: #fff;
-    color: #000;
-    margin-right: 15px;
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+    font-size: 1.5rem;
 }
-#SpeedDialexample-actions button:hover {
-    background-color: rgb(255 255 255 / 0.90);
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+    width: 2.5rem;
+    line-height: 2.5rem;
 }
-.speeddial-btn {
-    position: absolute;
-    bottom: 0px;
-    z-index: 99;
-    right: 0px;
+.react-datepicker__navigation {
+    top: 12px;
 }
-.zoom-125 {
-    zoom: 125% !important;
+
+/* ********************************************************************************************
+    Custom Dropdown
+*********************************************************************************************** */
+.custom-dropdown .MuiInputBase-input > div {
+    padding-top: 9px !important;
+    padding-left: 15px !important;
+    padding-bottom: 9px;
 }
-/* #SpeedDialexample-actions span span {
-    top: -28px;
-    left: 0;
-    right: inherit;
-} */
-.me-right-align .me p {
-    text-align: right;
-}
-.border-bottom {
-    border-bottom: 2px solid #EEEEEE !important;
+.custom-dropdown .MuiInputBase-input > div p {
+    left: 17px !important;
 }
 .select-dropdown div > div label ~ div > div > div  {
     padding-top: 10px !important;
     padding-bottom: 10px;
+}
+.select-dropdown p {
+    font-size: 14px;
+}
+.custom-select-remove-border {
+    margin: 0px;
+}
+.custom-select-remove-border .MuiInput-underline:before, .custom-select-remove-border .MuiInput-underline:after {
+    border: none !important;
+}
+.custom-select-remove-border .MuiInputBase-root, .custom-select-remove-border .MuiFormLabel-root {
+    font-size: 12px;
+}
+
+/* ********************************************************************************************
+    Icons
+*********************************************************************************************** */
+.edit-icon, .delete-icon  {
+    position: absolute;
+    top: -2px;
+    right: 3px;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+    background: #ffffff;
+    color: #192d3e !important;
+}
+.delete-icon {
+    bottom: 0px;
+    top: inherit;
+}
+.edit-icon .MuiSvgIcon-fontSizeSmall, .delete-icon .MuiSvgIcon-fontSizeSmall  {
+    font-size: 1.6rem;
 }
 .custom-playlist-icon, .custom-edit-icon, .custom-error-icon {
     position: absolute;
@@ -265,9 +346,67 @@
 .custom-edit-icon {
     right: 50px;
 }
-.bg-custom-grey {
-    background: #e8e8e8;
+
+/* ********************************************************************************************
+    Tab Header & Content
+*********************************************************************************************** */
+.custom-tab-header {
+    width: calc(100% - 64px);
+    top: auto;
 }
+.tabs-content {
+    padding-bottom: 50px;
+}
+.tabs-content .MuiTabs-flexContainer {
+    justify-content: center;
+}
+.tabs-content .MuiBox-root {
+  padding: 0px !important;
+}
+.tabs-content > .flex.flex-col > div {
+   background-color: transparent;
+}
+.height-dialogcontent{
+    min-height: 400px;
+}
+.chat-tab-content-height > .MuiBox-root,
+.chat-tab-content-height >  .MuiBox-root > .MuiTypography-root{
+    height: 100%;
+}
+.tabs-content {
+    padding-bottom: 50px;
+}
+.chat-tab-content-height {
+    height: calc(100vh - 192px);
+}
+.chat-tab-content-height .inner-height {
+    height: calc(100vh - 40px);
+}
+.custom-tab-header {
+    box-shadow: 0 -1px 3px #00000029;
+}
+.custom-tab-header button:not(.close-icon) {
+    color: #5C616F;
+    padding: 8px 12px 8px;
+    border-bottom: 3px solid transparent;
+}
+.custom-tab-header button > span {
+    flex-direction: row !important;
+}
+.custom-tab-header button > span .material-icons {
+    margin-right: 8px;
+}
+.custom-tab-header button.Mui-selected {
+    color: #2196F3;
+    border-bottom: 3px solid #2196F3;
+}
+.custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
+    font-size: inherit;
+}
+
+/* ********************************************************************************************
+    Post Section
+*********************************************************************************************** */
 .post-form textarea {
     min-height: 2em;
     height: auto;
@@ -282,7 +421,6 @@
 .post-form .single-icon .custom-textarea textarea, .post-form .single-icon .w-full textarea {
     padding-right: 50px;
 }
-
 .custom-draw-img img  {
     max-width: fit-content;
     margin: 0 auto;
@@ -362,20 +500,35 @@
     height: 160px;
     width: auto;
 }
-.gantt-container {
-    /* min-height: calc(100vh - 90px); */
-    /* overflow-y: auto; */
+.post-form .write-post textarea {
+    padding-right: 0px;
 }
-.gantt-min-height {
-    /* height: calc(100vh - 90px) !important; */
-    zoom: 120%;
+.write-post-img-full .d-block.mx-auto  {
+    width: 100%;
 }
-.gantt-custom-full-screen {
-    zoom: 100% !important;
+.write-post-img-full .d-block.mx-auto img  {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
 }
-.w-125 {
-    width: 125px;
+
+/* ********************************************************************************************
+    Konva JS
+*********************************************************************************************** */
+
+.konvajs-content {
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: calc(100vh - 43px);
 }
+.konvajs-content canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ********************************************************************************************
+    Gantt JS
+*********************************************************************************************** */
 .gantt-custom-full-screen #fuse-navbar, .gantt-custom-full-screen #fuse-navbar ~ div > header, .gantt-custom-full-screen .custom-tab-header, .gantt-custom-full-screen .team-chat-sidebar, .gantt-custom-full-screen .custom-gantt-toolbar, .gantt-custom-full-screen .zoom-bar, .gantt-custom-full-screen #fuse-layout > div:nth-child(2), .gantt-custom-full-screen .min-h-72.h-72, #fuse-settings {
     display: none;
 }
@@ -385,12 +538,6 @@
 .gantt-menu-item-last {
     border-right: none !important;
 }
-/* .demo-main-container .gantt-menu-item {
-    padding: 0px 10px !important;
-} */
-/* .demo-main-container {
-    height: calc(100vh - 30px) !important;
-} */
 .demo-main-container {
     height: 100% !important;
 }
@@ -409,47 +556,27 @@
 .custom-zoom-bar .radio-label input {
     margin-right: 5px;
 }
-.bg-body {
-    background: #fdf2fd;
+/* .gantt-container {
+    min-height: calc(100vh - 90px);
+    overflow-y: auto;
 }
-.custom-bg ~ .inner-scroll {
-    background-color: transparent;
-} 
-.custom-bg ~ .inner-scroll > div:first-child {
-    background-color: #262526;
+.gantt-min-height {
+    height: calc(100vh - 90px) !important;
+    zoom: 120%;
 }
-.post-form .write-post textarea {
-    padding-right: 0px;
+.gantt-custom-full-screen {
+    zoom: 100% !important;
 }
-.write-post-img-full .d-block.mx-auto  {
-    width: 100%;
+.demo-main-container .gantt-menu-item {
+    padding: 0px 10px !important;
 }
-.write-post-img-full .d-block.mx-auto img  {
-    height: 100%;
-    width: 100%;
-    max-width: 100%;
-}
-.sound-wave{
-    display: none;
-}
-.ht-11 {
-    height: 11rem;
-}
-.image-close {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    color: #000;
-    cursor: pointer;
-}
-.muliple-images-overflow-x {
-    overflow-x: hidden;
-}
-.MuiFab-secondary:hover, .MuiButton-containedSecondary:hover {
-    background-color: #24c0cc;
-}
+.demo-main-container {
+    height: calc(100vh - 30px) !important;
+} */
 
-/* Audio Animation */
+/* ********************************************************************************************
+    Audio Animation
+*********************************************************************************************** */
 .right-panel-audio audio {
     width: 220px;
 }
@@ -478,6 +605,12 @@
 .photo-viewer-container{
     height: 100% !important;
     width: 100% !important;
+}
+.sound-wave{
+    display: none;
+}
+.ht-11 {
+    height: 11rem;
 }
 @keyframes sound {
     0% {
@@ -547,28 +680,9 @@
     height: 20px;
     animation-duration: 400ms;
 }
-/* End */
-
-.chat-slider-modal .MuiDialog-container .MuiPaper-root {
-    width: 600px;
-}
-.chat-slider-modal img {
-    height: 420px;
-    margin: 0 auto;
-}
-.bubble.max-w-50 {
-    cursor: pointer;
-}
-.chat-slider-modal-height {
-    min-height: calc(100vh - 170px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.custom-padding-small {
-    padding-bottom: 0px !important;
-}
-/* Blink Animation */
+/* ********************************************************************************************
+    Blink Animation
+*********************************************************************************************** */
 .blink {
     animation: blinker 0.6s linear infinite;
     background-color: #f31506;
@@ -593,124 +707,439 @@
       opacity: 0;
     }
   }
+  
+/* ********************************************************************************************
+    Chat Slider
+*********************************************************************************************** */
 
-@media only screen and (max-width: 1024px) and (min-width: 992px) {
-    .gantt-menu-item a {
-        padding: 0px 7px !important;
-    }
-}  
-@media only screen and (max-width: 991px) { 
-    .gantt-menu-item a .header-text {
-        display: none;
-    }
+.chat-slider-modal .MuiDialog-container .MuiPaper-root {
+    width: 600px;
 }
-@media only screen and (max-width: 767px) {
-    .tabs-content header.custom-tab-header .MuiTab-root{
-        min-width: 100px !important;
-    }
-    .custom-playlist-icon, .custom-error-icon {
-        right: 50px;
-    }
-    .custom-edit-icon {
-        right: 10px;
-    }   
-    .select-dropdown .MuiInputBase-input {
-        height: auto !important;
-    }
-    .team-chat-sidebar .team-chat-body {
-        width: 100%;
-    }
-    .no-data-height-full {
-        min-height: calc(100vh - 192px);
-    }
-    .no-data-height-full > div > p {
-        height: 100vh;
-    }
-    .custom-float-btn {
-        right: 0px !important;
-    }
-    .tabs-content {
-        padding-bottom: 0px;
-    }
-    .write-post textarea {
-        padding-right: 0px !important;
-    }
-    .bubble.max-w-50 {
-        max-width: 100%;
-    }
-    audio {
-        zoom: 117%;
-        width: 210px;
-        height: 40px;
-    }
-    .MuiInputBase-input {
-        height: 1em !important;
-    }
-    
+.chat-slider-modal img {
+    height: 420px;
+    margin: 0 auto;
 }
-@media only screen and (max-width: 576px) {
-    .team-chat-sidebar {
-        transform: translate3d(725px,0,0);
-        width: 100%;
-    }
-    .max-height-100 {
-        max-height: calc(100% - 0px) !important;
-    }
-    .alerted-post-modal-width .MuiPaper-root.MuiDrawer-paper {
-        width: 100%;
-    }
-    .alerted-post-modal-accordion {
-        width: 100% !important;
-    }
-    .comment-post-img img {
-        height: 120px;
-    }
-    /* .gantt-container {
-        min-height: auto;
-    } */
-    /* .gantt-min-height {
-        height: calc(100vh - 40px) !important;
-    } */
-    .gantt_modal_box {
-        min-width: 380px !important;
-    }
-    .demo-main-container {
-        zoom: 120%;
-    }
-    .gantt-menu-item a {
-        font-size: 12px;
-        padding: 0px 3px !important;
-    }
-    .gantt_tree_content {
-        font-size: 11px !important;
-    }
-    
+.bubble.max-w-50 {
+    cursor: pointer;
+}
+.chat-slider-modal-height {
+    min-height: calc(100vh - 170px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.custom-padding-small {
+    padding-bottom: 0px !important;
 }
 
-@media only screen and (max-width: 480px) {
-    .team-chat-sidebar {
-        transform: translate3d(600px,0,0);
-        width: 100%;
-    }
+/* ********************************************************************************************
+    Login Page
+*********************************************************************************************** */
+.or-container .w-full {
+    width: 57%;
 }
-@media only screen and (max-width: 420px) {
-    .team-chat-sidebar {
-        transform: translate3d(530px,0,0);
-        width: 100%;
-    }
+
+
+/* ********************************************************************************************
+    Project List Page
+*********************************************************************************************** */
+.project_list {
+    background: #ffffff;
 }
-@media only screen and (max-width: 380px) {
-    .team-chat-sidebar {
-        transform: translate3d(470px,0,0);
-        width: 100%;
-    }
-    .gantt-menu-item a {
-        padding: 0px !important;
-    }
+.project_box .project_card {
+    border: 1px solid #ececec;
+    box-shadow: 0 1px 3px #00000029 !important;
 }
-@media only screen and (max-width: 360px) {
-    .load-from-excel {
-        margin-top: 15px;
-        margin-left: 18px;
-    }
+.project_box .project_card .MuiCardHeader-root {
+    position: relative;
+    padding-bottom: 5px;
+    background: rgb(184 184 184 / 19%);
+}
+.project_card .project_card_avatar {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-top: -8px;
+}
+.project_card .MuiCardHeader-avatar {
+    margin: 0px;
+}
+.project_card .MuiCardHeader-title {
+    font-weight: 600;
+}
+.project_card .MuiCardHeader-content {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding-right: 58px;
+}
+.grid-space-remove {
+    margin-right: -1.2rem;
+    margin-left: -1.2rem;
+}
+.project_tabs {
+    background-color: rgb(184 184 184 / 19%);
+}
+.project_tabs button {
+    min-width: auto;
+    text-transform: capitalize;   
+    border-bottom: 3px solid transparent;
+    font-size: 13px;
+    font-weight: 700;
+}
+.project_tabs button.Mui-selected {
+    border-bottom: 3px solid #2196F3;
+    color: #2196F3;
+}
+.project_tabs .MuiTabs-indicator {
+    width: 0px !important;
+}
+.project_card_action {
+    position: relative;
+}
+.project_card_action button {
+    position: absolute;
+    right: 0px;
+    z-index: 1;
+}
+.about-image-section img {
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    margin-right: 6px;
+}
+.tab_panel .MuiBox-root {
+    padding: 18px 16px;
+}
+.more-pic {
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    border-radius: 100%;
+    text-align: center;
+    background: rgb(184 184 184 / 19%);
+    color: #767676 !important;
+    cursor: pointer;
+    display: block;
+} 
+.project_card_action button {
+    font-size: 20px;
+}
+.cloud_size {
+    width: auto;
+    height: auto;
+}
+.cloud_size svg {
+    font-size: 50px;
+}
+.custom-progress-chart .MuiCircularProgress-static {
+    position: relative;
+    height: 56px !important;
+    width: 56px !important;
+    color: #2196F3;
+}
+.custom-progress-chart .MuiCircularProgress-static::before {
+    position: absolute;
+    content: "";
+    height: 56px;
+    width: 56px;
+    border: 3px solid #ECECEE;
+    border-radius: 100%;
+    z-index: -1;
+}
+.custom-progress-chart svg circle{
+    stroke-width: 3;
+}
+.custom-progress-chart .MuiTypography-colorTextSecondary {
+    color: #1E2129;
+}
+.custom-member-menu {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 12px;
+}
+.custom-member-menu span {
+    background: #ECECEE;
+    height: 28px;
+    width: 28px;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 100%;
+    font-size: 19px;
+    margin-right: 8px;
+}
+
+/* ********************************************************************************************
+    File Manager Page
+*********************************************************************************************** */
+
+.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button  {
+    box-shadow: 0 1px 3px #00000029 !important;
+}
+.search-white-box span {
+    color: #1e2125 !important;
+    margin-left: 5px;
+}
+.search-white-box input {
+    color: rgba(0, 0, 0, 0.87);
+}
+.file-box-shadow button, .left-icon-btn > button {
+    border-right: 1px solid #ececec;
+    font-size: 19px;
+    padding: 12px 17px;
+    border-radius: 6px;
+    background: #fff;
+    color: #868686;
+}
+.file-box-shadow button:first-child {
+    border-radius: 6px 0px 0px 6px;
+}
+.file-box-shadow button:last-child {
+    border-radius: 0px 6px 6px 0px;
+}
+.actions-dropdown .MuiListItemIcon-root{
+    min-width: 36px;
+}
+.actions-dropdown.small .MuiListItemIcon-root{
+    min-width: 28px;
+}
+.custom-fuse-page-right-sidebar .permanent {
+    height: auto;
+    min-height: auto;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.87);
+}
+.linear-progress.custom-color p {
+    color: rgba(0, 0, 0, 0.87);
+}
+.close-icon.list-view-icon svg {
+    font-size: 18px;
+}
+.offline-switch > span:first-child {
+    order: 2;
+    margin-left: auto;
+}
+.offline-switch span:last-child {
+    font-weight: 700;
+}
+.folder-grid  {
+    margin-left: -1.0rem;
+    margin-right: -1.0rem;
+}
+.folder-grid .MuiListItemIcon-root {
+    min-width: 34px;
+}
+.folder-grid .MuiTypography-body1 {
+    font-weight: 600;
+}
+.file-folder-grid h6 {
+    font-size: 1.7rem;
+}
+.file-grid > div {
+    background-color: transparent;
+    width: 100%;
+}
+.file-grid li {
+    height: auto !important;
+    padding: 0px !important;
+    margin: 0px 15px 15px 0px;
+    box-shadow: 0 3px 6px #00000029 !important;
+    border-radius: 10px;
+    width: 47.5% !important;;
+}
+.file-grid li:nth-child(2n) {
+    margin-right: 0px !important;
+}
+.file-grid img, .file-grid .MuiGridListTile-tile > svg  {
+    position: relative;
+    top: 0;
+    transform: none !important;
+    left: 0;
+    right: 0px;
+    width: 100%;
+    height: 184px;
+    border-radius: 10px 10px 0px 0px;
+}
+.file-grid img ~ div, .file-grid .MuiGridListTile-tile > svg ~ div {
+    position: relative;
+    background: #fff;
+    border-radius: 0px 0px 10px 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.file-grid .MuiGridListTileBar-titleWrap, .file-grid .MuiGridListTileBar-actionIcon button {
+    color: rgba(0, 0, 0, 0.87);
+}
+.file-folder-grid {
+    margin-top: -25px;
+}
+
+
+/* ********************************************************************************************
+    IOS Slider
+*********************************************************************************************** */
+
+.custom-ios-slider .MuiSlider-thumb {
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: -9px !important;
+    margin-left: -9px !important;
+    box-shadow: 0 3px 6px #00000029 !important;
+    background-color: #3880ff !important;
+}
+.custom-ios-slider .MuiSlider-rail {
+    background-color: #BBDEFB !important;
+}
+.custom-ios-slider .MuiSlider-mark {
+    width: 4px !important;
+    height: 2px !important;
+    margin-top: 0px !important;
+    background-color: #3880ff !important;
+}
+.custom-ios-slider .MuiSlider-markActive {
+    background-color: #ffffff !important;
+}
+.custom-ios-slider .MuiSlider-valueLabel {
+    top: -20px !important;
+    left: calc(-50% + 1px) !important;
+}
+.custom-ios-slider-dropdown {
+    position: absolute;
+    top: 0px;
+    left: -50px;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px #00000029 !important;
+}
+
+
+/* ********************************************************************************************
+    Modal
+*********************************************************************************************** */
+.custom-modal-new header {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #fff;
+    box-shadow: none;
+}
+.custom-modal-new header button svg {
+    font-size: 1.8rem;
+}
+.custom-modal-new header > div {
+    border-bottom: 1px solid#ECECEE;
+    margin-top: 10px;
+}
+.custom-modal-new .right-m-12, .custom-modal-new header .right-m-12  {
+    right: -12px;
+}
+.custom-modal-new .MuiPaper-rounded {
+    border-radius: 8px;
+}
+.custom-modal-new .fuse-chip-select__indicator-separator {
+    background-color: transparent;
+}
+.custom-modal-new.timeline-modal header .add-photo-image {
+    border-bottom: none;
+    margin: 7px 0px 7px 15px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: #2196F3;
+}
+.custom-modal-new.timeline-modal header {
+    background-color: rgb(236 236 238 / 0.30);
+}
+.timeline-modal .custom-tab-header {
+    margin: 15px 45px 0px 33px;
+    border-bottom: 1px solid#ECECEE;
+    width: auto;
+    box-shadow: none;
+}
+.timeline-modal .custom-tab-header button:not(.close-icon) {
+    padding: 6px 15px 6px;
+}
+.timeline-modal .custom-tab-header .MuiBottomNavigationAction-label {
+    font-size: 1.5rem;
+}
+.timeline-modal .right-m-12 {
+    top: 8px;
+}
+.timeline-modal .right-m-12 button svg  {
+    font-size: 20px;
+}
+.timeline-modal .right-m-12 button svg  {
+    font-size: 20px;
+}
+
+/* ********************************************************************************************
+    Other CSS
+*********************************************************************************************** */
+.profile-img {
+    height: 160px;
+    width: 160px;
+    object-fit: cover;
+}
+.custom-img {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border: 1px solid #e6e4e4;
+}
+.company-img {
+    height: 70px;
+    width: 70px;
+}
+.chat-box .me p {
+    width: 100%;
+    text-align: right;
+}
+.MuiChip-label {
+    padding-left: 0px;
+}
+.project-edit-position {
+    top: 4px !important;
+    right: -7px !important;
+}
+.no-bg .MuiTypography-root > div > div {
+    background: transparent;
+    height: auto;
+}
+.todoWrapper{
+    padding: 0;
+}
+.todoWrapper [class|=makeStyles-header] {
+    display: none;
+}
+.fileInfoSidebar .MuiDrawer-modal[aria-hidden="true"] .MuiDrawer-paperAnchorRight{
+    opacity: 0;
+    pointer-events: none;
+}
+.linear-progress {
+    position: absolute;
+    width: 100%;
+    top: 67px;
+    padding: 0px 35px 0px 10px;
+}
+.me-right-align .me p {
+    text-align: right;
+}
+.custom-bg ~ .inner-scroll {
+    background-color: transparent;
+    box-shadow: none;
+} 
+.custom-bg ~ .inner-scroll > div:first-child {
+    background-color: #ffffff;
+    border-radius: 4px 4px 0px 0px;
+}
+.image-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #000;
+    cursor: pointer;
+}
+.muliple-images-overflow-x {
+    overflow-x: hidden;
+}
+.leading-normal {
+    word-break: break-word;
 }

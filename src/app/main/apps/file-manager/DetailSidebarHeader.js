@@ -20,6 +20,7 @@ import FileSaver from 'file-saver';
 import * as Actions from './store/actions';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
 import FileViewDialog from './FileViewDialog';
+import CloseIcon from '@material-ui/icons/Close';
 
 function DetailSidebarHeader({ setProgress }) {
 	const dispatch = useDispatch();
@@ -115,8 +116,8 @@ function DetailSidebarHeader({ setProgress }) {
 				onNo={colseDeleteFileDialog}
 			/>
 			<FileViewDialog isOpenViewFile={isOpenViewFile} closeViewFile={closeViewFile} />
-			<div className="flex flex-col justify-between h-full p-4 sm:p-12">
-				<div className="toolbar flex align-center justify-end">
+			<div className="flex flex-col justify-between">
+				{/* <div className="toolbar flex align-center justify-end">
 					<FuseAnimate animation="transition.expandIn" delay={200}>
 						<IconButton onClick={openDeleteFileDialog}>
 							<Icon>delete</Icon>
@@ -130,20 +131,23 @@ function DetailSidebarHeader({ setProgress }) {
 					<IconButton onClick={openViewFile}>
 						<Icon>visibility</Icon>
 					</IconButton>
-				</div>
+				</div> */}
 
-				<div className="p-12">
+				<div className="flex items-center justify-between border-b-1 px-20 py-6">
 					<FuseAnimate delay={200}>
-						<Typography variant="subtitle1" className="mb-8">
+						<Typography variant="subtitle1" className="font-700">
 							{selectedItem.title}
 						</Typography>
 					</FuseAnimate>
-					<FuseAnimate delay={300}>
+					<IconButton edge="start" color="inherit" aria-label="close" className="close-icon list-view-icon">
+							<CloseIcon />
+						</IconButton>
+					{/* <FuseAnimate delay={300}>
 						<Typography variant="caption" className="">
 							<span>Edited</span>
 							<span>: {moment(selectedItem.date_last_modify).format('MMMM Do YYYY, h:mm a')}</span>
 						</Typography>
-					</FuseAnimate>
+					</FuseAnimate> */}
 				</div>
 			</div>
 		</>

@@ -25,13 +25,14 @@ function FusePageSimpleSidebar(props, ref) {
 					open={isOpen}
 					onClose={ev => handleToggleDrawer()}
 					classes={{
-						root: clsx(classes.sidebarWrapper, props.variant),
+						root: clsx(classes.sidebarWrapper, props.variant, 'custom-fuse-page-right-sidebar'),
 						paper: clsx(
 							classes.sidebar,
 							props.variant,
 							props.position === 'left' ? classes.leftSidebar : classes.rightSidebar
 						)
 					}}
+					id="right-sidebar-file"
 					ModalProps={{
 						keepMounted: true // Better open performance on mobile.
 					}}
@@ -50,7 +51,8 @@ function FusePageSimpleSidebar(props, ref) {
 				<Hidden mdDown>
 					<Drawer
 						variant="permanent"
-						className={clsx(classes.sidebarWrapper, props.variant)}
+						className={clsx(classes.sidebarWrapper, props.variant, 'custom-fuse-page-right-sidebar')}
+						id="right-sidebar-file"
 						open={isOpen}
 						classes={{
 							paper: clsx(

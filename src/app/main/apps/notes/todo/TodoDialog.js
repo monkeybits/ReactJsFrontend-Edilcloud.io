@@ -32,6 +32,7 @@ import { Slider, withStyles, CircularProgress } from '@material-ui/core';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
+import CloseIcon from '@material-ui/icons/Close';
 
 const defaultFormState = {
 	id: '',
@@ -263,16 +264,21 @@ function TodoDialog(props) {
 	};
 	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
 	return (
-		<Dialog {...todoDialog.props} onClose={closeTodoDialog} fullWidth maxWidth="sm">
+		<Dialog {...todoDialog.props} onClose={closeTodoDialog} fullWidth maxWidth="sm" className="custom-modal-new">
 			<AppBar position="static" elevation={1}>
-				<Toolbar className="flex w-full">
-					<Typography variant="subtitle1" color="inherit">
+				<Toolbar className="flex">
+					<Typography variant="h6" color="inherit">
 						{todoDialog.type === 'new'
 							? 'New Todo'
 							: todoDialog.type === 'activity'
 							? 'New Activity'
 							: 'Edit Todo'}
 					</Typography>
+					<div className="absolute right-m-12">
+						<IconButton onClick={closeTodoDialog} edge="start" color="inherit" aria-label="close">
+							<CloseIcon />
+						</IconButton>
+					</div>
 				</Toolbar>
 			</AppBar>
 
@@ -370,7 +376,7 @@ function TodoDialog(props) {
 						))}
 					</div>
 				)} */}
-				<div className="px-16  mb-24 mt-16  sm:px-24 ">
+				<div className="px-20 sm:mb-24 mt-16 sm:mt-20 sm:px-32">
 					<FormControl className="mt-8 mb-16" required fullWidth>
 						<TextField
 							label="Task Title"
@@ -495,21 +501,23 @@ function TodoDialog(props) {
 							<Icon className="icon">calendar_today</Icon>
 						</div>
 					</div>
-					<div className="mt-24 mx-12 zoom-125">
-						<IOSSlider
-							aria-label="ios slider"
-							defaultValue={0}
-							marks={marks}
-							onChange={(e, v) => setProgress(v)}
-							valueLabelDisplay="on"
-						/>
+					<div className="w-full zoom-125">
+						<label><small>Task Progress</small></label>
+						<div className="mx-8 mt-32 custom-ios-slider">
+							<IOSSlider
+								aria-label="ios slider"
+								defaultValue={0}
+								marks={marks}
+								onChange={(e, v) => setProgress(v)}
+								valueLabelDisplay="on"
+							/>
+						</div>
 					</div>
 				</div>
 			</DialogContent>
 
 			{todoDialog.type === 'new' || todoDialog.type === 'activity' ? (
-				<DialogActions className="justify-between p-8 mb-12">
-					<div className="px-16">
+				<DialogActions className="p-16 pb-24 px-44">
 						<Button
 							variant="contained"
 							color="primary"
@@ -536,7 +544,6 @@ function TodoDialog(props) {
 						>
 							Add {loading && <CircularProgress size={15} color="secondary" />}
 						</Button>
-					</div>
 				</DialogActions>
 			) : (
 				<DialogActions className="justify-between p-8">
