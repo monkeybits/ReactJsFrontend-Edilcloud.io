@@ -241,6 +241,9 @@ a:not([role=button]):hover {
     display: inline-flex !important;
     width: 100%;
 }
+.zoom-125 {
+    zoom: 125% !important;
+}
 .custom-autocomplete input, .react-datepicker-wrapper input {
     font: inherit;
     color: currentColor;
