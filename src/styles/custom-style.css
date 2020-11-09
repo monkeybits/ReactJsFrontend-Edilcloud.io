@@ -302,6 +302,17 @@ a:not([role=button]):hover {
     padding-left: 15px !important;
     padding-bottom: 9px;
 }
+.zoom-125 {
+    zoom: 125% !important;
+}
+/* #SpeedDialexample-actions span span {
+    top: -28px;
+    left: 0;
+    right: inherit;
+} */
+.me-right-align .me p {
+    text-align: right;
+}
 .custom-dropdown .MuiInputBase-input > div p {
     left: 17px !important;
 }
@@ -449,6 +460,35 @@ a:not([role=button]):hover {
 }
 .post-icons .send {
     right: 20px;
+}
+/* .konvajs-content {
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: calc(100vh - 43px);
+}
+.konvajs-content canvas {
+    width: 100% !important;
+    height: 100% !important;
+} */
+.o-contain img {
+    object-fit: contain;
+}
+.tabs-content {
+    padding-bottom: 50px;
+}
+.chat-tab-content-height {
+    height: calc(100vh - 192px);
+}
+.chat-tab-content-height .inner-height {
+    height: calc(100vh - 40px);
+}
+.justify-content-between {
+    -ms-flex-pack: justify!important;
+    justify-content: space-between!important;
+}
+.flex-fill {
+    -ms-flex: 1 1 auto!important;
+    flex: 1 1 auto!important;
 }
 .posted-images > div {
     width: 100%;
@@ -985,6 +1025,16 @@ a:not([role=button]):hover {
     padding: 12px;
     border-radius: 4px;
     box-shadow: 0 3px 6px #00000029 !important;
+}
+
+
+/* ********************************************************************************************
+    Modal
+*********************************************************************************************** */
+.custom-modal-new header {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #fff;
+    box-shadow: none;
 }
 .custom-ios-slider-dropdown.page {
    left: -260px;

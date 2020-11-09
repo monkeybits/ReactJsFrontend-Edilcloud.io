@@ -21,9 +21,9 @@ function TodoApp(props) {
 	const routeParams = useParams();
 
 	useEffect(() => {
-		dispatch(Actions.getFilters());
-		dispatch(Actions.getFolders());
-		dispatch(Actions.getLabels());
+		// dispatch(Actions.getFilters());
+		// dispatch(Actions.getFolders());
+		// dispatch(Actions.getLabels());
 	}, [dispatch]);
 
 	useDeepCompareEffect(() => {
