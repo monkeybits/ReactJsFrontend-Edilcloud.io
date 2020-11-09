@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const GET_FILTERS = '[TODO APP] GET FILTERS';
+export const CHANGE_FILTERS = '[TODO APP] CHANGE FILTERS';
 
 export function getFilters() {
 	const request = axios.get('/api/todo-app/filters');
@@ -12,4 +13,11 @@ export function getFilters() {
 				payload: response.data
 			})
 		);
+}
+export function changeFilters(payload) {
+	return dispatch =>
+		dispatch({
+			type: CHANGE_FILTERS,
+			payload
+		});
 }

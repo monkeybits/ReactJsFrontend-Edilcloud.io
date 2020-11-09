@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
@@ -44,14 +45,20 @@ function TodoSidebarContent(props) {
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoApp }) => todoApp.labels);
 	const folders = useSelector(({ todoApp }) => todoApp.folders);
-	const filters = useSelector(({ todoApp }) => todoApp.filters);
+	const genrealFilter = useSelector(({ todoApp }) => todoApp.filters.genrealFilter);
+	const timeFilter = useSelector(({ todoApp }) => todoApp.filters.timeFilter);
+	const projectFilter = useSelector(({ todoApp }) => todoApp.filters.projectFilter);
+	const companyFilter = useSelector(({ todoApp }) => todoApp.filters.companyFilter);
+	const peopleFilter = useSelector(({ todoApp }) => todoApp.filters.peopleFilter);
+	const activeFilterKey = useSelector(({ todoApp }) => todoApp.filters.activeFilterKey);
 
 	const classes = useStyles(props);
-
+	const changeFilter = (activeFilter, activeFilterKey) =>
+		dispatch(Actions.changeFilters({ activeFilter, activeFilterKey }));
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className="flex-auto border-l-1 border-solid">
-				<div className="p-24">
+				{/* <div className="p-24">
 					<Button
 						onClick={() => {
 							dispatch(Actions.openNewTodoDialog());
@@ -62,10 +69,10 @@ function TodoSidebarContent(props) {
 					>
 						ADD TASK
 					</Button>
-				</div>
+				</div> */}
 
 				<div className={classes.listWrapper}>
-					<List>
+					{/* <List>
 						{folders.length > 0 &&
 							folders.map(folder => (
 								<ListItem
@@ -82,31 +89,92 @@ function TodoSidebarContent(props) {
 									<ListItemText primary={folder.title} disableTypography />
 								</ListItem>
 							))}
-					</List>
+					</List> */}
 
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-							FILTERS
+							GENERAL FILTERS
 						</ListSubheader>
 
-						{filters.length > 0 &&
-							filters.map(filter => (
+						{genrealFilter.length > 0 &&
+							genrealFilter.map(filter => (
 								<ListItem
 									button
-									component={NavLinkAdapter}
-									to={`/apps/todo/filter/${filter.handle}`}
+									onClick={() => changeFilter('genrealFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.name == activeFilterKey })}
 									activeClassName="active"
 									className={classes.listItem}
-									key={filter.id}
+									key={filter.name}
 								>
 									<Icon className="list-item-icon" color="action">
 										{filter.icon}
 									</Icon>
-									<ListItemText primary={filter.title} disableTypography />
+									<ListItemText primary={filter.name} disableTypography />
 								</ListItem>
 							))}
 					</List>
 
+					<List>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							TIME FILTERS
+						</ListSubheader>
+
+						{timeFilter.length > 0 &&
+							timeFilter.map(filter => (
+								<ListItem
+									button
+									onClick={() => changeFilter('timeFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.name == activeFilterKey })}
+									activeClassName="active"
+									key={filter.name}
+								>
+									<Icon className="list-item-icon" color="action">
+										{filter.icon}
+									</Icon>
+									<ListItemText primary={filter.name} disableTypography />
+								</ListItem>
+							))}
+					</List>
+					<List>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							PROJECT FILTERS
+						</ListSubheader>
+						{projectFilter.length > 0 &&
+							projectFilter.map(filter => (
+								<ListItem
+									button
+									onClick={() => changeFilter('projectFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.name == activeFilterKey })}
+									activeClassName="active"
+									key={filter.name}
+								>
+									<Icon className="list-item-icon" color="action">
+										{filter.icon}
+									</Icon>
+									<ListItemText primary={filter.name} disableTypography />
+								</ListItem>
+							))}
+					</List>
+					<List>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							COMPANY FILTERS
+						</ListSubheader>
+						{companyFilter.length > 0 &&
+							companyFilter.map(filter => (
+								<ListItem
+									button
+									onClick={() => changeFilter('companyFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.name == activeFilterKey })}
+									activeClassName="active"
+									key={filter.name}
+								>
+									<Icon className="list-item-icon" color="action">
+										{filter.icon}
+									</Icon>
+									<ListItemText primary={filter.name} disableTypography />
+								</ListItem>
+							))}
+					</List>
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
 							LABELS
