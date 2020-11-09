@@ -148,7 +148,7 @@ function NoteList(props) {
 		<>
 			<div className="flex flex-wrap w-full">
 				<div className={classes.root}>
-					<div className="flex items-center justify-between my-16 sm:my-12 sm:mb-20 pb-16 border-b-1">
+					{/* <div className="flex items-center justify-between my-16 sm:my-12 sm:mb-20 pb-16 border-b-1">
 						<Typography variant="h6">All Projects</Typography>
 						<Button
 							variant="contained"
@@ -161,6 +161,11 @@ function NoteList(props) {
 					</div>
 					<div className="mb-16">
 						<Typography variant="subtitle1" className="font-size-18 font-600">Edil Cloud (My Company)</Typography>
+					</div> */}
+					<div className="mb-16">
+						<Typography variant="subtitle1" className="font-size-18 font-600">
+							Edil Cloud (My Company)
+						</Typography>
 					</div>
 					<Grid container spacing={12} className="grid-space-remove">
 						{projects.map((project, index) => {

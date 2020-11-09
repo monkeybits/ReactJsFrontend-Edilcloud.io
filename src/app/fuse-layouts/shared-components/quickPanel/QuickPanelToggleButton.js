@@ -8,7 +8,7 @@ function QuickPanelToggleButton(props) {
 	const dispatch = useDispatch();
 
 	return (
-		<IconButton className="w-64 h-64" onClick={ev => dispatch(quickPanelActions.toggleQuickPanel())}>
+		<IconButton className="w-64 h-64 text-default" onClick={ev => dispatch(quickPanelActions.toggleQuickPanel())}>
 			{props.children}
 		</IconButton>
 	);

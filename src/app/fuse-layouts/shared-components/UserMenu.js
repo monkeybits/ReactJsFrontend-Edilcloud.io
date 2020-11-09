@@ -40,10 +40,10 @@ function UserMenu(props) {
 				</Avatar>
 
 				<div className="hidden md:flex flex-col mx-12 items-start">
-					<Typography component="span" className="normal-case font-600 flex">
+					<Typography component="span" className="normal-case font-600 flex text-default">
 						{userData?.first_name} {userData?.last_name}
 					</Typography>
-					<Typography className="text-11 capitalize" color="textSecondary">
+					<Typography className="text-11 capitalize text-muted">
 						Main profile
 					</Typography>
 				</div>

@@ -8,7 +8,6 @@ import FusePageSimpleSidebar from './FusePageSimpleSidebar';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
-
 const headerHeight = 120;
 const toolbarHeight = 64;
 const drawerWidth = 240;
@@ -169,11 +168,10 @@ const FusePageSimple = React.forwardRef((props, ref) => {
 			<div className={clsx(classes.header, classes.topBg)} />
 
 			<div className="flex flex-auto flex-col container z-10 h-full">
-				{/* {props.header && props.sidebarInner && <FusePageSimpleHeader header={props.header} classes={classes} />} */}
-				
-				
+				{props.header && props.sidebarInner && <FusePageSimpleHeader header={props.header} classes={classes} />}
+
 				<div className={classes.wrapper}>
-					{/* {(props.leftSidebarHeader || props.leftSidebarContent) && (
+					{(props.leftSidebarHeader || props.leftSidebarContent) && (
 						<FusePageSimpleSidebar
 							position="left"
 							header={props.leftSidebarHeader}
@@ -185,7 +183,7 @@ const FusePageSimple = React.forwardRef((props, ref) => {
 							ref={leftSidebarRef}
 							rootRef={rootRef}
 						/>
-					)} */}
+					)}
 
 					{/* <FuseScrollbars */}
 					{/*    className={clsx(classes.contentCardWrapper, props.sidebarInner && classes.contentCardWrapperInnerSidebar)} */}

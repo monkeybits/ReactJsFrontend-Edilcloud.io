@@ -77,7 +77,7 @@ function FuseNavVerticalItem(props) {
 			exact={item.exact}
 		>
 			{item.icon && (
-				<Icon className="list-item-icon text-16 flex-shrink-0" color="action">
+				<Icon className="list-item-icon text-18 flex-shrink-0" color="action">
 					{item.icon}
 				</Icon>
 			)}
