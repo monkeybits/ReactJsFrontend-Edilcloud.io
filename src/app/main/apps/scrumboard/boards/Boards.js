@@ -36,6 +36,8 @@ import { Avatar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import * as FuseActions from 'app/store/actions';
+import { Button } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -170,18 +172,31 @@ function Boards(props) {
 	return isLoading ? (
 		<FuseSplashScreen />
 	) : (
-		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center')}>
-			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
-				<FuseAnimate>
-					<Typography className="mt-44 sm:mt-88 sm:py-24 text-32 sm:text-40 font-300" color="inherit">
+		<div className={clsx(classes.root, 'p-16 sm:p-32 flex flex-grow flex-shrink-0 flex-col bg-body')}>
+			<div className="flex flex-grow flex-shrink-0 flex-col container px-16 md:px-24">
+				{/* <FuseAnimate>
+					<Typography className="sm:py-24 text-32 sm:text-40 font-300" color="inherit">
 						Companies List
 					</Typography>
-				</FuseAnimate>
+				</FuseAnimate> */}
+				<div className="flex w-full">
+					<div className="flex w-full items-center justify-between pb-20 border-b-1">
+						<Typography variant="h5">Company</Typography>
+						<Button
+							variant="contained"
+							color="primary"
+							className={'btn-primary normal-case m-0'}
+							startIcon={<AddIcon />}
+						>
+							Add Company
+						</Button>
+					</div>
+				</div>
 				<div>
-					<div className="flex flex-wrap w-full justify-center py-32 px-16">
+					<div className="flex flex-wrap w-full pt-32">
 						{!!boards.length &&
 							boards.map(board => (
-								<div className="w-224 h-224 p-16" key={board.id}>
+								<div className="w-200 h-200 mr-20" key={board.id}>
 									<Link
 										to="#"
 										onClick={e => {
@@ -203,7 +218,7 @@ function Boards(props) {
 										}}
 										className={clsx(
 											classes.board,
-											'flex flex-col items-center justify-center w-full h-full rounded py-24'
+											'flex flex-col items-center justify-center w-full h-full rounded py-24 bg-white border-1 company-box'
 										)}
 										role="button"
 									>
@@ -250,15 +265,14 @@ function Boards(props) {
 										)}
 
 										<Typography
-											className="text-16 font-300 text-center pt-16 px-32"
-											color="inherit"
+											className="text-16 font-500 text-center text-custom-1 pt-16 px-32"
 										>
 											{board.name}
 										</Typography>
 									</Link>
 								</div>
 							))}
-						<div className="w-224 h-224 p-16">
+						{/* <div className="w-200 h-200">
 							<div
 								className={clsx(
 									classes.board,
@@ -270,12 +284,11 @@ function Boards(props) {
 								role="button"
 								tabIndex={0}
 							>
-								<Icon className="text-56">add_circle</Icon>
-								<Typography className="text-16 font-300 text-center pt-16 px-32" color="inherit">
+								<Typography className="text-16 font-500 text-center text-custom-1 pt-16 px-32">
 									Create new company
 								</Typography>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>

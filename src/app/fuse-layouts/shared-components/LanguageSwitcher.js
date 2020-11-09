@@ -66,7 +66,7 @@ function LanguageSwitcher(props) {
 
 	return (
 		<>
-			<Button className="h-64 w-64" onClick={userMenuClick}>
+			<Button className="h-64 w-64 text-default" onClick={userMenuClick}>
 				<img
 					className="mx-4 min-w-20"
 					src={`assets/images/flags/${currentLng.flag}.png`}

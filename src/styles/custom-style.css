@@ -6,6 +6,7 @@ body {
 }
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
     color: #1E2129;
+    font-weight: 500 !important;
 }
 .font-size-12 {
     font-size: 12px !important;
@@ -33,7 +34,7 @@ body {
     color: #fff !important;
 }
 .bg-body {
-    background: #f7f7f7;
+    background: #f5f5f5;
 }
 .bg-white {
     background: #ffffff !important;
@@ -103,25 +104,28 @@ body {
 a:not([role=button]):hover {
     text-decoration: none;
 }
-.text-muted:hover {
+a.text-muted:hover {
     color: #1976D2 !important;
+}
+.border-0 {
+    border: none !important;
 }
 
 /* ********************************************************************************************
     Button
 *********************************************************************************************** */
 
-.MuiButton-containedPrimary, .MuiButton-containedSecondary  {
+.MuiButton-containedPrimary, .MuiButton-containedSecondary, .btn-primary, .btn-secondary   {
     color: #fff;
     background-color: #2196F3;
     box-shadow: none;
 }
-.MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover {
-    background-color: #008eff;
+.MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
+    background-color: #0591ff;
     box-shadow: none;
 }
-.MuiFab-secondary:hover, .MuiButton-containedSecondary:hover {
-    background-color: #24c0cc;
+.MuiFab-secondary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
+    background-color: #0591ff;
 }
 .MuiButton-containedSizeLarge {
     padding: 7px 22px;
@@ -225,6 +229,33 @@ a:not([role=button]):hover {
     top: 50%;
     margin-top: -12px;    
 }
+
+/* ********************************************************************************************
+    Header
+*********************************************************************************************** */
+.sidebar-header {
+    background-color: #0b3254;
+}
+.sidebar-content {
+    background: #0D3B63;
+}
+.sidebar-content ul a {
+    width: calc(100% - 0px);
+    border-radius: 20px 0px 0px 20px;
+    padding-right: 36px;
+    margin-left: 6px;
+    padding-left: 18px;
+}
+.sidebar-content ul a.active {
+    background-color: #202020;
+    color: #fff !important;
+}
+
+
+/* ********************************************************************************************
+    Sidebar
+*********************************************************************************************** */
+
 
 /* ********************************************************************************************
     Card
@@ -397,11 +428,11 @@ a:not([role=button]):hover {
     margin-right: 8px;
 }
 .custom-tab-header button.Mui-selected {
-    color: #2196F3;
-    border-bottom: 3px solid #2196F3;
+    color: #376AED;
+    border-bottom: 3px solid #376AED;
 }
 .custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
-    font-size: inherit;
+    font-size: 1.4rem;
 }
 
 /* ********************************************************************************************
@@ -545,6 +576,24 @@ a:not([role=button]):hover {
     height: calc(100vh - 30px) !important;
 } */
 
+/* ********************************************************************************************
+    Chat
+*********************************************************************************************** */
+.team-chat-sidebar {
+    box-shadow: -1px 0 3px #00000029;
+}  
+.team-chat-sidebar header {
+    background-color: #376AED !important;
+}
+.team-chat-body {
+    background-color: #fff;
+}
+.custom-separator {
+    height: 30px;
+    margin: 0px 10px;
+    align-self: center;
+    background-color: #ececec;
+}
 /* ********************************************************************************************
     Audio Animation
 *********************************************************************************************** */
@@ -715,7 +764,7 @@ a:not([role=button]):hover {
     Project List Page
 *********************************************************************************************** */
 .project_list {
-    background: #ffffff;
+    background: #f7f7f7;
 }
 .project_box .project_card {
     border: 1px solid #ececec;
@@ -1044,6 +1093,10 @@ a:not([role=button]):hover {
 /* ********************************************************************************************
     Other CSS
 *********************************************************************************************** */
+.custom-header {
+    background-color: #ffffff !important;
+    box-shadow: 2px 0 3px #00000033;
+}
 .profile-img {
     height: 160px;
     width: 160px;
@@ -1055,9 +1108,14 @@ a:not([role=button]):hover {
     object-fit: cover;
     border: 1px solid #e6e4e4;
 }
+.company-box:hover {
+    box-shadow: 0 1px 3px #00000029;
+}
 .company-img {
-    height: 70px;
-    width: 70px;
+    height: 95px;
+    width: 95px;
+    border-radius: 100%;
+    border: 1px solid #ececec;
 }
 .chat-box .me p {
     width: 100%;

@@ -150,7 +150,7 @@ function Layout1(props) {
 		case 'content':
 		default: {
 			return (
-				<div id="fuse-layout" className={clsx(classes.root, config.mode, `scroll-${config.scroll}`)}>
+				<div id="fuse-layout" className={clsx(classes.root, config.mode, `scroll-${config.scroll}`, 'bg-body')}>
 					{config.leftSidePanel.display && <LeftSideLayout1 />}
 
 					<div className="flex flex-1 flex-col overflow-hidden relative">

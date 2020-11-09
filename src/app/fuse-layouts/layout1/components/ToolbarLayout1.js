@@ -11,6 +11,7 @@ import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
+import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
 	separator: {
@@ -30,7 +31,7 @@ function ToolbarLayout1(props) {
 		<ThemeProvider theme={toolbarTheme}>
 			<AppBar
 				id="fuse-toolbar"
-				className="flex relative z-10"
+				className="flex relative z-10 custom-header"
 				color="default"
 				style={{ backgroundColor: toolbarTheme.palette.background.default }}
 			>
@@ -38,34 +39,34 @@ function ToolbarLayout1(props) {
 					{config.navbar.display && config.navbar.position === 'left' && (
 						<Hidden lgUp>
 							<NavbarMobileToggleButton className="w-64 h-64 p-0" />
-							<div className={classes.separator} />
+							{/* <div className={clsx(classes.separator, 'custom-separator')} /> */}
 						</Hidden>
 					)}
 
 					<div className="flex flex-1">
-						<Hidden mdDown>
+						{/* <Hidden mdDown>
 							<FuseShortcuts className="px-16" />
-						</Hidden>
+						</Hidden> */}
 					</div>
 
 					<div className="flex">
 						<UserMenu />
 
-						<div className={classes.separator} />
+						{/* <div className={clsx(classes.separator, 'custom-separator')} /> */}
 
-						<FuseSearch />
+						{/* <FuseSearch /> */}
 
 						<Hidden lgUp>
-							<div className={classes.separator} />
+							<div className={clsx(classes.separator, 'custom-separator')} />
 
 							<ChatPanelToggleButton />
 						</Hidden>
 
-						<div className={classes.separator} />
+							<div className={clsx(classes.separator, 'custom-separator')} />
 
 						<LanguageSwitcher />
 
-						<div className={classes.separator} />
+							<div className={clsx(classes.separator, 'custom-separator')} />
 
 						<QuickPanelToggleButton />
 					</div>
