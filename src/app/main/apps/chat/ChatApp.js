@@ -133,18 +133,22 @@ function ChatApp(props) {
 			}
 			// let callMessageList = setInterval(() => dispatch(Actions.getChat()), 1000);
 			return () => {
-				setIsMounted(false);
-				dispatch({
-					type: GET_CHAT,
-					chat: [],
-					userChatData: {}
-				});
 				// clearInterval(callMessageList);
 			};
 		} else {
 			props.history.push('/apps/todo/all');
 		}
 	}, [dispatch, company]);
+	useEffect(() => {
+		return () => {
+			setIsMounted(false);
+			dispatch({
+				type: GET_CHAT,
+				chat: [],
+				userChatData: {}
+			});
+		};
+	}, []);
 	const handleData = data => {
 		console.log(data);
 	};

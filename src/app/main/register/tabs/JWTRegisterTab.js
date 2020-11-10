@@ -79,7 +79,7 @@ function JWTRegisterTab({ history }) {
 					variant="outlined"
 					required
 				/>
-				{/* <TextFieldFormsy
+				<TextFieldFormsy
 					className="mb-24"
 					type="text"
 					name="first_name"
@@ -125,7 +125,7 @@ function JWTRegisterTab({ history }) {
 					}}
 					variant="outlined"
 					required
-				/> */}
+				/>
 
 				<TextFieldFormsy
 					className="mb-24"

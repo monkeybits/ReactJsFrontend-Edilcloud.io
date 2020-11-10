@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { ADD_ACTIVITY_TO_TASK, EDIT_ACTIVITY_TO_TASK, EDIT_TASK_TO_PROJECT, GET_ALL_PROJECT_TASKS } from 'app/services/apiEndPoints';
+import {
+	ADD_ACTIVITY_TO_TASK,
+	EDIT_ACTIVITY_TO_TASK,
+	EDIT_TASK_TO_PROJECT,
+	GET_ALL_PROJECT_TASKS
+} from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
@@ -30,7 +35,7 @@ function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
 }
 export function getTodos(params) {
-	return dispatch => {
+	return (dispatch, getState) => {
 		apiCall(
 			GET_ALL_PROJECT_TASKS,
 			{},
