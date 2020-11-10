@@ -1,3 +1,4 @@
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 import * as Actions from '../actions';
 const initialState = () => {
 	var nextWeek = new Date();
@@ -69,25 +70,42 @@ const companyFilterNames = arr => {
 	return result;
 };
 const peopleFilterNames = arr => {
-	// var result = arr.reduce((unique, o) => {
-	// 	if (o.assigned_company && !unique.some(obj => obj.id === o.assigned_company.id)) {
-	// 		unique.push({
-	// 			...o.assigned_company
-	// 		});
-	// 	}
-	// 	return unique;
-	// }, []);
-	// return result;
+	const userInfo = decodeDataFromToken();
+	var result = arr.reduce(function (flat, toFlatten) {
+		let activityPeople = [];
+		if (toFlatten.assigned_company && toFlatten.assigned_company.id == userInfo.extra.profile.company) {
+			activityPeople = flatten(toFlatten.activities);
+		}
+		if (Array.isArray(activityPeople)) {
+			flat = [...flat, ...activityPeople];
+		}
+		return flat;
+	}, []);
+	return uniqueById(result);
 };
-
+const uniqueById = arr => {
+	let result = arr.reduce((unique, o) => {
+		if (!unique.some(obj => obj.id === o.id)) {
+			unique.push(o);
+		}
+		return unique;
+	}, []);
+	return result;
+};
+function flatten(arr) {
+	return arr.reduce(function (flat, toFlatten) {
+		return flat.concat(Array.isArray(toFlatten.workers) ? flatten(toFlatten.workers) : toFlatten);
+	}, []);
+}
 const filtersReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS:
-			console.log({ action, result: projectNames(action.payload) });
+			console.log({ action, peopleFilterNames: peopleFilterNames(action.payload) });
 			return {
 				...state,
 				projectFilter: projectNames(action.payload),
-				companyFilter: companyFilterNames(action.payload)
+				companyFilter: companyFilterNames(action.payload),
+				peopleFilter: peopleFilterNames(action.payload)
 			};
 		case Actions.CHANGE_FILTERS:
 			return {

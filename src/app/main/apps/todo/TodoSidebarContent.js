@@ -1,5 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
+import { Avatar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import List from '@material-ui/core/List';
@@ -103,7 +104,6 @@ function TodoSidebarContent(props) {
 									onClick={() => changeFilter('genrealFilter', filter.name)}
 									className={clsx(classes.listItem, { active: filter.name == activeFilterKey })}
 									activeClassName="active"
-									className={classes.listItem}
 									key={filter.name}
 								>
 									<Icon className="list-item-icon" color="action">
@@ -177,24 +177,26 @@ function TodoSidebarContent(props) {
 					</List>
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-							LABELS
+							PEOPLE FILTERS
 						</ListSubheader>
 
-						{labels.length > 0 &&
-							labels.map(label => (
-								<ListItem
-									button
-									component={NavLinkAdapter}
-									to={`/apps/todo/label/${label.handle}`}
-									key={label.id}
-									className={classes.listItem}
-								>
-									<Icon className="list-item-icon" style={{ color: '#388E3C' }} color="action">
-										label
-									</Icon>
-									<ListItemText primary={label.title} disableTypography />
-								</ListItem>
-							))}
+						{peopleFilter.length > 0 &&
+							peopleFilter.map(filter => {
+								let name = `${filter.first_name} ${filter.last_name}`;
+								return (
+									<ListItem
+										button
+										key={filter.id}
+										onClick={() => changeFilter('peopleFilter', filter.id)}
+										className={clsx(classes.listItem, { active: filter.id == activeFilterKey })}
+									>
+										<Avatar className="h-24 w-24 mx-8" src={filter.photo} alt={filter.name}>
+											{[...name][0]}
+										</Avatar>
+										<ListItemText primary={name} disableTypography />
+									</ListItem>
+								);
+							})}
 					</List>
 				</div>
 			</div>
