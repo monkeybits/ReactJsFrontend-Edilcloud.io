@@ -100,7 +100,7 @@ function flatten(arr) {
 const filtersReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS:
-			console.log({ action, peopleFilterNames: peopleFilterNames(action.payload) });
+			// console.log({ action, peopleFilterNames: peopleFilterNames(action.payload) });
 			return {
 				...state,
 				projectFilter: projectNames(action.payload),

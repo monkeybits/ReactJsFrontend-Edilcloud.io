@@ -26,7 +26,7 @@ const initialState = {
 const todosReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS: {
-			console.log({ payload: action.payload });
+			// console.log({ payload: action.payload });
 			return {
 				...state,
 				entities: {...action.payload},

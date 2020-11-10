@@ -145,9 +145,6 @@ function TodoListItem(props) {
 		setOpen(!open);
 	};
 	useEffect(() => {
-		console.log({
-			activities: props.todo.activities
-		});
 		setTaskDetail(props.todo.activities);
 	}, [props.todo.activities]);
 	useEffect(() => {
