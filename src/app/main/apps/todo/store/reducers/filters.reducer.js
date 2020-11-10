@@ -10,7 +10,7 @@ const initialState = () => {
 		genrealFilter: [
 			{
 				name: 'Mine',
-				isActive: false
+				isActive: true
 			},
 			{
 				name: 'All',
@@ -43,10 +43,11 @@ const initialState = () => {
 		companyFilter: [],
 		peopleFilter: [],
 		activeFilter: 'genrealFilter',
-		activeFilterKey: 'Mine'
+		activeFilterKey: 'Mine',
+		usedKeys: []
 	};
 };
-
+const addIsActiveToDefault = (arr = []) => arr.map(d => (d = { ...d, isActive: false }));
 const projectNames = arr => {
 	var result = arr.reduce((unique, o) => {
 		if (!unique.some(obj => obj.name === o.project.name)) {
@@ -67,7 +68,7 @@ const companyFilterNames = arr => {
 		}
 		return unique;
 	}, []);
-	return result;
+	return addIsActiveToDefault(result);
 };
 const peopleFilterNames = arr => {
 	const userInfo = decodeDataFromToken();
@@ -81,7 +82,7 @@ const peopleFilterNames = arr => {
 		}
 		return flat;
 	}, []);
-	return uniqueById(result);
+	return addIsActiveToDefault(uniqueById(result));
 };
 const uniqueById = arr => {
 	let result = arr.reduce((unique, o) => {
@@ -90,7 +91,7 @@ const uniqueById = arr => {
 		}
 		return unique;
 	}, []);
-	return result;
+	return addIsActiveToDefault(result);
 };
 function flatten(arr) {
 	return arr.reduce(function (flat, toFlatten) {
@@ -108,8 +109,17 @@ const filtersReducer = (state = initialState(), action) => {
 				peopleFilter: peopleFilterNames(action.payload)
 			};
 		case Actions.CHANGE_FILTERS:
+			const chnagedState = state[action.payload.activeFilter].map(d => {
+				if (d.name == action.payload.activeFilterKey || d.id == action.payload.activeFilterKey) {
+					return { ...d, isActive: true };
+				} else {
+					return { ...d, isActive: false };
+				}
+			});
+			console.log({ chnagedState });
 			return {
 				...state,
+				...chnagedState,
 				...action.payload
 			};
 		default:
