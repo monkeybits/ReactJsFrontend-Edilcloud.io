@@ -4,9 +4,9 @@
         flex-wrap: wrap;
         overflow-x: auto;
     }
-    .tabs-content .MuiBox-root button {
+    /* .tabs-content .MuiBox-root button {
         right: 20px !important;
-    }
+    } */
     .tabs-content .MuiBox-root .left-icon-btn button,
     .tabs-content .MuiBox-root .custom-fuse-page-right-sidebar button  {
         right: 0px !important;
@@ -123,6 +123,10 @@
     }
     .custom-separator {
         margin: 0px 5px;
+    }
+    .badge-btn {
+        padding: 2px 20px;
+        white-space: nowrap;
     }
     
     

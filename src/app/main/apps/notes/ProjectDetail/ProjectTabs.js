@@ -90,7 +90,7 @@ function ProjectTabs({ value, setValue }) {
 	}, [dispatch, routeParams]);
 	return (
 		<div className={classes.root}>
-			<TabPanel value={value} index={0} className="no-data-height-full">
+			<TabPanel value={value} index={0} className="team-tab-content no-data-height-full">
 				<ContactsApp />
 			</TabPanel>
 			<TabPanel value={value} index={1} className="h-full chat-tab-content-height">
