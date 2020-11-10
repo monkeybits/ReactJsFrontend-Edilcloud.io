@@ -17,12 +17,16 @@ import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
 import MessageMoreOptions from './MessageMoreOptions';
 import RetryToSendMessage from './RetryToSendMessage';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
 			'& .bubble': {
-				backgroundColor: theme.palette.background.default,
+				backgroundColor: '#fff',
+				// backgroundColor: theme.palette.background.default,
 				// color: theme.palette.getContrastText(theme.palette.primary.dark),
+				color: '#1E2129',
+				boxShadow: '0 1px 3px #00000029',
 				borderTopLeftRadius: 5,
 				borderBottomLeftRadius: 5,
 				borderTopRightRadius: 5,
@@ -51,8 +55,10 @@ const useStyles = makeStyles(theme => ({
 			},
 			'& .bubble': {
 				marginLeft: 'auto',
-				backgroundColor: theme.palette.primary.dark,
-				color: theme.palette.getContrastText(theme.palette.primary.dark),
+				backgroundColor: '#4caf501f',
+				// backgroundColor: theme.palette.primary.dark,
+				color: '#1E2129',
+				// color: theme.palette.getContrastText(theme.palette.primary.dark),
 				borderTopLeftRadius: 5,
 				borderBottomLeftRadius: 5,
 				borderTopRightRadius: 5,
@@ -60,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 				'& .time': {
 					justifyContent: 'flex-end',
 					right: 0,
-					marginRight: 12
+					marginLeft: 6
 				}
 			},
 			'&.first-of-group': {
@@ -210,7 +216,7 @@ function Chat(props) {
 									key={item.date_create}
 									className={clsx(
 										classes.messageRow,
-										'flex flex-col flex-grow-0 flex-shrink-0 items-start justify-end relative px-20 pb-4',
+										'flex flex-col flex-grow-0 flex-shrink-0 items-start justify-end relative px-20 pb-12',
 										{ me: contact.id == userIdFromCompany },
 										{ contact: contact.id != userIdFromCompany },
 										{ 'first-of-group': isFirstMessageOfGroup(item, i) },
@@ -244,22 +250,29 @@ function Chat(props) {
 												deleteMessage={Actions.deleteMessage}
 											/>
 										)}
-										<div className="leading-normal mb-10">{item.body} </div>
+										<div className="leading-normal mb-4">{item.body} </div>
 										<ViewFile files={item.files} />
-										{contact.id == userIdFromCompany && item.waitingToSend ? (
-											<Icon className="float-right font-size-16">access_time</Icon>
-										) : (
-											<Icon className="float-right font-size-16">check</Icon>
-										)}
+										<div className="flex items-center">
+											{contact.id == userIdFromCompany && item.waitingToSend ? (
+												<Icon className="float-right font-size-16 text-check mt-2">
+													access_time
+												</Icon>
+											) : (
+												// <Icon className="float-right text-16 text-check mt-2">check</Icon>
+												<Icon className="float-right text-16 text-check mt-2">done_all</Icon>
+											)}
+											{
+												// isLastMessageOfGroup(item, i) && (
+												<Typography
+													className="time text-11 mt-8 mb-12 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+													color="textSecondary"
+												>
+													{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
+												</Typography>
+												// )
+											}
+										</div>
 									</div>
-									{isLastMessageOfGroup(item, i) && (
-										<Typography
-											className="time text-11 mt-8 mb-12 ltr:left-0 rtl:right-0 whitespace-no-wrap"
-											color="textSecondary"
-										>
-											{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
-										</Typography>
-									)}
 								</div>
 							);
 						})}
@@ -278,7 +291,11 @@ function Chat(props) {
 				)}
 			</FuseScrollbars>
 
-			<form autoComplete="off" onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8">
+			<form
+				autoComplete="off"
+				onSubmit={onMessageSubmit}
+				className="bottom-0 right-0 left-0 py-16 px-8 chat-form-bg"
+			>
 				<div className="multiple-images flex flex-row overflow-x-auto">
 					{images &&
 						images.map((item, index) => (
@@ -319,7 +336,7 @@ function Chat(props) {
 						sendDirectToChat={sendAudioDirectToChat}
 					/>
 					<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
-					<IconButton className="image mr-48" onClick={() => inputRef.current.click()} aria-label="Add photo">
+					<IconButton className="image mr-48" onClick={() => inputRef.current.click()} aria-label="Add photo" color="inherit">
 						<Icon>photo</Icon>
 					</IconButton>
 					<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">

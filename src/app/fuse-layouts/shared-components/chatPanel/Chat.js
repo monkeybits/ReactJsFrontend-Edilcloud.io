@@ -16,6 +16,7 @@ import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
 import RetryToSendMessage from './RetryToSendMessage';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -28,12 +29,16 @@ const useStyles = makeStyles(theme => ({
 		flex: '0 0 auto',
 		'&.contact': {
 			'& $bubble': {
-				backgroundColor: theme.palette.primary.main,
-				color: theme.palette.primary.contrastText,
+				backgroundColor: '#fff',
+				// backgroundColor: theme.palette.primary.main,
+				color: '#1E2129',
+				boxShadow: '0 1px 3px #00000029',
+				// color: theme.palette.primary.contrastText,
 				borderTopLeftRadius: 5,
 				borderBottomLeftRadius: 5,
 				borderTopRightRadius: 20,
 				borderBottomRightRadius: 20,
+				marginBottom: 8,
 				'& $time': {
 					marginLeft: 12
 				}
@@ -58,16 +63,19 @@ const useStyles = makeStyles(theme => ({
 
 			'& $bubble': {
 				marginLeft: 'auto',
-				backgroundColor: theme.palette.grey[300],
-				color: theme.palette.getContrastText(theme.palette.grey[300]),
+				backgroundColor: '#4caf501f',
+				color: '#1E2129',
+				// backgroundColor: theme.palette.grey[300],
+				// color: theme.palette.getContrastText(theme.palette.grey[300]),
 				borderTopLeftRadius: 20,
 				borderBottomLeftRadius: 20,
 				borderTopRightRadius: 5,
 				borderBottomRightRadius: 5,
+				marginBottom: 8,
 				'& $time': {
 					justifyContent: 'flex-end',
 					right: 0,
-					marginRight: 12
+					marginLeft: 6
 				}
 			},
 			'&.first-of-group': {
@@ -289,27 +297,33 @@ function Chat(props) {
 													)}
 													<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
 
-													<div className="leading-normal font-size-16 mb-10">{item.body}</div>
+													<div className="leading-normal font-size-16 mb-4">{item.body}</div>
 													<ViewFile
 														open={props.open}
 														setOpen={props.setOpen}
 														files={item.files}
 													/>
+													<div className="flex items-center">
 													{contact.id == userIdFromCompany && item.waitingToSend ? (
-														<Icon className="float-right font-size-16">access_time</Icon>
+														<Icon className="float-right font-size-16 text-check mt-2">access_time</Icon>
 													) : (
-														<Icon className="float-right font-size-16">check</Icon>
+														// <Icon className="float-right text-16 text-check mt-2">check</Icon>
+														<Icon className="float-right text-16 text-check mt-2">done_all</Icon>
 													)}
+														{
+													// isLastMessageOfGroup(item, i) && (
+														<Typography
+														className="time text-12 font-500 mt-4 ml-6 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+														color="textSecondary"
+														>
+															{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
+														</Typography>
+													// )
+													}
+													</div>
 												</div>
 											</div>
-											{isLastMessageOfGroup(item, i) && (
-												<Typography
-													className={clsx(classes.time, 'mb-12')}
-													color="textSecondary"
-												>
-													{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
-												</Typography>
-											)}
+											
 										</div>
 									);
 								})}

@@ -24,8 +24,9 @@ import UserSidebar from './UserSidebar';
 import { withRouter, useParams } from 'react-router';
 import { GET_CHAT } from './store/actions';
 import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
+import FuseAnimate from '@fuse/core/FuseAnimate';
 
-const drawerWidth = 400;
+const drawerWidth = 350;
 const headerHeight = 200;
 
 const useStyles = makeStyles(theme => ({
@@ -144,11 +145,28 @@ function ChatApp(props) {
 	}, [dispatch, company, routeParams, projectDetail]);
 	return (
 		<WebSocketProvider>
-			<div className={clsx(classes.root, 'h-full p-20 inner-height')}>
+			<div className={clsx(classes.root, 'flex-col h-full p-24 inner-height')}>
 				{/* <div className={classes.topBg} /> */}
 
-				<div className={clsx(classes.contentCardWrapper, 'container h-full')}>
-					<div className={classes.contentCard}>
+				<div className="flex w-full justify-between items-center mb-20">
+					<div>
+						<Typography variant="h5" className="mb-4">
+							Chat
+						</Typography>
+						<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+							<Typography variant="subtitle1" className="font-weight-700 mb-4">{projectDetail.name}</Typography>
+						</FuseAnimate>
+						<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
+							Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
+						</Typography>
+					</div>
+					<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
+						Open Details
+					</Button>
+				</div>
+
+				<div className={clsx(classes.contentCardWrapper, 'container h-full p-0')}>
+					<div className={clsx(classes.contentCard, 'chat-bg')}>
 						<Hidden mdUp>
 							<Drawer
 								className="h-full absolute z-20"
@@ -208,11 +226,11 @@ function ChatApp(props) {
 							<UserSidebar />
 						</Drawer>
 
-						<main className={clsx(classes.contentWrapper, 'z-10, muliple-images-overflow-x')}>
+						<main className={clsx(classes.contentWrapper, 'z-10 muliple-images-overflow-x chat-bg' )}>
 							{
 								<>
-									<AppBar className="w-full" position="static" elevation={1}>
-										<Toolbar className="px-16">
+									<AppBar className="w-full border-0" position="static" elevation={1}>
+										<Toolbar className="bg-dark min-h-72 px-16">
 											<IconButton
 												color="inherit"
 												aria-label="Open drawer"
@@ -222,7 +240,7 @@ function ChatApp(props) {
 												<Icon>chat</Icon>
 											</IconButton>
 											<div
-												className="flex items-center cursor-pointer"
+												className="flex items-center cursor-pointer chat-content-header"
 												onClick={() => dispatch(Actions.openContactSidebar())}
 												onKeyDown={() => dispatch(Actions.openContactSidebar())}
 												role="button"
@@ -240,19 +258,25 @@ function ChatApp(props) {
 																: 'assets/images/avatars/profile.jpg'
 														}
 														alt={projectDetail.name}
+														className="w-48 h-48"
 													>
 														Group Chat
 													</Avatar>
 												</div>
-												<Typography color="inherit" className="text-18 font-600 px-4">
+												<div>
+												<Typography color="inherit" className="px-8 mb-4">
 													{projectDetail.name}
 												</Typography>
+												<Typography color="inherit" className="text-14 text-muted px-8">
+													Main Profile
+												</Typography>
+												</div>
 											</div>
 										</Toolbar>
 									</AppBar>
 
 									<div className={classes.content}>
-										<Chat className="flex flex-1 z-10 muliple-images-overflow-x" />
+										<Chat className="flex flex-1 z-10 muliple-images-overflow-x chat-bg" />
 									</div>
 								</>
 							}
