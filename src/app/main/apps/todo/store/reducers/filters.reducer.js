@@ -44,7 +44,7 @@ const initialState = () => {
 		peopleFilter: [],
 		activeFilter: 'genrealFilter',
 		activeFilterKey: 'Mine',
-		usedKeys: []
+		usedKeys: ['genrealFilter']
 	};
 };
 const addIsActiveToDefault = (arr = []) => arr.map(d => (d = { ...d, isActive: false }));
@@ -98,6 +98,7 @@ function flatten(arr) {
 		return flat.concat(Array.isArray(toFlatten.workers) ? flatten(toFlatten.workers) : toFlatten);
 	}, []);
 }
+const canSelectMultiple = ['projectFilter', 'companyFilter', 'peopleFilter'];
 const filtersReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS:
@@ -109,18 +110,32 @@ const filtersReducer = (state = initialState(), action) => {
 				peopleFilter: peopleFilterNames(action.payload)
 			};
 		case Actions.CHANGE_FILTERS:
+			let tempUsedKeys = [...state.usedKeys];
+			tempUsedKeys = tempUsedKeys.filter(item => item != action.payload.activeFilter);
 			const chnagedState = state[action.payload.activeFilter].map(d => {
 				if (d.name == action.payload.activeFilterKey || d.id == action.payload.activeFilterKey) {
-					return { ...d, isActive: true };
+					let isActive = !d.isActive;
+					if (isActive) {
+						tempUsedKeys.push(action.payload.activeFilter);
+					}
+					return { ...d, isActive };
 				} else {
-					return { ...d, isActive: false };
+					if (!canSelectMultiple.includes(action.payload.activeFilter)) {
+						return { ...d, isActive: false };
+					} else {
+						return d;
+					}
 				}
 			});
-			console.log({ chnagedState });
+			let data =
+				state.activeFilterKey == action.payload.activeFilterKey
+					? { ...action.payload, activeFilterKey: '' }
+					: action.payload;
 			return {
 				...state,
-				...chnagedState,
-				...action.payload
+				[action.payload.activeFilter]: chnagedState,
+				usedKeys: tempUsedKeys,
+				...data
 			};
 		default:
 			return state;
