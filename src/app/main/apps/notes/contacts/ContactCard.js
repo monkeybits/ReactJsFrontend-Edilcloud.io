@@ -5,6 +5,8 @@ import { getCompressFile } from 'app/services/serviceUtils';
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Actions from './store/actions';
+import Icon from '@material-ui/core/Icon';
+
 
 export default function ContactCard({
 	id,
@@ -69,9 +71,12 @@ export default function ContactCard({
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid className="px-12 mb-32" item xs={12} sm={6} md={4} xl={3}>
+		<Grid className="px-6 sm:px-12 mb-20 sm:mb-24" item xs={6} sm={6} md={4} xl={3}>
 			<div class="card-container flex flex-col">
-				<span class="pro">PRO</span>
+				<span class="pro approved">Approved</span>
+				<div className="team-action">
+					<Icon>more_vert</Icon>
+				</div>
 				<input
 					type="file"
 					accept="image/*"
@@ -89,17 +94,23 @@ export default function ContactCard({
 					onClick={editPermission && handleOpenFileClick}
 					alt="user"
 				/>
-				<h3>
+				<h3 className="font-weight-600 mb-8">
 					{name} {lastName}
 				</h3>
-				<h6>{address}</h6>
-				<p>
+				{/* <h6>{address}</h6> */}
+				<p className="font-500 text-muted mb-8">
 					{position ? position : 'N/A'} - {role}
 				</p>
-				<div className="my-12 block mx-auto">
+				<h3 className="font-weight-600 mb-8">
+					Job Title
+				</h3>
+				<p className="font-500 text-muted mb-8">Company Name</p>
+				<p className="font-500 text-muted mb-8">email@email.com</p>
+				<p className="font-500 text-muted">9876543210</p>
+				
+				{/* <div className="my-12 block mx-auto">
 					<Button
 						variant={permission.can_access_files ? 'contained' : 'outlined'}
-						// disabled={getRole() == 'm' || getRole() == 'w'}
 						size="small"
 						color="secondary"
 						className="mr-8"
@@ -119,7 +130,6 @@ export default function ContactCard({
 					</Button>
 					<Button
 						variant={permission.can_access_chat ? 'contained' : 'outlined'}
-						// disabled={getRole() == 'm' || getRole() == 'w'}
 						size="small"
 						color="secondary"
 						onClick={() => {
@@ -136,9 +146,9 @@ export default function ContactCard({
 					>
 						Access Chat
 					</Button>
-				</div>
+				</div> */}
 
-				<div class="skills">
+				{/* <div class="skills">
 					<h6>Skills</h6>
 					<ul>
 						<li>UI / UX</li>
@@ -149,8 +159,9 @@ export default function ContactCard({
 						<li>React</li>
 						<li>Node</li>
 					</ul>
-				</div>
+				</div> */}
 			</div>
 		</Grid>
+		
 	);
 }

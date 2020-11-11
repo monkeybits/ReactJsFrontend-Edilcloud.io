@@ -18,10 +18,10 @@ import reducer from './store/reducers';
 
 const useStyles = makeStyles({
 	addButton: {
-		position: 'absolute',
-		right: 12,
-		bottom: 12,
-		zIndex: 99
+		position: 'fixed',
+		right: 90,
+		bottom: 25,
+		zIndex: 999999
 	}
 });
 
@@ -41,11 +41,12 @@ function ContactsApp(props) {
 		<>
 			<FusePageSimple
 				classes={{
-					contentWrapper: 'p-0 sm:p-24 pb-80 sm:pb-80 h-full',
+					contentWrapper: 'h-full',
 					content: 'flex flex-col h-full',
 					leftSidebar: 'w-256 border-0',
-					header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
-					wrapper: 'min-h-0'
+					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
+					customHeader:"flex flex-auto flex-col container z-10 h-full chat-header-bg-remove",
+					wrapper: 'min-h-0 team-tab p-24'
 				}}
 				header={<ContactsHeader pageLayout={pageLayout} />}
 				content={<ContactsList />}
@@ -61,7 +62,7 @@ function ContactsApp(props) {
 					className={classes.addButton}
 					onClick={ev => dispatch(Actions.openNewContactDialog())}
 				>
-					<Icon>person_add</Icon>
+					<Icon>add</Icon>
 				</Fab>
 			</FuseAnimate>
 			<ContactDialog />

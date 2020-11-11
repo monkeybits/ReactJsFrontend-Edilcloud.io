@@ -87,6 +87,9 @@ body {
 .MuiTableCell-root {
     padding: 12px;
 }
+a:not([role=button]) {
+    color: #1E2129;
+}
 .w-125 {
     width: 125px;
 }
@@ -125,6 +128,10 @@ a.text-muted:hover {
 .border-0 {
     border: none !important;
 }
+.MuiTableCell-head {
+    color: #1E2129;
+    font-weight: 700;
+}
 
 /* ********************************************************************************************
     Button
@@ -140,6 +147,14 @@ a.text-muted:hover {
     box-shadow: none;
 }
 .MuiFab-secondary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
+    background-color: #0591ff;
+}
+.MuiFab-primary {
+    color: #fff;
+    background-color: #2196F3;
+    box-shadow: none;
+}
+.MuiFab-primary:hover {
     background-color: #0591ff;
 }
 .MuiButton-containedSizeLarge {
@@ -731,6 +746,18 @@ a.text-muted:hover {
 .chat-badge {
     background-color: #376AED;
 }
+.chat-header-bg-remove > div {
+    background: #f7f7f7;
+    height: auto;
+    min-height: auto;
+}
+
+/* ********************************************************************************************
+    Team Page
+*********************************************************************************************** */
+.team-tab-content {
+    padding-bottom: 60px;
+}
 .team-tab-content .flex.flex-auto.flex-col > div {
     background-color: #f7f7f7;
     background: #f7f7f7;
@@ -740,6 +767,73 @@ a.text-muted:hover {
 .team-tab-content > div > p > div > div:first-child {
     display: none;
 }
+.team-tab .custom-fuse-page-right-sidebar .permanent  {
+      background-color: transparent;      
+}
+.team-tab .custom-fuse-page-right-sidebar.permanent  {
+    margin-left: -24px;
+}
+.team-tab .custom-fuse-page-right-sidebar.permanent .w-256 {
+    width: 280px;
+}
+.team-page-filter .MuiListItem-root.active {
+    color: #fff !important;
+    background-color: #2196F3;
+}
+.team-grid {
+    margin-left: -1.2rem;
+    margin-right: -1.2rem;
+}
+.team-grid .card-container {
+    padding-top: 40px;
+    padding-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px 0 #00000029;
+}
+.team-grid .card-container .pro.approved {
+    background-color: #4CAF50;
+}
+.team-grid .card-container .pro.waiting {
+    background-color: #FFA000;
+}
+.team-grid .card-container .pro.refused {
+    background-color: #F44336;
+}
+.team-grid .card-container .pro {
+    color: #fff;
+    background-color: #4CAF50;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 7px;
+    top: 15px;
+    left: 15px;
+    text-transform: capitalize;
+}
+.team-grid .card-container .team-action {
+    position: absolute;
+    top: 13px;
+    right: 10px;
+    color: rgb(0 0 0 / 0.60);
+}
+.team-grid .card-container .team-action span {
+    font-size: 23px;
+}
+.team-grid .card-container .round {
+    height: 80px;
+    width: 80px;
+    border: none;
+    padding: 0px;
+    margin-bottom: 10px;
+}
+.team-grid .card-container .round {
+    margin-top: 5px;
+}
+.MuiCheckbox-colorSecondary.Mui-checked {
+    color: #2196F3;
+}
+
 /* ********************************************************************************************
     Audio Animation
 *********************************************************************************************** */
@@ -1043,17 +1137,17 @@ audio {
     File Manager Page
 *********************************************************************************************** */
 
-.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button  {
+.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button, .two-btn, .single-btn   {
     box-shadow: 0 1px 3px #00000029 !important;
 }
 .search-white-box span {
-    color: #1e2125 !important;
+    color: #9EA1A9 !important;
     margin-left: 5px;
 }
 .search-white-box input {
-    color: rgba(0, 0, 0, 0.87);
+    color: #1e2125;
 }
-.file-box-shadow button, .left-icon-btn > button {
+.file-box-shadow button, .left-icon-btn > button, .two-btn button, .single-btn button {
     border-right: 1px solid #ececec;
     font-size: 19px;
     padding: 12px 17px;
@@ -1061,10 +1155,10 @@ audio {
     background: #fff;
     color: #868686;
 }
-.file-box-shadow button:first-child {
+.file-box-shadow button:first-child, .two-btn button:first-child {
     border-radius: 6px 0px 0px 6px;
 }
-.file-box-shadow button:last-child {
+.file-box-shadow button:last-child, .two-btn button:last-child {
     border-radius: 0px 6px 6px 0px;
 }
 .actions-dropdown .MuiListItemIcon-root{
@@ -1072,6 +1166,9 @@ audio {
 }
 .actions-dropdown.small .MuiListItemIcon-root{
     min-width: 28px;
+}
+.two-btn button svg, .single-btn button svg {
+    color: #9EA1A9; 
 }
 .custom-fuse-page-right-sidebar .permanent {
     height: auto;

@@ -167,7 +167,7 @@ const FusePageSimple = React.forwardRef((props, ref) => {
 		<div className={clsx(classes.root, props.innerScroll && classes.innerScroll)} ref={rootRef}>
 			<div className={clsx(classes.header, classes.topBg)} />
 
-			<div className="flex flex-auto flex-col container z-10 h-full">
+			<div className={props.classes.customHeader ?props.classes.customHeader :"flex flex-auto flex-col container z-10 h-full"}>
 				{props.header && props.sidebarInner && <FusePageSimpleHeader header={props.header} classes={classes} />}
 
 				<div className={classes.wrapper}>

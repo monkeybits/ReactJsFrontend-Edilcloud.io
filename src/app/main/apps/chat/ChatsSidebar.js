@@ -203,7 +203,7 @@ function ChatsSidebar(props) {
 									className="flex flex-col flex-shrink-0"
 								>
 									{contactsArr.length > 0 && (
-										<Typography className="font-weight-700 text-16 px-16 pb-8" color="secondary">
+										<Typography className="text-default font-weight-700 text-16 px-16 pb-8" color="secondary">
 											Contacts
 										</Typography>
 									)}

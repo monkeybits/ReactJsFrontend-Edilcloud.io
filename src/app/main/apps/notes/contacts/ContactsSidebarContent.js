@@ -53,16 +53,17 @@ function ContactsSidebarContent(props) {
 	return (
 		<div className="p-0 lg:ltr:pr-24 lg:ltr:pl-0 lg:rtl:pr-0 lg:rtl:pl-24">
 			<FuseAnimate animation="transition.slideLeftIn" delay={200}>
-				<Paper className="rounded-0 shadow-none lg:rounded-8 lg:shadow-1">
-					<div className="p-24 flex items-center">
+				<div>
+					{/* <div className="p-24 flex items-center">
 						<Avatar alt={projectDetail.name} src={projectDetail.logo}>
 							{' '}
 							{projectDetail?.name?.split('')?.[0] ? projectDetail.name.split('')[0] : 'E'}
 						</Avatar>
 						<Typography className="mx-12">{projectDetail.name}</Typography>
-					</div>
-					<Divider />
-					<List>
+					</div> */}
+					{/* <Divider /> */}
+					<Typography className="ml-24 text-muted uppercase">Filters</Typography>
+					<List className="team-page-filter text-default">
 						<ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('all'))}
@@ -96,81 +97,7 @@ function ContactsSidebarContent(props) {
 						</ListItem>
 					</List>
 
-					{companies && !!companies.length && (
-						<List>
-							<ListSubheader className={classes.listSubheader} disableSticky>
-								Company
-							</ListSubheader>
-							{companies.map(
-								d =>
-									d.profile.company && (
-										<ListItem
-											button
-											onClick={() => {
-												dispatch(Actions.filterByKey('company' + d.profile.company.id));
-												dispatch(Actions.addFilterByKey(d.profile.company.id));
-											}}
-											className={getListItemClassNameForCompany('company', d.profile.company.id)}
-										>
-											<Icon
-												className="list-item-icon"
-												style={{ color: d.profile.company?.color_project }}
-												color="action"
-											>
-												label
-											</Icon>
-											<ListItemText
-												className="truncate"
-												primary={d.profile.company.name}
-												disableTypography
-											/>
-										</ListItem>
-									)
-							)}
-							{/* <ListItem
-							button
-							onClick={() => dispatch(Actions.filterByKey('deactivated'))}
-							className={getListItemClassName('deactivated')}
-						>
-							<ListItemText className="truncate" primary="Deactivated Team members" disableTypography />
-						</ListItem> */}
-
-							{/* <Divider /> */}
-
-							{/* <ListItem
-							button
-							onClick={() => dispatch(Actions.filterByKey('owner'))}
-							className={getListItemClassName('owner')}
-						>
-							<ListItemText className="truncate" primary="Owner" disableTypography />
-						</ListItem> */}
-
-							{/* <ListItem
-							button
-							onClick={() => dispatch(Actions.filterByKey('delegate'))}
-							className={getListItemClassName('delegate')}
-						>
-							<ListItemText className="truncate" primary="Delegate" disableTypography />
-						</ListItem> */}
-
-							{/* <ListItem
-							button
-							onClick={() => dispatch(Actions.filterByKey('manager'))}
-							className={getListItemClassName('manager')}
-						>
-							<ListItemText className="truncate" primary="Manager" disableTypography />
-						</ListItem> */}
-
-							{/* <ListItem
-							button
-							onClick={() => dispatch(Actions.filterByKey('worker'))}
-							className={getListItemClassName('worker')}
-						>
-							<ListItemText className="truncate" primary="Worker" disableTypography />
-						</ListItem> */}
-						</List>
-					)}
-				</Paper>
+				</div>
 			</FuseAnimate>
 		</div>
 	);
