@@ -9,7 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 		'&.active': {
 			backgroundColor: theme.palette.secondary.main,
 			color: `${theme.palette.secondary.contrastText}!important`,
-			pointerEvents: 'none',
+			// pointerEvents: 'none',
 			'& .list-item-icon': {
 				color: 'inherit'
 			}
@@ -52,6 +52,7 @@ function TodoSidebarContent(props) {
 	const companyFilter = useSelector(({ todoApp }) => todoApp.filters.companyFilter);
 	const peopleFilter = useSelector(({ todoApp }) => todoApp.filters.peopleFilter);
 	const activeFilterKey = useSelector(({ todoApp }) => todoApp.filters.activeFilterKey);
+	const usedKeys = useSelector(({ todoApp }) => todoApp.filters.usedKeys);
 
 	const classes = useStyles(props);
 	const changeFilter = (activeFilter, activeFilterKey) =>
@@ -102,7 +103,7 @@ function TodoSidebarContent(props) {
 								<ListItem
 									button
 									onClick={() => changeFilter('genrealFilter', filter.name)}
-									className={clsx(classes.listItem, { active: filter.name == activeFilterKey })}
+									className={clsx(classes.listItem, { active: filter.isActive })}
 									activeClassName="active"
 									key={filter.name}
 								>
@@ -124,7 +125,7 @@ function TodoSidebarContent(props) {
 								<ListItem
 									button
 									onClick={() => changeFilter('timeFilter', filter.name)}
-									className={clsx(classes.listItem, { active: filter.name == activeFilterKey })}
+									className={clsx(classes.listItem, { active: filter.isActive })}
 									activeClassName="active"
 									key={filter.name}
 								>
@@ -144,7 +145,7 @@ function TodoSidebarContent(props) {
 								<ListItem
 									button
 									onClick={() => changeFilter('projectFilter', filter.name)}
-									className={clsx(classes.listItem, { active: filter.name == activeFilterKey })}
+									className={clsx(classes.listItem, { active: filter.isActive })}
 									activeClassName="active"
 									key={filter.name}
 								>
@@ -164,7 +165,7 @@ function TodoSidebarContent(props) {
 								<ListItem
 									button
 									onClick={() => changeFilter('companyFilter', filter.name)}
-									className={clsx(classes.listItem, { active: filter.name == activeFilterKey })}
+									className={clsx(classes.listItem, { active: filter.isActive })}
 									activeClassName="active"
 									key={filter.name}
 								>
@@ -188,7 +189,7 @@ function TodoSidebarContent(props) {
 										button
 										key={filter.id}
 										onClick={() => changeFilter('peopleFilter', filter.id)}
-										className={clsx(classes.listItem, { active: filter.id == activeFilterKey })}
+										className={clsx(classes.listItem, { active: filter.isActive })}
 									>
 										<Avatar className="h-24 w-24 mx-8" src={filter.photo} alt={filter.name}>
 											{[...name][0]}
