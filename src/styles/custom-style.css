@@ -6,6 +6,7 @@ body {
 }
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
     color: #1E2129;
+    font-weight: 500 !important;
 }
 .font-size-12 {
     font-size: 12px !important;
@@ -25,6 +26,12 @@ body {
 .font-size-20 {
     font-size: 20px;
 }
+.font-weight-600 {
+    font-weight: 600 !important;
+}
+.font-weight-700 {
+    font-weight: 700 !important;
+}
 .text-2xl {
     font-size: 2.0rem;
 }
@@ -33,7 +40,7 @@ body {
     color: #fff !important;
 }
 .bg-body {
-    background: #f7f7f7;
+    background: #f5f5f5;
 }
 .bg-white {
     background: #ffffff !important;
@@ -43,6 +50,9 @@ body {
 }
 .bg-custom-light-grey {
     background: #ECECEE;
+}
+.bg-dark {
+    background: #0D3B63;
 }
 .todo-bg-footer {
     background: rgb(236 236 238 / 0.30);
@@ -71,8 +81,14 @@ body {
 .text-dark {
     color: #212121;
 }
+.text-check {
+    color: #4CAF50;
+}
 .MuiTableCell-root {
     padding: 12px;
+}
+a:not([role=button]) {
+    color: #1E2129;
 }
 .w-125 {
     width: 125px;
@@ -85,6 +101,9 @@ body {
 }
 .ht-100 {
     height: 100px;
+}
+.opacity-60 {
+    opacity: 0.6;
 }
 .flex-fill {
     -ms-flex: 1 1 auto!important;
@@ -103,25 +122,40 @@ body {
 a:not([role=button]):hover {
     text-decoration: none;
 }
-.text-muted:hover {
+a.text-muted:hover {
     color: #1976D2 !important;
+}
+.border-0 {
+    border: none !important;
+}
+.MuiTableCell-head {
+    color: #1E2129;
+    font-weight: 700;
 }
 
 /* ********************************************************************************************
     Button
 *********************************************************************************************** */
 
-.MuiButton-containedPrimary, .MuiButton-containedSecondary  {
+.MuiButton-containedPrimary, .MuiButton-containedSecondary, .btn-primary, .btn-secondary   {
     color: #fff;
     background-color: #2196F3;
     box-shadow: none;
 }
-.MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover {
-    background-color: #008eff;
+.MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
+    background-color: #0591ff;
     box-shadow: none;
 }
-.MuiFab-secondary:hover, .MuiButton-containedSecondary:hover {
-    background-color: #24c0cc;
+.MuiFab-secondary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
+    background-color: #0591ff;
+}
+.MuiFab-primary {
+    color: #fff;
+    background-color: #2196F3;
+    box-shadow: none;
+}
+.MuiFab-primary:hover {
+    background-color: #0591ff;
 }
 .MuiButton-containedSizeLarge {
     padding: 7px 22px;
@@ -225,6 +259,64 @@ a:not([role=button]):hover {
     top: 50%;
     margin-top: -12px;    
 }
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #00000061;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: #00000061;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: #00000061;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: #00000061;
+  }
+ 
+
+/* ********************************************************************************************
+    Header
+*********************************************************************************************** */
+.sidebar-header {
+    background-color: #0b3254;
+}
+.sidebar-content {
+    background: #0D3B63;
+}
+.sidebar-content ul a {
+    width: calc(100% - 0px);
+    border-radius: 20px 0px 0px 20px;
+    padding-right: 36px;
+    margin-left: 6px;
+    padding-left: 18px;
+    position: relative;
+}
+.sidebar-content ul a.active {
+    background-color: #202020;
+    color: #fff !important;
+}
+.sidebar-content ul a.active::before, .sidebar-content ul a.active::after  {
+    position: absolute;
+    top: -14px;
+    content: "";
+    width: 0;
+    height: 0;
+    border-bottom: 15px solid #202020;
+    border-left: 17px solid transparent;
+    right: 6px;
+}
+.sidebar-content ul a.active::after {
+    top: inherit;
+    bottom: -14px;
+    border-top: 15px solid #202020;
+    border-left: 17px solid transparent;
+    border-bottom: none;
+}
+
+
+/* ********************************************************************************************
+    Sidebar
+*********************************************************************************************** */
+
 
 /* ********************************************************************************************
     Card
@@ -388,11 +480,11 @@ a:not([role=button]):hover {
     padding-bottom: 50px;
 }
 .chat-tab-content-height {
-    height: calc(100vh - 192px);
+    height: calc(100vh - 220px);
 }
-.chat-tab-content-height .inner-height {
+/* .chat-tab-content-height .inner-height {
     height: calc(100vh - 40px);
-}
+} */
 .custom-tab-header {
     box-shadow: 0 -1px 3px #00000029;
 }
@@ -408,11 +500,11 @@ a:not([role=button]):hover {
     margin-right: 8px;
 }
 .custom-tab-header button.Mui-selected {
-    color: #2196F3;
-    border-bottom: 3px solid #2196F3;
+    color: #376AED;
+    border-bottom: 3px solid #376AED;
 }
 .custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
-    font-size: inherit;
+    font-size: 1.4rem;
 }
 
 /* ********************************************************************************************
@@ -586,8 +678,165 @@ a:not([role=button]):hover {
 } */
 
 /* ********************************************************************************************
+    Chat
+*********************************************************************************************** */
+.team-chat-sidebar {
+    box-shadow: -1px 0 3px #00000029;
+}  
+.team-chat-sidebar header {
+    background-color: #376AED !important;
+}
+.team-chat-body {
+    background-color: #fff;
+}
+.custom-separator {
+    height: 30px;
+    margin: 0px 10px;
+    align-self: center;
+    background-color: #ececec;
+}
+.badge-btn {
+    background-color: #376AED;
+    color: #fff;
+    padding: 2px 10px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+.badge-btn:hover {
+    background-color: #376AED;
+    color: #fff;
+}
+.chat-search {
+    background-color: #F7F7F7;
+    border: 1px solid #D8D9DB;
+}
+.chat-bg {
+    background-image: none;
+    background: #EEEEEE;
+}
+.chat-header-img .text-16 {
+    font-size: 20px !important;
+}
+.chat-contact-text span {
+    margin: 2px 0px;
+    font-weight: 600;
+}
+.chat-contact-text p {
+    color: #9EA1A9 !important;
+}
+.chat-bg .h-full.z-20 > div {
+    border: none;
+}
+.chat-border-right {
+    border-right: 1px solid #466886;
+}
+.chat-form-bg {
+    background-color: #F7F7F7;
+}
+.chat-border {
+    border-left: 3px solid transparent;
+}
+.chat-border.active {
+    background-color: rgb(55 106 237 / 0.06);
+    border-left: 3px solid #376AED;
+}
+.chat-badge {
+    background-color: #376AED;
+}
+.chat-header-bg-remove > div {
+    background: #f7f7f7;
+    height: auto;
+    min-height: auto;
+}
+
+/* ********************************************************************************************
+    Team Page
+*********************************************************************************************** */
+.team-tab-content {
+    padding-bottom: 60px;
+}
+.team-tab-content .flex.flex-auto.flex-col > div {
+    background-color: #f7f7f7;
+    background: #f7f7f7;
+    height: auto;
+    min-height: auto;
+}
+.team-tab-content > div > p > div > div:first-child {
+    display: none;
+}
+.team-tab .custom-fuse-page-right-sidebar .permanent  {
+      background-color: transparent;      
+}
+.team-tab .custom-fuse-page-right-sidebar.permanent  {
+    margin-left: -24px;
+}
+.team-tab .custom-fuse-page-right-sidebar.permanent .w-256 {
+    width: 280px;
+}
+.team-page-filter .MuiListItem-root.active {
+    color: #fff !important;
+    background-color: #2196F3;
+}
+.team-grid {
+    margin-left: -1.2rem;
+    margin-right: -1.2rem;
+}
+.team-grid .card-container {
+    padding-top: 40px;
+    padding-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px 0 #00000029;
+}
+.team-grid .card-container .pro.approved {
+    background-color: #4CAF50;
+}
+.team-grid .card-container .pro.waiting {
+    background-color: #FFA000;
+}
+.team-grid .card-container .pro.refused {
+    background-color: #F44336;
+}
+.team-grid .card-container .pro {
+    color: #fff;
+    background-color: #4CAF50;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 7px;
+    top: 15px;
+    left: 15px;
+    text-transform: capitalize;
+}
+.team-grid .card-container .team-action {
+    position: absolute;
+    top: 13px;
+    right: 10px;
+    color: rgb(0 0 0 / 0.60);
+}
+.team-grid .card-container .team-action span {
+    font-size: 23px;
+}
+.team-grid .card-container .round {
+    height: 80px;
+    width: 80px;
+    border: none;
+    padding: 0px;
+    margin-bottom: 10px;
+}
+.team-grid .card-container .round {
+    margin-top: 5px;
+}
+.MuiCheckbox-colorSecondary.Mui-checked {
+    color: #2196F3;
+}
+
+/* ********************************************************************************************
     Audio Animation
 *********************************************************************************************** */
+audio {
+    width: 240px;
+}
 .right-panel-audio audio {
     width: 220px;
 }
@@ -755,7 +1004,7 @@ a:not([role=button]):hover {
     Project List Page
 *********************************************************************************************** */
 .project_list {
-    background: #ffffff;
+    background: #f7f7f7;
 }
 .project_box .project_card {
     border: 1px solid #ececec;
@@ -885,17 +1134,17 @@ a:not([role=button]):hover {
     File Manager Page
 *********************************************************************************************** */
 
-.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button  {
+.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button, .two-btn, .single-btn   {
     box-shadow: 0 1px 3px #00000029 !important;
 }
 .search-white-box span {
-    color: #1e2125 !important;
+    color: #9EA1A9 !important;
     margin-left: 5px;
 }
 .search-white-box input {
-    color: rgba(0, 0, 0, 0.87);
+    color: #1e2125;
 }
-.file-box-shadow button, .left-icon-btn > button {
+.file-box-shadow button, .left-icon-btn > button, .two-btn button, .single-btn button {
     border-right: 1px solid #ececec;
     font-size: 19px;
     padding: 12px 17px;
@@ -903,10 +1152,10 @@ a:not([role=button]):hover {
     background: #fff;
     color: #868686;
 }
-.file-box-shadow button:first-child {
+.file-box-shadow button:first-child, .two-btn button:first-child {
     border-radius: 6px 0px 0px 6px;
 }
-.file-box-shadow button:last-child {
+.file-box-shadow button:last-child, .two-btn button:last-child {
     border-radius: 0px 6px 6px 0px;
 }
 .actions-dropdown .MuiListItemIcon-root{
@@ -914,6 +1163,9 @@ a:not([role=button]):hover {
 }
 .actions-dropdown.small .MuiListItemIcon-root{
     min-width: 28px;
+}
+.two-btn button svg, .single-btn button svg {
+    color: #9EA1A9; 
 }
 .custom-fuse-page-right-sidebar .permanent {
     height: auto;
@@ -1102,6 +1354,10 @@ a:not([role=button]):hover {
 /* ********************************************************************************************
     Other CSS
 *********************************************************************************************** */
+.custom-header {
+    background-color: #ffffff !important;
+    box-shadow: 2px 0 3px #00000033;
+}
 .profile-img {
     height: 160px;
     width: 160px;
@@ -1113,9 +1369,14 @@ a:not([role=button]):hover {
     object-fit: cover;
     border: 1px solid #e6e4e4;
 }
+.company-box:hover {
+    box-shadow: 0 1px 3px #00000029;
+}
 .company-img {
-    height: 70px;
-    width: 70px;
+    height: 95px;
+    width: 95px;
+    border-radius: 100%;
+    border: 1px solid #ececec;
 }
 .chat-box .me p {
     width: 100%;

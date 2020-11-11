@@ -34,9 +34,9 @@ function ProjectDetails(props) {
 					contentWrapper: value==4 ? '': havePaddingTabs.includes(value) ? 'p-16 sm:p-24 pb-80' : 'pb-80',
 					content: 'flex min-h-full tabs-content custom-padding-small',
 					leftSidebar: 'w-256 border-0',
-					header: 'min-h-72 h-72 '
+					header: 'h-auto min-h-auto bg-body'
 				}}
-				header={<ProjectDetailHeader onOpen={() => setOpenDialog(true)} pageLayout={pageLayout} />}
+				// header={<ProjectDetailHeader onOpen={() => setOpenDialog(true)} pageLayout={pageLayout} />}
 				content={<ProjectContent {...{ value, setValue }} />}
 				// leftSidebarContent={<NotesSidebarContent />}
 				sidebarInner

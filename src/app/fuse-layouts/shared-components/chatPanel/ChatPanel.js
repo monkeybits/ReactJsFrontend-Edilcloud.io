@@ -170,7 +170,7 @@ function ChatPanel(props) {
 						</Toolbar>
 					</AppBar>
 					{user?.loadingChat && <LinearProgress color="secondary" />}
-					<Paper className="flex flex-1 flex-row min-h-px">
+					<Paper className="flex flex-1 flex-row min-h-px border-none border-0">
 						{(!state || !user?.showUser) && <ContactList className="flex flex-shrink-0" />}
 						{state && user?.showUser && (
 							<Chat {...{ open, setOpen }} className="flex flex-1 z-10 muliple-images-overflow-x" />

@@ -17,6 +17,22 @@ function ProjectDetailHeader(props) {
 
 	return (
 		<div className="flex flex-1 items-center justify-between p-8 sm:p-24">
+			{/* <div className="flex w-full justify-between items-center p-8 sm:p-24">
+				<div>
+					<Typography variant="h5">
+						Chat
+					</Typography>
+					<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+						<Typography variant="subtitle1" className="font-600">{projectDetail.name}</Typography>
+					</FuseAnimate>
+					<Typography variant="subtitle1" className="text-14 text-muted">
+						Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
+					</Typography>
+				</div>
+				<Button color="secondary" onClick={() => props.onOpen()}>
+					Open Details
+				</Button>
+			</div> */}
 			<div className="flex flex-shrink items-center sm:w-444">
 				<Hidden lgUp>
 					<IconButton

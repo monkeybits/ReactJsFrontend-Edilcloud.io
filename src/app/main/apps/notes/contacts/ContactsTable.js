@@ -91,7 +91,7 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
 
 	// Render the UI for your table
 	return (
-		<TableContainer className="min-h-full sm:border-1 sm:rounded-16">
+		<TableContainer className="min-h-full sm:border-1 sm:rounded-16 bg-white">
 			<MaUTable {...getTableProps()}>
 				<TableHead>
 					{headerGroups.map(headerGroup => (

@@ -30,7 +30,7 @@ function ToolbarLayout2(props) {
 		<ThemeProvider theme={toolbarTheme}>
 			<AppBar
 				id="fuse-toolbar"
-				className="flex relative z-10"
+				className="flex relative z-10 asdf"
 				color="default"
 				style={{ backgroundColor: toolbarTheme.palette.background.default }}
 			>

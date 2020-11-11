@@ -18,10 +18,10 @@ const navigationConfig = [
 		children: [
 			{
 				id: '',
-				title: 'Dashboards',
-				translate: 'DASHBOARDS',
+				title: 'Dashboard',
+				translate: 'Dashboard',
 				type: 'item',
-				icon: 'assignment',
+				icon: 'dashboard',
 				url: '/apps/todo/all',
 				
 			}
@@ -38,7 +38,7 @@ const navigationConfig = [
 				title: 'Projects List',
 				translate: 'Projects List',
 				type: 'item',
-				icon: 'dashboard',
+				icon: 'list',
 				url: '/apps/projects',
 				
 			},
@@ -47,7 +47,7 @@ const navigationConfig = [
 				title: 'Projects Settings',
 				translate: 'Projects Settings',
 				type: 'item',
-				icon: 'settings_applications',
+				icon: 'settings',
 				url: 'babbeo',
 				
 			},
@@ -64,7 +64,7 @@ const navigationConfig = [
 				title: 'Company Team',
 				translate: 'Company Team',
 				type: 'item',
-				icon: 'contacts',
+				icon: 'people_outline',
 				url: '/apps/contacts/all',
 				
 			},
@@ -73,7 +73,7 @@ const navigationConfig = [
 				title: 'Company File-Manager',
 				translate: 'Company File-Manager',
 				type: 'item',
-				icon: 'cloud',
+				icon: 'insert_drive_file_outlined',
 				url: '/apps/file-manager',
 				
 			},

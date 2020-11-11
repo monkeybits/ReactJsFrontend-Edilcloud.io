@@ -66,14 +66,14 @@ function RegisterPage() {
 								By signing up, I agree to the edilcloud
 								<Link className="text-primary font-600" to="/">
 									{' '}
-									 Privacy policy{' '}
+									  Privacy policy{' '}
 								</Link>{' '}
 								and 
-								<Link className="text-primary font-600" to="/">
+								<Link className="text-primary font-600 ml-2" to="/"> 
 									 Terms of service.{' '}
 								</Link>
 							</div>
-							<div className="flex flex-col items-center justify-center w-full pt-24">
+							<div className="flex items-center justify-center w-full pt-24">
 								<span className="text-custom font-600 mr-6">Already have an account?</span>
 								<Link className="text-primary font-600 inline" to="/pages/auth/login">
 									Sign In

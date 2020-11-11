@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 		minWidth: 70,
 		flex: '0 0 auto',
 		justifyContent: 'start',
-		padding: '6px 15px',
+		padding: '10px 15px',
 		'&.active:after': {
 			position: 'absolute',
 			top: 8,
@@ -179,7 +179,7 @@ function ContactList(props) {
 							return (
 								<>
 									<ContactButton key={contact.id} contact={contact} />
-									{index != allContacts.length - 1 && <Divider className="mx-16 my-8" />}
+									{index != allContacts.length - 1 }
 								</>
 							);
 						})}

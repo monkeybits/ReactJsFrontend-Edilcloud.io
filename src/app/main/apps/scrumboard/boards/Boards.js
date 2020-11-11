@@ -37,6 +37,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import * as FuseActions from 'app/store/actions';
 
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		background: theme.palette.primary.main,
@@ -173,7 +174,7 @@ function Boards(props) {
 		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
 				<FuseAnimate>
-					<Typography className="mt-44 sm:mt-88 sm:py-24 text-32 sm:text-40 font-300" color="inherit">
+					<Typography className="mt-44 sm:mt-56 sm:py-24 text-32" color="inherit">
 						Companies List
 					</Typography>
 				</FuseAnimate>
@@ -250,8 +251,7 @@ function Boards(props) {
 										)}
 
 										<Typography
-											className="text-16 font-300 text-center pt-16 px-32"
-											color="inherit"
+											className="text-16 font-300 text-center pt-16 px-32" color="inherit"
 										>
 											{board.name}
 										</Typography>

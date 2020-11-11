@@ -20,6 +20,12 @@ import ContactCard from './ContactCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import { Divider } from '@material-ui/core';
+import Input from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper';
+import Hidden from '@material-ui/core/Hidden';
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import Pagination from '@material-ui/lab/Pagination';
+
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -70,7 +76,7 @@ function ContactsList(props) {
 				},
 				accessor: 'avatar',
 				Cell: ({ row }) => {
-					return <Avatar className="mx-8" alt={row.original.name} src={row.original.avatar} />;
+					return <Avatar alt={row.original.name} src={row.original.avatar} />;
 				},
 				className: 'justify-center',
 				width: 64,
@@ -79,13 +85,13 @@ function ContactsList(props) {
 			{
 				Header: 'First Name',
 				accessor: 'name',
-				className: 'font-bold',
+				// className: 'font-bold',
 				sortable: true
 			},
 			{
 				Header: 'Last Name',
 				accessor: 'lastName',
-				className: 'font-bold',
+				// className: 'font-bold',
 				sortable: true
 			},
 			{
@@ -112,40 +118,42 @@ function ContactsList(props) {
 				Header: 'Email',
 				accessor: 'email',
 				sortable: true,
-				Cell: ({ row }) => <a href={`mailto:${row.original.email}`}>{row.original.email}</a>
+				Cell: ({ row }) => <a className="text-default" href={`mailto:${row.original.email}`}>{row.original.email}</a>
 			},
 			{
 				Header: 'Phone',
 				accessor: 'phone',
 				sortable: true,
-				Cell: ({ row }) => <a href={`tel:${row.original.phone}`}>{row.original.phone}</a>
+				Cell: ({ row }) => <a className="text-default" href={`tel:${row.original.phone}`}>{row.original.phone}</a>
 			},
 			{
 				id: 'action',
-				width: 128,
+				Header: 'Action',
+				// width: 128,
 				sortable: false,
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
 						<div className="flex items-center">
-							<IconButton
-								onClick={ev => {
-									ev.stopPropagation();
-									// dispatch(Actions.openEditContactDialog(row.original));
-								}}
-							>
-								<Icon>edit</Icon>
-							</IconButton>
-							<IconButton
-								onClick={ev => {
-									ev.stopPropagation();
-									// setUserData(row.original);
-									// openDeleteContactDialog();
-									// dispatch(Actions.removeContact(row.original.id));
-								}}
-							>
-								{row.original.status == 'Deactivated' ? <Icon>check</Icon> : <Icon>delete</Icon>}
+							<IconButton>
+								<Icon>more_vert</Icon>
 							</IconButton>
 						</div>
+						// <div className="flex items-center">
+						// 	<IconButton
+						// 		onClick={ev => {
+						// 			ev.stopPropagation();
+						// 		}}
+						// 	>
+						// 		<Icon>edit</Icon>
+						// 	</IconButton>
+						// 	<IconButton
+						// 		onClick={ev => {
+						// 			ev.stopPropagation();
+						// 		}}
+						// 	>
+						// 		{row.original.status == 'Deactivated' ? <Icon>check</Icon> : <Icon>delete</Icon>}
+						// 	</IconButton>
+						// </div>
 					)
 			}
 		],
@@ -251,13 +259,49 @@ function ContactsList(props) {
 	};
 	return (
 		<>
-			<div className="flex">
-				<IconButton onClick={() => setViewTable(false)} className={!viewTable ? 'text-green-700' : ''}>
-					<FontAwesomeIcon icon={faTh} />
-				</IconButton>
-				<IconButton onClick={() => setViewTable(true)}>
-					<FontAwesomeIcon icon={faList} className={viewTable ? 'text-green-700' : ''} />
-				</IconButton>
+			<div className="flex items-center left-icon-btn mb-24">
+				<div className="single-btn rounded h-40 mr-10 sm:mr-0">
+					<Hidden lgUp>
+						<IconButton
+							onClick={ev => {
+								props.pageLayout.current.toggleLeftSidebar();
+							}}
+							aria-label="open left sidebar"
+						>
+							{/* <Icon>menuopen</Icon> */}
+							<MenuOpenIcon />
+						</IconButton>
+					</Hidden>
+				 </div>
+				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+					<Paper
+						className="flex p-4 items-center w-full h-40 px-8 py-4 bg-white search-white-box"
+						elevation={1}
+					>
+						<Icon className="text-20" color="action">search</Icon>
+
+						<Input
+							placeholder="Search for anything"
+							className="flex flex-1 px-12"
+							disableUnderline
+							fullWidth
+							value={searchText}
+							inputProps={{
+								'aria-label': 'Search'
+							}}
+							onChange={ev => dispatch(Actions.setSearchText(ev))}
+						/>
+					</Paper>
+				</FuseAnimate>
+
+				<div className="flex two-btn rounded h-40 ml-10">
+					<IconButton onClick={() => setViewTable(false)} className={!viewTable ? 'text-default' : ''}>
+						<FontAwesomeIcon icon={faTh} />
+					</IconButton>
+					<IconButton onClick={() => setViewTable(true)}>
+						<FontAwesomeIcon icon={faList} className={viewTable ? 'text-default' : ''} />
+					</IconButton>
+				</div>
 			</div>
 			<DeleteConfirmDialog
 				text={
@@ -287,7 +331,7 @@ function ContactsList(props) {
 						}}
 					/>
 				</FuseAnimate>
-			) :  (
+			) : (
 				filteredData &&
 				companies &&
 				!!companies.length &&
@@ -295,9 +339,9 @@ function ContactsList(props) {
 					d =>
 						d.profile.company && (
 							<>
-								<Typography className="truncate">{d.profile.company.name}</Typography>
-								<Divider className="my-12" />
-								<Grid container spacing={12}>
+								{/* <Typography className="truncate">{d.profile.company.name}</Typography>
+								<Divider className="my-12" /> */}
+								<Grid container spacing={12} className="team-grid">
 									{filteredData.map((data, index) => {
 										return d.profile?.company?.id == data.profile?.company?.id ? (
 											<ContactCard
@@ -315,6 +359,9 @@ function ContactsList(props) {
 						)
 				)
 			)}
+			<div className="flex justify-center mt-12">
+				<Pagination count={10} />
+			</div>
 		</>
 	);
 }
