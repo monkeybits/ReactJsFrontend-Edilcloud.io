@@ -14,28 +14,27 @@ import Button from '@material-ui/core/Button';
 function ContactsHeader(props) {
 	const dispatch = useDispatch();
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
-	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
+	// const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
 
 	return (
-
-		<div className="flex w-full justify-between items-center mb-20">
-					<div>
-						<Typography variant="h5" className="mb-4">
-							Chat
-						</Typography>
-						<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-							<Typography variant="subtitle1" className="font-weight-700 mb-4">Project Test</Typography>
-						</FuseAnimate>
-						<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
-							Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
-						</Typography>
-					</div>
-					<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
-						Open Details
-					</Button>
-				</div>
-
-
+		<div className="flex w-full justify-between items-center mb-24">
+			<div>
+				<Typography variant="h5" className="mb-4">
+					Team
+				</Typography>
+				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+					<Typography variant="subtitle1" className="font-weight-700 mb-4">
+						Project Name
+					</Typography>
+				</FuseAnimate>
+				<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
+					Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
+				</Typography>
+			</div>
+			<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
+				Open Details
+			</Button>
+		</div>
 
 		// <div className="flex flex-1 items-center justify-between p-8 sm:p-24">
 		// 	<div className="flex flex-shrink items-center sm:w-224">
