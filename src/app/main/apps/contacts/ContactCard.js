@@ -70,7 +70,7 @@ export default function ContactCard({
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid className="px-6 sm:px-12 mb-20 sm:mb-24" item xs={6} sm={6} md={4} xl={3}>
+		<Grid className="px-6 sm:px-12 mb-20 sm:mb-24" item xs={6} sm={6} md={3} xl={3}>
 			<div class="card-container flex flex-col">
 				<span class="pro approved">Approved</span>
 				<div className="team-action">

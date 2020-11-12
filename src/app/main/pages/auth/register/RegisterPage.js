@@ -84,7 +84,7 @@ function RegisterPage() {
 				</FuseAnimate>
 				<div className="flex items-center justify-between mt-8 w-full text-default font-600">
 					<FormControl className={clsx(classes.formControl, 'custom-select-remove-border')}>
-						<InputLabel id="demo-simple-select-label">English (United States)</InputLabel>
+						<InputLabel id="demo-simple-select-label">Language</InputLabel>
 						<Select
 							labelId="demo-simple-select-label"
 							id="demo-simple-select"
