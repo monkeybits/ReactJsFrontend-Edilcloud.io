@@ -253,7 +253,7 @@ function CreatePostForm({ isTask, taskId }) {
 							classes={{ root: 'text-14' }}
 							placeholder="Write something.."
 							multiline
-							rows="6"
+							rows="4"
 							margin="none"
 							disableUnderline
 							onChange={e => setText(e.target.value)}
@@ -280,10 +280,7 @@ function CreatePostForm({ isTask, taskId }) {
 									/>
 								Add Photos
 							</div>
-						</AppBar>
-						
-					</Card>
-					<div className="flex justify-end mb-20">
+							<div className="flex justify-end mb-20">
 								<Button
 									onClick={createPost}
 									variant="contained"
@@ -295,6 +292,10 @@ function CreatePostForm({ isTask, taskId }) {
 									POST
 								</Button>
 							</div>
+						</AppBar>
+						
+					</Card>
+					
 					{/* <Divider className="my-32" /> */}
 				</div>
 
