@@ -144,6 +144,7 @@ function CreatePostDialog(props) {
 			initDialog();
 			return () => {
 				resetForm();
+				dispatch(Actions.getTodos(routeParams));
 			};
 		}
 	}, [todoDialog.props.openTimelineDialog, initDialog]);

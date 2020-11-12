@@ -1,50 +1,55 @@
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import * as Actions from '../actions';
 const initialState = () => {
+	let genrealFilterJsonData = localStorage.getItem('genrealFilterJsonData');
+	let timeFilterJsonData = localStorage.getItem('timeFilterJsonData');
+
+	let genrealFilter = [
+		{
+			name: 'Mine',
+			isActive: true
+		},
+		{
+			name: 'All',
+			isActive: false
+		},
+		{
+			name: 'Alerted',
+			isActive: false
+		}
+	];
+	let timeFilter = [
+		{
+			name: 'Today',
+			isActive: true
+		},
+		{
+			name: 'Next week',
+			isActive: false
+		},
+		{
+			name: 'In late',
+			isActive: false
+		},
+		{
+			name: 'Completed',
+			isActive: false
+		}
+	];
 	var nextWeek = new Date();
 
 	//Change it so that it is 7 days in the feature.
 	var pastDate = nextWeek.getDate() + 7;
 	nextWeek.setDate(pastDate);
 	return {
-		genrealFilter: [
-			{
-				name: 'Mine',
-				isActive: true
-			},
-			{
-				name: 'All',
-				isActive: false
-			},
-			{
-				name: 'Alerted',
-				isActive: false
-			}
-		],
-		timeFilter: [
-			{
-				name: 'Today',
-				isActive: false
-			},
-			{
-				name: 'Next week',
-				isActive: false
-			},
-			{
-				name: 'In late',
-				isActive: false
-			},
-			{
-				name: 'Completed',
-				isActive: false
-			}
-		],
 		projectFilter: [],
 		companyFilter: [],
 		peopleFilter: [],
 		activeFilter: 'genrealFilter',
 		activeFilterKey: 'Mine',
-		usedKeys: ['genrealFilter']
+		usedKeys: [],
+		genrealFilter: genrealFilterJsonData ? JSON.parse(genrealFilterJsonData) : genrealFilter,
+		timeFilter: timeFilterJsonData ? JSON.parse(timeFilterJsonData) : timeFilter
 	};
 };
 const addIsActiveToDefault = (arr = []) => arr.map(d => (d = { ...d, isActive: false }));
@@ -107,7 +112,8 @@ const filtersReducer = (state = initialState(), action) => {
 				...state,
 				projectFilter: projectNames(action.payload),
 				companyFilter: companyFilterNames(action.payload),
-				peopleFilter: peopleFilterNames(action.payload)
+				peopleFilter: peopleFilterNames(action.payload),
+				usedKeys: ['genrealFilter','timeFilter'],
 			};
 		case Actions.CHANGE_FILTERS:
 			let tempUsedKeys = [...state.usedKeys];
@@ -129,10 +135,14 @@ const filtersReducer = (state = initialState(), action) => {
 			if (allActivited?.length) {
 				tempUsedKeys.push(action.payload.activeFilter);
 			}
-			// let data =
-			// 	state.activeFilterKey == action.payload.activeFilterKey
-			// 		? { ...action.payload, activeFilterKey: '' }
-			// 		: action.payload;
+			if (action.payload.activeFilter === 'genrealFilter') {
+				const genrealFilterJsonData = JSON.stringify(chnagedState);
+				localStorage.setItem('genrealFilterJsonData', genrealFilterJsonData);
+			}
+			if (action.payload.activeFilter === 'timeFilter') {
+				const timeFilterJsonData = JSON.stringify(chnagedState);
+				localStorage.setItem('timeFilterJsonData', timeFilterJsonData);
+			}
 			return {
 				...state,
 				[action.payload.activeFilter]: chnagedState,
