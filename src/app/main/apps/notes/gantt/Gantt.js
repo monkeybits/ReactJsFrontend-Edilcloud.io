@@ -16,6 +16,8 @@ import axios from 'app/services/axiosConfig';
 import { Button } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Typography from '@material-ui/core/Typography';
+import FuseAnimate from '@fuse/core/FuseAnimate';
 import {
 	faFilePdf,
 	faFile,
@@ -914,6 +916,23 @@ class Gantt extends Component {
 						</form>
 					</p>
 				</div> */}
+
+				<div className="flex w-full justify-between items-center p-24 pb-16">
+					<div>
+						<Typography variant="h5" className="mb-4">
+							Gantt
+						</Typography>
+						<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+							<Typography variant="subtitle1" className="font-weight-700 mb-4">Project Name</Typography>
+						</FuseAnimate>
+						<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
+							Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
+						</Typography>
+					</div>
+					<Button className="badge-btn" color="secondary">
+						Open Details
+					</Button>
+				</div>
 
 				<div class="demo-main-container">
 					<div class="header gantt-demo-header">
