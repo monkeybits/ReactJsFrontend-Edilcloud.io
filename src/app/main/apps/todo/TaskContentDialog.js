@@ -2,7 +2,7 @@ import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
 import * as Actions from './store/actions';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TaskContentForm from './TaskContentForm';
 
@@ -17,7 +17,11 @@ function TaskContentDialog(props) {
 	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 
 	const classes = useStyles(props);
-
+	useEffect(() => {
+		return () => {
+			dispatch(Actions.getTodos());
+		};
+	}, [taskContentDialog.props.open]);
 	return (
 		<Dialog
 			classes={{

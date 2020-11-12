@@ -38,10 +38,16 @@ function TodoList(props) {
 					[orderDescending ? 'desc' : 'asc']
 				);
 				resolve(data);
-			}).then(data => setFilteredData(setFilterByKey(activeFilter, data, activeFilterKey)));
+			}).then(data => {
+				setFilteredData(setFilterByKey(activeFilter, data, activeFilterKey));
+				handleDoFilter();
+			});
 		}
-	}, [todos, searchText, orderBy, orderDescending, company]);
+	}, [searchText, orderBy, orderDescending, company]);
 	useEffect(() => {
+		handleDoFilter();
+	}, [activeFilterKey, company, usedKeys, todos]);
+	const handleDoFilter = () => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
 			if (_searchText.length === 0) {
@@ -49,19 +55,19 @@ function TodoList(props) {
 			}
 			return FuseUtils.filterArrayByString(arr, _searchText);
 		}
-		let list = _.orderBy(getFilteredArray(todos, searchText), [orderBy], [orderDescending ? 'desc' : 'asc']);
-		if (company) {
+		if (company && todos) {
+			let list = _.orderBy(getFilteredArray(todos, searchText), [orderBy], [orderDescending ? 'desc' : 'asc']);
 			if (usedKeys && usedKeys.length) {
 				for (const key in usedKeys) {
 					if (usedKeys.hasOwnProperty(key)) {
 						const element = usedKeys[key];
-						if (element === 'companyFilter') {
-							let comapnies = filters[element].map(d => {
+						if (canSelectMultiple.includes(element)) {
+							let selectedFilters = filters[element].map(d => {
 								if (d.isActive) {
-									return d.name;
+									return element == 'peopleFilter' ? d.id : d.name;
 								}
 							});
-							list = setFilterByKey(element, list, comapnies);
+							list = setFilterByKey(element, list, selectedFilters);
 						} else {
 							filters[element].map(d => {
 								if (d.isActive) {
@@ -78,8 +84,7 @@ function TodoList(props) {
 				setFilteredData(list);
 			}
 		}
-	}, [activeFilterKey, company, usedKeys]);
-
+	};
 	const setFilterByKey = (activeFilter, list, activeFilterKey) => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -137,7 +142,7 @@ function TodoList(props) {
 				return result;
 			case 'projectFilter':
 				var result = list.reduce((unique, o) => {
-					if (o.project.name === activeFilterKey) {
+					if (activeFilterKey.includes(o.project.name)) {
 						unique.push(o);
 					}
 					return unique;
@@ -198,7 +203,7 @@ function TodoList(props) {
 						if (o.assigned_company && o.assigned_company.id == company.id) {
 							activities = inLateFilterForActivity(o.activities);
 						}
-						if (date.getTime() <= endDate.getTime() || activities.length) {
+						if ((date.getTime() <= endDate.getTime() && o.progress < 100) || activities.length) {
 							unique.push({ ...o, activities });
 						}
 						return unique;
@@ -223,7 +228,10 @@ function TodoList(props) {
 	};
 	const filterByPeopleForActivity = (arr = [], id) => {
 		let result = arr.reduce((unique, o) => {
-			let workers = o.workers.filter(d => d.id == id);
+			let workers = Array.isArray(id)
+				? o.workers.filter(d => id.includes(d.id))
+				: o.workers.filter(d => d.id == id);
+			console.log({ workers });
 			if (workers.length) {
 				unique.push(o);
 			}
@@ -263,10 +271,9 @@ function TodoList(props) {
 	};
 	const inLateFilterForActivity = (arr = []) => {
 		let result = arr.reduce((unique, o) => {
-			let startDate = new Date(o.datetime_start);
 			let endDate = new Date(o.datetime_end);
 			let date = new Date();
-			if (endDate.getTime() >= date.getTime()) {
+			if (date.getTime() > endDate.getTime() && o.status == 'to-do') {
 				unique.push(o);
 			}
 			return unique;
