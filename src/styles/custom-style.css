@@ -648,7 +648,7 @@ a.text-muted:hover {
     height: 100% !important;
 }
 .gantt-height-full {
-    height: calc(100% - 98px);
+    height: calc(100% - 230px);
 }
 .gantt-height-full > div, .gantt-height-full > div > p, .gantt-height-full  .gantt-container, .gantt-height-full  .gantt-container > div  {
     height: 100%;
@@ -662,6 +662,20 @@ a.text-muted:hover {
 .custom-zoom-bar .radio-label input {
     margin-right: 5px;
 }
+.gantt-menu-item a {
+    font-size: 11px !important;
+    padding: 0px 6px !important;
+}
+.gantt-menu-item:first-child a {
+    padding-left: 12px !important;
+}
+.gantt-menu-item img {
+    width: 20px;
+}
+.gantt-menu-item img, .gantt-menu-item svg {
+    margin-right: 4px !important;
+}
+
 /* .gantt-container {
     min-height: calc(100vh - 90px);
     overflow-y: auto;
@@ -1239,7 +1253,6 @@ audio {
 .file-folder-grid {
     margin-top: -25px;
 }
-
 
 /* ********************************************************************************************
     IOS Slider

@@ -2,7 +2,8 @@
 	min-height: calc(100vh - 195px);
 } */
 .nested_task {
-	background-color: #dedede !important;
+	/* background-color: #dedede !important; */
+	background-color: rgb(236 236 238 / 0.30) !important;
 }
 .nested_task .gantt_add {
 	display: none !important;
@@ -90,4 +91,14 @@
 .gantt_task_line.block_row_events  {
 	pointer-events: none !important;
 	touch-action: none;
+}
+.gantt_grid_scale, .gantt_task_scale {
+    color: #1E2129 !important;
+    font-weight: 700 !important;
+}
+.nested_task {
+    background-color: rgb(236 236 238 / 0.30) !important;
+}
+.gantt_grid_data .gantt_cell {
+    color: #5C616F !important;
 }

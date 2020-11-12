@@ -336,7 +336,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 				{showComments() && (
 					<div className="">
 						<div
-							className="flex items-center ml-52 my-16 cursor-pointer"
+							className="flex items-center ml-52 cursor-pointer"
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
