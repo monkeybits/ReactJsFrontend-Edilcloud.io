@@ -115,9 +115,6 @@ const filtersReducer = (state = initialState(), action) => {
 			const chnagedState = state[action.payload.activeFilter].map(d => {
 				if (d.name == action.payload.activeFilterKey || d.id == action.payload.activeFilterKey) {
 					let isActive = !d.isActive;
-					if (isActive) {
-						tempUsedKeys.push(action.payload.activeFilter);
-					}
 					return { ...d, isActive };
 				} else {
 					if (!canSelectMultiple.includes(action.payload.activeFilter)) {
@@ -127,15 +124,20 @@ const filtersReducer = (state = initialState(), action) => {
 					}
 				}
 			});
-			let data =
-				state.activeFilterKey == action.payload.activeFilterKey
-					? { ...action.payload, activeFilterKey: '' }
-					: action.payload;
+			let allActivited = chnagedState.filter(d => d.isActive);
+			console.log({ allActivited: allActivited });
+			if (allActivited?.length) {
+				tempUsedKeys.push(action.payload.activeFilter);
+			}
+			// let data =
+			// 	state.activeFilterKey == action.payload.activeFilterKey
+			// 		? { ...action.payload, activeFilterKey: '' }
+			// 		: action.payload;
 			return {
 				...state,
 				[action.payload.activeFilter]: chnagedState,
 				usedKeys: tempUsedKeys,
-				...data
+				...action.payload
 			};
 		default:
 			return state;

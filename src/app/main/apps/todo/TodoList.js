@@ -55,13 +55,13 @@ function TodoList(props) {
 				for (const key in usedKeys) {
 					if (usedKeys.hasOwnProperty(key)) {
 						const element = usedKeys[key];
-						if (element === 'companyFilter') {
-							let comapnies = filters[element].map(d => {
+						if (canSelectMultiple.includes(element)) {
+							let selectedFilters = filters[element].map(d => {
 								if (d.isActive) {
-									return d.name;
+									return element == 'peopleFilter' ? d.id : d.name;
 								}
 							});
-							list = setFilterByKey(element, list, comapnies);
+							list = setFilterByKey(element, list, selectedFilters);
 						} else {
 							filters[element].map(d => {
 								if (d.isActive) {
@@ -137,7 +137,7 @@ function TodoList(props) {
 				return result;
 			case 'projectFilter':
 				var result = list.reduce((unique, o) => {
-					if (o.project.name === activeFilterKey) {
+					if (activeFilterKey.includes(o.project.name)) {
 						unique.push(o);
 					}
 					return unique;
@@ -198,7 +198,7 @@ function TodoList(props) {
 						if (o.assigned_company && o.assigned_company.id == company.id) {
 							activities = inLateFilterForActivity(o.activities);
 						}
-						if (date.getTime() <= endDate.getTime() || activities.length) {
+						if (date.getTime() <= endDate.getTime() && o.progress < 100 || activities.length) {
 							unique.push({ ...o, activities });
 						}
 						return unique;
@@ -223,7 +223,10 @@ function TodoList(props) {
 	};
 	const filterByPeopleForActivity = (arr = [], id) => {
 		let result = arr.reduce((unique, o) => {
-			let workers = o.workers.filter(d => d.id == id);
+			let workers = Array.isArray(id)
+				? o.workers.filter(d => id.includes(d.id))
+				: o.workers.filter(d => d.id == id);
+			console.log({ workers });
 			if (workers.length) {
 				unique.push(o);
 			}
@@ -266,7 +269,7 @@ function TodoList(props) {
 			let startDate = new Date(o.datetime_start);
 			let endDate = new Date(o.datetime_end);
 			let date = new Date();
-			if (endDate.getTime() >= date.getTime()) {
+			if (endDate.getTime() >= date.getTime() && o.status == 'to-do') {
 				unique.push(o);
 			}
 			return unique;
