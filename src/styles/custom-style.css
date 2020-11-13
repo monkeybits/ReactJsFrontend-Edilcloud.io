@@ -84,6 +84,15 @@ body {
 .text-check {
     color: #4CAF50;
 }
+.text-custom-primary {
+    color: #2196F3;
+}
+.text-custom-danger {
+    color: #F44336;
+}
+.text-custom-warning {
+    color: #FFA000;
+}
 .MuiTableCell-root {
     padding: 12px;
 }
@@ -220,6 +229,9 @@ a.text-muted:hover {
 }
 .MuiOutlinedInput-input {
     padding: 16px 14px;
+}
+textarea.MuiOutlinedInput-input {
+    padding: 2px 4px;
 }
 .MuiInputLabel-outlined {
     transform: translate(14px, 18px) scale(1);
@@ -762,6 +774,14 @@ a.text-muted:hover {
     height: auto;
     min-height: auto;
 }
+.chat-options {
+    position: absolute;
+    top: 0px;
+    right: -3px;
+}
+.chat-options svg {
+    font-size: 19px;
+}
 
 /* ********************************************************************************************
     Team Page
@@ -1148,7 +1168,7 @@ audio {
     File Manager Page
 *********************************************************************************************** */
 
-.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button, .two-btn, .single-btn   {
+.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button, .two-btn, .single-btn, .custom-box-shadow    {
     box-shadow: 0 1px 3px #00000029 !important;
 }
 .search-white-box span {
@@ -1177,6 +1197,11 @@ audio {
 }
 .actions-dropdown.small .MuiListItemIcon-root{
     min-width: 28px;
+}
+.file-folder-action-dropdown button {
+    margin-right: -10px;
+    padding: 8px;
+    font-size: 2.1rem;
 }
 .two-btn button svg, .single-btn button svg {
     color: #9EA1A9; 
@@ -1211,7 +1236,7 @@ audio {
     font-weight: 600;
 }
 .file-folder-grid h6 {
-    font-size: 1.7rem;
+    font-size: 1.4rem;
 }
 .file-grid > div {
     background-color: transparent;

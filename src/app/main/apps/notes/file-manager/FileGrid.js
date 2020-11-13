@@ -38,6 +38,15 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileGridItem from './FileGridItem';
+import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
+import FolderSharedOutlinedIcon from '@material-ui/icons/FolderSharedOutlined';
+import FolderSpecialOutlinedIcon from '@material-ui/icons/FolderSpecialOutlined';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+import SendIcon from '@material-ui/icons/Send';
+import Menu from '@material-ui/core/Menu';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 
 const useStyles = makeStyles({
 	typeIcon: {
@@ -62,6 +71,7 @@ const useStylesList = makeStyles(theme => ({
 		boxShadow: '0 3px 6px #00000029'
 	}
 }));
+const options = ['Test' ];
 function FileGrid(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
@@ -108,6 +118,16 @@ function FileGrid(props) {
 			setCurrentFiles(tempFiles);
 			dispatch(Actions.setAllFiles([...modifyfolders, ...tempFiles]));
 		}
+	};
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const open = Boolean(anchorEl);
+
+	const handleClick = event => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
 	};
 	useEffect(() => {
 		setAllFilesInit();
@@ -163,15 +183,17 @@ function FileGrid(props) {
 		);
 	}
 	return (
-		<div className="file-folder-grid px-32">
+		<div className="file-folder-grid px-24">
 			{!!currentFolders.length && (
 				<>
 					{' '}
-					<Typography variant="h6" className="font-400 uppercase text-gray-600 mb-16">Folders</Typography>
-					<Grid container spacing={16} className="folder-grid">
+					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
+						Folders
+					</Typography>
+					<Grid container spacing={12}>
 						{currentFolders.map(d => (
 							<Grid
-								className="px-10 mb-20 sm:mb-32"
+								className="px-10 mb-20 sm:mb-32 folder-grid"
 								item
 								xs={12}
 								sm={6}
@@ -179,11 +201,49 @@ function FileGrid(props) {
 								xl={3}
 								onClick={() => dispatch(Actions.setFolderPath(d.path))}
 							>
-								<ListItem className={classesListItems.root}>
+								<ListItem className={clsx(classesListItems.root, 'custom-box-shadow')}>
 									<ListItemIcon>
-										<FolderIcon />
+										<FolderOutlinedIcon className="text-custom-primary" />
+										{/* <FolderSharedOutlinedIcon className="text-custom-danger" /> */}
+										{/* <FolderSpecialOutlinedIcon className="text-custom-warning" /> */}
 									</ListItemIcon>
 									<ListItemText primary={d.title} secondary={null} />
+									{/* <MoreVertIcon /> */}
+									<div className="actions-dropdown file-folder-action-dropdown">
+										<IconButton
+											aria-label="more"
+											aria-controls="long-menu"
+											aria-haspopup="true"
+											onClick={handleClick}
+										>
+											<MoreVertIcon />
+										</IconButton>
+										<Menu
+											id="long-menu"
+											anchorEl={anchorEl}
+											keepMounted
+											open={open}
+											onClose={handleClose}
+											PaperProps={{
+												style: {
+													width: '20ch'
+												}
+											}}
+										>
+											{options.map(option => (
+												<MenuItem
+													key={option}
+													selected={option === 'Pyxis'}
+													onClick={handleClose}
+												>
+													<ListItemIcon>
+														<PriorityHighIcon fontSize="small" />
+													</ListItemIcon>
+													<Typography variant="inherit"> {option}</Typography>
+												</MenuItem>
+											))}
+										</Menu>
+									</div>
 								</ListItem>
 							</Grid>
 						))}
@@ -192,7 +252,9 @@ function FileGrid(props) {
 			)}
 			{!!currentFiles.length && (
 				<>
-					<Typography variant="h6" className="font-400 uppercase text-gray-600 mb-16">Files</Typography>
+					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
+						Files
+					</Typography>
 					<Grid container spacing={12} className="file-grid">
 						<FileGridItem tileData={currentFiles} {...props} />
 					</Grid>
