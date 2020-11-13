@@ -146,6 +146,9 @@
     .team-grid .card-container .pro  {
         font-size: 10px !important;
     }
+    .custom-fuse-page-right-sidebar .permanent {
+        height: 100%;
+    }
     
     
 }
