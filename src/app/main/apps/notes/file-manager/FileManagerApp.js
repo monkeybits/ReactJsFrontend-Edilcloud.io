@@ -260,7 +260,7 @@ function FileManagerApp(props) {
 			<FusePageSimple
 				classes={{
 					root: 'bg-red fileInfoSidebar',
-					header: 'p-24 bg-body',
+					header: 'p-24 py-0 bg-body h-auto min-h-auto',
 					sidebarHeader: '',
 					rightSidebar: 'w-320'
 				}}
@@ -270,6 +270,16 @@ function FileManagerApp(props) {
 
 					<div className="flex flex-col flex-1 relative z-50">
 						<div className="flex items-center justify-between left-icon-btn">
+							<FuseAnimate delay={200}>
+								<div>
+									{folderPath && (
+										<Breadcrumb
+											selected={folderPath}
+											className="flex flex-1 filemanager-breadcumb font-700 text-24 text-default mt-6"
+										/>
+									)}
+								</div>
+							</FuseAnimate>
 							{/* <IconButton
 								onClick={() => {
 									pageLayout.current.toggleLeftSidebar();
@@ -278,7 +288,7 @@ function FileManagerApp(props) {
 							>
 								<Icon>menu</Icon>
 							</IconButton> */}
-							<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+							{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
 								<Paper className="flex p-4 items-center w-full h-40 px-8 py-4 bg-white search-white-box" elevation={1}>
 									<Icon className="text-20" color="action">search</Icon>
 
@@ -294,7 +304,7 @@ function FileManagerApp(props) {
 										onChange={ev => dispatch(Actions.setSearchText(ev))}
 									/>
 								</Paper>
-							</FuseAnimate>
+							</FuseAnimate> */}
 							<div className="flex two-btn rounded h-40 ml-10">
 								<IconButton
 									onClick={() => setViewTable(false)}
@@ -308,7 +318,7 @@ function FileManagerApp(props) {
 							</div>
 						</div>
 						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
-						<div className="flex flex-1 items-end">
+						{/* <div className="flex flex-1 items-end"> */}
 							{/* <FuseAnimate animation="transition.expandIn" delay={600}>
 								<Fab
 									onClick={() => setIsOpenDrawer(true)}
@@ -320,17 +330,8 @@ function FileManagerApp(props) {
 								</Fab>
 							</FuseAnimate> */}
 
-							{/* <FuseAnimate delay={200}>
-								<div>
-									{folderPath && (
-										<Breadcrumb
-											selected={folderPath}
-											className="flex flex-1 ltr:pl-72 rtl:pr-72 pb-12 text-16 sm:text-24"
-										/>
-									)}
-								</div>
-							</FuseAnimate> */}
-						</div>
+							
+						{/* </div> */}
 						{isUploadingFiles && (
 							<div className="linear-progress custom-color">
 								<LinearProgressWithLabel progress={progress} />

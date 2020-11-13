@@ -183,17 +183,17 @@ function FileGrid(props) {
 		);
 	}
 	return (
-		<div className="file-folder-grid px-24">
+		<div className="file-folder-grid px-24 mt-12">
 			{!!currentFolders.length && (
 				<>
 					{' '}
 					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
 						Folders
 					</Typography>
-					<Grid container spacing={12}>
+					<Grid container spacing={12} className="folder-grid">
 						{currentFolders.map(d => (
 							<Grid
-								className="px-10 mb-20 sm:mb-32 folder-grid"
+								className="px-6 mb-20"
 								item
 								xs={12}
 								sm={6}
@@ -201,6 +201,7 @@ function FileGrid(props) {
 								xl={3}
 								onClick={() => dispatch(Actions.setFolderPath(d.path))}
 							>
+								
 								<ListItem className={clsx(classesListItems.root, 'custom-box-shadow')}>
 									<ListItemIcon>
 										<FolderOutlinedIcon className="text-custom-primary" />
@@ -245,6 +246,7 @@ function FileGrid(props) {
 										</Menu>
 									</div>
 								</ListItem>
+								
 							</Grid>
 						))}
 					</Grid>

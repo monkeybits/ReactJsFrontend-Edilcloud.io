@@ -159,14 +159,13 @@ function ChatApp(props) {
 			<div className={clsx(classes.root, 'flex-col h-full p-24 inner-height')}>
 					{/* <div className={classes.topBg} /> */}
 
-					<div className="flex w-full justify-between items-center mb-20">
+					{/* <div className="flex w-full justify-between items-center mb-20">
 						<div>
 							<Typography variant="h5" className="mb-4">
 								Chat
 							</Typography>
 							<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 								<Typography variant="subtitle1" className="font-weight-700 mb-4">
-									{/* {projectDetail.name} */}
 									Project Test 1
 								</Typography>
 							</FuseAnimate>
@@ -177,7 +176,7 @@ function ChatApp(props) {
 						<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
 							Open Details
 						</Button>
-					</div>
+					</div> */}
 
 					<div className={clsx(classes.contentCardWrapper, 'container h-full p-0')}>
 						<div className={clsx(classes.contentCard, 'chat-bg')}>
