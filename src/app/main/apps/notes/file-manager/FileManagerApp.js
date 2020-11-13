@@ -51,6 +51,9 @@ import MoveFileDialog from './MoveFileDialog';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
+import Pagination from '@material-ui/lab/Pagination';
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -257,28 +260,41 @@ function FileManagerApp(props) {
 			<FusePageSimple
 				classes={{
 					root: 'bg-red fileInfoSidebar',
-					header: 'p-20 bg-body',
+					header: 'p-24 py-0 bg-body h-auto min-h-auto',
 					sidebarHeader: '',
 					rightSidebar: 'w-320'
 				}}
 				header={
+					
+					
+
 					<div className="flex flex-col flex-1 relative z-50">
 						<div className="flex items-center justify-between left-icon-btn">
-							<IconButton
+							<FuseAnimate delay={200}>
+								<div>
+									{folderPath && (
+										<Breadcrumb
+											selected={folderPath}
+											className="flex flex-1 filemanager-breadcumb font-700 text-24 text-default mt-6"
+										/>
+									)}
+								</div>
+							</FuseAnimate>
+							{/* <IconButton
 								onClick={() => {
 									pageLayout.current.toggleLeftSidebar();
 								}}
 								aria-label="open left sidebar"
 							>
 								<Icon>menu</Icon>
-							</IconButton>
-							<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-								<Paper className="flex p-4 items-center w-full max-w-512 h-48 px-8 py-4 bg-white search-white-box ml-10" elevation={1}>
-									<Icon color="action">search</Icon>
+							</IconButton> */}
+							{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
+								<Paper className="flex p-4 items-center w-full h-40 px-8 py-4 bg-white search-white-box" elevation={1}>
+									<Icon className="text-20" color="action">search</Icon>
 
 									<Input
 										placeholder="Search for anything"
-										className="flex flex-1 px-16"
+										className="flex flex-1 px-12"
 										disableUnderline
 										fullWidth
 										value={searchText}
@@ -288,21 +304,21 @@ function FileManagerApp(props) {
 										onChange={ev => dispatch(Actions.setSearchText(ev))}
 									/>
 								</Paper>
-							</FuseAnimate>
-							<div className="flex file-box-shadow rounded ml-20">
+							</FuseAnimate> */}
+							<div className="flex two-btn rounded h-40 ml-10">
 								<IconButton
 									onClick={() => setViewTable(false)}
-									className={!viewTable ? 'text-dark' : ''}
+									className={!viewTable ? 'text-default' : ''}
 								>
 									<FontAwesomeIcon icon={faTh} />
 								</IconButton>
 								<IconButton onClick={() => setViewTable(true)}>
-									<FontAwesomeIcon icon={faList} className={viewTable ? 'text-dark' : ''} />
+									<FontAwesomeIcon icon={faList} className={viewTable ? 'text-default' : ''} />
 								</IconButton>
 							</div>
 						</div>
 						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
-						<div className="flex flex-1 items-end">
+						{/* <div className="flex flex-1 items-end"> */}
 							{/* <FuseAnimate animation="transition.expandIn" delay={600}>
 								<Fab
 									onClick={() => setIsOpenDrawer(true)}
@@ -314,17 +330,8 @@ function FileManagerApp(props) {
 								</Fab>
 							</FuseAnimate> */}
 
-							{/* <FuseAnimate delay={200}>
-								<div>
-									{folderPath && (
-										<Breadcrumb
-											selected={folderPath}
-											className="flex flex-1 ltr:pl-72 rtl:pr-72 pb-12 text-16 sm:text-24"
-										/>
-									)}
-								</div>
-							</FuseAnimate> */}
-						</div>
+							
+						{/* </div> */}
 						{isUploadingFiles && (
 							<div className="linear-progress custom-color">
 								<LinearProgressWithLabel progress={progress} />

@@ -84,6 +84,15 @@ body {
 .text-check {
     color: #4CAF50;
 }
+.text-custom-primary {
+    color: #2196F3;
+}
+.text-custom-danger {
+    color: #F44336;
+}
+.text-custom-warning {
+    color: #FFA000;
+}
 .MuiTableCell-root {
     padding: 12px;
 }
@@ -220,6 +229,9 @@ a.text-muted:hover {
 }
 .MuiOutlinedInput-input {
     padding: 16px 14px;
+}
+textarea.MuiOutlinedInput-input {
+    padding: 2px 4px;
 }
 .MuiInputLabel-outlined {
     transform: translate(14px, 18px) scale(1);
@@ -765,6 +777,14 @@ a.text-muted:hover {
     height: auto;
     min-height: auto;
 }
+.chat-options {
+    position: absolute;
+    top: 0px;
+    right: -3px;
+}
+.chat-options svg {
+    font-size: 19px;
+}
 
 /* ********************************************************************************************
     Team Page
@@ -1151,7 +1171,7 @@ audio {
     File Manager Page
 *********************************************************************************************** */
 
-.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button, .two-btn, .single-btn   {
+.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button, .two-btn, .single-btn, .custom-box-shadow    {
     box-shadow: 0 1px 3px #00000029 !important;
 }
 .search-white-box span {
@@ -1181,6 +1201,30 @@ audio {
 .actions-dropdown.small .MuiListItemIcon-root{
     min-width: 28px;
 }
+.file-folder-action-dropdown button {
+    margin-right: -10px;
+    padding: 8px;
+    font-size: 2.1rem;
+}
+.file-folder-action-dropdown button svg {
+    font-size: 20px;
+}
+.file-grid-action-dropdown {
+    padding: 8px;
+    color: rgba(0, 0, 0, 0.54) !important;
+    margin-right: 3px !important;
+}
+.file-grid-action-dropdown svg {
+    font-size: 20px;
+}
+.file-icon-small svg {
+    height: 100px;
+    width: 100% !important;
+    margin-top: 48px;
+}
+.file-grid .MuiGridListTileBar-title {
+    font-size: 1.4rem;
+}
 .two-btn button svg, .single-btn button svg {
     color: #9EA1A9; 
 }
@@ -1204,8 +1248,8 @@ audio {
     font-weight: 700;
 }
 .folder-grid  {
-    margin-left: -1.0rem;
-    margin-right: -1.0rem;
+    margin-left: -0.6rem;
+    margin-right: -0.6rem;
 }
 .folder-grid .MuiListItemIcon-root {
     min-width: 34px;
@@ -1214,7 +1258,7 @@ audio {
     font-weight: 600;
 }
 .file-folder-grid h6 {
-    font-size: 1.7rem;
+    font-size: 1.4rem;
 }
 .file-grid > div {
     background-color: transparent;
@@ -1224,11 +1268,12 @@ audio {
     height: auto !important;
     padding: 0px !important;
     margin: 0px 15px 15px 0px;
-    box-shadow: 0 3px 6px #00000029 !important;
-    border-radius: 10px;
-    width: 47.5% !important;;
+    border-radius: 6px;
+    width: 31.5% !important;
+    box-shadow: 0 1px 3px #00000029 !important;
+    background-color: #ffffff;
 }
-.file-grid li:nth-child(2n) {
+.file-grid li:nth-child(3n) {
     margin-right: 0px !important;
 }
 .file-grid img, .file-grid .MuiGridListTile-tile > svg  {
@@ -1245,15 +1290,31 @@ audio {
 .file-grid img ~ div, .file-grid .MuiGridListTile-tile > svg ~ div {
     position: relative;
     background: #fff;
-    border-radius: 0px 0px 10px 10px;
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 0px 0px 6px 6px;
+    border-top: 1px solid #ECECEE;
+}
+.file-grid .MuiGridListTileBar-root {
+    border-top: 1px solid #ECECEE;
+    background-color: #fff;
+    border-radius: 0px 0px 6px 6px;
 }
 .file-grid .MuiGridListTileBar-titleWrap, .file-grid .MuiGridListTileBar-actionIcon button {
-    color: rgba(0, 0, 0, 0.87);
+    color: #1E2129;
 }
-.file-folder-grid {
+/* .file-folder-grid {
     margin-top: -25px;
+} */
+.filemanager-breadcumb button {
+    color: #1E2129;
+    font-size: 22px;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-decoration: none;
 }
+.filemanager-breadcumb .flex.items-center:first-child button {
+    padding-left: 0px;
+}
+
 
 /* ********************************************************************************************
     IOS Slider

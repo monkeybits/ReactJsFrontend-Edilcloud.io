@@ -251,17 +251,17 @@ function Chat(props) {
 										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
 										<div className="leading-normal font-size-16 mb-4">{item.body}</div>
 										<ViewFile files={item.files} />
-										<div className="flex items-center">
+										<div className="flex items-center mt-8">
 											{contact.id == userIdFromCompany && item.waitingToSend ? (
-												<Icon className="float-right text-16 text-check mt-2">access_time</Icon>
+												<Icon className="float-right text-16 text-check">access_time</Icon>
 											) : (
-												// <Icon className="float-right text-16 text-check mt-2">check</Icon>
-												<Icon className="float-right text-16 text-check mt-2">done_all</Icon>
+												// <Icon className="float-right text-16 text-check">check</Icon>
+												<Icon className="float-right text-16 text-check">done_all</Icon>
 											)}
 											{
 												// isLastMessageOfGroup(item, i) && (
 												<Typography
-													className="time text-12 font-500 mt-4 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+													className="time text-12 font-500 ml-4 ltr:left-0 rtl:right-0 whitespace-no-wrap"
 													color="textSecondary"
 												>
 													{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}

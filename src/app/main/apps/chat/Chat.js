@@ -233,7 +233,7 @@ function Chat(props) {
 										</Avatar>
 									)}
 
-									<div className="bubble items-center justify-center p-12 max-w-50">
+									<div className="bubble items-center justify-center p-12 max-w-50 relative">
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
 												style={{ color: color?.[0]?.contactNameColor }}
@@ -245,26 +245,26 @@ function Chat(props) {
 										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
 										{!item.waitingToSend && (
 											<MessageMoreOptions
-												className="text-right"
+												className="text-right chat-options"
 												item={item}
 												deleteMessage={Actions.deleteMessage}
 											/>
 										)}
 										<div className="leading-normal mb-4">{item.body} </div>
 										<ViewFile files={item.files} />
-										<div className="flex items-center">
+										<div className="flex items-center mt-8">
 											{contact.id == userIdFromCompany && item.waitingToSend ? (
-												<Icon className="float-right font-size-16 text-check mt-2">
+												<Icon className="float-right font-size-16 text-check">
 													access_time
 												</Icon>
 											) : (
-												// <Icon className="float-right text-16 text-check mt-2">check</Icon>
-												<Icon className="float-right text-16 text-check mt-2">done_all</Icon>
+												// <Icon className="float-right text-16 text-check">check</Icon>
+												<Icon className="float-right text-16 text-check">done_all</Icon>
 											)}
 											{
 												// isLastMessageOfGroup(item, i) && (
 												<Typography
-													className="time text-11 mt-8 mb-12 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+													className="time text-11 ml-6 ltr:left-0 rtl:right-0 whitespace-no-wrap"
 													color="textSecondary"
 												>
 													{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
