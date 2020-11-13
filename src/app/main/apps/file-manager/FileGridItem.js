@@ -80,7 +80,7 @@ export default function FileGridItem({ tileData, pageLayout }) {
 									style={{ ...getCssColor(tile.type), fontSize: '2.4rem' }}
 								/>
 							) : tile.type == 'photo' ? (
-								<LazyLoadImage delayTime={300} src={tile.photo} alt={tile.title} />
+								<img src={tile.photo} alt={tile.title} />
 							) : (
 								<FontAwesomeIcon
 									icon={
