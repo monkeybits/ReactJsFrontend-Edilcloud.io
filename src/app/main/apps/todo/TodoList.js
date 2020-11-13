@@ -231,7 +231,6 @@ function TodoList(props) {
 			let workers = Array.isArray(id)
 				? o.workers.filter(d => id.includes(d.id))
 				: o.workers.filter(d => d.id == id);
-			console.log({ workers });
 			if (workers.length) {
 				unique.push(o);
 			}

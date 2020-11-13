@@ -140,7 +140,8 @@ function TodoListItem(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const classes = useStyles(props);
 	const routeParams = useParams();
-
+	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);
+	const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -492,7 +493,15 @@ function TodoListItem(props) {
 					>
 						{taskDetail &&
 							!!taskDetail.length &&
-							taskDetail.map(todo => (
+							_.orderBy(
+								taskDetail,
+								orderBy == 'date_start'
+									? ['datetime_start']
+									: orderBy == 'date_end'
+									? ['datetime_end']
+									: [orderBy],
+								[orderDescending ? 'desc' : 'asc']
+							).map(todo => (
 								<TodoActivityListItem
 									getDetailOfTask={getDetailOfTask}
 									task={props.todo}

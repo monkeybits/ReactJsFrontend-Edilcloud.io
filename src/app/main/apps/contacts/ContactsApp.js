@@ -48,8 +48,8 @@ function ContactsApp(props) {
 					customHeader:"flex flex-auto flex-col container z-10 h-full chat-header-bg-remove",
 					wrapper: 'min-h-0 team-tab p-24'
 				}}
-				header={<ContactsHeader pageLayout={pageLayout} />}
-				content={<ContactsList />}
+				// header={<ContactsHeader pageLayout={pageLayout} />}
+				content={<ContactsList pageLayout={pageLayout} />}
 				leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}

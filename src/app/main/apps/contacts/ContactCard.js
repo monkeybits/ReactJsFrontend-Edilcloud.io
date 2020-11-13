@@ -14,13 +14,16 @@ export default function ContactCard({
 	role,
 	email,
 	position,
+	company,
 	status,
 	avatar,
 	address,
 	language,
 	can_access_chat,
 	can_access_files,
-	editPermission
+	editPermission,
+	jobTitle,
+	phone
 }) {
 	const dispatch = useDispatch();
 	const inputFile = useRef(null);
@@ -77,8 +80,8 @@ export default function ContactCard({
 					<Icon>more_vert</Icon>
 				</div>
 				<input
-                    type="file"
-                    accept="image/*"
+					type="file"
+					accept="image/*"
 					id="file"
 					ref={inputFile}
 					onChange={e => {
@@ -100,14 +103,11 @@ export default function ContactCard({
 				<p className="font-500 text-muted mb-8">
 					{position ? position : 'N/A'} - {role}
 				</p>
-				<h3 className="font-weight-600 mb-8">
-					Job Title
-				</h3>
-				<p className="font-500 text-muted mb-8">Company Name</p>
-				<p className="font-500 text-muted mb-8">email@email.com</p>
-				<p className="font-500 text-muted">9876543210</p>
-				
-				{/* <div className="my-12 block mx-auto">
+				<p className="font-500 text-muted mb-8">{company}</p>
+				<p className="font-500 text-muted mb-8">{email}</p>
+				<p className="font-500 text-muted">{phone}</p>
+
+				<div className="my-12 block mx-auto">
 					<Button
 						variant={permission.can_access_files ? 'contained' : 'outlined'}
 						size="small"
@@ -145,7 +145,7 @@ export default function ContactCard({
 					>
 						Access Chat
 					</Button>
-				</div> */}
+				</div>
 
 				{/* <div class="skills">
 					<h6>Skills</h6>

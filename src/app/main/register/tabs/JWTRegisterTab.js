@@ -61,7 +61,7 @@ function JWTRegisterTab({ history }) {
 					className="mb-24"
 					type="text"
 					name="username"
-					label="Display name"
+					label="Username"
 					validations={{
 						minLength: 4
 					}}

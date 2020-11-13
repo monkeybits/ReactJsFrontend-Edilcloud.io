@@ -1240,6 +1240,7 @@ audio {
     width: 100%;
     height: 184px;
     border-radius: 10px 10px 0px 0px;
+    object-fit: cover;
 }
 .file-grid img ~ div, .file-grid .MuiGridListTile-tile > svg ~ div {
     position: relative;
