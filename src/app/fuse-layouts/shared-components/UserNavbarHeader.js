@@ -13,6 +13,7 @@ import * as authActions from 'app/auth/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
+		backgroundColor: '#0e3b63',
 		'&.user': {
 			'& .username, & .email': {
 				transition: theme.transitions.create('opacity', {
@@ -51,7 +52,6 @@ function UserNavbarHeader(props) {
 	return (
 		<AppBar
 			position="static"
-			color="primary"
 			elevation={0}
 			classes={{ root: classes.root }}
 			className="user relative flex flex-col items-center justify-center pt-24 pb-64 mb-32 z-0"
