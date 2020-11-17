@@ -213,13 +213,13 @@ a.text-muted:hover {
 .custom-outlined-btn button svg {
     color: #2196F3;
 }
-.add-photo-image button {
+/* .add-photo-image button {
     padding: 0px;
     margin-right: 10px;
     background-color: #ffffff;
     border-radius: 4px;
     color: #2196F3;
-}
+} */
 
 /* ********************************************************************************************
     Form Group
@@ -227,14 +227,14 @@ a.text-muted:hover {
 .MuiFormLabel-root {
     color: #9EA1A9;
 }
-.MuiOutlinedInput-input {
-    padding: 16px 14px;
-}
 textarea.MuiOutlinedInput-input {
     padding: 2px 4px;
 }
+.select-dropdown .MuiOutlinedInput-input {
+    padding: 0px;
+}
 .MuiInputLabel-outlined {
-    transform: translate(14px, 18px) scale(1);
+    transform: translate(16px, 18px) scale(1);
 }
 .MuiOutlinedInput-notchedOutline {
     border-color: #ECECEE;
@@ -267,9 +267,11 @@ textarea.MuiOutlinedInput-input {
 }
 .static-form-label .icon{
     position: absolute;
-    right: 14px;
     top: 50%;
-    margin-top: -12px;    
+    transform: translateY(-50%);
+    right: 17px;
+    font-size: 18px;
+    color: #5C616F;
 }
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: #00000061;
@@ -352,7 +354,7 @@ textarea.MuiOutlinedInput-input {
     font: inherit;
     color: currentColor;
     width: 100% ;
-    border: 1px solid rgba(0, 0, 0, 0.23);
+    border: 1px solid #ECECEE;
     height: 1.1876em;
     margin: 0;
     display: block;
@@ -406,9 +408,9 @@ textarea.MuiOutlinedInput-input {
     padding-left: 15px !important;
     padding-bottom: 9px;
 }
-.zoom-125 {
+/* .zoom-125 {
     zoom: 125% !important;
-}
+} */
 /* #SpeedDialexample-actions span span {
     top: -28px;
     left: 0;
@@ -421,10 +423,11 @@ textarea.MuiOutlinedInput-input {
     left: 17px !important;
 }
 .select-dropdown div > div label ~ div > div > div  {
-    padding-top: 10px !important;
-    padding-bottom: 10px;
+    padding-top: 9px !important;
+    padding-bottom: 9px;
 }
 .select-dropdown p {
+    left: 15px;
     font-size: 14px;
 }
 .custom-select-remove-border {
@@ -772,7 +775,7 @@ textarea.MuiOutlinedInput-input {
 .chat-badge {
     background-color: #376AED;
 }
-.chat-header-bg-remove > div {
+.chat-header-bg-remove > div, .header-bg-remove > div  {
     background: #f7f7f7;
     height: auto;
     min-height: auto;
@@ -1263,6 +1266,10 @@ audio {
 .file-grid > div {
     background-color: transparent;
     width: 100%;
+    /* justify-content: flex-start; */
+}
+.file-grid ul {
+    width: 100%;
 }
 .file-grid li {
     height: auto !important;
@@ -1359,9 +1366,10 @@ audio {
     Modal
 *********************************************************************************************** */
 .custom-modal-new header {
-    color: rgba(0, 0, 0, 0.87);
+    color: #1E2129;
     background-color: #fff;
     box-shadow: none;
+    border: none;
 }
 .custom-ios-slider-dropdown.page {
    left: -260px;
@@ -1382,27 +1390,30 @@ audio {
     font-size: 12px;
 }
 .custom-modal-new header button svg {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    color: #5C616F;
 }
 .custom-modal-new header > div {
     border-bottom: 1px solid#ECECEE;
     margin-top: 10px;
+}
+.custom-modal-new.timeline-modal header > div {
+    border-bottom: none;
+    margin-top: 0px;
 }
 .custom-modal-new .right-m-12, .custom-modal-new header .right-m-12  {
     right: -12px;
 }
 .custom-modal-new .MuiPaper-rounded {
     border-radius: 8px;
+    box-shadow: none;
 }
 .custom-modal-new .fuse-chip-select__indicator-separator {
     background-color: transparent;
 }
 .custom-modal-new.timeline-modal header .add-photo-image {
     border-bottom: none;
-    margin: 7px 0px 7px 15px;
-    padding: 5px 10px;
-    border-radius: 4px;
-    color: #2196F3;
+    margin: 0px;
 }
 .custom-modal-new.timeline-modal header {
     background-color: rgb(236 236 238 / 0.30);
@@ -1423,10 +1434,8 @@ audio {
     top: 8px;
 }
 .timeline-modal .right-m-12 button svg  {
-    font-size: 20px;
-}
-.timeline-modal .right-m-12 button svg  {
-    font-size: 20px;
+    font-size: 1.6rem;
+    color: #5C616F;
 }
 
 /* ********************************************************************************************
@@ -1491,11 +1500,11 @@ audio {
     text-align: right;
 }
 .custom-bg ~ .inner-scroll {
-    background-color: transparent;
+    background-color: #ffffff;
     box-shadow: none;
 } 
 .custom-bg ~ .inner-scroll > div:first-child {
-    background-color: #ffffff;
+    background-color: #f7f7f7;
     border-radius: 4px 4px 0px 0px;
 }
 .image-close {

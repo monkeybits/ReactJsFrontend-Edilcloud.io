@@ -253,7 +253,7 @@ function CreatePostForm({ isTask, taskId }) {
 							classes={{ root: 'text-14' }}
 							placeholder="Write something.."
 							multiline
-							rows="6"
+							rows="5"
 							margin="none"
 							disableUnderline
 							onChange={e => setText(e.target.value)}
@@ -261,12 +261,12 @@ function CreatePostForm({ isTask, taskId }) {
 						{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
 
 						<AppBar
-							className="card-footer flex flex-row border-t-1"
+							className="card-footer flex flex-row border-t-1 justify-between pt-10 pb-6 pr-12 pl-6"
 							position="static"
 							color="default"
 							elevation={0}
 						>
-							<div className="add-photo-image bg-white p-10 rounded">
+							<div className="add-photo-image">
 									<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo">
 										<Icon>photo</Icon>
 									</IconButton>
@@ -278,12 +278,11 @@ function CreatePostForm({ isTask, taskId }) {
 										ref={inputRef}
 										onChange={addPhoto}
 									/>
-								Add Photos
 							</div>
 						</AppBar>
 						
 					</Card>
-					<div className="flex justify-end mb-20">
+					<div className="flex">
 								<Button
 									onClick={createPost}
 									variant="contained"

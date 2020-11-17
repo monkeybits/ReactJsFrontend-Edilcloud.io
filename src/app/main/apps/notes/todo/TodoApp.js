@@ -56,14 +56,15 @@ function TodoApp(props) {
 		<>
 			<FusePageCarded
 				classes={{
-					root: 'w-full',
-					header: 'items-center min-h-72 h-72 sm:h-136 sm:min-h-136 custom-bg'
+					root: 'w-full header-bg-remove',
+					header: 'items-center custom-bg',
 				}}
 				header={<TodoHeader pageLayout={pageLayout} />}
-				contentToolbar={<TodoToolbar />}
-				content={<TodoList {...props}/>}
-				leftSidebarHeader={<TodoSidebarHeader />}
+				// contentToolbar={<TodoToolbar />}
 				leftSidebarContent={<TodoSidebarContent />}
+				content={<TodoList {...props}/>}
+				// leftSidebarHeader={<TodoSidebarHeader />}
+				
 				ref={pageLayout}
 				innerScroll
 			/>

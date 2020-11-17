@@ -193,7 +193,7 @@ function TaskContentForm(props) {
 					label: (
 						<span className="flex items-center">
 							<Icon
-								className="list-item-icon mr-4"
+								className="list-item-icon mx-6 text-20"
 								style={{ color: company.profile.company?.color_project }}
 								color="action"
 							>
@@ -470,7 +470,7 @@ function TaskContentForm(props) {
 										label: (
 											<span className="flex items-center">
 												<Icon
-													className="list-item-icon mr-4"
+													className="list-item-icon mx-6 text-20"
 													style={{ color: company.profile.company?.color_project }}
 													color="action"
 												>

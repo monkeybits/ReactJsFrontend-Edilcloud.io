@@ -26,6 +26,9 @@
     }
 }
 @media only screen and (max-width: 767px) {
+    .MuiTypography-h5 {
+        font-size: 2.2rem;
+    }
     .profile-img {
         height: 120px;
         width: 120px;
@@ -112,7 +115,13 @@
         font-size: 1.2rem;
     }
     .file-grid li {
-        width: 100% !important;
+        width: 47% !important;
+    }
+    .file-grid li:nth-child(2n) {
+        margin-right: 0px !important;
+    }
+    .file-grid li:nth-child(3n) {
+        margin-right: 15px !important;
     }
     .project_card .project_card_avatar {
         margin-top: 2px;
@@ -169,7 +178,7 @@
 }
 @media only screen and (max-width: 576px) {
     .custom-modal-new header .MuiToolbar-gutters {
-        margin: 0px 20px 0px 20px;
+        margin: 5px 20px 0px 20px !important;
     }
     .team-chat-sidebar {
         transform: translate3d(725px,0,0);
@@ -210,7 +219,9 @@
         margin-left: 0rem;
         margin-right: 0rem;
     }
-
+    .project_list {
+        padding-bottom: 0px;
+    }
     
 }
 
@@ -244,7 +255,7 @@
 @media (min-width: 280px) {
     .custom-modal-new header .MuiToolbar-gutters {
         padding: 0px;
-        margin: 0px 45px 0px 33px;
+        margin: 5px 45px 0px 33px;
     }
     .custom-modal-new header .MuiToolbar-regular {
         min-height: 60px;

@@ -442,7 +442,7 @@ function TodoDialog(props) {
 											label: (
 												<span className="flex items-center">
 													<Icon
-														className="list-item-icon mr-4"
+														className="list-item-icon mx-6 text-20"
 														style={{ color: companyData?.profile?.company?.color_project }}
 														color="action"
 													>
@@ -521,6 +521,7 @@ function TodoDialog(props) {
 						<Button
 							variant="contained"
 							color="primary"
+							size="large"
 							onClick={() => {
 								setLoading(true);
 								dispatch(
@@ -551,6 +552,7 @@ function TodoDialog(props) {
 						<Button
 							variant="contained"
 							color="primary"
+							size="large"
 							// onClick={() => {
 							// 	dispatch(Actions.updateTodo(form));
 							// 	closeTodoDialog();
