@@ -210,7 +210,7 @@ export default function EditActivityForm(props) {
 					value: getUsername(profile),
 					label: <span className="flex items-center">{getUsername(profile)}</span>
 				}))}
-				className="select-dropdown mb-12"
+				className="select-dropdown mb-16"
 			/>
 
 			<FormControl className="mt-8 mb-16" required fullWidth>
@@ -218,7 +218,7 @@ export default function EditActivityForm(props) {
 					label="Notes"
 					name="notes"
 					multiline
-					rows="6"
+					rows="4"
 					value={form.notes}
 					onChange={handleChange}
 					variant="outlined"

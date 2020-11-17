@@ -521,6 +521,7 @@ function TodoDialog(props) {
 						<Button
 							variant="contained"
 							color="primary"
+							size="large"
 							onClick={() => {
 								setLoading(true);
 								dispatch(
@@ -551,11 +552,12 @@ function TodoDialog(props) {
 						<Button
 							variant="contained"
 							color="primary"
-							// onClick={() => {
-							// 	dispatch(Actions.updateTodo(form));
-							// 	closeTodoDialog();
-							// }}
-							// disabled={!canBeSubmitted()}
+							size="large"
+							onClick={() => {
+								dispatch(Actions.updateTodo(form));
+								closeTodoDialog();
+							}}
+							disabled={!canBeSubmitted()}
 						>
 							Save
 						</Button>
