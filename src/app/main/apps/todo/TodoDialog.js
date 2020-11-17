@@ -297,6 +297,7 @@ function TodoDialog(props) {
 						<Button
 							variant="contained"
 							color="primary"
+							size="large"
 							onClick={() => {
 								dispatch(Actions.addTodo(form));
 								closeTodoDialog();
@@ -313,6 +314,7 @@ function TodoDialog(props) {
 						<Button
 							variant="contained"
 							color="primary"
+							size="large"
 							onClick={() => {
 								dispatch(Actions.updateTodo(form));
 								closeTodoDialog();
