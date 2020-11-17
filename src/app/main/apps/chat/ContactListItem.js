@@ -62,7 +62,7 @@ function ContactListItem(props) {
 						<div
 							className={clsx(
 								classes.unreadBadge,
-								'flex items-center justify-center min-w-24 h-24 rounded-full text-11 text-white text-center chat-badge'
+								'flex items-center justify-center min-w-24 h-24 rounded-full text-11 text-white text-center chat-badge leading-normal'
 							)}
 						>
 							11

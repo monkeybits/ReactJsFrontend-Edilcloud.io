@@ -22,6 +22,8 @@ import * as Actions from './store/actions';
 import { Icon } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import PictureAsPdfOutlinedIcon from '@material-ui/icons/PictureAsPdfOutlined';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -75,14 +77,19 @@ export default function FileGridItem({ tileData, pageLayout }) {
 					{tileData.map(tile => (
 						<GridListTile key={tile.img}>
 							{tile.type == 'video' ? (
+								<div className="file-icon-small">
 								<FontAwesomeIcon
+								className="p-28"
 									icon={faFileVideo}
-									style={{ ...getCssColor(tile.type), fontSize: '2.4rem' }}
+									style={{ ...getCssColor(tile.type), fontSize: '1.8rem' }}
 								/>
+								</div>
 							) : tile.type == 'photo' ? (
 								<img src={tile.photo} alt={tile.title} />
 							) : (
+								<div className="file-icon-small">
 								<FontAwesomeIcon
+								className="p-28"
 									icon={
 										tile.type == 'document'
 											? tile.extension == 'pdf'
@@ -96,12 +103,14 @@ export default function FileGridItem({ tileData, pageLayout }) {
 												: faFile
 											: faFile
 									}
-									style={{ ...getCssColor(tile.extension), fontSize: '2.4rem' }}
+									style={{ ...getCssColor(tile.extension), fontSize: '1.8rem' }}
 								/>
+								</div>
 							)}
 							<GridListTileBar
-								title={tile.title}
-								subtitle={<span>size: {tile.size}</span>}
+								className="text-14"
+								title={<><PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" />{tile.title}</>}
+								// subtitle={<span>size: {tile.size}</span>}
 								actionIcon={
 									<IconButton
 										onClick={ev => {
@@ -115,9 +124,9 @@ export default function FileGridItem({ tileData, pageLayout }) {
 											dispatch(Actions.setSelectedItem(fileData.id));
 										}}
 										aria-label={`info about ${tile.title}`}
-										className={classes.icon}
+										className={clsx(classes.icon, 'file-grid-action-dropdown')}
 									>
-										<InfoIcon />
+										<MoreVertIcon />
 									</IconButton>
 								}
 							/>
