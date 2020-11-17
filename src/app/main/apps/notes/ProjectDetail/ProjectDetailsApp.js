@@ -13,10 +13,13 @@ import reducer from '../store/reducers';
 import ProjectContent from './ProjectContent';
 import { useRouteMatch } from 'react-router';
 import ProjectInfo from './ProjectInfo';
+import CreatePostDialog from '../todo/CreatePostDialog';
+import TodoDialog from '../todo/TodoDialog';
+import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();
-	const [value, setValue] = React.useState(2);
+	const [value, setValue] = React.useState(4);
 	const [openDialog, setOpenDialog] = React.useState(false);
 	const pageLayout = useRef(null);
 	const match = useRouteMatch();
@@ -44,6 +47,9 @@ function ProjectDetails(props) {
 				innerScroll
 			/>
 			<ProjectInfo openDialog={openDialog} closeDialog={() => setOpenDialog(false)} />
+			<CreatePostDialog />
+			<TodoDialog />
+			<TaskContentDialog />
 		</>
 	);
 }

@@ -141,15 +141,12 @@ function getOptions(selectedIndex) {
 }
 function shiftTask(task_id, direction) {
 	var task = gantt.getTask(task_id);
-	console.log({
-		task
-	});
+
 	task.start_date = gantt.date.add(task.start_date, direction, 'day');
 	task.end_date = gantt.calculateEndDate(task.start_date, task.duration);
 	gantt.updateTask(task.id);
 }
 function sortHolders(a, b) {
-	console.log({ a, b });
 	return a.mainId > b.mainId ? 1 : a.mainId < b.mainId ? -1 : 0;
 }
 class Gantt extends Component {
@@ -200,21 +197,9 @@ class Gantt extends Component {
 				}
 			}
 		}
+
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
 			return new Promise((resolve, reject) => {
-				console.log({
-					name: item.data.name,
-					description: item.data.note,
-					id: item.data.id,
-					company: item.data.assigned_company,
-					progress: item.data.progress,
-					date_start: item.start_date,
-					date_end: item.end_date
-				});
-
-				// if (onDataUpdated) {
-				// onDataUpdated(entityType, action, item, id);
-				// console.log({ entityType, action, item, id });
 				if (item.parent == 0) {
 					this.editTodo(
 						{
@@ -255,7 +240,6 @@ class Gantt extends Component {
 			alert: false,
 			starred: false
 		};
-		console.log({ values });
 		apiCall(
 			EDIT_TASK_TO_PROJECT(todo.id),
 			values,
@@ -276,7 +260,6 @@ class Gantt extends Component {
 			workers: todo.profile?.length ? todo.profile.map(d => d.id) : undefined
 		};
 
-		// console.log({ todo, values });
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(todo.id),
 			values,
@@ -289,22 +272,26 @@ class Gantt extends Component {
 		);
 	};
 	shouldComponentUpdate(nextProps, nextState) {
-		const { todos, company } = nextProps;
-		if (JSON.stringify(company) != JSON.stringify(this.props.company)) {
-			return true;
-		} else if (this.state.openTasks.length != nextState.openTasks.length) {
+		const { todos, company, projectDetail } = nextProps;
+		if (
+			(company && projectDetail.company && JSON.stringify(company) != JSON.stringify(this.props.company)) ||
+			JSON.stringify(projectDetail.company) != JSON.stringify(this.props.projectDetail.company)
+		) {
+			this.templatePermissions(projectDetail, company);
 			return true;
 		} else if (
 			this.props.todos?.entities &&
 			todos?.entities &&
 			JSON.stringify(todos.entities) !== JSON.stringify(this.props.todos.entities)
 		) {
-			this.templatePermissions();
 			this.ganttInit(todos);
-			return true;
-		} else {
 			return false;
+		} else if (this.state.toggleLeft != nextState.toggleLeft) {
+			return true;
+		} else if (!nextState.tasks?.data?.length) {
+			return true;
 		}
+		return false;
 
 		// if (this.props.zoom !== nextProps.zoom && this.state.tasks) {
 		// 	this.createGantt(this.state.tasks);
@@ -317,8 +304,6 @@ class Gantt extends Component {
 	}
 
 	ganttInit = todos => {
-		let allTodos = todos.entities;
-		console.log({ allTodos });
 		gantt.config.start_date = new Date([2018]);
 		gantt.config.end_date = new Date([2022]);
 
@@ -367,7 +352,6 @@ class Gantt extends Component {
 	};
 
 	createGantt = tasks => {
-		this.createMarker(tasks);
 		gantt.config.xml_date = '%Y-%m-%d %H:%i';
 		if (this.state.toggleLeft) {
 			gantt.config.columns = [];
@@ -393,7 +377,6 @@ class Gantt extends Component {
 				{ name: 'add', width: 44, min_width: 44, max_width: 44 }
 			];
 			// start block for resize
-			console.log({ layout: gantt.config.layout });
 			gantt.config.layout = {
 				css: 'gantt_container',
 				cols: [
@@ -418,6 +401,8 @@ class Gantt extends Component {
 				]
 			};
 		}
+		gantt.init(this.ganttContainer);
+		gantt.parse(tasks);
 		gantt.templates.grid_date_format = function (date, column) {
 			if (column === 'end_date') {
 				let newDate = new Date(date.setHours(23, 59, 59, 100));
@@ -432,7 +417,6 @@ class Gantt extends Component {
 		}
 		gantt._onTemplatesReadyHandler = gantt.attachEvent('onTemplatesReady', function () {
 			var toggle = document.getElementById('fullScreen');
-			// document.addEventListener('keyup', e => console.log(e.key));
 
 			toggle.onclick = function () {
 				if (!gantt.getState().fullscreen) {
@@ -454,12 +438,10 @@ class Gantt extends Component {
 			setTimeout(() => {
 				let task = gantt.getTask(id);
 				if (task.$open) {
-					console.log({ id, task, taskopen: task.$open });
 					this.setState(prev => ({
 						openTasks: [...prev.openTasks, task.id]
 					}));
 				} else {
-					console.log('else', { id, task, taskopen: task.$open });
 					this.setState(prev => ({
 						openTasks: prev.openTasks.filter(tid => tid != id)
 					}));
@@ -471,8 +453,7 @@ class Gantt extends Component {
 		gantt.ext.fullscreen.getFullscreenElement = function () {
 			return document.getElementById('myCover');
 		};
-		gantt.init(this.ganttContainer);
-		gantt.parse(tasks);
+
 		gantt.sort(sortHolders);
 		this.unSelectAllTask();
 		if (this.state.expandAll) {
@@ -482,39 +463,36 @@ class Gantt extends Component {
 		}
 		gantt.showLightbox = id => {
 			let savedTask = gantt.getTask(id);
-			console.log({ ganttData: savedTask, id });
 			if (gantt.isTaskExists(id)) {
 				if (savedTask.$new == true) {
+					delete savedTask.$new;
 					gantt.deleteTask(id);
 					if (savedTask.$level == 1) {
-						let captureData = this.state.tasks.data.filter(task => task.id == savedTask.parent);
-						captureData = captureData && captureData.length ? captureData[0] : undefined;
+						let captureData = gantt.getTask(savedTask.parent);
+						// let captureData = this.state.tasks.data.filter(task => task.id == savedTask.parent);
+						// captureData = captureData && captureData.length ? captureData[0] : undefined;
 						this.props.openAddActivityTodoDialog({ ...captureData.data, isGantt: true });
 					} else {
 						this.props.openNewTodoDialog({ isGantt: true });
 					}
 				} else {
-					let captureData = this.state.tasks.data.filter(task => task.id == id);
-					captureData = captureData && captureData.length ? captureData[0] : undefined;
-					console.log({ captureData, id, data: this.state.tasks.data });
-					if (captureData) {
-						if (captureData.data.parent) {
-							return this.props.openTimelineDialog({
-								todo: captureData.data,
-								task: gantt.getTask(captureData.parent).data,
-								isGantt: true
-							});
-						} else {
-							const userInfo = decodeDataFromToken();
-							const getRole = () => userInfo?.extra?.profile.role;
-							if (getRole() == 'o' || getRole() == 'd') {
-								return this.props.openTaskContent({ ...captureData.data, isGantt: true });
-							} else {
-								return null;
-							}
-						}
+					let captureData = savedTask; //this.state.tasks.data.filter(task => task.id == id);
+					// captureData = captureData && captureData.length ? captureData[0] : undefined;
+
+					if (captureData.data.parent) {
+						return this.props.openTimelineDialog({
+							todo: captureData.data,
+							task: gantt.getTask(captureData.parent).data,
+							isGantt: true
+						});
 					} else {
-						return this.props.openNewTodoDialog();
+						const userInfo = decodeDataFromToken();
+						const getRole = () => userInfo?.extra?.profile.role;
+						if (getRole() == 'o' || getRole() == 'd') {
+							return this.props.openTaskContent({ ...captureData.data, isGantt: true });
+						} else {
+							return null;
+						}
 					}
 				}
 			}
@@ -529,61 +507,61 @@ class Gantt extends Component {
 				return 'weekend';
 			}
 		};
+		this.createMarker(tasks);
 		this.setState({
 			loading: false
 		});
 	};
-	templatePermissions = () => {
+	templatePermissions = (projectDetail, company) => {
 		const userInfo = decodeDataFromToken();
 		const getRole = () => userInfo?.extra?.profile.role;
-		gantt.templates.grid_header_class = (CN, C) => {
-			if (CN == 'add') {
-				if (this.props.projectDetail.company?.id != this.props.company.id) {
-					return 'hide_add';
-				} else if (getRole() == 'w' || getRole() == 'm') {
-					return 'hide_add';
+		if (projectDetail.company && company) {
+			gantt.templates.grid_header_class = (CN, C) => {
+				if (CN == 'add') {
+					if (projectDetail.company?.id != company.id) {
+						return 'hide_add';
+					} else if (getRole() == 'w' || getRole() == 'm') {
+						return 'hide_add';
+					}
 				}
-			}
-		};
-		gantt.templates.grid_row_class = (start, end, task) => {
-			const userInfo = decodeDataFromToken();
-			const getRole = () => userInfo?.extra?.profile.role;
-			let className = '';
-			if (task.$level >= 1) {
-				className += ' nested_task';
-			}
-			if (!task.company) {
-				className += ' hide_add';
-			}
-			if (task.data?.assigned_company?.id != this.props.company.id) {
-				className += ' hide_add hide_tree_icon';
-			}
-			return className;
-		};
-		gantt.templates.task_class = (start, end, task) => {
-			// console.log({ start, end, task });
-			// console.log({ start, end: moment().diff(moment(task.data.date_end)), task });
-			const userInfo = decodeDataFromToken();
-			const getRole = () => userInfo?.extra?.profile.role;
-			let className = '';
-			if (task.parent) {
-				className += ' nested_task_right hide_progress_drag';
-			}
-			if (task.parent == 0 && this.props.projectDetail.company?.id != this.props.company.id) {
-				className += ' hide_date_drag';
-			}
-			if (
-				(task.parent == 0 && this.props.company.id != this.props.projectDetail.company?.id) ||
-				getRole() == 'm' ||
-				getRole() == 'w'
-			) {
-				className += ' block_row_events';
-			}
-			return className;
-		};
+			};
+			gantt.templates.grid_row_class = (start, end, task) => {
+				const userInfo = decodeDataFromToken();
+				const getRole = () => userInfo?.extra?.profile.role;
+				let className = '';
+				if (task.$level >= 1) {
+					className += ' nested_task';
+				}
+				if (!task.company) {
+					className += ' hide_add';
+				}
+				if (task.data?.assigned_company?.id != company.id) {
+					className += ' hide_add hide_tree_icon';
+				}
+				return className;
+			};
+			gantt.templates.task_class = (start, end, task) => {
+				const userInfo = decodeDataFromToken();
+				const getRole = () => userInfo?.extra?.profile.role;
+				let className = '';
+				if (task.parent) {
+					className += ' nested_task_right hide_progress_drag';
+				}
+				if (task.parent == 0 && projectDetail.company?.id != company.id) {
+					className += ' hide_date_drag';
+				}
+				if (
+					(task.parent == 0 && company.id != projectDetail.company?.id) ||
+					getRole() == 'm' ||
+					getRole() == 'w'
+				) {
+					className += ' block_row_events';
+				}
+				return className;
+			};
+		}
 	};
 	createMarker = tasks => {
-		console.log({ allTasks: tasks.data });
 		if (tasks.data?.length) {
 			var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
 			var markerId = gantt.addMarker({
@@ -596,7 +574,6 @@ class Gantt extends Component {
 			let startDates = tasks.data.map(a => new Date(a.start_date.split('-')));
 			let min = new Date(Math.min.apply(null, startDates));
 			// min.setDate(min.getDate() + 1);
-			console.log({ min });
 			{
 				let markerId = gantt.addMarker({
 					start_date: min,
@@ -667,7 +644,6 @@ class Gantt extends Component {
 					this.props.company.id != this.props.projectDetail.company?.id &&
 					(getRole() == 'o' || getRole() == 'd')
 				) {
-					console.log({ insidetask: task });
 					gantt.unselectTask(task_id);
 				}
 			});
@@ -690,7 +666,6 @@ class Gantt extends Component {
 				}
 			})
 			.then(res => {
-				console.log(res);
 				this.props.getTodos(this.props.match.params.id, true);
 			})
 			.catch(err => console.log(err));
@@ -710,7 +685,6 @@ class Gantt extends Component {
 			expandAll: true
 		});
 		gantt.eachTask(task => {
-			console.log({ task });
 			if (task.data.assigned_company?.id == this.props.company.id) {
 				task.$open = true;
 			}
@@ -719,7 +693,6 @@ class Gantt extends Component {
 	};
 	openTasksOnInit = () => {
 		gantt.eachTask(task => {
-			console.log('isOppenedPreviously', this.state.openTasks.includes(task.id), task.id, task);
 			if (this.state.openTasks.includes(task.id)) {
 				task.$open = true;
 			}
@@ -756,8 +729,6 @@ class Gantt extends Component {
 			header: '<h1>My company</h1>',
 			footer: '<h4>Bottom line</h4>',
 			locale: 'en',
-			start: '01-04-2013',
-			end: '11-04-2013',
 			skin: 'terrace',
 			server: 'https://export.dhtmlx.com/gantt',
 			raw: true
@@ -903,27 +874,15 @@ class Gantt extends Component {
 			this.props.company?.id == this.props.projectDetail?.company?.id && permissionByRole;
 		return (
 			<div>
-				{/* <div className="px-32 custom-gantt-toolbar">
-					<p className="my-12">
-						You can use any XLSX file or download this sample{' '}
-						<a class="xlsx-sample" href="/assets/files/DemoProject.xlsx" target="_blank">
-							DemoProject.xlsx
-						</a>
-					</p>
-					<p className="mb-12">
-						<form className="flex flex-wrap items-center">
-							
-						</form>
-					</p>
-				</div> */}
-
-				<div className="flex w-full justify-between items-center p-24 pb-16">
+				{/* <div className="flex w-full justify-between items-center p-24 pb-16">
 					<div>
 						<Typography variant="h5" className="mb-4">
 							Gantt
 						</Typography>
 						<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-							<Typography variant="subtitle1" className="font-weight-700 mb-4">Project Name</Typography>
+							<Typography variant="subtitle1" className="font-weight-700 mb-4">
+								Project Name
+							</Typography>
 						</FuseAnimate>
 						<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
 							Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
@@ -932,7 +891,7 @@ class Gantt extends Component {
 					<Button className="badge-btn" color="secondary">
 						Open Details
 					</Button>
-				</div>
+				</div> */}
 
 				<div class="demo-main-container">
 					<div class="header gantt-demo-header">
