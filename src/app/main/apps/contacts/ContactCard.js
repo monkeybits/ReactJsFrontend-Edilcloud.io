@@ -14,13 +14,16 @@ export default function ContactCard({
 	role,
 	email,
 	position,
+	company,
 	status,
 	avatar,
 	address,
 	language,
 	can_access_chat,
 	can_access_files,
-	editPermission
+	editPermission,
+	jobTitle,
+	phone
 }) {
 	const dispatch = useDispatch();
 	const inputFile = useRef(null);
@@ -70,15 +73,15 @@ export default function ContactCard({
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid className="px-6 sm:px-12 mb-20 sm:mb-24" item xs={6} sm={6} md={4} xl={3}>
+		<Grid className="px-6 sm:px-12 mb-20 sm:mb-24" item xs={6} sm={6} md={3} xl={3}>
 			<div class="card-container flex flex-col">
 				<span class="pro approved">Approved</span>
 				<div className="team-action">
 					<Icon>more_vert</Icon>
 				</div>
 				<input
-                    type="file"
-                    accept="image/*"
+					type="file"
+					accept="image/*"
 					id="file"
 					ref={inputFile}
 					onChange={e => {
@@ -100,14 +103,11 @@ export default function ContactCard({
 				<p className="font-500 text-muted mb-8">
 					{position ? position : 'N/A'} - {role}
 				</p>
-				<h3 className="font-weight-600 mb-8">
-					Job Title
-				</h3>
-				<p className="font-500 text-muted mb-8">Company Name</p>
-				<p className="font-500 text-muted mb-8">email@email.com</p>
-				<p className="font-500 text-muted">9876543210</p>
-				
-				{/* <div className="my-12 block mx-auto">
+				<p className="font-500 text-muted mb-8">{company}</p>
+				<p className="font-500 text-muted mb-8">{email}</p>
+				<p className="font-500 text-muted">{phone}</p>
+
+				<div className="my-12 block mx-auto">
 					<Button
 						variant={permission.can_access_files ? 'contained' : 'outlined'}
 						size="small"
@@ -145,7 +145,7 @@ export default function ContactCard({
 					>
 						Access Chat
 					</Button>
-				</div> */}
+				</div>
 
 				{/* <div class="skills">
 					<h6>Skills</h6>

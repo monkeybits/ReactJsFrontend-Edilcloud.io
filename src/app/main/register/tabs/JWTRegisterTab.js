@@ -55,12 +55,13 @@ function JWTRegisterTab({ history }) {
 				onInvalid={disableButton}
 				ref={formRef}
 				className="flex flex-col justify-center w-full"
+				autoComplete="off"
 			>
 				<TextFieldFormsy
 					className="mb-24"
 					type="text"
 					name="username"
-					label="Display name"
+					label="Username"
 					validations={{
 						minLength: 4
 					}}

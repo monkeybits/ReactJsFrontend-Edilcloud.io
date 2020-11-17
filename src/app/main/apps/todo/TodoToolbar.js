@@ -25,9 +25,9 @@ function TodoToolbar(props) {
 						<MenuItem value="">
 							<em>Order by</em>
 						</MenuItem>
-						<MenuItem value="startDate">Start Date</MenuItem>
-						<MenuItem value="dueDate">Due Date</MenuItem>
-						<MenuItem value="title">Title</MenuItem>
+						<MenuItem value="date_start">Start Date</MenuItem>
+						<MenuItem value="date_end">Due Date</MenuItem>
+						<MenuItem value="name">Title</MenuItem>
 					</Select>
 				</FormControl>
 				<IconButton onClick={ev => dispatch(Actions.toggleOrderDescending())}>

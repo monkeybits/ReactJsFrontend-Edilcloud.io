@@ -25,6 +25,14 @@ import moment from 'moment/moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
+import FuseChipSelect from '@fuse/core/FuseChipSelect';
+import { useParams } from 'react-router';
+import DatePicker from 'react-datepicker';
+import { Slider, withStyles, CircularProgress } from '@material-ui/core';
+import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import CloseIcon from '@material-ui/icons/Close';
 
 const defaultFormState = {
 	id: '',
@@ -38,29 +46,139 @@ const defaultFormState = {
 	deleted: false,
 	labels: []
 };
+const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
 
+const marks = [
+	{
+		value: 0
+	},
+	{
+		value: 10
+	},
+	{
+		value: 20
+	},
+	{
+		value: 30
+	},
+	{
+		value: 40
+	},
+	{
+		value: 50
+	},
+	{
+		value: 60
+	},
+	{
+		value: 70
+	},
+	{
+		value: 80
+	},
+	{
+		value: 90
+	},
+	{
+		value: 100
+	}
+];
+
+const IOSSlider = withStyles({
+	root: {
+		color: '#3880ff',
+		height: 2,
+		padding: '15px 0'
+	},
+	thumb: {
+		height: 28,
+		width: 28,
+		backgroundColor: '#fff',
+		boxShadow: iOSBoxShadow,
+		marginTop: -14,
+		marginLeft: -14,
+		'&:focus, &:hover, &$active': {
+			boxShadow: '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
+			// Reset on touch devices, it doesn't add specificity
+			'@media (hover: none)': {
+				boxShadow: iOSBoxShadow
+			}
+		}
+	},
+	active: {},
+	valueLabel: {
+		left: 'calc(-50% + 12px)',
+		top: -22,
+		'& *': {
+			background: 'transparent',
+			color: '#000'
+		}
+	},
+	track: {
+		height: 2
+	},
+	rail: {
+		height: 2,
+		opacity: 0.5,
+		backgroundColor: '#bfbfbf'
+	},
+	mark: {
+		backgroundColor: '#bfbfbf',
+		height: 8,
+		width: 1,
+		marginTop: -3
+	},
+	markActive: {
+		opacity: 1,
+		backgroundColor: 'currentColor'
+	}
+})(Slider);
 function TodoDialog(props) {
 	const dispatch = useDispatch();
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	const labels = useSelector(({ todoApp }) => todoApp.labels);
-
+	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [labelMenuEl, setLabelMenuEl] = useState(null);
-	const { form, handleChange, setForm } = useForm({ ...defaultFormState });
+	const { form, handleChange, setForm, resetForm } = useForm({ ...defaultFormState });
 	const startDate = moment(form.startDate).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
 	const dueDate = moment(form.dueDate).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
-
+	const [company, setCompany] = useState([]);
+	const [profiles, setProfiles] = useState([]);
+	const [profileData, setProfileData] = useState([]);
+	const [progress, setProgress] = useState(0);
+	const [loading, setLoading] = useState(false);
+	const routeParams = useParams();
+	const [taskDate, setTaskDate] = useState({
+		startDate: new Date(),
+		endDate: undefined
+	});
 	const initDialog = useCallback(() => {
 		/**
 		 * Dialog type: 'edit'
 		 */
+		console.log({ assigned_company: todoDialog.data });
+
 		if (todoDialog.type === 'edit' && todoDialog.data) {
 			setForm({ ...todoDialog.data });
 		}
-
+		if (todoDialog.type === 'activity' && todoDialog.data?.assigned_company) {
+			resetForm();
+			setProfileData([]);
+			getProjectCompanyTeamProfiles();
+			setTaskDate({
+				startDate: new Date(todoDialog.data.date_start),
+				endDate: new Date(todoDialog.data.date_end)
+			});
+		}
 		/**
 		 * Dialog type: 'new'
 		 */
 		if (todoDialog.type === 'new') {
+			setCompany([]);
+			setTaskDate({
+				startDate: new Date(),
+				endDate: undefined
+			});
 			setForm({
 				...defaultFormState,
 				...todoDialog.data,
@@ -73,13 +191,20 @@ function TodoDialog(props) {
 		/**
 		 * After Dialog Open
 		 */
+		// console.log({ todoDialog });
 		if (todoDialog.props.open) {
 			initDialog();
+			return () => {
+				resetForm();
+			};
 		}
-	}, [todoDialog.props.open, initDialog]);
+	}, [todoDialog.props.open]);
 
 	function closeTodoDialog() {
-		return todoDialog.type === 'edit'
+		setLoading(false);
+		return todoDialog.type === 'activity'
+			? dispatch(Actions.closeActivityTodoDialog())
+			: todoDialog.type === 'edit'
 			? dispatch(Actions.closeEditTodoDialog())
 			: dispatch(Actions.closeNewTodoDialog());
 	}
@@ -124,21 +249,41 @@ function TodoDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.title.length > 0;
+		return form.title.length > 0 && taskDate.startDate && taskDate.endDate;
 	}
-
+	const getProjectCompanyTeamProfiles = value => {
+		console.log(routeParams.id, todoDialog.data.assigned_company.id, value);
+		apiCall(
+			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, todoDialog.data.assigned_company?.id, value),
+			{},
+			res => setProfiles(res),
+			err => console.log(err),
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
 	return (
-		<Dialog {...todoDialog.props} onClose={closeTodoDialog} fullWidth maxWidth="sm">
+		<Dialog {...todoDialog.props} onClose={closeTodoDialog} fullWidth maxWidth="sm" className="custom-modal-new">
 			<AppBar position="static" elevation={1}>
-				<Toolbar className="flex w-full">
-					<Typography variant="subtitle1" color="inherit">
-						{todoDialog.type === 'new' ? 'New Todo' : 'Edit Todo'}
+				<Toolbar className="flex">
+					<Typography variant="h6" color="inherit">
+						{todoDialog.type === 'new'
+							? 'New Todo'
+							: todoDialog.type === 'activity'
+							? 'New Activity'
+							: 'Edit Todo'}
 					</Typography>
+					<div className="absolute right-m-12">
+						<IconButton onClick={closeTodoDialog} edge="start" color="inherit" aria-label="close">
+							<CloseIcon />
+						</IconButton>
+					</div>
 				</Toolbar>
 			</AppBar>
 
 			<DialogContent classes={{ root: 'p-0' }}>
-				<div className="mb-16">
+				{/* <div className="mb-16">
 					<div className="flex items-center justify-between p-12">
 						<div className="flex">
 							<Checkbox
@@ -206,9 +351,9 @@ function TodoDialog(props) {
 						</div>
 					</div>
 					<Divider className="mx-24" />
-				</div>
+				</div> */}
 
-				{form.labels.length > 0 && (
+				{/* {form.labels.length > 0 && (
 					<div className="flex flex-wrap w-full px-12 sm:px-20 mb-16">
 						{form.labels.map(label => (
 							<Chip
@@ -230,12 +375,11 @@ function TodoDialog(props) {
 							/>
 						))}
 					</div>
-				)}
-
-				<div className="px-16 sm:px-24">
+				)} */}
+				<div className="px-20 sm:mb-24 mt-16 sm:mt-20 sm:px-32">
 					<FormControl className="mt-8 mb-16" required fullWidth>
 						<TextField
-							label="Title"
+							label="Task Title"
 							autoFocus
 							name="title"
 							value={form.title}
@@ -244,6 +388,75 @@ function TodoDialog(props) {
 							variant="outlined"
 						/>
 					</FormControl>
+
+					{todoDialog.type === 'activity' ? (
+						<div className="mt-8 mb-16 select-dropdown">
+							<FuseChipSelect
+								placeholder="Select Profile"
+								variant="fixed"
+								isMulti
+								textFieldProps={{
+									label: 'Profile',
+									InputLabelProps: {
+										shrink: true
+									},
+									variant: 'outlined'
+									// onChange: e => getProjectCompanyTeamProfiles(e.target.value)
+								}}
+								onChange={value => {
+									setProfileData(value);
+								}}
+								value={profileData}
+								options={profiles.map(profile => ({
+									data: profile,
+									value: getName(profile),
+									label: <span className="flex items-center">{getName(profile)}</span>
+								}))}
+							/>
+						</div>
+					) : (
+						companies &&
+						company &&
+						!!companies.length && (
+							<div className="mt-8 mb-16 select-dropdown">
+								<FuseChipSelect
+									className=""
+									placeholder="Select Company"
+									variant="fixed"
+									isMulti
+									textFieldProps={{
+										label: 'Company',
+										InputLabelProps: {
+											shrink: true
+										},
+										variant: 'outlined'
+									}}
+									onChange={value => {
+										setCompany(value.splice(value.length - 1));
+									}}
+									value={company}
+									options={companies.map(companyData => {
+										return {
+											data: companyData,
+											value: companyData?.profile?.company?.name,
+											label: (
+												<span className="flex items-center">
+													<Icon
+														className="list-item-icon mr-4"
+														style={{ color: companyData?.profile?.company?.color_project }}
+														color="action"
+													>
+														label
+													</Icon>{' '}
+													{companyData?.profile?.company.name}
+												</span>
+											)
+										};
+									})}
+								/>
+							</div>
+						)
+					)}
 
 					<FormControl className="mt-8 mb-16" required fullWidth>
 						<TextField
@@ -257,55 +470,80 @@ function TodoDialog(props) {
 						/>
 					</FormControl>
 					<div className="flex -mx-4">
-						<TextField
-							name="startDate"
-							label="Start Date"
-							type="datetime-local"
-							className="mt-8 mb-16 mx-4"
-							InputLabelProps={{
-								shrink: true
-							}}
-							inputProps={{
-								max: dueDate
-							}}
-							value={startDate}
-							onChange={handleChange}
-							variant="outlined"
-						/>
-						<TextField
-							name="dueDate"
-							label="Due Date"
-							type="datetime-local"
-							className="mt-8 mb-16 mx-4"
-							InputLabelProps={{
-								shrink: true
-							}}
-							inputProps={{
-								min: startDate
-							}}
-							value={dueDate}
-							onChange={handleChange}
-							variant="outlined"
-						/>
+						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
+							<label>Start Date</label>
+							<DatePicker
+								dateFormat="dd/MM/yyyy"
+								selected={taskDate.startDate}
+								// minDate={taskDate.startDate}
+								onChange={startDate => {
+									setTaskDate({
+										...taskDate,
+										startDate
+									});
+								}}
+							/>
+							<Icon className="icon">calendar_today</Icon>
+						</div>
+						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
+							<label>End Date</label>
+							<DatePicker
+								dateFormat="dd/MM/yyyy"
+								selected={taskDate.endDate}
+								minDate={taskDate.startDate}
+								onChange={endDate => {
+									setTaskDate({
+										...taskDate,
+										endDate
+									});
+								}}
+							/>
+							<Icon className="icon">calendar_today</Icon>
+						</div>
+					</div>
+					<div className="w-full zoom-125">
+						<label><small>Task Progress</small></label>
+						<div className="mx-8 mt-32 custom-ios-slider">
+							<IOSSlider
+								aria-label="ios slider"
+								defaultValue={0}
+								marks={marks}
+								onChange={(e, v) => setProgress(v)}
+								valueLabelDisplay="on"
+							/>
+						</div>
 					</div>
 				</div>
 			</DialogContent>
 
-			{todoDialog.type === 'new' ? (
-				<DialogActions className="justify-between p-8">
-					<div className="px-16">
+			{todoDialog.type === 'new' || todoDialog.type === 'activity' ? (
+				<DialogActions className="p-16 pb-24 px-44">
 						<Button
 							variant="contained"
 							color="primary"
 							onClick={() => {
-								dispatch(Actions.addTodo(form));
-								closeTodoDialog();
+								setLoading(true);
+								dispatch(
+									Actions.addTodo(
+										{
+											...form,
+											id: todoDialog.data?.id,
+											company,
+											profile: profileData,
+											progress,
+											...taskDate
+										},
+										routeParams.id,
+										todoDialog.type,
+										closeTodoDialog,
+										todoDialog.data?.isGantt
+									)
+								);
 							}}
 							disabled={!canBeSubmitted()}
 						>
-							Add
+							Add {loading && <CircularProgress size={15} color="secondary" />}
 						</Button>
-					</div>
 				</DialogActions>
 			) : (
 				<DialogActions className="justify-between p-8">
@@ -313,21 +551,21 @@ function TodoDialog(props) {
 						<Button
 							variant="contained"
 							color="primary"
-							onClick={() => {
-								dispatch(Actions.updateTodo(form));
-								closeTodoDialog();
-							}}
-							disabled={!canBeSubmitted()}
+							// onClick={() => {
+							// 	dispatch(Actions.updateTodo(form));
+							// 	closeTodoDialog();
+							// }}
+							// disabled={!canBeSubmitted()}
 						>
 							Save
 						</Button>
 					</div>
 					<IconButton
 						className="min-w-auto"
-						onClick={() => {
-							dispatch(Actions.removeTodo(form.id));
-							closeTodoDialog();
-						}}
+						// onClick={() => {
+						// 	dispatch(Actions.removeTodo(form.id));
+						// 	closeTodoDialog();
+						// }}
 					>
 						<Icon>delete</Icon>
 					</IconButton>

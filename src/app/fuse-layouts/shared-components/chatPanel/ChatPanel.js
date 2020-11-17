@@ -29,6 +29,24 @@ const useStyles = makeStyles(theme => ({
 			minWidth: 0
 		}
 	},
+	unreadBadge: {
+		position: 'absolute',
+		minWidth: 18,
+		height: 18,
+		top: 4,
+		right: 10,
+		borderRadius: 9,
+		padding: '0 5px',
+		fontSize: 11,
+		textAlign: 'center',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: theme.palette.secondary.main,
+		color: theme.palette.secondary.contrastText,
+		boxShadow: '0 2px 2px 0 rgba(0, 0, 0, 0.35)',
+		zIndex: 10
+	},
 	panel: {
 		position: 'absolute',
 		width: 350,
@@ -69,9 +87,11 @@ function ChatPanel(props) {
 	const user = useSelector(({ chatPanel }) => chatPanel.user);
 	const ref = useRef();
 	const [open, setOpen] = useState(false);
+	const [totalCount, setTotalCount] = useState(0);
 	const classes = useStyles(props);
 	const selectedContact = contacts.find(_contact => _contact.id === selectedContactId);
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
+	const company = useSelector(({ chatApp }) => chatApp?.company);
 
 	const handleDocumentKeyDown = useCallback(
 		event => {
@@ -100,7 +120,28 @@ function ChatPanel(props) {
 			document.removeEventListener('keydown', handleDocumentKeyDown);
 		}
 	}, [handleDocumentKeyDown, state]);
-
+	useEffect(() => {
+		let newContacts = [];
+		if (company && company.id && contacts) {
+			newContacts = [
+				{
+					...company,
+					type: 'company'
+				},
+				...contacts
+			];
+		}
+		if (company && company.id) {
+			let result = newContacts.reduce((unique, o) => {
+				if (o.talks?.[0]?.unread_count) {
+					unique.push(o.talks?.[0]?.unread_count);
+				}
+				return unique;
+			}, []);
+			result = result.reduce((a, b) => a + b, 0);
+			setTotalCount(result);
+		}
+	}, [contacts, company]);
 	/**
 	 * Click Away Listener
 	 */
@@ -138,6 +179,7 @@ function ChatPanel(props) {
 										color="inherit"
 										onClick={ev => dispatch(Actions.openChatPanel())}
 									>
+										<div className={classes.unreadBadge}>{totalCount}</div>
 										<Icon className="text-32">chat</Icon>
 									</IconButton>
 									{!user?.id && (
