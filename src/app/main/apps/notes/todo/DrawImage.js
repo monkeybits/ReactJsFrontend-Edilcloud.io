@@ -14,9 +14,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { addLine } from './line';
 import { addTextNode } from './textNode';
 import Image from './Image';
-import { Button, ButtonGroup, Modal } from '@material-ui/core';
+import { Button, ButtonGroup } from '@material-ui/core';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
+
+import Modal from 'react-bootstrap/Modal';
+import ModalHeader from 'react-bootstrap/ModalHeader'
+import ModalTitle from 'react-bootstrap/ModalTitle'
+import ModalBody from 'react-bootstrap/ModalBody'
+import ModalFooter from 'react-bootstrap/ModalFooter'
 
 const uuidv1 = require('uuid/v1');
 
@@ -254,23 +260,12 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 
 	return (
 		<>
-			<Dialog open={open} onClose={onClose} fullWidth className="rs-dialog-sm-full zoom-125 custom-drawing-modal">
-				<DialogTitle component="div" className="p-0">
-					<AppBar position="static" elevation={1}>
-						<Toolbar className="flex w-full overflow-x-auto px-8 sm:px-16">
-							<div className="flex flex-1">
-								<div className="my-12">
-									<div className="font-size-18">Drawing</div>
-								</div>
-							</div>
-							<IconButton color="inherit">
-								<Icon>close</Icon>
-							</IconButton>
-						</Toolbar>
-					</AppBar>
-				</DialogTitle>
-				<DialogContent id="dialog-content" className="p-0 sm:p-10">
-					<ButtonGroup className="mb-12">
+			<Modal size="lg" show={open} onHide={onClose} animation={false} className="rs-dialog-sm-full zoom-125 custom-drawing-modal">
+				<Modal.Header closeButton>
+					<Modal.Title>Drawing</Modal.Title>
+				</Modal.Header>
+				<Modal.Body id="dialog-content" scrollable="true">
+				<ButtonGroup className="mb-12">
 						<Button variant="primary" onClick={drawLine}>
 							Line
 						</Button>
@@ -288,21 +283,8 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 						</Button>
 					</ButtonGroup>
 					<input style={{ display: 'none' }} type="file" ref={fileUploadEl} onChange={fileChange} />
-					{/* <Stage
-			  width={imageProps.width}
-			  height={imageProps.height}
-			  ref={stageEl}
-			  onMouseDown={(e) => {
-				// deselect when clicked on empty area
-				const clickedOnEmpty = e.target === e.target.getStage();
-				if (clickedOnEmpty) {
-				  selectShape(null);
-				}
-			  }}
-			> */}
-
 					<Stage
-						style={{ overFlow: 'scroll', background: '#DFD9D9' }}
+						// style={{ overFlow: 'scroll', background: '#DFD9D9'}}
 						width={imageProps.width}
 						height={imageProps.height}
 						onWheel={handleWheel}
@@ -343,9 +325,9 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 							})}
 						</Layer>
 					</Stage>
-				</DialogContent>
-				<DialogActions className="p-16 px-20">
-					<Button
+				</Modal.Body>
+				<Modal.Footer>
+				<Button
 					variant="contained"
 					color="primary"
 						onClick={() => {
@@ -362,8 +344,8 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 					>
 						save
 					</Button>
-				</DialogActions>
-			</Dialog>
+				</Modal.Footer>
+			</Modal>
 		</>
 	);
 }

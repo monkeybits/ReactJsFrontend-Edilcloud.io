@@ -1517,3 +1517,26 @@ audio {
 .leading-normal {
     word-break: break-word;
 }
+
+.custom-drawing-modal{
+    z-index: 5000;
+}
+.custom-drawing-modal .modal-dialog {
+    max-width: 620px;
+    margin: 1.75rem auto;
+}
+.custom-drawing-modal .modal-header{
+    background-color: #192d3e;
+    color: white;
+    padding: 20px;
+}
+.custom-drawing-modal .modal-header .h4{
+    color: white;
+    font-size: 21px;
+}
+.custom-drawing-modal .modal-header .close span{
+    color: white;
+    font-size: 28px;
+    font-weight: normal;
+    opacity: 1;
+}
