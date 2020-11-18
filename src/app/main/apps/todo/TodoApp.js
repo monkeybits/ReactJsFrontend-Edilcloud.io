@@ -46,9 +46,9 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			{/* <TodoDialog />
+			<TodoDialog />
 			<CreatePostDialog  />
-			<TaskContentDialog  /> */}
+			<TaskContentDialog  />
 		</>
 	);
 }
