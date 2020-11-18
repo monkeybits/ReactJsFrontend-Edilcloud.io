@@ -636,13 +636,13 @@ textarea.MuiOutlinedInput-input {
 
 .konvajs-content {
     margin: 0 auto;
-    max-width: 100%;
-    max-height: calc(100vh - 43px);
+    /* max-width: 100%;
+    max-height: calc(100vh - 43px); */
 }
-.konvajs-content canvas {
+/* .konvajs-content canvas {
     width: 100% !important;
     height: 100% !important;
-}
+} */
 
 /* ********************************************************************************************
     Gantt JS
@@ -1520,6 +1520,7 @@ audio {
 
 .custom-drawing-modal{
     z-index: 5000;
+    zoom: 125%;
 }
 .custom-drawing-modal .modal-dialog {
     max-width: 620px;
