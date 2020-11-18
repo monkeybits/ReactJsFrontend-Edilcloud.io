@@ -31,7 +31,7 @@ function ContactsHeader(props) {
 					Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
 				</Typography>
 			</div>
-			<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
+			<Button className="badge-btn" color="secondary" onClick={() => props.onOpen(true)}>
 				Open Details
 			</Button>
 		</div>

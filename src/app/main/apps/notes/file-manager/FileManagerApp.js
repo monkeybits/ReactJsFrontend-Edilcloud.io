@@ -275,7 +275,7 @@ function FileManagerApp(props) {
 									{folderPath && (
 										<Breadcrumb
 											selected={folderPath}
-											className="flex flex-1 filemanager-breadcumb font-700 text-24 text-default mt-6"
+											className="flex flex-1 flex-wrap filemanager-breadcumb font-700 text-24 text-default mt-6"
 										/>
 									)}
 								</div>

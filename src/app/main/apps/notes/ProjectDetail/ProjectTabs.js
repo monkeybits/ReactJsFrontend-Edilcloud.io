@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function ProjectTabs({ value, setValue }) {
+function ProjectTabs({ value, setValue , setOpenDialog }) {
 	const classes = useStyles();
 	const [zoom, setZoom] = useState({
 		currentZoom: 'Months'
@@ -93,7 +93,7 @@ function ProjectTabs({ value, setValue }) {
 	return (
 		<div className={classes.root}>
 			<TabPanel value={value} index={0} className="team-tab-content no-data-height-full">
-				<ContactsApp {...{ value, setValue }} />
+				<ContactsApp {...{ value, setValue , setOpenDialog }} />
 			</TabPanel>
 			<TabPanel value={value} index={1} className="h-full chat-tab-content-height">
 				<ChatApp {...{ value, setValue }} />
