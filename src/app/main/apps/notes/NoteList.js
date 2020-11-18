@@ -146,7 +146,7 @@ function NoteList(props) {
 	}
 	return (
 		<>
-			<div className="flex flex-wrap w-full">
+			<div id="project-list" className="flex flex-wrap w-full">
 				<div className={classes.root}>
 					{/* <div className="flex items-center justify-between my-16 sm:my-12 sm:mb-20 pb-16 border-b-1">
 						<Typography variant="h6">All Projects</Typography>
