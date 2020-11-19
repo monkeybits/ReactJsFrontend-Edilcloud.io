@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { Button } from '@material-ui/core';
-// import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import DownloadPdf from './DownloadPdf';
 import TodoList from './todo/TodoList';
@@ -80,28 +80,26 @@ function NotesApp(props) {
 
 	const generateClassName = createGenerateClassName();
 	const handleDownload = () => {
-		let Comp = () => (
-			<StylesProvider jss={jss} generateClassName={generateClassName}>
-				<Provider store={store}>
-					<Router history={history}>
-						<TodoApp />
-					</Router>
-				</Provider>
-			</StylesProvider>
-		);
-		let a = ReactDOM.render(<Comp />, document.getElementById('rootpdf'));
+		// let Comp = () => (
+		// 	<StylesProvider jss={jss} generateClassName={generateClassName}>
+		// 		<Provider store={store}>
+		// 			<Router history={history}>
+		// 				<TodoApp />
+		// 			</Router>
+		// 		</Provider>
+		// 	</StylesProvider>
+		// );
+		// ReactDOM.render(<Comp />, document.getElementById('rootpdf'));
 		console.log({
-			a
+			a: document.getElementById('rootpdf')
 		});
-		// const input = document.getElementById("project-list");
-		// html2canvas(input)
-		// 	.then((canvas) => {
-		// 		const imgData = canvas.toDataURL('image/png');
-		// 		const pdf = new jsPDF();
-		// 		pdf.addImage(imgData, 'PNG', 0, 0);
-		// 		pdf.save("download.pdf");
-		// 	});
-		// ;
+		const input = document.getElementById('list-content');
+		html2canvas(input).then(canvas => {
+			const imgData = canvas.toDataURL('image/png');
+			const pdf = new jsPDF();
+			pdf.addImage(imgData, 'JPEG', 0, 0);
+			pdf.save('download.pdf');
+		});
 	};
 	return (
 		<>
@@ -116,8 +114,7 @@ function NotesApp(props) {
 				content={
 					<div className="flex flex-col w-full items-center">
 						{/* <NewNote /> */}
-						<Button onClick={handleDownload}>Download</Button>
-						{/* <DownloadPdf label="Download" id="project-list" /> */}
+						{/* <Button onClick={handleDownload}>Download</Button> */}
 						<NoteList {...loading} />
 						<AddProjectDialog />
 						{/* <NoteDialog /> */}
