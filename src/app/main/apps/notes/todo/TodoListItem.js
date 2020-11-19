@@ -30,6 +30,7 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import Button from '@material-ui/core/Button';
 import PlaylistAddOutlinedIcon from '@material-ui/icons/PlaylistAddOutlined';
 import { useParams } from 'react-router';
+import PostList from './PostList';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -131,7 +132,7 @@ function TodoListItem(props) {
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = React.useState(props.isPdf ? true : false);
 	const [showProgress, setShowProgress] = React.useState(false);
 	const [id, setId] = React.useState(null);
 	const [taskDetail, setTaskDetail] = useState([]);
@@ -475,6 +476,7 @@ function TodoListItem(props) {
 					</div>
 				</div>
 			</Card>
+			{props.isPdf ? props.postlist : null}
 			<Collapse in={open} timeout="auto" unmountOnExit>
 				<List className="p-0">
 					<FuseAnimateGroup
@@ -491,6 +493,9 @@ function TodoListItem(props) {
 									task={props.todo}
 									todo={todo}
 									key={todo.id}
+									postlist={
+										<PostList tempAuthor={{}} posts={todo.post_set} />
+									}
 								/>
 							))}
 					</FuseAnimateGroup>

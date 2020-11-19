@@ -40,7 +40,7 @@ export default function ReplyListItem({
 	handleReplyClick,
 	callRetryReplySuccess,
 	afterDeleteComment,
-	isOffline,
+	isOffline
 }) {
 	const [isRetryingPostReply, setIsRetryingPostReply] = useState(false);
 	const [editText, setEditText] = useState('');
@@ -97,9 +97,8 @@ export default function ReplyListItem({
 	return (
 		<div key={comment.id}>
 			<ListItem className="px-0 -mx-8">
-				<Avatar alt={comment.author.user.username} src={comment.author.photo} className="mx-8">
-					{' '}
-					{comment.author.user.username[0]}
+				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mx-8">
+					{[...comment.author.first_name][0]}
 				</Avatar>
 				{isEditing ? (
 					<div className="flex-1 mx-4">
@@ -123,7 +122,7 @@ export default function ReplyListItem({
 						primary={
 							<div className="flex comment-section">
 								<Typography color="initial" paragraph={false}>
-									{comment.author.user.username}
+									{`${comment.author.first_name} ${comment.author.last_name}`}
 								</Typography>
 							</div>
 						}
