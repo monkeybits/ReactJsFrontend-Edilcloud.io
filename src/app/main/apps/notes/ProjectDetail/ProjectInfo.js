@@ -27,6 +27,13 @@ import moment from 'moment';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import CloseIcon from '@material-ui/icons/Close';
+import Grid from '@material-ui/core/Grid';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import Divider from '@material-ui/core/Divider';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import CloudQueueIcon from '@material-ui/icons/CloudQueue';
+
 
 export default function ProjectInfo({ openDialog, closeDialog }) {
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
@@ -52,212 +59,325 @@ export default function ProjectInfo({ openDialog, closeDialog }) {
 	} = projectDetail;
 
 	return (
-		<Dialog open={openDialog} onClose={closeDialog} fullWidth maxWidth="sm">
+		<Dialog
+			open={openDialog}
+			onClose={closeDialog}
+			fullWidth
+			maxWidth="sm"
+			className="custom-modal-new custom-modal-lg"
+		>
 			<AppBar position="static" elevation={1}>
-				<Toolbar className="flex w-full">
-					<Typography variant="subtitle1" color="inherit">
-						Project Detail
+				<Toolbar className="flex">
+					<Typography variant="h6" color="inherit">
+						Project Details
 					</Typography>
+					<div className="absolute right-m-12">
+						<IconButton onClick={closeDialog} edge="start" color="inherit" aria-label="close">
+							<CloseIcon />
+						</IconButton>
+					</div>
 				</Toolbar>
 			</AppBar>
-			<DialogContent>
-				<div className="md:flex max-w-2xl">
-					<div className="flex flex-col flex-1 md:ltr:pr-32 md:rtl:pl-32">
-						
-							<Card className="w-full mb-16">
+			<DialogContent classes={{ root: 'p-0' }}>
+				<div className="px-20 mt-16 sm:mt-20 sm:px-32 project-detail-modal-content">
+					<Grid container spacing={2}>
+						<Grid item sm={12} lg={7}>
+							<Card className="w-full mb-16 text-default">
 								<AppBar position="static" elevation={0}>
-									<Toolbar className="px-8">
-										<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+									<Toolbar>
+										<Typography className="font-bold">
 											General Information
 										</Typography>
 									</Toolbar>
 								</AppBar>
-
 								<CardContent>
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Name</Typography>
-										<Typography>{name}</Typography>
-									</div>
-
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Start Date</Typography>
-										<Typography>{moment(new Date(date_start)).format('LL')}</Typography>
-									</div>
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">End Date</Typography>
-										{date_end && <Typography>{moment(new Date(date_end)).format('LL')}</Typography>}
-									</div>
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Note</Typography>
-										<Typography>{note}</Typography>
-									</div>
+									<Grid container spacing={12}>
+										<Grid item xs={4} sm={3} className="mb-10">
+											<Typography className="font-bold">Name</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9} className="mb-10">
+											<Typography>{name}</Typography>
+										</Grid>
+										<Grid item xs={4} sm={3} className="mb-10">
+											<Typography className="font-bold">Start Date</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9} className="mb-10">
+											<Typography>{moment(new Date(date_start)).format('LL')}</Typography>
+										</Grid>
+										<Grid item xs={4} sm={3} className="mb-10">
+											<Typography className="font-bold">End Date</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9} className="mb-10">
+											{date_end && <Typography>{moment(new Date(date_end)).format('LL')}</Typography>}
+										</Grid>
+										<Grid item xs={4} sm={3}>
+											<Typography className="font-bold">Note</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9}>
+											<Typography>{note}</Typography>
+										</Grid>
+									</Grid>
 								</CardContent>
 							</Card>
 
-							<Card className="w-full mb-16">
+							<Card className="w-full mb-16 text-default">
 								<AppBar position="static" elevation={0}>
-									<Toolbar className="px-8">
-										<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+									<Toolbar>
+										<Typography className="font-bold">
 											Work
 										</Typography>
 									</Toolbar>
 								</AppBar>
-
 								<CardContent>
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Occupation</Typography>
-										<Typography>{'work.occupation'}</Typography>
-									</div>
-
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Skills</Typography>
-										<Typography>{'work.skills'}</Typography>
-									</div>
-
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Jobs</Typography>
-										<table className="">
-											<tbody>
-												{/* {work.jobs.map(job => ( */}
-												<tr key={'job.company'}>
-													<td>
-														<Typography>{'job.company'}</Typography>
-													</td>
-													<td className="px-16">
-														<Typography color="textSecondary">{'job.date'}</Typography>
-													</td>
-												</tr>
-												{/* ))} */}
-											</tbody>
-										</table>
-									</div>
+									<Grid container spacing={12}>
+										<Grid item xs={4} sm={3} className="mb-10">
+											<Typography className="font-bold">Occupation</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9} className="mb-10">
+											<Typography>{'work.occupation'}</Typography>
+										</Grid>
+										<Grid item xs={4} sm={3} className="mb-10">
+											<Typography className="font-bold">Skills</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9} className="mb-10">
+											<Typography>{'work.skills'}</Typography>
+										</Grid>
+										<Grid item xs={4} sm={3}>
+											<Typography className="font-bold">Jobs</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9}>
+											<table className="">
+												<tbody>
+													<tr key={'job.company'}>
+														<td>
+															<Typography>{'job.company'}</Typography>
+														</td>
+														<td className="pl-16">
+															<Typography>{'job.date'}</Typography>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</Grid>
+									</Grid>
 								</CardContent>
 							</Card>
-
-							<Card className="w-full mb-16">
+							<Card className="w-full mb-16 text-default">
 								<AppBar position="static" elevation={0}>
-									<Toolbar className="px-8">
-										<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+									<Toolbar>
+										<Typography className="font-bold">
 											Contact
 										</Typography>
 									</Toolbar>
 								</AppBar>
-
 								<CardContent>
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Address</Typography>
-										<Typography>{'contact.address'}</Typography>
-									</div>
-
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Tel.</Typography>+ 1 987 687 3210
-										{/* {contact.tel.map(tel => (
-                            <div className="flex items-center" key={tel}>
-                                <Typography>{tel}</Typography>
-                            </div>
-                        ))} */}
-									</div>
-
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Website</Typography>
-										www.peerbits.com
-										{/* {contact.websites.map(website => (
-                            <div className="flex items-center" key={website}>
-                                <Typography>{website}</Typography>
-                            </div>
-                        ))} */}
-									</div>
-
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Emails</Typography>
-										info@peerbits.com
-										{/* {contact.emails.map(email => (
-                            <div className="flex items-center" key={email}>
-                                <Typography>{email}</Typography>
-                            </div>
-                        ))} */}
-									</div>
+									<Grid container spacing={12}>
+										<Grid item xs={4} sm={3} className="mb-10">
+											<Typography className="font-bold">Address</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9} className="mb-10">
+											<Typography>{'contact.address'}</Typography>
+										</Grid>
+										<Grid item xs={4} sm={3} className="mb-10">
+											<Typography className="font-bold">Tel.</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9} className="mb-10">
+											+ 1 987 687 3210
+											{/* {contact.tel.map(tel => (
+												<div className="flex items-center" key={tel}>
+													<Typography>{tel}</Typography>
+												</div>
+											))} */}
+										</Grid>
+										<Grid item xs={4} sm={3} className="mb-10">
+											<Typography className="font-bold">Website</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9} className="mb-10">
+											www.peerbits.com
+											{/* {contact.websites.map(website => (
+												<div className="flex items-center" key={website}>
+													<Typography>{website}</Typography>
+												</div>
+											))} */}
+										</Grid>
+										<Grid item xs={4} sm={3}>
+											<Typography className="font-bold">Emails</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9}>
+											info@peerbits.com
+											{/* {contact.emails.map(email => (
+													<div className="flex items-center" key={email}>
+														<Typography>{email}</Typography>
+													</div>
+												))} */}
+										</Grid>
+									</Grid>
 								</CardContent>
 							</Card>
-					
-					</div>
 
-					<div className="flex flex-col md:w-320">
-						<FuseAnimateGroup
-							enter={{
-								animation: 'transition.slideUpBigIn'
-							}}
-						>
-							<Card className="w-full mb-16">
+							<Card className="w-full mb-16 text-default">
 								<AppBar position="static" elevation={0}>
-									<Toolbar className="px-8">
-										<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+									<Toolbar>
+										<Typography className="font-bold">
 											Company
 										</Typography>
 									</Toolbar>
 								</AppBar>
 								<CardContent>
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Name</Typography>
-										<Typography>{company?.name}</Typography>
+									<Grid container spacing={12}>
+										<Grid item xs={4} sm={3} className="mb-10">
+											<Typography className="font-bold">Name</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9} className="mb-10">
+											<Typography>{company?.name}</Typography>
+										</Grid>
+										<Grid item xs={4} sm={3}>
+											<Typography className="font-bold">Email</Typography>
+										</Grid>
+										<Grid item xs={8} sm={9}>
+											<Typography>{company?.email}</Typography>
+										</Grid>
+									</Grid>
+								</CardContent>
+							</Card>
+						</Grid>
+						<Grid item sm={12} lg={5} className="w-full">
+							<Card className="w-full mb-16 text-default">
+								<AppBar position="static" elevation={0}>
+									<Toolbar>
+										<Typography className="font-bold">
+											Tasks
+										</Typography>
+									</Toolbar>
+								</AppBar>
+								<CardContent>
+									<div className="flex items-center justify-between mb-16">
+										<Typography>All</Typography>
+										<div className="bg-gray text-white inline text-11 font-500 px-8 py-4 rounded-4">20</div>
 									</div>
-
-									<div className="mb-24">
-										<Typography className="font-bold mb-4 text-15">Email</Typography>
-										<Typography>{company?.email}</Typography>
+									<div className="flex items-center justify-between mb-16">
+										<Typography>Today</Typography>
+										<div className="bg-blue text-white inline text-11 font-500 px-8 py-4 rounded-4">5</div>
+									</div>
+									<div className="flex items-center justify-between mb-16">
+										<Typography>Late</Typography>
+										<div className="bg-red text-white inline text-11 font-500 px-8 py-4 rounded-4">3</div>
+									</div>
+									<div className="flex items-center justify-between">
+										<Typography>Upcoming</Typography>
+										<div className="bg-orange text-white inline text-11 font-500 px-8 py-4 rounded-4">12</div>
 									</div>
 								</CardContent>
 							</Card>
+							<Card className="w-full mb-16 text-default">
+								<AppBar position="static" elevation={0}>
+									<Toolbar>
+										<Typography className="font-bold">
+											Tasks
+										</Typography>
+									</Toolbar>
+								</AppBar>
+								<CardContent>
+									<div className="flex items-center justify-between">
+										<div className="flex items-center">
+											{/* <Icon color="action">location_on</Icon> */}
+											<LocationOnIcon />
+											<Typography className="mx-8">New York</Typography>
+										</div>
+										<IconButton aria-label="more">
+											<Icon>more_vert</Icon>
+										</IconButton>
+									</div>
+									<div className="flex items-center justify-center p-12 pb-20">
+										<Icon className="meteocons text-36 cloud_size mr-6" color="action">
+											<CloudQueueIcon />
+										</Icon>
+										<Typography className="text-32 mx-8" color="textSecondary">
+											21
+										</Typography>
+										<Typography className="text-32 font-300" color="textSecondary">
+											°
+										</Typography>
+										<Typography className="text-32 font-300" color="textSecondary">
+											C
+										</Typography>
+									</div>
+									<Divider />
+									<div className="flex justify-between items-center p-16">
+										<div className="flex items-center">
+											<Icon className="meteocons text-14 mr-4" color="action">
+												windy
+											</Icon>
+											<Typography className="mx-4">12</Typography>
+											<Typography color="textSecondary">KMH</Typography>
+										</div>
 
-							{/* <Card className="w-full mb-16">
-						<AppBar position="static" elevation={0}>
-							<Toolbar className="px-8">
-								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
-									Joined Groups
-								</Typography>
-								<Button className="normal-case" color="inherit" size="small">
-									See 6 more
-								</Button>
-							</Toolbar>
-						</AppBar>
-						<CardContent className="p-0">
-							<List className="p-0">
-								{groups.map(group => (
-                            <ListItem key={group.id} className="px-8">
-                                <Avatar className="mx-8" alt={group.name}>
-                                    {group.name[0]}
-                                </Avatar>
-                                <ListItemText
-                                    primary={
-                                        <div className="flex">
-                                            <Typography
-                                                className="font-medium"
-                                                color="secondary"
-                                                paragraph={false}
-                                            >
-                                                {group.name}
-                                            </Typography>
+										<div className="flex items-center">
+											<Icon className="meteocons text-14 mr-4" color="action">
+												compass
+											</Icon>
+											<Typography className="mx-4">NW</Typography>
+										</div>
 
-                                            <Typography className="mx-4" paragraph={false}>
-                                                {group.category}
-                                            </Typography>
-                                        </div>
-                                    }
-                                    secondary={group.members}
-                                />
-                                <ListItemSecondaryAction>
-                                    <IconButton>
-                                        <Icon>more_vert</Icon>
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))}
-							</List>
-						</CardContent>
-					</Card>
-			 */}
-						</FuseAnimateGroup>
-					</div>
+										<div className="flex items-center">
+											<Icon className="meteocons text-14 mr-4" color="action">
+												rainy
+											</Icon>
+											<Typography className="mx-4">98%</Typography>
+										</div>
+									</div>
+									<Divider />
+									<div className="w-full pt-16">
+										<div className="flex items-center justify-between w-full py-6 px-12">
+											<Typography>Sunday</Typography>
+											<div className="flex items-center">
+												<Icon className="meteocons text-20 mr-8" color="action">
+													rainy
+												</Icon>
+												<Typography>21</Typography>
+												<Typography color="textSecondary">
+													&deg;
+												</Typography>
+												<Typography color="textSecondary">
+													C
+												</Typography>
+											</div>
+										</div>
+										<div className="flex items-center justify-between w-full py-6 px-12">
+											<Typography>Monday</Typography>
+											<div className="flex items-center">
+												<Icon className="meteocons text-20 mr-8" color="action">
+													rainy
+												</Icon>
+												<Typography>22</Typography>
+												<Typography color="textSecondary">
+													&deg;
+												</Typography>
+												<Typography color="textSecondary">
+													C
+												</Typography>
+											</div>
+										</div>
+										<div className="flex items-center justify-between w-full py-6 px-12">
+											<Typography>Tuesday</Typography>
+											<div className="flex items-center">
+												<Icon className="meteocons text-20 mr-8" color="action">
+													rainy
+												</Icon>
+												<Typography>21</Typography>
+												<Typography color="textSecondary">
+													&deg;
+												</Typography>
+												<Typography color="textSecondary">
+													C
+												</Typography>
+											</div>
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+						</Grid>
+					</Grid>
 				</div>
 			</DialogContent>
 		</Dialog>

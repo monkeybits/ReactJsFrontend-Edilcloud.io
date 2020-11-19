@@ -173,7 +173,16 @@
     .filemanager-breadcumb button {
         font-size: 18px;
     }
-    
+    .custom-modal-new .MuiDialog-paperFullWidth {
+        width: calc(100% - 32px);
+        margin: 20px;    
+    }
+    .project-detail-modal-content .MuiTypography-body1 {
+        font-size: 1.3rem;
+    }
+    .MuiTypography-h6 {
+        font-size: 1.8rem;
+    }
     
     
 }
@@ -272,5 +281,12 @@
     }
     .custom-modal-new header .MuiToolbar-regular {
         min-height: 60px;
+    }
+    .project-detail-modal-content header {
+        background-color: #ECECEE;
+    }
+    .project-detail-modal-content header .MuiToolbar-regular {
+        min-height: 48px;
+        margin: 0px 15px;
     }
 }
