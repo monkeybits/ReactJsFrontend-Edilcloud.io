@@ -42,6 +42,12 @@ import { red } from '@material-ui/core/colors';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Menu from '@material-ui/core/Menu';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 const uuidv1 = require('uuid/v1');
 
 export default function PostListItem({ currnetPost, isTask, taskId, callRetryAfterSuccess, isOffline, tempAuthor }) {
@@ -57,6 +63,8 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 	const [offlinePostComments, setofflinePostComments] = useState({});
 	const [isRetryingPost, setIsRetryingPost] = useState(false);
 
+	const options = ['Edit', 'Delete', 'Report as inapropriate'  ];
+
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	useEffect(() => {
@@ -69,6 +77,20 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 			return () => setPostComments([]);
 		}
 	}, [post.comment_set]);
+
+	const [anchorEl, setAnchorEl] = React.useState(null);
+
+	const openMenu = Boolean(anchorEl);
+
+	const handleClick = event => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
+
 	const handlePostComment = e => {
 		e.preventDefault();
 		if (!text && !images) return;
@@ -258,9 +280,9 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 									<Button onClick={retryToPost}>Retry</Button>
 								) : (
 									<Box position="relative" display="inline-flex">
-										<CircularProgress size={20} color="secondary" />
+										<CircularProgress size={20} className="mt-10 mr-24" color="secondary" />
 										<Box
-											top={0}
+											top={20}
 											left={0}
 											bottom={0}
 											right={0}
@@ -269,7 +291,11 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 											alignItems="center"
 											justifyContent="center"
 										>
-											<FontAwesomeIcon icon={faUpload} style={{ fontSize: '1.5rem' }} />
+											<FontAwesomeIcon
+												icon={faUpload}
+												className="text-default"
+												style={{ fontSize: '1.6rem' }}
+											/>
 										</Box>
 									</Box>
 								)}
@@ -281,12 +307,45 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 								ev.stopPropagation();
 								handleAlertPost();
 							}}
+							className="text-default p-8"
 						>
 							{post.alert ? <Icon style={{ color: red[500] }}>error</Icon> : <Icon>error_outline</Icon>}
 						</IconButton>
-						<IconButton aria-label="more">
+						<div className="inline">
+							<IconButton
+								aria-label="more"
+								aria-controls="long-menu"
+								aria-haspopup="true"
+								onClick={handleClick}
+							>
+								<MoreVertIcon />
+							</IconButton>
+							<Menu
+								id="long-menu"
+								anchorEl={anchorEl}
+								keepMounted
+								open={openMenu}
+								onClose={handleClose}
+								className="actions-dropdown"
+								// PaperProps={{
+								// 	style: {
+								// 		width: '20ch'
+								// 	}
+								// }}
+							>
+								{options.map(option => (
+									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+										<ListItemIcon>
+											<PriorityHighIcon fontSize="small" />
+										</ListItemIcon>
+										<Typography variant="inherit"> {option}</Typography>
+									</MenuItem>
+								))}
+							</Menu>
+						</div>
+						{/* <IconButton className="text-default p-8" aria-label="more">
 							<Icon>more_vert</Icon>
-						</IconButton>
+						</IconButton> */}
 					</div>
 				}
 				title={
@@ -317,20 +376,16 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 				{/* {post.media && <img src={post.media} alt="post" />} */}
 			</CardContent>
 
-			<CardActions disableSpacing className="px-12">
-				<Button size="small" aria-label="Add to favorites">
-					<Icon className="text-16" color="action">
-						favorite
-					</Icon>
-					<Typography className="normal-case mx-4">Like</Typography>
-					<Typography className="normal-case">({post.like})</Typography>
+			<CardActions disableSpacing className="bg-custom-primary px-12 py-4">
+				<Button size="small" className="text-white text-13" aria-label="Add to favorites">
+					<Icon className="text-white text-14">favorite</Icon>
+					<Typography className="normal-case text-white text-13 mx-4">Like</Typography>
+					<Typography className="normal-case text-13">({post.like})</Typography>
 				</Button>
-				<Button aria-label="Share" onClick={sharePost}>
-					<Icon className="text-16" color="action">
-						share
-					</Icon>
-					<Typography className="normal-case mx-4">Share</Typography>
-					<Typography className="normal-case">({post.share})</Typography>
+				<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
+					<Icon className="text-white text-14">share</Icon>
+					<Typography className="normal-case text-white text-13 mx-4">Share</Typography>
+					<Typography className="normal-case text-13">({post.share})</Typography>
 				</Button>
 			</CardActions>
 

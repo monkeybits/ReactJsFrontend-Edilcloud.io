@@ -73,8 +73,8 @@ export default function ContactCard({
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid className="px-6 sm:px-12 mb-20 sm:mb-24" item xs={6} sm={6} md={3} xl={3}>
-			<div class="card-container flex flex-col">
+		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3}>
+			<div class="card-container flex flex-col px-10 text-13">
 				<span class="pro approved">Approved</span>
 				<div className="team-action">
 					<Icon>more_vert</Icon>
@@ -96,9 +96,9 @@ export default function ContactCard({
 					onClick={editPermission && handleOpenFileClick}
 					alt="user"
 				/>
-				<h3 className="font-weight-600 mb-8">
+				<h4 className="font-weight-600 mb-8">
 					{first_name} {last_name}
-				</h3>
+				</h4>
 				{/* <h6>{address}</h6> */}
 				<p className="font-500 text-muted mb-8">
 					{position ? position : 'N/A'} - {role}
@@ -107,7 +107,7 @@ export default function ContactCard({
 				<p className="font-500 text-muted mb-8">{email}</p>
 				<p className="font-500 text-muted">{phone}</p>
 
-				<div className="my-12 block mx-auto">
+				{/* <div className="my-12 block mx-auto">
 					<Button
 						variant={permission.can_access_files ? 'contained' : 'outlined'}
 						size="small"
@@ -145,7 +145,7 @@ export default function ContactCard({
 					>
 						Access Chat
 					</Button>
-				</div>
+				</div> */}
 
 				{/* <div class="skills">
 					<h6>Skills</h6>
