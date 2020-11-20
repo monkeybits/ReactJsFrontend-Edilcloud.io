@@ -71,8 +71,8 @@ export default function ContactCard({
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid className="px-6 sm:px-12 mb-20 sm:mb-24" item xs={6} sm={6} md={3} xl={3}>
-			<div class="card-container flex flex-col">
+		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3}>
+			<div class="card-container flex flex-col px-10 text-13">
 				<span class="pro approved">Approved</span>
 				<div className="team-action">
 					<Icon>more_vert</Icon>
@@ -94,16 +94,16 @@ export default function ContactCard({
 					onClick={editPermission && handleOpenFileClick}
 					alt="user"
 				/>
-				<h3 className="font-weight-600 mb-8">
+				<h4 className="font-weight-600 mb-8">
 					{name} {lastName}
-				</h3>
+				</h4>
 				{/* <h6>{address}</h6> */}
 				<p className="font-500 text-muted mb-8">
 					{position ? position : 'N/A'} - {role}
 				</p>
-				<h3 className="font-weight-600 mb-8">
+				{/* <h3 className="font-weight-600 mb-8">
 					Job Title
-				</h3>
+				</h3> */}
 				<p className="font-500 text-muted mb-8">Company Name</p>
 				<p className="font-500 text-muted mb-8">email@email.com</p>
 				<p className="font-500 text-muted">9876543210</p>

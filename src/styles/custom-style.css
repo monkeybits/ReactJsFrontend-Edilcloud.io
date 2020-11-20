@@ -54,6 +54,9 @@ body {
 .bg-dark {
     background: #0D3B63;
 }
+.bg-custom-primary {
+    background: #2196F3;
+}
 .todo-bg-footer {
     background: rgb(236 236 238 / 0.30);
 }
@@ -494,12 +497,12 @@ textarea.MuiOutlinedInput-input {
 .tabs-content {
     padding-bottom: 50px;
 }
-.chat-tab-content-height {
+/* .chat-tab-content-height {
     height: calc(100vh - 220px);
-}
-/* .chat-tab-content-height .inner-height {
-    height: calc(100vh - 40px);
 } */
+.chat-tab-content-height {
+    height: calc(100vh - 215px);
+}
 .custom-tab-header {
     box-shadow: 0 -1px 3px #00000029;
 }
@@ -580,12 +583,13 @@ textarea.MuiOutlinedInput-input {
 .tabs-content {
     padding-bottom: 50px;
 }
-.chat-tab-content-height {
+/* .chat-tab-content-height {
     height: calc(100vh - 192px);
-}
-.chat-tab-content-height .inner-height {
-    height: calc(100vh - 40px);
-}
+} */
+/* .chat-tab-content-height .inner-height {
+    height: calc(100vh - 220px);
+} */
+
 .justify-content-between {
     -ms-flex-pack: justify!important;
     justify-content: space-between!important;
@@ -815,15 +819,16 @@ textarea.MuiOutlinedInput-input {
     background-color: #2196F3;
 }
 .team-grid {
-    margin-left: -1.2rem;
-    margin-right: -1.2rem;
+    margin-left: -0.6rem;
+    margin-right: -0.6rem;
 }
 .team-grid .card-container {
     padding-top: 40px;
-    padding-bottom: 20px;
+    padding-bottom: 15px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 1px 3px 0 #00000029;
+    min-height: 100%;
 }
 .team-grid .card-container .pro.approved {
     background-color: #4CAF50;
@@ -855,14 +860,17 @@ textarea.MuiOutlinedInput-input {
     font-size: 23px;
 }
 .team-grid .card-container .round {
-    height: 80px;
-    width: 80px;
+    height: 65px;
+    width: 65px;
     border: none;
     padding: 0px;
     margin-bottom: 10px;
 }
 .team-grid .card-container .round {
     margin-top: 5px;
+}
+.team-grid .card-container h4, .team-grid .card-container p  {
+    word-break: break-all;
 }
 .MuiCheckbox-colorSecondary.Mui-checked {
     color: #2196F3;
@@ -1471,12 +1479,19 @@ audio {
 .custom-modal-lg .MuiDialog-paperWidthSm {
     max-width: 850px;
 }
+.custom-drawing-modal header {
+    color: #1E2129;
+    background-color: #fff;
+}
 .project-detail-modal-content .MuiCardContent-root:last-child {
     padding-bottom: 15px;
 }
 .add-photo-image .material-icons {
     font-size: 2.2rem;
 }
+/* .MuiDialog-container .MuiPaper-elevation1 {
+    border: none !important;
+} */
 
 
 /* ********************************************************************************************

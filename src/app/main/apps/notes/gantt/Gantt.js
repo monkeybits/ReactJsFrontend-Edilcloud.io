@@ -874,7 +874,7 @@ class Gantt extends Component {
 			this.props.company?.id == this.props.projectDetail?.company?.id && permissionByRole;
 		return (
 			<div>
-				{/* <div className="flex w-full justify-between items-center p-24 pb-16">
+				<div className="flex w-full justify-between items-center p-24 pb-16">
 					<div>
 						<Typography variant="h5" className="mb-4">
 							Gantt
@@ -891,7 +891,7 @@ class Gantt extends Component {
 					<Button className="badge-btn" color="secondary">
 						Open Details
 					</Button>
-				</div> */}
+				</div>
 
 				<div class="demo-main-container">
 					<div class="header gantt-demo-header">
