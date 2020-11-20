@@ -515,8 +515,8 @@ textarea.MuiOutlinedInput-input {
     margin-right: 8px;
 }
 .custom-tab-header button.Mui-selected {
-    color: #376AED;
-    border-bottom: 3px solid #376AED;
+    color: #2196F3;
+    border-bottom: 3px solid #2196F3;
 }
 .custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
     font-size: 1.4rem;
@@ -545,7 +545,7 @@ textarea.MuiOutlinedInput-input {
     object-fit: contain;
 }
 .post-card-clx {
-    border: 1px solid rgba(0, 0, 0, 0.12);
+    border: 1px solid #ECECEE;
     box-shadow: none;
 }
 .comment-section p {
@@ -1127,7 +1127,7 @@ audio {
     height: auto;
 }
 .cloud_size svg {
-    font-size: 50px;
+    font-size: 42px;
 }
 .custom-progress-chart .MuiCircularProgress-static {
     position: relative;
@@ -1310,13 +1310,21 @@ audio {
 } */
 .filemanager-breadcumb button {
     color: #1E2129;
-    font-size: 22px;
+    font-size: 19px;
     font-weight: 600;
     text-transform: capitalize;
     text-decoration: none;
+    padding: 0px 7px;
+}
+.filemanager-breadcumb .material-icons {
+    font-size: 2.3rem;
+    width: 20px;
 }
 .filemanager-breadcumb .flex.items-center:first-child button {
     padding-left: 0px;
+}
+.MuiChip-root {
+    background-color: #ECECEE;
 }
 
 
@@ -1413,7 +1421,7 @@ audio {
     margin: 0px;
 }
 .custom-modal-new.timeline-modal header {
-    background-color: rgb(236 236 238 / 0.30);
+    background-color: #F5F5F5;
 }
 .timeline-modal .custom-tab-header {
     margin: 15px 45px 0px 33px;
@@ -1434,6 +1442,42 @@ audio {
     font-size: 1.6rem;
     color: #5C616F;
 }
+.custom-drawing-modal{
+    z-index: 5000;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+}
+.custom-drawing-modal .modal-dialog {
+    max-width: 620px;
+    margin: 1.75rem auto;
+}
+.custom-drawing-modal .modal-header{
+    background-color: #192d3e;
+    color: white;
+    padding: 20px;
+}
+.custom-drawing-modal .modal-header .h4{
+    color: white;
+    font-size: 21px;
+}
+.custom-drawing-modal .modal-header .close span{
+    color: white;
+    font-size: 28px;
+    font-weight: normal;
+    opacity: 1;
+}
+.custom-modal-lg .MuiDialog-paperWidthSm {
+    max-width: 850px;
+}
+.project-detail-modal-content .MuiCardContent-root:last-child {
+    padding-bottom: 15px;
+}
+.add-photo-image .material-icons {
+    font-size: 2.2rem;
+}
+
 
 /* ********************************************************************************************
     Other CSS

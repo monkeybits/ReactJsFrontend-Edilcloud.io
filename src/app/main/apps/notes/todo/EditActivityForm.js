@@ -177,7 +177,7 @@ export default function EditActivityForm(props) {
 
 	return (
 		<div className="pl-10">
-			<FormControl className="mt-8 mb-16" required fullWidth>
+			<FormControl className="mt-8 mb-24" required fullWidth>
 				<TextField
 					label="Task Title"
 					autoFocus

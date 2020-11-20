@@ -377,7 +377,7 @@ function TodoDialog(props) {
 					</div>
 				)} */}
 				<div className="px-20 sm:mb-24 mt-16 sm:mt-20 sm:px-32">
-					<FormControl className="mt-8 mb-16" required fullWidth>
+					<FormControl className="mt-8 mb-24" required fullWidth>
 						<TextField
 							label="Task Title"
 							autoFocus

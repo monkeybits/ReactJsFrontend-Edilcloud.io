@@ -21,6 +21,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const jss = create({
 	...jssPreset(),

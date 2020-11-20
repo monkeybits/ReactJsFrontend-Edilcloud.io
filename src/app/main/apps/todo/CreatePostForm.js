@@ -261,13 +261,13 @@ function CreatePostForm({ isTask, taskId }) {
 						{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
 
 						<AppBar
-							className="card-footer flex flex-row border-t-1 justify-between pt-10 pb-6 pr-12 pl-6"
+							className="card-footer flex flex-row border-t-1 items-center justify-between pt-8 pb-6 pr-12 pl-10"
 							position="static"
 							color="default"
 							elevation={0}
 						>
 							<div className="add-photo-image">
-									<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo">
+									<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo" className="p-8">
 										<Icon>photo</Icon>
 									</IconButton>
 									<input
@@ -287,11 +287,11 @@ function CreatePostForm({ isTask, taskId }) {
 									onClick={createPost}
 									variant="contained"
 									color="primary"
-									size="medium"
+									size="small"
 									aria-label="post"
 									disabled={!text.length}
 								>
-									POST
+									Post
 								</Button>
 							</div>
 					{/* <Divider className="my-32" /> */}
