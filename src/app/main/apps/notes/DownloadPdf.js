@@ -19,6 +19,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EXPORT_DATA } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import PostList from './todo/PostList';
+import ProjectDetailContent from './ProjectDetail/ProjectDetailContent';
 const pxToMm = px => {
 	return Math.floor(px / document.getElementById('myMm').offsetHeight);
 };
@@ -36,7 +37,7 @@ const range = (start, end) => {
 		});
 };
 
-const DownloadPdf = ({ id, label , pid}) => {
+const DownloadPdf = ({ id, label, pid }) => {
 	const jss = create({
 		...jssPreset(),
 		plugins: [...jssPreset().plugins, jssExtend(), rtl()],
@@ -64,6 +65,7 @@ const DownloadPdf = ({ id, label , pid}) => {
 									<Provider store={store}>
 										<Router history={history}>
 											<Wrapper>
+												<ProjectDetailContent projectDetail={res} />
 												{tasks.map((todo, index) => (
 													<>
 														<TodoListItem
@@ -86,7 +88,7 @@ const DownloadPdf = ({ id, label , pid}) => {
 							ReactDOM.render(<Comp />, document.getElementById('rootpdf'));
 							setTimeout(() => {
 								const input = document.getElementById('rootpdf');
-								const inputHeightMm = pxToMm(input.offsetHeight);
+								const inputHeightMm = input.offsetHeight; // pxToMm(input.offsetHeight);
 								const a4WidthMm = pxToMm(input.offsetWidth);
 								const a4HeightMm = 297;
 								const a4HeightPx = mmToPx(a4HeightMm);
@@ -103,20 +105,21 @@ const DownloadPdf = ({ id, label , pid}) => {
 									inputHeightPx: input.offsetHeight
 								});
 								html2canvas(input, {
-									height: input.offsetHeight + 400,
-									width: input.offsetWidth,
-									dpi: 300,
-									letterRendering: true,
+									allowTaint: true,
 									useCORS: true,
-									scale:2
+									logging: false,
+									height: input.offsetHeight + 400,
+									width: input.offsetWidth + 400,
+									dpi: 300,
+									letterRendering: true
 								}).then(canvas => {
-									const imgData = canvas.toDataURL('image/jpeg');
+									const imgData = canvas.toDataURL('image/png');
 									console.log({ imgData });
 									let pdf = '';
 									// Document of a4WidthMm wide and inputHeightMm high
 									if (inputHeightMm > a4HeightMm) {
 										// elongated a4 (system print dialog will handle page breaks)
-										pdf = new jsPDF('p', 'mm', [inputHeightMm + 24, a4WidthMm]);
+										pdf = new jsPDF('p', 'mm', [inputHeightMm + 1600, a4WidthMm + 50]);
 									} else {
 										// standard a4
 										pdf = new jsPDF();
@@ -125,7 +128,7 @@ const DownloadPdf = ({ id, label , pid}) => {
 									pdf.addImage(imgData, 'JPEG', 0, 0);
 									pdf.save(`${id}.pdf`);
 								});
-							}, 5000);
+							}, 10000);
 						},
 						err => {},
 						METHOD.GET,

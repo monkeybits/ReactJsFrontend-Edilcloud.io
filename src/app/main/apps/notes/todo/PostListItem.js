@@ -60,7 +60,6 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	useEffect(() => {
-		console.log({ currnetPost });
 		setPost(currnetPost);
 	}, [currnetPost]);
 	useEffect(() => {
