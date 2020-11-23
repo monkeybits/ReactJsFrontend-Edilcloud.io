@@ -568,6 +568,11 @@ textarea.MuiOutlinedInput-input {
 .post-icons .send {
     right: 20px;
 }
+.post-card-clx .MuiCardHeader-content .MuiCardHeader-subheader {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 2px;
+}
 /* .konvajs-content {
     margin: 0 auto;
     max-width: 100%;
@@ -611,10 +616,10 @@ textarea.MuiOutlinedInput-input {
 .image-center .d-block.mx-auto ~ .flex {
     margin-top: 20px;
 }
-.bg-post-section {
+/* .bg-post-section {
     background-color: #4c4c4c;
     border-radius: 15px;
-}
+} */
 .comment-post-img {
     margin-left: 56px;
 }
@@ -1334,7 +1339,10 @@ audio {
 .MuiChip-root {
     background-color: #ECECEE;
 }
-
+.cusotm-checkbox-label .MuiFormControlLabel-label {
+    font-weight: 700;
+    font-size: 15px;
+}
 
 /* ********************************************************************************************
     IOS Slider

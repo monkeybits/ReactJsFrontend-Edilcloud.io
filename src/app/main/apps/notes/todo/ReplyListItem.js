@@ -119,7 +119,7 @@ export default function ReplyListItem({
 					</div>
 				) : (
 					<ListItemText
-						className="p-12 py-10 comment-p bg-post-section w-auto flex-none"
+						className="p-12 py-10 comment-p bg-post-section bg-white rounded w-auto flex-none"
 						primary={
 							<div className="flex comment-section">
 								<Typography color="initial" paragraph={false}>

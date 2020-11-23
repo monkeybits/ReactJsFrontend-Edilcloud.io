@@ -267,7 +267,7 @@ export default function CommentListItem({
 					</div>
 				) : (
 					<ListItemText
-						className="p-12 py-10 comment-p bg-post-section w-auto flex-none"
+						className="p-12 py-10 comment-p bg-post-section bg-white rounded w-auto flex-none"
 						primary={
 							<div className="flex comment-section">
 								<Typography color="initial" paragraph={false}>
@@ -368,11 +368,7 @@ export default function CommentListItem({
 							<Typography className="normal-case mx-4">Edit</Typography>
 						</Button>
 					)}
-					<Typography className="mx-12" variant="caption">
-						{
-							moment.parseZone(comment.created_date).fromNow() //format('LL')
-						}
-					</Typography>
+					
 					<div
 						className="flex items-center ml-auto cursor-pointer"
 						onClick={ev => {

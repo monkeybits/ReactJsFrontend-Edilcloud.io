@@ -348,7 +348,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 				}
 				title={
 					<span className="flex">
-						<Typography className="font-medium" color="primary" paragraph={false}>
+						<Typography className="font-700 capitalize" color="primary" paragraph={false}>
 							{post.author.user.username}
 						</Typography>
 						<span className="mx-4">
@@ -391,20 +391,20 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 				{showComments() && (
 					<div className="">
 						<div
-							className="flex items-center ml-52 cursor-pointer"
+							className="flex items-center mb-16 cursor-pointer"
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
 								setOpen(!open);
 							}}
 						>
-							<Typography className="underline">{commentsLength()} comments</Typography>
-							<Icon className="text-16 mx-4" color="action">
+							<Typography className="font-600 underline">{commentsLength()} Comments</Typography>
+							<Icon className="text-16 font-600 mx-4" color="action">
 								{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 							</Icon>
 						</div>
 						<Collapse in={open} timeout="auto" unmountOnExit>
-							<List>
+							<List className="pt-0">
 								{postComments.map((comment, index) => (
 									<CommentListItem
 										tempAuthor={tempAuthor}

@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import ToolbarMenu from './ToolbarMenu';
 import PersonIcon from '@material-ui/icons/Person';
 import { Button } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 function MembersMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -64,7 +65,17 @@ function MembersMenu(props) {
 			</IconButton> */}
 			<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 				<div className="">
-					<Button onClick={handleSelectAll}>Select All </Button>
+					{/* <Button onClick={handleSelectAll}>Select All </Button> */}
+					<FormControlLabel className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+						control={
+						<Checkbox
+							// checked={state.checkedB}
+							onClick={handleSelectAll}
+							name="checkedB"
+						/>
+						}
+						label="Select All"
+					/>
 					{!!members?.length &&
 						members.map((member, index) => {
 							return (
