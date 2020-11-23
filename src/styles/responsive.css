@@ -106,10 +106,13 @@
         right: 0px;
     }
     .timeline-modal .custom-tab-header {
-        margin: 15px 30px 0px 30px;
+        margin: 5px 20px 0px 20px;
     }
     .timeline-modal .flex.flex-col.flex-1.ml-8 {
         margin-left: 0px !important;
+    }
+    .timeline-modal .custom-tab-header button:not(.close-icon) {
+        padding: 6px 15px 2px;
     }
     .MuiTypography-body2 {
         font-size: 1.2rem;
@@ -182,6 +185,9 @@
     }
     .MuiTypography-h6 {
         font-size: 1.8rem;
+    }
+    .post-form textarea {
+        min-height: 4em !important;
     }
     
     

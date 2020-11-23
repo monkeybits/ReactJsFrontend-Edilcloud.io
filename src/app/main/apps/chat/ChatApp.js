@@ -156,7 +156,7 @@ function ChatApp(props) {
 	return (
 		<>
 			<WebSocketProvider>
-				<div className={clsx(classes.root, 'flex-col h-full p-24 inner-height')}>
+				<div className={clsx(classes.root, 'flex-col h-full p-24')}>
 					{/* <div className={classes.topBg} /> */}
 
 					{/* <div className="flex w-full justify-between items-center mb-20">
@@ -178,7 +178,7 @@ function ChatApp(props) {
 						</Button>
 					</div> */}
 
-					<div className={clsx(classes.contentCardWrapper, 'container h-full p-0')}>
+					<div className={clsx(classes.contentCardWrapper, 'container h-full p-0 inner-height')}>
 						<div className={clsx(classes.contentCard, 'chat-bg')}>
 							<Hidden mdUp>
 								<Drawer
