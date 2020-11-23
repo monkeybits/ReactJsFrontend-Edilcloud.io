@@ -16,7 +16,7 @@ export default function ImageAvatars({ workers }) {
 
 	return (
 		<div className={classes.root}>
-			{workers.map(worker => (
+			{workers && workers.map(worker => (
 				<Avatar alt="Remy Sharp" src={worker.photo}>
 					{!!worker.first_name?.length && [...worker.first_name][0]}
 				</Avatar>

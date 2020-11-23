@@ -245,9 +245,9 @@ export default function CommentListItem({
 	return (
 		<div key={comment.id}>
 			<ListItem className="px-0">
-				<Avatar alt={comment.author.user.username} src={comment.author.photo} className="mx-8">
+				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mx-8">
 					{' '}
-					{comment.author.user.username[0]}
+					{[...comment.author.first_name][0]}
 				</Avatar>
 				{isEditing ? (
 					<div className="flex-1 mx-4">
@@ -271,7 +271,7 @@ export default function CommentListItem({
 						primary={
 							<div className="flex comment-section">
 								<Typography color="initial" paragraph={false}>
-									{comment.author.user.username}
+									{`${comment.author.first_name} ${comment.author.last_name}`} 
 								</Typography>
 							</div>
 						}
@@ -334,7 +334,7 @@ export default function CommentListItem({
 					<Button
 						onClick={() => {
 							setIsReplying(prev => !prev);
-							setText('@' + comment.author.user.username);
+							setText('@' + `${comment.author.first_name} ${comment.author.last_name}`);
 							setTimeout(() => {
 								if (!isReplying) {
 									document.getElementById(String(comment.id)).focus();

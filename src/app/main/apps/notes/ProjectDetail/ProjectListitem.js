@@ -38,6 +38,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Divider from '@material-ui/core/Divider';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
+import DownloadPdf from '../DownloadPdf';
 
 export default function ProjectListitem(props) {
 	const {
@@ -189,14 +190,21 @@ export default function ProjectListitem(props) {
 					)
 				}
 				// subheader={moment(date_start).format('MMM DD, YYYY')}
-				subheader={<small> Mannheim Sandhofen Baden-Württemberg</small>}
+				subheader={
+					<>
+						<small> Mannheim Sandhofen Baden-Württemberg</small>
+						<DownloadPdf label="Download Report" id={name} pid={id} />
+					</>
+				}
 				//
 				avatar={
-					<div className="project_card_avatar">
-						<Avatar aria-label="recipe" src={company?.logo} className={classes.avatar}>
-							{company?.name?.split('')[0]}
-						</Avatar>
-					</div>
+					<>
+						<div className="project_card_avatar">
+							<Avatar aria-label="recipe" src={company?.logo} className={classes.avatar}>
+								{company?.name?.split('')[0]}
+							</Avatar>
+						</div>
+					</>
 				}
 			/>
 			<div className="project_card_action">

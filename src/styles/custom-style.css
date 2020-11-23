@@ -1339,11 +1339,18 @@ audio {
 .MuiChip-root {
     background-color: #ECECEE;
 }
-.cusotm-checkbox-label .MuiFormControlLabel-label {
-    font-weight: 700;
-    font-size: 15px;
+/* ********************************************************************************************
+    PDF Container
+*********************************************************************************************** */
+.pdf-container {
+    padding-top: 150px;
+    width: 210mm;
+    margin: 2.5cm;
 }
-
+.pdf-container .project-detail-modal-content {
+    padding: 0rem 1rem !important;
+}
+ 
 /* ********************************************************************************************
     IOS Slider
 *********************************************************************************************** */

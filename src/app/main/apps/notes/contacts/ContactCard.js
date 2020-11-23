@@ -6,8 +6,13 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Actions from './store/actions';
 import Icon from '@material-ui/core/Icon';
-
-
+import Menu from '@material-ui/core/Menu';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuItem from '@material-ui/core/MenuItem';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 export default function ContactCard({
 	id,
 	name,
@@ -68,6 +73,18 @@ export default function ContactCard({
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
 	}
+	const options = ['Edit', 'Delete', 'Report as inapropriate'  ];
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const handleClick = event => {
+		event.stopPropagation();
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = (event) => {
+		event.stopPropagation();
+		setAnchorEl(null);
+	};
+	const openMenu = Boolean(anchorEl);
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
@@ -75,7 +92,31 @@ export default function ContactCard({
 			<div class="card-container flex flex-col px-10 text-13">
 				<span class="pro approved">Approved</span>
 				<div className="team-action">
-					<Icon>more_vert</Icon>
+					<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleClick}>
+						<MoreVertIcon />
+					</IconButton>
+					<Menu
+						id="long-menu"
+						anchorEl={anchorEl}
+						keepMounted
+						open={openMenu}
+						onClose={handleClose}
+						className="actions-dropdown"
+						// PaperProps={{
+						// 	style: {
+						// 		width: '20ch'
+						// 	}
+						// }}
+					>
+						{options.map(option => (
+							<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+								<ListItemIcon>
+									<PriorityHighIcon fontSize="small" />
+								</ListItemIcon>
+								<Typography variant="inherit"> {option}</Typography>
+							</MenuItem>
+						))}
+					</Menu>
 				</div>
 				<input
 					type="file"
@@ -107,7 +148,7 @@ export default function ContactCard({
 				<p className="font-500 text-muted mb-8">Company Name</p>
 				<p className="font-500 text-muted mb-8">email@email.com</p>
 				<p className="font-500 text-muted">9876543210</p>
-				
+
 				{/* <div className="my-12 block mx-auto">
 					<Button
 						variant={permission.can_access_files ? 'contained' : 'outlined'}
@@ -162,6 +203,5 @@ export default function ContactCard({
 				</div> */}
 			</div>
 		</Grid>
-		
 	);
 }

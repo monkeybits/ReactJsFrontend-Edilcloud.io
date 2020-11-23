@@ -68,7 +68,6 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	useEffect(() => {
-		console.log({ currnetPost });
 		setPost(currnetPost);
 	}, [currnetPost]);
 	useEffect(() => {
@@ -266,9 +265,11 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 		<Card key={post.id} className="mb-32 overflow-hidden post-form post-card-clx">
 			<CardHeader
 				avatar={
-					<Avatar aria-label="Recipe" src={post.author.photo}>
-						{post.author.user.username[0]}{' '}
-					</Avatar>
+					post.author.first_name ? (
+						<Avatar aria-label="Recipe" src={post.author.photo}>
+							{[...post.author.first_name][0]}{' '}
+						</Avatar>
+					) : null
 				}
 				action={
 					<div className="px-8">
@@ -348,8 +349,8 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 				}
 				title={
 					<span className="flex">
-						<Typography className="font-700 capitalize" color="primary" paragraph={false}>
-							{post.author.user.username}
+						<Typography className="font-medium" color="primary" paragraph={false}>
+							{post.author.first_name} {post.author.last_name}
 						</Typography>
 						<span className="mx-4">
 							{post.type === 'post' && 'posted on your timeline'}

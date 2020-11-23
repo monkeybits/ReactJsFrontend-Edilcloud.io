@@ -25,7 +25,11 @@ import Paper from '@material-ui/core/Paper';
 import Hidden from '@material-ui/core/Hidden';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Pagination from '@material-ui/lab/Pagination';
-
+import Menu from '@material-ui/core/Menu';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuItem from '@material-ui/core/MenuItem';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -53,6 +57,7 @@ function ContactsList(props) {
 	const refused = useSelector(({ contactsApp }) => contactsApp.contacts.refused);
 	const deactivated = useSelector(({ contactsApp }) => contactsApp.contacts.deactivated);
 	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
+	const options = ['Edit', 'Delete', 'Report as inapropriate'  ];
 
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
@@ -64,6 +69,17 @@ function ContactsList(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const openDeleteContactDialog = () => setIsOpenDeleteDialog(true);
 	const colseDeleteContactDialog = () => setIsOpenDeleteDialog(false);
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const handleClick = event => {
+		event.stopPropagation();
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = (event) => {
+		event.stopPropagation();
+		setAnchorEl(null);
+	};
+	const openMenu = Boolean(anchorEl);
 	const columns = React.useMemo(
 		() => [
 			{
@@ -133,11 +149,43 @@ function ContactsList(props) {
 				sortable: false,
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
-						<div className="flex items-center">
-							<IconButton>
-								<Icon>more_vert</Icon>
+						<div className="inline">
+							<IconButton
+								aria-label="more"
+								aria-controls="long-menu"
+								aria-haspopup="true"
+								onClick={handleClick}
+							>
+								<MoreVertIcon />
 							</IconButton>
+							<Menu
+								id="long-menu"
+								anchorEl={anchorEl}
+								keepMounted
+								open={openMenu}
+								onClose={handleClose}
+								className="actions-dropdown"
+								// PaperProps={{
+								// 	style: {
+								// 		width: '20ch'
+								// 	}
+								// }}
+							>
+								{options.map(option => (
+									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+										<ListItemIcon>
+											<PriorityHighIcon fontSize="small" />
+										</ListItemIcon>
+										<Typography variant="inherit"> {option}</Typography>
+									</MenuItem>
+								))}
+							</Menu>
 						</div>
+						// <div className="flex items-center">
+						// 	<IconButton>
+						// 		<Icon>more_vert</Icon>
+						// 	</IconButton>
+						// </div>
 						// <div className="flex items-center">
 						// 	<IconButton
 						// 		onClick={ev => {
