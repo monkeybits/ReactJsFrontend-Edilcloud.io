@@ -204,7 +204,7 @@ function ChatsSidebar(props) {
 								>
 									{contactsArr.length > 0 && (
 										<Typography className="text-default font-weight-700 text-16 px-16 pb-8" color="secondary">
-											Contacts
+											Participants
 										</Typography>
 									)}
 
