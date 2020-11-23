@@ -25,6 +25,14 @@ import Paper from '@material-ui/core/Paper';
 import Hidden from '@material-ui/core/Hidden';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Pagination from '@material-ui/lab/Pagination';
+import Menu from '@material-ui/core/Menu';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuItem from '@material-ui/core/MenuItem';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 
 
 function sortByProperty(array, property, order = 'ASC') {
@@ -53,6 +61,7 @@ function ContactsList(props) {
 	const refused = useSelector(({ contactsApp }) => contactsApp.contacts.refused);
 	const deactivated = useSelector(({ contactsApp }) => contactsApp.contacts.deactivated);
 	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
+	const options = ['Edit', 'Delete', 'Report as inapropriate'  ];
 
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
@@ -64,6 +73,17 @@ function ContactsList(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const openDeleteContactDialog = () => setIsOpenDeleteDialog(true);
 	const colseDeleteContactDialog = () => setIsOpenDeleteDialog(false);
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const handleClick = event => {
+		event.stopPropagation();
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = (event) => {
+		event.stopPropagation();
+		setAnchorEl(null);
+	};
+	const openMenu = Boolean(anchorEl);
 	const columns = React.useMemo(
 		() => [
 			{
@@ -133,27 +153,32 @@ function ContactsList(props) {
 				sortable: false,
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
-						<div className="flex items-center">
-							<IconButton>
-								<Icon>more_vert</Icon>
+						<div className="actions-dropdown relative">
+							<IconButton
+								aria-label="more"
+								aria-controls="long-menu-table"
+								aria-haspopup="true"
+								onClick={handleClick}
+							>
+								<MoreVertIcon />
 							</IconButton>
+							<div className="contact-list-dropdown">
+								<ul className="list-unstyled">
+									<li className="py-6">
+										<EditOutlinedIcon />
+										Edit
+									</li>
+									<li className="py-6">
+										<DeleteOutlineOutlinedIcon />
+										Delete
+									</li>
+									<li className="py-6">
+										<FlagOutlinedIcon />
+										Report as inapropriate
+									</li>
+								</ul>
+							</div>
 						</div>
-						// <div className="flex items-center">
-						// 	<IconButton
-						// 		onClick={ev => {
-						// 			ev.stopPropagation();
-						// 		}}
-						// 	>
-						// 		<Icon>edit</Icon>
-						// 	</IconButton>
-						// 	<IconButton
-						// 		onClick={ev => {
-						// 			ev.stopPropagation();
-						// 		}}
-						// 	>
-						// 		{row.original.status == 'Deactivated' ? <Icon>check</Icon> : <Icon>delete</Icon>}
-						// 	</IconButton>
-						// </div>
 					)
 			}
 		],

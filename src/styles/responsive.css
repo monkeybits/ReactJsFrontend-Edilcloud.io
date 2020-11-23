@@ -83,7 +83,7 @@
         height: 100vh;
     }
     .custom-float-btn {
-        right: 0px !important;
+        right: 10px !important;
     }
     .tabs-content {
         padding-bottom: 0px;
@@ -188,6 +188,12 @@
     }
     .post-form textarea {
         min-height: 4em !important;
+    }
+    .todo-sidebar .flex-auto.border-l-1 {
+        width: 100%;
+    }
+    .todo-sidebar ul li {
+        line-height: 26px;
     }
     
     

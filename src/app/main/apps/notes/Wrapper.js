@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.background.default,
 		color: theme.palette.text.primary,
 		'&.boxed': {
-			maxWidth: 1280,
+			maxWidth: '100%',
 			margin: '0 auto',
 			boxShadow: theme.shadows[3]
 		},
@@ -70,10 +70,12 @@ const useStyles = makeStyles(theme => ({
 export default function Wrapper(props) {
 	const classes = useStyles(props);
 	return (
-		<div className={classes.wrapper}>
-			<div className={classes.contentWrapper}>
-				<div className={classes.content}>{props.children}</div>
+		// <div className="pdf-container ">
+			<div className={classes.wrapper}>
+				<div className={classes.contentWrapper}>
+					<div className={classes.content}>{props.children}</div>
+				</div>
 			</div>
-		</div>
+		// </div>
 	);
 }

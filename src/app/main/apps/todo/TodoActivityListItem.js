@@ -27,6 +27,7 @@ import { useParams } from 'react-router';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
 import ToolbarMenu from '../notes/todo/Dialog/toolbar/ToolbarMenu';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 const useStyles = makeStyles(theme => ({
 	todoItem: {
 		'&.completed': {
@@ -269,7 +270,20 @@ function TodoActivityListItem(props) {
 					</div>
 					<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 						<>
-							{!!members?.length && <Button onClick={handleSelectAll}>Select All </Button>}
+							{!!members?.length && 
+								// <Button onClick={handleSelectAll}>Select All </Button>
+								<FormControlLabel className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+										control={
+										<Checkbox
+											// checked={state.checkedB}
+											onClick={handleSelectAll}
+											name="checkedB"
+										/>
+										}
+										label="Select All"
+									/>
+								
+							}
 							{!!members?.length ? (
 								members.map((member, index) => {
 									return (

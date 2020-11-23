@@ -68,7 +68,6 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	useEffect(() => {
-		console.log({ currnetPost });
 		setPost(currnetPost);
 	}, [currnetPost]);
 	useEffect(() => {
@@ -393,20 +392,20 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 				{showComments() && (
 					<div className="">
 						<div
-							className="flex items-center ml-52 cursor-pointer"
+							className="flex items-center mb-16 cursor-pointer"
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
 								setOpen(!open);
 							}}
 						>
-							<Typography className="underline">{commentsLength()} comments</Typography>
-							<Icon className="text-16 mx-4" color="action">
+							<Typography className="font-600 underline">{commentsLength()} Comments</Typography>
+							<Icon className="text-16 font-600 mx-4" color="action">
 								{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 							</Icon>
 						</div>
 						<Collapse in={open} timeout="auto" unmountOnExit>
-							<List>
+							<List className="pt-0">
 								{postComments.map((comment, index) => (
 									<CommentListItem
 										tempAuthor={tempAuthor}
