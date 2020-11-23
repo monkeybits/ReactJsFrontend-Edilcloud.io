@@ -80,9 +80,9 @@ function TodoApp(props) {
 					</Fab>
 				</FuseAnimate>
 			)}
-			<CreatePostDialog />
+			{/* <CreatePostDialog />
 			<TodoDialog />
-			<TaskContentDialog />
+			<TaskContentDialog /> */}
 		</>
 	);
 }
