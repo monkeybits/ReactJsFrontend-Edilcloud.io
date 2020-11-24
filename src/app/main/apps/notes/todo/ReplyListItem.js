@@ -117,17 +117,22 @@ export default function ReplyListItem({
 						</Paper>
 					</div>
 				) : (
-					<ListItemText
-						className="p-12 py-10 comment-p bg-post-section bg-white rounded w-auto flex-none"
-						primary={
-							<div className="flex comment-section">
-								<Typography color="initial" paragraph={false}>
-									{`${comment.author.first_name} ${comment.author.last_name}`}
-								</Typography>
-							</div>
-						}
-						secondary={comment.text}
-					/>
+					<div className="bg-white">
+						<ListItemText
+							className="p-12 py-10 comment-p bg-post-section bg-white rounded w-auto flex-none"
+							primary={
+								<div className="flex comment-section">
+									<Typography color="initial" paragraph={false}>
+										{`${comment.author.first_name} ${comment.author.last_name}`}
+									</Typography>
+								</div>
+							}
+							secondary={comment.text}
+						/>
+						<div className="posted-images comment-post-img">
+							<PostedImages images={comment.media_set} hideNavigation />
+						</div>
+					</div>
 				)}
 				{isOffline && (
 					<>
@@ -153,9 +158,7 @@ export default function ReplyListItem({
 					</>
 				)}
 			</ListItem>
-			<div className="posted-images comment-post-img">
-				<PostedImages images={comment.media_set} hideNavigation />
-			</div>
+
 			{!isOffline && isEditing ? (
 				<div className="flex flex-wrap items-center ml-44">
 					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">

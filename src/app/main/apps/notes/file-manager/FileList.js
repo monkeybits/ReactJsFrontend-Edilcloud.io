@@ -304,7 +304,7 @@ function FileList(props) {
 											>
 												<MoreVertIcon />
 											</IconButton>
-											<div className="contact-list-dropdown">
+											<div className="custom-list-dropdown">
 												<ul className="list-unstyled">
 													<li className="py-6">
 														<VisibilityOutlinedIcon />

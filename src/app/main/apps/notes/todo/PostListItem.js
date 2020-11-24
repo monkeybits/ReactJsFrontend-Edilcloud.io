@@ -316,6 +316,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 								aria-controls="long-menu"
 								aria-haspopup="true"
 								onClick={handleClick}
+								className="p-8"
 							>
 								<MoreVertIcon />
 							</IconButton>
@@ -349,7 +350,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 				}
 				title={
 					<span className="flex">
-						<Typography className="font-medium" color="primary" paragraph={false}>
+						<Typography className="font-600 capitalize" color="primary" paragraph={false}>
 							{post.author.first_name} {post.author.last_name}
 						</Typography>
 						<span className="mx-4">
@@ -392,14 +393,14 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 				{showComments() && (
 					<div className="">
 						<div
-							className="flex items-center mb-16 cursor-pointer"
+							className="flex items-center mb-12 cursor-pointer"
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
 								setOpen(!open);
 							}}
 						>
-							<Typography className="font-600 underline">{commentsLength()} Comments</Typography>
+							<Typography className="font-600">{commentsLength()} Comments</Typography>
 							<Icon className="text-16 font-600 mx-4" color="action">
 								{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 							</Icon>
@@ -432,8 +433,8 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 
 				{(!isOffline || currnetPost.successAfterRetry) && (
 					<div className="flex flex-auto -mx-4">
-						<Avatar className="mx-4" src="assets/images/avatars/profile.jpg" />
-						<div className="flex-1 mx-4">
+						<Avatar className="mr-10" src="assets/images/avatars/profile.jpg" />
+						<div className="flex-1 mx-2">
 							<Paper elevation={0} className="w-full relative post-icons">
 								<Input
 									className="p-8 w-full border-1"

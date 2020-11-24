@@ -366,7 +366,7 @@ function FileManagerApp(props) {
 				{/* <DialogTitle id="customized-dialog-title" onClose={handleClose}>
 					Upload File
 				</DialogTitle> */}
-				<AppBar position="static" elevation={1}>
+				<AppBar position="static" className="border-0" elevation={1}>
 					<Toolbar>
 						<div className="absolute right-0">
 							<IconButton onClick={handleClose} edge="start" color="inherit" aria-label="close">
@@ -453,7 +453,7 @@ function FileManagerApp(props) {
 								<TextField
 									error={!!error.fileError}
 									type="file"
-									className="mt-8 mb-16 w-full"
+									className="mt-8 mb-16 w-full custom-fileinput"
 									onChange={addFile}
 									variant="outlined"
 									helperText={error.fileError}

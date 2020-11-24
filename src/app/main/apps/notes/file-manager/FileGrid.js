@@ -71,7 +71,7 @@ const useStylesList = makeStyles(theme => ({
 		boxShadow: '0 3px 6px #00000029'
 	}
 }));
-const options = ['Test' ];
+const options = ['Test'];
 function FileGrid(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
@@ -123,10 +123,14 @@ function FileGrid(props) {
 	const open = Boolean(anchorEl);
 
 	const handleClick = event => {
+		event.preventDefault();
+		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
 	};
 
-	const handleClose = () => {
+	const handleClose = event => {
+		event.preventDefault();
+		event.stopPropagation();
 		setAnchorEl(null);
 	};
 	useEffect(() => {
@@ -201,7 +205,6 @@ function FileGrid(props) {
 								xl={3}
 								onClick={() => dispatch(Actions.setFolderPath(d.path))}
 							>
-								
 								<ListItem className={clsx(classesListItems.root, 'custom-box-shadow')}>
 									<ListItemIcon>
 										<FolderOutlinedIcon className="text-custom-primary" />
@@ -246,7 +249,6 @@ function FileGrid(props) {
 										</Menu>
 									</div>
 								</ListItem>
-								
 							</Grid>
 						))}
 					</Grid>

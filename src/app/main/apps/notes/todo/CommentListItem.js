@@ -244,8 +244,8 @@ export default function CommentListItem({
 	const getUserId = () => userInfo?.extra?.profile.id;
 	return (
 		<div key={comment.id}>
-			<ListItem className="px-0">
-				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mx-8">
+			<ListItem className="px-0 items-start">
+				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12">
 					{' '}
 					{[...comment.author.first_name][0]}
 				</Avatar>
@@ -267,7 +267,7 @@ export default function CommentListItem({
 					</div>
 				) : (
 					<ListItemText
-						className="p-12 py-10 comment-p bg-post-section bg-white rounded w-auto flex-none"
+						className="p-10 py-6 m-0 comment-p bg-post-section bg-white rounded w-auto flex-none"
 						primary={
 							<div className="flex comment-section">
 								<Typography color="initial" paragraph={false}>
@@ -308,7 +308,7 @@ export default function CommentListItem({
 				</div>
 			)}
 			{!isOffline && isEditing ? (
-				<div className="flex flex-wrap items-center ml-44">
+				<div className="flex flex-wrap items-center ml-52">
 					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
 						<Typography className="normal-case mx-4">Cancel</Typography>
 					</Button>
@@ -324,7 +324,7 @@ export default function CommentListItem({
 					</Button>
 				</div>
 			) : (
-				<div className="flex flex-wrap items-center ml-44">
+				<div className="flex flex-wrap items-center ml-52">
 					<Button size="small" aria-label="Add to favorites">
 						<Icon className="text-16" color="action">
 							favorite

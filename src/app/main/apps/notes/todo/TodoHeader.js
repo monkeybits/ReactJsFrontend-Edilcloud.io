@@ -19,7 +19,7 @@ function TodoHeader(props) {
 	return (
 		<ThemeProvider theme={mainTheme}>
 
-		<div className="flex w-full justify-between items-center mb-24">
+		<div className="flex w-full justify-between items-center mb-0 sm:mb-24">
 			<div>
 				<Typography variant="h5" className="mb-4">
 					To Do List
