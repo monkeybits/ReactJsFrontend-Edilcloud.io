@@ -33,7 +33,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
-
+import MoreOption from './MoreOption';
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
 		order === 'ASC'
@@ -72,13 +72,13 @@ function ContactsList(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const openDeleteContactDialog = () => setIsOpenDeleteDialog(true);
 	const colseDeleteContactDialog = () => setIsOpenDeleteDialog(false);
-	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [anchorEl, setAnchorEl] = React.useState(false);
 	const handleClick = event => {
 		setAnchorEl(true);
 		event.preventDefault();
 		event.stopPropagation();
 		setTimeout(() => {
-			console.log({ currentTarget: event.currentTarget , anchorEl : Boolean(anchorEl) });
+			console.log({ currentTarget: event.currentTarget, anchorEl: Boolean(anchorEl) });
 		}, 1000);
 	};
 
@@ -163,48 +163,7 @@ function ContactsList(props) {
 				// width: 128,
 				sortable: false,
 				Cell: ({ row }) =>
-					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
-						<div className="actions-dropdown relative">
-							<IconButton
-								aria-label="more"
-								aria-controls="long-menu-table"
-								aria-haspopup="true"
-								onClick={handleClick}
-							>
-								<MoreVertIcon />
-							</IconButton>
-							{/* <Menu
-								anchorEl={anchorEl}
-								open={openMenu}
-								onClose={handleClose}
-
-								// PaperProps={{
-								// 	style: {
-								// 		width: '20ch'
-								// 	}
-								// }}
-							> */}
-							{openMenu && (
-								<div className="contact-list-dropdown">
-									<ul className="list-unstyled">
-										<li className="py-6">
-											<EditOutlinedIcon />
-											Edit
-										</li>
-										<li className="py-6">
-											<DeleteOutlineOutlinedIcon />
-											Delete
-										</li>
-										<li className="py-6">
-											<FlagOutlinedIcon />
-											Report as inapropriate
-										</li>
-									</ul>
-								</div>
-							)}
-							{/* </Menu> */}
-						</div>
-					)
+					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && <MoreOption />
 			}
 		],
 		[dispatch, user.starred]
