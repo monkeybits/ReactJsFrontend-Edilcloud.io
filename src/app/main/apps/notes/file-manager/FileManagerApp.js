@@ -125,6 +125,7 @@ function FileManagerApp(props) {
 	const [description, setDescription] = useState(undefined);
 	const [open, setOpen] = React.useState(false);
 	const currentFolderPath = files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const routeParams = useParams();
 	const [error, seterror] = useState({
 		fileError: '',
@@ -171,12 +172,12 @@ function FileManagerApp(props) {
 			nameError: ''
 		});
 	};
-
 	const handleUpload = async () => {
 		if (isUploading == false) {
 			setIsUploading(true);
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
+
 			const { fileType, file } = fileData;
 
 			if (!fileType && radioBtnValue == 'file') return;
@@ -265,41 +266,39 @@ function FileManagerApp(props) {
 					rightSidebar: 'w-320'
 				}}
 				header={
-					
 					<>
-					
-					<div className="flex w-full justify-between items-center">
-						<div>
-							<Typography variant="h5" className="mb-4">
-								File
-							</Typography>
-							<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-								<Typography variant="subtitle1" className="font-weight-700 mb-4">
-									Project Name
+						<div className="flex w-full justify-between items-center">
+							<div>
+								<Typography variant="h5" className="mb-4">
+									File
 								</Typography>
-							</FuseAnimate>
-							<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
-								Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
-							</Typography>
+								<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+									<Typography variant="subtitle1" className="font-weight-700 mb-4">
+										{projectDetail.name}
+									</Typography>
+								</FuseAnimate>
+								<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
+									Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
+								</Typography>
+							</div>
+							<Button className="badge-btn" color="secondary">
+								Open Details
+							</Button>
 						</div>
-						<Button className="badge-btn" color="secondary">
-							Open Details
-						</Button>
-					</div>
 
-					<div className="flex flex-col flex-1 relative z-50 mt-10">
-						<div className="flex items-center justify-between left-icon-btn">
-							<FuseAnimate delay={200}>
-								<div>
-									{folderPath && (
-										<Breadcrumb
-											selected={folderPath}
-											className="flex flex-1 flex-wrap filemanager-breadcumb font-700 text-24 text-default mt-6"
-										/>
-									)}
-								</div>
-							</FuseAnimate>
-							{/* <IconButton
+						<div className="flex flex-col flex-1 relative z-50 mt-10">
+							<div className="flex items-center justify-between left-icon-btn">
+								<FuseAnimate delay={200}>
+									<div>
+										{folderPath && (
+											<Breadcrumb
+												selected={folderPath}
+												className="flex flex-1 flex-wrap filemanager-breadcumb font-700 text-24 text-default mt-6"
+											/>
+										)}
+									</div>
+								</FuseAnimate>
+								{/* <IconButton
 								onClick={() => {
 									pageLayout.current.toggleLeftSidebar();
 								}}
@@ -307,7 +306,7 @@ function FileManagerApp(props) {
 							>
 								<Icon>menu</Icon>
 							</IconButton> */}
-							{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
+								{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
 								<Paper className="flex p-4 items-center w-full h-40 px-8 py-4 bg-white search-white-box" elevation={1}>
 									<Icon className="text-20" color="action">search</Icon>
 
@@ -324,20 +323,20 @@ function FileManagerApp(props) {
 									/>
 								</Paper>
 							</FuseAnimate> */}
-							<div className="flex two-btn rounded h-40 ml-10">
-								<IconButton
-									onClick={() => setViewTable(false)}
-									className={!viewTable ? 'text-default' : ''}
-								>
-									<FontAwesomeIcon icon={faTh} />
-								</IconButton>
-								<IconButton onClick={() => setViewTable(true)}>
-									<FontAwesomeIcon icon={faList} className={viewTable ? 'text-default' : ''} />
-								</IconButton>
+								<div className="flex two-btn rounded h-40 ml-10">
+									<IconButton
+										onClick={() => setViewTable(false)}
+										className={!viewTable ? 'text-default' : ''}
+									>
+										<FontAwesomeIcon icon={faTh} />
+									</IconButton>
+									<IconButton onClick={() => setViewTable(true)}>
+										<FontAwesomeIcon icon={faList} className={viewTable ? 'text-default' : ''} />
+									</IconButton>
+								</div>
 							</div>
-						</div>
-						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
-						{/* <div className="flex flex-1 items-end"> */}
+							<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
+							{/* <div className="flex flex-1 items-end"> */}
 							{/* <FuseAnimate animation="transition.expandIn" delay={600}>
 								<Fab
 									onClick={() => setIsOpenDrawer(true)}
@@ -349,24 +348,18 @@ function FileManagerApp(props) {
 								</Fab>
 							</FuseAnimate> */}
 
-							
-						{/* </div> */}
-						{isUploadingFiles && (
-							<div className="linear-progress custom-color">
-								<LinearProgressWithLabel progress={progress} />
-							</div>
-						)}
-					</div>
-
+							{/* </div> */}
+							{isUploadingFiles && (
+								<div className="linear-progress custom-color">
+									<LinearProgressWithLabel progress={progress} />
+								</div>
+							)}
+						</div>
 					</>
 				}
-				content={<div>
-					
-					{
-					viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />
-				
+				content={
+					<div>{viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}</div>
 				}
-				</div>}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}

@@ -153,12 +153,12 @@ function ChatApp(props) {
 						<Typography variant="h5" className="mb-4">
 							Chat
 						</Typography>
-						<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+						{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
 							<Typography variant="subtitle1" className="font-weight-700 mb-4">{projectDetail.name}</Typography>
 						</FuseAnimate>
 						<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
 							Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
-						</Typography>
+						</Typography> */}
 					</div>
 					<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
 						Open Details
@@ -226,7 +226,7 @@ function ChatApp(props) {
 							<UserSidebar />
 						</Drawer>
 
-						<main className={clsx(classes.contentWrapper, 'z-10 muliple-images-overflow-x chat-bg' )}>
+						<main className={clsx(classes.contentWrapper, 'z-10 muliple-images-overflow-x chat-bg')}>
 							{
 								<>
 									<AppBar className="w-full border-0" position="static" elevation={1}>
@@ -264,12 +264,12 @@ function ChatApp(props) {
 													</Avatar>
 												</div>
 												<div>
-												<Typography color="inherit" className="px-8 mb-4">
-													{projectDetail.name}
-												</Typography>
-												<Typography color="inherit" className="text-14 text-muted px-8">
-													Main Profile
-												</Typography>
+													<Typography color="inherit" className="px-8 mb-4">
+														{projectDetail.name}
+													</Typography>
+													<Typography color="inherit" className="text-14 text-muted px-8">
+														Main Profile
+													</Typography>
 												</div>
 											</div>
 										</Toolbar>

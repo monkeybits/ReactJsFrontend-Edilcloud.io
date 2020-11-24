@@ -15,7 +15,7 @@ function ContactsHeader(props) {
 	const dispatch = useDispatch();
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	// const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
-
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	return (
 		<div className="flex w-full justify-between items-center mb-24">
 			<div>
@@ -24,9 +24,10 @@ function ContactsHeader(props) {
 				</Typography>
 				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 					<Typography variant="subtitle1" className="font-weight-700 mb-4">
-						Project Name
+						{projectDetail.name}
 					</Typography>
 				</FuseAnimate>
+
 				<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
 					Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
 				</Typography>
