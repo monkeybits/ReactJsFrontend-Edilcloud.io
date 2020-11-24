@@ -32,6 +32,15 @@ import SendIcon from '@material-ui/icons/Send';
 import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined';
+import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
+import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
+import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import ColorLensOutlinedIcon from '@material-ui/icons/ColorLensOutlined';
 
 const useStyles = makeStyles({
 	typeIcon: {
@@ -280,7 +289,55 @@ function FileList(props) {
 									</TableCell>
 									{/* </Hidden> */}
 									<TableCell>
-										<div className="actions-dropdown">
+
+									<div className="actions-dropdown relative">
+											<IconButton
+												aria-label="more"
+												aria-controls="long-menu-table"
+												aria-haspopup="true"
+												onClick={handleClick}
+											>
+												<MoreVertIcon />
+											</IconButton>
+											<div className="contact-list-dropdown">
+												<ul className="list-unstyled">
+													<li className="py-6">
+														<VisibilityOutlinedIcon />
+														Preview
+													</li>
+													<li className="py-6">
+														<EditOutlinedIcon />
+														Edit
+													</li>
+													<li className="py-6">
+														<ShareOutlinedIcon />
+														Share
+													</li>
+													<li className="py-6">
+														<InsertDriveFileOutlinedIcon />
+														Move to
+													</li>
+													<li className="py-6">
+														<ColorLensOutlinedIcon />
+														Change Color
+													</li>
+													<li className="py-6">
+														<StarBorderOutlinedIcon />
+														Add to Starred
+													</li>
+													<li className="py-6">
+														<GetAppOutlinedIcon />
+														Download
+													</li>
+													<li className="py-6">
+														<DeleteOutlineOutlinedIcon />
+														Delete
+													</li>
+												</ul>
+											</div>
+										</div>
+
+										{/* <div className="actions-dropdown">
 											<IconButton
 												aria-label="more"
 												aria-controls="long-menu"
@@ -314,7 +371,7 @@ function FileList(props) {
 													</MenuItem>
 												))}
 											</Menu>
-										</div>
+										</div> */}
 									</TableCell>
 								</TableRow>
 							);

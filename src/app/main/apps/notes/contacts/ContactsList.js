@@ -30,6 +30,10 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
+
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -149,59 +153,32 @@ function ContactsList(props) {
 				sortable: false,
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
-						<div className="inline">
+						<div className="actions-dropdown relative">
 							<IconButton
 								aria-label="more"
-								aria-controls="long-menu"
+								aria-controls="long-menu-table"
 								aria-haspopup="true"
 								onClick={handleClick}
 							>
 								<MoreVertIcon />
 							</IconButton>
-							<Menu
-								id="long-menu"
-								anchorEl={anchorEl}
-								keepMounted
-								open={openMenu}
-								onClose={handleClose}
-								className="actions-dropdown"
-								// PaperProps={{
-								// 	style: {
-								// 		width: '20ch'
-								// 	}
-								// }}
-							>
-								{options.map(option => (
-									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-										<ListItemIcon>
-											<PriorityHighIcon fontSize="small" />
-										</ListItemIcon>
-										<Typography variant="inherit"> {option}</Typography>
-									</MenuItem>
-								))}
-							</Menu>
+							<div className="contact-list-dropdown">
+								<ul className="list-unstyled">
+									<li className="py-6">
+										<EditOutlinedIcon />
+										Edit
+									</li>
+									<li className="py-6">
+										<DeleteOutlineOutlinedIcon />
+										Delete
+									</li>
+									<li className="py-6">
+										<FlagOutlinedIcon />
+										Report as inapropriate
+									</li>
+								</ul>
+							</div>
 						</div>
-						// <div className="flex items-center">
-						// 	<IconButton>
-						// 		<Icon>more_vert</Icon>
-						// 	</IconButton>
-						// </div>
-						// <div className="flex items-center">
-						// 	<IconButton
-						// 		onClick={ev => {
-						// 			ev.stopPropagation();
-						// 		}}
-						// 	>
-						// 		<Icon>edit</Icon>
-						// 	</IconButton>
-						// 	<IconButton
-						// 		onClick={ev => {
-						// 			ev.stopPropagation();
-						// 		}}
-						// 	>
-						// 		{row.original.status == 'Deactivated' ? <Icon>check</Icon> : <Icon>delete</Icon>}
-						// 	</IconButton>
-						// </div>
 					)
 			}
 		],

@@ -882,6 +882,21 @@ textarea.MuiOutlinedInput-input {
 }
 
 /* ********************************************************************************************
+    Todo App
+*********************************************************************************************** */
+.todo-sidebar .flex-auto.border-l-1 {
+    flex: none;
+    border: none;
+    width: 20%;
+}
+.todo-sidebar .flex-auto.border-l-1 ~ div {
+    flex: 1 1 auto;
+}
+.todo-spacing .flex.container.w-full > div {
+    padding: 2.4rem;
+}
+
+/* ********************************************************************************************
     Audio Animation
 *********************************************************************************************** */
 audio {
@@ -1209,7 +1224,7 @@ audio {
     border-radius: 0px 6px 6px 0px;
 }
 .actions-dropdown .MuiListItemIcon-root{
-    min-width: 36px;
+    min-width: 28px;
 }
 .actions-dropdown.small .MuiListItemIcon-root{
     min-width: 28px;
@@ -1379,7 +1394,7 @@ audio {
     top: -20px !important;
     left: calc(-50% + 1px) !important;
 }
-.custom-ios-slider-dropdown {
+.custom-ios-slider-dropdown, .contact-list-dropdown {
     position: absolute;
     top: 0px;
     left: -50px;
@@ -1387,6 +1402,14 @@ audio {
     padding: 12px;
     border-radius: 4px;
     box-shadow: 0 3px 6px #00000029 !important;
+}
+.contact-list-dropdown {
+    z-index: 9;
+    left: -150px;
+}
+.contact-list-dropdown li svg {
+    width: 20px;
+    margin-right: 10px;
 }
 
 

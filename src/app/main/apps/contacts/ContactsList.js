@@ -25,6 +25,10 @@ import Paper from '@material-ui/core/Paper';
 import Hidden from '@material-ui/core/Hidden';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Pagination from '@material-ui/lab/Pagination';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -61,6 +65,16 @@ function ContactsList(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const openDeleteContactDialog = () => setIsOpenDeleteDialog(true);
 	const colseDeleteContactDialog = () => setIsOpenDeleteDialog(false);
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const handleClick = event => {
+		event.stopPropagation();
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = (event) => {
+		event.stopPropagation();
+		setAnchorEl(null);
+	};
 	const columns = React.useMemo(
 		() => [
 			{
@@ -138,10 +152,31 @@ function ContactsList(props) {
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
 
-						<div className="flex items-center">
-							<IconButton>
-								<Icon>more_vert</Icon>
+						<div className="actions-dropdown relative">
+							<IconButton
+								aria-label="more"
+								aria-controls="long-menu-table"
+								aria-haspopup="true"
+								onClick={handleClick}
+							>
+								<MoreVertIcon />
 							</IconButton>
+							<div className="contact-list-dropdown">
+								<ul className="list-unstyled">
+									<li className="py-6">
+										<EditOutlinedIcon />
+										Edit
+									</li>
+									<li className="py-6">
+										<DeleteOutlineOutlinedIcon />
+										Delete
+									</li>
+									<li className="py-6">
+										<FlagOutlinedIcon />
+										Report as inapropriate
+									</li>
+								</ul>
+							</div>
 						</div>
 
 						// <div className="flex items-center">
