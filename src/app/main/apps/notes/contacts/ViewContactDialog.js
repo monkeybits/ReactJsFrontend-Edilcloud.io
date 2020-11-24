@@ -126,7 +126,7 @@ function ViewContactDialog(props) {
 			maxWidth="xs"
 		>
 			<AppBar position="static" elevation={1}>
-				<Toolbar className="flex w-full">
+				<Toolbar className="flex w-full border-0">
 					<Typography variant="subtitle1" color="inherit">
 						View Contact
 					</Typography>

@@ -31,18 +31,34 @@ export default function MoreOption() {
 			<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleClick}>
 				<MoreVertIcon />
 			</IconButton>
-			<Menu
+			<div className="custom-list-dropdown">
+					<ul className="list-unstyled">
+						<li className="py-6">
+							<EditOutlinedIcon />
+							Edit
+						</li>
+						<li className="py-6">
+							<DeleteOutlineOutlinedIcon />
+							Delete
+						</li>
+						<li className="py-6">
+							<FlagOutlinedIcon />
+							Report as inapropriate
+						</li>
+					</ul>
+				</div>
+			{/* <Menu
 				id="long-menu"
 				anchorEl={anchorEl}
 				keepMounted
 				open={openMenu}
 				onClose={handleClose}
 				className="actions-dropdown"
-				// PaperProps={{
-				// 	style: {
-				// 		width: '20ch'
-				// 	}
-				// }}
+				PaperProps={{
+					style: {
+						width: '20ch'
+					}
+				}}
 			>
 				{options.map(option => (
 					<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
@@ -52,7 +68,7 @@ export default function MoreOption() {
 						<Typography variant="inherit"> {option}</Typography>
 					</MenuItem>
 				))}
-			</Menu>
+			</Menu> */}
 		</div>
 	);
 }

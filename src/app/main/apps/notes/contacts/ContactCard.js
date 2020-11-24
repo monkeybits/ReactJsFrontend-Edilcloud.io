@@ -92,7 +92,7 @@ export default function ContactCard({
 			<div class="card-container flex flex-col px-10 text-13">
 				<span class="pro approved">Approved</span>
 				<div className="team-action">
-					<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleClick}>
+					<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" className="p-2" onClick={handleClick}>
 						<MoreVertIcon />
 					</IconButton>
 					<Menu
