@@ -371,7 +371,7 @@ function FileManagerApp(props) {
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}
 				rightSidebarHeader={<DetailSidebarHeader setProgress={setProgress} />}
-				rightSidebarContent={<DetailSidebarContent />}
+				rightSidebarContent={<DetailSidebarContent setProgress={setProgress} />}
 				ref={pageLayout}
 				innerScroll
 			/>
