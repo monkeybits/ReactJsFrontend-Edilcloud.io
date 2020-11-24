@@ -56,15 +56,14 @@ function TodoApp(props) {
 		<>
 			<FusePageCarded
 				classes={{
-					root: 'w-full header-bg-remove',
-					header: 'items-center custom-bg',
+					root: 'w-full header-bg-remove todo-spacing',
+					header: 'items-center custom-bg h-auto min-h-auto',
 				}}
 				header={<TodoHeader pageLayout={pageLayout} />}
 				// contentToolbar={<TodoToolbar />}
-				leftSidebarContent={<TodoSidebarContent />}
-				content={<TodoList {...props}/>}
+				// leftSidebarContent={<TodoSidebarContent />}
+				content={<div className="todo-sidebar flex flex-wrap">  <TodoSidebarContent className="mr-16" /> <TodoList {...props}/> </div>}
 				// leftSidebarHeader={<TodoSidebarHeader />}
-				
 				ref={pageLayout}
 				innerScroll
 			/>
@@ -73,7 +72,7 @@ function TodoApp(props) {
 					<Fab
 						color="primary"
 						aria-label="add"
-						className={classes.addButton}
+						className={classes.addButton }
 						onClick={ev => dispatch(Actions.openNewTodoDialog())}
 					>
 						<Icon>add</Icon>
