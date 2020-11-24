@@ -34,7 +34,6 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 
-
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
 		order === 'ASC'
@@ -61,7 +60,7 @@ function ContactsList(props) {
 	const refused = useSelector(({ contactsApp }) => contactsApp.contacts.refused);
 	const deactivated = useSelector(({ contactsApp }) => contactsApp.contacts.deactivated);
 	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
-	const options = ['Edit', 'Delete', 'Report as inapropriate'  ];
+	const options = ['Edit', 'Delete', 'Report as inapropriate'];
 
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
@@ -75,15 +74,19 @@ function ContactsList(props) {
 	const colseDeleteContactDialog = () => setIsOpenDeleteDialog(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const handleClick = event => {
+		setAnchorEl(true);
+		event.preventDefault();
 		event.stopPropagation();
-		setAnchorEl(event.currentTarget);
+		setTimeout(() => {
+			console.log({ currentTarget: event.currentTarget , anchorEl : Boolean(anchorEl) });
+		}, 1000);
 	};
 
-	const handleClose = (event) => {
+	const handleClose = event => {
 		event.stopPropagation();
-		setAnchorEl(null);
+		setAnchorEl(false);
 	};
-	const openMenu = Boolean(anchorEl);
+	let openMenu = Boolean(anchorEl);
 	const columns = React.useMemo(
 		() => [
 			{
@@ -138,13 +141,21 @@ function ContactsList(props) {
 				Header: 'Email',
 				accessor: 'email',
 				sortable: true,
-				Cell: ({ row }) => <a className="text-default" href={`mailto:${row.original.email}`}>{row.original.email}</a>
+				Cell: ({ row }) => (
+					<a className="text-default" href={`mailto:${row.original.email}`}>
+						{row.original.email}
+					</a>
+				)
 			},
 			{
 				Header: 'Phone',
 				accessor: 'phone',
 				sortable: true,
-				Cell: ({ row }) => <a className="text-default" href={`tel:${row.original.phone}`}>{row.original.phone}</a>
+				Cell: ({ row }) => (
+					<a className="text-default" href={`tel:${row.original.phone}`}>
+						{row.original.phone}
+					</a>
+				)
 			},
 			{
 				id: 'action',
@@ -162,22 +173,36 @@ function ContactsList(props) {
 							>
 								<MoreVertIcon />
 							</IconButton>
-							<div className="contact-list-dropdown">
-								<ul className="list-unstyled">
-									<li className="py-6">
-										<EditOutlinedIcon />
-										Edit
-									</li>
-									<li className="py-6">
-										<DeleteOutlineOutlinedIcon />
-										Delete
-									</li>
-									<li className="py-6">
-										<FlagOutlinedIcon />
-										Report as inapropriate
-									</li>
-								</ul>
-							</div>
+							{/* <Menu
+								anchorEl={anchorEl}
+								open={openMenu}
+								onClose={handleClose}
+
+								// PaperProps={{
+								// 	style: {
+								// 		width: '20ch'
+								// 	}
+								// }}
+							> */}
+							{openMenu && (
+								<div className="contact-list-dropdown">
+									<ul className="list-unstyled">
+										<li className="py-6">
+											<EditOutlinedIcon />
+											Edit
+										</li>
+										<li className="py-6">
+											<DeleteOutlineOutlinedIcon />
+											Delete
+										</li>
+										<li className="py-6">
+											<FlagOutlinedIcon />
+											Report as inapropriate
+										</li>
+									</ul>
+								</div>
+							)}
+							{/* </Menu> */}
 						</div>
 					)
 			}
@@ -297,13 +322,15 @@ function ContactsList(props) {
 							<MenuOpenIcon />
 						</IconButton>
 					</Hidden>
-				 </div>
+				</div>
 				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 					<Paper
 						className="flex p-4 items-center w-full h-40 px-8 py-4 bg-white search-white-box"
 						elevation={1}
 					>
-						<Icon className="text-20" color="action">search</Icon>
+						<Icon className="text-20" color="action">
+							search
+						</Icon>
 
 						<Input
 							placeholder="Search for anything"

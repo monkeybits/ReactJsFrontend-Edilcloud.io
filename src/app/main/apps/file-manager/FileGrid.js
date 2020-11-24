@@ -48,7 +48,6 @@ import SendIcon from '@material-ui/icons/Send';
 import Menu from '@material-ui/core/Menu';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 
-
 const useStyles = makeStyles({
 	typeIcon: {
 		'&.folder:before': {
@@ -72,7 +71,7 @@ const useStylesList = makeStyles(theme => ({
 		boxShadow: '0 3px 6px #00000029'
 	}
 }));
-const options = ['Test' ];
+const options = ['Test'];
 function FileGrid(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
@@ -126,10 +125,14 @@ function FileGrid(props) {
 	const open = Boolean(anchorEl);
 
 	const handleClick = event => {
+		event.preventDefault();
+		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
 	};
 
-	const handleClose = () => {
+	const handleClose = event => {
+		event.preventDefault();
+		event.stopPropagation();
 		setAnchorEl(null);
 	};
 	useEffect(() => {
@@ -190,7 +193,9 @@ function FileGrid(props) {
 			{!!currentFolders.length && (
 				<>
 					{' '}
-					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">Folders</Typography>
+					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
+						Folders
+					</Typography>
 					<Grid container spacing={12} className="folder-grid">
 						{currentFolders.map(d => (
 							<Grid
@@ -202,7 +207,6 @@ function FileGrid(props) {
 								xl={3}
 								onClick={() => dispatch(Actions.setFolderPath(d.path))}
 							>
-								
 								<ListItem className={clsx(classesListItems.root, 'custom-box-shadow')}>
 									<ListItemIcon>
 										<FolderOutlinedIcon className="text-custom-primary" />
@@ -246,7 +250,6 @@ function FileGrid(props) {
 										</Menu>
 									</div>
 								</ListItem>
-								
 							</Grid>
 						))}
 					</Grid>
@@ -254,7 +257,9 @@ function FileGrid(props) {
 			)}
 			{!!currentFiles.length && (
 				<>
-					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">Files</Typography>
+					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
+						Files
+					</Typography>
 					<Grid container spacing={12} className="file-grid">
 						<FileGridItem tileData={currentFiles} {...props} />
 					</Grid>
