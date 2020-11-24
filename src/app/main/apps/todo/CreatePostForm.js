@@ -279,10 +279,6 @@ function CreatePostForm({ isTask, taskId }) {
 										onChange={addPhoto}
 									/>
 							</div>
-						</AppBar>
-						
-					</Card>
-					<div className="flex">
 								<Button
 									onClick={createPost}
 									variant="contained"
@@ -293,7 +289,9 @@ function CreatePostForm({ isTask, taskId }) {
 								>
 									Post
 								</Button>
-							</div>
+						</AppBar>
+					</Card>
+					
 					{/* <Divider className="my-32" /> */}
 				</div>
 

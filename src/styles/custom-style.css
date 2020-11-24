@@ -208,6 +208,10 @@ a.text-muted:hover {
     z-index: 9999;
     right: 80px;
 }
+.speeddial-btn.diff-place {
+    bottom: 27px;
+    right: 90px;
+}
 .custom-outlined-btn button {
     background-color: #ffffff;
     border: 1px solid #ECECEE;
@@ -552,11 +556,12 @@ textarea.MuiOutlinedInput-input {
     box-shadow: none;
 }
 .comment-section p {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
+    text-transform: capitalize;
 }
 .comment-p span ~ p {
-    font-size: 17px;
+    font-size: 15px;
     margin-top: 5px;
 }
 .post-icons .image, .post-icons .send  {
@@ -638,7 +643,12 @@ textarea.MuiOutlinedInput-input {
     width: 100%;
     max-width: 100%;
 }
-
+.custom-fileinput input {
+    overflow: hidden;
+}
+.custom-fuse-page-right-sidebar {
+    overflow-y: auto;
+}
 /* ********************************************************************************************
     Konva JS
 *********************************************************************************************** */

@@ -260,15 +260,34 @@ function FileManagerApp(props) {
 			<FusePageSimple
 				classes={{
 					root: 'fileInfoSidebar',
-					header: 'p-24 py-0 bg-body h-auto min-h-auto',
+					header: 'p-24 pb-0 bg-body h-auto min-h-auto block',
 					sidebarHeader: '',
 					rightSidebar: 'w-320'
 				}}
 				header={
 					
+					<>
 					
+					<div className="flex w-full justify-between items-center">
+						<div>
+							<Typography variant="h5" className="mb-4">
+								File
+							</Typography>
+							<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+								<Typography variant="subtitle1" className="font-weight-700 mb-4">
+									Project Name
+								</Typography>
+							</FuseAnimate>
+							<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
+								Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
+							</Typography>
+						</div>
+						<Button className="badge-btn" color="secondary">
+							Open Details
+						</Button>
+					</div>
 
-					<div className="flex flex-col flex-1 relative z-50">
+					<div className="flex flex-col flex-1 relative z-50 mt-10">
 						<div className="flex items-center justify-between left-icon-btn">
 							<FuseAnimate delay={200}>
 								<div>
@@ -338,8 +357,16 @@ function FileManagerApp(props) {
 							</div>
 						)}
 					</div>
+
+					</>
 				}
-				content={viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}
+				content={<div>
+					
+					{
+					viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />
+				
+				}
+				</div>}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}
@@ -370,7 +397,7 @@ function FileManagerApp(props) {
 				{/* <DialogTitle id="customized-dialog-title" onClose={handleClose}>
 					Upload File
 				</DialogTitle> */}
-				<AppBar position="static" elevation={1}>
+				<AppBar position="static" className="border-0" elevation={1}>
 					<Toolbar>
 						<div className="absolute right-0">
 							<IconButton onClick={handleClose} edge="start" color="inherit" aria-label="close">
@@ -457,7 +484,7 @@ function FileManagerApp(props) {
 								<TextField
 									error={!!error.fileError}
 									type="file"
-									className="mt-8 mb-16 w-full"
+									className="mt-8 mb-16 w-full custom-fileinput"
 									onChange={addFile}
 									variant="outlined"
 									helperText={error.fileError}
