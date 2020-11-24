@@ -74,7 +74,7 @@ export default ({ children }) => {
 				} else {
 					dispatch(ProjectChatActions.updateChatLog(msg));
 				}
-			} else {
+			} else if (msg.message.talk.content_type_name == 'company') {
 				const getChats = () => getState().chatApp.chat?.chats;
 				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
 				let chats = getChats();
