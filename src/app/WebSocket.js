@@ -31,12 +31,12 @@ export default ({ children }) => {
 		dispatch((dispatch, getState) => {
 			if (getState().chatPanel.state) {
 				// chat panel
-				const getChats = () => getState().chatPanel.chat.chats;
+				const getChats = () => getState().chatPanel.chat?.chats;
 				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
 				let chats = getChats();
 				const index = chats.findIndex(findUnique_code);
 
-				if (chats[index]) {
+				if (chats && chats[index]) {
 					chats[index] = msg.message;
 					dispatch({
 						type: chatPanelActions.GET_CHAT,
@@ -74,7 +74,7 @@ export default ({ children }) => {
 				} else {
 					dispatch(ProjectChatActions.updateChatLog(msg));
 				}
-			} else {
+			} else if (msg.message.talk.content_type_name == 'company') {
 				const getChats = () => getState().chatApp.chat?.chats;
 				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
 				let chats = getChats();

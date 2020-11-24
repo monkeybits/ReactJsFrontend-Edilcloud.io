@@ -571,7 +571,7 @@ class Gantt extends Component {
 				title: dateToStr(new Date())
 			});
 			gantt.getMarker(markerId);
-			let startDates = tasks.data.map(a => new Date(a.start_date.split('-')));
+			let startDates = tasks.data.map(a => a.start_date && new Date(a.start_date.split('-')));
 			let min = new Date(Math.min.apply(null, startDates));
 			// min.setDate(min.getDate() + 1);
 			{
