@@ -15,28 +15,27 @@ function TodoHeader(props) {
 	const dispatch = useDispatch();
 	const searchText = useSelector(({ todoAppNote }) => todoAppNote.todos.searchText);
 	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
-
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	return (
 		<ThemeProvider theme={mainTheme}>
-
-		<div className="flex w-full justify-between items-center mb-24">
-			<div>
-				<Typography variant="h5" className="mb-4">
-					To Do List
-				</Typography>
-				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-					<Typography variant="subtitle1" className="font-weight-700 mb-4">
-						Project Name
+			<div className="flex w-full justify-between items-center mb-0 sm:mb-24">
+				<div>
+					<Typography variant="h5" className="mb-4">
+						To Do List
 					</Typography>
-				</FuseAnimate>
-				<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
-					Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
-				</Typography>
+					<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+						<Typography variant="subtitle1" className="font-weight-700 mb-4">
+							{projectDetail.name}
+						</Typography>
+					</FuseAnimate>
+					<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
+						Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
+					</Typography>
+				</div>
+				<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
+					Open Details
+				</Button>
 			</div>
-			<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
-				Open Details
-			</Button>
-		</div>
 
 			{/* <div className="flex flex-1">
 				<Paper

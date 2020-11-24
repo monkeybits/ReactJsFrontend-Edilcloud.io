@@ -36,15 +36,24 @@ function CardAttachment(props) {
 		</div>
 	);
 	const wrapper = child => (
-		<div className="flex w-full mb-16 px-16" key={props.item.id}>
-			<div className="flex items-center justify-center min-w-128 w-128 ht-11">
-				<Paper className="rounded-4 overflow-hidden" elevation={1}>
-					{child}
-				</Paper>
+		<>
+			<div className="flex w-full mb-16 px-16" key={props.item.id}>
+				<div className="flex items-center justify-center min-w-128 w-128 ht-11">
+					<Paper className="rounded-4 overflow-hidden" elevation={1}>
+						{child}
+					</Paper>
+				</div>
 			</div>
-		</div>
+			{type() == 'application' && (
+				<Typography className="font-600">
+					{props.item.name}
+					{props.item.extension}
+				</Typography>
+			)}
+		</>
 	);
-	switch (props.item.type.split('/')[0]) {
+	let type = () => (props.item.type ? props.item.type.split('/')[0] : '');
+	switch (type()) {
 		case 'image': {
 			return itemImage();
 		}

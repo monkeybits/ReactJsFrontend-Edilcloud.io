@@ -10,22 +10,19 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 export default function MoreOption() {
 	const [anchorEl, setAnchorEl] = React.useState(false);
-	const options = ['Edit', 'Delete', 'Report as inapropriate'  ];
+	const options = ['Edit', 'Delete', 'Report as inapropriate'];
 	const handleClick = event => {
-		setAnchorEl(true);
 		event.preventDefault();
 		event.stopPropagation();
-		setTimeout(() => {
-			console.log({ currentTarget: event.currentTarget, anchorEl: Boolean(anchorEl) });
-		}, 1000);
+		setAnchorEl(event.currentTarget);
 	};
 
 	const handleClose = event => {
 		event.stopPropagation();
 		setAnchorEl(false);
-    };
+	};
 	const openMenu = Boolean(anchorEl);
-    
+
 	return (
 		<div className="actions-dropdown relative">
 			<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleClick}>
@@ -38,11 +35,6 @@ export default function MoreOption() {
 				open={openMenu}
 				onClose={handleClose}
 				className="actions-dropdown"
-				// PaperProps={{
-				// 	style: {
-				// 		width: '20ch'
-				// 	}
-				// }}
 			>
 				{options.map(option => (
 					<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>

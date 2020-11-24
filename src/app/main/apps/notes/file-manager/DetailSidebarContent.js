@@ -40,6 +40,8 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import * as Actions from './store/actions';
 import FileSaver from 'file-saver';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
+import Menu from '@material-ui/core/Menu';
+import FileViewDialog from './FileViewDialog';
 
 const useStyles = makeStyles({
 	table: {
@@ -63,12 +65,23 @@ const useStyles = makeStyles({
 	}
 });
 
-function DetailSidebarContent({setProgress}) {
+function DetailSidebarContent({ setProgress }) {
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const selectedItem = useSelector(({ fileManagerAppProject }) => files[fileManagerAppProject.selectedItemId]);
 	const dispatch = useDispatch();
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+	const [isOpenViewFile, setIsOpenViewFile] = useState(false);
+	const [anchorEl, setAnchorEl] = React.useState(false);
+	const handleClick = event => {
+		event.preventDefault();
+		event.stopPropagation();
+		setAnchorEl(event.currentTarget);
+	};
 
+	const handleClose = event => {
+		event.stopPropagation();
+		setAnchorEl(false);
+	};
 	const classes = useStyles();
 
 	if (!selectedItem) {
@@ -88,159 +101,195 @@ function DetailSidebarContent({setProgress}) {
 			: fileType == 'xlsx'
 			? { color: 'green' }
 			: {};
-			const onDownload = () => {
-				if (selectedItem) {
-					setProgress(0);
-					dispatch(Actions.onUploadHandleLoading(true));
-					let apiurl =
-						selectedItem.type == 'photo'
-							? DOWNLOAD_PHOTO(selectedItem.mainId)
-							: selectedItem.type == 'video'
-							? DOWNLOAD_VIDEO(selectedItem.mainId)
-							: DOWNLOAD_DOCUMENT(selectedItem.mainId);
-					apiCall(
-						apiurl,
-						{},
-						({ headers, data }) => {
-							var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
-							FileSaver.saveAs(file);
-							dispatch(Actions.onUploadHandleLoading(false));
-						},
-						err => {
-							dispatch(Actions.onUploadHandleLoading(false));
-						},
-						METHOD.GET,
-						{
-							...getHeaderToken(),
-							responseType: 'blob',
-							onDownloadProgress: progressEvent => {
-								var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-								setProgress(percentCompleted);
-							}
-						},
-						true
-					);
+	const onDownload = () => {
+		if (selectedItem) {
+			setProgress(0);
+			dispatch(Actions.onUploadHandleLoading(true));
+			let apiurl =
+				selectedItem.type == 'photo'
+					? DOWNLOAD_PHOTO(selectedItem.mainId)
+					: selectedItem.type == 'video'
+					? DOWNLOAD_VIDEO(selectedItem.mainId)
+					: DOWNLOAD_DOCUMENT(selectedItem.mainId);
+			apiCall(
+				apiurl,
+				{},
+				({ headers, data }) => {
+					var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+					FileSaver.saveAs(file);
+					dispatch(Actions.onUploadHandleLoading(false));
+				},
+				err => {
+					dispatch(Actions.onUploadHandleLoading(false));
+				},
+				METHOD.GET,
+				{
+					...getHeaderToken(),
+					responseType: 'blob',
+					onDownloadProgress: progressEvent => {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						setProgress(percentCompleted);
+					}
+				},
+				true
+			);
+		}
+	};
+	const openDeleteFileDialog = () => setIsOpenDeleteDialog(true);
+	const colseDeleteFileDialog = () => setIsOpenDeleteDialog(false);
+	const handleDelete = () => {
+		const userInfo = decodeDataFromToken();
+		const cid = userInfo.extra?.profile?.company;
+		const fileType = selectedItem.type;
+		const mainId = selectedItem.mainId;
+		const url =
+			fileType == 'folder'
+				? FOLDER_DELETE(cid, selectedItem.path)
+				: fileType == 'photo'
+				? PHOTO_DELETE(selectedItem.mainId)
+				: fileType == 'video'
+				? VIDEO_DELETE(selectedItem.mainId)
+				: DOCUMENT_DELETE(selectedItem.mainId);
+		apiCall(
+			url,
+			{},
+			res => {
+				if (fileType == 'folder') {
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
+				} else {
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
 				}
-			};
-			const openDeleteFileDialog = () => setIsOpenDeleteDialog(true);
-			const colseDeleteFileDialog = () => setIsOpenDeleteDialog(false);
-			const handleDelete = () => {
-				const userInfo = decodeDataFromToken();
-				const cid = userInfo.extra?.profile?.company;
-				const fileType = selectedItem.type;
-				const mainId = selectedItem.mainId;
-				const url =
-					fileType == 'folder'
-						? FOLDER_DELETE(cid, selectedItem.path)
-						: fileType == 'photo'
-						? PHOTO_DELETE(selectedItem.mainId)
-						: fileType == 'video'
-						? VIDEO_DELETE(selectedItem.mainId)
-						: DOCUMENT_DELETE(selectedItem.mainId);
-				apiCall(
-					url,
-					{},
-					res => {
-						if (fileType == 'folder') {
-							dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
-						} else {
-							dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
-						}
-						colseDeleteFileDialog();
-					},
-					err => console.log(err),
-					METHOD.DELETE,
-					getHeaderToken()
-				);
-			};
+				colseDeleteFileDialog();
+			},
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
+	const openViewFile = () => setIsOpenViewFile(true);
+	const closeViewFile = () => setIsOpenViewFile(false);
+	const openMenu = Boolean(anchorEl);
 	return (
 		<>
-		<DeleteConfirmDialog
-			text="Are you sure want to delete ?"
-			isOpenDeleteDialog={isOpenDeleteDialog}
-			colseDeleteFileDialog={colseDeleteFileDialog}
-			onYes={handleDelete}
-			onNo={colseDeleteFileDialog}
-		/>
-		<FuseAnimate animation="transition.slideUpIn" delay={600}>
-			<div>
-				<div className="file-details p-24 border-b-1">
-					<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
-						<FuseAnimate animation="transition.expandIn" delay={300}>
-							<Icon className={clsx(classes.typeIcon, selectedItem.type, 'text-48')}>
-								{selectedItem.type == 'video' ? 'movie' : selectedItem.type}
-							</Icon>
-						</FuseAnimate>
+			<DeleteConfirmDialog
+				text="Are you sure want to delete ?"
+				isOpenDeleteDialog={isOpenDeleteDialog}
+				colseDeleteFileDialog={colseDeleteFileDialog}
+				onYes={handleDelete}
+				onNo={colseDeleteFileDialog}
+			/>
+			<FuseAnimate animation="transition.slideUpIn" delay={600}>
+				<div>
+					<div className="file-details p-24 border-b-1">
+						<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
+								{selectedItem.type == 'photo' ? (
+									<img className="h-128 sm:h-256 object-contain" src={selectedItem.photo} />
+								) : selectedItem.extension == 'pdf' ? (
+									<ReadPDF height={256} width={270} file={selectedItem.document} />
+								) : selectedItem.type == 'video' ? (
+									<FontAwesomeIcon
+										icon={faFileVideo}
+										style={{ ...getCssColor(selectedItem.type), fontSize: '2.4rem' }}
+									/>
+								) : (
+									<FontAwesomeIcon
+										icon={
+											selectedItem.type == 'document'
+												? selectedItem.extension == 'pdf'
+													? faFilePdf
+													: selectedItem.extension == 'docx'
+													? faFileWord
+													: selectedItem.extension == 'xlsx'
+													? faFileExcel
+													: selectedItem.extension == 'mp3'
+													? faFileAudio
+													: faFile
+												: faFile
+										}
+										style={{ ...getCssColor(selectedItem.extension), fontSize: '2.4rem' }}
+									/>
+								)}
+						</div>
+					</div>
+					<div className="px-10 py-12 border-b-1">
+						<MenuList className="flex items-center actions-dropdown p-0 small">
+							<MenuItem onClick={onDownload}>
+								<ListItemIcon>
+									<GetAppOutlinedIcon fontSize="medium" />
+								</ListItemIcon>
+								<Typography variant="inherit">Download</Typography>
+							</MenuItem>
+							<MenuItem onClick={openDeleteFileDialog}>
+								<ListItemIcon>
+									<DeleteOutlineOutlinedIcon fontSize="medium" />
+								</ListItemIcon>
+								<Typography variant="inherit">Delete</Typography>
+							</MenuItem>
+							<MenuItem onClick={handleClick}>
+								<ListItemIcon>
+									<MoreVertIcon fontSize="medium" />
+								</ListItemIcon>
+								<Typography variant="inherit">More</Typography>
+								<Menu anchorEl={anchorEl} open={openMenu} onClose={handleClose}>
+									<MenuItem onClick={openViewFile}>
+										<ListItemIcon>
+											<Icon>visibility</Icon>
+										</ListItemIcon>
+										<Typography variant="inherit">View</Typography>
+									</MenuItem>
+								</Menu>
+								{/* */}
+							</MenuItem>
+						</MenuList>
+					</div>
+					<FileViewDialog isOpenViewFile={isOpenViewFile} closeViewFile={closeViewFile} />
+					<div className="px-24 py-12 border-b-1">
+						<Typography variant="subtitle2" className="py-10 uppercase text-gray-500">
+							Info
+						</Typography>
+						<table className={clsx(classes.table, 'w-full text-justify')}>
+							<tbody>
+								<tr className="type">
+									<th>Type</th>
+									<td>{checkData(selectedItem.type)}</td>
+								</tr>
+
+								<tr className="size">
+									<th>Size</th>
+									<td>{selectedItem.size === '' ? '-' : selectedItem.size}</td>
+								</tr>
+
+								<tr className="location">
+									<th>Location</th>
+									<td>{checkData(selectedItem.location)}</td>
+								</tr>
+
+								<tr className="owner">
+									<th>Owner</th>
+									<td>{checkData(selectedItem.owner)}</td>
+								</tr>
+
+								<tr className="modified">
+									<th>Modified</th>
+									<td>{getdate(selectedItem.date_last_modify)}</td>
+								</tr>
+
+								<tr className="opened">
+									<th>Opened</th>
+									<td>{checkData(selectedItem.opened)}</td>
+								</tr>
+
+								<tr className="created">
+									<th>Created</th>
+									<td>{getdate(selectedItem.date_create)}</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
-				<div className="px-10 py-12 border-b-1">
-					<MenuList className="flex items-center actions-dropdown p-0 small">
-						<MenuItem onClick={onDownload}>
-							<ListItemIcon>
-								<GetAppOutlinedIcon fontSize="medium" />
-							</ListItemIcon>
-							<Typography variant="inherit">Download</Typography>
-						</MenuItem>
-						<MenuItem onClick={openDeleteFileDialog}>
-							<ListItemIcon>
-								<DeleteOutlineOutlinedIcon fontSize="medium" />
-							</ListItemIcon>
-							<Typography variant="inherit">Delete</Typography>
-						</MenuItem>
-						<MenuItem>
-							<ListItemIcon>
-								<MoreVertIcon fontSize="medium" />
-							</ListItemIcon>
-							<Typography variant="inherit">More</Typography>
-						</MenuItem>
-					</MenuList>
-				</div>
-				<div className="px-24 py-12 border-b-1">
-					<Typography variant="subtitle2" className="py-10 uppercase text-gray-500">
-						Info
-					</Typography>
-					<table className={clsx(classes.table, 'w-full text-justify')}>
-						<tbody>
-							<tr className="type">
-								<th>Type</th>
-								<td>{checkData(selectedItem.type)}</td>
-							</tr>
-
-							<tr className="size">
-								<th>Size</th>
-								<td>{selectedItem.size === '' ? '-' : selectedItem.size}</td>
-							</tr>
-
-							<tr className="location">
-								<th>Location</th>
-								<td>{checkData(selectedItem.location)}</td>
-							</tr>
-
-							<tr className="owner">
-								<th>Owner</th>
-								<td>{checkData(selectedItem.owner)}</td>
-							</tr>
-
-							<tr className="modified">
-								<th>Modified</th>
-								<td>{getdate(selectedItem.date_last_modify)}</td>
-							</tr>
-
-							<tr className="opened">
-								<th>Opened</th>
-								<td>{checkData(selectedItem.opened)}</td>
-							</tr>
-
-							<tr className="created">
-								<th>Created</th>
-								<td>{getdate(selectedItem.date_create)}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</FuseAnimate>
-</>	);
+			</FuseAnimate>
+		</>
+	);
 }
 
 export default DetailSidebarContent;

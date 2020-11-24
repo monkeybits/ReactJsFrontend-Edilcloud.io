@@ -39,7 +39,9 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import * as Actions from './store/actions';
 import FileSaver from 'file-saver';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
+import FileViewDialog from './FileViewDialog';
 
+import Menu from '@material-ui/core/Menu';
 const useStyles = makeStyles({
 	table: {
 		'& th': {
@@ -68,7 +70,18 @@ function DetailSidebarContent({ setProgress }) {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+	const [isOpenViewFile, setIsOpenViewFile] = useState(false);
+	const [anchorEl, setAnchorEl] = React.useState(false);
+	const handleClick = event => {
+		event.preventDefault();
+		event.stopPropagation();
+		setAnchorEl(event.currentTarget);
+	};
 
+	const handleClose = event => {
+		event.stopPropagation();
+		setAnchorEl(false);
+	};
 	if (!selectedItem) {
 		return null;
 	}
@@ -151,6 +164,9 @@ function DetailSidebarContent({ setProgress }) {
 			: fileType == 'xlsx'
 			? { color: 'green' }
 			: {};
+	const openViewFile = () => setIsOpenViewFile(true);
+	const closeViewFile = () => setIsOpenViewFile(false);
+	const openMenu = Boolean(anchorEl);
 	return (
 		<>
 			<DeleteConfirmDialog
@@ -207,14 +223,28 @@ function DetailSidebarContent({ setProgress }) {
 								</ListItemIcon>
 								<Typography variant="inherit">Delete</Typography>
 							</MenuItem>
-							<MenuItem>
+							<MenuItem onClick={handleClick}>
 								<ListItemIcon>
 									<MoreVertIcon fontSize="medium" />
 								</ListItemIcon>
 								<Typography variant="inherit">More</Typography>
+								<Menu
+									anchorEl={anchorEl}
+									open={openMenu}
+									onClose={handleClose}
+								>
+									<MenuItem onClick={openViewFile}>
+										<ListItemIcon>
+											<Icon>visibility</Icon>
+										</ListItemIcon>
+										<Typography variant="inherit">View</Typography>
+									</MenuItem>
+								</Menu>
+								{/* */}
 							</MenuItem>
 						</MenuList>
 					</div>
+					<FileViewDialog isOpenViewFile={isOpenViewFile} closeViewFile={closeViewFile} />
 					<div className="px-24 py-12 border-b-1">
 						<Typography variant="subtitle1" className="py-10 uppercase text-gray-500">
 							Info
