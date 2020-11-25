@@ -19,6 +19,7 @@ import CreatePostDialog from './CreatePostDialog';
 import { GET_TODOS } from './store/actions';
 import { makeStyles } from '@material-ui/core';
 import TaskContentDialog from './Dialog/TaskContentDialog';
+import clsx from 'clsx';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -72,7 +73,8 @@ function TodoApp(props) {
 					<Fab
 						color="primary"
 						aria-label="add"
-						className={classes.addButton }
+						// className={classes.addButton }
+						className={clsx('speeddial-btn diff-place')}
 						onClick={ev => dispatch(Actions.openNewTodoDialog())}
 					>
 						<Icon>add</Icon>

@@ -208,6 +208,10 @@ a.text-muted:hover {
     z-index: 9999;
     right: 80px;
 }
+.speeddial-btn.diff-place {
+    bottom: 27px;
+    right: 90px;
+}
 .custom-outlined-btn button {
     background-color: #ffffff;
     border: 1px solid #ECECEE;
@@ -501,7 +505,7 @@ textarea.MuiOutlinedInput-input {
     height: calc(100vh - 220px);
 } */
 .chat-tab-content-height {
-    height: calc(100vh - 215px);
+    height: calc(100vh - 0px);
 }
 .custom-tab-header {
     box-shadow: 0 -1px 3px #00000029;
@@ -552,11 +556,12 @@ textarea.MuiOutlinedInput-input {
     box-shadow: none;
 }
 .comment-section p {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
+    text-transform: capitalize;
 }
 .comment-p span ~ p {
-    font-size: 17px;
+    font-size: 15px;
     margin-top: 5px;
 }
 .post-icons .image, .post-icons .send  {
@@ -620,12 +625,12 @@ textarea.MuiOutlinedInput-input {
     background-color: #4c4c4c;
     border-radius: 15px;
 } */
-.comment-post-img {
+/* .comment-post-img {
     margin-left: 56px;
-}
+} */
 .comment-post-img img {
     height: 160px;
-    width: auto;
+    width: 160px;
 }
 .post-form .write-post textarea {
     padding-right: 0px;
@@ -638,7 +643,12 @@ textarea.MuiOutlinedInput-input {
     width: 100%;
     max-width: 100%;
 }
-
+.custom-fileinput input {
+    overflow: hidden;
+}
+.custom-fuse-page-right-sidebar {
+    overflow-y: auto;
+}
 /* ********************************************************************************************
     Konva JS
 *********************************************************************************************** */
@@ -1394,7 +1404,7 @@ audio {
     top: -20px !important;
     left: calc(-50% + 1px) !important;
 }
-.custom-ios-slider-dropdown, .contact-list-dropdown {
+.custom-ios-slider-dropdown, .custom-list-dropdown {
     position: absolute;
     top: 0px;
     left: -50px;
@@ -1403,13 +1413,16 @@ audio {
     border-radius: 4px;
     box-shadow: 0 3px 6px #00000029 !important;
 }
-.contact-list-dropdown {
+.custom-list-dropdown {
     z-index: 9;
     left: -150px;
 }
-.contact-list-dropdown li svg {
+.custom-list-dropdown li svg {
     width: 20px;
     margin-right: 10px;
+}
+.resize-action-btn svg {
+    font-size: 2rem !important;
 }
 
 

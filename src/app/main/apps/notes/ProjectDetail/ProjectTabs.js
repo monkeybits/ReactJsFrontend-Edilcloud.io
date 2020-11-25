@@ -102,8 +102,8 @@ function ProjectTabs({ value, setValue , setOpenDialog }) {
 				<TodoApp {...{ value, setValue }} />
 			</TabPanel>
 			<TabPanel value={value} index={3} className="no-data-height-full">
-				<div className="flex w-full justify-between items-center p-24 pb-0">
-					<div>
+				{/* <div className="flex w-full justify-between items-center p-24 pb-0">
+					<div className="mr-20">
 						<Typography variant="h5" className="mb-4">
 							File
 						</Typography>
@@ -119,7 +119,7 @@ function ProjectTabs({ value, setValue , setOpenDialog }) {
 					<Button className="badge-btn" color="secondary">
 						Open Details
 					</Button>
-				</div>
+				</div> */}
 				<FileManagerApp {...{ value, setValue }} />
 			</TabPanel>
 			<TabPanel value={value} index={4} className="gantt-height-full">

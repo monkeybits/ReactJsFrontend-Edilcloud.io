@@ -12,7 +12,12 @@
         right: 0px !important;
     }
     .speeddial-btn {
-        right: 0px;
+        right: 5px;
+        bottom: 62px;
+    }
+    .speeddial-btn.diff-place {
+        bottom: 65px;
+        right: 7px;
     }
 }
 @media only screen and (max-width: 1024px) and (min-width: 992px) {
@@ -83,7 +88,8 @@
         height: 100vh;
     }
     .custom-float-btn {
-        right: 10px !important;
+        right: 0px !important;
+        bottom: 8px !important;
     }
     .tabs-content {
         padding-bottom: 0px;
@@ -192,8 +198,20 @@
     .todo-sidebar .flex-auto.border-l-1 {
         width: 100%;
     }
+    .todo-sidebar .flex-auto.border-l-1 ul {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
     .todo-sidebar ul li {
         line-height: 26px;
+    }
+    .custom-bg ~ .inner-scroll > div:first-child {
+        overflow: inherit !important;
+        height: auto;
+        padding-bottom: 60px;
+    }
+    .todo-sidebar .flex-auto.border-l-1 ~ div {
+        margin-top: 10px;
     }
     
     
@@ -229,6 +247,7 @@
     }
     .comment-post-img img {
         height: 120px;
+        width: 120px;
     }
     /* .gantt-container {
         min-height: auto;
@@ -256,7 +275,9 @@
     .project_list {
         padding-bottom: 0px;
     }
-    
+    .chat-tab-content-height .inner-height {
+        padding-bottom: 80px;
+    }
 }
 
 @media only screen and (max-width: 480px) {

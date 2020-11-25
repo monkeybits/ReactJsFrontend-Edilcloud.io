@@ -473,7 +473,7 @@ function TodoListItem(props) {
 					{/* right side footer */}
 					<div className="flex items-center">
 						{props.todo.assigned_company?.id == company.id && (
-							<div className="flex items-center">
+							<div className="flex items-center font-600">
 								{/* <Icon className="text-16">check_circle</Icon> */}
 								<span className="mx-4">Task Activities</span>
 								<span className="mx-4"> (0/{taskDetail?.length})</span>

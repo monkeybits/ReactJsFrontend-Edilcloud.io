@@ -181,7 +181,7 @@ function DetailSidebarContent({ setProgress }) {
 					<div className="file-details p-16 sm:p-24">
 						<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
 							{selectedItem.type == 'photo' ? (
-								<img src={selectedItem.photo} />
+								<img className="h-128 sm:h-256 object-contain" src={selectedItem.photo} />
 							) : selectedItem.extension == 'pdf' ? (
 								<ReadPDF height={256} width={270} file={selectedItem.document} />
 							) : selectedItem.type == 'video' ? (
@@ -209,7 +209,7 @@ function DetailSidebarContent({ setProgress }) {
 							)}
 						</div>
 					</div>
-					<div className="px-10 py-12 border-b-1">
+					<div className="px-10 py-12 border-b-1 border-t-1">
 						<MenuList className="flex items-center actions-dropdown p-0 small">
 							<MenuItem onClick={onDownload}>
 								<ListItemIcon>

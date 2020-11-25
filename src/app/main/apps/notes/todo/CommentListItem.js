@@ -13,6 +13,7 @@ import Input from '@material-ui/core/Input';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Paper from '@material-ui/core/Paper';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -38,6 +39,12 @@ import FuseUtils from '@fuse/utils';
 import { Box, CircularProgress, Collapse } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+import SendIcon from '@material-ui/icons/Send';
+import Menu from '@material-ui/core/Menu';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 const uuidv1 = require('uuid/v1');
 
 export default function CommentListItem({
@@ -67,6 +74,7 @@ export default function CommentListItem({
 			setReplyComments([]);
 		};
 	}, [comment.replies_set]);
+	const options = ['Edit', 'Delete'];
 	const handlePostComment = e => {
 		e.preventDefault();
 		if (!text) return;
@@ -240,12 +248,25 @@ export default function CommentListItem({
 		setIsReplying(false);
 		getReplies();
 	};
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const openMenu = Boolean(anchorEl);
+
+	const handleClick = event => {
+		event.preventDefault();
+		event.stopPropagation();
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = event => {
+		event.preventDefault();
+		event.stopPropagation();
+		setAnchorEl(null);
+	};
 	const userInfo = decodeDataFromToken();
 	const getUserId = () => userInfo?.extra?.profile.id;
 	return (
 		<div key={comment.id}>
-			<ListItem className="px-0">
-				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mx-8">
+			<ListItem className="px-0 items-start">
+				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12">
 					{' '}
 					{[...comment.author.first_name][0]}
 				</Avatar>
@@ -266,17 +287,55 @@ export default function CommentListItem({
 						</Paper>
 					</div>
 				) : (
-					<ListItemText
-						className="p-12 py-10 comment-p bg-post-section bg-white rounded w-auto flex-none"
-						primary={
-							<div className="flex comment-section">
-								<Typography color="initial" paragraph={false}>
-									{`${comment.author.first_name} ${comment.author.last_name}`} 
-								</Typography>
-							</div>
-						}
-						secondary={comment.text}
-					/>
+					<div className="w-full relative">
+						<ListItemText
+							className="p-10 py-8 m-0 comment-p bg-post-section bg-white rounded w-full"
+							primary={
+								<div className="flex comment-section">
+									<Typography color="initial" paragraph={false}>
+										{`${comment.author.first_name} ${comment.author.last_name}`}
+									</Typography>
+								</div>
+							}
+							secondary={comment.text}
+						/>
+						<div className="posted-images comment-post-img">
+							<PostedImages images={comment.media_set} hideNavigation />
+						</div>
+						<div className="actions-dropdown resize-action-btn absolute top-0 right-0">
+							<IconButton
+								aria-label="more"
+								aria-controls="long-menu"
+								aria-haspopup="true"
+								onClick={handleClick}
+								className="p-10"
+							>
+								<MoreVertIcon />
+							</IconButton>
+							<Menu
+								id="long-menu"
+								anchorEl={anchorEl}
+								keepMounted
+								open={openMenu}
+								onClose={handleClose}
+								className="actions-dropdown"
+								PaperProps={{
+									style: {
+										width: '20ch'
+									}
+								}}
+							>
+								{options.map(option => (
+									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+										<ListItemIcon>
+											<PriorityHighIcon fontSize="small" />
+										</ListItemIcon>
+										<Typography variant="inherit"> {option}</Typography>
+									</MenuItem>
+								))}
+							</Menu>
+						</div>
+					</div>
 				)}
 				{isOffline && (
 					<>
@@ -302,13 +361,13 @@ export default function CommentListItem({
 					</>
 				)}
 			</ListItem>
-			{!isEditing && (
-				<div className="posted-images comment-post-img">
+			{/* {!isEditing && (
+				<div className="posted-images comment-post-img mt-4 mb-10">
 					<PostedImages images={comment.media_set} hideNavigation />
 				</div>
-			)}
+			)} */}
 			{!isOffline && isEditing ? (
-				<div className="flex flex-wrap items-center ml-44">
+				<div className="flex flex-wrap items-center ml-52">
 					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
 						<Typography className="normal-case mx-4">Cancel</Typography>
 					</Button>
@@ -324,12 +383,13 @@ export default function CommentListItem({
 					</Button>
 				</div>
 			) : (
+				
 				<div className="flex flex-wrap items-center ml-44">
 					<Button size="small" aria-label="Add to favorites">
-						<Icon className="text-16" color="action">
+						<Icon className="text-13" color="action">
 							favorite
 						</Icon>
-						<Typography className="normal-case mx-4">Like</Typography>
+						<Typography className="normal-case text-13 ml-4">Like</Typography>
 					</Button>
 					<Button
 						onClick={() => {
@@ -341,16 +401,25 @@ export default function CommentListItem({
 								}
 							}, 100);
 						}}
-						className="normal-case"
+						size="small"
 					>
-						Reply
+						<Icon className="text-13" color="action">
+							reply_outlined
+						</Icon>
+						<Typography className="normal-case text-13 ml-4">Reply</Typography>
 					</Button>
-					{getUserId() == comment.author.id && (
+					<Button size="small" aria-label="Report">
+						<Icon className="text-13" color="action">
+							flag_outlined
+						</Icon>
+						<Typography className="normal-case text-13 ml-4">Report</Typography>
+					</Button>
+					{/* {getUserId() == comment.author.id && (
 						<Button onClick={handleDeleteComment} size="small" aria-label="Add to favorites">
-							<Icon className="text-16" color="action">
+							<Icon className="text-13" color="action">
 								delete_outline
 							</Icon>
-							<Typography className="normal-case mx-4">Delete</Typography>
+							<Typography className="normal-case text-13 ml-4">Delete</Typography>
 						</Button>
 					)}
 					{getUserId() == comment.author.id && (
@@ -362,13 +431,13 @@ export default function CommentListItem({
 							size="small"
 							aria-label="Add to favorites"
 						>
-							<Icon className="text-16" color="action">
+							<Icon className="text-13" color="action">
 								edit
 							</Icon>
-							<Typography className="normal-case mx-4">Edit</Typography>
+							<Typography className="normal-case text-13 ml-4">Edit</Typography>
 						</Button>
-					)}
-					
+					)} */}
+
 					<div
 						className="flex items-center ml-auto cursor-pointer"
 						onClick={ev => {
@@ -377,16 +446,17 @@ export default function CommentListItem({
 							setOpen(!open);
 						}}
 					>
-						<Typography className="underline">{repliesLength()} Replies</Typography>
-						<Icon className="text-16 mx-4" color="action">
+						<Typography className="font-600 text-13">{repliesLength()} Replies</Typography>
+						<Icon className="font-600 text-16 ml-2" color="action">
 							{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 						</Icon>
 					</div>
 				</div>
+				
 			)}
 			{showReplies() && (
 				<Collapse in={open} timeout="auto" unmountOnExit>
-					<div className="ml-56">
+					<div className="ml-52">
 						<List className="clearfix">
 							{replyComments.map((reply, index) => (
 								<ReplyListItem
@@ -443,7 +513,7 @@ export default function CommentListItem({
 				</Collapse>
 			)}
 			{isReplying && (
-				<div className="flex-1 mx-4">
+				<div className="flex-1 ml-52 my-6">
 					<Paper elevation={0} className="w-full relative post-icons">
 						<Input
 							className="p-8 w-full border-1"

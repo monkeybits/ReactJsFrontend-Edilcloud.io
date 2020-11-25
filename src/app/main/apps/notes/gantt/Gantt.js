@@ -875,7 +875,7 @@ class Gantt extends Component {
 		return (
 			<div>
 				<div className="flex w-full justify-between items-center p-24 pb-16">
-					<div>
+					<div className="mr-20">
 						<Typography variant="h5" className="mb-4">
 							Gantt
 						</Typography>
