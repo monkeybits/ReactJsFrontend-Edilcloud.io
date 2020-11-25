@@ -51,3 +51,50 @@ export default function MoreOption(props) {
 		</div>
 	);
 }
+// import React, { useState } from 'react';
+// import onClickOutside from 'react-onclickoutside';
+// import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+// import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+// import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
+// import { Icon, IconButton } from '@material-ui/core';
+// const Menu = props => {
+// 	const [isOpen, setIsOpen] = useState(false);
+// 	// const toggle = () => setIsOpen(!isOpen);
+// 	const options = [
+// 		{ name: 'Edit', icon: 'edit', handler: props.editHandler },
+// 		{ name: 'Delete', icon: 'delete', handler: props.deleteHandler }
+// 	];
+// 	Menu.handleClickOutside = () => setIsOpen(false);
+// 	const handleClick = event => {
+// 		event.stopPropagation();
+// 		setIsOpen(prev => !prev);
+// 	};
+
+// 	return (
+// 		<div className="actions-dropdown relative">
+// 			<IconButton aria-label="more" aria-controls="long-menu-table" aria-haspopup="true" onClick={handleClick}>
+// 				<MoreVertIcon />
+// 			</IconButton>
+// 			{isOpen && (
+// 				<div className="custom-list-dropdown">
+// 					<ul className="list-unstyled">
+// 						{options.map(option => (
+// 							<li className="py-6">
+// 								<Icon>{option.icon}</Icon>
+// 								{option.name}
+// 							</li>
+// 						))}
+// 					</ul>
+// 				</div>
+// 			)}
+// 		</div>
+// 	);
+// };
+
+// const clickOutsideConfig = {
+// 	handleClickOutside: () => Menu.handleClickOutside,
+// 	excludeScrollbar: true
+// };
+
+// export default onClickOutside(Menu, clickOutsideConfig);

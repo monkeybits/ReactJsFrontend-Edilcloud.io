@@ -22,7 +22,7 @@ import moment from 'moment';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateAttachments from 'app/main/apps/notes/todo/Dialog/attachment/CreateAttachments';
-import { Button, makeStyles } from '@material-ui/core';
+import { Badge, Button, makeStyles } from '@material-ui/core';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -176,7 +176,7 @@ function TaskContentForm(props) {
 	const [loading, setLoading] = useState(false);
 	const routeParams = useParams();
 	const companyDetail = useSelector(({ chatApp }) => chatApp?.company);
-	const projectDetail = taskContentData?.project
+	const projectDetail = taskContentData?.project;
 	const [taskDate, setTaskDate] = useState({
 		startDate: new Date(),
 		endDate: undefined
@@ -320,7 +320,8 @@ function TaskContentForm(props) {
 			)
 		);
 	};
-	const getIsDisabled = () => taskContentData?.assigned_company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
+	const getIsDisabled = () =>
+		taskContentData?.assigned_company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
 	console.log({
 		getIsDisabled: getIsDisabled(),
 		projectDetail: projectDetail,
@@ -395,6 +396,11 @@ function TaskContentForm(props) {
 				</TabPanel>
 
 				<TabPanel value={value} index={2}>
+					{getIsDisabled() && (
+						<div className="flex items-center mb-24">
+							<Icon>lock</Icon> only company owner can change this details
+						</div>
+					)}
 					<div className="flex items-center mb-24">
 						<TextField
 							label="Title"

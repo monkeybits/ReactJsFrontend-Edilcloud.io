@@ -5,7 +5,7 @@ import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 import ContactsTable from './ContactsTable';
@@ -71,7 +71,7 @@ function ContactsList(props) {
 		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
 	};
-
+	const moreRef = useRef(null);
 	const handleClose = event => {
 		event.stopPropagation();
 		setAnchorEl(null);
@@ -156,33 +156,17 @@ function ContactsList(props) {
 				sortable: false,
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
-
-						<div className="actions-dropdown relative">
-							<IconButton
-								aria-label="more"
-								aria-controls="long-menu-table"
-								aria-haspopup="true"
-								onClick={handleClick}
-							>
-								<MoreVertIcon />
-							</IconButton>
-							<div className="custom-list-dropdown">
-								<ul className="list-unstyled">
-									<li className="py-6">
-										<EditOutlinedIcon />
-										Edit
-									</li>
-									<li className="py-6">
-										<DeleteOutlineOutlinedIcon />
-										Delete
-									</li>
-									<li className="py-6">
-										<FlagOutlinedIcon />
-										Report as inapropriate
-									</li>
-								</ul>
-							</div>
-						</div>
+						<MoreOption
+						editHandler={ev => {
+							ev.stopPropagation();
+							dispatch(Actions.openEditContactDialog(row.original));
+						}}
+						deleteHandler={ev => {
+							ev.stopPropagation();
+							setUserData(row.original);
+							openDeleteContactDialog();
+						}}
+					/>
 
 						// <div className="flex items-center">
 						// 	<IconButton

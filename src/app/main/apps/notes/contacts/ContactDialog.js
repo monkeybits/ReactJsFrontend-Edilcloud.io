@@ -34,7 +34,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { SEARCH_USER_BY_EMAIL } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 import { SYSTEM_ROLES } from 'app/constants';
 
@@ -241,7 +241,8 @@ function ContactDialog(props) {
 		checkedA: true,
 		checkedB: true
 	});
-
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
@@ -412,6 +413,7 @@ function ContactDialog(props) {
 							options={SYSTEM_ROLES}
 							style={{ width: '100%' }}
 							className="mb-24"
+							disabled={contactDialog.type != 'new'&& getRole() == 'm' || getRole() == 'w' }
 							disableCloseOnSelect
 							getOptionLabel={option => option.label}
 							renderOption={(option, { selected }) => (

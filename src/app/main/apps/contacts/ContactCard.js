@@ -29,7 +29,7 @@ export default function ContactCard(props) {
 		editPermission,
 		jobTitle,
 		phone
-	}=props;
+	} = props;
 	const dispatch = useDispatch();
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [userData, setUserData] = useState(null);
@@ -122,19 +122,21 @@ export default function ContactCard(props) {
 			/>
 			<div class="card-container flex flex-col px-10 text-13">
 				<span class="pro approved">Approved</span>
-				<div className="team-action">
-					<MoreOption
-						editHandler={ev => {
-							ev.stopPropagation();
-							dispatch(Actions.openEditContactDialog(props));
-						}}
-						deleteHandler={ev => {
-							ev.stopPropagation();
-							setUserData(props);
-							openDeleteContactDialog();
-						}}
-					/>
-				</div>
+				{!!editPermission && (
+					<div className="team-action">
+						<MoreOption
+							editHandler={ev => {
+								ev.stopPropagation();
+								dispatch(Actions.openEditContactDialog(props));
+							}}
+							deleteHandler={ev => {
+								ev.stopPropagation();
+								setUserData(props);
+								openDeleteContactDialog();
+							}}
+						/>
+					</div>
+				)}
 				<input
 					type="file"
 					accept="image/*"
