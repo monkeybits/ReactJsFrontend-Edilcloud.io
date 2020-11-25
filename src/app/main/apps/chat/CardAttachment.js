@@ -36,13 +36,21 @@ function CardAttachment(props) {
 		</div>
 	);
 	const wrapper = child => (
-		<div className="flex w-full sm:w-1/2 mb-16 px-16" key={props.item.id}>
-			<div className="flex items-center justify-center min-w-128 w-128 ht-11">
-				<Paper className="rounded-4 overflow-hidden" elevation={1}>
-					{child}
-				</Paper>
+		<>
+			<div className="flex w-full sm:w-1/2 mb-16 px-16" key={props.item.id}>
+				<div className="flex items-center justify-center min-w-128 w-128 ht-11">
+					<Paper className="rounded-4 overflow-hidden" elevation={1}>
+						{child}
+					</Paper>
+				</div>
 			</div>
-		</div>
+			{type() == 'application' && (
+				<Typography className="font-600">
+					{props.item.name}
+					{props.item.extension}
+				</Typography>
+			)}
+		</>
 	);
 	let type = () => (props.item.type ? props.item.type.split('/')[0] : '');
 	switch (type()) {
@@ -50,7 +58,7 @@ function CardAttachment(props) {
 			return itemImage();
 		}
 		case 'audio': {
-			return (<audio controls src={props.item.media_url} />);
+			return <audio controls src={props.item.media_url} />;
 		}
 		case 'video': {
 			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '6.4rem' }} />);
