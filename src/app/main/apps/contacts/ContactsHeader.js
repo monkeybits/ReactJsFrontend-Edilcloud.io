@@ -18,7 +18,7 @@ function ContactsHeader(props) {
 
 	return (
 		<div className="flex w-full justify-between items-center p-24 pb-10">
-			<div>
+			<div className="mr-20">
 				<Typography variant="h5" className="mb-4">
 					Team
 				</Typography>

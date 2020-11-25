@@ -18,7 +18,7 @@ function ContactsHeader(props) {
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	return (
 		<div className="flex w-full justify-between items-center mb-24">
-			<div>
+			<div className="mr-20">
 				<Typography variant="h5" className="mb-4">
 					Team
 				</Typography>

@@ -103,7 +103,7 @@ function ProjectTabs({ value, setValue , setOpenDialog }) {
 			</TabPanel>
 			<TabPanel value={value} index={3} className="no-data-height-full">
 				{/* <div className="flex w-full justify-between items-center p-24 pb-0">
-					<div>
+					<div className="mr-20">
 						<Typography variant="h5" className="mb-4">
 							File
 						</Typography>
