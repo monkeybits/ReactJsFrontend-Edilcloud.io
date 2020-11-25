@@ -162,6 +162,7 @@ function ContactsList(props) {
 				Header: 'Action',
 				// width: 128,
 				sortable: false,
+				className: 'relative',
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && <MoreOption />
 			}

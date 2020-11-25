@@ -247,6 +247,7 @@
     }
     .comment-post-img img {
         height: 120px;
+        width: 120px;
     }
     /* .gantt-container {
         min-height: auto;

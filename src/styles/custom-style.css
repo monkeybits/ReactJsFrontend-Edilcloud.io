@@ -505,7 +505,7 @@ textarea.MuiOutlinedInput-input {
     height: calc(100vh - 220px);
 } */
 .chat-tab-content-height {
-    height: calc(100vh - 215px);
+    height: calc(100vh - 0px);
 }
 .custom-tab-header {
     box-shadow: 0 -1px 3px #00000029;
@@ -625,12 +625,12 @@ textarea.MuiOutlinedInput-input {
     background-color: #4c4c4c;
     border-radius: 15px;
 } */
-.comment-post-img {
+/* .comment-post-img {
     margin-left: 56px;
-}
+} */
 .comment-post-img img {
     height: 160px;
-    width: auto;
+    width: 160px;
 }
 .post-form .write-post textarea {
     padding-right: 0px;
@@ -1420,6 +1420,9 @@ audio {
 .custom-list-dropdown li svg {
     width: 20px;
     margin-right: 10px;
+}
+.resize-action-btn svg {
+    font-size: 2rem !important;
 }
 
 

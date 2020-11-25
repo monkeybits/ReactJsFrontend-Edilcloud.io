@@ -74,7 +74,7 @@ export default function CommentListItem({
 			setReplyComments([]);
 		};
 	}, [comment.replies_set]);
-	const options = ['Like', 'Edit', 'Delete' ];
+	const options = ['Edit', 'Delete'];
 	const handlePostComment = e => {
 		e.preventDefault();
 		if (!text) return;
@@ -287,56 +287,55 @@ export default function CommentListItem({
 						</Paper>
 					</div>
 				) : (
-					<div className="w-full">
+					<div className="w-full relative">
 						<ListItemText
 							className="p-10 py-8 m-0 comment-p bg-post-section bg-white rounded w-full"
 							primary={
 								<div className="flex comment-section">
 									<Typography color="initial" paragraph={false}>
-										{`${comment.author.first_name} ${comment.author.last_name}`} 
+										{`${comment.author.first_name} ${comment.author.last_name}`}
 									</Typography>
 								</div>
 							}
 							secondary={comment.text}
 						/>
-						<div className="actions-dropdown file-folder-action-dropdown">
-											<IconButton
-												aria-label="more"
-												aria-controls="long-menu"
-												aria-haspopup="true"
-												onClick={handleClick}
-											>
-												<MoreVertIcon />
-											</IconButton>
-											<Menu
-												id="long-menu"
-												anchorEl={anchorEl}
-												keepMounted
-												open={openMenu}
-												onClose={handleClose}
-												PaperProps={{
-													style: {
-														width: '20ch'
-													}
-												}}
-											>
-												{options.map(option => (
-													<MenuItem
-														key={option}
-														selected={option === 'Pyxis'}
-														onClick={handleClose}
-													>
-														<ListItemIcon>
-															<PriorityHighIcon fontSize="small" />
-														</ListItemIcon>
-														<Typography variant="inherit"> {option}</Typography>
-													</MenuItem>
-												))}
-											</Menu>
-										</div>
-
+						<div className="posted-images comment-post-img">
+							<PostedImages images={comment.media_set} hideNavigation />
+						</div>
+						<div className="actions-dropdown resize-action-btn absolute top-0 right-0">
+							<IconButton
+								aria-label="more"
+								aria-controls="long-menu"
+								aria-haspopup="true"
+								onClick={handleClick}
+								className="p-10"
+							>
+								<MoreVertIcon />
+							</IconButton>
+							<Menu
+								id="long-menu"
+								anchorEl={anchorEl}
+								keepMounted
+								open={openMenu}
+								onClose={handleClose}
+								className="actions-dropdown"
+								PaperProps={{
+									style: {
+										width: '20ch'
+									}
+								}}
+							>
+								{options.map(option => (
+									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+										<ListItemIcon>
+											<PriorityHighIcon fontSize="small" />
+										</ListItemIcon>
+										<Typography variant="inherit"> {option}</Typography>
+									</MenuItem>
+								))}
+							</Menu>
+						</div>
 					</div>
-					
 				)}
 				{isOffline && (
 					<>
@@ -362,11 +361,11 @@ export default function CommentListItem({
 					</>
 				)}
 			</ListItem>
-			{!isEditing && (
-				<div className="posted-images comment-post-img">
+			{/* {!isEditing && (
+				<div className="posted-images comment-post-img mt-4 mb-10">
 					<PostedImages images={comment.media_set} hideNavigation />
 				</div>
-			)}
+			)} */}
 			{!isOffline && isEditing ? (
 				<div className="flex flex-wrap items-center ml-52">
 					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
@@ -384,7 +383,8 @@ export default function CommentListItem({
 					</Button>
 				</div>
 			) : (
-				<div className="flex flex-wrap items-center ml-52">
+				
+				<div className="flex flex-wrap items-center ml-44">
 					<Button size="small" aria-label="Add to favorites">
 						<Icon className="text-13" color="action">
 							favorite
@@ -416,10 +416,10 @@ export default function CommentListItem({
 					</Button>
 					{/* {getUserId() == comment.author.id && (
 						<Button onClick={handleDeleteComment} size="small" aria-label="Add to favorites">
-							<Icon className="text-16" color="action">
+							<Icon className="text-13" color="action">
 								delete_outline
 							</Icon>
-							<Typography className="normal-case mx-4">Delete</Typography>
+							<Typography className="normal-case text-13 ml-4">Delete</Typography>
 						</Button>
 					)}
 					{getUserId() == comment.author.id && (
@@ -431,13 +431,13 @@ export default function CommentListItem({
 							size="small"
 							aria-label="Add to favorites"
 						>
-							<Icon className="text-16" color="action">
+							<Icon className="text-13" color="action">
 								edit
 							</Icon>
-							<Typography className="normal-case mx-4">Edit</Typography>
+							<Typography className="normal-case text-13 ml-4">Edit</Typography>
 						</Button>
 					)} */}
-					
+
 					<div
 						className="flex items-center ml-auto cursor-pointer"
 						onClick={ev => {
@@ -452,10 +452,11 @@ export default function CommentListItem({
 						</Icon>
 					</div>
 				</div>
+				
 			)}
 			{showReplies() && (
 				<Collapse in={open} timeout="auto" unmountOnExit>
-					<div className="ml-56">
+					<div className="ml-52">
 						<List className="clearfix">
 							{replyComments.map((reply, index) => (
 								<ReplyListItem
@@ -512,7 +513,7 @@ export default function CommentListItem({
 				</Collapse>
 			)}
 			{isReplying && (
-				<div className="flex-1 mx-4">
+				<div className="flex-1 ml-52 my-6">
 					<Paper elevation={0} className="w-full relative post-icons">
 						<Input
 							className="p-8 w-full border-1"
