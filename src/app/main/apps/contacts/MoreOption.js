@@ -8,11 +8,11 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
-export default function MoreOption() {
+export default function MoreOption(props) {
 	const [anchorEl, setAnchorEl] = React.useState(false);
 	const options = [
-		{ name: 'Edit', icon: 'edit' },
-		{ name: 'Delete', icon: 'delete' }
+		{ name: 'Edit', icon: 'edit', handler: props.editHandler },
+		{ name: 'Delete', icon: 'delete', handler: props.deleteHandler }
 	];
 	const handleClick = event => {
 		event.preventDefault();
@@ -37,10 +37,10 @@ export default function MoreOption() {
 				keepMounted
 				open={openMenu}
 				onClose={handleClose}
-				className="actions-dropdown"
+				className="actions-dropdown zoom-125"
 			>
 				{options.map(option => (
-					<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+					<MenuItem key={option} selected={option === 'Pyxis'} onClick={option.handler}>
 						<ListItemIcon>
 							<Icon>{option.icon}</Icon>
 						</ListItemIcon>

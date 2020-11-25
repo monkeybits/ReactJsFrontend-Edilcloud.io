@@ -29,6 +29,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MoreOption from './MoreOption';
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -71,7 +72,7 @@ function ContactsList(props) {
 		setAnchorEl(event.currentTarget);
 	};
 
-	const handleClose = (event) => {
+	const handleClose = event => {
 		event.stopPropagation();
 		setAnchorEl(null);
 	};
@@ -130,7 +131,11 @@ function ContactsList(props) {
 				accessor: 'email',
 				sortable: true,
 				Cell: ({ row }) => (
-					<a className="text-default" onClick={e => e.stopPropagation()} href={`mailto:${row.original.email}`}>
+					<a
+						className="text-default"
+						onClick={e => e.stopPropagation()}
+						href={`mailto:${row.original.email}`}
+					>
 						{row.original.email}
 					</a>
 				)
@@ -151,54 +156,38 @@ function ContactsList(props) {
 				sortable: false,
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
-
-						<div className="actions-dropdown relative">
-							<IconButton
-								aria-label="more"
-								aria-controls="long-menu-table"
-								aria-haspopup="true"
-								onClick={handleClick}
-							>
-								<MoreVertIcon />
-							</IconButton>
-							<div className="contact-list-dropdown">
-								<ul className="list-unstyled">
-									<li className="py-6">
-										<EditOutlinedIcon />
-										Edit
-									</li>
-									<li className="py-6">
-										<DeleteOutlineOutlinedIcon />
-										Delete
-									</li>
-									<li className="py-6">
-										<FlagOutlinedIcon />
-										Report as inapropriate
-									</li>
-								</ul>
-							</div>
-						</div>
-
-						// <div className="flex items-center">
-						// 	<IconButton
-						// 		onClick={ev => {
-						// 			ev.stopPropagation();
-						// 			dispatch(Actions.openEditContactDialog(row.original));
-						// 		}}
-						// 	>
-						// 		<Icon>edit</Icon>
-						// 	</IconButton>
-						// 	<IconButton
-						// 		onClick={ev => {
-						// 			ev.stopPropagation();
-						// 			setUserData(row.original);
-						// 			openDeleteContactDialog();
-						// 		}}
-						// 	>
-						// 		{row.original.status == 'Deactivated' ? <Icon>check</Icon> : <Icon>delete</Icon>}
-						// 	</IconButton>
-						// </div>
+						<MoreOption
+							editHandler={ev => {
+								ev.stopPropagation();
+								dispatch(Actions.openEditContactDialog(row.original));
+							}}
+							deleteHandler={ev => {
+								ev.stopPropagation();
+								setUserData(row.original);
+								openDeleteContactDialog();
+							}}
+						/>
 					)
+
+				// <div className="flex items-center">
+				// 	<IconButton
+				// 		onClick={ev => {
+				// 			ev.stopPropagation();
+				// 			dispatch(Actions.openEditContactDialog(row.original));
+				// 		}}
+				// 	>
+				// 		<Icon>edit</Icon>
+				// 	</IconButton>
+				// 	<IconButton
+				// 		onClick={ev => {
+				// 			ev.stopPropagation();
+				// 			setUserData(row.original);
+				// 			openDeleteContactDialog();
+				// 		}}
+				// 	>
+				// 		{row.original.status == 'Deactivated' ? <Icon>check</Icon> : <Icon>delete</Icon>}
+				// 	</IconButton>
+				// </div>
 			}
 		],
 		[dispatch, user.starred]
@@ -310,13 +299,15 @@ function ContactsList(props) {
 							<MenuOpenIcon />
 						</IconButton>
 					</Hidden>
-				 </div>
-				 <FuseAnimate animation="transition.slideLeftIn" delay={300}>
+				</div>
+				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 					<Paper
 						className="flex p-4 items-center w-full h-40 px-8 py-4 bg-white search-white-box"
 						elevation={1}
 					>
-						<Icon className="text-20" color="action">search</Icon>
+						<Icon className="text-20" color="action">
+							search
+						</Icon>
 
 						<Input
 							placeholder="Search for anything"
