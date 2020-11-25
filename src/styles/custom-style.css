@@ -804,6 +804,9 @@ textarea.MuiOutlinedInput-input {
 .chat-options svg {
     font-size: 19px;
 }
+.chat-pdf-box:first-child {
+    margin-top: 3.0rem;
+}
 
 /* ********************************************************************************************
     Team Page
