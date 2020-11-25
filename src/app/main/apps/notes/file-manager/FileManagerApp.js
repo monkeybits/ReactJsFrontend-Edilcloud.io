@@ -268,7 +268,7 @@ function FileManagerApp(props) {
 				header={
 					<>
 						<div className="flex w-full justify-between items-center">
-							<div>
+							<div className="mr-20">
 								<Typography variant="h5" className="mb-4">
 									File
 								</Typography>

@@ -400,7 +400,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 								setOpen(!open);
 							}}
 						>
-							<Typography className="font-600">{commentsLength()} Comments</Typography>
+							<Typography className="text-13 font-600">{commentsLength()} Comments</Typography>
 							<Icon className="text-16 font-600 mx-4" color="action">
 								{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 							</Icon>
@@ -432,9 +432,9 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 				)}
 
 				{(!isOffline || currnetPost.successAfterRetry) && (
-					<div className="flex flex-auto -mx-4">
+					<div className="flex flex-auto">
 						<Avatar className="mr-10" src="assets/images/avatars/profile.jpg" />
-						<div className="flex-1 mx-2">
+						<div className="flex-1">
 							<Paper elevation={0} className="w-full relative post-icons">
 								<Input
 									className="p-8 w-full border-1"

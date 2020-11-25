@@ -425,6 +425,7 @@ function ContactDialog(props) {
 							options={SYSTEM_ROLES}
 							style={{ width: '100%' }}
 							className="mb-24"
+							disabled={(contactDialog.type != 'new' && getRole() == 'm') || getRole() == 'w'}
 							disableCloseOnSelect
 							getOptionLabel={option => option.label}
 							renderOption={(option, { selected }) => (

@@ -36,8 +36,8 @@ function CardAttachment(props) {
 		</div>
 	);
 	const wrapper = child => (
-		<div className="flex w-full sm:w-1/2 mb-16 px-16" key={props.item.id}>
-			<div className="flex items-center justify-center min-w-128 w-128 ht-11">
+		<div className="flex w-full mb-16 px-16 mt-10" key={props.item.id}>
+			<div className="flex items-center justify-center ht-11 w-full">
 				<Paper className="rounded-4 overflow-hidden" elevation={1}>
 					{child}
 				</Paper>
@@ -53,12 +53,12 @@ function CardAttachment(props) {
 			return (<audio controls src={props.item.media_url} />);
 		}
 		case 'video': {
-			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '6.4rem' }} />);
+			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '4.5rem' }} />);
 		}
 		case 'application': {
 			return props.item.extension == '.xlsx' || props.item.extension == '.xls'
-				? wrapper(<FontAwesomeIcon icon={faFileExcel} style={{ color: 'green', fontSize: '6.4rem' }} />)
-				: wrapper(<FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '6.4rem' }} />);
+				? wrapper(<FontAwesomeIcon icon={faFileExcel} style={{ color: 'green', fontSize: '4.5rem' }} />)
+				: wrapper(<FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '4.5rem' }} />);
 		}
 		case 'link': {
 			return (
@@ -99,7 +99,7 @@ function CardAttachment(props) {
 			);
 		}
 		default: {
-			return <FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '6.4rem' }} />;
+			return <FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '4.5rem' }} />;
 		}
 	}
 }

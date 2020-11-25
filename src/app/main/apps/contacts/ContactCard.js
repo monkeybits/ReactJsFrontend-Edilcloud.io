@@ -1,33 +1,41 @@
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
-import { getCompressFile } from 'app/services/serviceUtils';
+import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import Icon from '@material-ui/core/Icon';
+import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
+import MoreOption from './MoreOption';
+import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
 
-export default function ContactCard({
-	id,
-	first_name,
-	last_name,
-	role,
-	email,
-	position,
-	company,
-	status,
-	avatar,
-	address,
-	language,
-	can_access_chat,
-	can_access_files,
-	editPermission,
-	jobTitle,
-	phone
-}) {
+export default function ContactCard(props) {
+	const {
+		id,
+		first_name,
+		last_name,
+		role,
+		email,
+		position,
+		company,
+		status,
+		avatar,
+		address,
+		language,
+		can_access_chat,
+		can_access_files,
+		editPermission,
+		jobTitle,
+		phone
+	} = props;
 	const dispatch = useDispatch();
+	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+	const [userData, setUserData] = useState(null);
 	const inputFile = useRef(null);
 	const [viewCroper, setViewCroper] = useState(false);
+	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
 	const [image, setImage] = useState(null);
 	const [permission, setPermission] = useState({
 		can_access_chat,
@@ -67,18 +75,68 @@ export default function ContactCard({
 			afterSubmit();
 		}
 	};
+	const openDeleteContactDialog = () => setIsOpenDeleteDialog(true);
+	const colseDeleteContactDialog = () => setIsOpenDeleteDialog(false);
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
 	}
+	const onDeactivate = () => {
+		const { id, email, status } = userData;
+		let url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
+		apiCall(
+			url,
+			{},
+			res => {
+				dispatch(Actions.removeContact(email));
+				colseDeleteContactDialog();
+				dispatch(Actions.getContacts(routeParams));
+			},
+			err => console.log(err),
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
 		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3}>
+			<DeleteConfirmDialog
+				text={
+					userData && (
+						<>
+							<Typography>
+								Are you sure want to {userData.status == 'Deactivated' ? 'activate' : 'deactivate'} ?
+							</Typography>
+							{userData.status != 'Deactivated' && (
+								<Typography>
+									Account will be deactivated untill you not activet this user again!
+								</Typography>
+							)}
+						</>
+					)
+				}
+				isOpenDeleteDialog={isOpenDeleteDialog}
+				colseDeleteFileDialog={colseDeleteContactDialog}
+				onYes={onDeactivate}
+				onNo={colseDeleteContactDialog}
+			/>
 			<div class="card-container flex flex-col px-10 text-13">
 				<span class="pro approved">Approved</span>
-				<div className="team-action">
-					<Icon>more_vert</Icon>
-				</div>
+				{!!editPermission && (
+					<div className="team-action">
+						<MoreOption
+							editHandler={ev => {
+								ev.stopPropagation();
+								dispatch(Actions.openEditContactDialog(props));
+							}}
+							deleteHandler={ev => {
+								ev.stopPropagation();
+								setUserData(props);
+								openDeleteContactDialog();
+							}}
+						/>
+					</div>
+				)}
 				<input
 					type="file"
 					accept="image/*"
@@ -104,9 +162,12 @@ export default function ContactCard({
 					{position ? position : 'N/A'} - {role}
 				</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
-				<p className="font-500 text-muted mb-8">{email}</p>
-				<p className="font-500 text-muted">{phone}</p>
-
+				<a className="text-default underline" href={`mailto:${email}`}>
+					{email}
+				</a>
+				<a className="text-default underline" href={`tel:${phone}`}>
+					{phone}
+				</a>
 				{/* <div className="my-12 block mx-auto">
 					<Button
 						variant={permission.can_access_files ? 'contained' : 'outlined'}

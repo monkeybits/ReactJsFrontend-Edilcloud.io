@@ -18,7 +18,7 @@ function ProjectDetailHeader(props) {
 	return (
 		<div className="flex flex-1 items-center justify-between p-8 sm:p-24">
 			{/* <div className="flex w-full justify-between items-center p-8 sm:p-24">
-				<div>
+				<div className="mr-20">
 					<Typography variant="h5">
 						Chat
 					</Typography>

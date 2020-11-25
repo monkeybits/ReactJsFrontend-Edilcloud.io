@@ -160,7 +160,7 @@ function ChatApp(props) {
 					{/* <div className={classes.topBg} /> */}
 
 					{/* <div className="flex w-full justify-between items-center mb-20">
-						<div>
+						<div className="mr-20">
 							<Typography variant="h5" className="mb-4">
 								Chat
 							</Typography>
