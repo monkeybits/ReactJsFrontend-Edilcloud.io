@@ -52,6 +52,7 @@ function sortByProperty(array, property, order = 'ASC') {
 function ContactsList(props) {
 	const dispatch = useDispatch();
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.companies);
+	const company = useSelector(({ chatApp }) => chatApp.company);
 	const filterKey = useSelector(({ contactsApp }) => contactsApp.contacts.filterKey);
 	const filterKeyName = useSelector(({ contactsApp }) => contactsApp.contacts.filterKeyName);
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
@@ -344,30 +345,23 @@ function ContactsList(props) {
 				</FuseAnimate>
 			) : (
 				filteredData &&
-				companies &&
-				!!companies.length &&
-				companies.map(
-					d =>
-						d.profile.company && (
-							<>
-								{/* <Typography className="truncate">{d.profile.company.name}</Typography>
+				 (
+					<>
+						{/* <Typography className="truncate">{d.profile.company.name}</Typography>
 								<Divider className="my-12" /> */}
-								<Grid container spacing={12} className="team-grid">
-									{filteredData.map((data, index) => {
-										return d.profile?.company?.id == data.profile?.company?.id ? (
-											<ContactCard
-												editPermission={
-													getRole() == 'o' ||
-													getRole() == 'd' ||
-													data.email == userInfo?.email
-												}
-												{...data}
-											/>
-										) : null;
-									})}
-								</Grid>
-							</>
-						)
+						<Grid container spacing={12} className="team-grid">
+							{filteredData.map((data, index) => {
+								return ( //company.id == data.profile?.company?.id ? 
+									<ContactCard
+										editPermission={
+											getRole() == 'o' || getRole() == 'd' || data.email == userInfo?.email
+										}
+										{...data}
+									/>
+								)// : null;
+							})}
+						</Grid>
+					</>
 				)
 			)}
 			<div className="flex justify-center mt-12">

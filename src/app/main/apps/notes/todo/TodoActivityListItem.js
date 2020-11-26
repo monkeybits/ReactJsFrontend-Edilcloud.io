@@ -56,8 +56,8 @@ function TodoActivityListItem(props) {
 	const [inviteMembers, setInviteMembers] = useState([]);
 	const [checkedAll, setCheckedAll] = useState(false);
 	useEffect(() => {
-		setMembers(props.todo.team_workers);
-	}, [props.todo.team_workers]);
+		setMembers(props.todo.workers_in_activity);
+	}, [props.todo.workers_in_activity]);
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -232,7 +232,7 @@ function TodoActivityListItem(props) {
 							{props.todo.title}
 						</Typography>
 						<div className="ml-auto">
-							<Tooltip title="There is a issue with some tree are not clean on site" placement="top">
+							{/* <Tooltip title="There is a issue with some tree are not clean on site" placement="top">
 								<IconButton
 									onClick={e => {
 										e.stopPropagation();
@@ -241,7 +241,7 @@ function TodoActivityListItem(props) {
 								>
 									<Icon>info_outlined</Icon>
 								</IconButton>
-							</Tooltip>
+							</Tooltip> */}
 							{/* <IconButton
 										onClick={ev => {
 											ev.preventDefault();

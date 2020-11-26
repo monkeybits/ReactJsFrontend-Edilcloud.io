@@ -1,4 +1,4 @@
-import { IconButton, Typography } from '@material-ui/core';
+import { Icon, IconButton, Typography } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import React from 'react';
@@ -10,7 +10,10 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 export default function MoreOption() {
 	const [anchorEl, setAnchorEl] = React.useState(false);
-	const options = ['Edit', 'Delete', 'Report as inapropriate'];
+	const options = [
+		{ name: 'Edit', icon: 'edit' },
+		{ name: 'Delete', icon: 'delete' }
+	];
 	const handleClick = event => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -40,9 +43,9 @@ export default function MoreOption() {
 				{options.map(option => (
 					<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
 						<ListItemIcon>
-							<PriorityHighIcon fontSize="small" />
+							<Icon>{option.icon}</Icon>
 						</ListItemIcon>
-						<Typography variant="inherit"> {option}</Typography>
+						<Typography variant="inherit"> {option.name}</Typography>
 					</MenuItem>
 				))}
 			</Menu>

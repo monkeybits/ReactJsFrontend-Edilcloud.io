@@ -182,33 +182,33 @@ function DetailSidebarContent({ setProgress }) {
 				<div>
 					<div className="file-details p-24 border-b-1">
 						<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
-								{selectedItem.type == 'photo' ? (
-									<img className="h-128 sm:h-256 object-contain" src={selectedItem.photo} />
-								) : selectedItem.extension == 'pdf' ? (
-									<ReadPDF height={256} width={270} file={selectedItem.document} />
-								) : selectedItem.type == 'video' ? (
-									<FontAwesomeIcon
-										icon={faFileVideo}
-										style={{ ...getCssColor(selectedItem.type), fontSize: '2.4rem' }}
-									/>
-								) : (
-									<FontAwesomeIcon
-										icon={
-											selectedItem.type == 'document'
-												? selectedItem.extension == 'pdf'
-													? faFilePdf
-													: selectedItem.extension == 'docx'
-													? faFileWord
-													: selectedItem.extension == 'xlsx'
-													? faFileExcel
-													: selectedItem.extension == 'mp3'
-													? faFileAudio
-													: faFile
+							{selectedItem.type == 'photo' ? (
+								<img className="h-128 sm:h-256 object-contain" src={selectedItem.photo} />
+							) : selectedItem.extension == 'pdf' ? (
+								<ReadPDF height={256} width={270} file={selectedItem.document} />
+							) : selectedItem.type == 'video' ? (
+								<FontAwesomeIcon
+									icon={faFileVideo}
+									style={{ ...getCssColor(selectedItem.type), fontSize: '2.4rem' }}
+								/>
+							) : (
+								<FontAwesomeIcon
+									icon={
+										selectedItem.type == 'document'
+											? selectedItem.extension == 'pdf'
+												? faFilePdf
+												: selectedItem.extension == 'docx'
+												? faFileWord
+												: selectedItem.extension == 'xlsx'
+												? faFileExcel
+												: selectedItem.extension == 'mp3'
+												? faFileAudio
 												: faFile
-										}
-										style={{ ...getCssColor(selectedItem.extension), fontSize: '2.4rem' }}
-									/>
-								)}
+											: faFile
+									}
+									style={{ ...getCssColor(selectedItem.extension), fontSize: '2.4rem' }}
+								/>
+							)}
 						</div>
 					</div>
 					<div className="px-10 py-12 border-b-1">
@@ -225,12 +225,28 @@ function DetailSidebarContent({ setProgress }) {
 								</ListItemIcon>
 								<Typography variant="inherit">Delete</Typography>
 							</MenuItem>
-							<MenuItem onClick={handleClick}>
+							<MenuItem
+								aria-label="more"
+								aria-controls="long-menu"
+								aria-haspopup="true"
+								onClick={handleClick}
+							>
 								<ListItemIcon>
 									<MoreVertIcon fontSize="medium" />
 								</ListItemIcon>
 								<Typography variant="inherit">More</Typography>
-								<Menu anchorEl={anchorEl} open={openMenu} onClose={handleClose}>
+								<Menu
+									id="long-menu"
+									anchorEl={anchorEl}
+									keepMounted
+									open={openMenu}
+									onClose={handleClose}
+									// PaperProps={{
+									// 	style: {
+									// 		width: '20ch'
+									// 	}
+									// }}
+								>
 									<MenuItem onClick={openViewFile}>
 										<ListItemIcon>
 											<Icon>visibility</Icon>

@@ -23,6 +23,8 @@ export default function ContactCard({
 	status,
 	avatar,
 	address,
+	company,
+	phone,
 	language,
 	can_access_chat,
 	can_access_files,
@@ -73,14 +75,14 @@ export default function ContactCard({
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
 	}
-	const options = ['Edit', 'Delete', 'Report as inapropriate'  ];
+	const options = ['Edit', 'Delete', 'Report as inapropriate'];
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const handleClick = event => {
 		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
 	};
 
-	const handleClose = (event) => {
+	const handleClose = event => {
 		event.stopPropagation();
 		setAnchorEl(null);
 	};
@@ -90,9 +92,15 @@ export default function ContactCard({
 	) : (
 		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3}>
 			<div class="card-container flex flex-col px-10 text-13">
-				<span class="pro approved">Approved</span>
+				<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				<div className="team-action">
-					<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" className="p-2" onClick={handleClick}>
+					<IconButton
+						aria-label="more"
+						aria-controls="long-menu"
+						aria-haspopup="true"
+						className="p-2"
+						onClick={handleClick}
+					>
 						<MoreVertIcon />
 					</IconButton>
 					<Menu
@@ -145,9 +153,14 @@ export default function ContactCard({
 				{/* <h3 className="font-weight-600 mb-8">
 					Job Title
 				</h3> */}
-				<p className="font-500 text-muted mb-8">Company Name</p>
-				<p className="font-500 text-muted mb-8">email@email.com</p>
-				<p className="font-500 text-muted">9876543210</p>
+
+				<p className="font-500 text-muted mb-8">{company}</p>
+				<a className="font-700 text-muted mb-8" href={`mailto:${email}`}>
+					{email}
+				</a>
+				<a className="font-700 text-muted mb-8" href={`tel:${phone}`}>
+					{phone}
+				</a>
 
 				{/* <div className="my-12 block mx-auto">
 					<Button

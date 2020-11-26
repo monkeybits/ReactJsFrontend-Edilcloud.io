@@ -31,6 +31,8 @@ import Button from '@material-ui/core/Button';
 import PlaylistAddOutlinedIcon from '@material-ui/icons/PlaylistAddOutlined';
 import { useParams } from 'react-router';
 import PostList from './PostList';
+import ToolbarMenu from './Dialog/toolbar/ToolbarMenu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -140,6 +142,7 @@ function TodoListItem(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const classes = useStyles(props);
 	const routeParams = useParams();
+	const [anchorEl, setAnchorEl] = useState(null);
 
 	const handleClick = () => {
 		setOpen(!open);
@@ -185,6 +188,25 @@ function TodoListItem(props) {
 		// }
 	};
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
+	const stopsEvents = event => {
+		event.preventDefault();
+		event.stopPropagation();
+	};
+	const handleMenuOpen = event => {
+		stopsEvents(event);
+		setAnchorEl(event.currentTarget);
+		// if (!members.length) {
+		// 	getCompanyApprovedContacts();
+		// }
+	};
+
+	const handleMenuClose = event => {
+		stopsEvents(event);
+		setAnchorEl(null);
+		// if (!members.length) {
+		// 	props.getDetailOfTask();
+		// }
+	};
 	return (
 		<>
 			<Card
@@ -230,7 +252,22 @@ function TodoListItem(props) {
 						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary font-medium font-size-12 mb-6">
 							{projectDetail?.name}
 						</Typography>
-
+						{!props.todo.assigned_company && (
+							<div className="custom-member-menu flex items-center" onClick={handleMenuOpen}>
+								<Icon>add_circle</Icon>
+								Assign Company
+							</div>
+						)}
+						<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
+							{props.companies.map((item, index) => {
+								return (
+									<MenuItem onClick={stopsEvents} className="px-8" key={item.id}>
+										<Avatar className="w-32 h-32" src={item.avatar} />
+										<ListItemText className="mx-8">{item.company}</ListItemText>
+									</MenuItem>
+								);
+							})}
+						</ToolbarMenu>
 						{/* dates below */}
 						<div className="flex items-center flex-wrap">
 							{props.todo.progress == 100 ? (
@@ -370,7 +407,7 @@ function TodoListItem(props) {
 						</div>
 						{props.todo.assigned_company?.id == company.id && (
 							<div className="flex items-center mt-8">
-								<div>
+								{/* <div>
 									<Tooltip
 										title="There is a issue with some tree are not clean on site"
 										placement="top"
@@ -384,9 +421,9 @@ function TodoListItem(props) {
 											<Icon>info_outlined</Icon>
 										</IconButton>
 									</Tooltip>
-								</div>
+								</div> */}
 								<div className="custom-outlined-btn">
-									<Button
+									{/* <Button
 										variant="outlined"
 										color="primary"
 										className={classes.button}
@@ -400,7 +437,7 @@ function TodoListItem(props) {
 										}}
 									>
 										Add
-									</Button>
+									</Button> */}
 									{/* <IconButton
 										onClick={ev => {
 											ev.preventDefault();
@@ -467,10 +504,25 @@ function TodoListItem(props) {
 						{props.todo.assigned_company?.id == company.id && (
 							<div className="flex items-center font-600">
 								{/* <Icon className="text-16">check_circle</Icon> */}
-								<span className="mx-4">Task Activities</span>
+								<span className="mx-4 underline">Task Activities</span>
 								<span className="mx-4"> (0/{taskDetail?.length})</span>
 
 								{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}
+								<Button
+									variant="outlined"
+									color="primary"
+									className={classes.button}
+									startIcon={<PlaylistAddOutlinedIcon />}
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										if (props.todo.assigned_company) {
+											dispatch(Actions.openAddActivityTodoDialog(props.todo));
+										}
+									}}
+								>
+									Add
+								</Button>
 							</div>
 						)}
 					</div>
@@ -493,9 +545,7 @@ function TodoListItem(props) {
 									task={props.todo}
 									todo={todo}
 									key={todo.id}
-									postlist={
-										<PostList tempAuthor={{}} posts={todo.post_set} />
-									}
+									postlist={<PostList tempAuthor={{}} posts={todo.post_set} />}
 								/>
 							))}
 					</FuseAnimateGroup>

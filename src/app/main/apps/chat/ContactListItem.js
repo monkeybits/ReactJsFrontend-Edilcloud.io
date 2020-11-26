@@ -59,14 +59,14 @@ function ContactListItem(props) {
 						</Typography> */}
 					{/* )} */}
 					{/* {props.contact.unread && ( */}
-						<div
+						{/* <div
 							className={clsx(
 								classes.unreadBadge,
 								'flex items-center justify-center min-w-24 h-24 rounded-full text-11 text-white text-center chat-badge leading-normal'
 							)}
 						>
 							11
-						</div>
+						</div> */}
 					{/* )} */}
 				</div>
 			{/* )} */}

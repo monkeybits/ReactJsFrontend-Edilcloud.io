@@ -379,7 +379,7 @@ function TodoListItem(props) {
 						{props.todo.assigned_company?.id == company.id && (
 							<div className="flex items-center mt-8">
 								<div>
-									<Tooltip
+									{/* <Tooltip
 										title="There is a issue with some tree are not clean on site"
 										placement="top"
 									>
@@ -391,10 +391,10 @@ function TodoListItem(props) {
 										>
 											<Icon>info_outlined</Icon>
 										</IconButton>
-									</Tooltip>
+									</Tooltip> */}
 								</div>
 								<div className="custom-outlined-btn">
-									<Button
+									{/* <Button
 										variant="outlined"
 										color="primary"
 										className={classes.button}
@@ -408,7 +408,7 @@ function TodoListItem(props) {
 										}}
 									>
 										Add
-									</Button>
+									</Button> */}
 									{/* <IconButton
 										onClick={ev => {
 											ev.preventDefault();
@@ -475,10 +475,25 @@ function TodoListItem(props) {
 						{props.todo.assigned_company?.id == company.id && (
 							<div className="flex items-center font-600">
 								{/* <Icon className="text-16">check_circle</Icon> */}
-								<span className="mx-4">Task Activities</span>
+								<span className="mx-4 underline">Task Activities</span>
 								<span className="mx-4"> (0/{taskDetail?.length})</span>
 
 								{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}
+								<Button
+									variant="outlined"
+									color="primary"
+									className={classes.button}
+									startIcon={<PlaylistAddOutlinedIcon />}
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										if (props.todo.assigned_company) {
+											dispatch(Actions.openAddActivityTodoDialog(props.todo));
+										}
+									}}
+								>
+									Add
+								</Button>
 							</div>
 						)}
 					</div>
