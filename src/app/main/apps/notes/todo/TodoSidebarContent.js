@@ -1,5 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
+import { Avatar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import List from '@material-ui/core/List';
@@ -7,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
@@ -23,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 		'&.active': {
 			backgroundColor: theme.palette.secondary.main,
 			color: `${theme.palette.secondary.contrastText}!important`,
-			pointerEvents: 'none',
+			// pointerEvents: 'none',
 			'& .list-item-icon': {
 				color: 'inherit'
 			}
@@ -42,80 +44,107 @@ const useStyles = makeStyles(theme => ({
 
 function TodoSidebarContent(props) {
 	const dispatch = useDispatch();
-	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
-	const folders = useSelector(({ todoAppNote }) => todoAppNote.folders);
-	const filters = useSelector(({ todoAppNote }) => todoAppNote.filters);
-	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 
-	const classes = useStyles(props);
+	const genrealFilter = useSelector(({ todoAppNote }) => todoAppNote.filters.genrealFilter);
+	const timeFilter = useSelector(({ todoAppNote }) => todoAppNote.filters.timeFilter);
+	const companyFilter = useSelector(({ todoAppNote }) => todoAppNote.filters.companyFilter);
+	const peopleFilter = useSelector(({ todoAppNote }) => todoAppNote.filters.peopleFilter);
 
+	const classes = useStyles(props);
+	const changeFilter = (activeFilter, activeFilterKey) =>
+	dispatch(Actions.changeFilters({ activeFilter, activeFilterKey }));
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className="flex-auto border-l-1 border-solid">
 				<div className={classes.listWrapper}>
 					<List>
-						{folders.length > 0 &&
-							folders.map(folder => (
-								<ListItem
-									button
-									component={NavLinkAdapter}
-									to={`/apps/todo/${folder.handle}`}
-									key={folder.id}
-									activeClassName="active"
-									className={classes.listItem}
-								>
-									<Icon className="list-item-icon" color="action">
-										{folder.icon}
-									</Icon>
-									<ListItemText primary={folder.title} disableTypography />
-								</ListItem>
-							))}
-					</List>
-
-					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-							FILTERS
+							GENERAL FILTERS
 						</ListSubheader>
 
-						{filters.length > 0 &&
-							filters.map(filter => (
+						{genrealFilter.length > 0 &&
+							genrealFilter.map(filter => (
 								<ListItem
 									button
-									component={NavLinkAdapter}
-									to={`/apps/todo/filter/${filter.handle}`}
+									onClick={() => changeFilter('genrealFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.isActive })}
 									activeClassName="active"
-									className={classes.listItem}
-									key={filter.id}
+									key={filter.name}
 								>
 									<Icon className="list-item-icon" color="action">
 										{filter.icon}
 									</Icon>
-									<ListItemText primary={filter.title} disableTypography />
+									<ListItemText primary={filter.name} disableTypography />
 								</ListItem>
 							))}
 					</List>
 
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-							LABELS
+							TIME FILTERS
 						</ListSubheader>
 
-						{labels.length > 0 &&
-							labels.map(label => (
+						{timeFilter.length > 0 &&
+							timeFilter.map(filter => (
 								<ListItem
 									button
-									component={NavLinkAdapter}
-									to={`/apps/todo/label/${label.handle}`}
-									key={label.id}
-									className={classes.listItem}
+									onClick={() => changeFilter('timeFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.isActive })}
+									activeClassName="active"
+									key={filter.name}
 								>
-									<Icon className="list-item-icon" style={{ color: '#388E3C' }} color="action">
-										label
+									<Icon className="list-item-icon" color="action">
+										{filter.icon}
 									</Icon>
-									<ListItemText primary={label.title} disableTypography />
+									<ListItemText primary={filter.name} disableTypography />
 								</ListItem>
 							))}
+					</List>
+
+					<List>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							COMPANY FILTERS
+						</ListSubheader>
+						{companyFilter.length > 0 &&
+							companyFilter.map(filter => (
+								<ListItem
+									button
+									onClick={() => changeFilter('companyFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.isActive })}
+									activeClassName="active"
+									key={filter.name}
+								>
+									<Icon className="list-item-icon" color="action">
+										{filter.icon}
+									</Icon>
+									<ListItemText primary={filter.name} disableTypography />
+								</ListItem>
+							))}
+					</List>
+
+					<List>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							PEOPLE FILTERS
+						</ListSubheader>
+
+						{peopleFilter.length > 0 &&
+							peopleFilter.map(filter => {
+								let name = `${filter.first_name} ${filter.last_name}`;
+								return (
+									<ListItem
+										button
+										key={filter.id}
+										onClick={() => changeFilter('peopleFilter', filter.id)}
+										className={clsx(classes.listItem, { active: filter.isActive })}
+									>
+										<Avatar className="h-24 w-24 mx-8" src={filter.photo} alt={filter.name}>
+											{[...name][0]}
+										</Avatar>
+										<ListItemText primary={name} disableTypography />
+									</ListItem>
+								);
+							})}
 					</List>
 				</div>
 			</div>
