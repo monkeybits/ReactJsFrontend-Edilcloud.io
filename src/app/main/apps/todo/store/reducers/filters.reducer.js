@@ -79,7 +79,11 @@ const peopleFilterNames = arr => {
 	const userInfo = decodeDataFromToken();
 	var result = arr.reduce(function (flat, toFlatten) {
 		let activityPeople = [];
-		if (toFlatten.assigned_company && toFlatten.assigned_company.id == userInfo.extra.profile.company) {
+		if (
+			toFlatten.assigned_company &&
+			userInfo.extra?.profile &&
+			toFlatten.assigned_company.id == userInfo.extra.profile.company
+		) {
 			activityPeople = flatten(toFlatten.activities);
 		}
 		if (Array.isArray(activityPeople)) {
@@ -113,7 +117,7 @@ const filtersReducer = (state = initialState(), action) => {
 				projectFilter: projectNames(action.payload),
 				companyFilter: companyFilterNames(action.payload),
 				peopleFilter: peopleFilterNames(action.payload),
-				usedKeys: ['genrealFilter','timeFilter'],
+				usedKeys: ['genrealFilter', 'timeFilter']
 			};
 		case Actions.CHANGE_FILTERS:
 			let tempUsedKeys = [...state.usedKeys];

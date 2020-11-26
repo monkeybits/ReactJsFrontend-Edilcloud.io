@@ -121,7 +121,7 @@ export default function ContactCard(props) {
 				onNo={colseDeleteContactDialog}
 			/>
 			<div class="card-container flex flex-col px-10 text-13">
-				<span class="pro approved">Approved</span>
+			<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				{!!editPermission && (
 					<div className="team-action">
 						<MoreOption
@@ -162,10 +162,10 @@ export default function ContactCard(props) {
 					{position ? position : 'N/A'} - {role}
 				</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
-				<a className="text-default underline" href={`mailto:${email}`}>
+				<a className="font-700 text-muted mb-8" href={`mailto:${email}`}>
 					{email}
 				</a>
-				<a className="text-default underline" href={`tel:${phone}`}>
+				<a className="font-700 text-muted mb-8" href={`tel:${phone}`}>
 					{phone}
 				</a>
 				{/* <div className="my-12 block mx-auto">

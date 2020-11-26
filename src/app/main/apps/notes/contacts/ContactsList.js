@@ -345,20 +345,20 @@ function ContactsList(props) {
 				</FuseAnimate>
 			) : (
 				filteredData &&
-				company && (
+				 (
 					<>
 						{/* <Typography className="truncate">{d.profile.company.name}</Typography>
 								<Divider className="my-12" /> */}
 						<Grid container spacing={12} className="team-grid">
 							{filteredData.map((data, index) => {
-								return company.id == data.profile?.company?.id ? (
+								return ( //company.id == data.profile?.company?.id ? 
 									<ContactCard
 										editPermission={
 											getRole() == 'o' || getRole() == 'd' || data.email == userInfo?.email
 										}
 										{...data}
 									/>
-								) : null;
+								)// : null;
 							})}
 						</Grid>
 					</>

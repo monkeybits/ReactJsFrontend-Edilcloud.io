@@ -170,6 +170,9 @@
     .custom-fuse-page-right-sidebar .permanent {
         height: 100%;
     }
+    .custom-fuse-page-right-sidebar .permanent .permanent {
+        height: auto;
+    }
     .file-icon-small svg {
         margin-bottom: 80px;
     }

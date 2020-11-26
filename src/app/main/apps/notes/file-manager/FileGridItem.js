@@ -57,6 +57,16 @@ export default function FileGridItem({ tileData, pageLayout }) {
 	const dispatch = useDispatch();
 	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const classes = useStyles();
+	const handleOpenData = (ev, tile) => {
+		ev.preventDefault();
+		ev.stopPropagation();
+		pageLayout.current.toggleRightSidebar();
+		const findIndex = [...allFiles].findIndex(
+			element => element.mainId == tile.mainId && element.type == tile.type
+		);
+		let fileData = allFiles[findIndex];
+		dispatch(Actions.setSelectedItem(fileData.id));
+	};
 	const getCssColor = fileType =>
 		fileType == 'pdf'
 			? { color: 'red' }
@@ -73,7 +83,7 @@ export default function FileGridItem({ tileData, pageLayout }) {
 		<div className={classes.root}>
 			<GridList cellHeight={180} className={classes.gridList}>
 				{tileData.map(tile => (
-					<GridListTile key={tile.img}>
+					<GridListTile key={tile.img} onClick={e => handleOpenData(e, tile)}>
 						{tile.type == 'video' ? (
 							<FontAwesomeIcon
 								className="p-28"
@@ -103,27 +113,22 @@ export default function FileGridItem({ tileData, pageLayout }) {
 						)}
 						<GridListTileBar
 							className="text-14"
-							title={<><PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" />{tile.title}</>}
+							title={
+								<>
+									<PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" />
+									{tile.title}
+								</>
+							}
 							// subtitle={<span>size: {tile.size}</span>}
 							actionIcon={
 								<IconButton
-									onClick={ev => {
-										ev.preventDefault();
-										ev.stopPropagation();
-										pageLayout.current.toggleRightSidebar();
-										const findIndex = [...allFiles].findIndex(
-											element => element.mainId == tile.mainId && element.type == tile.type
-										);
-										let fileData = allFiles[findIndex];
-										dispatch(Actions.setSelectedItem(fileData.id));
-									}}
+									// onClick={}
 									aria-label={`info about ${tile.title}`}
 									className={clsx(classes.icon, 'file-grid-action-dropdown')}
 								>
 									<MoreVertIcon />
 								</IconButton>
 							}
-
 						/>
 					</GridListTile>
 				))}

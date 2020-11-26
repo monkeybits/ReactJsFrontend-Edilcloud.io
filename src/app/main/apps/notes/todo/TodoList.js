@@ -14,7 +14,7 @@ function TodoList(props) {
 	const orderBy = useSelector(({ todoAppNote }) => todoAppNote.todos.orderBy);
 	const orderDescending = useSelector(({ todoAppNote }) => todoAppNote.todos.orderDescending);
 	const [filteredData, setFilteredData] = useState(null);
-
+	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.companies);
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -49,15 +49,15 @@ function TodoList(props) {
 
 	return (
 		// <List className="p-0">
-			<FuseAnimateGroup
-				enter={{
-					animation: 'transition.slideUpBigIn'
-				}}
-			>
-				{filteredData.map((todo, index) => (
-					<TodoListItem {...props} todo={todo} key={todo.id} index={index} />
-				))}
-			</FuseAnimateGroup>
+		<FuseAnimateGroup
+			enter={{
+				animation: 'transition.slideUpBigIn'
+			}}
+		>
+			{filteredData.map((todo, index) => (
+				<TodoListItem {...props} todo={todo} key={todo.id} index={index} companies={companies} />
+			))}
+		</FuseAnimateGroup>
 		// </List>
 	);
 }
