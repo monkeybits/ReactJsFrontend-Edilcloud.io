@@ -6,10 +6,16 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TodoListItem from './TodoListItem';
-
+import Hidden from '@material-ui/core/Hidden';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper';
+import * as Actions from './store/actions';
 function TodoList(props) {
+	const dispatch = useDispatch();
 	const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.entities);
 	const searchText = useSelector(({ todoAppNote }) => todoAppNote.todos.searchText);
 	const orderBy = useSelector(({ todoAppNote }) => todoAppNote.todos.orderBy);
@@ -80,8 +86,8 @@ function TodoList(props) {
 					}
 				}
 				setFilteredData(list);
-				let listDiv = document.getElementById('list-content');
-				listDiv.scrollTop = 0;
+				// let listDiv = document.getElementById('list-content');
+				// listDiv.scrollTop = 0;
 			} else {
 				setFilteredData(list);
 			}
@@ -300,18 +306,6 @@ function TodoList(props) {
 		return null;
 	}
 
-	if (filteredData.length === 0) {
-		return (
-			<FuseAnimate delay={100}>
-				<div className="flex flex-1 items-center justify-center h-full">
-					<Typography color="textSecondary" variant="h5">
-						There are no todos!
-					</Typography>
-				</div>
-			</FuseAnimate>
-		);
-	}
-
 	return (
 		// <List className="p-0">
 		<FuseAnimateGroup
@@ -319,9 +313,51 @@ function TodoList(props) {
 				animation: 'transition.slideUpBigIn'
 			}}
 		>
-			{filteredData.map((todo, index) => (
-				<TodoListItem {...props} todo={todo} key={todo.id} index={index} companies={companies} />
-			))}
+			<div>
+				<div className="flex flex-1">
+					<Paper
+						className="flex items-center w-full h-48 sm:h-56 p-16 ltr:pl-4 lg:ltr:pl-16 rtl:pr-4 lg:rtl:pr-16 rounded-8"
+						elevation={1}
+					>
+						<Hidden lgUp>
+							<IconButton
+								onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
+								aria-label="open left sidebar"
+							>
+								<Icon>menu</Icon>
+							</IconButton>
+						</Hidden>
+
+						<Icon color="action">search</Icon>
+
+						<Input
+							placeholder="Search"
+							className="px-16"
+							disableUnderline
+							fullWidth
+							value={searchText}
+							inputProps={{
+								'aria-label': 'Search'
+							}}
+							onChange={ev => dispatch(Actions.setSearchText(ev))}
+						/>
+					</Paper>
+				</div>
+
+				{filteredData.length === 0 ? (
+					<FuseAnimate delay={100}>
+						<div className="flex flex-1 items-center justify-center h-full">
+							<Typography color="textSecondary" variant="h5">
+								There are no todos!
+							</Typography>
+						</div>
+					</FuseAnimate>
+				) : (
+					filteredData.map((todo, index) => (
+						<TodoListItem {...props} todo={todo} key={todo.id} index={index} companies={companies} />
+					))
+				)}
+			</div>
 		</FuseAnimateGroup>
 		// </List>
 	);

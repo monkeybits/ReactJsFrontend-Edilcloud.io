@@ -19,6 +19,7 @@ import CreatePostDialog from './CreatePostDialog';
 import { GET_TODOS } from './store/actions';
 import { makeStyles } from '@material-ui/core';
 import TaskContentDialog from './Dialog/TaskContentDialog';
+import FusePageSimple from '@fuse/core/FusePageSimple';
 import clsx from 'clsx';
 
 const useStyles = makeStyles({
@@ -55,16 +56,33 @@ function TodoApp(props) {
 
 	return (
 		<>
-			<FusePageCarded
+			{/* <FusePageCarded
 				classes={{
 					root: 'w-full header-bg-remove todo-spacing',
-					header: 'items-center custom-bg h-auto min-h-auto',
+					header: 'items-center custom-bg h-auto min-h-auto'
 				}}
 				header={<TodoHeader pageLayout={pageLayout} />}
 				// contentToolbar={<TodoToolbar />}
 				// leftSidebarContent={<TodoSidebarContent />}
-				content={<div className="todo-sidebar flex flex-wrap">  <TodoSidebarContent className="mr-16" /> <TodoList {...props}/> </div>}
+				content={<div className="todo-sidebar flex flex-wrap">  <TodoSidebarContent className="mr-16" /> <TodoList pageLayout={pageLayout} {...props}/> </div>}
+				// content={<TodoList pageLayout={pageLayout} {...props} />}
 				// leftSidebarHeader={<TodoSidebarHeader />}
+				ref={pageLayout}
+				innerScroll
+			/> */}
+			<FusePageSimple
+				classes={{
+					contentWrapper: 'h-full',
+					content: 'flex flex-col h-full',
+					leftSidebar: 'w-256 border-0',
+					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
+					customHeader:"flex flex-auto flex-col container z-10 h-full chat-header-bg-remove",
+					wrapper: 'min-h-0 team-tab p-24'
+				}}
+				// header={<ContactsHeader pageLayout={pageLayout} />}
+				content={<TodoList pageLayout={pageLayout} {...props} />}
+				leftSidebarContent={<TodoSidebarContent />}
+				sidebarInner
 				ref={pageLayout}
 				innerScroll
 			/>
