@@ -101,8 +101,12 @@ function DetailSidebarContent({ setProgress }) {
 				apiurl,
 				{},
 				({ headers, data }) => {
-					var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					console.log({ file });
 					FileSaver.saveAs(file);
+					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+					// FileSaver.saveAs(file);
 					dispatch(Actions.onUploadHandleLoading(false));
 				},
 				err => {
@@ -111,7 +115,7 @@ function DetailSidebarContent({ setProgress }) {
 				METHOD.GET,
 				{
 					...getHeaderToken(),
-					responseType: 'blob',
+					responseType: 'arraybuffer',
 					onDownloadProgress: progressEvent => {
 						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						setProgress(percentCompleted);
@@ -228,11 +232,7 @@ function DetailSidebarContent({ setProgress }) {
 									<MoreVertIcon fontSize="medium" />
 								</ListItemIcon>
 								<Typography variant="inherit">More</Typography>
-								<Menu
-									anchorEl={anchorEl}
-									open={openMenu}
-									onClose={handleClose}
-								>
+								<Menu anchorEl={anchorEl} open={openMenu} onClose={handleClose}>
 									<MenuItem onClick={openViewFile}>
 										<ListItemIcon>
 											<Icon>visibility</Icon>
