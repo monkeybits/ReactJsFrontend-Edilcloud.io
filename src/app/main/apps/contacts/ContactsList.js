@@ -55,9 +55,8 @@ function ContactsList(props) {
 	const refused = useSelector(({ contactsApp }) => contactsApp.contacts.refused);
 	const deactivated = useSelector(({ contactsApp }) => contactsApp.contacts.deactivated);
 	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
-
+	const user = useSelector(({ auth }) => auth.user);
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
-	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [userData, setUserData] = useState(null);
 	const [viewTable, setViewTable] = useState(false);
@@ -157,16 +156,17 @@ function ContactsList(props) {
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
 						<MoreOption
-						editHandler={ev => {
-							ev.stopPropagation();
-							dispatch(Actions.openEditContactDialog(row.original));
-						}}
-						deleteHandler={ev => {
-							ev.stopPropagation();
-							setUserData(row.original);
-							openDeleteContactDialog();
-						}}
-					/>
+							editHandler={ev => {
+								ev.stopPropagation();
+								dispatch(Actions.openEditContactDialog(row.original));
+							}}
+							canHaveDeleteOption={user.data.user_id != row.original.user.id}
+							deleteHandler={ev => {
+								ev.stopPropagation();
+								setUserData(row.original);
+								openDeleteContactDialog();
+							}}
+						/>
 
 						// <div className="flex items-center">
 						// 	<IconButton

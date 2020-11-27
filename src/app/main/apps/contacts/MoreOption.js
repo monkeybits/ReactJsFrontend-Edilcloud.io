@@ -11,8 +11,8 @@ import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 export default function MoreOption(props) {
 	const [anchorEl, setAnchorEl] = React.useState(false);
 	const options = [
-		{ name: 'Edit', icon: 'edit', handler: props.editHandler },
-		{ name: 'Delete', icon: 'delete', handler: props.deleteHandler }
+		{ name: 'Edit', icon: 'edit', handler: props.editHandler, view: true },
+		{ name: 'Delete', icon: 'delete', handler: props.deleteHandler, view: props.canHaveDeleteOption }
 	];
 	const handleClick = event => {
 		event.preventDefault();
@@ -39,14 +39,16 @@ export default function MoreOption(props) {
 				onClose={handleClose}
 				className="actions-dropdown zoom-125"
 			>
-				{options.map(option => (
-					<MenuItem key={option} selected={option === 'Pyxis'} onClick={option.handler}>
-						<ListItemIcon>
-							<Icon>{option.icon}</Icon>
-						</ListItemIcon>
-						<Typography variant="inherit"> {option.name}</Typography>
-					</MenuItem>
-				))}
+				{options.map(option =>
+					option.view ? (
+						<MenuItem key={option} selected={option === 'Pyxis'} onClick={option.handler}>
+							<ListItemIcon>
+								<Icon>{option.icon}</Icon>
+							</ListItemIcon>
+							<Typography variant="inherit"> {option.name}</Typography>
+						</MenuItem>
+					) : null
+				)}
 			</Menu>
 		</div>
 	);

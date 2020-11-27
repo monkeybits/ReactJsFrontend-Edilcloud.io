@@ -24,6 +24,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import * as Actions from 'app/main/apps/chat/store/actions';
+import { Box, CircularProgress, LinearProgress } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -73,7 +74,9 @@ function CompanyCreationStepper({ user, history }) {
 	const dispatch = useDispatch();
 	const [typologyList, setTypologyList] = React.useState([]);
 	const [optionList, setOptionList] = React.useState([]);
+	const [progress, setProgress] = React.useState(0);
 	const [isEdit, setIsEdit] = React.useState(false);
+	const [loading, setLoading] = React.useState(false);
 	const routeHistory = useHistory();
 
 	const classes = useStyles();
@@ -189,12 +192,20 @@ function CompanyCreationStepper({ user, history }) {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 						Authorization: `JWT ${token}`
+					},
+					onUploadProgress: function (progressEvent) {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						setProgress(percentCompleted);
 					}
 			  })
 			: axios.post(USER_ADD_COMPANY, formData, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 						Authorization: `JWT ${token}`
+					},
+					onUploadProgress: function (progressEvent) {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						setProgress(percentCompleted);
 					}
 			  });
 
@@ -288,9 +299,30 @@ function CompanyCreationStepper({ user, history }) {
 								))}
 							</Stepper>
 							{activeStep === steps.length && (
-								<Paper square elevation={0} className={classes.resetContainer}>
-									<Typography>All steps completed - you&apos;re finished</Typography>
-								</Paper>
+								<>
+									<Paper square elevation={0} className={classes.resetContainer}>
+										<Typography>All steps completed - you&apos;re finished</Typography>
+										<Box position="relative" display="inline-flex">
+											<CircularProgress variant="static" value={progress} />
+											<Box
+												top={0}
+												left={0}
+												bottom={0}
+												right={0}
+												position="absolute"
+												display="flex"
+												alignItems="center"
+												justifyContent="center"
+											>
+												<Typography
+													variant="caption"
+													component="div"
+													color="textSecondary"
+												>{`${Math.round(progress)}%`}</Typography>
+											</Box>
+										</Box>
+									</Paper>
+								</>
 							)}
 						</CardContent>
 					</Card>

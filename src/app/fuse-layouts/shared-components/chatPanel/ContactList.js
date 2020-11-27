@@ -143,7 +143,7 @@ function ContactList(props) {
 							{contact.name}
 						</Typography>
 						<Typography className="ml-16 text-left text-12 normal-case truncate" color="inherit">
-							Lorem ipsum Lorem ipsum Lorem ipsum
+							{contact.type == 'project' ? 'Project Chat' : 'Company Chat'}
 						</Typography>
 					</div>
 				</Button>
@@ -179,7 +179,7 @@ function ContactList(props) {
 							return (
 								<>
 									<ContactButton key={contact.id} contact={contact} />
-									{index != allContacts.length - 1 }
+									{index != allContacts.length - 1}
 								</>
 							);
 						})}
