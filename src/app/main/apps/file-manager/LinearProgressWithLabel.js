@@ -15,7 +15,7 @@ function LinearProgressWithLabel(props) {
 			</Box>
 			<Box className={classes.root}>
 				{/* <Typography variant="body2" color="textSecondary">{`${Math.round(props.value)}%`}</Typography> */}
-				<Typography className={classes.counting}>Processing uploading file {`${Math.round(props.value)}%`}</Typography>
+				<Typography>Processing uploading file {`${Math.round(props.value)}%`}</Typography>
 			</Box>
 		</Box>
 	);
@@ -42,9 +42,6 @@ const useStyles1 = makeStyles({
 		width:'300px', margin:'0 auto',
 		position:'relative',
 		top:'-20px'
-	},
-	counting: {
-		color:'white'
 	}
 
 })
