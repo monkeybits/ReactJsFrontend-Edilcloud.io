@@ -24,7 +24,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import * as Actions from 'app/main/apps/chat/store/actions';
-import { Box, CircularProgress, LinearProgress } from '@material-ui/core';
+import { Box, CircularProgress } from '@material-ui/core';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -40,7 +41,13 @@ const useStyles = makeStyles(theme => ({
 		marginBottom: theme.spacing(2)
 	},
 	resetContainer: {
-		padding: theme.spacing(3)
+		padding: theme.spacing(3),		
+	},
+	progBox: {
+		position: 'absolute',
+    	top: '10px',
+    	right: 0,
+    	width: '50px'
 	}
 }));
 
@@ -74,7 +81,7 @@ function CompanyCreationStepper({ user, history }) {
 	const dispatch = useDispatch();
 	const [typologyList, setTypologyList] = React.useState([]);
 	const [optionList, setOptionList] = React.useState([]);
-	const [progress, setProgress] = React.useState(0);
+	const [progress, setProgress] = React.useState(10);
 	const [isEdit, setIsEdit] = React.useState(false);
 	const [loading, setLoading] = React.useState(false);
 	const routeHistory = useHistory();
@@ -298,12 +305,15 @@ function CompanyCreationStepper({ user, history }) {
 									</Step>
 								))}
 							</Stepper>
-							{activeStep === steps.length && (
+							{/* {activeStep !== steps.length && ( */}
 								<>
+								<LinearProgress color="primary" value={progress} />
+
 									<Paper square elevation={0} className={classes.resetContainer}>
 										<Typography>All steps completed - you&apos;re finished</Typography>
-										<Box position="relative" display="inline-flex">
-											<CircularProgress variant="static" value={progress} />
+										<Box position="relative" display="inline-flex" className={classes.progBox}>
+											<CircularProgress variant="static" color="primary" value={progress} />
+											
 											<Box
 												top={0}
 												left={0}
@@ -317,13 +327,13 @@ function CompanyCreationStepper({ user, history }) {
 												<Typography
 													variant="caption"
 													component="div"
-													color="textSecondary"
+													color="textInfo"
 												>{`${Math.round(progress)}%`}</Typography>
 											</Box>
 										</Box>
 									</Paper>
 								</>
-							)}
+							{/* )} */}
 						</CardContent>
 					</Card>
 				</FuseAnimate>
