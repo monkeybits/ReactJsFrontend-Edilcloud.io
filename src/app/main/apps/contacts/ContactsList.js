@@ -212,6 +212,16 @@ function ContactsList(props) {
 		],
 		[dispatch, user.starred]
 	);
+	const removeDuplicates = (arr = []) =>
+		arr.reduce((arr, current) => {
+			const x = arr.find(item => (item.id && current.id ? item.id === current.id : false));
+			if (!x) {
+				return arr.concat([current]);
+			} else {
+				return arr;
+			}
+		}, []);
+
 	const setContacts = filterKey => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -229,8 +239,10 @@ function ContactsList(props) {
 		let results = [];
 		switch (filterKey) {
 			case 'all':
-				results = sortByProperty(getFilteredArray(contacts, searchText), 'name');
-				let deactivatedUsers = sortByProperty(getFilteredArray(deactivated, searchText), 'name');
+				results = removeDuplicates(sortByProperty(getFilteredArray(contacts, searchText), 'name'));
+				let deactivatedUsers = removeDuplicates(
+					sortByProperty(getFilteredArray(deactivated, searchText), 'name')
+				);
 				setFilteredData([...results, ...deactivatedUsers]);
 				break;
 			case 'approved':
@@ -389,6 +401,7 @@ function ContactsList(props) {
 						filteredData.map((data, index) => {
 							return (
 								<ContactCard
+									currentUser={user}
 									editPermission={
 										getRole() == 'o' || getRole() == 'd' || data.email == userInfo?.email
 									}

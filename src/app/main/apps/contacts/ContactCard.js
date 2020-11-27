@@ -121,7 +121,7 @@ export default function ContactCard(props) {
 				onNo={colseDeleteContactDialog}
 			/>
 			<div class="card-container flex flex-col px-10 text-13">
-			<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
+				<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				{!!editPermission && (
 					<div className="team-action">
 						<MoreOption
@@ -129,6 +129,7 @@ export default function ContactCard(props) {
 								ev.stopPropagation();
 								dispatch(Actions.openEditContactDialog(props));
 							}}
+							canHaveDeleteOption={props.currentUser.data.user_id != props.user.id}
 							deleteHandler={ev => {
 								ev.stopPropagation();
 								setUserData(props);
