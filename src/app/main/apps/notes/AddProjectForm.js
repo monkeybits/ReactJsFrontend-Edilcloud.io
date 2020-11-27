@@ -16,7 +16,7 @@ import Formsy from 'formsy-react';
 import React, { useRef, useState, useEffect } from 'react';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import { withStyles, TextField, Avatar } from '@material-ui/core';
+import { withStyles, TextField, Avatar, Box, LinearProgress, CircularProgress } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import UploadProjectImage from './UploadProjectImage';
 import { useSelector, useDispatch } from 'react-redux';
@@ -61,6 +61,8 @@ function AddProjectForm() {
 	const routeParams = useParams();
 	const dispatch = useDispatch();
 	const projectApp = useSelector(({ notesApp }) => notesApp.project);
+	const [loading, setLoading] = React.useState(false);
+	const [error, setError] = React.useState({ name: '' });
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [projectDetail, setProjectDetail] = useState(false);
 	const [file, setFile] = useState(null);
@@ -134,7 +136,8 @@ function AddProjectForm() {
 	}
 	const getProjectCordinateIds = () => (projectCoordinators.length ? projectCoordinators[0]?.data?.id : undefined);
 	const handleSubmit = async model => {
-		const { name, description, note } = model;
+		setLoading(true);
+		const { name, description, note, address } = model;
 		const values = {
 			name,
 			description,
@@ -142,7 +145,8 @@ function AddProjectForm() {
 			date_start: getdate(projectDate.startDate),
 			date_end: getdate(projectDate.endDate),
 			logo: file && file.fileData ? await getCompressFile(file.fileData) : undefined,
-			note
+			note,
+			address
 		};
 		var formData = new FormData();
 		for (let key in values) {
@@ -152,6 +156,7 @@ function AddProjectForm() {
 			projectApp.dialogType == 'new' ? ADD_PROJECT : EDIT_PROJECT_DETAIL(projectDetail.id),
 			formData,
 			res => {
+				setLoading(false);
 				dispatch(Actions.closeProjectDialog());
 				if (projectApp.dialogType == 'new') {
 					dispatch(Actions.getProjects());
@@ -160,7 +165,17 @@ function AddProjectForm() {
 					dispatch(Actions.updateProjectList(projects));
 				}
 			},
-			err => console.log(err),
+			err => {
+				setLoading(false);
+				formRef.current.updateInputsWithError({
+					name: err.name[0],
+					description: err.description[0],
+					date_start: err.date_start[0],
+					address: err.address[0]
+				});
+
+				console.log(err);
+			},
 			projectApp.dialogType == 'new' ? METHOD.POST : METHOD.PUT,
 			getHeaderToken()
 		);
@@ -318,7 +333,7 @@ function AddProjectForm() {
 								aria-label="LOG IN"
 								disabled={!isFormValid}
 							>
-								add
+								add {loading && <CircularProgress size={20} color="secondary" />}
 							</Button>
 						</div>
 					</Grid>

@@ -54,7 +54,7 @@ const initialState = () => {
 const addIsActiveToDefault = (arr = []) => arr.map(d => (d = { ...d, isActive: false }));
 const projectNames = arr => {
 	var result = arr.reduce((unique, o) => {
-		if (!unique.some(obj => obj.name === o.project.name)) {
+		if (!unique.some(obj => obj.name === o.project?.name)) {
 			unique.push({
 				...o.project
 			});
@@ -102,9 +102,12 @@ const uniqueById = arr => {
 	return addIsActiveToDefault(result);
 };
 function flatten(arr) {
-	return arr.reduce(function (flat, toFlatten) {
-		return flat.concat(Array.isArray(toFlatten.workers) ? flatten(toFlatten.workers) : toFlatten);
-	}, []);
+	return (
+		Array.isArray(arr) &&
+		arr.reduce(function (flat, toFlatten) {
+			return flat.concat(Array.isArray(toFlatten.workers) ? flatten(toFlatten.workers) : toFlatten);
+		}, [])
+	);
 }
 const canSelectMultiple = ['projectFilter', 'companyFilter', 'peopleFilter'];
 const filtersReducer = (state = initialState(), action) => {

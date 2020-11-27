@@ -1430,7 +1430,9 @@ audio {
 .resize-action-btn svg {
     font-size: 2rem !important;
 }
-
+.company-icon{
+    font-size: 190px;
+}
 
 /* ********************************************************************************************
     Modal
