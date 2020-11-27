@@ -55,7 +55,7 @@ function getStepContent(step, elementProps) {
 		case 1:
 			return <CompanyCategory {...elementProps} />;
 		case 2:
-			return <FileUpload {...elementProps} />;
+			return <FileUpload isCompany {...elementProps} />;
 		default:
 			return 'Unknown step';
 	}
