@@ -134,7 +134,7 @@ function AddProjectForm() {
 	}
 	const getProjectCordinateIds = () => (projectCoordinators.length ? projectCoordinators[0]?.data?.id : undefined);
 	const handleSubmit = async model => {
-		const { name, description, note } = model;
+		const { name, description, note , address } = model;
 		const values = {
 			name,
 			description,
@@ -142,7 +142,8 @@ function AddProjectForm() {
 			date_start: getdate(projectDate.startDate),
 			date_end: getdate(projectDate.endDate),
 			logo: file && file.fileData ? await getCompressFile(file.fileData) : undefined,
-			note
+			note,
+			address
 		};
 		var formData = new FormData();
 		for (let key in values) {
