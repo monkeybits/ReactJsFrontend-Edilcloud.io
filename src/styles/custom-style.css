@@ -1,0 +1,1638 @@
+/* ********************************************************************************************
+    Custom CSS
+*********************************************************************************************** */
+body {
+    color: #1E2129;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
+    color: #1E2129;
+    font-weight: 500 !important;
+}
+.font-size-12 {
+    font-size: 12px !important;
+}
+.font-size-14 {
+    font-size: 14px !important;
+}
+.font-size-16 {
+    font-size: 16px;
+}
+.font-size-17 {
+    font-size: 17px;
+}
+.font-size-18 {
+    font-size: 18px;
+}
+.font-size-20 {
+    font-size: 20px;
+}
+.font-weight-600 {
+    font-weight: 600 !important;
+}
+.font-weight-700 {
+    font-weight: 700 !important;
+}
+.text-2xl {
+    font-size: 2.0rem;
+}
+.bg-grey {
+    background-color: #718096;
+    color: #fff !important;
+}
+.bg-body {
+    background: #f5f5f5;
+}
+.bg-white {
+    background: #ffffff !important;
+}
+.bg-custom-grey {
+    background: #e8e8e8;
+}
+.bg-custom-light-grey {
+    background: #ECECEE;
+}
+.bg-dark {
+    background: #0D3B63;
+}
+.bg-custom-primary {
+    background: #2196F3;
+}
+.todo-bg-footer {
+    background: rgb(236 236 238 / 0.30);
+}
+[class*="border-"] {
+    border-color: #ececec;
+}
+.border-bottom {
+    border-bottom: 2px solid #EEEEEE !important;
+}
+.text-default {
+    color: #1E2129;
+}
+.text-muted {
+    color: #9EA1A9 !important;
+}
+.text-custom {
+    color: #3C4252;
+}
+.text-custom-1 {
+    color: #5C616F;
+}
+.text-primary {
+    color: #1976D2 !important;
+}
+.text-dark {
+    color: #212121;
+}
+.text-check {
+    color: #4CAF50;
+}
+.text-custom-primary {
+    color: #2196F3;
+}
+.text-custom-danger {
+    color: #F44336;
+}
+.text-custom-warning {
+    color: #FFA000;
+}
+.MuiTableCell-root {
+    padding: 12px;
+}
+a:not([role=button]) {
+    color: #1E2129;
+}
+.w-125 {
+    width: 125px;
+}
+.max-w-50 {
+    max-width: 50%;
+}
+.max-w-425 {
+    max-width: 425px;
+}
+.ht-100 {
+    height: 100px;
+}
+.opacity-60 {
+    opacity: 0.6;
+}
+.flex-fill {
+    -ms-flex: 1 1 auto!important;
+    flex: 1 1 auto!important;
+}
+.justify-content-between {
+    -ms-flex-pack: justify!important;
+    justify-content: space-between!important;
+}
+.o-contain img {
+    object-fit: contain;
+}
+.MuiDivider-root {
+    background-color: #ECECEE;
+}
+a:not([role=button]):hover {
+    text-decoration: none;
+}
+a.text-muted:hover {
+    color: #1976D2 !important;
+}
+.border-0 {
+    border: none !important;
+}
+.MuiTableCell-head {
+    color: #1E2129;
+    font-weight: 700;
+}
+
+/* ********************************************************************************************
+    Button
+*********************************************************************************************** */
+
+.MuiButton-containedPrimary, .MuiButton-containedSecondary, .btn-primary, .btn-secondary   {
+    color: #fff;
+    background-color: #ff0d47;
+    box-shadow: none;
+}
+.MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
+    background-color: #ff0d47;
+    box-shadow: none;
+}
+.MuiFab-secondary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
+    background-color: #ff0d47;
+}
+.MuiFab-primary {
+    color: #fff;
+    background-color: #ff0d47;
+    box-shadow: none;
+}
+.MuiFab-primary:hover {
+    background-color: #ff0d47;
+}
+.MuiButton-containedSizeLarge {
+    padding: 7px 22px;
+}
+.custom-float-btn > button, .add-file-btn  {
+    color: #ffffff;
+    background-color: #2196F3;
+    box-shadow: none;
+}
+.custom-float-btn > button:hover, .add-file-btn:hover {
+    background-color: #2196F3;
+    box-shadow: none;
+}
+.add-file-btn {
+    padding: 6px 13px;
+    font-size: 15px
+}
+.upload-btn {
+    color: #fff;
+    background-color: #323338;
+    padding: 6px 13px;
+    font-size: 15px
+}
+.upload-btn:hover {
+    background-color: #131417;
+}
+#SpeedDialexample-actions button {
+    background-color: #fff;
+    color: #000;
+    margin-right: 15px;
+}
+#SpeedDialexample-actions button:hover {
+    background-color: rgb(255 255 255 / 0.90);
+}
+.speeddial-btn {
+    position: fixed;
+    bottom: 12px;
+    z-index: 9999;
+    right: 80px;
+}
+.speeddial-btn.diff-place {
+    bottom: 27px;
+    right: 90px;
+}
+.custom-outlined-btn button {
+    background-color: #ffffff;
+    border: 1px solid #ECECEE;
+    color: #2196F3;
+}   
+.custom-outlined-btn button svg {
+    color: #2196F3;
+}
+/* .add-photo-image button {
+    padding: 0px;
+    margin-right: 10px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    color: #2196F3;
+} */
+
+/* ********************************************************************************************
+    Form Group
+*********************************************************************************************** */
+.MuiFormLabel-root {
+    color: #9EA1A9;
+}
+textarea.MuiOutlinedInput-input {
+    padding: 2px 4px;
+}
+.select-dropdown .MuiOutlinedInput-input {
+    padding: 0px;
+}
+.MuiInputLabel-outlined {
+    transform: translate(16px, 18px) scale(1);
+}
+.MuiOutlinedInput-notchedOutline {
+    border-color: #ECECEE;
+}
+.MuiIcon-colorAction {
+    color: #3C4252;
+}
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #1E2129;
+}
+.static-form-label label{
+    transform: translate(10px, -6px) scale(0.75);
+    display: inline-block;
+    transform-origin: top left;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 1.4rem;
+    font-family: Muli,Roboto,"Helvetica",Arial,sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    background: #FFF;
+    z-index: 1;
+    position: absolute;
+    vertical-align: middle;
+    padding: 0 .5rem;
+    top: 0;
+    left: 0;
+}
+.static-form-label:focus label{
+    color:#192d3e;
+}
+.static-form-label .icon{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 17px;
+    font-size: 18px;
+    color: #5C616F;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #00000061;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: #00000061;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: #00000061;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: #00000061;
+  }
+ 
+
+/* ********************************************************************************************
+    Header
+*********************************************************************************************** */
+.sidebar-header {
+    background-color: #1e2632;
+}
+.sidebar-content {
+    background: #1e2632;
+}
+.sidebar-content ul a {
+    width: calc(100% - 0px);
+    border-radius: 20px 0px 0px 20px;
+    padding-right: 36px;
+    margin-left: 6px;
+    padding-left: 18px;
+    position: relative;
+}
+.sidebar-content ul a.active {
+    background-color: #376aed;
+    color: #fff !important;
+}
+.sidebar-content ul a.active::before, .sidebar-content ul a.active::after  {
+    position: absolute;
+    top: -14px;
+    content: "";
+    width: 0;
+    height: 0;
+    border-bottom: 15px solid #202020;
+    border-left: 17px solid transparent;
+    right: 6px;
+}
+.sidebar-content ul a.active::after {
+    top: inherit;
+    bottom: -14px;
+    border-top: 15px solid #202020;
+    border-left: 17px solid transparent;
+    border-bottom: none;
+}
+
+
+/* ********************************************************************************************
+    Sidebar
+*********************************************************************************************** */
+
+
+/* ********************************************************************************************
+    Card
+*********************************************************************************************** */
+.MuiPaper-elevation1 {
+    box-shadow: none;
+    border: 1px solid #ECECEE;
+}
+
+/* ********************************************************************************************
+    Custom Auto Complete
+*********************************************************************************************** */
+.custom-autocomplete > div, .react-datepicker-wrapper > div {
+    display: inline-flex !important;
+    width: 100%;
+}
+.zoom-125 {
+    zoom: 125% !important;
+}
+.custom-autocomplete input, .react-datepicker-wrapper input {
+    font: inherit;
+    color: currentColor;
+    width: 100% ;
+    border: 1px solid #ECECEE;
+    height: 1.1876em;
+    margin: 0;
+    display: block;
+    padding: 18.5px 14px;
+    min-width: 0;
+    background: none;
+    box-sizing: content-box;
+    animation-name: mui-auto-fill-cancel;
+    letter-spacing: inherit;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 0.5rem;
+}
+.custom-autocomplete input:hover, .react-datepicker-wrapper input:hover {
+    border-color: rgba(0, 0, 0, 0.87);
+}
+.custom-autocomplete > div input ~ div {
+    z-index: 9;
+}
+
+/* ********************************************************************************************
+    React Date Picker
+*********************************************************************************************** */
+.react-datepicker-wrapper {
+    display: block;
+}
+.react-datepicker-wrapper input {
+    padding: 17.5px 14px;
+}
+.react-datepicker {
+    font-size: 1.1rem;
+}
+.react-datepicker-popper {
+    z-index: 999;
+}
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+    font-size: 1.5rem;
+}
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+    width: 2.5rem;
+    line-height: 2.5rem;
+}
+.react-datepicker__navigation {
+    top: 12px;
+}
+
+/* ********************************************************************************************
+    Custom Dropdown
+*********************************************************************************************** */
+.custom-dropdown .MuiInputBase-input > div {
+    padding-top: 9px !important;
+    padding-left: 15px !important;
+    padding-bottom: 9px;
+}
+/* .zoom-125 {
+    zoom: 125% !important;
+} */
+/* #SpeedDialexample-actions span span {
+    top: -28px;
+    left: 0;
+    right: inherit;
+} */
+.me-right-align .me p {
+    text-align: right;
+}
+.custom-dropdown .MuiInputBase-input > div p {
+    left: 17px !important;
+}
+.select-dropdown div > div label ~ div > div > div  {
+    padding-top: 9px !important;
+    padding-bottom: 9px;
+}
+.select-dropdown p {
+    left: 15px;
+    font-size: 14px;
+}
+.custom-select-remove-border {
+    margin: 0px;
+}
+.custom-select-remove-border .MuiInput-underline:before, .custom-select-remove-border .MuiInput-underline:after {
+    border: none !important;
+}
+.custom-select-remove-border .MuiInputBase-root, .custom-select-remove-border .MuiFormLabel-root {
+    font-size: 12px;
+}
+
+/* ********************************************************************************************
+    Icons
+*********************************************************************************************** */
+.edit-icon, .delete-icon  {
+    position: absolute;
+    top: -2px;
+    right: 3px;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+    background: #ffffff;
+    color: #192d3e !important;
+}
+.delete-icon {
+    bottom: 0px;
+    top: inherit;
+}
+.edit-icon .MuiSvgIcon-fontSizeSmall, .delete-icon .MuiSvgIcon-fontSizeSmall  {
+    font-size: 1.6rem;
+}
+.custom-playlist-icon, .custom-edit-icon, .custom-error-icon {
+    position: absolute;
+    right: 100px;
+}
+.custom-edit-icon {
+    right: 50px;
+}
+
+/* ********************************************************************************************
+    Tab Header & Content
+*********************************************************************************************** */
+.custom-tab-header {
+    width: calc(100% - 64px);
+    top: auto;
+}
+.tabs-content {
+    padding-bottom: 50px;
+}
+.tabs-content .MuiTabs-flexContainer {
+    justify-content: center;
+}
+.tabs-content .MuiBox-root {
+  padding: 0px !important;
+}
+.tabs-content > .flex.flex-col > div {
+   background-color: transparent;
+}
+.height-dialogcontent{
+    min-height: 400px;
+}
+.chat-tab-content-height > .MuiBox-root,
+.chat-tab-content-height >  .MuiBox-root > .MuiTypography-root{
+    height: 100%;
+}
+.tabs-content {
+    padding-bottom: 50px;
+}
+/* .chat-tab-content-height {
+    height: calc(100vh - 220px);
+} */
+.chat-tab-content-height {
+    height: calc(100vh - 0px);
+}
+.custom-tab-header {
+    box-shadow: 0 -1px 3px #00000029;
+}
+.custom-tab-header button:not(.close-icon) {
+    color: #5C616F;
+    padding: 8px 12px 8px;
+    border-bottom: 3px solid transparent;
+}
+.custom-tab-header button > span {
+    flex-direction: row !important;
+}
+.custom-tab-header button > span .material-icons {
+    margin-right: 8px;
+}
+.custom-tab-header button.Mui-selected {
+    color: #2196F3;
+    border-bottom: 3px solid #2196F3;
+}
+.custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
+    font-size: 1.4rem;
+}
+
+/* ********************************************************************************************
+    Post Section
+*********************************************************************************************** */
+.post-form textarea {
+    min-height: 2em;
+    height: auto;
+}
+.post-form .custom-textarea, .post-form .w-full {
+    border-radius: 8px;
+}
+.post-form .custom-textarea textarea, .post-form .w-full textarea {
+    padding-right: 80px;
+    font-size: 15px;
+}
+.post-form .single-icon .custom-textarea textarea, .post-form .single-icon .w-full textarea {
+    padding-right: 50px;
+}
+.custom-draw-img img  {
+    max-width: fit-content;
+    margin: 0 auto;
+    object-fit: contain;
+}
+.post-card-clx {
+    border: 1px solid #ECECEE;
+    box-shadow: none;
+}
+.comment-section p {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+.comment-p span ~ p {
+    font-size: 15px;
+    margin-top: 5px;
+}
+.post-icons .image, .post-icons .send  {
+    position: absolute;
+    top: 50%;
+    right: 60px;
+    transform: translateY(-50%);
+}
+.post-icons .send {
+    right: 20px;
+}
+.post-card-clx .MuiCardHeader-content .MuiCardHeader-subheader {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 2px;
+}
+/* .konvajs-content {
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: calc(100vh - 43px);
+}
+.konvajs-content canvas {
+    width: 100% !important;
+    height: 100% !important;
+} */
+.o-contain img {
+    object-fit: contain;
+}
+.tabs-content {
+    padding-bottom: 50px;
+}
+/* .chat-tab-content-height {
+    height: calc(100vh - 192px);
+} */
+/* .chat-tab-content-height .inner-height {
+    height: calc(100vh - 220px);
+} */
+
+.justify-content-between {
+    -ms-flex-pack: justify!important;
+    justify-content: space-between!important;
+}
+.flex-fill {
+    -ms-flex: 1 1 auto!important;
+    flex: 1 1 auto!important;
+}
+.posted-images > div {
+    width: 100%;
+}
+.posted-images img {
+    height: 100%;
+    max-width: 100%;
+}
+.image-center img {
+    margin: 0 auto;
+}
+.image-center .d-block.mx-auto ~ .flex {
+    margin-top: 20px;
+}
+/* .bg-post-section {
+    background-color: #4c4c4c;
+    border-radius: 15px;
+} */
+/* .comment-post-img {
+    margin-left: 56px;
+} */
+.comment-post-img img {
+    height: 160px;
+    width: 160px;
+}
+.post-form .write-post textarea {
+    padding-right: 0px;
+}
+.write-post-img-full .d-block.mx-auto  {
+    width: 100%;
+}
+.write-post-img-full .d-block.mx-auto img  {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+}
+.custom-fileinput input {
+    overflow: hidden;
+}
+.custom-fuse-page-right-sidebar {
+    overflow-y: auto;
+}
+/* ********************************************************************************************
+    Konva JS
+*********************************************************************************************** */
+
+.konvajs-content {
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: calc(100vh - 43px);
+}
+.konvajs-content canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ********************************************************************************************
+    Gantt JS
+*********************************************************************************************** */
+.gantt-custom-full-screen #fuse-navbar, .gantt-custom-full-screen #fuse-navbar ~ div > header, .gantt-custom-full-screen .custom-tab-header, .gantt-custom-full-screen .team-chat-sidebar, .gantt-custom-full-screen .custom-gantt-toolbar, .gantt-custom-full-screen .zoom-bar, .gantt-custom-full-screen #fuse-layout > div:nth-child(2), .gantt-custom-full-screen .min-h-72.h-72, #fuse-settings {
+    display: none;
+}
+.gantt-custom-full-screen .tabs-content, .gantt-custom-full-screen .pb-80 {
+    padding-bottom: 0px !important;
+}
+.gantt-menu-item-last {
+    border-right: none !important;
+}
+.demo-main-container {
+    height: 100% !important;
+}
+.gantt-height-full {
+    height: calc(100% - 230px);
+}
+.gantt-height-full > div, .gantt-height-full > div > p, .gantt-height-full  .gantt-container, .gantt-height-full  .gantt-container > div  {
+    height: 100%;
+}
+.custom-zoom-bar {
+    padding: 15px 15px 15px 35px;
+}
+.custom-zoom-bar .radio-label {
+    margin: 0px 5px;
+}
+.custom-zoom-bar .radio-label input {
+    margin-right: 5px;
+}
+.gantt-menu-item a {
+    font-size: 11px !important;
+    padding: 0px 6px !important;
+}
+.gantt-menu-item:first-child a {
+    padding-left: 12px !important;
+}
+.gantt-menu-item img {
+    width: 20px;
+}
+.gantt-menu-item img, .gantt-menu-item svg {
+    margin-right: 4px !important;
+}
+
+/* .gantt-container {
+    min-height: calc(100vh - 90px);
+    overflow-y: auto;
+}
+.gantt-min-height {
+    height: calc(100vh - 90px) !important;
+    zoom: 120%;
+}
+.gantt-custom-full-screen {
+    zoom: 100% !important;
+}
+.demo-main-container .gantt-menu-item {
+    padding: 0px 10px !important;
+}
+.demo-main-container {
+    height: calc(100vh - 30px) !important;
+} */
+
+/* ********************************************************************************************
+    Chat
+*********************************************************************************************** */
+.team-chat-sidebar {
+    box-shadow: -1px 0 3px #00000029;
+}  
+.team-chat-sidebar header {
+    background-color: #376AED !important;
+}
+.team-chat-body {
+    background-color: #fff;
+}
+.custom-separator {
+    height: 30px;
+    margin: 0px 10px;
+    align-self: center;
+    background-color: #ececec;
+}
+.badge-btn {
+    background-color: #376AED;
+    color: #fff;
+    padding: 2px 10px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+.badge-btn:hover {
+    background-color: #376AED;
+    color: #fff;
+}
+.chat-search {
+    background-color: #F7F7F7;
+    border: 1px solid #D8D9DB;
+}
+.chat-bg {
+    background-image: none;
+    background: #EEEEEE;
+}
+.chat-header-img .text-16 {
+    font-size: 20px !important;
+}
+.chat-contact-text span {
+    margin: 2px 0px;
+    font-weight: 600;
+}
+.chat-contact-text p {
+    color: #9EA1A9 !important;
+}
+.chat-bg .h-full.z-20 > div {
+    border: none;
+}
+.chat-border-right {
+    border-right: 1px solid #466886;
+}
+.chat-form-bg {
+    background-color: #F7F7F7;
+}
+.chat-border {
+    border-left: 3px solid transparent;
+}
+.chat-border.active {
+    background-color: rgb(55 106 237 / 0.06);
+    border-left: 3px solid #376AED;
+}
+.chat-badge {
+    background-color: #376AED;
+}
+.chat-header-bg-remove > div, .header-bg-remove > div  {
+    background: #f7f7f7;
+    height: auto;
+    min-height: auto;
+}
+.chat-options {
+    position: absolute;
+    top: 0px;
+    right: -3px;
+}
+.chat-options svg {
+    font-size: 19px;
+}
+.chat-pdf-box:first-child {
+    margin-top: 3.0rem;
+}
+
+/* ********************************************************************************************
+    Team Page
+*********************************************************************************************** */
+.team-tab-content {
+    padding-bottom: 60px;
+}
+.team-tab-content .flex.flex-auto.flex-col > div {
+    background-color: #f7f7f7;
+    background: #f7f7f7;
+    height: auto;
+    min-height: auto;
+}
+.team-tab-content > div > p > div > div:first-child {
+    display: none;
+}
+.team-tab .custom-fuse-page-right-sidebar .permanent  {
+      background-color: transparent;      
+}
+.team-tab .custom-fuse-page-right-sidebar.permanent  {
+    margin-left: -24px;
+}
+.team-tab .custom-fuse-page-right-sidebar.permanent .w-256 {
+    width: 280px;
+}
+.team-page-filter .MuiListItem-root.active {
+    color: #fff !important;
+    background-color: #2196F3;
+}
+.team-grid {
+    margin-left: -0.6rem;
+    margin-right: -0.6rem;
+}
+.team-grid .card-container {
+    padding-top: 40px;
+    padding-bottom: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px 0 #00000029;
+    min-height: 100%;
+}
+.team-grid .card-container .pro.approved {
+    background-color: #4CAF50;
+}
+.team-grid .card-container .pro.waiting {
+    background-color: #FFA000;
+}
+.team-grid .card-container .pro.refused {
+    background-color: #F44336;
+}
+.team-grid .card-container .pro {
+    color: #fff;
+    background-color: #4CAF50;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 7px;
+    top: 15px;
+    left: 15px;
+    text-transform: capitalize;
+}
+.team-grid .card-container .team-action {
+    position: absolute;
+    top: 13px;
+    right: 10px;
+    color: rgb(0 0 0 / 0.60);
+}
+.team-grid .card-container .team-action span {
+    font-size: 23px;
+}
+.team-grid .card-container .round {
+    height: 65px;
+    width: 65px;
+    border: none;
+    padding: 0px;
+    margin-bottom: 10px;
+}
+.team-grid .card-container .round {
+    margin-top: 5px;
+}
+.team-grid .card-container h4, .team-grid .card-container p  {
+    word-break: break-all;
+}
+.MuiCheckbox-colorSecondary.Mui-checked {
+    color: #2196F3;
+}
+
+/* ********************************************************************************************
+    Todo App
+*********************************************************************************************** */
+.todo-sidebar .flex-auto.border-l-1 {
+    flex: none;
+    border: none;
+    width: 20%;
+}
+.todo-sidebar .flex-auto.border-l-1 ~ div {
+    flex: 1 1 auto;
+}
+.todo-spacing .flex.container.w-full > div {
+    padding: 2.4rem;
+}
+
+/* ********************************************************************************************
+    Audio Animation
+*********************************************************************************************** */
+audio {
+    width: 240px;
+}
+.right-panel-audio audio {
+    width: 220px;
+}
+.sound-icon {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    top: 4px;
+}
+.sound-wave {
+    width: 60px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    align-self: center;
+}
+.sound-wave .bar {
+    display: block;
+    width: 1px;
+    margin-right: 3px;
+    height: 90px;
+    background: #fff;
+    animation: sound 0ms -800ms linear infinite alternate;
+    transition: height 0.8s;
+}
+.photo-viewer-container{
+    height: 100% !important;
+    width: 100% !important;
+}
+.sound-wave{
+    display: none;
+}
+.ht-11 {
+    height: 11rem;
+}
+@keyframes sound {
+    0% {
+        height: 6px;
+   }
+    100% {
+        height: 20px;
+   }
+}
+.bar:nth-child(1) {
+    height: 4px;
+    animation-duration: 474ms;
+}
+.bar:nth-child(2) {
+    height: 8px;
+    animation-duration: 433ms;
+}
+.bar:nth-child(3) {
+    height: 12px;
+    animation-duration: 407ms;
+}
+.bar:nth-child(4) {
+    height: 16px;
+    animation-duration: 458ms;
+}
+.bar:nth-child(5) {
+    height: 20px;
+    animation-duration: 400ms;
+}
+.bar:nth-child(6) {
+    height: 4px;
+    animation-duration: 427ms;
+}
+.bar:nth-child(7) {
+    height: 8px;
+    animation-duration: 441ms;
+}
+.bar:nth-child(8) {
+    height: 12px;
+    animation-duration: 419ms;
+}
+.bar:nth-child(9) {
+    height: 12px;
+    animation-duration: 487ms;
+}
+.bar:nth-child(10) {
+    height: 16px;
+    animation-duration: 442ms;
+}
+.bar:nth-child(11) {
+    height: 20px;
+    animation-duration: 474ms;
+}
+.bar:nth-child(12) {
+    height: 4px;
+    animation-duration: 433ms;
+}
+.bar:nth-child(13) {
+    height: 8px;
+    animation-duration: 407ms;
+}
+.bar:nth-child(14) {
+    height: 16px;
+    animation-duration: 458ms;
+}
+.bar:nth-child(15) {
+    height: 20px;
+    animation-duration: 400ms;
+}
+/* ********************************************************************************************
+    Blink Animation
+*********************************************************************************************** */
+.blink {
+    animation: blinker 0.6s linear infinite;
+    background-color: #f31506;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    display: inline-flex;
+    position: relative;
+    top: 5px;
+    margin-left: 15px;
+  }
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+  .blink-one {
+    animation: blinker-one 1s linear infinite;
+  }
+  @keyframes blinker-one {
+    0% {
+      opacity: 0;
+    }
+  }
+  
+/* ********************************************************************************************
+    Chat Slider
+*********************************************************************************************** */
+
+.chat-slider-modal .MuiDialog-container .MuiPaper-root {
+    width: 600px;
+}
+.chat-slider-modal img {
+    height: 420px;
+    margin: 0 auto;
+}
+.bubble.max-w-50 {
+    cursor: pointer;
+}
+.chat-slider-modal-height {
+    min-height: calc(100vh - 170px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.custom-padding-small {
+    padding-bottom: 0px !important;
+}
+
+/* ********************************************************************************************
+    Login Page
+*********************************************************************************************** */
+.or-container .w-full {
+    width: 57%;
+}
+
+
+/* ********************************************************************************************
+    Project List Page
+*********************************************************************************************** */
+.project_list {
+    background: #f7f7f7;
+}
+.project_box .project_card {
+    border: 1px solid #ececec;
+    box-shadow: 0 1px 3px #00000029 !important;
+}
+.project_box .project_card .MuiCardHeader-root {
+    position: relative;
+    padding-bottom: 5px;
+    background: rgb(184 184 184 / 19%);
+}
+.project_card .project_card_avatar {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-top: -8px;
+}
+.project_card .MuiCardHeader-avatar {
+    margin: 0px;
+}
+.project_card .MuiCardHeader-title {
+    font-weight: 600;
+}
+.project_card .MuiCardHeader-content {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding-right: 58px;
+}
+.grid-space-remove {
+    margin-right: -1.2rem;
+    margin-left: -1.2rem;
+}
+.project_tabs {
+    background-color: rgb(184 184 184 / 19%);
+}
+.project_tabs button {
+    min-width: auto;
+    text-transform: capitalize;   
+    border-bottom: 3px solid transparent;
+    font-size: 13px;
+    font-weight: 700;
+}
+.project_tabs button.Mui-selected {
+    border-bottom: 3px solid #2196F3;
+    color: #2196F3;
+}
+.project_tabs .MuiTabs-indicator {
+    width: 0px !important;
+}
+.project_card_action {
+    position: relative;
+}
+.project_card_action button {
+    position: absolute;
+    right: 0px;
+    z-index: 1;
+}
+.about-image-section img {
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    margin-right: 6px;
+}
+.tab_panel .MuiBox-root {
+    padding: 18px 16px;
+}
+.more-pic {
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    border-radius: 100%;
+    text-align: center;
+    background: rgb(184 184 184 / 19%);
+    color: #767676 !important;
+    cursor: pointer;
+    display: block;
+} 
+.project_card_action button {
+    font-size: 20px;
+}
+.cloud_size {
+    width: auto;
+    height: auto;
+}
+.cloud_size svg {
+    font-size: 42px;
+}
+.custom-progress-chart .MuiCircularProgress-static {
+    position: relative;
+    height: 56px !important;
+    width: 56px !important;
+    color: #2196F3;
+}
+.custom-progress-chart .MuiCircularProgress-static::before {
+    position: absolute;
+    content: "";
+    height: 56px;
+    width: 56px;
+    border: 3px solid #ECECEE;
+    border-radius: 100%;
+    z-index: -1;
+}
+.custom-progress-chart svg circle{
+    stroke-width: 3;
+}
+.custom-progress-chart .MuiTypography-colorTextSecondary {
+    color: #1E2129;
+}
+.custom-member-menu {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 12px;
+}
+.custom-member-menu span {
+    background: #ECECEE;
+    height: 28px;
+    width: 28px;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 100%;
+    font-size: 19px;
+    margin-right: 8px;
+}
+
+/* ********************************************************************************************
+    File Manager Page
+*********************************************************************************************** */
+
+.search-white-box, .file-box-shadow, .table-shadow, .left-icon-btn > button, .two-btn, .single-btn, .custom-box-shadow    {
+    box-shadow: 0 1px 3px #00000029 !important;
+}
+.search-white-box span {
+    color: #9EA1A9 !important;
+    margin-left: 5px;
+}
+.search-white-box input {
+    color: #1e2125;
+}
+.file-box-shadow button, .left-icon-btn > button, .two-btn button, .single-btn button {
+    border-right: 1px solid #ececec;
+    font-size: 19px;
+    padding: 12px 17px;
+    border-radius: 6px;
+    background: #fff;
+    color: #868686;
+}
+.file-box-shadow button:first-child, .two-btn button:first-child {
+    border-radius: 6px 0px 0px 6px;
+}
+.file-box-shadow button:last-child, .two-btn button:last-child {
+    border-radius: 0px 6px 6px 0px;
+}
+.actions-dropdown .MuiListItemIcon-root{
+    min-width: 28px;
+}
+.actions-dropdown.small .MuiListItemIcon-root{
+    min-width: 28px;
+}
+.file-folder-action-dropdown button {
+    margin-right: -10px;
+    padding: 8px;
+    font-size: 2.1rem;
+}
+.file-folder-action-dropdown button svg {
+    font-size: 20px;
+}
+.file-grid-action-dropdown {
+    padding: 8px;
+    color: rgba(0, 0, 0, 0.54) !important;
+    margin-right: 3px !important;
+}
+.file-grid-action-dropdown svg {
+    font-size: 20px;
+}
+.file-icon-small svg {
+    height: 100px;
+    width: 100% !important;
+    margin-top: 48px;
+}
+.file-grid .MuiGridListTileBar-title {
+    font-size: 1.4rem;
+}
+.two-btn button svg, .single-btn button svg {
+    color: #9EA1A9; 
+}
+.custom-fuse-page-right-sidebar .permanent {
+    height: auto;
+    min-height: auto;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.87);
+}
+.linear-progress.custom-color p {
+    color: white;
+    font-size: 16px;
+}
+.close-icon.list-view-icon svg {
+    font-size: 18px;
+}
+.offline-switch > span:first-child {
+    order: 2;
+    margin-left: auto;
+}
+.offline-switch span:last-child {
+    font-weight: 700;
+}
+.folder-grid  {
+    margin-left: -0.6rem;
+    margin-right: -0.6rem;
+}
+.folder-grid .MuiListItemIcon-root {
+    min-width: 34px;
+}
+.folder-grid .MuiTypography-body1 {
+    font-weight: 600;
+}
+.file-folder-grid h6 {
+    font-size: 1.4rem;
+}
+.file-grid > div {
+    background-color: transparent;
+    width: 100%;
+    /* justify-content: flex-start; */
+}
+.file-grid ul {
+    width: 100%;
+}
+.file-grid li {
+    height: auto !important;
+    padding: 0px !important;
+    margin: 0px 15px 15px 0px;
+    border-radius: 6px;
+    width: 31.5% !important;
+    box-shadow: 0 1px 3px #00000029 !important;
+    background-color: #ffffff;
+}
+.file-grid li:nth-child(3n) {
+    margin-right: 0px !important;
+}
+.file-grid img, .file-grid .MuiGridListTile-tile > svg  {
+    position: relative;
+    top: 0;
+    transform: none !important;
+    left: 0;
+    right: 0px;
+    width: 100%;
+    height: 184px;
+    border-radius: 10px 10px 0px 0px;
+    object-fit: cover;
+}
+.file-grid img ~ div, .file-grid .MuiGridListTile-tile > svg ~ div {
+    position: relative;
+    background: #fff;
+    border-radius: 0px 0px 6px 6px;
+    border-top: 1px solid #ECECEE;
+}
+.file-grid .MuiGridListTileBar-root {
+    border-top: 1px solid #ECECEE;
+    background-color: #fff;
+    border-radius: 0px 0px 6px 6px;
+}
+.file-grid .MuiGridListTileBar-titleWrap, .file-grid .MuiGridListTileBar-actionIcon button {
+    color: #1E2129;
+}
+/* .file-folder-grid {
+    margin-top: -25px;
+} */
+.filemanager-breadcumb button {
+    color: #1E2129;
+    font-size: 19px;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-decoration: none;
+    padding: 0px 7px;
+}
+.filemanager-breadcumb .material-icons {
+    font-size: 2.3rem;
+    width: 20px;
+}
+.filemanager-breadcumb .flex.items-center:first-child button {
+    padding-left: 0px;
+}
+.MuiChip-root {
+    background-color: #ECECEE;
+}
+/* ********************************************************************************************
+    PDF Container
+*********************************************************************************************** */
+.pdf-container {
+    padding-top: 150px;
+    width: 210mm;
+    margin: 2.5cm;
+}
+.pdf-container .project-detail-modal-content {
+    padding: 0rem 1rem !important;
+}
+ 
+/* ********************************************************************************************
+    IOS Slider
+*********************************************************************************************** */
+
+.custom-ios-slider .MuiSlider-thumb {
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: -9px !important;
+    margin-left: -9px !important;
+    box-shadow: 0 3px 6px #00000029 !important;
+    background-color: #3880ff !important;
+}
+.custom-ios-slider .MuiSlider-rail {
+    background-color: #BBDEFB !important;
+}
+.custom-ios-slider .MuiSlider-mark {
+    width: 4px !important;
+    height: 2px !important;
+    margin-top: 0px !important;
+    background-color: #3880ff !important;
+}
+.custom-ios-slider .MuiSlider-markActive {
+    background-color: #ffffff !important;
+}
+.custom-ios-slider .MuiSlider-valueLabel {
+    top: -20px !important;
+    left: calc(-50% + 1px) !important;
+}
+.custom-ios-slider-dropdown, .custom-list-dropdown {
+    position: absolute;
+    top: 0px;
+    left: -50px;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px #00000029 !important;
+}
+.custom-list-dropdown {
+    z-index: 9;
+    left: -150px;
+}
+.custom-list-dropdown li svg {
+    width: 20px;
+    margin-right: 10px;
+}
+.resize-action-btn svg {
+    font-size: 2rem !important;
+}
+.company-icon{
+    font-size: 190px;
+}
+
+/* ********************************************************************************************
+    Modal
+*********************************************************************************************** */
+.custom-modal-new header {
+    color: #1E2129;
+    background-color: #fff;
+    box-shadow: none;
+    border: none;
+}
+.custom-ios-slider-dropdown.page {
+   left: -260px;
+    padding: 12px;
+    width: 250px;
+    z-index: 1;
+}   
+.custom-ios-slider-dropdown.page-dashboard {
+    left: -260px;
+    padding: 12px;
+    width: 250px;
+    z-index: 1;
+}   
+.custom-member-menu {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 12px;
+}
+.custom-modal-new header button svg {
+    font-size: 1.6rem;
+    color: #5C616F;
+}
+.custom-modal-new header > div {
+    border-bottom: 1px solid#ECECEE;
+    margin-top: 10px;
+}
+.custom-modal-new.timeline-modal header > div {
+    border-bottom: none;
+    margin-top: 0px;
+}
+.custom-modal-new .right-m-12, .custom-modal-new header .right-m-12  {
+    right: -12px;
+}
+.custom-modal-new .MuiPaper-rounded {
+    border-radius: 8px;
+    box-shadow: none;
+}
+.custom-modal-new .fuse-chip-select__indicator-separator {
+    background-color: transparent;
+}
+.custom-modal-new.timeline-modal header .add-photo-image {
+    border-bottom: none;
+    margin: 0px;
+}
+.custom-modal-new.timeline-modal header {
+    background-color: #F5F5F5;
+}
+.timeline-modal .custom-tab-header {
+    margin: 15px 45px 0px 33px;
+    border-bottom: 1px solid#ECECEE;
+    width: auto;
+    box-shadow: none;
+}
+.timeline-modal .custom-tab-header button:not(.close-icon) {
+    padding: 6px 15px 6px;
+}
+.timeline-modal .custom-tab-header .MuiBottomNavigationAction-label {
+    font-size: 1.5rem;
+}
+.timeline-modal .right-m-12 {
+    top: 8px;
+}
+.timeline-modal .right-m-12 button svg  {
+    font-size: 1.6rem;
+    color: #5C616F;
+}
+.custom-drawing-modal{
+    z-index: 5000;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+}
+.custom-drawing-modal .modal-dialog {
+    max-width: 620px;
+    margin: 1.75rem auto;
+}
+.custom-drawing-modal .modal-header{
+    background-color: #192d3e;
+    color: white;
+    padding: 20px;
+}
+.custom-drawing-modal .modal-header .h4{
+    color: white;
+    font-size: 21px;
+}
+.custom-drawing-modal .modal-header .close span{
+    color: white;
+    font-size: 28px;
+    font-weight: normal;
+    opacity: 1;
+}
+.custom-modal-lg .MuiDialog-paperWidthSm {
+    max-width: 850px;
+}
+.custom-drawing-modal header {
+    color: #1E2129;
+    background-color: #fff;
+}
+.project-detail-modal-content .MuiCardContent-root:last-child {
+    padding-bottom: 15px;
+}
+.add-photo-image .material-icons {
+    font-size: 2.2rem;
+}
+/* .MuiDialog-container .MuiPaper-elevation1 {
+    border: none !important;
+} */
+
+
+/* ********************************************************************************************
+    Other CSS
+*********************************************************************************************** */
+.custom-header {
+    background-color: #ffffff !important;
+    box-shadow: 2px 0 3px #00000033;
+}
+.profile-img {
+    height: 160px;
+    width: 160px;
+    object-fit: cover;
+}
+.custom-img {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border: 1px solid #e6e4e4;
+}
+.company-box:hover {
+    box-shadow: 0 1px 3px #00000029;
+}
+.company-img {
+    height: 95px;
+    width: 95px;
+    border-radius: 100%;
+    border: 1px solid #ececec;
+}
+.chat-box .me p {
+    width: 100%;
+    text-align: right;
+}
+.MuiChip-label {
+    padding-left: 0px;
+}
+.project-edit-position {
+    top: 4px !important;
+    right: -7px !important;
+}
+.no-bg .MuiTypography-root > div > div {
+    background: transparent;
+    height: auto;
+}
+.todoWrapper{
+    padding: 0;
+}
+.todoWrapper [class|=makeStyles-header] {
+    display: none;
+}
+.fileInfoSidebar .MuiDrawer-modal[aria-hidden="true"] .MuiDrawer-paperAnchorRight{
+    opacity: 0;
+    pointer-events: none;
+}
+.linear-progress {
+    position: absolute;
+    width: 100%;
+    top: 67px;
+    padding: 0px 35px 0px 10px;
+}
+.me-right-align .me p {
+    text-align: right;
+}
+.custom-bg ~ .inner-scroll {
+    background-color: #ffffff;
+    box-shadow: none;
+} 
+.custom-bg ~ .inner-scroll > div:first-child {
+    background-color: #f7f7f7;
+    border-radius: 4px 4px 0px 0px;
+}
+.image-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #000;
+    cursor: pointer;
+}
+.muliple-images-overflow-x {
+    overflow-x: hidden;
+}
+.leading-normal {
+    word-break: break-word;
+}
