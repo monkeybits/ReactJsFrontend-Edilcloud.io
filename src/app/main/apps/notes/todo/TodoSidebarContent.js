@@ -56,7 +56,7 @@ function TodoSidebarContent(props) {
 	dispatch(Actions.changeFilters({ activeFilter, activeFilterKey }));
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
-			<div className="flex-auto border-l-1 border-solid">
+			<div className="ml-20 flex-auto border-l-1 border-solid">
 				<div className={classes.listWrapper}>
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>

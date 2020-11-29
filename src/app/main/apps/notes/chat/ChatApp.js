@@ -152,7 +152,7 @@ function ChatApp(props) {
 					<div className="mr-20">
 						
 						<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-							<Typography variant="title1" className="font-weight-700 text-white mb-4">Project Name</Typography>
+							<Typography variant="h5" className="font-weight-900 text-white mb-4">Project Name</Typography>
 						</FuseAnimate>
 						<Typography variant="subtitle1" className="text-14 text-white font-weight-600">
 							Via San Giovanni Bosco 3, Bariano (Bg) Italia

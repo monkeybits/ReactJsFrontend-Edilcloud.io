@@ -27,7 +27,7 @@ function ContactListItem(props) {
 	return (
 		<ListItem
 			button
-			className={clsx(classes.contactListItem, 'px-16 py-12 min-h-86 chat-border active', {
+			className={clsx(classes.contactListItem, 'px-16 py-12 min-h-86 ', {
 				active: props.selectedContactId === props.contact.id
 			})}
 		>
@@ -46,7 +46,7 @@ function ContactListItem(props) {
 					root: 'min-w-px px-16 chat-contact-text',
 					secondary: 'truncate'
 				}}
-				primary={props.contact.name}
+				primary={props.contact.name }
 				secondary={props.contact.profile?.position + '@' + props.contact.profile?.company?.name}
 		
 			/>

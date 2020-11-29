@@ -245,13 +245,11 @@ function TodoListItem(props) {
 								/>
 							)}
 						</div>
-						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit font-semibold mb-6">
+						<Typography className="MuiTypography-root todo-title truncate MuiTypography-h6 MuiTypography-colorInherit font-semibold mb-6">
 							{' '}
 							{props.todo.name}{' '}
 						</Typography>
-						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary font-medium font-size-12 mb-6">
-							{projectDetail?.name}
-						</Typography>
+					
 						{!props.todo.assigned_company && (
 							<div className="custom-member-menu flex items-center" onClick={handleMenuOpen}>
 								<Icon>add_circle</Icon>

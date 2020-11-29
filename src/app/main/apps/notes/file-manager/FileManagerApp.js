@@ -269,14 +269,12 @@ function FileManagerApp(props) {
 					<>
 						<div className="flex w-full p-20 bg-blue justify-between items-center">
 							<div className="mr-20">
-								<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-									<Typography variant="subtitle1" className="font-weight-700 text-white mb-4">
-										{projectDetail.name}
-									</Typography>
-								</FuseAnimate>
-								<Typography variant="subtitle1" className="font-weight-700 text-white ">
-									Via San Giovanni Bosco 3
-								</Typography>
+							<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+							<Typography variant="h5" className="font-weight-900 text-white mb-4">Project Name</Typography>
+						</FuseAnimate>
+						<Typography variant="subtitle1" className="text-14 text-white font-weight-600">
+							Via San Giovanni Bosco 3, Bariano (Bg) Italia
+						</Typography>
 							</div>
 							<Button className="badge-btn" color="secondary">
 								Open Details

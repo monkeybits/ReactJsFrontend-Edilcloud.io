@@ -23,7 +23,7 @@ function ContactsHeader(props) {
 					Team
 				</Typography>
 				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-					<Typography variant="subtitle1" className="font-weight-700 mb-4">
+					<Typography variant="h5" className="font-weight-900 text-white mb-4">
 						Project Name
 					</Typography>
 				</FuseAnimate>
