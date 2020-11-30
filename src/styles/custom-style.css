@@ -857,6 +857,9 @@ textarea.MuiOutlinedInput-input {
 .team-grid .card-container .pro.refused {
     background-color: #F44336;
 }
+.team-grid .card-container .pro.deactivated {
+    background-color: #F44336;
+}
 .team-grid .card-container .pro {
     color: #fff;
     background-color: #4CAF50;

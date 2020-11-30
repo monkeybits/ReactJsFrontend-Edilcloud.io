@@ -97,19 +97,19 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 			setcurrentIndex(i => i + 1);
 		}
 	};
-	const handleDownload = () => {};
+	const handleDownload = () => { };
 	const getCssColor = fileType =>
 		fileType == 'pdf'
 			? { color: 'red' }
 			: fileType == 'video'
-			? { color: 'red' }
-			: fileType == 'mp3'
-			? { color: 'brown' }
-			: fileType == 'docx'
-			? { color: 'blue' }
-			: fileType == 'xlsx'
-			? { color: 'green' }
-			: {};
+				? { color: 'red' }
+				: fileType == 'mp3'
+					? { color: 'brown' }
+					: fileType == 'docx'
+						? { color: 'blue' }
+						: fileType == 'xlsx'
+							? { color: 'green' }
+							: {};
 	return (
 		<Dialog
 			onClose={closeViewFile}
@@ -121,9 +121,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 			<DialogTitle id="customized-dialog-title" onClose={closeViewFile}>
 				{selectedItem?.title}
 
-				<Button variant="contained" color="primary" disabled={currentIndex == 0} onClick={handleDownload}>
-					Download
-				</Button>
+
 			</DialogTitle>
 			<DialogContent dividers>
 				{selectedItem?.type == 'photo' ? (
@@ -133,25 +131,28 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 				) : selectedItem?.extension == 'pdf' ? (
 					<ReadPDF height={700} file={selectedItem.document} />
 				) : (
-					<FontAwesomeIcon
-						icon={
-							selectedItem?.type == 'document'
-								? selectedItem?.extension == 'pdf'
-									? faFilePdf
-									: selectedItem?.extension == 'docx'
-									? faFileWord
-									: selectedItem?.extension == 'xlsx'
-									? faFileExcel
-									: selectedItem?.extension == 'mp3'
-									? faFileAudio
-									: faFile
-								: faFile
-						}
-						style={{ ...getCssColor(selectedItem?.extension), fontSize: '2.4rem' }}
-					/>
-				)}
+								<FontAwesomeIcon
+									icon={
+										selectedItem?.type == 'document'
+											? selectedItem?.extension == 'pdf'
+												? faFilePdf
+												: selectedItem?.extension == 'docx'
+													? faFileWord
+													: selectedItem?.extension == 'xlsx'
+														? faFileExcel
+														: selectedItem?.extension == 'mp3'
+															? faFileAudio
+															: faFile
+											: faFile
+									}
+									style={{ ...getCssColor(selectedItem?.extension), fontSize: '2.4rem' }}
+								/>
+							)}
 			</DialogContent>
 			<DialogActions className="p-8">
+				<Button variant="contained" color="primary" disabled={currentIndex == 0} onClick={handleDownload}>
+					Download
+				</Button>
 				<Button variant="contained" color="primary" disabled={currentIndex == 0} onClick={handlePrevious}>
 					Previous
 				</Button>
