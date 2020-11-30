@@ -144,7 +144,7 @@ function ChatApp(props) {
 		// }
 	}, [dispatch, company, routeParams, projectDetail]);
 	return (
-		<div className={clsx(classes.root, 'flex-col h-full p-24')}>
+		<div className={clsx(classes.root, 'flex-col h-full')}>
 			{/* <div className={classes.topBg} /> */}
 
 			{/* <div className="flex w-full justify-between items-center mb-20">

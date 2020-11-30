@@ -13,7 +13,7 @@ import * as authActions from 'app/auth/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		backgroundColor: '#0e3b63',
+		backgroundColor: '#1e2632',
 		'&.user': {
 			'& .username, & .email': {
 				transition: theme.transitions.create('opacity', {

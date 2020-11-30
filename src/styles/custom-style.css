@@ -151,34 +151,34 @@ a.text-muted:hover {
 
 .MuiButton-containedPrimary, .MuiButton-containedSecondary, .btn-primary, .btn-secondary   {
     color: #fff;
-    background-color: #2196F3;
+    background-color: #ff1049;
     box-shadow: none;
 }
 .MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
-    background-color: #0591ff;
+    background-color: #ff1049;
     box-shadow: none;
 }
 .MuiFab-secondary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
-    background-color: #0591ff;
+    background-color: #ff1049;
 }
 .MuiFab-primary {
     color: #fff;
-    background-color: #2196F3;
+    background-color: #ff1049;
     box-shadow: none;
 }
 .MuiFab-primary:hover {
-    background-color: #0591ff;
+    background-color: #ff1049;
 }
 .MuiButton-containedSizeLarge {
     padding: 7px 22px;
 }
 .custom-float-btn > button, .add-file-btn  {
     color: #ffffff;
-    background-color: #2196F3;
+    background-color: #ff1049;
     box-shadow: none;
 }
 .custom-float-btn > button:hover, .add-file-btn:hover {
-    background-color: #2196F3;
+    background-color: #ff1049;
     box-shadow: none;
 }
 .add-file-btn {
@@ -298,10 +298,10 @@ textarea.MuiOutlinedInput-input {
     Header
 *********************************************************************************************** */
 .sidebar-header {
-    background-color: #0b3254;
+    background-color: #1e2632;
 }
 .sidebar-content {
-    background: #0D3B63;
+    background: #1e2632;
 }
 .sidebar-content ul a {
     width: calc(100% - 0px);
@@ -312,7 +312,7 @@ textarea.MuiOutlinedInput-input {
     position: relative;
 }
 .sidebar-content ul a.active {
-    background-color: #202020;
+    background-color: #376aed;
     color: #fff !important;
 }
 .sidebar-content ul a.active::before, .sidebar-content ul a.active::after  {
@@ -344,7 +344,7 @@ textarea.MuiOutlinedInput-input {
 *********************************************************************************************** */
 .MuiPaper-elevation1 {
     box-shadow: none;
-    border: 1px solid #ECECEE;
+    
 }
 
 /* ********************************************************************************************
@@ -755,7 +755,7 @@ textarea.MuiOutlinedInput-input {
     color: #fff;
 }
 .chat-search {
-    background-color: #F7F7F7;
+    background-color: #F7F7FF;
     border: 1px solid #D8D9DB;
 }
 .chat-bg {
@@ -779,7 +779,7 @@ textarea.MuiOutlinedInput-input {
     border-right: 1px solid #466886;
 }
 .chat-form-bg {
-    background-color: #F7F7F7;
+    background-color: #F7F7FF;
 }
 .chat-border {
     border-left: 3px solid transparent;
@@ -792,7 +792,7 @@ textarea.MuiOutlinedInput-input {
     background-color: #376AED;
 }
 .chat-header-bg-remove > div, .header-bg-remove > div  {
-    background: #f7f7f7;
+    background: #F7F7FF;
     height: auto;
     min-height: auto;
 }
@@ -815,8 +815,8 @@ textarea.MuiOutlinedInput-input {
     padding-bottom: 60px;
 }
 .team-tab-content .flex.flex-auto.flex-col > div {
-    background-color: #f7f7f7;
-    background: #f7f7f7;
+    background-color: #F7F7FF;
+    background: #F7F7FF;
     height: auto;
     min-height: auto;
 }
@@ -1085,7 +1085,7 @@ audio {
     Project List Page
 *********************************************************************************************** */
 .project_list {
-    background: #f7f7f7;
+    background: #F7F7FF;
 }
 .project_box .project_card {
     border: 1px solid #ececec;
@@ -1620,7 +1620,7 @@ audio {
     box-shadow: none;
 } 
 .custom-bg ~ .inner-scroll > div:first-child {
-    background-color: #f7f7f7;
+    background-color: #F7F7FF;
     border-radius: 4px 4px 0px 0px;
 }
 .image-close {

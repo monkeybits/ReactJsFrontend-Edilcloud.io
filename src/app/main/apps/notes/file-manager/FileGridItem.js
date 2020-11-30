@@ -86,7 +86,7 @@ export default function FileGridItem({ tileData, pageLayout }) {
 					<GridListTile key={tile.img} onClick={e => handleOpenData(e, tile)}>
 						{tile.type == 'video' ? (
 							<FontAwesomeIcon
-								className="p-28"
+								className="p-48"
 								icon={faFileVideo}
 								style={{ ...getCssColor(tile.type), fontSize: '1.8rem' }}
 							/>
@@ -94,7 +94,7 @@ export default function FileGridItem({ tileData, pageLayout }) {
 							<img src={tile.photo} alt={tile.title} />
 						) : (
 							<FontAwesomeIcon
-								className="p-28"
+								className="p-48"
 								icon={
 									tile.type == 'document'
 										? tile.extension == 'pdf'

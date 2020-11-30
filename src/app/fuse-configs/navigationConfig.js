@@ -38,19 +38,11 @@ const navigationConfig = [
 				title: 'Projects List',
 				translate: 'Projects List',
 				type: 'item',
-				icon: 'list',
+				icon: 'work_outline',
 				url: '/apps/projects',
 				
 			},
-			{
-				id: '',
-				title: 'Projects Settings',
-				translate: 'Projects Settings',
-				type: 'item',
-				icon: 'settings',
-				url: 'babbeo',
-				
-			},
+			
 		]
 	},	
 	{
@@ -73,7 +65,7 @@ const navigationConfig = [
 				title: 'Company File-Manager',
 				translate: 'Company File-Manager',
 				type: 'item',
-				icon: 'insert_drive_file_outlined',
+				icon: 'folder_shared',
 				url: '/apps/file-manager',
 				
 			},
@@ -87,42 +79,7 @@ const navigationConfig = [
 				
 			},
 		]
-	},	
-	{
-		id: 'WORK HOURS',
-		title: 'WORK HOURS',
-		translate: 'WORK HOURS',
-		type: 'group',
-		children: [
-			{
-				id: '',
-				title: 'Insert Hours',
-				translate: 'Insert Hours',
-				type: 'item',
-				icon: 'schedule',
-				url: 'mozz',
-				
-			},
-			{
-				id: '',
-				title: 'Calendar',
-				translate: 'Calendar',
-				type: 'item',
-				icon: 'today',
-				url: '/apps/calendar',
-				
-			},
-			{
-				id: '',
-				title: 'Consuntivi',
-				translate: 'Consuntivi',
-				type: 'item',
-				icon: 'timelapse',
-				url: 'accadueo',
-				
-			},
-		]
-	},	
+	},		
 	{
 		id: 'HOW TO USE',
 		title: 'HOW TO USE?',
@@ -140,11 +97,11 @@ const navigationConfig = [
 			},
 			{
 				id: '',
-				title: 'Constructions Forum',
-				translate: 'Constructions Forum',
+				title: 'Help Center',
+				translate: 'Help Center',
 				type: 'item',
-				icon: 'videogame_asset',
-				url: 'babaluba',
+				icon: 'help_center',
+				url: 'https://edilcloud.io/helpcenter/',
 				
 			},
 			
