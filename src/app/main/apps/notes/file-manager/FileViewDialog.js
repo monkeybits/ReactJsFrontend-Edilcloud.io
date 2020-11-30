@@ -96,6 +96,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 			setcurrentIndex(i => i + 1);
 		}
 	};
+	const handleDownload = () => {};
 	const getCssColor = fileType =>
 		fileType == 'pdf'
 			? { color: 'red' }
@@ -118,6 +119,9 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closeViewFile}>
 				{selectedItem?.title}
+				<Button variant="contained" color="primary" disabled={currentIndex == 0} onClick={handleDownload}>
+					Download
+				</Button>
 			</DialogTitle>
 			<DialogContent dividers>
 				{selectedItem?.type == 'photo' ? (

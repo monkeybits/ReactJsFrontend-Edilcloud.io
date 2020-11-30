@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import AddProjectForm from './AddProjectForm';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from 'app/main/apps/notes/store/actions';
+import { Box, LinearProgress } from '@material-ui/core';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -56,7 +57,7 @@ export default function CustomizedDialogs() {
 			open={projectApp.projectDialog}
 		>
 			<DialogTitle id="customized-dialog-title" onClose={handleClose}>
-				{projectApp.dialogType == 'new' ? 'Add Project' : 'Edit Project'}
+				{projectApp.dialogType == 'new' ? 'Add Project' : 'Edit Project'}{' '}
 			</DialogTitle>
 			<AddProjectForm />
 		</Dialog>

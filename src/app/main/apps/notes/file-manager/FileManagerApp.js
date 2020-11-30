@@ -267,7 +267,7 @@ function FileManagerApp(props) {
 				}}
 				header={
 					<>
-						<div className="flex w-full justify-between items-center">
+						{/* <div className="flex w-full justify-between items-center">
 							<div className="mr-20">
 								<Typography variant="h5" className="mb-4">
 									File
@@ -284,7 +284,7 @@ function FileManagerApp(props) {
 							<Button className="badge-btn" color="secondary">
 								Open Details
 							</Button>
-						</div>
+						</div> */}
 
 						<div className="flex flex-col flex-1 relative z-50 mt-10">
 							<div className="flex items-center justify-between left-icon-btn">

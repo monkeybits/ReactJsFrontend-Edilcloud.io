@@ -41,13 +41,13 @@ const useStyles = makeStyles(theme => ({
 		marginBottom: theme.spacing(2)
 	},
 	resetContainer: {
-		padding: theme.spacing(3),		
+		padding: theme.spacing(3)
 	},
 	progBox: {
 		position: 'absolute',
-    	top: '10px',
-    	right: 0,
-    	width: '50px'
+		top: '10px',
+		right: 0,
+		width: '50px'
 	}
 }));
 
@@ -62,7 +62,7 @@ function getStepContent(step, elementProps) {
 		case 1:
 			return <CompanyCategory {...elementProps} />;
 		case 2:
-			return <FileUpload {...elementProps} />;
+			return <FileUpload isCompany {...elementProps} />;
 		default:
 			return 'Unknown step';
 	}
@@ -218,6 +218,7 @@ function CompanyCreationStepper({ user, history }) {
 
 		request
 			.then(res => {
+				setProgress(0);
 				if (isEdit) {
 					console.log('routeHistorynextPath', routeHistory.location.state.nextPath);
 					routeHistory.push(routeHistory.location.state.nextPath);
@@ -226,6 +227,7 @@ function CompanyCreationStepper({ user, history }) {
 				}
 			})
 			.catch(err => {
+				setProgress(0);
 				const { name, url, email, vat_number, phone } = err.response.data;
 				setError({
 					name: name ? name : [],
@@ -306,14 +308,13 @@ function CompanyCreationStepper({ user, history }) {
 								))}
 							</Stepper>
 							{/* {activeStep !== steps.length && ( */}
-								<>
-								<LinearProgress color="primary" value={progress} />
-
-									<Paper square elevation={0} className={classes.resetContainer}>
-										<Typography>All steps completed - you&apos;re finished</Typography>
+							<>
+								<Paper square elevation={0} className={classes.resetContainer}>
+									<Typography>All steps completed - you&apos;re finished</Typography>
+									{progress > 0 && (
 										<Box position="relative" display="inline-flex" className={classes.progBox}>
 											<CircularProgress variant="static" color="primary" value={progress} />
-											
+
 											<Box
 												top={0}
 												left={0}
@@ -331,8 +332,9 @@ function CompanyCreationStepper({ user, history }) {
 												>{`${Math.round(progress)}%`}</Typography>
 											</Box>
 										</Box>
-									</Paper>
-								</>
+									)}
+								</Paper>
+							</>
 							{/* )} */}
 						</CardContent>
 					</Card>

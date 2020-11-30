@@ -148,7 +148,7 @@ function ChatApp(props) {
 			<div className={clsx(classes.root, 'flex-col h-full p-24')}>
 				{/* <div className={classes.topBg} /> */}
 
-				<div className="flex w-full justify-between items-center mb-20">
+				{/* <div className="flex w-full justify-between items-center mb-20">
 					<div className="mr-20">
 						<Typography variant="h5" className="mb-4">
 							Chat
@@ -163,7 +163,7 @@ function ChatApp(props) {
 					<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
 						Open Details
 					</Button>
-				</div>
+				</div> */}
 
 				<div className={clsx(classes.contentCardWrapper, 'container h-full p-0 inner-height')}>
 					<div className={clsx(classes.contentCard, 'chat-bg')}>

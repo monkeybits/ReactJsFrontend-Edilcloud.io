@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import { Input, Button } from '@material-ui/core';
 import ImageCropper from './ImageCropper';
 
-export default function FileUpload({ setFile, file, remove }) {
+export default function FileUpload({ setFile, file, remove, isCompany }) {
 	const [image, setImage] = useState(null);
+	const inputRef = useRef(null);
 	const [viewCroper, setViewCroper] = useState(false);
 	const getPhoto = fileData => {
 		// e.preventDefault();
@@ -39,20 +40,28 @@ export default function FileUpload({ setFile, file, remove }) {
 		</>
 	) : (
 		<>
-			<div className="flex justify-center mt-16 mb-20">
-				<img className="profile-img" src="/assets/images/avatars/profile-img.png" alt="profile" />
-			</div>
+			{isCompany ? (
+				<Icon onClick={() => inputRef.current.click()} className="company-icon flex mx-auto">
+					business
+				</Icon>
+			) : (
+				<div className="flex justify-center mt-16 mb-20">
+					<img className="profile-img" src="/assets/images/avatars/profile-img.png" alt="profile" />
+				</div>
+			)}
+
 			<div className="flex justify-center mt-16 mb-20">
 				<input
 					id="add_user"
 					hidden
 					type="file"
+					ref={inputRef}
 					onChange={e => {
 						setImage(URL.createObjectURL(e.currentTarget.files[0]));
 						setViewCroper(true);
 					}}
 				/>
-				<label htmlFor="add_user" className="text-2xl cursor-pointer">
+				<label onClick={() => inputRef.current.click()} className="text-2xl cursor-pointer">
 					<Icon fontSize="inherit" className="align-middle">
 						add_circle
 					</Icon>{' '}

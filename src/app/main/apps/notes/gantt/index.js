@@ -10,7 +10,7 @@ import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
 import useScript from './useScript';
 
 function GanttWrapper(props) {
-	useScript("http://export.dhtmlx.com/gantt/api.js");
+	useScript("https://export.dhtmlx.com/gantt/api.js");
 	const dispatch = useDispatch();
 	const routeParams = useParams();
 	const company = useSelector(({ chatApp }) => chatApp?.company);

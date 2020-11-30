@@ -771,75 +771,79 @@ class Gantt extends Component {
 				data: fileInput.files[0],
 				callback: project => {
 					if (project) {
-						var header = [];
-						var headerControls = [];
-						var body = [];
-						let listOfData = project.map(item => ({
-							name: item['Task name'],
-							progress: item['Completed percentage'],
-							date_start: item['Start time']
-								? moment(item['Start time']).format('YYYY-MM-DD')
-								: undefined,
-							date_end: item['End time'] ? moment(item['End time']).format('YYYY-MM-DD') : undefined
-						}));
-						project.forEach(function (task) {
-							var cols = [];
-							if (!header.length) {
-								for (var i in task) {
-									header.push(i);
+						try {
+							var header = [];
+							var headerControls = [];
+							var body = [];
+							let listOfData = project.map(item => ({
+								name: item['Task name'],
+								progress: item['Completed percentage'],
+								date_start: item['Start time']
+									? moment(item['Start time']).format('YYYY-MM-DD')
+									: undefined,
+								date_end: item['End time'] ? moment(item['End time']).format('YYYY-MM-DD') : undefined
+							}));
+							project.forEach(function (task) {
+								var cols = [];
+								if (!header.length) {
+									for (var i in task) {
+										header.push(i);
+									}
+									header.forEach(function (col, index) {
+										cols.push('<th>' + col + '</th>');
+										headerControls.push(
+											"<td><select data-column-mapping='" +
+												col +
+												"'>" +
+												getOptions(index) +
+												'</select>'
+										);
+									});
+									body.push('<tr>' + cols.join('') + '</tr>');
+									body.push('<tr>' + headerControls.join('') + '</tr>');
 								}
-								header.forEach(function (col, index) {
-									cols.push('<th>' + col + '</th>');
-									headerControls.push(
-										"<td><select data-column-mapping='" +
-											col +
-											"'>" +
-											getOptions(index) +
-											'</select>'
-									);
+								cols = [];
+								header.forEach(function (col) {
+									cols.push('<td>' + task[col] + '</td>');
 								});
 								body.push('<tr>' + cols.join('') + '</tr>');
-								body.push('<tr>' + headerControls.join('') + '</tr>');
-							}
-							cols = [];
-							header.forEach(function (col) {
-								cols.push('<td>' + task[col] + '</td>');
 							});
-							body.push('<tr>' + cols.join('') + '</tr>');
-						});
 
-						var div = gantt.modalbox({
-							title: 'Assign columns',
-							type: 'excel-form',
-							text:
-								'<div class="table-responsive"> <table class="table m-0">' +
-								body.join('') +
-								'</table> </div>',
-							buttons: [
-								{ label: 'Save', css: 'link_save_btn', value: 'save' },
-								{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
-							],
-							callback: result => {
-								switch (result) {
-									case 'save':
-										this.handleUploadListOfTasks(listOfData, () => {});
-										// var selects = div.querySelectorAll(
-										// 	'[data-column-mapping]'
-										// );
-										// var mapping = {};
-										// selects.forEach(function (select) {
-										// 	mapping[
-										// 		select.getAttribute('data-column-mapping')
-										// 	] = select.value;
-										// });
-										// loadTable(mapping, project);
-										break;
-									case 'cancel':
-										//Cancel
-										break;
+							var div = gantt.modalbox({
+								title: 'Assign columns',
+								type: 'excel-form',
+								text:
+									'<div class="table-responsive"> <table class="table m-0">' +
+									body.join('') +
+									'</table> </div>',
+								buttons: [
+									{ label: 'Save', css: 'link_save_btn', value: 'save' },
+									{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
+								],
+								callback: result => {
+									switch (result) {
+										case 'save':
+											this.handleUploadListOfTasks(listOfData, () => {});
+											// var selects = div.querySelectorAll(
+											// 	'[data-column-mapping]'
+											// );
+											// var mapping = {};
+											// selects.forEach(function (select) {
+											// 	mapping[
+											// 		select.getAttribute('data-column-mapping')
+											// 	] = select.value;
+											// });
+											// loadTable(mapping, project);
+											break;
+										case 'cancel':
+											//Cancel
+											break;
+									}
 								}
-							}
-						});
+							});
+						} catch {
+							toast.error('Not supported ');
+						}
 					}
 				}
 			});
@@ -874,7 +878,7 @@ class Gantt extends Component {
 			this.props.company?.id == this.props.projectDetail?.company?.id && permissionByRole;
 		return (
 			<div>
-				<div className="flex w-full justify-between items-center p-24 pb-16">
+				{/* <div className="flex w-full justify-between items-center p-24 pb-16">
 					<div className="mr-20">
 						<Typography variant="h5" className="mb-4">
 							Gantt
@@ -891,7 +895,7 @@ class Gantt extends Component {
 					<Button className="badge-btn" color="secondary">
 						Open Details
 					</Button>
-				</div>
+				</div> */}
 
 				<div class="demo-main-container">
 					<div class="header gantt-demo-header">
