@@ -203,7 +203,8 @@ function TodoList(props) {
 						if (o.assigned_company && o.assigned_company.id == company.id) {
 							activities = inLateFilterForActivity(o.activities);
 						}
-						if ((date.getTime() <= endDate.getTime() && o.progress < 100) || activities.length) {
+						// console.log({ date, endDate, name: o.name });
+						if (date.getTime() >= endDate.getTime() && o.progress < 100 || activities.length) {
 							unique.push({ ...o, activities });
 						}
 						return unique;
@@ -272,7 +273,7 @@ function TodoList(props) {
 		let result = arr.reduce((unique, o) => {
 			let endDate = new Date(o.datetime_end);
 			let date = new Date();
-			if (date.getTime() > endDate.getTime() && o.status == 'to-do') {
+			if (date.getTime() >= endDate.getTime() && o.status == 'to-do') {
 				unique.push(o);
 			}
 			return unique;
