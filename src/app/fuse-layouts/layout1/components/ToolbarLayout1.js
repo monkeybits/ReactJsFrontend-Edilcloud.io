@@ -8,7 +8,7 @@ import ChatPanelToggleButton from 'app/fuse-layouts/shared-components/chatPanel/
 import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
 import QuickPanelToggleButton from 'app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton';
 import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
 import clsx from 'clsx';
@@ -24,9 +24,33 @@ const useStyles = makeStyles(theme => ({
 function ToolbarLayout1(props) {
 	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
 	const toolbarTheme = useSelector(({ fuse }) => fuse.settings.toolbarTheme);
+	const company = useSelector(({ chatApp }) => chatApp?.company);
+	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
+	const [totalCount, setTotalCount] = useState(0);
 
 	const classes = useStyles(props);
-
+	useEffect(() => {
+		let newContacts = [];
+		if (company && company.id && contacts) {
+			newContacts = [
+				{
+					...company,
+					type: 'company'
+				},
+				...contacts
+			];
+		}
+		if (company && company.id) {
+			let result = newContacts.reduce((unique, o) => {
+				if (o.talks?.[0]?.unread_count) {
+					unique.push(o.talks?.[0]?.unread_count);
+				}
+				return unique;
+			}, []);
+			result = result.reduce((a, b) => a + b, 0);
+			setTotalCount(result);
+		}
+	}, [contacts, company]);
 	return (
 		<ThemeProvider theme={toolbarTheme}>
 			<AppBar
@@ -59,14 +83,14 @@ function ToolbarLayout1(props) {
 						<Hidden lgUp>
 							<div className={clsx(classes.separator, 'custom-separator')} />
 
-							<ChatPanelToggleButton />
+							<ChatPanelToggleButton totalCount={totalCount} />
 						</Hidden>
 
-							<div className={clsx(classes.separator, 'custom-separator')} />
+						<div className={clsx(classes.separator, 'custom-separator')} />
 
 						<LanguageSwitcher />
 
-							<div className={clsx(classes.separator, 'custom-separator')} />
+						<div className={clsx(classes.separator, 'custom-separator')} />
 
 						<QuickPanelToggleButton />
 					</div>

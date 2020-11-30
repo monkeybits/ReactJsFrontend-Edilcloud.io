@@ -20,7 +20,7 @@ export default ({ children }) => {
 	let ws;
 	let WS_BASE;
 	const dispatch = useDispatch();
-	if (window.location.host.includes('localhost')) {
+	if (process.env.NODE_ENV !== 'production') {
 		WS_BASE = WS_BASE_LOCAL;
 	} else {
 		WS_BASE = WS_BASE_DEV;
@@ -97,8 +97,7 @@ export default ({ children }) => {
 			}
 		});
 	};
-
-	if (!global.socket) {
+	const createSocket = () => {
 		global.socket = new WebSocket(WS_BASE);
 		global.socket.onmessage = function (e) {
 			const data = JSON.parse(e.data);
@@ -119,10 +118,16 @@ export default ({ children }) => {
 		};
 		global.socket.onclose = function (event) {
 			console.log('WebSocket is closed now.');
-			setTimeout(function () {
-				global.socket = new WebSocket(WS_BASE);
+			// toast.warn('WebSocket is closed now.');
+			setTimeout(() => {
+				createSocket();
+				console.log('WebSocket is connectting..');
+				// toast.success('WebSocket is connectting..');
 			}, 1000);
 		};
+	};
+	if (!global.socket) {
+		createSocket();
 
 		ws = {
 			socket: global.socket,

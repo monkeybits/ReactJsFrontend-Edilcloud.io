@@ -254,7 +254,7 @@ function TodoListItem(props) {
 						</Typography>
 						{!props.todo.assigned_company && (
 							<div className="custom-member-menu flex items-center" onClick={handleMenuOpen}>
-								<Icon>add_circle</Icon>
+								<Icon> business</Icon>
 								Assign Company
 							</div>
 						)}

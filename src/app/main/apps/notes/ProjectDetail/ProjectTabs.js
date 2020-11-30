@@ -27,7 +27,7 @@ import Gantt from '../gantt/index';
 import Toolbar from '../gantt/Toolbar';
 import { Icon } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import FuseAnimate from '@fuse/core/FuseAnimate';
+import ProjectHeader from './ProjectHeader';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function ProjectTabs({ value, setValue , setOpenDialog }) {
+function ProjectTabs({ value, setValue, setOpenDialog }) {
 	const classes = useStyles();
 	const [zoom, setZoom] = useState({
 		currentZoom: 'Months'
@@ -92,8 +92,9 @@ function ProjectTabs({ value, setValue , setOpenDialog }) {
 	}, [dispatch, routeParams]);
 	return (
 		<div className={classes.root}>
+			<ProjectHeader onOpen={setOpenDialog} />
 			<TabPanel value={value} index={0} className="team-tab-content no-data-height-full">
-				<ContactsApp {...{ value, setValue , setOpenDialog }} />
+				<ContactsApp {...{ value, setValue, setOpenDialog }} />
 			</TabPanel>
 			<TabPanel value={value} index={1} className="h-full chat-tab-content-height">
 				<ChatApp {...{ value, setValue }} />

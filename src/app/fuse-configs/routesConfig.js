@@ -44,6 +44,11 @@ const routes = [
 		component: () => <Redirect to="/apps/todo/all" />
 	},
 	{
+		path: '/index.html',
+		exact: true,
+		component: () => <Redirect to="/apps/todo/all" />
+	},
+	{
 		component: () => <Redirect to="/pages/errors/error-404" />
 	}
 ];

@@ -1,22 +1,17 @@
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import moment from 'moment/moment';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
-import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 import ViewFile from './ViewFile';
-import SendMessageFilePreview from './SendMessageFilePreview';
-import AudioRecord from 'app/AudioRecord';
 import RetryToSendMessage from './RetryToSendMessage';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
+import SendMessageForm from './SendMessageForm';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -147,7 +142,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Chat(props) {
-	const dispatch = useDispatch();
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
 	const chat = useSelector(({ chatPanel }) => chatPanel.chat);
@@ -156,10 +150,6 @@ function Chat(props) {
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
 	const classes = useStyles();
 	const chatScroll = useRef(null);
-	const [messageText, setMessageText] = useState('');
-	const [images, setImages] = useState(null);
-	const inputRef = useRef(null);
-	const audioRef = useRef(null);
 
 	useEffect(() => {
 		scrollToBottom();
@@ -169,77 +159,9 @@ function Chat(props) {
 		chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
 	}
 
-	const onInputChange = ev => {
-		setMessageText(ev.target.value);
-	};
-
-	const onMessageSubmit = ev => {
-		ev.preventDefault();
-		if (audioRef.current) {
-			audioRef.current.sendDirectToChat();
-		}
-		if (messageText === '' && !images) {
-			return;
-		}
-		dispatch(Actions.sendMessage(messageText, setMessageText, user, images, setImages));
-	};
-	const addPhoto = async e => {
-		const files = e.currentTarget.files;
-		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/');
-			file = [
-				...file,
-				{
-					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
-					imgPath: URL.createObjectURL(files[i]),
-					fileType: fileType[0],
-					extension: '.' + fileType[1],
-					type: fileType.join('/')
-				}
-			];
-			setImages(file);
-		}
-	};
-	const addAudio = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
-
-		fileList = [
-			{
-				file: file,
-				imgPath: URL.createObjectURL(file),
-				fileType: fileType[0],
-				extension: '.' + fileType[1],
-				type: fileType.join('/')
-			},
-			...fileList
-		];
-		setImages(fileList);
-	};
-	const sendAudioDirectToChat = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
-
-		fileList = [
-			{
-				file: file,
-				imgPath: URL.createObjectURL(file),
-				fileType: fileType[0],
-				extension: '.' + fileType[1],
-				type: fileType.join('/')
-			},
-			...fileList
-		];
-		dispatch(Actions.sendMessage(messageText, setMessageText, user, fileList, setImages));
-	};
 	return (
 		<Paper elevation={3} className={clsx('flex flex-col', props.className)}>
 			{useMemo(() => {
-				const shouldShowContactAvatar = (item, i) => {
-					return i < chat.chats.length && chat.chats[i - 1] && chat.chats[i - 1].sender.id != item.sender.id;
-				};
-
 				const isFirstMessageOfGroup = (item, i) => {
 					return i === 0 || (chat.chats[i - 1] && chat.chats[i - 1].sender.id != item.sender.id);
 				};
@@ -304,26 +226,29 @@ function Chat(props) {
 														files={item.files}
 													/>
 													<div className="flex items-center mt-8">
-													{contact.id == userIdFromCompany && item.waitingToSend ? (
-														<Icon className="float-right font-size-16 text-check">access_time</Icon>
-													) : (
-														// <Icon className="float-right text-16 text-check">check</Icon>
-														<Icon className="float-right text-16 text-check">done_all</Icon>
-													)}
+														{contact.id == userIdFromCompany && item.waitingToSend ? (
+															<Icon className="float-right font-size-16 text-check">
+																access_time
+															</Icon>
+														) : (
+															// <Icon className="float-right text-16 text-check">check</Icon>
+															<Icon className="float-right text-16 text-check">
+																done_all
+															</Icon>
+														)}
 														{
-													// isLastMessageOfGroup(item, i) && (
-														<Typography
-														className="time text-12 font-500 ml-6 ltr:left-0 rtl:right-0 whitespace-no-wrap"
-														color="textSecondary"
-														>
-															{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
-														</Typography>
-													// )
-													}
+															// isLastMessageOfGroup(item, i) && (
+															<Typography
+																className="time text-12 font-500 ml-6 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+																color="textSecondary"
+															>
+																{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
+															</Typography>
+															// )
+														}
 													</div>
 												</div>
 											</div>
-											
 										</div>
 									);
 								})}
@@ -343,64 +268,7 @@ function Chat(props) {
 					</FuseScrollbars>
 				);
 			}, [chat, classes, contacts, selectedContactId, user])}
-			{chat && (
-				<form onSubmit={onMessageSubmit} className={clsx(classes.bottom, 'py-16 px-8')}>
-					<div className="multiple-images flex flex-row overflow-x-auto">
-						{images &&
-							images.map((item, index) => (
-								<SendMessageFilePreview
-									item={item}
-									card={{}}
-									// makeCover={makeCover}
-									// removeCover={removeCover}
-									// removeAttachment={removeAttachment}
-									onRemove={() => setImages(prev => prev.filter((d, i) => i != index))}
-									key={item.id}
-								/>
-							))}
-					</div>
-					<Paper className={clsx(classes.inputWrapper, 'flex items-center relative')}>
-						<TextField
-							autoFocus={false}
-							id="message-input"
-							className="flex-1"
-							InputProps={{
-								disableUnderline: true,
-								classes: {
-									root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-48 rtl:ml-48 my-8',
-									input: ''
-								},
-								placeholder: 'Type your message'
-							}}
-							InputLabelProps={{
-								shrink: false,
-								className: classes.bootstrapFormLabel
-							}}
-							onChange={onInputChange}
-							value={messageText}
-						/>
-						<AudioRecord
-							afterRecordComplete={addAudio}
-							ref={audioRef}
-							sendDirectToChat={sendAudioDirectToChat}
-						/>
-
-						<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
-						<IconButton
-							className="image mr-48"
-							onClick={() => inputRef.current.click()}
-							aria-label="Add photo"
-						>
-							<Icon>photo</Icon>
-						</IconButton>
-						<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
-							<Icon className="text-24" color="action">
-								send
-							</Icon>
-						</IconButton>
-					</Paper>
-				</form>
-			)}
+			{chat && <SendMessageForm />}
 		</Paper>
 	);
 }

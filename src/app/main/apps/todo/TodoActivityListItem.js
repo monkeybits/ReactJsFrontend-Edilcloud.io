@@ -290,7 +290,7 @@ function TodoActivityListItem(props) {
 										<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
 											<Checkbox
 												onClick={ev => ev.stopPropagation()}
-												name={member.first_name}
+												name={member.profile.first_name}
 												checked={!!member.is_exists}
 												onChange={e => {
 													let tempMembers = [...members];
@@ -304,7 +304,7 @@ function TodoActivityListItem(props) {
 											/>
 											<Avatar className="w-32 h-32" src={member.avatar} />
 											<ListItemText className="mx-8">
-												{member.first_name} {member.last_name}
+												{member.profile.first_name} {member.profile.last_name}
 											</ListItemText>
 										</MenuItem>
 									);

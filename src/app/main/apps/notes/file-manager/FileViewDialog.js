@@ -22,6 +22,11 @@ import {
 	faFileImage,
 	faFileWord
 } from '@fortawesome/free-regular-svg-icons';
+import * as Actions from './store/actions';
+import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import FileSaver from 'file-saver';
+import { getHeaderToken } from 'app/services/serviceUtils';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -62,7 +67,8 @@ const DialogActions = withStyles(theme => ({
 	}
 }))(MuiDialogActions);
 
-function FileViewDialog({ isOpenViewFile, closeViewFile }) {
+function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
+	const dispatch = useDispatch();
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const Allfiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.files);
 	const index = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
@@ -94,6 +100,44 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 	const handleNext = () => {
 		if (currentIndex < Allfiles?.length - 1) {
 			setcurrentIndex(i => i + 1);
+		}
+	};
+	const handleDownload = () => {
+		if (selectedItem) {
+			setProgress(0);
+			dispatch(Actions.onUploadHandleLoading(true));
+			let apiurl =
+				selectedItem.type == 'photo'
+					? DOWNLOAD_PHOTO(selectedItem.mainId)
+					: selectedItem.type == 'video'
+					? DOWNLOAD_VIDEO(selectedItem.mainId)
+					: DOWNLOAD_DOCUMENT(selectedItem.mainId);
+			apiCall(
+				apiurl,
+				{},
+				({ headers, data }) => {
+					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					console.log({ file });
+					FileSaver.saveAs(file);
+					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+					// FileSaver.saveAs(file);
+					dispatch(Actions.onUploadHandleLoading(false));
+				},
+				err => {
+					dispatch(Actions.onUploadHandleLoading(false));
+				},
+				METHOD.GET,
+				{
+					...getHeaderToken(),
+					responseType: 'arraybuffer',
+					onDownloadProgress: progressEvent => {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						setProgress(percentCompleted);
+					}
+				},
+				true
+			);
 		}
 	};
 	const getCssColor = fileType =>
@@ -146,6 +190,15 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 				)}
 			</DialogContent>
 			<DialogActions className="p-8">
+				<Button
+					className="ml-12"
+					variant="contained"
+					color="primary"
+					disabled={currentIndex == 0}
+					onClick={handleDownload}
+				>
+					Download
+				</Button>
 				<Button variant="contained" color="primary" disabled={currentIndex == 0} onClick={handlePrevious}>
 					Previous
 				</Button>

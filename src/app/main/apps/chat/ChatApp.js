@@ -23,7 +23,6 @@ import reducer from './store/reducers';
 import UserSidebar from './UserSidebar';
 import { withRouter } from 'react-router';
 import { GET_CHAT } from './store/actions';
-import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 
 const drawerWidth = 350;
@@ -115,7 +114,6 @@ function ChatApp(props) {
 	const mobileChatsSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.mobileChatsSidebarOpen);
 	const userSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.userSidebarOpen);
 	const contactSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.contactSidebarOpen);
-	const ws = useContext(WebSocketContext);
 	const [isMounted, setIsMounted] = useState(false);
 
 	const classes = useStyles(props);
@@ -155,7 +153,6 @@ function ChatApp(props) {
 	};
 	return (
 		<>
-			<WebSocketProvider>
 				<div className={clsx(classes.root, 'flex-col h-full p-24')}>
 					{/* <div className={classes.topBg} /> */}
 
@@ -320,7 +317,6 @@ function ChatApp(props) {
 						</div>
 					</div>
 				</div>
-			</WebSocketProvider>
 		</>
 	);
 }

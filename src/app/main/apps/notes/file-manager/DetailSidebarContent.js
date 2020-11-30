@@ -167,7 +167,10 @@ function DetailSidebarContent({ setProgress }) {
 		);
 	};
 	const openViewFile = () => setIsOpenViewFile(true);
-	const closeViewFile = () => setIsOpenViewFile(false);
+	const closeViewFile = (event) => {
+		setIsOpenViewFile(false);
+		handleClose(event);
+	};
 	const openMenu = Boolean(anchorEl);
 	return (
 		<>
@@ -258,7 +261,7 @@ function DetailSidebarContent({ setProgress }) {
 							</MenuItem>
 						</MenuList>
 					</div>
-					<FileViewDialog isOpenViewFile={isOpenViewFile} closeViewFile={closeViewFile} />
+					<FileViewDialog isOpenViewFile={isOpenViewFile} closeViewFile={closeViewFile} setProgress={setProgress} />
 					<div className="px-24 py-12 border-b-1">
 						<Typography variant="subtitle2" className="py-10 uppercase text-gray-500">
 							Info
