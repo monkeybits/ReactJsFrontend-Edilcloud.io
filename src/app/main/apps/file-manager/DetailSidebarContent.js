@@ -67,6 +67,8 @@ const useStyles = makeStyles({
 function DetailSidebarContent({ setProgress }) {
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
+	console.log('______________________________');
+	console.log(selectedItem);
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
@@ -87,6 +89,7 @@ function DetailSidebarContent({ setProgress }) {
 	}
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
 	const checkData = data => (data ? data : '-');
+
 	const onDownload = () => {
 		if (selectedItem) {
 			setProgress(0);
@@ -104,6 +107,21 @@ function DetailSidebarContent({ setProgress }) {
 					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
 					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 					console.log({ file });
+					if (window.flutter_inappwebview) {
+						console.log('listenning to flutterInAppWebViewPlatformReady');
+						console.log(window.flutter_inappwebview)
+						if (selectedItem.type == 'photo') {
+							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.photo);
+						}
+						if (selectedItem.type == 'video') {
+							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.video);
+						}
+						if (selectedItem.type == 'document') {
+							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
+						}
+						
+						console.log('finish listenning to flutterInAppWebViewPlatformReady');
+					}
 					FileSaver.saveAs(file);
 					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
 					// FileSaver.saveAs(file);
