@@ -17,7 +17,7 @@ import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
 import RetryToSendMessage from './RetryToSendMessage';
-
+import SendMessageForm from './SendMessageForm';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -288,58 +288,7 @@ function Chat(props) {
 				)}
 			</FuseScrollbars>
 
-			<form onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8 chat-form-bg">
-				<div className="multiple-images flex flex-row overflow-x-auto">
-					{images &&
-						images.map((item, index) => (
-							<SendMessageFilePreview
-								item={item}
-								card={{}}
-								// makeCover={makeCover}
-								// removeCover={removeCover}
-								// removeAttachment={removeAttachment}
-								onRemove={() => setImages(prev => prev.filter((d, i) => i != index))}
-								key={item.id}
-							/>
-						))}
-				</div>
-				<Paper className="flex items-center relative rounded-24" elevation={1}>
-					<TextField
-						autoFocus={false}
-						id="message-input"
-						className="flex-1"
-						InputProps={{
-							disableUnderline: true,
-							classes: {
-								root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-48 rtl:ml-48 my-8',
-								input: ''
-							},
-							placeholder: 'Type your message'
-						}}
-						InputLabelProps={{
-							shrink: false,
-							className: classes.bootstrapFormLabel
-						}}
-						onChange={onInputChange}
-						value={messageText}
-					/>
-					<AudioRecord
-						afterRecordComplete={addAudio}
-						ref={audioRef}
-						sendDirectToChat={sendAudioDirectToChat}
-					/>
-
-					<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
-					<IconButton className="image mr-48" onClick={() => inputRef.current.click()} aria-label="Add photo">
-						<Icon>photo</Icon>
-					</IconButton>
-					<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
-						<Icon className="text-24" color="action">
-							send
-						</Icon>
-					</IconButton>
-				</Paper>
-			</form>
+			<SendMessageForm />
 		</div>
 	);
 }

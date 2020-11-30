@@ -22,6 +22,11 @@ import {
 	faFileImage,
 	faFileWord
 } from '@fortawesome/free-regular-svg-icons';
+import * as Actions from './store/actions';
+import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import FileSaver from 'file-saver';
+import { getHeaderToken } from 'app/services/serviceUtils';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -62,7 +67,8 @@ const DialogActions = withStyles(theme => ({
 	}
 }))(MuiDialogActions);
 
-function FileViewDialog({ isOpenViewFile, closeViewFile }) {
+function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
+	const dispatch = useDispatch();
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const Allfiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.files);
 	const index = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
@@ -96,19 +102,56 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 			setcurrentIndex(i => i + 1);
 		}
 	};
-	const handleDownload = () => { };
+	const handleDownload = () => {
+		if (selectedItem) {
+			setProgress(0);
+			dispatch(Actions.onUploadHandleLoading(true));
+			let apiurl =
+				selectedItem.type == 'photo'
+					? DOWNLOAD_PHOTO(selectedItem.mainId)
+					: selectedItem.type == 'video'
+					? DOWNLOAD_VIDEO(selectedItem.mainId)
+					: DOWNLOAD_DOCUMENT(selectedItem.mainId);
+			apiCall(
+				apiurl,
+				{},
+				({ headers, data }) => {
+					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					console.log({ file });
+					FileSaver.saveAs(file);
+					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+					// FileSaver.saveAs(file);
+					dispatch(Actions.onUploadHandleLoading(false));
+				},
+				err => {
+					dispatch(Actions.onUploadHandleLoading(false));
+				},
+				METHOD.GET,
+				{
+					...getHeaderToken(),
+					responseType: 'arraybuffer',
+					onDownloadProgress: progressEvent => {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						setProgress(percentCompleted);
+					}
+				},
+				true
+			);
+		}
+	};
 	const getCssColor = fileType =>
 		fileType == 'pdf'
 			? { color: 'red' }
 			: fileType == 'video'
-				? { color: 'red' }
-				: fileType == 'mp3'
-					? { color: 'brown' }
-					: fileType == 'docx'
-						? { color: 'blue' }
-						: fileType == 'xlsx'
-							? { color: 'green' }
-							: {};
+			? { color: 'red' }
+			: fileType == 'mp3'
+			? { color: 'brown' }
+			: fileType == 'docx'
+			? { color: 'blue' }
+			: fileType == 'xlsx'
+			? { color: 'green' }
+			: {};
 	return (
 		<Dialog
 			onClose={closeViewFile}
@@ -119,7 +162,6 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closeViewFile}>
 				{selectedItem?.title}
-
 			</DialogTitle>
 			<DialogContent dividers>
 				{selectedItem?.type == 'photo' ? (
@@ -129,26 +171,32 @@ function FileViewDialog({ isOpenViewFile, closeViewFile }) {
 				) : selectedItem?.extension == 'pdf' ? (
 					<ReadPDF height={700} file={selectedItem.document} />
 				) : (
-								<FontAwesomeIcon
-									icon={
-										selectedItem?.type == 'document'
-											? selectedItem?.extension == 'pdf'
-												? faFilePdf
-												: selectedItem?.extension == 'docx'
-													? faFileWord
-													: selectedItem?.extension == 'xlsx'
-														? faFileExcel
-														: selectedItem?.extension == 'mp3'
-															? faFileAudio
-															: faFile
-											: faFile
-									}
-									style={{ ...getCssColor(selectedItem?.extension), fontSize: '2.4rem' }}
-								/>
-							)}
+					<FontAwesomeIcon
+						icon={
+							selectedItem?.type == 'document'
+								? selectedItem?.extension == 'pdf'
+									? faFilePdf
+									: selectedItem?.extension == 'docx'
+									? faFileWord
+									: selectedItem?.extension == 'xlsx'
+									? faFileExcel
+									: selectedItem?.extension == 'mp3'
+									? faFileAudio
+									: faFile
+								: faFile
+						}
+						style={{ ...getCssColor(selectedItem?.extension), fontSize: '2.4rem' }}
+					/>
+				)}
 			</DialogContent>
 			<DialogActions className="p-8">
-				<Button className="ml-12" variant="contained" color="primary" disabled={currentIndex == 0} onClick={handleDownload}>
+				<Button
+					className="ml-12"
+					variant="contained"
+					color="primary"
+					disabled={currentIndex == 0}
+					onClick={handleDownload}
+				>
 					Download
 				</Button>
 				<Button variant="contained" color="primary" disabled={currentIndex == 0} onClick={handlePrevious}>

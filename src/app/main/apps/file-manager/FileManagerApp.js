@@ -314,8 +314,8 @@ function FileManagerApp(props) {
 						</div>
 						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
 						{/* <div className="flex flex-1 items-end"> */}
-							
-							{/* <FuseAnimate animation="transition.expandIn" delay={600}>
+
+						{/* <FuseAnimate animation="transition.expandIn" delay={600}>
 								<Fab
 									onClick={() => setIsOpenDrawer(true)}
 									color="secondary"
@@ -326,7 +326,6 @@ function FileManagerApp(props) {
 								</Fab>
 							</FuseAnimate> */}
 
-							
 						{/* </div> */}
 						{isUploadingFiles && (
 							<div className="linear-progress custom-color">
@@ -340,7 +339,7 @@ function FileManagerApp(props) {
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}
 				rightSidebarHeader={<DetailSidebarHeader setProgress={setProgress} />}
-				rightSidebarContent={<DetailSidebarContent  setProgress={setProgress} />}
+				rightSidebarContent={<DetailSidebarContent setProgress={setProgress} />}
 				ref={pageLayout}
 				innerScroll
 			/>
@@ -451,6 +450,7 @@ function FileManagerApp(props) {
 							</div>
 							<div>
 								<TextField
+									accept="image/*, video/*"
 									error={!!error.fileError}
 									type="file"
 									className="mt-8 mb-16 w-full custom-fileinput"

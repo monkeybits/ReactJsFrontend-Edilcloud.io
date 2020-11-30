@@ -17,7 +17,8 @@ import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
 import MessageMoreOptions from './MessageMoreOptions';
 import RetryToSendMessage from './RetryToSendMessage';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
+import SendMessageForm from './SendMessageForm';
+
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
@@ -139,70 +140,7 @@ function Chat(props) {
 	function isLastMessageOfGroup(item, i) {
 		return i === chat.chats.length - 1 || (chat.chats[i + 1] && chat.chats[i + 1].sender.id != item.sender.id);
 	}
-	function onInputChange(ev) {
-		setMessageText(ev.target.value);
-	}
 
-	function onMessageSubmit(ev) {
-		ev.preventDefault();
-		console.log(audioRef.current);
-		if (audioRef.current) {
-			audioRef.current.sendDirectToChat();
-		}
-		if (messageText.length || images) {
-			dispatch(Actions.sendMessage(messageText, setMessageText, images, setImages));
-		}
-	}
-	const addPhoto = async e => {
-		const files = e.currentTarget.files;
-		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/');
-			file = [
-				...file,
-				{
-					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
-					imgPath: URL.createObjectURL(files[i]),
-					fileType: fileType[0],
-					extension: '.' + fileType[1],
-					type: fileType.join('/')
-				}
-			];
-			setImages(file);
-		}
-	};
-	const addAudio = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
-
-		fileList = [
-			{
-				file: file,
-				imgPath: URL.createObjectURL(file),
-				fileType: fileType[0],
-				extension: '.' + fileType[1],
-				type: fileType.join('/')
-			},
-			...fileList
-		];
-		setImages(fileList);
-	};
-	const sendAudioDirectToChat = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
-
-		fileList = [
-			{
-				file: file,
-				imgPath: URL.createObjectURL(file),
-				fileType: fileType[0],
-				extension: '.' + fileType[1],
-				type: fileType.join('/')
-			},
-			...fileList
-		];
-		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
-	};
 	return (
 		<div className={clsx('flex flex-col relative chat-box', props.className)}>
 			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
@@ -213,7 +151,7 @@ function Chat(props) {
 							const color = contacts.length && contacts?.filter(c => c.id == contact.id);
 							return (
 								<div
-									key={item.date_create}
+									key={i}
 									className={clsx(
 										classes.messageRow,
 										'flex flex-col flex-grow-0 flex-shrink-0 items-start justify-end relative px-20 pb-12',
@@ -254,9 +192,7 @@ function Chat(props) {
 										<ViewFile files={item.files} />
 										<div className="flex items-center mt-8">
 											{contact.id == userIdFromCompany && item.waitingToSend ? (
-												<Icon className="float-right font-size-16 text-check">
-													access_time
-												</Icon>
+												<Icon className="float-right font-size-16 text-check">access_time</Icon>
 											) : (
 												// <Icon className="float-right text-16 text-check">check</Icon>
 												<Icon className="float-right text-16 text-check">done_all</Icon>
@@ -290,62 +226,7 @@ function Chat(props) {
 					</div>
 				)}
 			</FuseScrollbars>
-
-			<form
-				autoComplete="off"
-				onSubmit={onMessageSubmit}
-				className="bottom-0 right-0 left-0 py-16 px-8 chat-form-bg"
-			>
-				<div className="multiple-images flex flex-row overflow-x-auto">
-					{images &&
-						images.map((item, index) => (
-							<SendMessageFilePreview
-								item={item}
-								card={{}}
-								// makeCover={makeCover}
-								// removeCover={removeCover}
-								// removeAttachment={removeAttachment}
-								onRemove={() => setImages(prev => prev.filter((d, i) => i != index))}
-								key={item.id}
-							/>
-						))}
-				</div>
-				<Paper className="flex items-center relative rounded-24" elevation={1}>
-					<TextField
-						autoFocus={false}
-						id="message-input"
-						className="flex-1"
-						InputProps={{
-							disableUnderline: true,
-							classes: {
-								root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-48 rtl:ml-48 my-8',
-								input: ''
-							},
-							placeholder: 'Type your message'
-						}}
-						InputLabelProps={{
-							shrink: false,
-							className: classes.bootstrapFormLabel
-						}}
-						onChange={onInputChange}
-						value={messageText}
-					/>
-					<AudioRecord
-						afterRecordComplete={addAudio}
-						ref={audioRef}
-						sendDirectToChat={sendAudioDirectToChat}
-					/>
-					<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
-					<IconButton className="image mr-48" onClick={() => inputRef.current.click()} aria-label="Add photo" color="inherit">
-						<Icon>photo</Icon>
-					</IconButton>
-					<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
-						<Icon className="text-24" color="action">
-							send
-						</Icon>
-					</IconButton>
-				</Paper>
-			</form>
+			<SendMessageForm />
 		</div>
 	);
 }

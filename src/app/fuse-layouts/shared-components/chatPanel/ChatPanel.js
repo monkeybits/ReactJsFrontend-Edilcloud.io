@@ -167,60 +167,58 @@ function ChatPanel(props) {
 	// 	return null;
 	// }
 	return (
-		<WebSocketProvider>
-			<div className={classes.root}>
-				<div className={clsx(classes.panel, { opened: state }, 'flex flex-col team-chat-sidebar')} ref={ref}>
-					<AppBar position="static" elevation={1}>
-						<Toolbar className="px-4">
-							{(!state || !user?.id) && (
-								<div className="flex flex-1 items-center px-4">
-									<IconButton
-										className=""
-										color="inherit"
-										onClick={ev => dispatch(Actions.openChatPanel())}
-									>
-										{!!totalCount && <div className={classes.unreadBadge}>{totalCount}</div>}
-										<Icon className="text-32">chat</Icon>
-									</IconButton>
-									{!user?.id && (
-										<Typography className="mx-8 text-16" color="inherit">
-											Team Chat
-										</Typography>
-									)}
-								</div>
-							)}
-							{state && user?.id && (
-								<div className="flex">
-									<IconButton onClick={ev => dispatch(Actions.removeChat())} color="inherit">
-										<Icon>arrow_back</Icon>
-									</IconButton>
-								</div>
-							)}
-							{state && user?.id && (
-								<div className="flex flex-1 items-center px-12">
-									<Avatar src={user.logo} />
-									<Typography className="mx-16 text-16" color="inherit">
-										{user.name}
+		<div className={classes.root}>
+			<div className={clsx(classes.panel, { opened: state }, 'flex flex-col team-chat-sidebar')} ref={ref}>
+				<AppBar position="static" elevation={1}>
+					<Toolbar className="px-4">
+						{(!state || !user?.id) && (
+							<div className="flex flex-1 items-center px-4">
+								<IconButton
+									className=""
+									color="inherit"
+									onClick={ev => dispatch(Actions.openChatPanel())}
+								>
+									{!!totalCount && <div className={classes.unreadBadge}>{totalCount}</div>}
+									<Icon className="text-32">chat</Icon>
+								</IconButton>
+								{!user?.id && (
+									<Typography className="mx-8 text-16" color="inherit">
+										Team Chat
 									</Typography>
-								</div>
-							)}
-							<div className="flex px-4">
-								<IconButton onClick={ev => !open && dispatch(Actions.closeChatPanel())} color="inherit">
-									<Icon>close</Icon>
+								)}
+							</div>
+						)}
+						{state && user?.id && (
+							<div className="flex">
+								<IconButton onClick={ev => dispatch(Actions.removeChat())} color="inherit">
+									<Icon>arrow_back</Icon>
 								</IconButton>
 							</div>
-						</Toolbar>
-					</AppBar>
-					{user?.loadingChat && <LinearProgress color="secondary" />}
-					<Paper className="flex flex-1 flex-row min-h-px border-none border-0">
-						{(!state || !user?.showUser) && <ContactList className="flex flex-shrink-0" />}
-						{state && user?.showUser && (
-							<Chat {...{ open, setOpen }} className="flex flex-1 z-10 muliple-images-overflow-x" />
 						)}
-					</Paper>
-				</div>
+						{state && user?.id && (
+							<div className="flex flex-1 items-center px-12">
+								<Avatar src={user.logo} />
+								<Typography className="mx-16 text-16" color="inherit">
+									{user.name}
+								</Typography>
+							</div>
+						)}
+						<div className="flex px-4">
+							<IconButton onClick={ev => !open && dispatch(Actions.closeChatPanel())} color="inherit">
+								<Icon>close</Icon>
+							</IconButton>
+						</div>
+					</Toolbar>
+				</AppBar>
+				{user?.loadingChat && <LinearProgress color="secondary" />}
+				<Paper className="flex flex-1 flex-row min-h-px border-none border-0">
+					{(!state || !user?.showUser) && <ContactList className="flex flex-shrink-0" />}
+					{state && user?.showUser && (
+						<Chat {...{ open, setOpen }} className="flex flex-1 z-10 muliple-images-overflow-x" />
+					)}
+				</Paper>
 			</div>
-		</WebSocketProvider>
+		</div>
 	);
 }
 
