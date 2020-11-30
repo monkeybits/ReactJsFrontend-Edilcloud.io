@@ -857,6 +857,9 @@ textarea.MuiOutlinedInput-input {
 .team-grid .card-container .pro.refused {
     background-color: #F44336;
 }
+.team-grid .card-container .pro.deactivated {
+    background-color: #F44336;
+}
 .team-grid .card-container .pro {
     color: #fff;
     background-color: #4CAF50;
@@ -1276,7 +1279,8 @@ audio {
     color: rgba(0, 0, 0, 0.87);
 }
 .linear-progress.custom-color p {
-    color: rgba(0, 0, 0, 0.87);
+    color: white;
+    font-size: 16px;
 }
 .close-icon.list-view-icon svg {
     font-size: 18px;

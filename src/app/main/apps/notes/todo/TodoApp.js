@@ -79,7 +79,7 @@ function TodoApp(props) {
 					customHeader:"flex flex-auto flex-col container z-10 h-full chat-header-bg-remove",
 					wrapper: 'min-h-0 team-tab p-24'
 				}}
-				// header={<ContactsHeader pageLayout={pageLayout} />}
+				// header={<TodoHeader pageLayout={pageLayout} />}
 				content={<TodoList pageLayout={pageLayout} {...props} />}
 				leftSidebarContent={<TodoSidebarContent />}
 				sidebarInner

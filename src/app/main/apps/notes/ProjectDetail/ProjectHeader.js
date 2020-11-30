@@ -8,7 +8,7 @@ export default function ProjectHeader(props) {
 			<div className="mr-20">
 				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 					<Typography variant="subtitle1" className="font-weight-700 mb-4">
-						Project Name
+						Project Name 12
 					</Typography>
 				</FuseAnimate>
 				<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">

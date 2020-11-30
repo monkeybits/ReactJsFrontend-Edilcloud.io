@@ -877,7 +877,7 @@ class Gantt extends Component {
 		const isUserHavePermssionsFromAdmin =
 			this.props.company?.id == this.props.projectDetail?.company?.id && permissionByRole;
 		return (
-			<div>
+			<div className="pt-24">
 				{/* <div className="flex w-full justify-between items-center p-24 pb-16">
 					<div className="mr-20">
 						<Typography variant="h5" className="mb-4">

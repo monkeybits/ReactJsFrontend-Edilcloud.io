@@ -24,7 +24,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import * as Actions from 'app/main/apps/chat/store/actions';
-import { Box, CircularProgress, LinearProgress } from '@material-ui/core';
+import { Box, CircularProgress } from '@material-ui/core';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -80,7 +81,7 @@ function CompanyCreationStepper({ user, history }) {
 	const dispatch = useDispatch();
 	const [typologyList, setTypologyList] = React.useState([]);
 	const [optionList, setOptionList] = React.useState([]);
-	const [progress, setProgress] = React.useState(0);
+	const [progress, setProgress] = React.useState(10);
 	const [isEdit, setIsEdit] = React.useState(false);
 	const [loading, setLoading] = React.useState(false);
 	const routeHistory = useHistory();
@@ -327,7 +328,7 @@ function CompanyCreationStepper({ user, history }) {
 												<Typography
 													variant="caption"
 													component="div"
-													color="textSecondary"
+													color="textInfo"
 												>{`${Math.round(progress)}%`}</Typography>
 											</Box>
 										</Box>
