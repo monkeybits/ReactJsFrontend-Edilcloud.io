@@ -4,15 +4,15 @@ import React from 'react';
 
 export default function ProjectHeader(props) {
 	return (
-		<div className="flex w-full justify-between items-center p-24 pb-0">
-			<div className="mr-20">
+		<div className="flex w-full justify-between bg-blue items-center p-24">
+			<div className="pr-20">
 				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-					<Typography variant="subtitle1" className="font-weight-700 mb-4">
-						Project Name 12
+					<Typography variant="h4" className=" text-white font-weight-900 mb-4">
+						Ristrutturazione Palazzo Pitti
 					</Typography>
 				</FuseAnimate>
-				<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
-					Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
+				<Typography variant="subtitle1" className="text-14 text-white font-weight-600 ">
+					Piazza della Signoria 23, Firenze (50121) Italia
 				</Typography>
 			</div>
 			<Button className="badge-btn" color="secondary" onClick={() => props.onOpen(true)}>

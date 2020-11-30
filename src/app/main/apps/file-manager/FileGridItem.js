@@ -89,7 +89,7 @@ export default function FileGridItem({ tileData, pageLayout }) {
 						{tile.type == 'video' ? (
 							<div className="file-icon-small">
 								<FontAwesomeIcon
-									className="p-28"
+									className="p-48"
 									icon={faFileVideo}
 									style={{ ...getCssColor(tile.type), fontSize: '1.8rem' }}
 								/>
@@ -99,7 +99,7 @@ export default function FileGridItem({ tileData, pageLayout }) {
 						) : (
 							<div className="file-icon-small">
 								<FontAwesomeIcon
-									className="p-28"
+									className="p-48"
 									icon={
 										tile.type == 'document'
 											? tile.extension == 'pdf'

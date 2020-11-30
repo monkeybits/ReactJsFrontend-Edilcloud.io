@@ -193,7 +193,7 @@ export default function ProjectListitem(props) {
 				subheader={
 					<>
 						<small> Mannheim Sandhofen Baden-Württemberg</small>
-						<DownloadPdf label="Download Report" id={name} pid={id} />
+						
 					</>
 				}
 				//
@@ -376,6 +376,7 @@ export default function ProjectListitem(props) {
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton> */}
+				<DownloadPdf className="MuiButtonBase-root MuiButton-root MuiButton-text " label="Download Report" id={name} pid={id} />
 				<IconButton
 					className={clsx(classes.expand, 'py-0', {
 						[classes.expandOpen]: expanded
