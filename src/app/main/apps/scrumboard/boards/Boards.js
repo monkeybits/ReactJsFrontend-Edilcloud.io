@@ -123,8 +123,16 @@ function Boards(props) {
 	};
 	const redirectAfterGetNewToken = company_profile_id => {
 		const myCustomUniqueUserId = company_profile_id;
-		if (window.Print) {
-			window.Print.postMessage(myCustomUniqueUserId.toString());
+		console.log('LOGGED IN WITH PROFILE ID: ' + myCustomUniqueUserId.toString());
+	
+		if (window.flutter_inappwebview) {
+			console.log('listenning to flutterInAppWebViewPlatformReady');
+			console.log(window.flutter_inappwebview)
+			window.flutter_inappwebview.callHandler('OneSignal', myCustomUniqueUserId.toString())
+			.then(function(result) {
+				console.log(JSON.stringify(result));
+			})
+			console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		}
 		window.OneSignal.push(function () {
 			window.OneSignal.setExternalUserId(myCustomUniqueUserId);
