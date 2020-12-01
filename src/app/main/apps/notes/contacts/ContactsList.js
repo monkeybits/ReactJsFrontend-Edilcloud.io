@@ -51,20 +51,20 @@ function sortByProperty(array, property, order = 'ASC') {
 }
 function ContactsList(props) {
 	const dispatch = useDispatch();
-	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.companies);
+	const companies = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.companies);
 	const company = useSelector(({ chatApp }) => chatApp.company);
-	const filterKey = useSelector(({ contactsApp }) => contactsApp.contacts.filterKey);
-	const filterKeyName = useSelector(({ contactsApp }) => contactsApp.contacts.filterKeyName);
-	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
-	const approved = useSelector(({ contactsApp }) => contactsApp.contacts.approved);
-	const waiting = useSelector(({ contactsApp }) => contactsApp.contacts.waiting);
-	const refused = useSelector(({ contactsApp }) => contactsApp.contacts.refused);
-	const deactivated = useSelector(({ contactsApp }) => contactsApp.contacts.deactivated);
-	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
+	const filterKey = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.filterKey);
+	const filterKeyName = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.filterKeyName);
+	const contacts = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.entities);
+	const approved = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.approved);
+	const waiting = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.waiting);
+	const refused = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.refused);
+	const deactivated = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.deactivated);
+	const routeParams = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.routeParams);
 	const options = ['Edit', 'Delete', 'Report as inapropriate'];
 
-	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
-	const user = useSelector(({ contactsApp }) => contactsApp.user);
+	const searchText = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.searchText);
+	const user = useSelector(({ contactsAppProject }) => contactsAppProject.user);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [userData, setUserData] = useState(null);
 	const [viewTable, setViewTable] = useState(false);

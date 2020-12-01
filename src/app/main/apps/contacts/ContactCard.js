@@ -1,7 +1,7 @@
 import { Button, Grid, Typography } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
-import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
@@ -122,6 +122,7 @@ export default function ContactCard(props) {
 			/>
 			<div class="card-container flex flex-col px-10 text-13">
 				<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
+				{console.log({ userInfo: decodeDataFromToken(), user: props.user?.id })}
 				{!!editPermission && (
 					<div className="team-action">
 						<MoreOption
@@ -129,7 +130,7 @@ export default function ContactCard(props) {
 								ev.stopPropagation();
 								dispatch(Actions.openEditContactDialog(props));
 							}}
-							canHaveDeleteOption={props.currentUser.data.user_id != props.user.id}
+							canHaveDeleteOption={props.currentUser.data.user_id != props.user?.id}
 							deleteHandler={ev => {
 								ev.stopPropagation();
 								setUserData(props);

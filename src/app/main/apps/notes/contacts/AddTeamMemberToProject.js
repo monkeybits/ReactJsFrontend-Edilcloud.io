@@ -42,7 +42,7 @@ const defaultFormState = {
 function AddTeamMemberToProject() {
 	const dispatch = useDispatch();
 	const company = useSelector(({ chatApp }) => chatApp?.company);
-	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
+	const contactDialog = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.contactDialog);
 	const match = useRouteMatch();
 	const [, setValue] = useState('English');
 	const [role, setRole] = useState('');

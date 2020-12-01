@@ -77,4 +77,4 @@ function ContactsApp(props) {
 	);
 }
 
-export default withReducer('contactsApp', reducer)(ContactsApp);
+export default withReducer('contactsAppProject', reducer)(ContactsApp);

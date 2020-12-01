@@ -40,11 +40,11 @@ const useStyles = makeStyles(theme => ({
 
 function ContactsSidebarContent(props) {
 	const dispatch = useDispatch();
-	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.companies);
-	const user = useSelector(({ contactsApp }) => contactsApp.user);
+	const companies = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.companies);
+	const user = useSelector(({ contactsAppProject }) => contactsAppProject.user);
 	const company = useSelector(({ chatApp }) => chatApp.company);
-	const filterKey = useSelector(({ contactsApp }) => contactsApp.contacts.filterKey);
-	const filterKeyName = useSelector(({ contactsApp }) => contactsApp.contacts.filterKeyName);
+	const filterKey = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.filterKey);
+	const filterKeyName = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.filterKeyName);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const classes = useStyles(props);
 	const getListItemClassName = key => (key == filterKey ? clsx(classes.listItem, 'active') : classes.listItem);
