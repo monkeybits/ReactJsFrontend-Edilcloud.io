@@ -74,7 +74,15 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 	const [zoom, setZoom] = useState({
 		currentZoom: 'Months'
 	});
-
+	// useEffect(() => {
+	// 	dispatch(Actions.getTodos(routeParams.id, true));
+	// 	return () => {
+	// 		dispatch({
+	// 			type: Actions.GET_TODOS,
+	// 			payload: []
+	// 		});
+	// 	};
+	// }, [dispatch, routeParams]);
 	const handleZoomChange = zoom => {
 		setZoom({
 			currentZoom: zoom
@@ -123,16 +131,16 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 				</div> */}
 				<FileManagerApp {...{ value, setValue }} />
 			</TabPanel>
-			<TabPanel value={value} index={4} className="gantt-height-full">
-				{/* <div> */}
-				{/* <div className="zoom-bar custom-zoom-bar">
+			{/* <TabPanel value={value} index={4} className="gantt-height-full"> */}
+			{/* <div> */}
+			{/* <div className="zoom-bar custom-zoom-bar">
 						<Toolbar zoom={zoom.currentZoom} onZoomChange={handleZoomChange} />
 					</div> */}
-				<div id="myCover" className="gantt-container">
-					<Gantt zoom={zoom.currentZoom} {...{ value, setValue }} />
-				</div>
-				{/* </div> */}
-			</TabPanel>
+			<div id="myCover" className={value !== 4 ? 'hidden' : 'gantt-container gantt-height-full'}>
+				<Gantt zoom={zoom.currentZoom} {...{ value, setValue }} />
+			</div>
+			{/* </div> */}
+			{/* </TabPanel> */}
 			<AppBar className="fixed custom-tab-header right-0 bottom-0">
 				<BottomNavigation
 					value={value}

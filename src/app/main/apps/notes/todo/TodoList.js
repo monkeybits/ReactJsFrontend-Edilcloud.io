@@ -16,7 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import * as Actions from './store/actions';
 function TodoList(props) {
 	const dispatch = useDispatch();
-	const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.entities);
+	const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.todoEntities);
 	const searchText = useSelector(({ todoAppNote }) => todoAppNote.todos.searchText);
 	const orderBy = useSelector(({ todoAppNote }) => todoAppNote.todos.orderBy);
 	const orderDescending = useSelector(({ todoAppNote }) => todoAppNote.todos.orderDescending);
