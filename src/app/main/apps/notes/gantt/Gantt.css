@@ -102,3 +102,7 @@
 .gantt_grid_data .gantt_cell {
     color: #5C616F !important;
 }
+/* .gantt_task_progress {
+	background-color: rgba(54, 54, 54, 0.2) !important;
+	opacity: 1 !important;
+} */

@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
 import clsx from 'clsx';
+import { Icon, IconButton } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
 	separator: {
@@ -91,8 +92,14 @@ function ToolbarLayout1(props) {
 						<LanguageSwitcher />
 
 						<div className={clsx(classes.separator, 'custom-separator')} />
+						<IconButton className="w-64 h-64 text-default">
+							<Icon>notifications_active</Icon>
+						</IconButton>
+						<div className={clsx(classes.separator, 'custom-separator')} />
 
-						<QuickPanelToggleButton />
+						<QuickPanelToggleButton>
+							<Icon>report_problem</Icon>
+						</QuickPanelToggleButton>
 					</div>
 
 					{config.navbar.display && config.navbar.position === 'right' && (
