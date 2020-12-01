@@ -10,7 +10,7 @@ import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
 import useScript from './useScript';
 
 function GanttWrapper(props) {
-	useScript("https://export.dhtmlx.com/gantt/api.js");
+	useScript('https://export.dhtmlx.com/gantt/api.js');
 	const dispatch = useDispatch();
 	const routeParams = useParams();
 	const company = useSelector(({ chatApp }) => chatApp?.company);
@@ -20,7 +20,8 @@ function GanttWrapper(props) {
 		return () => {
 			dispatch({
 				type: Actions.GET_TODOS,
-				payload: []
+				payload: [],
+				isGantt: true
 			});
 		};
 	}, [dispatch, routeParams]);

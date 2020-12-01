@@ -26,10 +26,11 @@ const initialState = {
 const todosReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS: {
-			console.log({ payload: action.payload });
+			console.log({ payload: action.payload, isGantt: action.isGantt });
+
 			return {
 				...state,
-				entities: {...action.payload},
+				[action.isGantt ?  'entities': 'todoEntities']: { ...action.payload },
 				searchText: '',
 				routeParams: action.routeParams
 			};
@@ -37,7 +38,7 @@ const todosReducer = (state = initialState, action) => {
 		case Actions.UPDATE_TODOS: {
 			return {
 				...state,
-				entities: action.payload
+				[action.isGantt ?  'entities': 'todoEntities']: action.payload
 			};
 		}
 		case Actions.OPEN_NEW_TODO_DIALOG: {
@@ -165,7 +166,7 @@ const todosReducer = (state = initialState, action) => {
 
 			return {
 				...state,
-				entities: {
+				[action.isGantt ?  'entities': 'todoEntities']: {
 					...state.entities,
 					[todo.id]: { ...todo }
 				}

@@ -46,7 +46,8 @@ export function getTodos(pid, isGantt) {
 			results => {
 				dispatch({
 					type: GET_TODOS,
-					payload: results.sort(sortHolders)
+					payload: results.sort(sortHolders),
+					isGantt
 				});
 			},
 			err => console.log(err),
