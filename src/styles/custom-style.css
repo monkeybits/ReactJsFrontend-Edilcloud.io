@@ -1639,3 +1639,9 @@ audio {
 .leading-normal {
     word-break: break-word;
 }
+
+.gantt-custom-full-screen .gantt-height-full {
+    width: 100% !important;
+    height: 100% !important;
+    top: -30px !important;
+}
