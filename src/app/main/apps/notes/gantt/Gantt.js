@@ -197,7 +197,21 @@ class Gantt extends Component {
 				}
 			}
 		}
+		gantt._onTemplatesReadyHandler = gantt.attachEvent('onTemplatesReady', function () {
+			var toggle = document.getElementById('fullScreen');
 
+			toggle.onclick = function () {
+				if (!gantt.getState().fullscreen) {
+					document.body.className = 'gantt-custom-full-screen';
+					gantt.expand();
+				} else {
+					document.body.className = '';
+					setTimeout(() => {
+						gantt.collapse();
+					}, 300);
+				}
+			};
+		});
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
 			return new Promise((resolve, reject) => {
 				if (item.parent == 0) {
@@ -319,6 +333,7 @@ class Gantt extends Component {
 								progress: data.progress / 100,
 								company: data?.assigned_company?.name,
 								parent: 0,
+								color: data?.assigned_company?.color_project, //hexToRgbA(data?.assigned_company?.color_project),
 								mainId: data.id
 							},
 							data
@@ -415,21 +430,7 @@ class Gantt extends Component {
 		if (gantt._onTemplatesReadyHandler) {
 			gantt.detachEvent(gantt._onTemplatesReadyHandler);
 		}
-		gantt._onTemplatesReadyHandler = gantt.attachEvent('onTemplatesReady', function () {
-			var toggle = document.getElementById('fullScreen');
 
-			toggle.onclick = function () {
-				if (!gantt.getState().fullscreen) {
-					document.body.className = 'gantt-custom-full-screen';
-					gantt.expand();
-				} else {
-					document.body.className = '';
-					setTimeout(() => {
-						gantt.collapse();
-					}, 300);
-				}
-			};
-		});
 		if (gantt._onTaskClickHandler) {
 			gantt.detachEvent(gantt._onTaskClickHandler);
 		}

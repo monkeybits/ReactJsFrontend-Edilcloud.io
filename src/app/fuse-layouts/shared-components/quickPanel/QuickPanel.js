@@ -30,6 +30,11 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 import PostList from 'app/main/apps/notes/todo/PostList';
 import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
+import PropTypes from 'prop-types';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -46,12 +51,58 @@ const useStylesAccordion = makeStyles(theme => ({
 		fontWeight: theme.typography.fontWeightRegular
 	}
 }));
+
+function TabPanel(props) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`simple-tabpanel-${index}`}
+			aria-labelledby={`simple-tab-${index}`}
+			{...other}
+		>
+			{value === index && (
+				<Box p={3}>
+					<Typography>{children}</Typography>
+				</Box>
+			)}
+		</div>
+	);
+}
+
+TabPanel.propTypes = {
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired
+};
+
+function a11yProps(index) {
+	return {
+		id: `simple-tab-${index}`,
+		'aria-controls': `simple-tabpanel-${index}`
+	};
+}
+
+const useStylesTabs = makeStyles(theme => ({
+	root: {
+		flexGrow: 1,
+		backgroundColor: theme.palette.background.paper
+	}
+}));
+
 function QuickPanel(props) {
 	const dispatch = useDispatch();
 	const data = useSelector(({ quickPanel }) => quickPanel.data);
 	const state = useSelector(({ quickPanel }) => quickPanel.state);
 	const classesAccordion = useStylesAccordion();
+	const classesTabs = useStylesTabs();
+	const [value, setValue] = React.useState(0);
 
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
 	const classes = useStyles();
 	const [checked, setChecked] = useState('notifications');
 	const [listTask, setListTask] = useState([]);
@@ -120,38 +171,28 @@ function QuickPanel(props) {
 			<FuseScrollbars>
 				<div className="flex justify-between items-center">
 					{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
-					<Typography className="mx-16 text-16" color="inherit">Alerted posts</Typography>
+					<Typography className="mx-16 text-16" color="inherit">
+						Alerted posts
+					</Typography>
 					<div className="px-4">
 						<IconButton onClick={ev => dispatch(Actions.toggleQuickPanel())} color="inherit">
 							<Icon>close</Icon>
 						</IconButton>
 					</div>
 				</div>
-				<div className={clsx(classes.root, 'alerted-post-modal-accordion')}>
-					<Accordion>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography className={classes.heading}>Tasks</Typography>
-						</AccordionSummary>
-						<AccordionDetails className="flex-wrap">
-							<PostList posts={listTask} />
-						</AccordionDetails>
-					</Accordion>
-					<Accordion>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel2a-content"
-							id="panel2a-header"
-						>
-							<Typography className={classes.heading}>Activities</Typography>
-						</AccordionSummary>
-						<AccordionDetails  className="flex-wrap">
-							<PostList posts={listActivity} />
-						</AccordionDetails>
-					</Accordion>
+				<div className={classesTabs.root}>
+					<AppBar position="static">
+						<Tabs fullWidth={true} value={value} onChange={handleChange} centered aria-label="simple tabs example">
+							<Tab label="Tasks" {...a11yProps(0)} />
+							<Tab label="Activities" {...a11yProps(1)} />
+						</Tabs>
+					</AppBar>
+					<TabPanel value={value} index={0}>
+						<PostList posts={listTask} showPrject  />
+					</TabPanel>
+					<TabPanel value={value} index={1}>
+						<PostList posts={listActivity}  showPrject showTask />
+					</TabPanel>
 				</div>
 			</FuseScrollbars>
 		</Drawer>

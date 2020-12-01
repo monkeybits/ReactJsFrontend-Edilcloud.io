@@ -206,7 +206,12 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 			todoDialogType == 'new' ? ADD_TASK_TO_PROJECT(pid) : ADD_ACTIVITY_TO_TASK(todo.id),
 			values,
 			res => {
-				dispatch(getTodos(pid, isGantt));
+				if (!isGantt) {
+					dispatch(getTodos(pid, false));
+					dispatch(getTodos(pid, true));
+				} else {
+					dispatch(getTodos(pid, isGantt));
+				}
 				closeTodoDialog();
 			},
 			err => console.log(err),
@@ -282,7 +287,12 @@ export function editActivityFromGantt(todo, pid, closeTodoDialog, isGantt, setLo
 				console.log(res);
 				toast.success('Updated');
 				setLoading(false);
-				dispatch(getTodos(pid, isGantt));
+				if (!isGantt) {
+					dispatch(getTodos(pid, false));
+					dispatch(getTodos(pid, true));
+				} else {
+					dispatch(getTodos(pid, isGantt));
+				}
 				closeTodoDialog();
 			},
 			err => console.log(err),
@@ -324,7 +334,12 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 			values,
 			res => {
 				setLoading(false);
-				dispatch(getTodos(pid, isGantt));
+				if (!isGantt) {
+					dispatch(getTodos(pid, false));
+					dispatch(getTodos(pid, true));
+				} else {
+					dispatch(getTodos(pid, isGantt));
+				}
 				closeTodoDialog();
 			},
 			err => console.log(err),

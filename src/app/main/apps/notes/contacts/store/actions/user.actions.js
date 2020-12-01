@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const GET_USER_DATA = '[CONTACTS APP] GET USER DATA';
+export const GET_USER_DATA = '[CONTACTS APP] GET USER DATA (PROJECT)';
 
 export function getUserData() {
 	const request = axios.get('/api/contacts-app/user');

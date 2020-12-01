@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 function ViewContactDialog(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles();
-	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
+	const contactDialog = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.contactDialog);
 	const [value, setValue] = React.useState('English');
 	const [role, setRole] = React.useState('');
 
