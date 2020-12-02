@@ -29,7 +29,13 @@ const NotesAppConfig = {
 			component: React.lazy(() => import('./NotesApp'))
 		},
 		{
+			exact: true,
 			path: '/apps/projects/:id',
+			component: React.lazy(() => import('./ProjectDetail/ProjectDetailsApp'))
+		},
+		{
+			exact: true,
+			path: '/apps/projects/:id/:tab',
 			component: React.lazy(() => import('./ProjectDetail/ProjectDetailsApp'))
 		}
 	]

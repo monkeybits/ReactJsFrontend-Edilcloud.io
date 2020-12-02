@@ -278,9 +278,9 @@
     .project_list {
         padding-bottom: 0px;
     }
-    .chat-tab-content-height .inner-height {
+    /* .chat-tab-content-height .inner-height {
         padding-bottom: 80px;
-    }
+    } */
 }
 
 @media only screen and (max-width: 480px) {

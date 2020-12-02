@@ -43,6 +43,10 @@ const contactsReducer = (state = initialState(), action) => {
 			};
 		}
 		case Actions.GET_CONTACTS: {
+			console.log({
+				actiontype : action.type,
+				GET_CONTACTS : Actions.GET_CONTACTS
+			})
 			return {
 				...state,
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Approved')),

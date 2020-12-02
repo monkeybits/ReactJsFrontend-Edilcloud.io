@@ -27,12 +27,14 @@ import * as Actions from './store/actions';
 import PostListItem from './PostListItem';
 import moment from 'moment';
 
-function PostList({ posts, isTask, taskId, callRetryAfterSuccess, isOffline, tempAuthor }) {
+function PostList({ posts, isTask, taskId, callRetryAfterSuccess, isOffline, tempAuthor, showPrject, showTask }) {
 	if (!posts || posts?.length == 0) {
 		return null;
 	}
 	return posts.map((post, index) => (
 		<PostListItem
+			showTask={showTask}
+			showPrject={showPrject}
 			tempAuthor={tempAuthor}
 			isOffline={isOffline}
 			isTask={isTask}
