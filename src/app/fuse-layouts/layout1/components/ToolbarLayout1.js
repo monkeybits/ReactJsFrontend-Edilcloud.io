@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import ChatPanelToggleButton from 'app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton';
 import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
 import QuickPanelToggleButton from 'app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton';
+import NotificationToggleButton from 'app/fuse-layouts/shared-components/notification/NotificationToggleButton';
 import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -92,9 +93,8 @@ function ToolbarLayout1(props) {
 						<LanguageSwitcher />
 
 						<div className={clsx(classes.separator, 'custom-separator')} />
-						<IconButton className="w-64 h-64 text-default">
-							<Icon>notifications_active</Icon>
-						</IconButton>
+						<NotificationToggleButton />
+						
 						<div className={clsx(classes.separator, 'custom-separator')} />
 
 						<QuickPanelToggleButton>

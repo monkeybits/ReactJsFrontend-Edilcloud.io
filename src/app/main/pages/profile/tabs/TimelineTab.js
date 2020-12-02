@@ -230,54 +230,7 @@ function TimelineTab() {
 				</FuseAnimateGroup>
 			</div>
 
-			{/* <div className="flex flex-col md:w-320">
-				<FuseAnimateGroup
-					enter={{
-						animation: 'transition.slideUpBigIn'
-					}}
-				>
-					<Card className="w-full">
-						<AppBar position="static" elevation={0}>
-							<Toolbar className="px-8">
-								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
-									Latest Activity
-								</Typography>
-								<Button color="inherit" size="small">
-									See All
-								</Button>
-							</Toolbar>
-						</AppBar>
-						<CardContent className="p-0">
-							<List>
-								{data.activities.map(activity => (
-									<ListItem key={activity.id} className="px-12">
-										<Avatar className="mx-4" alt={activity.user.name} src={activity.user.avatar} />
-										<ListItemText
-											className="flex-1 mx-4"
-											primary={
-												<div className="flex">
-													<Typography
-														className="font-medium whitespace-no-wrap"
-														color="primary"
-														paragraph={false}
-													>
-														{activity.user.name}
-													</Typography>
-
-													<Typography className="px-4 truncate" paragraph={false}>
-														{activity.message}
-													</Typography>
-												</div>
-											}
-											secondary={activity.time}
-										/>
-									</ListItem>
-								))}
-							</List>
-						</CardContent>
-					</Card>
-				</FuseAnimateGroup>
-			</div> */}
+			
 		</div>
 	);
 }
