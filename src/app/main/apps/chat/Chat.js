@@ -171,7 +171,7 @@ function Chat(props) {
 										</Avatar>
 									)}
 
-									<div className=" max-w-50 relative">
+									<div className="bubble items-center justify-center p-12 max-w-50 relative">
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
 												style={{ color: color?.[0]?.contactNameColor }}
