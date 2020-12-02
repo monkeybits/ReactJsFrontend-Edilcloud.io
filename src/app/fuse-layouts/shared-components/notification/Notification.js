@@ -25,7 +25,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Checkbox } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ALERTED_POSTS_TASKS, ALERTED_POSTS_ACTIVITY } from 'app/services/apiEndPoints';
+import { ALERTED_POSTS_TASKS, GET_NOTIFICATIONS } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import PostList from 'app/main/apps/notes/todo/PostList';
 import clsx from 'clsx';
@@ -35,13 +35,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import axios from 'axios';
 import Toolbar from '@material-ui/core/Toolbar';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -59,11 +59,22 @@ function NotificationPanel(props) {
 		axios.get('/api/profile/timeline').then(res => {
 			setData(res.data);
 		});
+		// apiCall(
+		// 	'/api/frontend/notify/notification/recipient/new_list/?no_page=no_page',
+		// 	{},
+		// 	res => {
+		// 		console.log({ new_list: res });
+		// 		setData(res);
+		// 	},
+		// 	err => {},
+		// 	METHOD.GET,
+		// 	getHeaderToken()
+		// );
 	}, []);
 
-	if (!data) {
-		return null;
-	}
+	// if (!data) {
+	// 	return null;
+	// }
 	return (
 		<Drawer
 			classes={{ paper: classes.root }}
@@ -87,34 +98,54 @@ function NotificationPanel(props) {
 						</AppBar>
 						<CardContent className="p-0">
 							<List>
-								{data.activities.map(activity => (
-									<ListItem key={activity.id} className="px-12">
-										<Avatar className="mx-4" alt={activity.user.name} src={activity.user.avatar} />
-										<ListItemText
-											className="flex-1 mx-4"
-											primary={
-												<div className="flex">
-													<Typography
-														className="font-medium whitespace-no-wrap"
-														color="primary"
-														paragraph={false}
-													>
-														{activity.user.name}
-													</Typography>
+								{data &&
+									data.activities.map(activity => (
+										<ListItem key={activity.id} className="px-12">
+											<Avatar
+												className="mx-4"
+												alt={activity.user.name}
+												src={activity.user.avatar}
+											/>
+											<ListItemText
+												className="flex-1 mx-4"
+												primary={
+													<>
+														<div className="flex">
+															<Typography
+																className="font-medium whitespace-no-wrap"
+																color="primary"
+																paragraph={false}
+															>
+																{activity.user.name}
+															</Typography>
 
-													<Typography className="px-4 truncate" paragraph={false}>
-														{activity.message}
-													</Typography>
-												</div>
-											}
-											secondary={activity.time}
-										/>
-									</ListItem>
-								))}
+															<Typography className="px-4 truncate" paragraph={false}>
+																{activity.message}
+															</Typography>
+														</div>
+														{activity.route && (
+															<div className="flex">
+																{' '}
+																<Link
+																	onClick={() =>
+																		dispatch(Actions.toggleNotification())
+																	}
+																	to={activity.route}
+																>
+																	{activity.linkText}
+																</Link>
+															</div>
+														)}
+													</>
+												}
+												secondary={activity.time}
+											/>
+										</ListItem>
+									))}
 							</List>
 						</CardContent>
 					</Card>
-				</div>{' '}
+				</div>
 			</FuseScrollbars>
 		</Drawer>
 	);

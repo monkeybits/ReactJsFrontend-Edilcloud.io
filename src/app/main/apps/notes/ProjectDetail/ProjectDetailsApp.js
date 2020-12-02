@@ -11,7 +11,7 @@ import NotesSidebarContent from '../NotesSidebarContent';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
 import ProjectContent from './ProjectContent';
-import { useRouteMatch } from 'react-router';
+import { useParams, useRouteMatch } from 'react-router';
 import ProjectInfo from './ProjectInfo';
 import CreatePostDialog from '../todo/CreatePostDialog';
 import TodoDialog from '../todo/TodoDialog';
@@ -22,13 +22,19 @@ function ProjectDetails(props) {
 	const [value, setValue] = React.useState(0);
 	const [openDialog, setOpenDialog] = React.useState(false);
 	const pageLayout = useRef(null);
-	const match = useRouteMatch();
+	const params = useParams();
 	let havePaddingTabs = [0];
 	useEffect(() => {
-		if (match.params.id) {
-			dispatch(Actions.getProjectDetail(match.params.id));
+		if (params.id) {
+			dispatch(Actions.getProjectDetail(params.id));
+			let tab = params.tab;
+			if (tab == 'chat') {
+				setValue(1);
+			} else {
+				setValue(0);
+			}
 		}
-	}, [dispatch, match.params.id]);
+	}, [dispatch, params.id]);
 
 	return (
 		<>
