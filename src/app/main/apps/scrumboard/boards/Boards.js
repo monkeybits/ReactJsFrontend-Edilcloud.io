@@ -286,8 +286,8 @@ function Boards(props) {
 								tabIndex={0}
 							>
 								<Icon className="text-56">add_circle</Icon>
-								<Typography className="text-16 font-300 text-center pt-16 px-32" color="inherit">
-									Create new company
+								<Typography className="text-16 font-300 text-uppercase text-center pt-16 px-32" color="inherit">
+									CREATE NEW COMPANY
 								</Typography>
 							</div>
 						</div>

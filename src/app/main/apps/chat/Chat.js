@@ -171,13 +171,16 @@ function Chat(props) {
 										</Avatar>
 									)}
 
-									<div className="bubble items-center justify-center p-12 max-w-50 relative">
+									<div className=" max-w-50 relative">
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
 												style={{ color: color?.[0]?.contactNameColor }}
-												className="text-xs mb-6"
+												className="subtitle1 mb-6"
 											>
 												{contact.first_name + ' ' + contact.last_name}
+												<Typography className="font-size-12 ">
+												Project Manager - Impresa Edile Lucchini
+											</Typography>
 											</Typography>
 										)}
 										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
@@ -188,25 +191,26 @@ function Chat(props) {
 												deleteMessage={Actions.deleteMessage}
 											/>
 										)}
-										<div className="leading-normal mb-4">{item.body} </div>
+										<div className="leading-normal p-10 font-size-16 mb-15">{item.body} </div>
 										<ViewFile files={item.files} />
 										<div className="flex items-center mt-8">
-											{contact.id == userIdFromCompany && item.waitingToSend ? (
-												<Icon className="float-right font-size-16 text-check">access_time</Icon>
-											) : (
-												// <Icon className="float-right text-16 text-check">check</Icon>
-												<Icon className="float-right text-16 text-check">done_all</Icon>
-											)}
+											
 											{
 												// isLastMessageOfGroup(item, i) && (
 												<Typography
-													className="time text-11 ml-6 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+													className="time text-11 ml-10 ltr:left-0 rtl:right-0 whitespace-no-wrap"
 													color="textSecondary"
 												>
 													{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
 												</Typography>
 												// )
 											}
+											{contact.id == userIdFromCompany && item.waitingToSend ? (
+												<Icon className="float-right font-size-16 text-check">access_time</Icon>
+											) : (
+												// <Icon className="float-right text-16 text-check">check</Icon>
+												<Icon className="float-right text-16 text-check">done_all</Icon>
+											)}
 										</div>
 									</div>
 								</div>

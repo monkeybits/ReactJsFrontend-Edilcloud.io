@@ -105,14 +105,13 @@ function Courses(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-						WELCOME TO ACADEMY
+						WELCOME TO EDILCLOUD ACADEMY
 					</Typography>
 				</FuseAnimate>
 				<FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
-							Our courses will step you through the process of building a small application, or adding a
-							new feature to an existing application.
+							Our courses will step you through the process of setting up your company or fully understand the opportunities of this app.
 						</span>
 					</Typography>
 				</FuseAnimate>

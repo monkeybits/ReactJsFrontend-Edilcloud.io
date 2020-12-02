@@ -52,26 +52,19 @@ function RegisterPage() {
 				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
 			)}
 		>
+		<img className="ht-100" src="assets/images/logos/fuse.svg" alt="logo" />
 			<div className="flex flex-col items-center justify-center w-full max-w-425">
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full">
 						<CardContent className="flex flex-col items-center justify-center p-20 sm:p-32">
-							<img className="ht-100" src="assets/images/logos/fuse.svg" alt="logo" />
-							<Typography variant="h5" className="text-center font-600 mt-20 mb-28">
-								Set up your edilcloud account
+							<Typography variant="h6" className="text-center font-600 mt-20 mb-4">
+								Improve Constructions communication
+							</Typography>
+							<Typography variant="subtitle1" className="text-muted mb-40">
+								Join Edicloud, it's for all!
 							</Typography>
 							<JWTRegisterTab />
-							<div className="font-600 text-center text-muted mt-20">
-								By signing up, I agree to the edilcloud
-								<Link className="text-primary font-600" to="/">
-									{' '}
-									  Privacy policy{' '}
-								</Link>{' '}
-								and 
-								<Link className="text-primary font-600 ml-2" to="/"> 
-									 Terms of service.{' '}
-								</Link>
-							</div>
+							
 							<div className="flex items-center justify-center w-full pt-24">
 								<span className="text-custom font-600 mr-6">Already have an account?</span>
 								<Link className="text-primary font-600 inline" to="/pages/auth/login">

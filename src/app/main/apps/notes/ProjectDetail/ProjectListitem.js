@@ -40,6 +40,8 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
 import DownloadPdf from '../DownloadPdf';
 
+import Button from '@material-ui/core/Button';
+
 export default function ProjectListitem(props) {
 	const {
 		index,
@@ -192,7 +194,7 @@ export default function ProjectListitem(props) {
 				// subheader={moment(date_start).format('MMM DD, YYYY')}
 				subheader={
 					<>
-						<small> Mannheim Sandhofen Baden-Württemberg</small>
+						<small> Via San Giovanni Bosco 3, Bariano(BG) 24050</small>
 						
 					</>
 				}
@@ -225,14 +227,12 @@ export default function ProjectListitem(props) {
 				<Tab label="Weather" {...a11yProps(2)} />
 			</Tabs>
 			<TabPanel value={value} index={0} className="tab_panel">
-				Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-				industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-				scrambled it to make a type specimen
+				Progetto di Ristrutturazione di una palazzina con 15 appartamenti a Treviglio(BG). Respedil, il progetto prevede la realizzazione di 15 appartamenti con finiture di lusso.
 				<div className="flex overflow-x-auto nowrap about-image-section mt-16">
-					<img src="/assets/images/notes/Building 01.jpg" />
-					<img src="/assets/images/notes/Building 01.jpg" />
-					<img src="/assets/images/notes/Building 01.jpg" />
-					<img src="/assets/images/notes/Building 01.jpg" />
+					<img src="https://media.gettyimages.com/photos/young-worker-doing-precise-measuring-picture-id601016110?s=612x612" />
+					<img src="https://media.gettyimages.com/photos/young-worker-doing-precise-measuring-picture-id601016110?s=612x612" />
+					<img src="https://media.gettyimages.com/photos/young-worker-doing-precise-measuring-picture-id601016110?s=612x612" />
+					<img src="https://media.gettyimages.com/photos/young-worker-doing-precise-measuring-picture-id601016110?s=612x612" />
 					<a href="javascript:;" className="more-pic">
 						<MoreHorizIcon />
 					</a>
@@ -376,7 +376,9 @@ export default function ProjectListitem(props) {
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton> */}
-				<DownloadPdf className="MuiButtonBase-root MuiButton-root MuiButton-text " label="Download Report" id={name} pid={id} />
+				<Button>
+				<DownloadPdf className="MuiButtonBase-root MuiButton-root " label="Download Report" id={name} pid={id} />
+				</Button>
 				<IconButton
 					className={clsx(classes.expand, 'py-0', {
 						[classes.expandOpen]: expanded

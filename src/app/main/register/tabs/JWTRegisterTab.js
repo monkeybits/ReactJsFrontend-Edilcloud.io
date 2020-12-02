@@ -12,6 +12,9 @@ import { withRouter } from 'react-router';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
+import { Link } from 'react-router-dom';
+
+import InputLabel from '@material-ui/core/InputLabel';
 
 function JWTRegisterTab({ history }) {
 	const dispatch = useDispatch();
@@ -68,15 +71,15 @@ function JWTRegisterTab({ history }) {
 					validationErrors={{
 						minLength: 'Min character length is 4'
 					}}
-					// InputProps={{
-					// 	endAdornment: (
-					// 		<InputAdornment position="end">
-					// 			<Icon className="text-20" color="action">
-					// 				person
-					// 			</Icon>
-					// 		</InputAdornment>
-					// 	)
-					// }}
+					 InputProps={{
+					 	endAdornment: (
+					 		<InputAdornment position="end">
+					 			<Icon className="text-20" color="action">
+									person
+					 			</Icon>
+					 		</InputAdornment>
+					 	)
+					 }}
 					variant="outlined"
 					required
 				/>
@@ -86,20 +89,20 @@ function JWTRegisterTab({ history }) {
 					name="first_name"
 					label="First name"
 					validations={{
-						minLength: 4
+						minLength: 6
 					}}
 					validationErrors={{
-						minLength: 'Min character length is 4'
+						minLength: 'Min character length is 6'
 					}}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								<Icon className="text-20" color="action">
-									person
-								</Icon>
-							</InputAdornment>
-						)
-					}}
+					//InputProps={{
+					//	endAdornment: (
+					//		<InputAdornment position="end">
+					//			<Icon className="text-20" color="action">
+					//				person
+					//			</Icon>
+					//		</InputAdornment>
+					//	)
+					//}}
 					variant="outlined"
 					required
 				/>
@@ -115,15 +118,15 @@ function JWTRegisterTab({ history }) {
 					validationErrors={{
 						minLength: 'Min character length is 4'
 					}}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								<Icon className="text-20" color="action">
-									person
-								</Icon>
-							</InputAdornment>
-						)
-					}}
+					//InputProps={{
+					//	endAdornment: (
+					//		<InputAdornment position="end">
+					//			<Icon className="text-20" color="action">
+					//				person
+					//			</Icon>
+					//		</InputAdornment>
+					//	)
+					//}}
 					variant="outlined"
 					required
 				/>
@@ -137,15 +140,15 @@ function JWTRegisterTab({ history }) {
 					validationErrors={{
 						isEmail: 'Please enter a valid email'
 					}}
-					// InputProps={{
-					// 	endAdornment: (
-					// 		<InputAdornment position="end">
-					// 			<Icon className="text-20" color="action">
-					// 				email
-					// 			</Icon>
-					// 		</InputAdornment>
-					// 	)
-					// }}
+					 InputProps={{
+					 	endAdornment: (
+					 		<InputAdornment position="end">
+					 			<Icon className="text-20" color="action">
+					 				email
+					 			</Icon>
+					 		</InputAdornment>
+					 	)
+					 }}
 					variant="outlined"
 					required
 				/>
@@ -224,6 +227,17 @@ function JWTRegisterTab({ history }) {
 					}
 					label="Conditions files"
 				/> */}
+				<div className="font-600 text-center mb-20 text-muted">
+								By signing up, I agree to the edilcloud
+								<Link className="text-primary font-600" to="/">
+									{' '}
+									  Privacy policy{' '}
+								</Link>{' '}
+								and 
+								<Link className="text-primary font-600 ml-2" to="/"> 
+									 Terms of service.{' '}
+								</Link>
+							</div>
 				<Button
 					type="submit"
 					variant="contained"
@@ -234,7 +248,7 @@ function JWTRegisterTab({ history }) {
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Get Started {register.loadingRegister && <CircularProgress size={15} color="secondary" />}
+					Get Started {register.loadingRegister && <CircularProgress size={20} color="white" ClassName="ml-20" />}
 				</Button>
 				{register.sucessData && (
 					<FormControl>

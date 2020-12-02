@@ -54,6 +54,7 @@ const DownloadPdf = ({ id, label, pid }) => {
 
 			<Button
 				size="small"
+				ClassName="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
 				onClick={() => {
 					apiCall(
 						EXPORT_DATA(pid),

@@ -51,16 +51,17 @@ function LoginPage() {
 				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
 			)}
 		>
+			<img className="ht-100" src="assets/images/logos/fuse.svg" alt="logo" />
 			<div className="flex flex-col items-center justify-center w-full max-w-425">
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full">
 						<CardContent className="flex flex-col items-center justify-center p-20 sm:p-32">
-							<img className="ht-100" src="assets/images/logos/fuse.svg" alt="logo" />
-							<Typography variant="h5" className="text-center font-600 mt-20 mb-4">
-								Sign In
+							
+							<Typography variant="h6" className="text-center font-600 mt-20 mb-4">
+							Improve Construction communication
 							</Typography>
-							<Typography variant="subtitle1" className="text-muted mb-20">
-								Login to your account to continue
+							<Typography variant="subtitle1" className="text-muted mb-40">
+								Join Edicloud, it's for all!
 							</Typography>
 							<Grid container spacing={2}>
 								<Grid item xs={6}>

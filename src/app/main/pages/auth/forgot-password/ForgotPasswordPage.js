@@ -17,6 +17,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Icon from '@material-ui/core/Icon';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -103,7 +105,16 @@ function ForgotPasswordPage({ history }) {
 									name="email"
 									value={form.email}
 									onChange={handleChangeAndRemoveError}
-									variant="outlined"
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												<Icon className="text-20" color="action">
+												   mail
+												</Icon>
+											</InputAdornment>
+										)
+									}}
+								   variant="outlined"
 									required
 									fullWidth
 								/>

@@ -370,9 +370,9 @@ function TaskContentForm(props) {
 						<div className="flex flex-1">
 							<div className="my-12">
 								{taskContentData?.project && (
-									<div className="font-extrabold">{taskContentData?.project.name}</div>
+									<div className="font-extrabold ml-20">Project: {taskContentData?.project.name}</div>
 								)}
-								<div className="text-base opacity-75">{taskContentData?.name}</div>
+								<div className="text-base ml-20 opacity-75">Task: {taskContentData?.name}</div>
 							</div>
 						</div>
 
@@ -692,7 +692,8 @@ function TaskContentForm(props) {
 				</TabPanel> */}
 			</DialogContent>
 
-			<DialogActions>
+			<DialogActions
+					ClassName="bg-blue">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {
@@ -701,9 +702,9 @@ function TaskContentForm(props) {
 					showLabels
 					className="flex justify-around w-full"
 				>
-					<BottomNavigationAction icon={<RestoreIcon />} label="Post Tabs" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction icon={<FavoriteIcon />} label="Attachments" {...a11yProps(1)} />
-					<BottomNavigationAction icon={<LocationOnIcon />} label="Edit" {...a11yProps(2)} />
+					<BottomNavigationAction ClassName="white" icon={<Icon>timeline</Icon>} label="Contents" wrapped {...a11yProps(0)} />
+					<BottomNavigationAction ClassName="white" icon={<Icon>square_foot</Icon>} label="Drawings" {...a11yProps(1)} />
+					<BottomNavigationAction ClassName="white" icon={<Icon>edit</Icon>} label="Edit" {...a11yProps(2)} />
 				</BottomNavigation>
 			</DialogActions>
 		</>
