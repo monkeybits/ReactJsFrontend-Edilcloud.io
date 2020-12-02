@@ -362,21 +362,31 @@ export default function PostListItem({
 							{post.author.first_name} {post.author.last_name}
 						</Typography>
 						<div className="flex">
-							{showPrject && (
+							{showPrject && (<>
 								<span className="mr-4 flex">
 									<Icon className="text-16 mt-10 mr-4">work_outline</Icon>
-									<Typography variant="h6" className="font-600 capitalize" color="primary" paragraph={false}>
+									<Typography
+										variant="h6"
+										className="font-600 capitalize"
+										color="primary"
+										paragraph={false}
+									>
 										{post.project.name}
 									</Typography>
 								</span>
-							)}
-							{showTask && (
+							{/* )} */}
+							{/* {showTask && (<> */}
 								<span className="mx-4 pt-6">
 									<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
-										task
+										{post.task.name}
 									</Typography>
 								</span>
-							)}
+								<span className="mx-4 pt-6">
+									<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
+										{post.sub_task.title}
+									</Typography>
+								</span>
+							</>)}
 							<span className="mx-4">
 								{post.type === 'post' && 'posted on your timeline'}
 								{post.type === 'something' && 'shared something with you'}
@@ -384,7 +394,6 @@ export default function PostListItem({
 								{post.type === 'article' && 'shared an article with you'}
 							</span>
 						</div>
-						
 					</span>
 				}
 				subheader={moment.parseZone(post.published_date).format('llll')}
