@@ -50,7 +50,16 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 const uuidv1 = require('uuid/v1');
 
-export default function PostListItem({ currnetPost, isTask, taskId, callRetryAfterSuccess, isOffline, tempAuthor }) {
+export default function PostListItem({
+	currnetPost,
+	isTask,
+	taskId,
+	callRetryAfterSuccess,
+	isOffline,
+	tempAuthor,
+	showPrject,
+	showTask
+}) {
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
@@ -63,7 +72,7 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 	const [offlinePostComments, setofflinePostComments] = useState({});
 	const [isRetryingPost, setIsRetryingPost] = useState(false);
 
-	const options = ['Edit', 'Delete', 'Report as inapropriate'  ];
+	const options = ['Edit', 'Delete', 'Report as inapropriate'];
 
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -88,7 +97,6 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-
 
 	const handlePostComment = e => {
 		e.preventDefault();
@@ -353,6 +361,13 @@ export default function PostListItem({ currnetPost, isTask, taskId, callRetryAft
 						<Typography className="font-600 capitalize" color="primary" paragraph={false}>
 							{post.author.first_name} {post.author.last_name}
 						</Typography>
+						{showPrject && (
+							<span className="mx-4">
+								<Typography className="font-600 capitalize" color="primary" paragraph={false}>
+									{post.project.name}
+								</Typography>
+							</span>
+						)}
 						<span className="mx-4">
 							{post.type === 'post' && 'posted on your timeline'}
 							{post.type === 'something' && 'shared something with you'}
