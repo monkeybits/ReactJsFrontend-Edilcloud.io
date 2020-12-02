@@ -250,26 +250,8 @@ function ChatApp(props) {
 													<StatusIcon status={selectedContact.status} />
 												</div> */}
 
-												<Avatar
-													src={
-														projectDetail.logo
-															? projectDetail.logo
-															: 'assets/images/avatars/profile.jpg'
-													}
-													alt={projectDetail.name}
-													className="w-48 h-48"
-												>
-													Group Chat
-												</Avatar>
 											</div>
-											<div>
-												<Typography color="inherit" className="px-8 mb-4">
-													{projectDetail.name}
-												</Typography>
-												<Typography color="inherit" className="text-14 text-muted px-8">
-													Main Profile
-												</Typography>
-											</div>
+											
 										</div>
 									</Toolbar>
 								</AppBar>

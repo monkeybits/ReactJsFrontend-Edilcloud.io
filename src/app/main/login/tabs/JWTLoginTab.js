@@ -69,15 +69,15 @@ function JWTLoginTab(props) {
 					validationErrors={{
 						minLength: 'Min character length is 4'
 					}}
-					// InputProps={{
-					// 	endAdornment: (
-					// 		<InputAdornment position="end">
-					// 			<Icon className="text-20" color="action">
-					// 				email
-					// 			</Icon>
-					// 		</InputAdornment>
-					// 	)
-					// }}
+					 InputProps={{
+						endAdornment: (
+					 		<InputAdornment position="end">
+					 			<Icon className="text-20" color="action">
+					 				email
+					 			</Icon>
+					 		</InputAdornment>
+					 	)
+					 }}
 					variant="outlined"
 					required
 				/>
@@ -128,13 +128,13 @@ function JWTLoginTab(props) {
 					type="submit"
 					variant="contained"
 					size="large"
-					color="primary"
+					color="secondary"
 					className="w-full mx-auto mt-16 uppercase"
 					aria-label="Sign In"
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Sign In{'  '} {login.loadingLogin && <CircularProgress size={15} color="secondary" />}
+					Sign In{'  '} {login.loadingLogin && <CircularProgress size={20} color="white" className="ml-20" />}
 				</Button>
 			</Formsy>
 		</div>

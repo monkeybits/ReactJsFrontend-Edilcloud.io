@@ -85,7 +85,7 @@ function ganttInitZoom() {
 			},
 			{
 				name: 'year1',
-				min_column_width: 92,
+				max_column_width: 92,
 				scale_unit: 'year',
 				date_scale: '%Y',
 				scale_height: 60,

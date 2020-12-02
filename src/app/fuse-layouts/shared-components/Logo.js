@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	reactBadge: {
 		backgroundColor: '#121212',
-		color: '#61DAFB'
+		color: '#376aed'
 	}
 }));
 

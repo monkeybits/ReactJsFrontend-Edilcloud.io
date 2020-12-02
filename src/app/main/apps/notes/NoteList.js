@@ -160,9 +160,11 @@ function NoteList(props) {
 						</Button>
 					</div>
 					<div className="mb-16">
-						<Typography variant="subtitle1" className="font-size-18 font-600">Edil Cloud (My Company)</Typography>
+						<Typography variant
+						="subtitle1" className="font-size-18 font-600">Edil Cloud (My Company)</Typography>
 					</div> */}
 					<div className="mb-16">
+						
 						<Typography variant="subtitle1" className="font-size-18 font-600">
 							Edil Cloud (My Company)
 						</Typography>

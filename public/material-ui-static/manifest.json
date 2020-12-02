@@ -3,8 +3,8 @@
   "short_name": "MUI",
   "display": "browser",
   "start_url": "/",
-  "theme_color": "#2196f3",
-  "background_color": "#2196f3",
+  "theme_color": "#376aed",
+  "background_color": "#376aed",
   "icons": [
     {
       "src": "/static/icons/48x48.png",

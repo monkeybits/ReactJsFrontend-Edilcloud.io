@@ -253,7 +253,7 @@ function CreatePostForm({ isTask, taskId }) {
 							classes={{ root: 'text-14' }}
 							placeholder="Write something.."
 							multiline
-							rows="5"
+							rows="3"
 							margin="none"
 							disableUnderline
 							onChange={e => setText(e.target.value)}
@@ -283,9 +283,9 @@ function CreatePostForm({ isTask, taskId }) {
 									onClick={createPost}
 									variant="contained"
 									color="primary"
-									size="small"
+									size="large"
 									aria-label="post"
-									disabled={!text.length}
+									//disabled={!text.length}
 								>
 									Post
 								</Button>

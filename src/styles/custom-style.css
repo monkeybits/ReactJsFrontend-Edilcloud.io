@@ -55,7 +55,7 @@ body {
     background: #0D3B63;
 }
 .bg-custom-primary {
-    background: #2196F3;
+    background: #376aed;
 }
 .todo-bg-footer {
     background: rgb(236 236 238 / 0.30);
@@ -88,7 +88,7 @@ body {
     color: #4CAF50;
 }
 .text-custom-primary {
-    color: #2196F3;
+    color: #376aed;
 }
 .text-custom-danger {
     color: #F44336;
@@ -215,17 +215,17 @@ a.text-muted:hover {
 .custom-outlined-btn button {
     background-color: #ffffff;
     border: 1px solid #ECECEE;
-    color: #2196F3;
+    color: #376aed;
 }   
 .custom-outlined-btn button svg {
-    color: #2196F3;
+    color: #376aed;
 }
 /* .add-photo-image button {
     padding: 0px;
     margin-right: 10px;
     background-color: #ffffff;
     border-radius: 4px;
-    color: #2196F3;
+    color: #376aed;
 } */
 
 /* ********************************************************************************************
@@ -522,8 +522,8 @@ textarea.MuiOutlinedInput-input {
     margin-right: 8px;
 }
 .custom-tab-header button.Mui-selected {
-    color: #2196F3;
-    border-bottom: 3px solid #2196F3;
+    color: #376aed;
+    border-bottom: 3px solid #376aed;
 }
 .custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
     font-size: 1.4rem;
@@ -760,7 +760,7 @@ textarea.MuiOutlinedInput-input {
 }
 .chat-bg {
     background-image: none;
-    background: #EEEEEE;
+    background: #F7F7FF;
 }
 .chat-header-img .text-16 {
     font-size: 20px !important;
@@ -785,8 +785,7 @@ textarea.MuiOutlinedInput-input {
     border-left: 3px solid transparent;
 }
 .chat-border.active {
-    background-color: rgb(55 106 237 / 0.06);
-    border-left: 3px solid #376AED;
+   
 }
 .chat-badge {
     background-color: #376AED;
@@ -834,7 +833,7 @@ textarea.MuiOutlinedInput-input {
 }
 .team-page-filter .MuiListItem-root.active {
     color: #fff !important;
-    background-color: #2196F3;
+    background-color: #376aed;
 }
 .team-grid {
     margin-left: -0.6rem;
@@ -894,7 +893,7 @@ textarea.MuiOutlinedInput-input {
     word-break: break-all;
 }
 .MuiCheckbox-colorSecondary.Mui-checked {
-    color: #2196F3;
+    color: #376aed;
 }
 
 /* ********************************************************************************************
@@ -1129,8 +1128,8 @@ audio {
     font-weight: 700;
 }
 .project_tabs button.Mui-selected {
-    border-bottom: 3px solid #2196F3;
-    color: #2196F3;
+    border-bottom: 3px solid #376aed;
+    color: #376aed;
 }
 .project_tabs .MuiTabs-indicator {
     width: 0px !important;
@@ -1177,7 +1176,7 @@ audio {
     position: relative;
     height: 56px !important;
     width: 56px !important;
-    color: #2196F3;
+    color: #376aed;
 }
 .custom-progress-chart .MuiCircularProgress-static::before {
     position: absolute;
