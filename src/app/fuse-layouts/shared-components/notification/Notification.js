@@ -25,7 +25,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Checkbox } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ALERTED_POSTS_TASKS, GET_NOTIFICATIONS } from 'app/services/apiEndPoints';
+import { ALERTED_POSTS_TASKS, GET_ALL_NOTIFICATIONS } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import PostList from 'app/main/apps/notes/todo/PostList';
 import clsx from 'clsx';
@@ -42,6 +42,8 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroller';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -53,26 +55,37 @@ function NotificationPanel(props) {
 	const dispatch = useDispatch();
 	const state = useSelector(({ notificationPanel }) => notificationPanel.state);
 	const classes = useStyles();
-	const [data, setData] = useState(null);
+	const [data, setData] = useState({
+		activities: [],
+		page: 1
+	});
 
 	useEffect(() => {
-		axios.get('/api/profile/timeline').then(res => {
-			setData(res.data);
+		// axios.get('/api/profile/timeline').then(res => {
+		// 	setData(res.data);
+		// });
+		setData({
+			activities: [],
+			page: 1
 		});
-		// apiCall(
-		// 	'/api/frontend/notify/notification/recipient/new_list/?no_page=no_page',
-		// 	{},
-		// 	res => {
-		// 		console.log({ new_list: res });
-		// 		setData(res);
-		// 	},
-		// 	err => {},
-		// 	METHOD.GET,
-		// 	getHeaderToken()
-		// );
-	}, []);
-
-	// if (!data) {
+		getNotification();
+	}, [state]);
+	const getNotification = () => {
+		apiCall(
+			GET_ALL_NOTIFICATIONS(),
+			{},
+			res => {
+				console.log({ new_list: res });
+				setData(prev => ({
+					activities: [...prev.activities, ...res.results]
+				}));
+			},
+			err => {},
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+	// if (!data.activities.length) {
 	// 	return null;
 	// }
 	return (
@@ -83,28 +96,61 @@ function NotificationPanel(props) {
 			anchor="right"
 			onClose={ev => dispatch(Actions.toggleNotification())}
 		>
-			<FuseScrollbars>
-				<div className="flex flex-col">
-					<Card className="w-full">
-						<AppBar position="static" elevation={0}>
-							<Toolbar className="px-8">
-								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
-									Latest Activity
-								</Typography>
-								<Button color="inherit" size="small">
-									See All
-								</Button>
-							</Toolbar>
-						</AppBar>
-						<CardContent className="p-0">
-							<List>
-								{data &&
-									data.activities.map(activity => (
+			{/* <FuseScrollbars> */}
+			<div className="flex flex-col">
+				<Card className="w-full">
+					<AppBar position="static" elevation={0}>
+						<Toolbar className="px-8">
+							<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+								Latest Activity
+							</Typography>
+							<Button color="inherit" size="small">
+								See All
+							</Button>
+						</Toolbar>
+					</AppBar>
+					<CardContent className="p-0">
+						<List>
+							<InfiniteScroll
+								// dataLength={data.activities.length} //This is important field to render the next data
+								// next={getNotification}
+								// hasMore={true}
+								// loader={<h4>Loading...</h4>}
+								// endMessage={
+								// 	<p style={{ textAlign: 'center' }}>
+								// 		<b>Yay! You have seen it all</b>
+								// 	</p>
+								// }
+
+								// pageStart={0}
+								loadMore={getNotification}
+								hasMore={true}
+								loader={
+									<div className="loader" key={0}>
+										Loading ...
+									</div>
+								}
+
+								// below props only if you need pull down functionality
+								// refreshFunction={this.refresh}
+								// pullDownToRefresh
+								// pullDownToRefreshThreshold={50}
+								// pullDownToRefreshContent={
+								// 	<h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
+								// }
+								// releaseToRefreshContent={
+								// 	<h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
+								// }
+							>
+								{data.activities.map(activity => {
+									const { notification } = activity;
+
+									return (
 										<ListItem key={activity.id} className="px-12">
 											<Avatar
 												className="mx-4"
-												alt={activity.user.name}
-												src={activity.user.avatar}
+												alt={notification.sender.first_name}
+												src={notification.sender.photo}
 											/>
 											<ListItemText
 												className="flex-1 mx-4"
@@ -116,37 +162,44 @@ function NotificationPanel(props) {
 																color="primary"
 																paragraph={false}
 															>
-																{activity.user.name}
+																{notification.sender.first_name}{' '}
+																{notification.sender.last_name}
 															</Typography>
 
-															<Typography className="px-4 truncate" paragraph={false}>
-																{activity.message}
+															<Typography
+																color="textSecondary"
+																className="px-4 truncate"
+																paragraph={false}
+															>
+																{notification.subject}
 															</Typography>
 														</div>
-														{activity.route && (
+														{notification.body?.url && (
 															<div className="flex">
-																{' '}
 																<Link
-																	onClick={() =>
-																		dispatch(Actions.toggleNotification())
-																	}
-																	to={activity.route}
+																	onClick={() => {
+																		dispatch(Actions.toggleNotification());
+																		dispatch(Actions.addNotificationData(activity));
+																	}}
+																	to={notification.body.url}
 																>
-																	{activity.linkText}
+																	{notification.body.content}
 																</Link>
 															</div>
 														)}
 													</>
 												}
-												secondary={activity.time}
+												secondary={moment(notification.date_create).endOf('day').fromNow()}
 											/>
 										</ListItem>
-									))}
-							</List>
-						</CardContent>
-					</Card>
-				</div>
-			</FuseScrollbars>
+									);
+								})}
+							</InfiniteScroll>
+						</List>
+					</CardContent>
+				</Card>
+			</div>
+			{/* </FuseScrollbars> */}
 		</Drawer>
 	);
 }

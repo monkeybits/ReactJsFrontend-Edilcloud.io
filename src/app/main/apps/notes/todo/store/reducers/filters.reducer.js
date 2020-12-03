@@ -121,6 +121,16 @@ const filtersReducer = (state = initialState(), action) => {
 				peopleFilter: peopleFilterNames(action.payload),
 				usedKeys: ['genrealFilter', 'timeFilter']
 			};
+		case Actions.RESET_ALL_FILTERS:
+			// console.log({ action, peopleFilterNames: peopleFilterNames(action.payload) });
+			return {
+				...state,
+				projectFilter: addIsActiveToDefault(state.projectFilter),
+				companyFilter: addIsActiveToDefault(state.companyFilter),
+				peopleFilter: addIsActiveToDefault(state.peopleFilter),
+				genrealFilter: addIsActiveToDefault(state.genrealFilter),
+				timeFilter: addIsActiveToDefault(state.timeFilter),
+			};
 		case Actions.CHANGE_FILTERS:
 			let tempUsedKeys = [...state.usedKeys];
 			tempUsedKeys = tempUsedKeys.filter(item => item != action.payload.activeFilter);

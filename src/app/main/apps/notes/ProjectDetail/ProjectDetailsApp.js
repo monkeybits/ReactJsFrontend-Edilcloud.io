@@ -30,6 +30,12 @@ function ProjectDetails(props) {
 			let tab = params.tab;
 			if (tab == 'chat') {
 				setValue(1);
+			} else if (tab == 'task') {
+				setValue(2);
+			} else if (tab == 'filemanager') {
+				setValue(3);
+			} else if (tab == 'gantt') {
+				setValue(4);
 			} else {
 				setValue(0);
 			}
