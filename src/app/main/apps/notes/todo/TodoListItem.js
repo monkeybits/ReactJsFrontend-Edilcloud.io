@@ -143,7 +143,8 @@ function TodoListItem(props) {
 	const classes = useStyles(props);
 	const routeParams = useParams();
 	const [anchorEl, setAnchorEl] = useState(null);
-
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -210,6 +211,7 @@ function TodoListItem(props) {
 	return (
 		<>
 			<Card
+				ref={hasNotifcationOnThisItem ? props.scrollRef : null}
 				className={clsx(classes.card, 'w-full rounded-4 cursor-pointer border-1 shadow-none mb-16')}
 				onClick={() =>
 					getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''

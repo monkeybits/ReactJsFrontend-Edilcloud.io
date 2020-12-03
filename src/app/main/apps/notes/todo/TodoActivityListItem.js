@@ -200,6 +200,7 @@ function TodoActivityListItem(props) {
 	return (
 		<>
 			<ListItem
+				id={props.todo.id}
 				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-8 px-0 sm:px-8')}
 				checked={completed}
 				style={{ borderLeft: '4px solid', borderLeftColor: props.task.assigned_company?.color_project }}

@@ -12,6 +12,7 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 export const GET_TODOS = '[TODO APP] GET TODOS (PROJECT)';
+export const RESET_ALL_FILTERS = '[TODO APP] RESET ALL FILTERS (PROJECT)';
 export const UPDATE_TODOS = '[TODO APP] UPDATE TODOS (PROJECT)';
 export const TOGGLE_STARRED = '[TODO APP] TOGGLE STARRED (PROJECT)';
 export const TOGGLE_COMPLETED = '[TODO APP] TOGGLE COMPLETED (PROJECT)';
@@ -131,7 +132,11 @@ export function closeTaskContent() {
 		type: CLOSE_TASK_CONTENT_DIALOG
 	};
 }
-
+export function resetAllFilters() {
+	return {
+		type: RESET_ALL_FILTERS
+	};
+}
 export function openNewTodoDialog(data) {
 	return {
 		type: OPEN_NEW_TODO_DIALOG,

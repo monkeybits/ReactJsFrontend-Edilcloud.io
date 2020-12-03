@@ -13,6 +13,19 @@ const quickPanel = (state = initialState, action) => {
 				data: action.payload
 			};
 		}
+		case Actions.ADD_NOTOFICATION_PANEL_DATA: {
+			return {
+				...state,
+				notificationData: action.payload,
+				viewing: true
+			};
+		}
+		case Actions.REMOVE_FROM_VIEW_NOTOFICATION_PANEL_DATA: {
+			return {
+				...state,
+				viewing: false
+			};
+		}
 		case Actions.TOGGLE_NOTOFICATION_PANEL: {
 			return {
 				...state,

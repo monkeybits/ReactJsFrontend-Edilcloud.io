@@ -5,7 +5,7 @@ import _ from '@lodash';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TodoListItem from './TodoListItem';
 import Hidden from '@material-ui/core/Hidden';
@@ -14,10 +14,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import * as Actions from './store/actions';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+
 function TodoList(props) {
 	const dispatch = useDispatch();
 	const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.todoEntities);
 	const searchText = useSelector(({ todoAppNote }) => todoAppNote.todos.searchText);
+	const [hasRenderd, setHasRenderd] = useState(false);
 	const orderBy = useSelector(({ todoAppNote }) => todoAppNote.todos.orderBy);
 	const orderDescending = useSelector(({ todoAppNote }) => todoAppNote.todos.orderDescending);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.companies);
@@ -28,6 +31,8 @@ function TodoList(props) {
 	const usedKeys = useSelector(({ todoAppNote }) => todoAppNote.filters.usedKeys);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const canSelectMultiple = ['companyFilter', 'peopleFilter'];
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
 
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
@@ -55,6 +60,25 @@ function TodoList(props) {
 	useEffect(() => {
 		handleDoFilter();
 	}, [activeFilterKey, company, usedKeys, todos]);
+	useEffect(() => {
+		// function scrolldiv() {
+		// 	var elem = document.getElementById("ele");
+		// 	elem.scrollIntoView();
+		// }
+		if (notificationPanel.viewing && scrollRef.current && todos) {
+			dispatch(Actions.resetAllFilters());
+			dispatch(notificationActions.removeFrmViewNotification());
+			if (hasRenderd) {
+				setTimeout(() => {
+					scrollRef.current.scrollIntoView();
+					scrollRef.current.classList.add('bg-yellow-200');
+					setTimeout(() => {
+						scrollRef.current.classList.remove('bg-yellow-200');
+					}, 5000);
+				}, 1000);
+			}
+		}
+	}, [notificationPanel.viewing, todos, scrollRef, hasRenderd]);
 	const handleDoFilter = () => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -91,6 +115,9 @@ function TodoList(props) {
 			} else {
 				setFilteredData(list);
 			}
+			setTimeout(() => {
+				setHasRenderd(true);
+			}, 3000);
 		}
 	};
 	const setFilterByKey = (activeFilter, list, activeFilterKey) => {
@@ -354,7 +381,14 @@ function TodoList(props) {
 					</FuseAnimate>
 				) : (
 					filteredData.map((todo, index) => (
-						<TodoListItem {...props} todo={todo} key={todo.id} index={index} companies={companies} />
+						<TodoListItem
+							scrollRef={scrollRef}
+							{...props}
+							todo={todo}
+							key={todo.id}
+							index={index}
+							companies={companies}
+						/>
 					))
 				)}
 			</div>
