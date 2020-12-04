@@ -48,6 +48,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 const uuidv1 = require('uuid/v1');
 
 export default function PostListItem({
@@ -60,6 +61,7 @@ export default function PostListItem({
 	showPrject,
 	showTask
 }) {
+	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
@@ -74,10 +76,23 @@ export default function PostListItem({
 
 	const options = ['Edit', 'Delete', 'Report as inapropriate'];
 
+	const [hasRender, setHasRender] = React.useState(false);
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == currnetPost.id;
+	console.log({ hasNotifcationOnThisItem });
 	useEffect(() => {
 		setPost(currnetPost);
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
 	}, [currnetPost]);
 	useEffect(() => {
 		if (post.comment_set) {
@@ -85,7 +100,18 @@ export default function PostListItem({
 			return () => setPostComments([]);
 		}
 	}, [post.comment_set]);
-
+	useEffect(() => {
+		if (notificationPanel.viewing && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+			scrollRef.current.classList.add('bg-yellow-200');
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove('bg-yellow-200');
+				}
+			}, 5000);
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
 	const openMenu = Boolean(anchorEl);
@@ -270,7 +296,12 @@ export default function PostListItem({
 		return null;
 	}
 	return (
-		<Card key={post.id} className="mb-32 overflow-hidden post-form post-card-clx">
+		<Card
+			id={`post${post.id}`}
+			ref={notificationPanel.notificationData?.notification?.object_id == post.id ? scrollRef : null}
+			key={post.id}
+			className="mb-32 overflow-hidden post-form post-card-clx"
+		>
 			<CardHeader
 				avatar={
 					post.author.first_name ? (
@@ -362,31 +393,33 @@ export default function PostListItem({
 							{post.author.first_name} {post.author.last_name}
 						</Typography>
 						<div className="flex">
-							{showPrject && (<>
-								<span className="mr-4 flex">
-									<Icon className="text-16 mt-10 mr-4">work_outline</Icon>
-									<Typography
-										variant="h6"
-										className="font-600 capitalize"
-										color="primary"
-										paragraph={false}
-									>
-										{post.project.name}
-									</Typography>
-								</span>
-							{/* )} */}
-							{/* {showTask && (<> */}
-								<span className="mx-4 pt-6">
-									<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
-										{post.task.name}
-									</Typography>
-								</span>
-								<span className="mx-4 pt-6">
-									<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
-										{post.sub_task.title}
-									</Typography>
-								</span>
-							</>)}
+							{showPrject && (
+								<>
+									<span className="mr-4 flex">
+										<Icon className="text-16 mt-10 mr-4">work_outline</Icon>
+										<Typography
+											variant="h6"
+											className="font-600 capitalize"
+											color="primary"
+											paragraph={false}
+										>
+											{post.project.name}
+										</Typography>
+									</span>
+									{/* )} */}
+									{/* {showTask && (<> */}
+									<span className="mx-4 pt-6">
+										<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
+											{post.task.name}
+										</Typography>
+									</span>
+									<span className="mx-4 pt-6">
+										<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
+											{post.sub_task.title}
+										</Typography>
+									</span>
+								</>
+							)}
 							<span className="mx-4">
 								{post.type === 'post' && 'posted on your timeline'}
 								{post.type === 'something' && 'shared something with you'}

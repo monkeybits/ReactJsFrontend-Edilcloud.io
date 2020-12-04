@@ -67,8 +67,8 @@ function TodoList(props) {
 		// }
 		if (notificationPanel.viewing && scrollRef.current && todos) {
 			dispatch(Actions.resetAllFilters());
-			dispatch(notificationActions.removeFrmViewNotification());
 			if (hasRenderd) {
+				dispatch(notificationActions.removeFrmViewNotification());
 				setTimeout(() => {
 					scrollRef.current.scrollIntoView();
 					scrollRef.current.classList.add('bg-yellow-200');
