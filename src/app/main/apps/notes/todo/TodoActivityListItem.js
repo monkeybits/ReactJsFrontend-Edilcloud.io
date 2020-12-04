@@ -55,6 +55,10 @@ function TodoActivityListItem(props) {
 	const [members, setMembers] = useState([]);
 	const [inviteMembers, setInviteMembers] = useState([]);
 	const [checkedAll, setCheckedAll] = useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const hasNotifcationOnThisItem =
+		notificationPanel.notificationData?.notification?.content_type === 'activity' &&
+		notificationPanel.notificationData?.notification?.object_id == props.todo.id;
 	useEffect(() => {
 		setMembers(props.todo.workers_in_activity);
 	}, [props.todo.workers_in_activity]);
@@ -200,6 +204,7 @@ function TodoActivityListItem(props) {
 	return (
 		<>
 			<ListItem
+				ref={hasNotifcationOnThisItem ? props.scrollRef : null}
 				id={props.todo.id}
 				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-8 px-0 sm:px-8')}
 				checked={completed}
@@ -273,19 +278,20 @@ function TodoActivityListItem(props) {
 					</div>
 					<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 						<>
-							{!!members?.length && 
+							{!!members?.length && (
 								// <Button onClick={handleSelectAll}>Select All </Button>
-								<FormControlLabel className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+								<FormControlLabel
+									className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
 									control={
-									<Checkbox
-										// checked={state.checkedB}
-										onClick={handleSelectAll}
-										name="checkedB"
-									/>
+										<Checkbox
+											// checked={state.checkedB}
+											onClick={handleSelectAll}
+											name="checkedB"
+										/>
 									}
 									label="Select All"
 								/>
-							}
+							)}
 							{!!members?.length ? (
 								members.map((member, index) => {
 									return (

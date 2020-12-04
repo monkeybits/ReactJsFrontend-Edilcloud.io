@@ -21,6 +21,7 @@ import { makeStyles } from '@material-ui/core';
 import TaskContentDialog from './Dialog/TaskContentDialog';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import clsx from 'clsx';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -37,13 +38,21 @@ function TodoApp(props) {
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 
 	// useEffect(() => {
 	// 	dispatch(Actions.getFilters());
 	// 	dispatch(Actions.getFolders());
 	// 	dispatch(Actions.getLabels());
 	// }, [dispatch]);
-
+	useEffect(() => {
+		if (notificationPanel.viewing && notificationPanel.notificationData?.notification) {
+			let notification = notificationPanel.notificationData.notification;
+			if (notification.content_type === 'post') {
+				dispatch(Actions.openTaskContent({ id: notification.body.task_id }));
+			}
+		}
+	}, [notificationPanel.viewing]);
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getTodos(routeParams.id));
 		return () => {
@@ -76,7 +85,7 @@ function TodoApp(props) {
 					content: 'flex flex-col h-full p-24',
 					leftSidebar: 'w-256 border-0',
 					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
-					customHeader:"flex flex-auto flex-col container z-10 h-full chat-header-bg-remove",
+					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove',
 					wrapper: 'min-h-0 team-tab'
 				}}
 				// header={<TodoHeader pageLayout={pageLayout} />}

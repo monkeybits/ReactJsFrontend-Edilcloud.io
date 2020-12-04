@@ -144,7 +144,9 @@ function TodoListItem(props) {
 	const routeParams = useParams();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
-	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
+	const hasNotifcationOnThisItem =
+		notificationPanel.notificationData?.notification?.content_type === 'task' &&
+		notificationPanel.notificationData?.notification?.object_id == props.todo.id;
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -200,7 +202,14 @@ function TodoListItem(props) {
 		// 	getCompanyApprovedContacts();
 		// }
 	};
-
+	useEffect(() => {
+		if (
+			notificationPanel.notificationData?.notification?.content_type === 'activity' &&
+			notificationPanel.notificationData?.notification?.body?.task_id == props.todo.id
+		) {
+			setOpen(true);
+		}
+	}, [notificationPanel.notificationData]);
 	const handleMenuClose = event => {
 		stopsEvents(event);
 		setAnchorEl(null);
@@ -542,6 +551,7 @@ function TodoListItem(props) {
 							!!taskDetail.length &&
 							taskDetail.map(todo => (
 								<TodoActivityListItem
+									scrollRef={props.scrollRef}
 									{...props}
 									getDetailOfTask={getDetailOfTask}
 									task={props.todo}

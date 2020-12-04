@@ -96,110 +96,123 @@ function NotificationPanel(props) {
 			anchor="right"
 			onClose={ev => dispatch(Actions.toggleNotification())}
 		>
-			{/* <FuseScrollbars> */}
-			<div className="flex flex-col">
-				<Card className="w-full">
-					<AppBar position="static" elevation={0}>
-						<Toolbar className="px-8">
-							<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
-								Latest Activity
-							</Typography>
-							<Button color="inherit" size="small">
-								See All
-							</Button>
-						</Toolbar>
-					</AppBar>
-					<CardContent className="p-0">
-						<List>
-							<InfiniteScroll
-								// dataLength={data.activities.length} //This is important field to render the next data
-								// next={getNotification}
-								// hasMore={true}
-								// loader={<h4>Loading...</h4>}
-								// endMessage={
-								// 	<p style={{ textAlign: 'center' }}>
-								// 		<b>Yay! You have seen it all</b>
-								// 	</p>
-								// }
+			<FuseScrollbars>
+				<div className="flex justify-between items-center">
+					{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
+					<Typography className="mx-16 text-16" color="inherit">
+						Notifications
+					</Typography>
+					<div className="px-4">
+						<IconButton onClick={ev => dispatch(Actions.toggleNotification())} color="inherit">
+							<Icon>close</Icon>
+						</IconButton>
+					</div>
+				</div>
+				<div className="flex flex-col">
+					<Card className="w-full">
+						<AppBar position="static" elevation={0}>
+							<Toolbar className="px-8">
+								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+									Latest Activity
+								</Typography>
+								<Button color="inherit" size="small">
+									See All
+								</Button>
+							</Toolbar>
+						</AppBar>
+						<CardContent className="p-0">
+							<List>
+								<InfiniteScroll
+									// dataLength={data.activities.length} //This is important field to render the next data
+									// next={getNotification}
+									// hasMore={true}
+									// loader={<h4>Loading...</h4>}
+									// endMessage={
+									// 	<p style={{ textAlign: 'center' }}>
+									// 		<b>Yay! You have seen it all</b>
+									// 	</p>
+									// }
 
-								// pageStart={0}
-								loadMore={getNotification}
-								hasMore={true}
-								loader={
-									<div className="loader" key={0}>
-										Loading ...
-									</div>
-								}
+									// pageStart={0}
+									loadMore={getNotification}
+									hasMore={true}
+									loader={
+										<div className="loader" key={0}>
+											Loading ...
+										</div>
+									}
 
-								// below props only if you need pull down functionality
-								// refreshFunction={this.refresh}
-								// pullDownToRefresh
-								// pullDownToRefreshThreshold={50}
-								// pullDownToRefreshContent={
-								// 	<h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-								// }
-								// releaseToRefreshContent={
-								// 	<h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-								// }
-							>
-								{data.activities.map(activity => {
-									const { notification } = activity;
+									// below props only if you need pull down functionality
+									// refreshFunction={this.refresh}
+									// pullDownToRefresh
+									// pullDownToRefreshThreshold={50}
+									// pullDownToRefreshContent={
+									// 	<h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
+									// }
+									// releaseToRefreshContent={
+									// 	<h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
+									// }
+								>
+									{data.activities.map(activity => {
+										const { notification } = activity;
 
-									return (
-										<ListItem key={activity.id} className="px-12">
-											<Avatar
-												className="mx-4"
-												alt={notification.sender.first_name}
-												src={notification.sender.photo}
-											/>
-											<ListItemText
-												className="flex-1 mx-4"
-												primary={
-													<>
-														<div className="flex">
-															<Typography
-																className="font-medium whitespace-no-wrap"
-																color="primary"
-																paragraph={false}
-															>
-																{notification.sender.first_name}{' '}
-																{notification.sender.last_name}
-															</Typography>
-
-															<Typography
-																color="textSecondary"
-																className="px-4 truncate"
-																paragraph={false}
-															>
-																{notification.subject}
-															</Typography>
-														</div>
-														{notification.body?.url && (
+										return (
+											<ListItem key={activity.id} className="px-12">
+												<Avatar
+													className="mx-4"
+													alt={notification.sender.first_name}
+													src={notification.sender.photo}
+												/>
+												<ListItemText
+													className="flex-1 mx-4"
+													primary={
+														<>
 															<div className="flex">
-																<Link
-																	onClick={() => {
-																		dispatch(Actions.toggleNotification());
-																		dispatch(Actions.addNotificationData(activity));
-																	}}
-																	to={notification.body.url}
+																<Typography
+																	className="font-medium whitespace-no-wrap"
+																	color="primary"
+																	paragraph={false}
 																>
-																	{notification.body.content}
-																</Link>
+																	{notification.sender.first_name}{' '}
+																	{notification.sender.last_name}
+																</Typography>
+
+																<Typography
+																	color="textSecondary"
+																	className="px-4 truncate"
+																	paragraph={false}
+																>
+																	{notification.subject}
+																</Typography>
 															</div>
-														)}
-													</>
-												}
-												secondary={moment(notification.date_create).endOf('day').fromNow()}
-											/>
-										</ListItem>
-									);
-								})}
-							</InfiniteScroll>
-						</List>
-					</CardContent>
-				</Card>
-			</div>
-			{/* </FuseScrollbars> */}
+															{notification.body?.url && (
+																<div className="flex">
+																	<Link
+																		onClick={() => {
+																			dispatch(Actions.toggleNotification());
+																			dispatch(
+																				Actions.addNotificationData(activity)
+																			);
+																		}}
+																		to={notification.body.url}
+																	>
+																		{notification.body.content}
+																	</Link>
+																</div>
+															)}
+														</>
+													}
+													secondary={moment(notification.date_create).endOf('day').fromNow()}
+												/>
+											</ListItem>
+										);
+									})}
+								</InfiniteScroll>
+							</List>
+						</CardContent>
+					</Card>
+				</div>
+			</FuseScrollbars>
 		</Drawer>
 	);
 }
