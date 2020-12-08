@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { gantt } from 'dhtmlx-gantt';
-import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
+import 'dhtmlx-gantt/codebase/skins/dhtmlxgantt_material.css';
 import './Gantt.css';
 import './dhtmlxgantt.css';
 import connect from 'react-redux/es/connect/connect';

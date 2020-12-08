@@ -483,7 +483,7 @@ function TodoListItem(props) {
 									variant="outlined"
 									color="primary"
 									className={classes.button}
-									startIcon={<PlaylistAddOutlinedIcon />}
+									startIcon={<add_task/>}
 									onClick={ev => {
 										ev.preventDefault();
 										ev.stopPropagation();

@@ -18,7 +18,7 @@ import clsx from 'clsx';
 // }));
 
 const accounts = {
-	creapond: 'johndoe@creapond.com',
+	creapond: 'worker - company',
 	withinpixels: 'johndoe@withinpixels.com'
 };
 
