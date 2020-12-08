@@ -248,7 +248,7 @@ function TodoListItem(props) {
 						</Tooltip>
 						</div>
 						{/* content can be below */}
-						<div className="flex items-center mb-6">
+						<div className="flex items-center mb-12">
 							{props.todo.assigned_company && (
 								<TodoChip
 									title={props.todo.assigned_company?.name}
@@ -256,19 +256,21 @@ function TodoListItem(props) {
 								/>
 							)}
 						</div>
-						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit font-semibold mb-6">
-							{' '}
-							{props.todo.name}{' '}
-						</Typography>
-						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary font-medium font-size-12 mb-6">
-							{projectDetail?.name}
-						</Typography>
 						{!props.todo.assigned_company && (
 							<div className="custom-member-menu flex items-center" onClick={handleMenuOpen}>
 								<Icon> business</Icon>
 								Assign Company
 							</div>
 						)}
+						<Typography className="MuiTypography-root todo-title truncate MuiTypography-h6 MuiTypography-colorInherit font-semibold ">
+							{' '}
+							{props.todo.name}{' '}
+						</Typography>
+						<Typography className="MuiTypography-root todo-title truncate MuiTypography-body MuiTypography-colorInherit  mb-12">
+							Responsabile: Mandelli Roberto - Idraulico Specializzato
+						</Typography>
+						
+						
 						<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 							{props.companies.map((item, index) => {
 								return (
@@ -282,14 +284,14 @@ function TodoListItem(props) {
 						{/* dates below */}
 						<div className="flex items-center flex-wrap">
 							{props.todo.progress == 100 ? (
-								<div className={clsx('flex items-center px-8 py-4 mx-4 rounded bg-green text-white')}>
+								<div className={clsx('flex items-center px-8 py-4 rounded bg-green text-white')}>
 									<Icon className="text-16 mt-4">check_circle</Icon>{' '}
 									<span className="mx-4">Completed</span>
 								</div>
 							) : moment().diff(moment(props.todo.date_start)) > 0 ? (
 								moment().diff(moment(props.todo.date_end)) > 0 ? (
 									<>
-										<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
+										<div className={clsx('flex items-center px-8 border-grey py-4 rounded font-size-12')}>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
 											Start: {moment(props.todo.date_start).format('MMM Do YY')}
@@ -320,7 +322,7 @@ function TodoListItem(props) {
 										</div>
 										<div
 											className={clsx(
-												'flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12'
+												'flex items-center px-8 py-4 border-grey rounded font-size-12 ml-12'
 											)}
 										>
 											{/* <Icon className="text-16">access_time</Icon> */}
@@ -332,7 +334,7 @@ function TodoListItem(props) {
 								)
 							) : (
 								<>
-									<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
+									<div className={clsx('flex items-center px-8 py-4 border-grey rounded font-size-12')}>
 										{/* <Icon className="text-16">access_time</Icon> */}
 										{/* <span className="mx-4"> */}
 										Start: {moment(props.todo.date_start).format('MMM Do YY')}
@@ -340,7 +342,7 @@ function TodoListItem(props) {
 									</div>
 									<div
 										className={clsx(
-											'flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12'
+											'flex items-center px-8 py-4 border-grey rounded font-size-12 ml-12'
 										)}
 									>
 										{/* <Icon className="text-16">access_time</Icon> */}
@@ -363,7 +365,7 @@ function TodoListItem(props) {
 								position="relative"
 								display="inline-flex"
 							>
-								<CircularProgress color="secondary" variant="static" value={props.todo.progress} />
+								<CircularProgress className="w-70 h-70" color="secondary" variant="static" value={props.todo.progress} />
 								<Box
 									top={0}
 									left={0}
@@ -373,6 +375,7 @@ function TodoListItem(props) {
 									display="flex"
 									alignItems="center"
 									justifyContent="center"
+									
 								>
 									<Typography variant="caption" component="div" color="textSecondary">
 										{props.todo.progress}%
