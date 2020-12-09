@@ -30,7 +30,7 @@ const todosReducer = (state = initialState, action) => {
 
 			return {
 				...state,
-				[action.isGantt ?  'entities': 'todoEntities']: { ...action.payload },
+				[action.isGantt ? 'entities' : 'todoEntities']: { ...action.payload },
 				searchText: '',
 				routeParams: action.routeParams
 			};
@@ -38,7 +38,7 @@ const todosReducer = (state = initialState, action) => {
 		case Actions.UPDATE_TODOS: {
 			return {
 				...state,
-				[action.isGantt ?  'entities': 'todoEntities']: action.payload
+				[action.isGantt ? 'entities' : 'todoEntities']: action.payload
 			};
 		}
 		case Actions.OPEN_NEW_TODO_DIALOG: {
@@ -62,6 +62,18 @@ const todosReducer = (state = initialState, action) => {
 						open: true
 					},
 					data: action.data
+				}
+			};
+		}
+		case Actions.ADD_TASK_CONTENT_DATA: {
+			return {
+				...state,
+				taskContentDialog: {
+					...state.taskContentDialog,
+					data: {
+						...state.taskContentDialog.data,
+						...action.data
+					}
 				}
 			};
 		}
@@ -166,7 +178,7 @@ const todosReducer = (state = initialState, action) => {
 
 			return {
 				...state,
-				[action.isGantt ?  'entities': 'todoEntities']: {
+				[action.isGantt ? 'entities' : 'todoEntities']: {
 					...state.entities,
 					[todo.id]: { ...todo }
 				}

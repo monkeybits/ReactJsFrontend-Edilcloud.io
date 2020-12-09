@@ -22,6 +22,9 @@ import TaskContentDialog from './Dialog/TaskContentDialog';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import clsx from 'clsx';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { GET_TASK_BY_ID } from 'app/services/apiEndPoints';
+import { getHeaderToken } from 'app/services/serviceUtils';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -48,8 +51,19 @@ function TodoApp(props) {
 	useEffect(() => {
 		if (notificationPanel.viewing && notificationPanel.notificationData?.notification) {
 			let notification = notificationPanel.notificationData.notification;
-			if (notification.content_type === 'post') {
-				dispatch(Actions.openTaskContent({ id: notification.body.task_id }));
+			if (notification.content_type === 'post' || notification.content_type === 'comment') {
+				let id = notification.body.task_id;
+				dispatch(Actions.openTaskContent({ id }));
+				apiCall(
+					GET_TASK_BY_ID(id),
+					{},
+					res => {
+						dispatch(Actions.addTaskData(res));
+					},
+					err => console.log(err),
+					METHOD.GET,
+					getHeaderToken()
+				);
 			}
 		}
 	}, [notificationPanel.viewing]);

@@ -45,6 +45,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SendIcon from '@material-ui/icons/Send';
 import Menu from '@material-ui/core/Menu';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 const uuidv1 = require('uuid/v1');
 
 export default function CommentListItem({
@@ -56,6 +57,7 @@ export default function CommentListItem({
 	tempAuthor,
 	afterDeleteComment
 }) {
+	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 	const [open, setOpen] = React.useState(false);
 	const [images, setImages] = useState(null);
@@ -68,6 +70,29 @@ export default function CommentListItem({
 	const [offlineCommentReplies, setofflineCommentReplies] = useState({});
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == comment.id;
+	useEffect(() => {
+		if (
+			notificationPanel.notificationData?.notification?.content_type === 'comment' &&
+			comment &&
+			notificationPanel.notificationData?.notification.body.hasOwnProperty('comment_id') &&
+			notificationPanel.notificationData?.notification.body.comment_id == comment.id
+		) {
+			setOpen(true);
+		}
+	}, [notificationPanel.notificationData, comment]);
+	useEffect(() => {
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [comment]);
 	useEffect(() => {
 		setReplyComments(comment.replies_set);
 		return () => {
@@ -75,6 +100,21 @@ export default function CommentListItem({
 		};
 	}, [comment.replies_set]);
 	const options = ['Edit', 'Delete'];
+
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && notification?.content_type == 'comment' && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			scrollRef.current.scrollIntoView(false);
+			scrollRef.current.classList.add('bg-yellow-200');
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove('bg-yellow-200');
+				}
+			}, 5000);
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
+
 	const handlePostComment = e => {
 		e.preventDefault();
 		if (!text) return;
@@ -264,7 +304,10 @@ export default function CommentListItem({
 	const userInfo = decodeDataFromToken();
 	const getUserId = () => userInfo?.extra?.profile.id;
 	return (
-		<div key={comment.id}>
+		<div
+			key={comment.id}
+			ref={notificationPanel.notificationData?.notification?.object_id == comment.id ? scrollRef : null}
+		>
 			<ListItem className="px-0 items-start">
 				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12">
 					{' '}
@@ -383,7 +426,6 @@ export default function CommentListItem({
 					</Button>
 				</div>
 			) : (
-				
 				<div className="flex flex-wrap items-center ml-44">
 					<Button size="small" aria-label="Add to favorites">
 						<Icon className="text-13" color="action">
@@ -452,7 +494,6 @@ export default function CommentListItem({
 						</Icon>
 					</div>
 				</div>
-				
 			)}
 			{showReplies() && (
 				<Collapse in={open} timeout="auto" unmountOnExit>

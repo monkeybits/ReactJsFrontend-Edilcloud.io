@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
@@ -33,6 +33,7 @@ import { useParams } from 'react-router';
 import PostList from './PostList';
 import ToolbarMenu from './Dialog/toolbar/ToolbarMenu';
 import MenuItem from '@material-ui/core/MenuItem';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -143,10 +144,33 @@ function TodoListItem(props) {
 	const classes = useStyles(props);
 	const routeParams = useParams();
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [hasRender, setHasRender] = React.useState(false);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
-	const hasNotifcationOnThisItem =
-		notificationPanel.notificationData?.notification?.content_type === 'task' &&
-		notificationPanel.notificationData?.notification?.object_id == props.todo.id;
+	const scrollRef = useRef(null);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
+	useEffect(() => {
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [props.todo, hasNotifcationOnThisItem]);
+
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && notification?.content_type == 'task' && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			scrollRef.current.scrollIntoView(false);
+			scrollRef.current.classList.add('bg-yellow-200');
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove('bg-yellow-200');
+				}
+			}, 5000);
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -220,7 +244,7 @@ function TodoListItem(props) {
 	return (
 		<>
 			<Card
-				ref={hasNotifcationOnThisItem ? props.scrollRef : null}
+				ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				className={clsx(classes.card, 'w-full rounded-4 cursor-pointer border-1 shadow-none mb-16')}
 				onClick={() =>
 					getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''
@@ -269,8 +293,6 @@ function TodoListItem(props) {
 						<Typography className="MuiTypography-root todo-title truncate MuiTypography-body MuiTypography-colorInherit  mb-12">
 							Responsabile: Mandelli Roberto - Idraulico Specializzato
 						</Typography>
-						
-						
 						<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 							{props.companies.map((item, index) => {
 								return (
@@ -291,7 +313,11 @@ function TodoListItem(props) {
 							) : moment().diff(moment(props.todo.date_start)) > 0 ? (
 								moment().diff(moment(props.todo.date_end)) > 0 ? (
 									<>
-										<div className={clsx('flex items-center px-8 border-grey py-4 rounded font-size-12')}>
+										<div
+											className={clsx(
+												'flex items-center px-8 border-grey py-4 rounded font-size-12'
+											)}
+										>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
 											Start: {moment(props.todo.date_start).format('MMM Do YY')}
@@ -334,7 +360,9 @@ function TodoListItem(props) {
 								)
 							) : (
 								<>
-									<div className={clsx('flex items-center px-8 py-4 border-grey rounded font-size-12')}>
+									<div
+										className={clsx('flex items-center px-8 py-4 border-grey rounded font-size-12')}
+									>
 										{/* <Icon className="text-16">access_time</Icon> */}
 										{/* <span className="mx-4"> */}
 										Start: {moment(props.todo.date_start).format('MMM Do YY')}
@@ -365,7 +393,12 @@ function TodoListItem(props) {
 								position="relative"
 								display="inline-flex"
 							>
-								<CircularProgress className="w-70 h-70" color="secondary" variant="static" value={props.todo.progress} />
+								<CircularProgress
+									className="w-70 h-70"
+									color="secondary"
+									variant="static"
+									value={props.todo.progress}
+								/>
 								<Box
 									top={0}
 									left={0}
@@ -554,7 +587,6 @@ function TodoListItem(props) {
 							!!taskDetail.length &&
 							taskDetail.map(todo => (
 								<TodoActivityListItem
-									scrollRef={props.scrollRef}
 									{...props}
 									getDetailOfTask={getDetailOfTask}
 									task={props.todo}
