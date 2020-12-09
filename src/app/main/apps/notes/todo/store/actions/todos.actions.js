@@ -23,6 +23,7 @@ export const REMOVE_TODO = '[TODO APP] REMOVE TODO (PROJECT)';
 export const SET_SEARCH_TEXT = '[TODO APP] SET SEARCH TEXT (PROJECT)';
 export const OPEN_NEW_TODO_DIALOG = '[TODO APP] OPEN NEW TODO DIALOG (PROJECT)';
 export const OPEN_TASK_CONTENT_DIALOG = '[TODO APP] OPEN TASK CONTENT DIALOG (PROJECT)';
+export const ADD_TASK_CONTENT_DATA = '[TODO APP] ADD TASK CONTENT DATA (PROJECT)';
 export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG (PROJECT)';
 export const CLOSE_NEW_TODO_DIALOG = '[TODO APP] CLOSE NEW TODO DIALOG (PROJECT)';
 export const CLOSE_TASK_CONTENT_DIALOG = '[TODO APP] CLOSE TASK CONTENT DIALOG (PROJECT)';
@@ -124,6 +125,12 @@ export function updateTodo(todo) {
 export function openTaskContent(data) {
 	return {
 		type: OPEN_TASK_CONTENT_DIALOG,
+		data
+	};
+}
+export function addTaskData(data) {
+	return {
+		type: ADD_TASK_CONTENT_DATA,
 		data
 	};
 }

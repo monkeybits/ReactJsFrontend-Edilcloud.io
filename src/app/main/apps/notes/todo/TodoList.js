@@ -60,25 +60,27 @@ function TodoList(props) {
 	useEffect(() => {
 		handleDoFilter();
 	}, [activeFilterKey, company, usedKeys, todos]);
-	useEffect(() => {
-		// function scrolldiv() {
-		// 	var elem = document.getElementById("ele");
-		// 	elem.scrollIntoView();
-		// }
-		if (notificationPanel.viewing && scrollRef.current && todos) {
-			dispatch(Actions.resetAllFilters());
-			if (hasRenderd) {
-				dispatch(notificationActions.removeFrmViewNotification());
-				setTimeout(() => {
-					scrollRef.current.scrollIntoView();
-					scrollRef.current.classList.add('bg-yellow-200');
-					setTimeout(() => {
-						scrollRef.current.classList.remove('bg-yellow-200');
-					}, 5000);
-				}, 1000);
-			}
-		}
-	}, [notificationPanel.viewing, todos, scrollRef, hasRenderd]);
+
+	// useEffect(() => {
+	// 	// function scrolldiv() {
+	// 	// 	var elem = document.getElementById("ele");
+	// 	// 	elem.scrollIntoView();
+	// 	// }
+	// 	if (notificationPanel.viewing && scrollRef.current && todos) {
+	// 		dispatch(Actions.resetAllFilters());
+	// 		if (hasRenderd) {
+	// 			dispatch(notificationActions.removeFrmViewNotification());
+	// 			setTimeout(() => {
+	// 				scrollRef.current.scrollIntoView();
+	// 				scrollRef.current.classList.add('bg-yellow-200');
+	// 				setTimeout(() => {
+	// 					scrollRef.current.classList.remove('bg-yellow-200');
+	// 				}, 5000);
+	// 			}, 2000);
+	// 		}
+	// 	}
+	// }, [notificationPanel.viewing, todos, scrollRef, hasRenderd]);
+	
 	const handleDoFilter = () => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -381,14 +383,7 @@ function TodoList(props) {
 					</FuseAnimate>
 				) : (
 					filteredData.map((todo, index) => (
-						<TodoListItem
-							scrollRef={scrollRef}
-							{...props}
-							todo={todo}
-							key={todo.id}
-							index={index}
-							companies={companies}
-						/>
+						<TodoListItem {...props} todo={todo} key={todo.id} index={index} companies={companies} />
 					))
 				)}
 			</div>

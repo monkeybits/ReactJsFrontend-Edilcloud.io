@@ -101,9 +101,10 @@ export default function PostListItem({
 		}
 	}, [post.comment_set]);
 	useEffect(() => {
-		if (notificationPanel.viewing && hasRender && scrollRef.current) {
+		let notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && notification?.content_type=="post" && hasRender && scrollRef.current) {
 			dispatch(notificationActions.removeFrmViewNotification());
-			scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+			scrollRef.current.scrollIntoView(false);
 			scrollRef.current.classList.add('bg-yellow-200');
 			setTimeout(() => {
 				if (scrollRef.current) {

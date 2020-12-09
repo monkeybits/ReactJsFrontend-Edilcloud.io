@@ -57,33 +57,44 @@ function NotificationPanel(props) {
 	const classes = useStyles();
 	const [data, setData] = useState({
 		activities: [],
-		page: 1
+		page: 1,
+		last: 2,
+		hasMore: true
 	});
-
+	const [hasMore, setHasMore] = useState(true);
 	useEffect(() => {
 		// axios.get('/api/profile/timeline').then(res => {
 		// 	setData(res.data);
 		// });
-		setData({
-			activities: [],
-			page: 1
-		});
-		getNotification();
+		if (state) {
+			setData({
+				activities: [],
+				page: 1
+			});
+			getNotification();
+		}
 	}, [state]);
 	const getNotification = () => {
-		apiCall(
-			GET_ALL_NOTIFICATIONS(),
-			{},
-			res => {
-				console.log({ new_list: res });
-				setData(prev => ({
-					activities: [...prev.activities, ...res.results]
-				}));
-			},
-			err => {},
-			METHOD.GET,
-			getHeaderToken()
-		);
+		if (hasMore) {
+			setHasMore(false);
+			apiCall(
+				GET_ALL_NOTIFICATIONS(data.page),
+				{},
+				res => {
+					setData(prev => ({
+						...prev,
+						activities: [...prev.activities, ...res.results],
+						page: prev.page + 1
+					}));
+					if (res.last > data.page) {
+						setHasMore(true);
+					}
+				},
+				err => {},
+				METHOD.GET,
+				getHeaderToken()
+			);
+		}
 	};
 	// if (!data.activities.length) {
 	// 	return null;
@@ -135,13 +146,14 @@ function NotificationPanel(props) {
 
 									// pageStart={0}
 									loadMore={getNotification}
-									hasMore={true}
+									hasMore={hasMore}
 									loader={
 										<div className="loader" key={0}>
 											Loading ...
 										</div>
 									}
-
+									// initialLoad={false}
+									useWindow={false}
 									// below props only if you need pull down functionality
 									// refreshFunction={this.refresh}
 									// pullDownToRefresh

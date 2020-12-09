@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
@@ -28,6 +28,7 @@ import ToolbarMenu from './Dialog/toolbar/ToolbarMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	todoItem: {
@@ -55,10 +56,42 @@ function TodoActivityListItem(props) {
 	const [members, setMembers] = useState([]);
 	const [inviteMembers, setInviteMembers] = useState([]);
 	const [checkedAll, setCheckedAll] = useState(false);
+	const [hasRender, setHasRender] = React.useState(false);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
-	const hasNotifcationOnThisItem =
-		notificationPanel.notificationData?.notification?.content_type === 'activity' &&
-		notificationPanel.notificationData?.notification?.object_id == props.todo.id;
+	const scrollRef = useRef(null);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
+	useEffect(() => {
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [props.todo, hasNotifcationOnThisItem]);
+
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (
+			notificationPanel.viewing &&
+			notification?.content_type == 'activity' &&
+			notification.body.hasOwnProperty('task_id') &&
+			hasRender &&
+			scrollRef.current
+		) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			scrollRef.current.scrollIntoView({
+				block: 'center'
+			});
+			scrollRef.current.classList.add('bg-yellow-200');
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove('bg-yellow-200');
+				}
+			}, 5000);
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
+
 	useEffect(() => {
 		setMembers(props.todo.workers_in_activity);
 	}, [props.todo.workers_in_activity]);
@@ -204,7 +237,7 @@ function TodoActivityListItem(props) {
 	return (
 		<>
 			<ListItem
-				ref={hasNotifcationOnThisItem ? props.scrollRef : null}
+				ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				id={props.todo.id}
 				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-8 px-0 sm:px-8')}
 				checked={completed}
