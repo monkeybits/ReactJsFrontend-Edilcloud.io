@@ -1,9 +1,9 @@
 import * as Actions from '../actions';
 
-const foldersReducer = (state = [], action) => {
+const foldersReducer = (state = {}, action) => {
 	switch (action.type) {
 		case Actions.GET_SETTINGS:
-			return [...action.payload];
+			return { ...state, ...action.payload };
 		default:
 			return state;
 	}

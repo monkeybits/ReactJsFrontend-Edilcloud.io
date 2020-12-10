@@ -13,10 +13,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import { Switch } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
+import { apiCall } from 'app/services/baseUrl';
 
 function TodoList(props) {
-	const user = useSelector(({ auth }) => auth.user.data.company);
-
+	const setting = useSelector(({ SettingApp }) => SettingApp.setting);
+	// const changeSetting=()=>{
+	// 	apiCall
+	// }
 	return (
 		// <List className="p-0">
 		<FuseAnimateGroup
@@ -29,12 +34,29 @@ function TodoList(props) {
 
 				<h3>Notifications</h3>
 				<List>
-					{user?.preference?.notification &&
-						user.preference.notification.bell.typology.map((item, index) => (
-							<ListItem key={index} className="px-12">
-								{item.name}
+					{setting?.notification && (
+						<>
+							<ListItem key="Bell" className="px-12">
+								Bell
+								<Switch
+									checked={true}
+									name="checkedA"
+									inputProps={{ 'aria-label': 'secondary checkbox' }}
+								/>
 							</ListItem>
-						))}
+							<Divider />
+							{setting.notification.bell.typology.map((item, index) => (
+								<ListItem key={index} className="px-12">
+									{item.name}
+									<Switch
+										checked={true}
+										name="checkedA"
+										inputProps={{ 'aria-label': 'secondary checkbox' }}
+									/>
+								</ListItem>
+							))}
+						</>
+					)}
 				</List>
 			</div>
 		</FuseAnimateGroup>

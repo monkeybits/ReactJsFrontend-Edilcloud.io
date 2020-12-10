@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import folders from './folders.reducer';
+import setting from './setting.reducer';
 
 const reducer = combineReducers({
-	folders,
+	setting,
 });
 
 export default reducer;

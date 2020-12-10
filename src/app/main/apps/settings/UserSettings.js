@@ -13,16 +13,14 @@ import TodoList from './TodoList';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 
 function SettingApp() {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
 	const pageLayout = useRef(null);
 	// const routeParams = useParams();
 
-	// useEffect(() => {
-	// 	// dispatch(Actions.getFilters());
-	// 	// dispatch(Actions.getFolders());
-	// 	// dispatch(Actions.getLabels());
-	// }, [dispatch]);
+	useEffect(() => {
+		dispatch(Actions.getSettings());
+	}, []);
 
 	// useDeepCompareEffect(() => {
 	// 	dispatch(Actions.getTodos(routeParams));
