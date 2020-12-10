@@ -124,3 +124,4 @@ export const EXPORT_DATA = pid => `/api/frontend/project/project/${pid}/export/`
 export const GET_ALL_NOTIFICATIONS = page => `/api/frontend/notify/notification/recipient/new_list/?page=${page}`;
 export const GET_TASK_BY_ID = tid => `/api/frontend/project/task/${tid}`;
 export const GET_SETTINGS_PREFERENCES = `/api/frontend/profile/preference/detail`;
+export const UPDATE_SETTINGS_PREFERENCES = `/api/frontend/profile/preference/edit/`;

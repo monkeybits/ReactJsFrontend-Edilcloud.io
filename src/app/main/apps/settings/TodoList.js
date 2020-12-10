@@ -1,11 +1,11 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import FuseUtils from '@fuse/utils';
+import SettingListItem from './SettingListItem';
 import _ from '@lodash';
 import Typography from '@material-ui/core/Typography';
-import { decodeDataFromToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,14 +13,32 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import { Grid, Switch } from '@material-ui/core';
+import { Button, Grid, Switch } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { UPDATE_SETTINGS_PREFERENCES } from 'app/services/apiEndPoints';
+import { toast } from 'react-toastify';
+import * as Actions from './store/actions';
 
 function TodoList(props) {
+	const dispatch = useDispatch();
 	const setting = useSelector(({ SettingApp }) => SettingApp.setting);
-	// const changeSetting=()=>{
-	// 	apiCall
-	// }
+	const changeSetting = () => {
+		apiCall(
+			UPDATE_SETTINGS_PREFERENCES,
+			{ ...setting },
+			res => {
+				console.log(res);
+				toast.success('Updated');
+			},
+			err => {
+				console.log(err);
+				toast.error('try again after sometime..');
+			},
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
 	return (
 		// <List className="p-0">
 		<FuseAnimateGroup
@@ -29,50 +47,38 @@ function TodoList(props) {
 			}}
 		>
 			<div>
-				<Typography variant="h4" component="h2" gutterBottom>
-					Setting
-      			</Typography>
-				  <Typography variant="h6" component="h2" gutterBottom>
-				  Notifications
-      			</Typography>
+				<div className="flex justify-between mr-24">
+					<Typography variant="h4" component="h2" gutterBottom>
+						Setting
+					</Typography>
+					{setting?.notification && (
+						<Button color="secondary" onClick={changeSetting}>
+							Save
+						</Button>
+					)}
+				</div>
 
-				
-				{console.log({ setting })}
+				<Typography variant="h6" component="h2" gutterBottom>
+					Notifications
+				</Typography>
 				<Grid container spacing={5}>
 					<Grid item xs={12} sm={6}>
 						<List>
 							{setting?.notification && (
 								<>
 									<ListItem key="Bell" className="px-12">
-										<ListItemText className="setting-label-main">
-											Bell
-										</ListItemText>
+										<ListItemText className="setting-label-main">Bell</ListItemText>
 										<ListItemSecondaryAction>
 											<Switch
-												checked={true}
-												name="checkedA"
-												inputProps={{ 'aria-label': 'secondary checkbox' }}
+												onChange={e =>
+													dispatch(Actions.updateFullArray(e.target.checked, false))
+												}
 											/>
 										</ListItemSecondaryAction>
 									</ListItem>
 									<Divider />
 									{setting.notification.bell.typology.map((item, index) => (
-										<div>
-											<ListItem key={index} className="px-24">
-												<ListItemText className="setting-label">
-													{item.name}
-												</ListItemText>
-												<ListItemSecondaryAction>
-													<Switch
-														checked={true}
-														name="checkedA"
-														inputProps={{ 'aria-label': 'secondary checkbox' }}
-													/>
-												</ListItemSecondaryAction>
-
-											</ListItem>
-											<Divider />
-										</div>
+										<SettingListItem item={item} index={index} isEmail={false} />
 									))}
 								</>
 							)}
@@ -83,35 +89,18 @@ function TodoList(props) {
 							{setting.notification && (
 								<>
 									<ListItem key="Bell" className="px-12">
-										<ListItemText className="setting-label-main">
-											Email
-										</ListItemText>
+										<ListItemText className="setting-label-main">Email</ListItemText>
 										<ListItemSecondaryAction>
 											<Switch
-												checked={true}
-												name="checkedA"
-												inputProps={{ 'aria-label': 'secondary checkbox' }}
+												onChange={e =>
+													dispatch(Actions.updateFullArray(e.target.checked, true))
+												}
 											/>
 										</ListItemSecondaryAction>
 									</ListItem>
 									<Divider />
-									{setting.notification.bell.typology.map((item, index) => (
-										<div>
-											<ListItem key={index} className="px-24">
-												<ListItemText className="setting-label">
-													{item.name}
-												</ListItemText>
-												<ListItemSecondaryAction>
-													<Switch
-														checked={true}
-														name="checkedA"
-														inputProps={{ 'aria-label': 'secondary checkbox' }}
-													/>
-												</ListItemSecondaryAction>
-
-											</ListItem>
-											<Divider />
-										</div>
+									{setting.notification.email.typology.map((item, index) => (
+										<SettingListItem item={item} index={index} isEmail />
 									))}
 								</>
 							)}
