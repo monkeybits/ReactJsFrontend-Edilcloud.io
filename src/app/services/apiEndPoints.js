@@ -50,9 +50,9 @@ export const VIDEO_LIST = cid => `/api/frontend/profile/company/company_video_li
 export const VIDEO_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/video_list/`;
 export const FOLDER_LIST = cid => `/api/frontend/media/folder/company/${cid}/list/`;
 export const FOLDER_LIST_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/list/`;
-export const DOWNLOAD_PHOTO = did => `/api/frontend/media/photo/download/${did}`;
-export const DOWNLOAD_VIDEO = did => `/api/frontend/media/video/download/${did}`;
-export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/download/${did}`;
+export const DOWNLOAD_PHOTO = did => `/api/frontend/media/photo/download/${did}/`;
+export const DOWNLOAD_VIDEO = did => `/api/frontend/media/video/download/${did}/`;
+export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/download/${did}/`;
 
 export const PHOTO_DELETE = pid => `/api/frontend/media/photo/delete/${pid}/`;
 export const VIDEO_DELETE = vid => `/api/frontend/media/video/delete/${vid}/ `;
