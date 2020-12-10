@@ -2,8 +2,8 @@ import { Button, Grid } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import { getCompressFile } from 'app/services/serviceUtils';
-import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import Icon from '@material-ui/core/Icon';
 import Menu from '@material-ui/core/Menu';
@@ -13,6 +13,9 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import FuseUtils from '@fuse/utils';
+
 export default function ContactCard({
 	id,
 	name,
@@ -42,6 +45,27 @@ export default function ContactCard({
 		file: undefined,
 		imagePreviewUrl: undefined
 	});
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == id;
+	useEffect(() => {
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [id, hasNotifcationOnThisItem]);
+
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && notification?.content_type == 'team' && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			FuseUtils.notificationBackrondColor(scrollRef,'custom-notification-bg');
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
 	const getPhoto = fileData => {
 		let reader = new FileReader();
 
@@ -90,8 +114,16 @@ export default function ContactCard({
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3}>
-			<div class="card-container flex flex-col px-10 text-13">
+		<Grid
+			
+			className="px-6 mb-20"
+			item
+			xs={6}
+			sm={6}
+			md={3}
+			xl={3}
+		>
+			<div ref={notificationPanel.notificationData?.notification?.object_id == id ? scrollRef : null} class="card-container flex flex-col px-10 text-13">
 				<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				<div className="team-action">
 					<IconButton

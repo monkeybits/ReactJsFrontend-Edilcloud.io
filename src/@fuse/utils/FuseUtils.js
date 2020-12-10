@@ -175,7 +175,17 @@ class FuseUtils {
 		});
 		return allRoutes;
 	}
-
+	static notificationBackrondColor(scrollRef, className = 'bg-yellow-200') {
+		if (scrollRef.current) {
+			scrollRef.current.scrollIntoView(false);
+			scrollRef.current.classList.add(className);
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove(className);
+				}
+			}, 5000);
+		}
+	}
 	static findById(obj, id) {
 		let i;
 		let childObj;

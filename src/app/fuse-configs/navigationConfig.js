@@ -119,7 +119,7 @@ const navigationConfig = [
 				translate: 'General Settings',
 				type: 'item',
 				icon: 'settings',
-				url: 'muzz',
+				url: '/apps/settings',
 				
 			},
 		

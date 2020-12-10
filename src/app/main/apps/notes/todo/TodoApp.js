@@ -52,18 +52,23 @@ function TodoApp(props) {
 		if (notificationPanel.viewing && notificationPanel.notificationData?.notification) {
 			let notification = notificationPanel.notificationData.notification;
 			if (notification.content_type === 'post' || notification.content_type === 'comment') {
-				let id = notification.body.task_id;
-				dispatch(Actions.openTaskContent({ id }));
-				apiCall(
-					GET_TASK_BY_ID(id),
-					{},
-					res => {
-						dispatch(Actions.addTaskData(res));
-					},
-					err => console.log(err),
-					METHOD.GET,
-					getHeaderToken()
-				);
+				if (notification.body.hasOwnProperty('task_id')) {
+					let id = notification.body.task_id;
+					dispatch(Actions.openTaskContent({ id }));
+					apiCall(
+						GET_TASK_BY_ID(id),
+						{},
+						res => {
+							dispatch(Actions.addTaskData(res));
+						},
+						err => console.log(err),
+						METHOD.GET,
+						getHeaderToken()
+					);
+				} else {
+					let id = notification.body.activity_id;
+					dispatch(Actions.openTimelineDialog({ todo: { id }, task: {} }));
+				}
 			}
 		}
 	}, [notificationPanel.viewing]);

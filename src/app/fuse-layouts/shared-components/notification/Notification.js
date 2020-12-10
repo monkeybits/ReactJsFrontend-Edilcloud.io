@@ -43,12 +43,24 @@ import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import InfiniteScroll from 'react-infinite-scroller';
+// import InfiniteScroll from 'react-infinite-scroller';
+
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: 450
-	}
+	},
+	top: {
+		color: '#192d3e',
+		animationDuration: '550ms',
+		position: 'absolute',
+		left: '50%',
+	},
+	circle: {
+		strokeLinecap: 'round',
+	},
 }));
 
 function NotificationPanel(props) {
@@ -62,21 +74,31 @@ function NotificationPanel(props) {
 		hasMore: true
 	});
 	const [hasMore, setHasMore] = useState(true);
+	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		// axios.get('/api/profile/timeline').then(res => {
 		// 	setData(res.data);
 		// });
-		if (state) {
+		if (state === true) {
 			setData({
 				activities: [],
 				page: 1
 			});
 			getNotification();
 		}
+		return () => {
+			setData({
+				activities: [],
+				page: 1
+			});
+			setLoading(true);
+			setHasMore(true);
+		};
 	}, [state]);
 	const getNotification = () => {
 		if (hasMore) {
 			setHasMore(false);
+			setLoading(true);
 			apiCall(
 				GET_ALL_NOTIFICATIONS(data.page),
 				{},
@@ -86,11 +108,14 @@ function NotificationPanel(props) {
 						activities: [...prev.activities, ...res.results],
 						page: prev.page + 1
 					}));
+					setLoading(false);
 					if (res.last > data.page) {
 						setHasMore(true);
 					}
 				},
-				err => {},
+				err => {
+					setLoading(false);
+				},
 				METHOD.GET,
 				getHeaderToken()
 			);
@@ -133,93 +158,93 @@ function NotificationPanel(props) {
 						</AppBar>
 						<CardContent className="p-0">
 							<List>
-								<InfiniteScroll
-									// dataLength={data.activities.length} //This is important field to render the next data
-									// next={getNotification}
-									// hasMore={true}
-									// loader={<h4>Loading...</h4>}
-									// endMessage={
-									// 	<p style={{ textAlign: 'center' }}>
-									// 		<b>Yay! You have seen it all</b>
-									// 	</p>
-									// }
+								{data.activities.map(activity => {
+									const { notification } = activity;
 
-									// pageStart={0}
-									loadMore={getNotification}
-									hasMore={hasMore}
-									loader={
-										<div className="loader" key={0}>
-											Loading ...
-										</div>
-									}
-									// initialLoad={false}
-									useWindow={false}
-									// below props only if you need pull down functionality
-									// refreshFunction={this.refresh}
-									// pullDownToRefresh
-									// pullDownToRefreshThreshold={50}
-									// pullDownToRefreshContent={
-									// 	<h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-									// }
-									// releaseToRefreshContent={
-									// 	<h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-									// }
-								>
-									{data.activities.map(activity => {
-										const { notification } = activity;
+									return (
+										<ListItem key={activity.id} className="px-12">
+											<Avatar
+												className="mx-4"
+												alt={notification.sender.first_name}
+												src={notification.sender.photo}
+											/>
+											<ListItemText
+												className="flex-1 mx-4"
+												primary={
+													<>
+														<div className="flex">
+															<Typography
+																className="font-medium whitespace-no-wrap"
+																color="primary"
+																paragraph={false}
+															>
+																{notification.sender.first_name}{' '}
+																{notification.sender.last_name}
+															</Typography>
 
-										return (
-											<ListItem key={activity.id} className="px-12">
-												<Avatar
-													className="mx-4"
-													alt={notification.sender.first_name}
-													src={notification.sender.photo}
-												/>
-												<ListItemText
-													className="flex-1 mx-4"
-													primary={
-														<>
+															<Typography
+																color="textSecondary"
+																className="px-4 truncate"
+																paragraph={false}
+															>
+																{notification.subject}
+															</Typography>
+														</div>
+														{notification.body?.url && (
 															<div className="flex">
-																<Typography
-																	className="font-medium whitespace-no-wrap"
-																	color="primary"
-																	paragraph={false}
+																<Link
+																	onClick={() => {
+																		dispatch(Actions.toggleNotification());
+																		dispatch(Actions.addNotificationData(activity));
+																	}}
+																	to={notification.body.url}
 																>
-																	{notification.sender.first_name}{' '}
-																	{notification.sender.last_name}
-																</Typography>
-
-																<Typography
-																	color="textSecondary"
-																	className="px-4 truncate"
-																	paragraph={false}
-																>
-																	{notification.subject}
-																</Typography>
+																	{notification.body.content}
+																</Link>
 															</div>
-															{notification.body?.url && (
-																<div className="flex">
-																	<Link
-																		onClick={() => {
-																			dispatch(Actions.toggleNotification());
-																			dispatch(
-																				Actions.addNotificationData(activity)
-																			);
-																		}}
-																		to={notification.body.url}
-																	>
-																		{notification.body.content}
-																	</Link>
-																</div>
-															)}
-														</>
-													}
-													secondary={moment(notification.date_create).endOf('day').fromNow()}
-												/>
-											</ListItem>
-										);
-									})}
-								</InfiniteScroll>
+														)}
+													</>
+												}
+												secondary={moment(notification.date_create).endOf('day').fromNow()}
+											/>
+										</ListItem>
+									);
+								})}
+								<ListItem key="seeMore" className="px-12" onClick={getNotification}>
+									<ListItemText
+										className="flex-1 mx-4"
+										primary={
+											<div className="flex" style={{justifyContent:'center'}}>
+												{loading ? (
+													
+													<CircularProgress
+														variant="indeterminate"
+														disableShrink
+														className={classes.top}
+														classes={{
+															circle: classes.circle,
+														}}
+														size={40}
+														thickness={4}
+														{...props}
+														display="flex"
+														justifyContent="center"
+													/>
+												) : (
+														hasMore && (
+															
+															<Button variant="outlined" color="secondary"
+																paragraph={false}
+																display="flex"
+																justifyContent="center">
+																See More
+															</Button>
+														)
+													)}
+											</div>
+										}
+									/>
+								</ListItem>
 							</List>
 						</CardContent>
 					</Card>
