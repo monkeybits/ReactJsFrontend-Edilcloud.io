@@ -43,12 +43,24 @@ import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import InfiniteScroll from 'react-infinite-scroller';
+// import InfiniteScroll from 'react-infinite-scroller';
+
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: 450
-	}
+	},
+	top: {
+		color: '#192d3e',
+		animationDuration: '550ms',
+		position: 'absolute',
+		left: '50%',
+	},
+	circle: {
+		strokeLinecap: 'round',
+	},
 }));
 
 function NotificationPanel(props) {
@@ -202,26 +214,33 @@ function NotificationPanel(props) {
 									<ListItemText
 										className="flex-1 mx-4"
 										primary={
-											<div className="flex">
+											<div className="flex" style={{justifyContent:'center'}}>
 												{loading ? (
-													<Typography
-														className="font-medium whitespace-no-wrap"
-														color="primary"
-														paragraph={false}
-													>
-														Loading...
-													</Typography>
+													
+													<CircularProgress
+														variant="indeterminate"
+														disableShrink
+														className={classes.top}
+														classes={{
+															circle: classes.circle,
+														}}
+														size={40}
+														thickness={4}
+														{...props}
+														display="flex"
+														justifyContent="center"
+													/>
 												) : (
-													hasMore && (
-														<Typography
-															className="font-medium whitespace-no-wrap"
-															color="primary"
-															paragraph={false}
-														>
-															See More
-														</Typography>
-													)
-												)}
+														hasMore && (
+															
+															<Button variant="outlined" color="secondary"
+																paragraph={false}
+																display="flex"
+																justifyContent="center">
+																See More
+															</Button>
+														)
+													)}
 											</div>
 										}
 									/>

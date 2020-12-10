@@ -63,7 +63,7 @@ export default function ContactCard({
 		let notification = notificationPanel.notificationData?.notification;
 		if (notificationPanel.viewing && notification?.content_type == 'team' && hasRender && scrollRef.current) {
 			dispatch(notificationActions.removeFrmViewNotification());
-			FuseUtils.notificationBackrondColor(scrollRef);
+			FuseUtils.notificationBackrondColor(scrollRef,'custom-notification-bg');
 		}
 	}, [notificationPanel.viewing, scrollRef, hasRender]);
 	const getPhoto = fileData => {
@@ -115,7 +115,7 @@ export default function ContactCard({
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
 		<Grid
-			ref={notificationPanel.notificationData?.notification?.object_id == id ? scrollRef : null}
+			
 			className="px-6 mb-20"
 			item
 			xs={6}
@@ -123,7 +123,7 @@ export default function ContactCard({
 			md={3}
 			xl={3}
 		>
-			<div class="card-container flex flex-col px-10 text-13">
+			<div ref={notificationPanel.notificationData?.notification?.object_id == id ? scrollRef : null} class="card-container flex flex-col px-10 text-13">
 				<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				<div className="team-action">
 					<IconButton
