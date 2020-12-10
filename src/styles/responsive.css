@@ -279,8 +279,12 @@
         padding-bottom: 0px;
     }
     .chat-tab-content-height .inner-height {
-        padding-bottom: 80px;
+        padding-bottom: 0px;
     }
+    .chat-box{
+        /* height: calc(100vh - 125px ); */
+    }
+    
 }
 
 @media only screen and (max-width: 480px) {

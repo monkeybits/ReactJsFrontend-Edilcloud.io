@@ -149,6 +149,7 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 					}}
 					showLabels
 					className={classes.root}
+					
 				>
 					<BottomNavigationAction label="Team" icon={<Icon>people</Icon>} {...a11yProps(0)} />
 					<BottomNavigationAction label="Chat" icon={<Icon>message</Icon>} {...a11yProps(1)} />

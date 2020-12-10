@@ -110,6 +110,7 @@ export default function SendMessageForm(props) {
 	function onInputChange(ev) {
 		setMessageText(ev.target.value);
 	}
+	
 
 	function onMessageSubmit(ev) {
 		ev.preventDefault();
@@ -207,6 +208,7 @@ export default function SendMessageForm(props) {
 					}}
 					onChange={onInputChange}
 					value={messageText}
+					
 				/>
 				<AudioRecord afterRecordComplete={addAudio} ref={audioRef} sendDirectToChat={sendAudioDirectToChat} />
 				<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
