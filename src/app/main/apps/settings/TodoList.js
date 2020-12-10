@@ -13,9 +13,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import { Switch } from '@material-ui/core';
+import { Grid, Switch } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import { apiCall } from 'app/services/baseUrl';
 
 function TodoList(props) {
 	const setting = useSelector(({ SettingApp }) => SettingApp.setting);
@@ -30,34 +29,95 @@ function TodoList(props) {
 			}}
 		>
 			<div>
-				<h2>Settings</h2>
+				<Typography variant="h4" component="h2" gutterBottom>
+					Setting
+      			</Typography>
+				  <Typography variant="h6" component="h2" gutterBottom>
+				  Notifications
+      			</Typography>
 
-				<h3>Notifications</h3>
-				<List>
-					{setting?.notification && (
-						<>
-							<ListItem key="Bell" className="px-12">
-								Bell
-								<Switch
-									checked={true}
-									name="checkedA"
-									inputProps={{ 'aria-label': 'secondary checkbox' }}
-								/>
-							</ListItem>
-							<Divider />
-							{setting.notification.bell.typology.map((item, index) => (
-								<ListItem key={index} className="px-12">
-									{item.name}
-									<Switch
-										checked={true}
-										name="checkedA"
-										inputProps={{ 'aria-label': 'secondary checkbox' }}
-									/>
-								</ListItem>
-							))}
-						</>
-					)}
-				</List>
+				
+				{console.log({ setting })}
+				<Grid container spacing={5}>
+					<Grid item xs={12} sm={6}>
+						<List>
+							{setting?.notification && (
+								<>
+									<ListItem key="Bell" className="px-12">
+										<ListItemText className="setting-label-main">
+											Bell
+										</ListItemText>
+										<ListItemSecondaryAction>
+											<Switch
+												checked={true}
+												name="checkedA"
+												inputProps={{ 'aria-label': 'secondary checkbox' }}
+											/>
+										</ListItemSecondaryAction>
+									</ListItem>
+									<Divider />
+									{setting.notification.bell.typology.map((item, index) => (
+										<div>
+											<ListItem key={index} className="px-24">
+												<ListItemText className="setting-label">
+													{item.name}
+												</ListItemText>
+												<ListItemSecondaryAction>
+													<Switch
+														checked={true}
+														name="checkedA"
+														inputProps={{ 'aria-label': 'secondary checkbox' }}
+													/>
+												</ListItemSecondaryAction>
+
+											</ListItem>
+											<Divider />
+										</div>
+									))}
+								</>
+							)}
+						</List>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<List>
+							{setting.notification && (
+								<>
+									<ListItem key="Bell" className="px-12">
+										<ListItemText className="setting-label-main">
+											Email
+										</ListItemText>
+										<ListItemSecondaryAction>
+											<Switch
+												checked={true}
+												name="checkedA"
+												inputProps={{ 'aria-label': 'secondary checkbox' }}
+											/>
+										</ListItemSecondaryAction>
+									</ListItem>
+									<Divider />
+									{setting.notification.bell.typology.map((item, index) => (
+										<div>
+											<ListItem key={index} className="px-24">
+												<ListItemText className="setting-label">
+													{item.name}
+												</ListItemText>
+												<ListItemSecondaryAction>
+													<Switch
+														checked={true}
+														name="checkedA"
+														inputProps={{ 'aria-label': 'secondary checkbox' }}
+													/>
+												</ListItemSecondaryAction>
+
+											</ListItem>
+											<Divider />
+										</div>
+									))}
+								</>
+							)}
+						</List>
+					</Grid>
+				</Grid>
 			</div>
 		</FuseAnimateGroup>
 		// </List>
