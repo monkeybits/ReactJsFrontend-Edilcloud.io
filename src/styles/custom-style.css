@@ -1669,3 +1669,11 @@ audio {
 .custom-notification-bg{
     background-color: #FFF59D !important;
 }
+
+
+.setting-label-main span {
+    font-size: 22px;
+}
+.setting-label span {
+    font-size: 18px;
+}
