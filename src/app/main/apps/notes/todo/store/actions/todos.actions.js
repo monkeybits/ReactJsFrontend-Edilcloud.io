@@ -25,6 +25,7 @@ export const OPEN_NEW_TODO_DIALOG = '[TODO APP] OPEN NEW TODO DIALOG (PROJECT)';
 export const OPEN_TASK_CONTENT_DIALOG = '[TODO APP] OPEN TASK CONTENT DIALOG (PROJECT)';
 export const ADD_TASK_CONTENT_DATA = '[TODO APP] ADD TASK CONTENT DATA (PROJECT)';
 export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG (PROJECT)';
+export const ADD_TIMELINE_DATA = '[TODO APP] ADD TIMELINE DATA (PROJECT)';
 export const CLOSE_NEW_TODO_DIALOG = '[TODO APP] CLOSE NEW TODO DIALOG (PROJECT)';
 export const CLOSE_TASK_CONTENT_DIALOG = '[TODO APP] CLOSE TASK CONTENT DIALOG (PROJECT)';
 export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG (PROJECT)';
@@ -153,6 +154,12 @@ export function openNewTodoDialog(data) {
 export function openTimelineDialog(todo) {
 	return {
 		type: OPEN_TIMELINE_DIALOG,
+		todo
+	};
+}
+export function addTimelineData(todo) {
+	return {
+		type: ADD_TIMELINE_DATA,
 		todo
 	};
 }

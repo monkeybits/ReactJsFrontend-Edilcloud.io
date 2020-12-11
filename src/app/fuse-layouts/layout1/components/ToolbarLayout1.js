@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
 import clsx from 'clsx';
 import { Icon, IconButton } from '@material-ui/core';
+import NotificationWebSocket from 'app/NotificationWebSocket';
 
 const useStyles = makeStyles(theme => ({
 	separator: {
@@ -27,6 +28,7 @@ function ToolbarLayout1(props) {
 	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
 	const toolbarTheme = useSelector(({ fuse }) => fuse.settings.toolbarTheme);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
+	const count = useSelector(({ notificationPanel }) => notificationPanel.count);
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const [totalCount, setTotalCount] = useState(0);
 
@@ -93,8 +95,9 @@ function ToolbarLayout1(props) {
 						<LanguageSwitcher />
 
 						<div className={clsx(classes.separator, 'custom-separator')} />
-						<NotificationToggleButton />
-						
+						<NotificationWebSocket>
+							<NotificationToggleButton totalCount={count} />
+						</NotificationWebSocket>
 						<div className={clsx(classes.separator, 'custom-separator')} />
 
 						<QuickPanelToggleButton>

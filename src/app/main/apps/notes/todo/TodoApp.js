@@ -23,7 +23,7 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
 import clsx from 'clsx';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { GET_TASK_BY_ID } from 'app/services/apiEndPoints';
+import { GET_TASK_BY_ID, GET_ACTIVITY_BY_ID } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
 const useStyles = makeStyles({
@@ -52,23 +52,45 @@ function TodoApp(props) {
 		if (notificationPanel.viewing && notificationPanel.notificationData?.notification) {
 			let notification = notificationPanel.notificationData.notification;
 			if (notification.content_type === 'post' || notification.content_type === 'comment') {
-				if (notification.body.hasOwnProperty('task_id')) {
-					let id = notification.body.task_id;
-					dispatch(Actions.openTaskContent({ id }));
+				let task_id = notification.body.task_id;
+				if (notification.body.hasOwnProperty('activity_id')) {
+					let activity_id = notification.body.activity_id;
+					dispatch(Actions.openTimelineDialog({ todo: { id: activity_id }, task: {} }));
 					apiCall(
-						GET_TASK_BY_ID(id),
+						GET_ACTIVITY_BY_ID(activity_id),
 						{},
 						res => {
-							dispatch(Actions.addTaskData(res));
+							dispatch(
+								Actions.addTimelineData({
+									todo: { id: activity_id, ...res }
+								})
+							);
 						},
 						err => console.log(err),
 						METHOD.GET,
 						getHeaderToken()
 					);
 				} else {
-					let id = notification.body.activity_id;
-					dispatch(Actions.openTimelineDialog({ todo: { id }, task: {} }));
+					dispatch(Actions.openTaskContent({ id: task_id }));
 				}
+				apiCall(
+					GET_TASK_BY_ID(task_id),
+					{},
+					res => {
+						if (notification.body.hasOwnProperty('activity_id')) {
+							dispatch(
+								Actions.addTimelineData({
+									task: { id: task_id, ...res }
+								})
+							);
+						} else {
+							dispatch(Actions.addTaskData(res));
+						}
+					},
+					err => console.log(err),
+					METHOD.GET,
+					getHeaderToken()
+				);
 			}
 		}
 	}, [notificationPanel.viewing]);
