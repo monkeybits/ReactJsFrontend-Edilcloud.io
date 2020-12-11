@@ -44,7 +44,9 @@ import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 // import InfiniteScroll from 'react-infinite-scroller';
-
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { SwipeableList, SwipeableListItem, ActionAnimations } from '@sandstreamdev/react-swipeable-list';
+import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -56,45 +58,51 @@ const useStyles = makeStyles(theme => ({
 		color: '#192d3e',
 		animationDuration: '550ms',
 		position: 'absolute',
-		left: '50%',
+		left: '50%'
 	},
 	circle: {
-		strokeLinecap: 'round',
-	},
+		strokeLinecap: 'round'
+	}
 }));
 
 function NotificationPanel(props) {
 	const dispatch = useDispatch();
 	const state = useSelector(({ notificationPanel }) => notificationPanel.state);
+	const notifications = useSelector(({ notificationPanel }) => notificationPanel.notifications);
 	const classes = useStyles();
 	const [data, setData] = useState({
-		activities: [],
 		page: 1,
 		last: 2,
 		hasMore: true
 	});
 	const [hasMore, setHasMore] = useState(true);
 	const [loading, setLoading] = useState(true);
+	const [, updateState] = React.useState();
+	const forceUpdate = React.useCallback(() => updateState({}), []);
 	useEffect(() => {
 		// axios.get('/api/profile/timeline').then(res => {
 		// 	setData(res.data);
 		// });
 		if (state === true) {
 			setData({
-				activities: [],
 				page: 1
 			});
+			dispatch(Actions.getNotificationData([]));
+
 			getNotification();
 		}
 		return () => {
 			setData({
-				activities: [],
 				page: 1
 			});
+			dispatch(Actions.getNotificationData([]));
 			setLoading(true);
 			setHasMore(true);
 		};
 	}, [state]);
+	useEffect(() => {
+		dispatch(Actions.getNotificationCount());
+	}, []);
 	const getNotification = () => {
 		if (hasMore) {
 			setHasMore(false);
@@ -105,9 +113,9 @@ function NotificationPanel(props) {
 				res => {
 					setData(prev => ({
 						...prev,
-						activities: [...prev.activities, ...res.results],
 						page: prev.page + 1
 					}));
+					dispatch(Actions.getNotificationData(res.results));
 					setLoading(false);
 					if (res.last > data.page) {
 						setHasMore(true);
@@ -157,95 +165,146 @@ function NotificationPanel(props) {
 							</Toolbar>
 						</AppBar>
 						<CardContent className="p-0">
-							<List>
-								{data.activities.map(activity => {
-									const { notification } = activity;
+							<SwipeableList>
+								<List>
+									<TransitionGroup enter={false} exit={false}>
+										{notifications &&
+											notifications.map((activity, index) => {
+												const { notification } = activity;
 
-									return (
-										<ListItem key={activity.id} className="px-12">
-											<Avatar
-												className="mx-4"
-												alt={notification.sender.first_name}
-												src={notification.sender.photo}
-											/>
-											<ListItemText
-												className="flex-1 mx-4"
-												primary={
-													<>
-														<div className="flex">
-															<Typography
-																className="font-medium whitespace-no-wrap"
-																color="primary"
-																paragraph={false}
-															>
-																{notification.sender.first_name}{' '}
-																{notification.sender.last_name}
-															</Typography>
+												return (
+													<CSSTransition
+														transitionName="example"
+														transitionEnterTimeout={500}
+														transitionLeaveTimeout={300}
+													>
+														<SwipeableListItem
+															threshold={0.3}
+															swipeLeft={{
+																content: <div className="bg-red">Delete</div>,
+																actionAnimation: ActionAnimations.REMOVE,
+																action: () => {
+																	dispatch(
+																		Actions.deleteNotificationDataByIndex(index)
+																	);
+																	setTimeout(() => {
+																		forceUpdate();
+																	}, 500);
+																}
+															}}
+															swipeRight={{
+																content: <div className="bg-red">Delete</div>,
+																actionAnimation: ActionAnimations.REMOVE,
+																action: () => {
+																	dispatch(
+																		Actions.deleteNotificationDataByIndex(index)
+																	);
+																	setTimeout(() => {
+																		forceUpdate();
+																	}, 500);
+																}
+															}}
+															// onSwipeProgress={progress =>
+															// 	console.info(`Swipe progress: ${progress}%`)
+															// }
+														>
+															<ListItem key={activity.id} className="px-12">
+																<Avatar
+																	className="mx-4"
+																	alt={notification.sender.first_name}
+																	src={notification.sender.photo}
+																/>
+																<ListItemText
+																	className="flex-1 mx-4"
+																	primary={
+																		<>
+																			<div className="flex">
+																				<Typography
+																					className="font-medium whitespace-no-wrap"
+																					color="primary"
+																					paragraph={false}
+																				>
+																					{notification.sender.first_name}{' '}
+																					{notification.sender.last_name}
+																				</Typography>
 
-															<Typography
-																color="textSecondary"
-																className="px-4 truncate"
-																paragraph={false}
-															>
-																{notification.subject}
-															</Typography>
-														</div>
-														{notification.body?.url && (
-															<div className="flex">
-																<Link
-																	onClick={() => {
-																		dispatch(Actions.toggleNotification());
-																		dispatch(Actions.addNotificationData(activity));
-																	}}
-																	to={notification.body.url}
-																>
-																	{notification.body.content}
-																</Link>
-															</div>
-														)}
-													</>
-												}
-												secondary={moment(notification.date_create).endOf('day').fromNow()}
-											/>
-										</ListItem>
-									);
-								})}
-								<ListItem key="seeMore" className="px-12" onClick={getNotification}>
-									<ListItemText
-										className="flex-1 mx-4"
-										primary={
-											<div className="flex" style={{justifyContent:'center'}}>
-												{loading ? (
-													
-													<CircularProgress
-														variant="indeterminate"
-														disableShrink
-														className={classes.top}
-														classes={{
-															circle: classes.circle,
-														}}
-														size={40}
-														thickness={4}
-														{...props}
-														display="flex"
-														justifyContent="center"
-													/>
-												) : (
+																				<Typography
+																					color="textSecondary"
+																					className="px-4 truncate"
+																					paragraph={false}
+																				>
+																					{notification.subject}
+																				</Typography>
+																			</div>
+																			{notification.body?.url && (
+																				<div className="flex">
+																					<Link
+																						onClick={() => {
+																							dispatch(
+																								Actions.toggleNotification()
+																							);
+																							dispatch(
+																								Actions.addNotificationData(
+																									activity
+																								)
+																							);
+																						}}
+																						to={notification.body.url}
+																					>
+																						{notification.body.content}
+																					</Link>
+																				</div>
+																			)}
+																		</>
+																	}
+																	secondary={moment(notification.date_create)
+																		.endOf('day')
+																		.fromNow()}
+																/>
+															</ListItem>
+														</SwipeableListItem>
+													</CSSTransition>
+												);
+											})}
+									</TransitionGroup>
+									<ListItem key="seeMore" className="px-12" onClick={getNotification}>
+										<ListItemText
+											className="flex-1 mx-4"
+											primary={
+												<div className="flex" style={{ justifyContent: 'center' }}>
+													{loading ? (
+														<CircularProgress
+															variant="indeterminate"
+															disableShrink
+															className={classes.top}
+															classes={{
+																circle: classes.circle
+															}}
+															size={40}
+															thickness={4}
+															{...props}
+															display="flex"
+															justifyContent="center"
+														/>
+													) : (
 														hasMore && (
-															
-															<Button variant="outlined" color="secondary"
+															<Button
+																variant="outlined"
+																color="secondary"
 																paragraph={false}
 																display="flex"
-																justifyContent="center">
+																justifyContent="center"
+															>
 																See More
 															</Button>
 														)
 													)}
-											</div>
-										}
-									/>
-								</ListItem>
-							</List>
+												</div>
+											}
+										/>
+									</ListItem>
+								</List>
+							</SwipeableList>
 						</CardContent>
 					</Card>
 				</div>

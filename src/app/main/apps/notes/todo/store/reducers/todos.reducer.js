@@ -101,6 +101,18 @@ const todosReducer = (state = initialState, action) => {
 				}
 			};
 		}
+		case Actions.ADD_TIMELINE_DATA: {
+			return {
+				...state,
+				todoDialog: {
+					...state.todoDialog,
+					data: {
+						...state.todoDialog.data,
+						...action.todo
+					}
+				}
+			};
+		}
 		case Actions.CLOSE_NEW_TODO_DIALOG: {
 			return {
 				...state,

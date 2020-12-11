@@ -123,5 +123,8 @@ export const GET_ALL_PROJECT_TASKS = `/api/frontend/dashboard/projects/?no_page=
 export const EXPORT_DATA = pid => `/api/frontend/project/project/${pid}/export/`;
 export const GET_ALL_NOTIFICATIONS = page => `/api/frontend/notify/notification/recipient/new_list/?page=${page}`;
 export const GET_TASK_BY_ID = tid => `/api/frontend/project/task/${tid}`;
+export const GET_ACTIVITY_BY_ID = aid => `/api/frontend/project/activity/${aid}`;
 export const GET_SETTINGS_PREFERENCES = `/api/frontend/profile/preference/detail`;
 export const UPDATE_SETTINGS_PREFERENCES = `/api/frontend/profile/preference/edit/`;
+export const READ_NOTIFICATION = nid => `/api/frontend/notify/notification/read/${nid}/`;
+export const GET_NOTIFICATION_COUNT = `/api/frontend/notify/notification/recipient/count/`;
