@@ -58,7 +58,7 @@ const useStyles = makeStyles({
 		}
 	}
 });
-const options = ['Share', 'Move to', 'Change Color', 'Add to Starred', 'Download', 'Delete' ];
+const options = ['Share', 'Move to', 'Change Color', 'Add to Starred', 'Download', 'Delete'];
 function FileList(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
@@ -110,6 +110,7 @@ function FileList(props) {
 	const open = Boolean(anchorEl);
 
 	const handleClick = event => {
+		event.stopPropagation()
 		setAnchorEl(event.currentTarget);
 	};
 
@@ -289,8 +290,7 @@ function FileList(props) {
 									</TableCell>
 									{/* </Hidden> */}
 									<TableCell>
-
-									<div className="actions-dropdown relative">
+										{/* <div className="actions-dropdown relative">
 											<IconButton
 												aria-label="more"
 												aria-controls="long-menu-table"
@@ -335,9 +335,9 @@ function FileList(props) {
 													</li>
 												</ul>
 											</div>
-										</div>
+										</div> */}
 
-										{/* <div className="actions-dropdown">
+										<div className="actions-dropdown">
 											<IconButton
 												aria-label="more"
 												aria-controls="long-menu"
@@ -371,7 +371,7 @@ function FileList(props) {
 													</MenuItem>
 												))}
 											</Menu>
-										</div> */}
+										</div>
 									</TableCell>
 								</TableRow>
 							);

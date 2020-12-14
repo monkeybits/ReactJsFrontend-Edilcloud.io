@@ -28,8 +28,14 @@ const useStyles = makeStyles(theme => ({
 function NotificationToggleButton(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles(props);
+
+	const readAllNotification = ()=>{
+		dispatch(notificationActions.toggleNotification())
+		dispatch(notificationActions.readAllNotifications())
+		
+	}
 	return (
-		<IconButton className="w-64 h-64 text-default" onClick={ev => dispatch(notificationActions.toggleNotification())}>
+		<IconButton className="w-64 h-64 text-default" onClick={readAllNotification}>
 			{!!props.totalCount && <div className={classes.unreadBadge}>{props.totalCount}</div>}
 			{props.children}
 		</IconButton>

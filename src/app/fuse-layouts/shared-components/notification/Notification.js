@@ -25,7 +25,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Checkbox } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ALERTED_POSTS_TASKS, GET_ALL_NOTIFICATIONS } from 'app/services/apiEndPoints';
+import { ALERTED_POSTS_TASKS, GET_ALL_NOTIFICATIONS, GET_ALL_PAGES_NOTIFICATIONS } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import PostList from 'app/main/apps/notes/todo/PostList';
 import clsx from 'clsx';
@@ -44,8 +44,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 // import InfiniteScroll from 'react-infinite-scroller';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { SwipeableList, SwipeableListItem, ActionAnimations } from '@sandstreamdev/react-swipeable-list';
+import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -69,56 +68,68 @@ function NotificationPanel(props) {
 	const dispatch = useDispatch();
 	const state = useSelector(({ notificationPanel }) => notificationPanel.state);
 	const notifications = useSelector(({ notificationPanel }) => notificationPanel.notifications);
+	const readNotifications = useSelector(({ notificationPanel }) => notificationPanel.readNotifications);
 	const classes = useStyles();
 	const [data, setData] = useState({
-		page: 1,
-		last: 2,
-		hasMore: true
+		page: 1
+	});
+	const [dataRead, setDataRead] = useState({
+		pageRead: 1
 	});
 	const [hasMore, setHasMore] = useState(true);
+	const [hasReadMore, setHasReadMore] = useState(true);
 	const [loading, setLoading] = useState(true);
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
-	useEffect(() => {
-		// axios.get('/api/profile/timeline').then(res => {
-		// 	setData(res.data);
-		// });
-		if (state === true) {
-			setData({
-				page: 1
-			});
-			dispatch(Actions.getNotificationData([]));
 
-			getNotification();
-		}
-		return () => {
-			setData({
-				page: 1
-			});
-			dispatch(Actions.getNotificationData([]));
-			setLoading(true);
-			setHasMore(true);
-		};
-	}, [state]);
 	useEffect(() => {
+		dispatch(Actions.getNotificationData([]));
+		getNotification();
+		getReadNotification();
 		dispatch(Actions.getNotificationCount());
 	}, []);
+
 	const getNotification = () => {
 		if (hasMore) {
 			setHasMore(false);
 			setLoading(true);
 			apiCall(
-				GET_ALL_NOTIFICATIONS(data.page),
+				GET_ALL_PAGES_NOTIFICATIONS('new_list'),
 				{},
 				res => {
 					setData(prev => ({
 						...prev,
 						page: prev.page + 1
 					}));
-					dispatch(Actions.getNotificationData(res.results));
+					dispatch(Actions.getNotificationData(res));
 					setLoading(false);
-					if (res.last > data.page) {
-						setHasMore(true);
+				},
+				err => {
+					setLoading(false);
+				},
+				METHOD.GET,
+				getHeaderToken()
+			);
+		} else {
+			getReadNotification();
+		}
+	};
+	const getReadNotification = () => {
+		if (hasReadMore) {
+			setHasReadMore(false);
+			setLoading(true);
+			apiCall(
+				GET_ALL_NOTIFICATIONS('read_list', dataRead.pageRead),
+				{},
+				res => {
+					setDataRead(prev => ({
+						...prev,
+						pageRead: prev.pageRead + 1
+					}));
+					dispatch(Actions.getReadNotificationData(res.results));
+					setLoading(false);
+					if (res.last > dataRead.pageRead) {
+						setHasReadMore(true);
 					}
 				},
 				err => {
@@ -167,106 +178,190 @@ function NotificationPanel(props) {
 						<CardContent className="p-0">
 							<SwipeableList>
 								<List>
-									<TransitionGroup enter={false} exit={false}>
-										{notifications &&
-											notifications.map((activity, index) => {
-												const { notification } = activity;
+									{notifications &&
+										notifications.map((activity, index) => {
+											const { notification } = activity;
+											return (
+												<SwipeableListItem
+													threshold={0.3}
+													swipeLeft={{
+														content: <div className="bg-red">Delete</div>,
+														action: () => {
+															dispatch(
+																Actions.deleteNotificationDataByIndex(
+																	index,
+																	false,
+																	activity
+																)
+															);
+														}
+													}}
+													swipeRight={{
+														content: <div className="bg-red">Delete</div>,
+														action: () => {
+															dispatch(
+																Actions.deleteNotificationDataByIndex(
+																	index,
+																	false,
+																	activity
+																)
+															);
+														}
+													}}
+													// onSwipeProgress={progress =>
+													// 	console.info(`Swipe progress: ${progress}%`)
+													// }
+												>
+													<ListItem key={activity.id} className="px-12 bg-blue-200">
+														<Avatar
+															className="mx-4"
+															alt={notification.sender.first_name}
+															src={notification.sender.photo}
+														/>
+														<ListItemText
+															className="flex-1 mx-4"
+															primary={
+																<>
+																	<div className="flex">
+																		<Typography
+																			className="font-medium whitespace-no-wrap"
+																			color="primary"
+																			paragraph={false}
+																		>
+																			{notification.sender.first_name}{' '}
+																			{notification.sender.last_name}
+																		</Typography>
 
-												return (
-													<CSSTransition
-														transitionName="example"
-														transitionEnterTimeout={500}
-														transitionLeaveTimeout={300}
-													>
-														<SwipeableListItem
-															threshold={0.3}
-															swipeLeft={{
-																content: <div className="bg-red">Delete</div>,
-																actionAnimation: ActionAnimations.REMOVE,
-																action: () => {
-																	dispatch(
-																		Actions.deleteNotificationDataByIndex(index)
-																	);
-																	setTimeout(() => {
-																		forceUpdate();
-																	}, 500);
-																}
-															}}
-															swipeRight={{
-																content: <div className="bg-red">Delete</div>,
-																actionAnimation: ActionAnimations.REMOVE,
-																action: () => {
-																	dispatch(
-																		Actions.deleteNotificationDataByIndex(index)
-																	);
-																	setTimeout(() => {
-																		forceUpdate();
-																	}, 500);
-																}
-															}}
-															// onSwipeProgress={progress =>
-															// 	console.info(`Swipe progress: ${progress}%`)
-															// }
-														>
-															<ListItem key={activity.id} className="px-12">
-																<Avatar
-																	className="mx-4"
-																	alt={notification.sender.first_name}
-																	src={notification.sender.photo}
-																/>
-																<ListItemText
-																	className="flex-1 mx-4"
-																	primary={
-																		<>
-																			<div className="flex">
-																				<Typography
-																					className="font-medium whitespace-no-wrap"
-																					color="primary"
-																					paragraph={false}
-																				>
-																					{notification.sender.first_name}{' '}
-																					{notification.sender.last_name}
-																				</Typography>
+																		<Typography
+																			color="textSecondary"
+																			className="px-4 truncate"
+																			paragraph={false}
+																		>
+																			{notification.subject}
+																		</Typography>
+																	</div>
+																	{notification.body?.url && (
+																		<div className="flex">
+																			<Link
+																				onClick={() => {
+																					dispatch(
+																						Actions.toggleNotification()
+																					);
+																					dispatch(
+																						Actions.addNotificationData(
+																							activity
+																						)
+																					);
+																				}}
+																				to={notification.body.url}
+																			>
+																				{notification.body.content}
+																			</Link>
+																		</div>
+																	)}
+																</>
+															}
+															secondary={moment(notification.date_create)
+																.endOf('day')
+																.fromNow()}
+														/>
+													</ListItem>
+													<Divider />
+												</SwipeableListItem>
+											);
+										})}
+									{!!readNotifications?.length &&
+										readNotifications.map((activity, index) => {
+											const { notification } = activity;
 
-																				<Typography
-																					color="textSecondary"
-																					className="px-4 truncate"
-																					paragraph={false}
-																				>
-																					{notification.subject}
-																				</Typography>
-																			</div>
-																			{notification.body?.url && (
-																				<div className="flex">
-																					<Link
-																						onClick={() => {
-																							dispatch(
-																								Actions.toggleNotification()
-																							);
-																							dispatch(
-																								Actions.addNotificationData(
-																									activity
-																								)
-																							);
-																						}}
-																						to={notification.body.url}
-																					>
-																						{notification.body.content}
-																					</Link>
-																				</div>
-																			)}
-																		</>
-																	}
-																	secondary={moment(notification.date_create)
-																		.endOf('day')
-																		.fromNow()}
-																/>
-															</ListItem>
-														</SwipeableListItem>
-													</CSSTransition>
-												);
-											})}
-									</TransitionGroup>
+											return (
+												<SwipeableListItem
+													threshold={0.3}
+													swipeLeft={{
+														content: <div className="bg-red">Delete</div>,
+														action: () => {
+															dispatch(
+																Actions.deleteNotificationDataByIndex(
+																	index,
+																	true,
+																	activity
+																)
+															);
+														}
+													}}
+													swipeRight={{
+														content: <div className="bg-red">Delete</div>,
+														action: () => {
+															dispatch(
+																Actions.deleteNotificationDataByIndex(
+																	index,
+																	true,
+																	activity
+																)
+															);
+														}
+													}}
+													// onSwipeProgress={progress =>
+													// 	console.info(`Swipe progress: ${progress}%`)
+													// }
+												>
+													<ListItem key={activity.id} className="px-12">
+														<Avatar
+															className="mx-4"
+															alt={notification.sender.first_name}
+															src={notification.sender.photo}
+														/>
+														<ListItemText
+															className="flex-1 mx-4"
+															primary={
+																<>
+																	<div className="flex">
+																		<Typography
+																			className="font-medium whitespace-no-wrap"
+																			color="primary"
+																			paragraph={false}
+																		>
+																			{notification.sender.first_name}{' '}
+																			{notification.sender.last_name}
+																		</Typography>
+
+																		<Typography
+																			color="textSecondary"
+																			className="px-4 truncate"
+																			paragraph={false}
+																		>
+																			{notification.subject}
+																		</Typography>
+																	</div>
+																	{notification.body?.url && (
+																		<div className="flex">
+																			<Link
+																				onClick={() => {
+																					dispatch(
+																						Actions.toggleNotification()
+																					);
+																					dispatch(
+																						Actions.addNotificationData(
+																							activity
+																						)
+																					);
+																				}}
+																				to={notification.body.url}
+																			>
+																				{notification.body.content}
+																			</Link>
+																		</div>
+																	)}
+																</>
+															}
+															secondary={moment(notification.date_create)
+																.endOf('day')
+																.fromNow()}
+														/>
+													</ListItem>
+												</SwipeableListItem>
+											);
+										})}
 									<ListItem key="seeMore" className="px-12" onClick={getNotification}>
 										<ListItemText
 											className="flex-1 mx-4"
@@ -287,7 +382,7 @@ function NotificationPanel(props) {
 															justifyContent="center"
 														/>
 													) : (
-														hasMore && (
+														(hasMore || hasReadMore) && (
 															<Button
 																variant="outlined"
 																color="secondary"

@@ -121,10 +121,15 @@ export const EDIT_POST = pid => `/api/frontend/project/post/${pid}/edit/`;
 export const GET_GANTT_TASK_LIST = pid => `/api/frontend/project/gantt/project/${pid}/task_list/?no_page=no_page`;
 export const GET_ALL_PROJECT_TASKS = `/api/frontend/dashboard/projects/?no_page=no_page`;
 export const EXPORT_DATA = pid => `/api/frontend/project/project/${pid}/export/`;
-export const GET_ALL_NOTIFICATIONS = page => `/api/frontend/notify/notification/recipient/new_list/?page=${page}`;
+export const GET_ALL_NOTIFICATIONS = (list, page) =>
+	`/api/frontend/notify/notification/recipient/${list}/?page=${page}`;
+export const GET_ALL_PAGES_NOTIFICATIONS = list =>
+	`/api/frontend/notify/notification/recipient/${list}/?no_page=no_page`;
 export const GET_TASK_BY_ID = tid => `/api/frontend/project/task/${tid}`;
 export const GET_ACTIVITY_BY_ID = aid => `/api/frontend/project/activity/${aid}`;
 export const GET_SETTINGS_PREFERENCES = `/api/frontend/profile/preference/detail`;
 export const UPDATE_SETTINGS_PREFERENCES = `/api/frontend/profile/preference/edit/`;
 export const READ_NOTIFICATION = nid => `/api/frontend/notify/notification/read/${nid}/`;
+export const READ_ALL_NOTIFICATION = `/api/frontend/notify/notification/read/all/`;
 export const GET_NOTIFICATION_COUNT = `/api/frontend/notify/notification/recipient/count/`;
+export const DELETE_NOTIFICATION_BY_ID = nid => `/api/frontend/notify/notification/delete/${nid}/`;
