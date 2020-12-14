@@ -19,6 +19,7 @@ import {
 	faFileImage,
 	faFileWord
 } from '@fortawesome/free-regular-svg-icons';
+import VideoListItem from 'app/VideoPlayer/VideoListItem';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -88,7 +89,11 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 				return <audio controls src={item.media_url} />;
 			}
 			case 'video': {
-				return <video src={item.media_url} autoPlay />;
+				return <VideoListItem
+				width="100%"
+				height="100%"
+				video_url={item.media_url}
+			/>
 			}
 			case 'application': {
 				return item.extension == '.xlsx' || item.extension == '.xls' ? (

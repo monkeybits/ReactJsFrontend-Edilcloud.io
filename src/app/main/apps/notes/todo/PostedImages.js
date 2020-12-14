@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import DrawImage from './DrawImage';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-
+import VideoListItem from 'app/VideoPlayer/VideoListItem';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews); //SwipeableViews;
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -78,7 +78,12 @@ export default function PostedImages(props) {
 								{props.images[activeStep]?.type?.split('/')[0] == 'image' ? (
 									<img className={classes.img} src={props.images[activeStep].media_url} />
 								) : (
-									<video className={classes.img} src={props.images[activeStep].media_url} autoPlay />
+									<VideoListItem
+										width="100%"
+										height="100%"
+										video_url={props.images[activeStep].media_url}
+									/>
+									// <video className={classes.img} src={props.images[activeStep].media_url} autoPlay />
 								)}
 							</>
 						) : null}

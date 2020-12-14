@@ -28,9 +28,9 @@ export default ({ children }) => {
 	const passMessage = ({ message }) => {
 		dispatch((dispatch, getState) => {
 			console.log({ notificationPanelState: getState().notificationPanel?.state, message });
-			if (getState().notificationPanel?.state) {
+			// if (getState().notificationPanel?.state) {
 				dispatch(notificationPanelActions.pushNotificationData({ notification: message }));
-			}
+			// }
 		});
 	};
 	const createSocket = () => {
@@ -43,14 +43,14 @@ export default ({ children }) => {
 			if (data.message.message['dest']?.['id'] === parseInt(getUserId())) {
 				dispatch(notificationPanelActions.incrementNotificationCount());
 				passMessage(data.message);
-				global.notificationSocket.send(
-					JSON.stringify({
-						message: {
-							read_check: true,
-							message: data.message.message
-						}
-					})
-				);
+				// global.notificationSocket.send(
+				// 	JSON.stringify({
+				// 		message: {
+				// 			read_check: true,
+				// 			message: data.message.message
+				// 		}
+				// 	})
+				// );
 			}
 		};
 		global.notificationSocket.onclose = function (event) {

@@ -27,6 +27,7 @@ import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from 'app/services/
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import FileSaver from 'file-saver';
 import { getHeaderToken } from 'app/services/serviceUtils';
+import VideoListItem from 'app/VideoPlayer/VideoListItem';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -182,7 +183,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 				{selectedItem?.type == 'photo' ? (
 					<LazyLoadImage delayTime={300} src={selectedItem?.photo} alt={selectedItem?.title} />
 				) : selectedItem?.type == 'video' ? (
-					<video autoPlay src={selectedItem?.video} />
+					<VideoListItem width="100%" height="100%" video_url={selectedItem?.video} />
 				) : selectedItem?.extension == 'pdf' ? (
 					<ReadPDF height={700} file={selectedItem.document} />
 				) : (

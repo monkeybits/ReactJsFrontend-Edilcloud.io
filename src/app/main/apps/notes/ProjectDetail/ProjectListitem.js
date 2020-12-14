@@ -1,6 +1,6 @@
 import FuseUtils from '@fuse/utils';
 import Typography from '@material-ui/core/Typography';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link, useRouteMatch } from 'react-router-dom';
@@ -39,6 +39,7 @@ import Divider from '@material-ui/core/Divider';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
 import DownloadPdf from '../DownloadPdf';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 import Button from '@material-ui/core/Button';
 
@@ -50,6 +51,7 @@ export default function ProjectListitem(props) {
 	} = props;
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const {
+		mainId,
 		id,
 		name,
 		description,
@@ -74,6 +76,28 @@ export default function ProjectListitem(props) {
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == id;
+	useEffect(() => {
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [mainId, hasNotifcationOnThisItem]);
+
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			FuseUtils.notificationBackrondColor(scrollRef,'custom-notification-bg');
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
+
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
@@ -153,7 +177,7 @@ export default function ProjectListitem(props) {
 	}));
 
 	return (
-		<Card className="h-full flex flex-col project_card">
+		<Card ref={notificationPanel.notificationData?.notification?.object_id == mainId ? scrollRef : null}  className="h-full flex flex-col project_card">
 			<CardHeader
 				action={
 					!!isApproved &&
