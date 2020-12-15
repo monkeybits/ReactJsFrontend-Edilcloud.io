@@ -12,7 +12,7 @@ const TodoAppConfig = {
 				'/apps/todo/filter/:filterHandle/:todoId?',
 				'/apps/todo/:folderHandle/:todoId?'
 			],
-			component: React.lazy(() => import('./TodoApp'))
+			component: React.lazy(() => import('app/paymentGateway'))
 		},
 		{
 			path: '/apps/todo',
