@@ -145,6 +145,7 @@ function TodoListItem(props) {
 	const routeParams = useParams();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [hasRender, setHasRender] = React.useState(false);
+	const [loading, setLoading] = useState(false);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const scrollRef = useRef(null);
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
@@ -241,6 +242,29 @@ function TodoListItem(props) {
 		// 	props.getDetailOfTask();
 		// }
 	};
+	const handleSubmit = (event, company) => {
+		setLoading(true);
+		stopsEvents(event);
+		setAnchorEl(null);
+		const { id, name, note, project } = props.todo;
+		dispatch(
+			Actions.editTodo(
+				{
+					name,
+					description: note,
+					id,
+					company: [{ data: company }]
+				},
+				project.id,
+				'new',
+				() => {
+					// dispatch(Actions.closeTaskContent());
+				},
+				false,
+				setLoading
+			)
+		);
+	};
 	return (
 		<>
 			<Card
@@ -283,7 +307,7 @@ function TodoListItem(props) {
 						{!props.todo.assigned_company && (
 							<div className="custom-member-menu flex items-center" onClick={handleMenuOpen}>
 								<Icon> business</Icon>
-								Assign Company
+								Assign Company {loading && <CircularProgress size={15} color="secondary" />}
 							</div>
 						)}
 						<Typography className="MuiTypography-root todo-title truncate MuiTypography-h6 MuiTypography-colorInherit font-semibold ">
@@ -294,9 +318,9 @@ function TodoListItem(props) {
 							Responsabile: Mandelli Roberto - Idraulico Specializzato
 						</Typography>
 						<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
-							{props.companies.map((item, index) => {
+							{props.companies?.length && props.companies.map((item, index) => {
 								return (
-									<MenuItem onClick={stopsEvents} className="px-8" key={item.id}>
+									<MenuItem onClick={e => handleSubmit(e, item)} className="px-8" key={item.id}>
 										<Avatar className="w-32 h-32" src={item.avatar} />
 										<ListItemText className="mx-8">{item.company}</ListItemText>
 									</MenuItem>

@@ -54,6 +54,7 @@ function TodoActivityListItem(props) {
 	const classes = useStyles(props);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [members, setMembers] = useState([]);
+	const [canInvited, setCanInvited] = useState([]);
 	const [inviteMembers, setInviteMembers] = useState([]);
 	const [checkedAll, setCheckedAll] = useState(false);
 	const [hasRender, setHasRender] = React.useState(false);
@@ -95,6 +96,9 @@ function TodoActivityListItem(props) {
 	useEffect(() => {
 		setMembers(props.todo.workers_in_activity);
 	}, [props.todo.workers_in_activity]);
+	useEffect(() => {
+		setCanInvited(props.todo.team_workers);
+	}, [props.todo.team_workers]);
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -307,7 +311,7 @@ function TodoActivityListItem(props) {
 							addWorkers={editWorkers}
 							// idMembers={cardForm.idMembers}
 						/> */}
-						<WorkerProfiles workers={props.todo.workers} />
+						<WorkerProfiles workers={props.todo.workers_in_acitivity} />
 					</div>
 					<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 						<>
@@ -326,30 +330,32 @@ function TodoActivityListItem(props) {
 								/>
 							)}
 							{!!members?.length ? (
-								members.map((member, index) => {
-									return (
-										<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
-											<Checkbox
-												onClick={ev => ev.stopPropagation()}
-												name={member.first_name}
-												checked={!!member.is_exists}
-												onChange={e => {
-													let tempMembers = [...members];
-													tempMembers[index] = {
-														...tempMembers[index],
-														is_exists: e.target.checked
-													};
-													setMembers(tempMembers);
-													editWorkers(tempMembers);
-												}}
-											/>
-											<Avatar className="w-32 h-32" src={member.avatar} />
-											<ListItemText className="mx-8">
-												{member.profile.first_name} {member.profile.last_name}
-											</ListItemText>
-										</MenuItem>
-									);
-								})
+								<>
+									{members.map((member, index) => {
+										return (
+											<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
+												<Checkbox
+													onClick={ev => ev.stopPropagation()}
+													name={member.first_name}
+													checked={!!member.is_exists}
+													onChange={e => {
+														let tempMembers = [...members];
+														tempMembers[index] = {
+															...tempMembers[index],
+															is_exists: e.target.checked
+														};
+														setMembers(tempMembers);
+														editWorkers(tempMembers);
+													}}
+												/>
+												<Avatar className="w-32 h-32" src={member.avatar} />
+												<ListItemText className="mx-8">
+													{member.profile.first_name} {member.profile.last_name}
+												</ListItemText>
+											</MenuItem>
+										);
+									})}
+								</>
 							) : (
 								<>
 									<Typography variant="subtitle1" className="todo-title p-8">
