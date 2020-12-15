@@ -160,7 +160,7 @@ function ContactsList(props) {
 								ev.stopPropagation();
 								dispatch(Actions.openEditContactDialog(row.original));
 							}}
-							canHaveDeleteOption={user.data.user_id != row.original.user.id}
+							canHaveDeleteOption={row.original.user && user.data.user_id != row.original.user.id}
 							deleteHandler={ev => {
 								ev.stopPropagation();
 								setUserData(row.original);
