@@ -96,7 +96,7 @@ export const GET_TASK_LIST = pid => `/api/frontend/project/project/${pid}/task_l
 export const ADD_ACTIVITY_TO_TASK = tid => `/api/frontend/project/task/${tid}/activity_add/`;
 export const EDIT_ACTIVITY_TO_TASK = aid => `/api/frontend/project/activity/edit/${aid}/`;
 export const GET_COMPANY_PROJECT_TEAM_MEMBER_LIST = (pid, cid, searchString) =>
-	`/api/frontend/project/project/${pid}/approve/team_list/?filter__profile__company__id=${cid}&filter__role=worker&filter__profile__first_name__icontains=${searchString}&filter__profile__last_name__icontains=${searchString}&no_page=no_page`;
+	`/api/frontend/project/project/${pid}/approve/team_list/?filter__profile__company__id=${cid}&filter__role=w&no_page=no_page`;
 export const GET_ACTIVITY_OF_TASK = tid => `/api/frontend/project/task/${tid}/activity_list/?no_page=no_page`;
 export const ADD_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/add_post/`;
 export const ADD_POST_TO_TASK = tid => `/api/frontend/project/task/${tid}/add_post/`;
