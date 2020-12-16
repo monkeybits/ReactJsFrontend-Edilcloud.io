@@ -59,7 +59,7 @@ export default function FileGridItem({ tileData, pageLayout }) {
 	const dispatch = useDispatch();
 	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const classes = useStyles();
-	const handleOpenData = (ev,tile) => {
+	const handleOpenData = (ev, tile) => {
 		ev.preventDefault();
 		ev.stopPropagation();
 		pageLayout.current.toggleRightSidebar();
@@ -81,11 +81,12 @@ export default function FileGridItem({ tileData, pageLayout }) {
 			: fileType == 'xlsx'
 			? { color: 'green' }
 			: {};
+
 	return (
 		<div className={classes.root}>
 			<GridList cellHeight={180} className={classes.gridList}>
 				{tileData.map(tile => (
-					<GridListTile key={tile.img} onClick={(e)=>handleOpenData(e,tile)}>
+					<GridListTile key={tile.img} onClick={e => handleOpenData(e, tile)}>
 						{tile.type == 'video' ? (
 							<div className="file-icon-small">
 								<FontAwesomeIcon
@@ -121,8 +122,23 @@ export default function FileGridItem({ tileData, pageLayout }) {
 							className="text-14"
 							title={
 								<>
-									<PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" />
-									{tile.title}
+									<div className="flex">
+										{tile.extension == 'pdf' ? (
+											<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+										) : tile.extension == 'video' ? (
+											<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+										) : tile.extension == 'mp3' ? (
+											<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+										) : tile.extension == 'docx' ? (
+											<img className="icon mr-8" src="/assets/fileIcons/doc-icon.png" />
+										) : tile.extension == 'xlsx' ? (
+											<img className="icon mr-8" src="/assets/fileIcons/excel-icon.png" />
+										) : (
+											<FontAwesomeIcon icon={faFile} className="icon mr-8" />
+										)}
+										{/* <PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" /> */}
+										<p> {tile.title}</p>
+									</div>
 								</>
 							}
 							// subtitle={<span>size: {tile.size}</span>}
