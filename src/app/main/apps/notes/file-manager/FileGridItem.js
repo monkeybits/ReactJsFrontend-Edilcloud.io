@@ -114,10 +114,23 @@ export default function FileGridItem({ tileData, pageLayout }) {
 						<GridListTileBar
 							className="text-14"
 							title={
-								<>
-									<PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" />
-									{tile.title}
-								</>
+								<div className="flex">
+									{tile.extension == 'pdf' ? (
+										<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+									) : tile.extension == 'video' ? (
+										<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+									) : tile.extension == 'mp3' ? (
+										<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+									) : tile.extension == 'docx' ? (
+										<img className="icon mr-8" src="/assets/fileIcons/doc-icon.png" />
+									) : tile.extension == 'xlsx' ? (
+										<img className="icon mr-8" src="/assets/fileIcons/excel-icon.png" />
+									) : (
+										<FontAwesomeIcon icon={faFile} className="icon mr-8" />
+									)}
+									{/* <PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" /> */}
+									<p> {tile.title}</p>
+								</div>
 							}
 							// subtitle={<span>size: {tile.size}</span>}
 							actionIcon={

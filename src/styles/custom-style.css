@@ -1293,6 +1293,10 @@ audio {
 .file-grid .MuiGridListTileBar-title {
     font-size: 1.4rem;
 }
+.file-grid .icon {
+    height: 18px;
+    width: 18px;
+}
 .two-btn button svg, .single-btn button svg {
     color: #9EA1A9; 
 }
