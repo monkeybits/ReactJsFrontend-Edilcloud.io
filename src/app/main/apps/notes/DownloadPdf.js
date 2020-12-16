@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -20,6 +20,7 @@ import { EXPORT_DATA } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import PostList from './todo/PostList';
 import ProjectDetailContent from './ProjectDetail/ProjectDetailContent';
+import { PDFExport } from '@progress/kendo-react-pdf';
 const pxToMm = px => {
 	return Math.floor(px / document.getElementById('myMm').offsetHeight);
 };
@@ -43,6 +44,7 @@ const DownloadPdf = ({ id, label, pid }) => {
 		plugins: [...jssPreset().plugins, jssExtend(), rtl()],
 		insertionPoint: document.getElementById('jss-insertion-point')
 	});
+	const pdfRef = useRef(null);
 	const generateClassName = createGenerateClassName();
 	return (
 		<div className="tc mb4 mt2">
@@ -62,73 +64,38 @@ const DownloadPdf = ({ id, label, pid }) => {
 						res => {
 							let tasks = res.tasks;
 							let Comp = () => (
-								<StylesProvider jss={jss} generateClassName={generateClassName}>
-									<Provider store={store}>
-										<Router history={history}>
-											<Wrapper>
-												<ProjectDetailContent projectDetail={res} />
-												{tasks.map((todo, index) => (
-													<>
-														<TodoListItem
-															isOpen={true}
-															todo={todo}
-															key={todo.id}
-															index={index}
-															isPdf={true}
-															postlist={
-																<PostList tempAuthor={{}} posts={todo.post_set} />
-															}
-														/>
-													</>
-												))}
-											</Wrapper>
-										</Router>
-									</Provider>
-								</StylesProvider>
+								<PDFExport paperSize="A4" margin="2cm" ref={pdfRef}>
+									{/* forcePageBreak=".page-break" */}
+									<StylesProvider jss={jss} generateClassName={generateClassName}>
+										<Provider store={store}>
+											<Router history={history}>
+												<Wrapper>
+													<ProjectDetailContent projectDetail={res} />
+													{tasks.map((todo, index) => (
+														<>
+															<TodoListItem
+																isOpen={true}
+																todo={todo}
+																key={todo.id}
+																index={index}
+																isPdf={true}
+																postlist={
+																	<PostList tempAuthor={{}} posts={todo.post_set} />
+																}
+															/>
+														</>
+													))}
+												</Wrapper>
+											</Router>
+										</Provider>
+									</StylesProvider>
+								</PDFExport>
 							);
 							ReactDOM.render(<Comp />, document.getElementById('rootpdf'));
 							setTimeout(() => {
-								const input = document.getElementById('rootpdf');
-								const inputHeightMm = input.offsetHeight; // pxToMm(input.offsetHeight);
-								const a4WidthMm = pxToMm(input.offsetWidth);
-								const a4HeightMm = 297;
-								const a4HeightPx = mmToPx(a4HeightMm);
-								const numPages =
-									inputHeightMm <= a4HeightMm ? 1 : Math.floor(inputHeightMm / a4HeightMm) + 1;
-								console.log({
-									input,
-									inputHeightMm,
-									a4HeightMm,
-									a4HeightPx,
-									numPages,
-									range: range(0, numPages),
-									comp: inputHeightMm <= a4HeightMm,
-									inputHeightPx: input.offsetHeight
-								});
-								html2canvas(input, {
-									allowTaint: true,
-									useCORS: true,
-									logging: false,
-									height: input.offsetHeight + 400,
-									width: input.offsetWidth + 400,
-									dpi: 300,
-									letterRendering: true
-								}).then(canvas => {
-									const imgData = canvas.toDataURL('image/png');
-									console.log({ imgData });
-									let pdf = '';
-									// Document of a4WidthMm wide and inputHeightMm high
-									if (inputHeightMm > a4HeightMm) {
-										// elongated a4 (system print dialog will handle page breaks)
-										pdf = new jsPDF('p', 'mm', [inputHeightMm + 1600, a4WidthMm + 50]);
-									} else {
-										// standard a4
-										pdf = new jsPDF();
-									}
-
-									pdf.addImage(imgData, 'JPEG', 0, 0);
-									pdf.save(`${id}.pdf`);
-								});
+								if (pdfRef.current) {
+									pdfRef.current.save();
+								}
 							}, 10000);
 						},
 						err => {},

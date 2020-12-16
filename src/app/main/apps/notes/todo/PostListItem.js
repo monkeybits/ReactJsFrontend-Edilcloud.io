@@ -301,7 +301,7 @@ export default function PostListItem({
 			id={`post${post.id}`}
 			ref={notificationPanel.notificationData?.notification?.object_id == post.id ? scrollRef : null}
 			key={post.id}
-			className="mb-32 overflow-hidden post-form post-card-clx"
+			className="mb-32 overflow-hidden post-form post-card-clx page-break"
 		>
 			<CardHeader
 				avatar={
