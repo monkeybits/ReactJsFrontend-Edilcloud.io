@@ -99,7 +99,8 @@ function FileManagerApp(props) {
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
 	const isUploadingFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files.isUploadingFiles);
 	const company = useSelector(({ chatApp }) => chatApp.company);
-	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
+	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
+	const selectedItem = useSelector(({ fileManagerApp }) => allFiles[fileManagerApp.selectedItemId]);
 	const pageLayout = useRef(null);
 	const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
@@ -256,7 +257,7 @@ function FileManagerApp(props) {
 		<>
 			<FusePageSimple
 				classes={{
-					root: 'bg-red fileInfoSidebar',
+					root: selectedItem?.title ? 'bg-red fileInfoSidebar' : 'bg-red fileInfoSidebar hide-sidebar',
 					header: 'p-24 pb-0 bg-body h-auto min-h-auto',
 					sidebarHeader: '',
 					rightSidebar: 'w-320'

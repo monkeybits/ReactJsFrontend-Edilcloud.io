@@ -1306,6 +1306,9 @@ audio {
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
 }
+.hide-sidebar .custom-fuse-page-right-sidebar {
+    display: none;
+}
 .linear-progress.custom-color p {
     color: white;
     font-size: 16px;
