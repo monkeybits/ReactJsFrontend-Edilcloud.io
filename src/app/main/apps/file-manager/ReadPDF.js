@@ -26,7 +26,7 @@ function ReadPDF({ file, height, width }) {
 			>
 				<Page size="A4" {...{ height, width }} pageNumber={pageNumber} />
 			</Document>
-			<p className="text-center">
+			<p className="text-center pdf-pagination">
 				<Button onClick={previousPage} type="button">
 					{'<'}
 				</Button>
