@@ -202,6 +202,10 @@ function DetailSidebarContent({ setProgress }) {
 								<img className="icon mr-8" src={ICONS.EXCEL_ICON_PATH} />
 							) : selectedItem.extension == 'mp3' ? (
 								<img className="icon mr-8" src={ICONS.AUDIO_ICON_PATH} />
+							) : selectedItem.extension == 'zip' || selectedItem.extension == 'rar' ? (
+								<div className="soft-icon-title">
+									<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
+								</div>
 							) : (
 								<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 							)}

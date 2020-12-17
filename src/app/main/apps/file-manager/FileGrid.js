@@ -255,7 +255,7 @@ function FileGrid(props) {
 					</Grid>
 				</>
 			)}
-			{!!currentFiles.length && (
+			{!!currentFiles.length ? (
 				<>
 					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
 						Files
@@ -264,6 +264,12 @@ function FileGrid(props) {
 						<FileGridItem tileData={currentFiles} {...props} />
 					</Grid>
 				</>
+			) : (
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						There are no files!
+					</Typography>
+				</div>
 			)}
 		</div>
 	);

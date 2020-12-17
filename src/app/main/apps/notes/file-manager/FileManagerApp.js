@@ -107,8 +107,8 @@ function FileManagerApp(props) {
 	const searchText = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.searchText);
 	const isUploadingFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.isUploadingFiles);
 	const company = useSelector(({ chatApp }) => chatApp.company);
-	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
-	const selectedItem = useSelector(({ fileManagerApp }) => allFiles[fileManagerApp.selectedItemId]);
+	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
+	const selectedItem = useSelector(({ fileManagerAppProject }) => allFiles[fileManagerAppProject.selectedItemId]);
 	const pageLayout = useRef(null);
 	const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
@@ -257,6 +257,7 @@ function FileManagerApp(props) {
 		setRadioBtnValue(event.target.value);
 	};
 	const canSubmit = () => (radioBtnValue == 'folder' ? title?.length : title?.length && fileData.file);
+
 	return (
 		<>
 			<FusePageSimple
