@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 		width: 72,
 		height: 72,
 		position: 'absolute',
-		top: 92,
+		top: 110,
 		padding: 8,
 		background: theme.palette.background.default,
 		boxSizing: 'content-box',
@@ -61,13 +61,19 @@ function UserNavbarHeader(props) {
 					{user.first_name + ' ' + user.last_name}
 				</Typography>
 			)}
+			{!!user?.position && (
+				<Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
+					{/* {company?.position} @*/}
+					{user?.position}
+				</Typography>
+			)}
 			<Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
-				{company?.position}@{company?.name}
+				{company?.name}
 			</Typography>
 			<Avatar
 				className={clsx(classes.avatar, 'avatar')}
 				alt="user photo"
-				src={company?.logo ? company?.logo : 'assets/images/avatars/profile.jpg'}
+				src={company?.logo ? company?.logo : '/assets/images/avatars/profile.jpg'}
 			/>
 		</AppBar>
 	);
