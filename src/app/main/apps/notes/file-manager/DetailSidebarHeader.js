@@ -23,7 +23,7 @@ import FileViewDialog from './FileViewDialog';
 import { useParams } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
 
-function DetailSidebarHeader({ setProgress }) {
+function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
@@ -72,7 +72,7 @@ function DetailSidebarHeader({ setProgress }) {
 	const openDeleteFileDialog = () => setIsOpenDeleteDialog(true);
 	const colseDeleteFileDialog = () => setIsOpenDeleteDialog(false);
 	const handleDelete = () => {
-		const pid = routeParams.id
+		const pid = routeParams.id;
 		const fileType = selectedItem.type;
 		const mainId = selectedItem.mainId;
 		const url =
@@ -140,10 +140,16 @@ function DetailSidebarHeader({ setProgress }) {
 							{selectedItem.title}
 						</Typography>
 					</FuseAnimate>
-						<IconButton edge="start" color="inherit" aria-label="close" className="close-icon list-view-icon">
-							<CloseIcon />
-						</IconButton>
-					
+					<IconButton
+						edge="start"
+						color="inherit"
+						aria-label="close"
+						className="close-icon list-view-icon"
+						onClick={pageLayout.current.toggleRightSidebar}
+					>
+						<CloseIcon />
+					</IconButton>
+
 					{/* <FuseAnimate delay={300}>
 						<Typography variant="caption" className="">
 							<span>Edited</span>
