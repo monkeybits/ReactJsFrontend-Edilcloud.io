@@ -48,7 +48,7 @@
         font-size: 1.2rem;
     }
     .custom-dropdown .MuiInputBase-input {
-        height: 3.5em;
+        height: 3.5em !important;
     }
     .react-datepicker-wrapper input {
         padding: 15.5px 14px;

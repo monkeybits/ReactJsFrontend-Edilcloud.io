@@ -1309,6 +1309,9 @@ audio {
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
 }
+.hide-sidebar .custom-fuse-page-right-sidebar {
+    display: none;
+}
 .linear-progress.custom-color p {
     color: white;
     font-size: 16px;
@@ -1683,4 +1686,42 @@ audio {
 }
 .setting-label span {
     font-size: 18px;
+}
+
+.soft-icon{   
+    max-height: 184px;    
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 184px;
+}
+.soft-icon img{
+    width: 24px;
+    height: 28px;
+}
+
+.soft-icon-title img{
+    height: 24px;
+    width: 18px;
+}
+.file-grid .MuiGridListTileBar-title p{    
+    width: 91%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.pdf-pagination{
+    margin-top: 0;
+    z-index: 5;
+    position: relative;
+    background-color: white;
+    bottom: 0;
+    width: 100%;
+}
+/* .sm\:h-256 {
+    height: 381px;
+} */
+.custom-pdf .react-pdf__Page__canvas{
+    height: 25.6rem !important;
 }
