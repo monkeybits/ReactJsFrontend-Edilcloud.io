@@ -145,7 +145,10 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 						color="inherit"
 						aria-label="close"
 						className="close-icon list-view-icon"
-						onClick={pageLayout.current.toggleRightSidebar}
+						onClick={() => {
+							pageLayout.current.toggleRightSidebar();
+							dispatch(Actions.setSelectedItem(''));
+						}}
 					>
 						<CloseIcon />
 					</IconButton>
