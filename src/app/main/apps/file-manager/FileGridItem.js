@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PictureAsPdfOutlinedIcon from '@material-ui/icons/PictureAsPdfOutlined';
+import * as ICONS from 'app/main/apps/constants';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -88,19 +89,19 @@ export default function FileGridItem({ tileData, pageLayout }) {
 				{tileData.map(tile => (
 					<GridListTile key={tile.img} onClick={e => handleOpenData(e, tile)}>
 						{tile.type == 'video' ? (
-							<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+							<img className="icon mr-8" src={ICONS.VIDEO_ICON_PATH} />
 						) : tile.type == 'photo' ? (
 							<img src={tile.photo} alt={tile.title} />
 						) : tile.extension == 'pdf' ? (
-							<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+							<img className="icon mr-8" src={ICONS.PDF_ICON_PATH} />
 						) : tile.extension == 'mp3' ? (
-							<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+							<img className="icon mr-8" src={ICONS.AUDIO_ICON_PATH} />
 						) : tile.extension == 'docx' ? (
-							<img className="icon mr-8" src="/assets/fileIcons/doc-icon.png" />
+							<img className="icon mr-8" src={ICONS.DOC_ICON_PATH} />
 						) : tile.extension == 'xlsx' ? (
-							<img className="icon mr-8" src="/assets/fileIcons/excel-icon.png" />
+							<img className="icon mr-8" src={ICONS.EXCEL_ICON_PATH} />
 						) : (
-							<FontAwesomeIcon icon={faFile} className="icon mr-8" />
+							<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 						)}
 						<GridListTileBar
 							className="text-14"
@@ -108,17 +109,17 @@ export default function FileGridItem({ tileData, pageLayout }) {
 								<>
 									<div className="flex">
 										{tile.extension == 'pdf' ? (
-											<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+											<img className="icon mr-8" src={ICONS.PDF_ICON_PATH} />
 										) : tile.extension == 'video' ? (
-											<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+											<img className="icon mr-8" src={ICONS.VIDEO_ICON_PATH} />
 										) : tile.extension == 'mp3' ? (
-											<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+											<img className="icon mr-8" src={ICONS.AUDIO_ICON_PATH} />
 										) : tile.extension == 'docx' ? (
-											<img className="icon mr-8" src="/assets/fileIcons/doc-icon.png" />
+											<img className="icon mr-8" src={ICONS.DOC_ICON_PATH} />
 										) : tile.extension == 'xlsx' ? (
-											<img className="icon mr-8" src="/assets/fileIcons/excel-icon.png" />
+											<img className="icon mr-8" src={ICONS.EXCEL_ICON_PATH} />
 										) : (
-											<FontAwesomeIcon icon={faFile} className="icon mr-8" />
+											<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 										)}
 										{/* <PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" /> */}
 										<p> {tile.title}</p>
