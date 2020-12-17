@@ -113,6 +113,8 @@ export default function FileGridItem({ tileData, pageLayout }) {
 									{' '}
 									<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
 								</div>
+							) : tile.extension == 'ppt' || tile.extension == 'pptx' || tile.extension == 'pptm' ? (
+								<img className="icon mr-8" src={ICONS.SLIDES_ICON_PATH} />
 							) : (
 								<div className="soft-icon">
 									<img className="mr-8" src={ICONS.GENERIC_ICON_PATH} />
@@ -150,6 +152,10 @@ export default function FileGridItem({ tileData, pageLayout }) {
 											<div className="soft-icon-title">
 												<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
 											</div>
+										) : tile.extension == 'ppt' ||
+										  tile.extension == 'pptx' ||
+										  tile.extension == 'pptm' ? (
+											<img className="icon mr-8" src={ICONS.SLIDES_ICON_PATH} />
 										) : (
 											<div className="soft-icon-title">
 												<img className="mr-8" src={ICONS.GENERIC_ICON_PATH} />

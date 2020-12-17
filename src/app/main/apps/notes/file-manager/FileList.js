@@ -244,6 +244,8 @@ function FileList(props) {
 											<div className="soft-icon-title">
 												<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
 											</div>
+										) : n.extension == 'ppt' || n.extension == 'pptx' || n.extension == 'pptm' ? (
+											<img className="icon mr-8" src={ICONS.SLIDES_ICON_PATH} />
 										) : (
 											<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 										)}

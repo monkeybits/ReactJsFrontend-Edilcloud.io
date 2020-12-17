@@ -1719,6 +1719,6 @@ audio {
 /* .sm\:h-256 {
     height: 381px;
 } */
-.react-pdf__Page__canvas{
+.custom-pdf .react-pdf__Page__canvas{
     height: 25.6rem !important;
 }
