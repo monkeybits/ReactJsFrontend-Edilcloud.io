@@ -114,7 +114,7 @@ function FileList(props) {
 	const open = Boolean(anchorEl);
 
 	const handleClick = event => {
-		event.stopPropagation()
+		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
 	};
 
@@ -225,32 +225,22 @@ function FileList(props) {
 											{n.type == 'video' ? 'movie' : n.type}{' '}
 										</Icon> */}
 										{n.type == 'video' ? (
-											<FontAwesomeIcon
-												icon={faFileVideo}
-												style={{ ...getCssColor(n.type), fontSize: '2.4rem' }}
-											/>
+											<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
 										) : n.type == 'photo' ? (
-											<FontAwesomeIcon
-												icon={faFileImage}
-												style={{ color: 'black', fontSize: '2.4rem' }}
-											/>
+											<img className="icon mr-8" src="/assets/fileIcons/image-icon.png" />
 										) : n.type == 'folder' ? (
 											<Icon className={clsx(classes.typeIcon, n.type)}>folder</Icon>
+										) : n.extension == 'pdf' ? (
+											<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+										) : n.extension == 'docx' ? (
+											<img className="icon mr-8" src="/assets/fileIcons/doc-icon.png" />
+										) : n.extension == 'xlsx' ? (
+											<img className="icon mr-8" src="/assets/fileIcons/excel-icon.png" />
+										) : n.extension == 'mp3' ? (
+											<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
 										) : (
 											<FontAwesomeIcon
-												icon={
-													n.type == 'document'
-														? n.extension == 'pdf'
-															? faFilePdf
-															: n.extension == 'docx'
-															? faFileWord
-															: n.extension == 'xlsx'
-															? faFileExcel
-															: n.extension == 'mp3'
-															? faFileAudio
-															: faFile
-														: faFile
-												}
+												icon={faFile}
 												style={{ ...getCssColor(n.extension), fontSize: '2.4rem' }}
 											/>
 										)}

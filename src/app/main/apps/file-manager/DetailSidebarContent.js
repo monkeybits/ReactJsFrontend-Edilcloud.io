@@ -169,7 +169,7 @@ function DetailSidebarContent({ setProgress }) {
 			? { color: 'green' }
 			: {};
 	const openViewFile = () => setIsOpenViewFile(true);
-	const closeViewFile = (event) => {
+	const closeViewFile = event => {
 		setIsOpenViewFile(false);
 		handleClose(event);
 	};
@@ -192,25 +192,18 @@ function DetailSidebarContent({ setProgress }) {
 							) : selectedItem.extension == 'pdf' ? (
 								<ReadPDF height={256} width={270} file={selectedItem.document} />
 							) : selectedItem.type == 'video' ? (
-								<FontAwesomeIcon
-									icon={faFileVideo}
-									style={{ ...getCssColor(selectedItem.type), fontSize: '2.4rem' }}
-								/>
+								<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+							) : selectedItem.extension == 'pdf' ? (
+								<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+							) : selectedItem.extension == 'docx' ? (
+								<img className="icon mr-8" src="/assets/fileIcons/doc-icon.png" />
+							) : selectedItem.extension == 'xlsx' ? (
+								<img className="icon mr-8" src="/assets/fileIcons/excel-icon.png" />
+							) : selectedItem.extension == 'mp3' ? (
+								<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
 							) : (
 								<FontAwesomeIcon
-									icon={
-										selectedItem.type == 'document'
-											? selectedItem.extension == 'pdf'
-												? faFilePdf
-												: selectedItem.extension == 'docx'
-												? faFileWord
-												: selectedItem.extension == 'xlsx'
-												? faFileExcel
-												: selectedItem.extension == 'mp3'
-												? faFileAudio
-												: faFile
-											: faFile
-									}
+									icon={faFile}
 									style={{ ...getCssColor(selectedItem.extension), fontSize: '2.4rem' }}
 								/>
 							)}

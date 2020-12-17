@@ -85,39 +85,40 @@ export default function FileGridItem({ tileData, pageLayout }) {
 				{tileData.map(tile => (
 					<GridListTile key={tile.img} onClick={e => handleOpenData(e, tile)}>
 						{tile.type == 'video' ? (
-							<FontAwesomeIcon
-								className="p-48"
-								icon={faFileVideo}
-								style={{ ...getCssColor(tile.type), fontSize: '1.8rem' }}
-							/>
+							<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
 						) : tile.type == 'photo' ? (
 							<img src={tile.photo} alt={tile.title} />
+						) : tile.extension == 'pdf' ? (
+							<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+						) : tile.extension == 'mp3' ? (
+							<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+						) : tile.extension == 'docx' ? (
+							<img className="icon mr-8" src="/assets/fileIcons/doc-icon.png" />
+						) : tile.extension == 'xlsx' ? (
+							<img className="icon mr-8" src="/assets/fileIcons/excel-icon.png" />
 						) : (
-							<FontAwesomeIcon
-								className="p-48"
-								icon={
-									tile.type == 'document'
-										? tile.extension == 'pdf'
-											? faFilePdf
-											: tile.extension == 'docx'
-											? faFileWord
-											: tile.extension == 'xlsx'
-											? faFileExcel
-											: tile.extension == 'mp3'
-											? faFileAudio
-											: faFile
-										: faFile
-								}
-								style={{ ...getCssColor(tile.extension), fontSize: '1.8rem' }}
-							/>
+							<FontAwesomeIcon icon={faFile} className="icon mr-8" />
 						)}
 						<GridListTileBar
 							className="text-14"
 							title={
-								<>
-									<PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" />
-									{tile.title}
-								</>
+								<div className="flex">
+									{tile.extension == 'pdf' ? (
+										<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+									) : tile.extension == 'video' ? (
+										<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+									) : tile.extension == 'mp3' ? (
+										<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+									) : tile.extension == 'docx' ? (
+										<img className="icon mr-8" src="/assets/fileIcons/doc-icon.png" />
+									) : tile.extension == 'xlsx' ? (
+										<img className="icon mr-8" src="/assets/fileIcons/excel-icon.png" />
+									) : (
+										<FontAwesomeIcon icon={faFile} className="icon mr-8" />
+									)}
+									{/* <PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" /> */}
+									<p> {tile.title}</p>
+								</div>
 							}
 							// subtitle={<span>size: {tile.size}</span>}
 							actionIcon={
