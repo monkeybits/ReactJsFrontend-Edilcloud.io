@@ -1700,3 +1700,9 @@ audio {
     height: 24px;
     width: 18px;
 }
+.file-grid .MuiGridListTileBar-title p{    
+    width: 91%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
