@@ -1685,8 +1685,7 @@ audio {
     font-size: 18px;
 }
 
-.soft-icon{
-    max-width: 313px;
+.soft-icon{   
     max-height: 184px;    
     height: 100%;
     display: flex;
@@ -1702,4 +1701,24 @@ audio {
 .soft-icon-title img{
     height: 24px;
     width: 18px;
+}
+.file-grid .MuiGridListTileBar-title p{    
+    width: 91%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.pdf-pagination{
+    margin-top: 0;
+    z-index: 5;
+    position: relative;
+    background-color: white;
+    bottom: 0;
+    width: 100%;
+}
+/* .sm\:h-256 {
+    height: 381px;
+} */
+.react-pdf__Page__canvas{
+    height: 25.6rem !important;
 }
