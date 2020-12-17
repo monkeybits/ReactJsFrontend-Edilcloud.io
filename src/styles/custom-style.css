@@ -1681,3 +1681,16 @@ audio {
 .setting-label span {
     font-size: 18px;
 }
+
+.soft-icon{
+    max-width: 313px;
+    max-height: 184px;    
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.soft-icon img{
+    width: 24px;
+    height: 28px;
+}

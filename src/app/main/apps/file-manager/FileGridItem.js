@@ -92,7 +92,9 @@ export default function FileGridItem({ tileData, pageLayout }) {
 						) : tile.type == 'photo' ? (
 							<img src={tile.photo} alt={tile.title} />
 						) : tile.extension == 'pdf' ? (
-							<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+							<div className="soft-icon">
+								<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+							</div>
 						) : tile.extension == 'mp3' ? (
 							<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
 						) : tile.extension == 'docx' ? (
