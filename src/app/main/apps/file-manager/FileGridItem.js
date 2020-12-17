@@ -128,9 +128,13 @@ export default function FileGridItem({ tileData, pageLayout }) {
 											<div className="soft-icon-title">
 												<img className="mr-8" src={ICONS.PDF_ICON_PATH} />
 											</div>
-										) : tile.extension == 'video' ? (
+										) : tile.type == 'video' ? (
 											<div className="soft-icon-title">
 												<img className="mr-8" src={ICONS.VIDEO_ICON_PATH} />
+											</div>
+										) : tile.type == 'photo' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.IMAGE_ICON_PATH} />
 											</div>
 										) : tile.extension == 'mp3' ? (
 											<div className="soft-icon-title">
