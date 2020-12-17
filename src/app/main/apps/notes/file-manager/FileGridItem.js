@@ -86,37 +86,61 @@ export default function FileGridItem({ tileData, pageLayout }) {
 				{tileData.map(tile => (
 					<GridListTile key={tile.img} onClick={e => handleOpenData(e, tile)}>
 						{tile.type == 'video' ? (
-							<img className="icon mr-8" src={ICONS.VIDEO_ICON_PATH} />
+							<div className="soft-icon">
+								<img className="icon mr-8" src={ICONS.VIDEO_ICON_PATH} />
+							</div>
 						) : tile.type == 'photo' ? (
 							<img src={tile.photo} alt={tile.title} />
 						) : tile.extension == 'pdf' ? (
-							<img className="icon mr-8" src={ICONS.PDF_ICON_PATH} />
+							<div className="soft-icon">
+								<img className="mr-8" src={ICONS.PDF_ICON_PATH} />
+							</div>
 						) : tile.extension == 'mp3' ? (
-							<img className="icon mr-8" src={ICONS.AUDIO_ICON_PATH} />
+							<div className="soft-icon">
+								<img className="mr-8" src={ICONS.AUDIO_ICON_PATH} />
+							</div>
 						) : tile.extension == 'docx' ? (
-							<img className="icon mr-8" src={ICONS.DOC_ICON_PATH} />
+							<div className="soft-icon">
+								<img className="mr-8" src={ICONS.DOC_ICON_PATH} />
+							</div>
 						) : tile.extension == 'xlsx' ? (
-							<img className="icon mr-8" src={ICONS.EXCEL_ICON_PATH} />
+							<div className="soft-icon">
+								<img className="mr-8" src={ICONS.EXCEL_ICON_PATH} />
+							</div>
 						) : (
-							<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
+							<div className="soft-icon">
+								<img className="mr-8" src={ICONS.GENERIC_ICON_PATH} />
+							</div>
 						)}
 						<GridListTileBar
 							className="text-14"
 							title={
 								<div className="flex">
 									{tile.extension == 'pdf' ? (
-										<img className="icon mr-8" src={ICONS.PDF_ICON_PATH} />
-									) : tile.extension == 'video' ? (
-										<img className="icon mr-8" src={ICONS.VIDEO_ICON_PATH} />
-									) : tile.extension == 'mp3' ? (
-										<img className="icon mr-8" src={ICONS.AUDIO_ICON_PATH} />
-									) : tile.extension == 'docx' ? (
-										<img className="icon mr-8" src={ICONS.DOC_ICON_PATH} />
-									) : tile.extension == 'xlsx' ? (
-										<img className="icon mr-8" src={ICONS.EXCEL_ICON_PATH} />
-									) : (
-										<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
-									)}
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.PDF_ICON_PATH} />
+											</div>
+										) : tile.extension == 'video' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.VIDEO_ICON_PATH} />
+											</div>
+										) : tile.extension == 'mp3' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.AUDIO_ICON_PATH} />
+											</div>
+										) : tile.extension == 'docx' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.DOC_ICON_PATH} />
+											</div>
+										) : tile.extension == 'xlsx' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.EXCEL_ICON_PATH} />
+											</div>
+										) : (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.GENERIC_ICON_PATH} />
+											</div>
+										)}
 									{/* <PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" /> */}
 									<p> {tile.title}</p>
 								</div>

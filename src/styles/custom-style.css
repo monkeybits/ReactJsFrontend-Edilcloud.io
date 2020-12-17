@@ -1689,8 +1689,14 @@ audio {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 184px;
 }
 .soft-icon img{
     width: 24px;
     height: 28px;
+}
+
+.soft-icon-title img{
+    height: 24px;
+    width: 18px;
 }

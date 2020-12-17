@@ -40,6 +40,7 @@ import * as Actions from './store/actions';
 import FileSaver from 'file-saver';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
 import FileViewDialog from './FileViewDialog';
+import * as ICONS from 'app/main/apps/constants';
 
 import Menu from '@material-ui/core/Menu';
 const useStyles = makeStyles({
@@ -192,29 +193,25 @@ function DetailSidebarContent({ setProgress }) {
 							) : selectedItem.extension == 'pdf' ? (
 								<ReadPDF height={256} width={270} file={selectedItem.document} />
 							) : selectedItem.type == 'video' ? (
-								<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+								<img className="icon mr-8" src={ICONS.VIDEO_ICON_PATH} />
 							) : selectedItem.extension == 'pdf' ? (
-								<img className="icon mr-8" src="/assets/fileIcons/pdf-icon.png" />
+								<img className="icon mr-8" src={ICONS.PDF_ICON_PATH} />
 							) : selectedItem.extension == 'docx' ? (
-								<img className="icon mr-8" src="/assets/fileIcons/doc-icon.png" />
+								<img className="icon mr-8" src={ICONS.DOC_ICON_PATH} />
 							) : selectedItem.extension == 'xlsx' ? (
-								<img className="icon mr-8" src="/assets/fileIcons/excel-icon.png" />
+								<img className="icon mr-8" src={ICONS.EXCEL_ICON_PATH} />
 							) : selectedItem.extension == 'mp3' ? (
-								<img className="icon mr-8" src="/assets/fileIcons/video-icon.png" />
+								<img className="icon mr-8" src={ICONS.AUDIO_ICON_PATH} />
 							) : (
-								<FontAwesomeIcon
-									icon={faFile}
-									style={{ ...getCssColor(selectedItem.extension), fontSize: '2.4rem' }}
-								/>
+								<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 							)}
 						</div>
 					</div>
 					<div className="px-10 py-12 border-b-1 border-t-1">
 						<MenuList className="flex items-center actions-dropdown p-0 small">
 							<MenuItem onClick={onDownload}>
-								<ListItemIcon>
-									<GetAppOutlinedIcon fontSize="medium" />
-								</ListItemIcon>
+								<img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />
+
 								<Typography variant="inherit">Download</Typography>
 							</MenuItem>
 							<MenuItem onClick={openDeleteFileDialog}>
