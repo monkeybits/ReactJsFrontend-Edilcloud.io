@@ -1301,7 +1301,7 @@ audio {
     color: #9EA1A9; 
 }
 .custom-fuse-page-right-sidebar .permanent {
-    height: auto;
+    height: 110vh;
     min-height: auto;
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
