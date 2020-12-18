@@ -1676,7 +1676,9 @@ audio {
 .custom-notification-bg{
     background-color: #FFF59D !important;
 }
-
+.gantt-min-height{
+    min-height: calc(100vh - 220px);
+}
 
 .setting-label-main span {
     font-size: 22px;

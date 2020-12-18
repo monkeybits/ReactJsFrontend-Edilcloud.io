@@ -901,7 +901,7 @@ class Gantt extends Component {
 				<div class="demo-main-container">
 					<div class="header gantt-demo-header">
 						<ul class="gantt-controls">
-							<li class="gantt-menu-item" onClick={this.toggleLeftPanel}>
+							{/* <li class="gantt-menu-item" onClick={this.toggleLeftPanel}>
 								<a data-action="collapseAll">
 									{this.state.toggleLeft ? (
 										<FontAwesomeIcon icon={faToggleOff} style={{ fontSize: '1.5rem' }} />
@@ -911,7 +911,7 @@ class Gantt extends Component {
 
 									<span class="header-text"> Toggle left </span>
 								</a>
-							</li>
+							</li> */}
 							<li class="gantt-menu-item" onClick={this.closeAll}>
 								<a data-action="collapseAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_collapse_all_24.png" />
