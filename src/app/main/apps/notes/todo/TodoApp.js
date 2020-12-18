@@ -25,7 +25,7 @@ import * as notificationActions from 'app/fuse-layouts/shared-components/notific
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_TASK_BY_ID, GET_ACTIVITY_BY_ID } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
-
+import ShowUpload from './ShowUpload';
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',
@@ -42,6 +42,7 @@ function TodoApp(props) {
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const upload = useSelector(({ todoAppNote }) => todoAppNote.todos.upload);
 
 	// useEffect(() => {
 	// 	dispatch(Actions.getFilters());
@@ -120,6 +121,13 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/> */}
+			{/* {isUploadingFiles && ( */}
+			{!!upload?.isUploading && (
+				<div className="linear-progress custom-color">
+					<ShowUpload progress={upload.uploadPercentage} />
+				</div>
+			)}
+			{/* )} */}
 			<FusePageSimple
 				classes={{
 					contentWrapper: 'h-full',

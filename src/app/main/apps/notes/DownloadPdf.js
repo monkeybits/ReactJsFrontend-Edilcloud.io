@@ -132,7 +132,7 @@ const DownloadPdf = ({ id, label, pid }) => {
 							}, 10000);
 						},
 						err => {},
-						METHOD.GET,
+						METHOD.POST,
 						getHeaderToken()
 					);
 

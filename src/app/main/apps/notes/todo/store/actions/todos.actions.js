@@ -35,9 +35,23 @@ export const CLOSE_EDIT_TODO_DIALOG = '[TODO APP] CLOSE EDIT TODO DIALOG (PROJEC
 export const CLOSE_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE ACTIVITY TODO DIALOG (PROJECT)';
 export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING (PROJECT)';
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER (PROJECT)';
+export const SET_UPLOAD = '[TODO APP] SET UPLOAD (PROJECT)';
+export const SET_UPLOAD_PERCENTAGE = '[TODO APP] SET UPLOAD PERCENTAGE (PROJECT)';
 
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+}
+export function setUpload(payload) {
+	return {
+		type: SET_UPLOAD,
+		payload
+	};
+}
+export function setUploadPercentage(payload) {
+	return {
+		type: SET_UPLOAD_PERCENTAGE,
+		payload
+	};
 }
 export function getTodos(pid, isGantt) {
 	// const request = axios.get('/api/todo-app/todos', { params });
