@@ -175,19 +175,21 @@ function FileList(props) {
 		<div className="file-folder-grid px-20">
 			<FuseAnimate animation="transition.slideUpIn" delay={300}>
 				<Table className="bg-white rounded table-shadow">
-					<TableHead>
-						<TableRow>
-							<TableCell className="max-w-64 w-64 p-0 text-center"> </TableCell>
-							<TableCell>Name</TableCell>
-							<TableCell className="hidden sm:table-cell">Type</TableCell>
-							<TableCell className="hidden sm:table-cell">Owner</TableCell>
-							<TableCell className="text-center hidden sm:table-cell">Size</TableCell>
-							<TableCell className="hidden sm:table-cell">Modified</TableCell>
-							<TableCell></TableCell>
-							<TableCell></TableCell>
-							<TableCell>Actions</TableCell>
-						</TableRow>
-					</TableHead>
+					{(currentFolderPath != '' || !!Object.entries(allFiles).length) && (
+						<TableHead>
+							<TableRow>
+								<TableCell className="max-w-64 w-64 p-0 text-center"> </TableCell>
+								<TableCell>Name</TableCell>
+								<TableCell className="hidden sm:table-cell">Type</TableCell>
+								<TableCell className="hidden sm:table-cell">Owner</TableCell>
+								<TableCell className="text-center hidden sm:table-cell">Size</TableCell>
+								<TableCell className="hidden sm:table-cell">Modified</TableCell>
+								<TableCell></TableCell>
+								<TableCell></TableCell>
+								<TableCell>Actions</TableCell>
+							</TableRow>
+						</TableHead>
+					)}
 
 					<TableBody>
 						{currentFolderPath != '' && (
@@ -238,6 +240,12 @@ function FileList(props) {
 											<img className="icon mr-8" src={ICONS.EXCEL_ICON_PATH} />
 										) : n.extension == 'mp3' ? (
 											<img className="icon mr-8" src={ICONS.AUDIO_ICON_PATH} />
+										) : n.extension == 'zip' || n.extension == 'rar' ? (
+											<div className="soft-icon-title">
+												<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
+											</div>
+										) : n.extension == 'ppt' || n.extension == 'pptx' || n.extension == 'pptm' ? (
+											<img className="icon mr-8" src={ICONS.SLIDES_ICON_PATH} />
 										) : (
 											<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 										)}
@@ -371,6 +379,13 @@ function FileList(props) {
 					</TableBody>
 				</Table>
 			</FuseAnimate>
+			{currentFolderPath == '' && !Object.entries(allFiles).length && (
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						There are no files!
+					</Typography>
+				</div>
+			)}
 		</div>
 	);
 }

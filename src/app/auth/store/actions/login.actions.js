@@ -80,12 +80,13 @@ const afterLogin = company_profile_id => {
 			METHOD.POST
 		);
 };
+
 const getMainProfile = mainProfileId => {
 	return dispatch =>
 		apiCall(
 			GET_MAIN_PROFILE(mainProfileId),
 			{},
-			res => dispatch(UserActions.setUserData({ redirectUrl: '/apps/todo/all' })),
+			res => dispatch(UserActions.setUserData({ ...res, redirectUrl: '/apps/todo/all' })),
 			err => console.log({ err }),
 			METHOD.GET,
 			getHeaderToken()

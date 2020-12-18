@@ -185,7 +185,7 @@ function DetailSidebarContent({ setProgress }) {
 			<FuseAnimate animation="transition.slideUpIn" delay={600}>
 				<div>
 					<div className="file-details p-24 border-b-1">
-						<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
+						<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center custom-pdf">
 							{selectedItem.type == 'photo' ? (
 								<img className="h-128 sm:h-256 object-contain" src={selectedItem.photo} />
 							) : selectedItem.extension == 'pdf' ? (
@@ -200,6 +200,14 @@ function DetailSidebarContent({ setProgress }) {
 								<img className="icon mr-8" src={ICONS.EXCEL_ICON_PATH} />
 							) : selectedItem.extension == 'mp3' ? (
 								<img className="icon mr-8" src={ICONS.AUDIO_ICON_PATH} />
+							) : selectedItem.extension == 'zip' || selectedItem.extension == 'rar' ? (
+								<div className="soft-icon-title">
+									<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
+								</div>
+							) : selectedItem.extension == 'ppt' ||
+							  selectedItem.extension == 'pptx' ||
+							  selectedItem.extension == 'pptm' ? (
+								<img className="icon mr-8" src={ICONS.SLIDES_ICON_PATH} />
 							) : (
 								<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 							)}

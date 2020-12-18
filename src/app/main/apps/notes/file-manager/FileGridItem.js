@@ -18,7 +18,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import clsx from 'clsx';
 import * as Actions from './store/actions';
-import { Icon } from '@material-ui/core';
+import { Icon, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PictureAsPdfOutlinedIcon from '@material-ui/icons/PictureAsPdfOutlined';
@@ -83,94 +83,108 @@ export default function FileGridItem({ tileData, pageLayout }) {
 	return (
 		<div className={classes.root}>
 			<GridList cellHeight={180} className={classes.gridList}>
-				{tileData.map(tile => (
-					<GridListTile key={tile.img} onClick={e => handleOpenData(e, tile)}>
-						{tile.type == 'video' ? (
-							<div className="soft-icon">
-								<img className="icon mr-8" src={ICONS.VIDEO_ICON_PATH} />
-							</div>
-						) : tile.type == 'photo' ? (
-							<img src={tile.photo} alt={tile.title} />
-						) : tile.extension == 'pdf' ? (
-							<div className="soft-icon">
-								<img className="mr-8" src={ICONS.PDF_ICON_PATH} />
-							</div>
-						) : tile.extension == 'mp3' ? (
-							<div className="soft-icon">
-								<img className="mr-8" src={ICONS.AUDIO_ICON_PATH} />
-							</div>
-						) : tile.extension == 'docx' ? (
-							<div className="soft-icon">
-								<img className="mr-8" src={ICONS.DOC_ICON_PATH} />
-							</div>
-						) : tile.extension == 'xlsx' ? (
-							<div className="soft-icon">
-								<img className="mr-8" src={ICONS.EXCEL_ICON_PATH} />
-							</div>
-						) : tile.extension == 'zip' || tile.extension == 'rar' ? (
-							<div className="soft-icon">
-								{' '}
-								<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
-							</div>
-						) : (
-							<div className="soft-icon">
-								<img className="mr-8" src={ICONS.GENERIC_ICON_PATH} />
-							</div>
-						)}
-						<GridListTileBar
-							className="text-14"
-							title={
-								<div className="flex">
-									{tile.extension == 'pdf' ? (
-										<div className="soft-icon-title">
-											<img className="mr-8" src={ICONS.PDF_ICON_PATH} />
-										</div>
-									) : tile.type == 'video' ? (
-										<div className="soft-icon-title">
-											<img className="mr-8" src={ICONS.VIDEO_ICON_PATH} />
-										</div>
-									) : tile.type == 'photo' ? (
-										<div className="soft-icon-title">
-											<img className="mr-8" src={ICONS.IMAGE_ICON_PATH} />
-										</div>
-									) : tile.extension == 'mp3' ? (
-										<div className="soft-icon-title">
-											<img className="mr-8" src={ICONS.AUDIO_ICON_PATH} />
-										</div>
-									) : tile.extension == 'docx' ? (
-										<div className="soft-icon-title">
-											<img className="mr-8" src={ICONS.DOC_ICON_PATH} />
-										</div>
-									) : tile.extension == 'xlsx' ? (
-										<div className="soft-icon-title">
-											<img className="mr-8" src={ICONS.EXCEL_ICON_PATH} />
-										</div>
-									) : tile.extension == 'zip' || tile.extension == 'rar' ? (
-										<div className="soft-icon-title">
-											<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
-										</div>
-									) : (
-										<div className="soft-icon-title">
-											<img className="mr-8" src={ICONS.GENERIC_ICON_PATH} />
-										</div>
-									)}
-									{/* <PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" /> */}
-									<p> {tile.title}</p>
+				{!!tileData?.length ? (
+					tileData.map(tile => (
+						<GridListTile key={tile.img} onClick={e => handleOpenData(e, tile)}>
+							{tile.type == 'video' ? (
+								<div className="soft-icon">
+									<img className="icon mr-8" src={ICONS.VIDEO_ICON_PATH} />
 								</div>
-							}
-							// subtitle={<span>size: {tile.size}</span>}
-							actionIcon={
-								<IconButton
-									// onClick={}
-									aria-label={`info about ${tile.title}`}
-									className={clsx(classes.icon, 'file-grid-action-dropdown')}
-								>
-									<MoreVertIcon />
-								</IconButton>
-							}
-						/>
-					</GridListTile>
-				))}
+							) : tile.type == 'photo' ? (
+								<img src={tile.photo} alt={tile.title} />
+							) : tile.extension == 'pdf' ? (
+								<div className="soft-icon">
+									<img className="mr-8" src={ICONS.PDF_ICON_PATH} />
+								</div>
+							) : tile.extension == 'mp3' ? (
+								<div className="soft-icon">
+									<img className="mr-8" src={ICONS.AUDIO_ICON_PATH} />
+								</div>
+							) : tile.extension == 'docx' ? (
+								<div className="soft-icon">
+									<img className="mr-8" src={ICONS.DOC_ICON_PATH} />
+								</div>
+							) : tile.extension == 'xlsx' ? (
+								<div className="soft-icon">
+									<img className="mr-8" src={ICONS.EXCEL_ICON_PATH} />
+								</div>
+							) : tile.extension == 'zip' || tile.extension == 'rar' ? (
+								<div className="soft-icon">
+									{' '}
+									<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
+								</div>
+							) : tile.extension == 'ppt' || tile.extension == 'pptx' || tile.extension == 'pptm' ? (
+								<img className="icon mr-8" src={ICONS.SLIDES_ICON_PATH} />
+							) : (
+								<div className="soft-icon">
+									<img className="mr-8" src={ICONS.GENERIC_ICON_PATH} />
+								</div>
+							)}
+							<GridListTileBar
+								className="text-14"
+								title={
+									<div className="flex">
+										{tile.extension == 'pdf' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.PDF_ICON_PATH} />
+											</div>
+										) : tile.type == 'video' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.VIDEO_ICON_PATH} />
+											</div>
+										) : tile.type == 'photo' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.IMAGE_ICON_PATH} />
+											</div>
+										) : tile.extension == 'mp3' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.AUDIO_ICON_PATH} />
+											</div>
+										) : tile.extension == 'docx' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.DOC_ICON_PATH} />
+											</div>
+										) : tile.extension == 'xlsx' ? (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.EXCEL_ICON_PATH} />
+											</div>
+										) : tile.extension == 'zip' || tile.extension == 'rar' ? (
+											<div className="soft-icon-title">
+												<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
+											</div>
+										) : tile.extension == 'ppt' ||
+										  tile.extension == 'pptx' ||
+										  tile.extension == 'pptm' ? (
+											<img className="icon mr-8" src={ICONS.SLIDES_ICON_PATH} />
+										) : (
+											<div className="soft-icon-title">
+												<img className="mr-8" src={ICONS.GENERIC_ICON_PATH} />
+											</div>
+										)}
+										{/* <PictureAsPdfOutlinedIcon className="text-18 text-red mr-8" /> */}
+										<p> {tile.title}</p>
+									</div>
+								}
+								// subtitle={<span>size: {tile.size}</span>}
+								actionIcon={
+									<IconButton
+										// onClick={}
+										aria-label={`info about ${tile.title}`}
+										className={clsx(classes.icon, 'file-grid-action-dropdown')}
+									>
+										<MoreVertIcon />
+									</IconButton>
+								}
+							/>
+						</GridListTile>
+					))
+				) : (
+					<div className="flex flex-1 items-center justify-center h-full">
+						<Typography color="textSecondary" variant="h5">
+							There are no files!
+						</Typography>
+					</div>
+				)}
 			</GridList>
 		</div>
 	);

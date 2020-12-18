@@ -53,7 +53,7 @@ function ContactsApp(props) {
 					wrapper: 'min-h-0 team-tab p-24'
 				}}
 				// header={<ContactsHeader onOpen={props.setOpenDialog} pageLayout={pageLayout} />}
-				content={<ContactsList />}
+				content={<ContactsList pageLayout={pageLayout} />}
 				leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
