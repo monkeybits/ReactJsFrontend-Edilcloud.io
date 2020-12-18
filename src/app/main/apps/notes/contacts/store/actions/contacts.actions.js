@@ -83,8 +83,8 @@ export function getApprovedContacts(routeParams) {
 			{},
 			res => {
 				let results = [];
-				if (res.results.length) {
-					results = res.results.map(d => {
+				if (res.length) {
+					results = res.map(d => {
 						const { first_name, last_name, photo, company, position, email, phone } = d.profile;
 						return {
 							...d,
@@ -121,8 +121,8 @@ export function getWaitingContacts(routeParams) {
 			{},
 			res => {
 				let results = [];
-				if (res.results.length) {
-					results = res.results.map(d => {
+				if (res.length) {
+					results = res.map(d => {
 						const { first_name, last_name, photo, company, position, email, phone } = d.profile;
 						return {
 							...d,
@@ -160,8 +160,8 @@ export function getRefusedContacts(routeParams) {
 			{},
 			res => {
 				let results = [];
-				if (res.results.length) {
-					results = res.results.map(d => {
+				if (res.length) {
+					results = res.map(d => {
 						const { first_name, last_name, photo, company, position, email, phone } = d.profile;
 						return {
 							...d,
@@ -198,8 +198,8 @@ export function getDeactivatedContacts(routeParams) {
 			{},
 			res => {
 				let results = [];
-				if (res.results.length) {
-					results = res.results.map(d => {
+				if (res.length) {
+					results = res.map(d => {
 						const { first_name, last_name, photo, company, position, email, phone } = d;
 						return {
 							...d,
