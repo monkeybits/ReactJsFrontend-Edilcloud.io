@@ -102,7 +102,7 @@ export default function PostListItem({
 	}, [post.comment_set]);
 	useEffect(() => {
 		let notification = notificationPanel.notificationData?.notification;
-		if (notificationPanel.viewing && notification?.content_type=="post" && hasRender && scrollRef.current) {
+		if (notificationPanel.viewing && notification?.content_type == 'post' && hasRender && scrollRef.current) {
 			dispatch(notificationActions.removeFrmViewNotification());
 			scrollRef.current.scrollIntoView(false);
 			scrollRef.current.classList.add('bg-yellow-200');
@@ -317,27 +317,26 @@ export default function PostListItem({
 							<>
 								{currnetPost.retryOption && !isRetryingPost ? (
 									<Button onClick={retryToPost}>Retry</Button>
-								) : (
-									<Box position="relative" display="inline-flex">
-										<CircularProgress size={20} className="mt-10 mr-24" color="secondary" />
-										<Box
-											top={20}
-											left={0}
-											bottom={0}
-											right={0}
-											position="absolute"
-											display="flex"
-											alignItems="center"
-											justifyContent="center"
-										>
-											<FontAwesomeIcon
-												icon={faUpload}
-												className="text-default"
-												style={{ fontSize: '1.6rem' }}
-											/>
-										</Box>
-									</Box>
-								)}
+								) : null // <Box position="relative" display="inline-flex">
+								// 	<CircularProgress size={20} className="mt-10 mr-24" color="secondary" />
+								// 	<Box
+								// 		top={20}
+								// 		left={0}
+								// 		bottom={0}
+								// 		right={0}
+								// 		position="absolute"
+								// 		display="flex"
+								// 		alignItems="center"
+								// 		justifyContent="center"
+								// 	>
+								// 		<FontAwesomeIcon
+								// 			icon={faUpload}
+								// 			className="text-default"
+								// 			style={{ fontSize: '1.6rem' }}
+								// 		/>
+								// 	</Box>
+								// </Box>
+								}
 							</>
 						)}
 						<IconButton
