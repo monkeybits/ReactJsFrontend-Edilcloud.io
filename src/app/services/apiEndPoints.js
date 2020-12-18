@@ -120,7 +120,7 @@ export const ADD_ATTCHMENTS_TO_TASK = tid => `/api/frontend/project/task/${tid}/
 export const EDIT_POST = pid => `/api/frontend/project/post/${pid}/edit/`;
 export const GET_GANTT_TASK_LIST = pid => `/api/frontend/project/gantt/project/${pid}/task_list/?no_page=no_page`;
 export const GET_ALL_PROJECT_TASKS = `/api/frontend/dashboard/projects/?no_page=no_page`;
-export const EXPORT_DATA = pid => `/api/frontend/project/project/${pid}/export/`;
+export const EXPORT_DATA = pid => `/api/frontend/project/project/${pid}/export/?type=zip`; //api/frontend/project/project/id/export/?type=zip
 export const GET_ALL_NOTIFICATIONS = (list, page) =>
 	`/api/frontend/notify/notification/recipient/${list}/?page=${page}`;
 export const GET_ALL_PAGES_NOTIFICATIONS = list =>

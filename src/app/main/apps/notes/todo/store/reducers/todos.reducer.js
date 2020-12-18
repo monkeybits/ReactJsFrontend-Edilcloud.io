@@ -2,6 +2,10 @@ import _ from '@lodash';
 import * as Actions from '../actions';
 
 const initialState = {
+	upload: {
+		isUploading: false,
+		uploadPercentage: 0
+	},
 	entities: [],
 	searchText: '',
 	orderBy: '',
@@ -98,6 +102,25 @@ const todosReducer = (state = initialState, action) => {
 						openTimelineDialog: true
 					},
 					data: action.todo
+				}
+			};
+		}
+		case Actions.SET_UPLOAD: {
+			return {
+				...state,
+				upload: {
+					...state.upload,
+					isUploading: action.payload,
+					uploadPercentage: 0
+				}
+			};
+		}
+		case Actions.SET_UPLOAD_PERCENTAGE: {
+			return {
+				...state,
+				upload: {
+					...state.upload,
+					uploadPercentage: action.payload
 				}
 			};
 		}
@@ -214,6 +237,7 @@ const todosReducer = (state = initialState, action) => {
 				orderBy: action.orderBy
 			};
 		}
+
 		default:
 			return state;
 	}

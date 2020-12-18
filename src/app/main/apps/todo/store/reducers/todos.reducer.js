@@ -2,6 +2,10 @@ import _ from '@lodash';
 import * as Actions from '../actions';
 
 const initialState = {
+	upload: {
+		isUploading: false,
+		uploadPercentage: 0
+	},
 	entities: [],
 	searchText: '',
 	orderBy: '',
@@ -29,7 +33,7 @@ const todosReducer = (state = initialState, action) => {
 			// console.log({ payload: action.payload });
 			return {
 				...state,
-				entities: {...action.payload},
+				entities: { ...action.payload },
 				searchText: '',
 				routeParams: action.routeParams
 			};
@@ -73,6 +77,25 @@ const todosReducer = (state = initialState, action) => {
 						open: false
 					},
 					data: null
+				}
+			};
+		}
+		case Actions.SET_UPLOAD: {
+			return {
+				...state,
+				upload: {
+					...state.upload,
+					isUploading: action.payload,
+					uploadPercentage: 0
+				}
+			};
+		}
+		case Actions.SET_UPLOAD_PERCENTAGE: {
+			return {
+				...state,
+				upload: {
+					...state.upload,
+					uploadPercentage: action.payload
 				}
 			};
 		}

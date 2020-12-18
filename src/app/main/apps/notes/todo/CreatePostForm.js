@@ -129,6 +129,7 @@ function CreatePostForm({ isTask, taskId }) {
 		console.log({ media_set });
 		let tempOfflinePosts = { ...offilePosts, [unique_code]: tempPost };
 		setOffilePosts(tempOfflinePosts);
+		dispatch(Actions.setUpload(true));
 		apiCall(
 			isTask ? ADD_POST_TO_TASK(taskId) : ADD_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
 			formData,
@@ -136,11 +137,13 @@ function CreatePostForm({ isTask, taskId }) {
 				console.log({ res });
 				delete tempOfflinePosts[res.unique_code];
 				setOffilePosts(tempOfflinePosts);
+				dispatch(Actions.setUpload(false));
 				getPosts();
 			},
 			err => {
 				// console.log({ myError: err, unique_code, tempOfflinePosts });
 				// let tempPosts = { ...offilePosts };
+				dispatch(Actions.setUpload(false));
 				tempOfflinePosts[unique_code] = {
 					...tempOfflinePosts[unique_code],
 					retryOption: true
@@ -150,7 +153,13 @@ function CreatePostForm({ isTask, taskId }) {
 				forceUpdate();
 			},
 			METHOD.POST,
-			getHeaderToken()
+			{
+				...getHeaderToken(),
+				onUploadProgress: function (progressEvent) {
+					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					dispatch(Actions.setUploadPercentage(percentCompleted));
+				}
+			}
 		);
 		document.getElementById('addPost').value = '';
 		setImages(null);

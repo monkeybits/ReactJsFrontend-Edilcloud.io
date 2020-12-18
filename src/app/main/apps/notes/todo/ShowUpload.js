@@ -73,12 +73,12 @@ const LinearProgressProg = withStyles({
 	}
 })(LinearProgress);
 
-export default function LinearWithValueLabel({ progress }) {
+export default function ShowUpload({ progress, label }) {
 	const classes = useStyles();
 
 	return (
 		<div className={classes.root}>
-			<LinearProgressWithLabel color="secondary" value={progress} />
+			<LinearProgressWithLabel color="secondary" label={label} value={progress} />
 		</div>
 	);
 }
