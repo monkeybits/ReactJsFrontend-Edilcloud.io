@@ -373,9 +373,9 @@ function ContactsList(props) {
 					</>
 				)
 			)}
-			<div className="flex justify-center mt-12">
+			{/* <div className="flex justify-center mt-12">
 				<Pagination count={10} />
-			</div>
+			</div> */}
 		</>
 	);
 }

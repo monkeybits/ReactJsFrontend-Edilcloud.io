@@ -19,10 +19,10 @@ export const REFRESH_TOKEN = id => `/api/frontend/user/token/refresh/${id}/`;
 export const ADD_NEW_MEMBER = '/api/frontend/profile/company/profile_add/';
 export const ADD_EXISTING_MEMBER = uid => `/api/frontend/profile/company/invite/profile_add/${uid}/`;
 
-export const GET_STAFF_LIST = '/api/frontend/profile/company/approve/staff_list/?per_page=12';
-export const GET_DISABLED_STAFF_LIST = 'api/frontend/profile/company/approve/staff_list/disabled/?per_page=12';
-export const GET_WAITING_STAFF_LIST = '/api/frontend/profile/company/waiting/staff_list/?per_page=12';
-export const GET_REFUSED_STAFF_LIST = '/api/frontend/profile/company/refuse/staff_list/?per_page=12';
+export const GET_STAFF_LIST = '/api/frontend/profile/company/approve/staff_list/?no_page=no_page';
+export const GET_DISABLED_STAFF_LIST = 'api/frontend/profile/company/approve/staff_list/disabled/?no_page=no_page';
+export const GET_WAITING_STAFF_LIST = '/api/frontend/profile/company/waiting/staff_list/?no_page=no_page';
+export const GET_REFUSED_STAFF_LIST = '/api/frontend/profile/company/refuse/staff_list/?no_page=no_page';
 export const UPDATE_MEMBER = id => `/api/frontend/profile/company/profile_edit/${id}/`;
 export const DEACTIVATE_MEMBER = id => `/api/frontend/profile/company/profile_disable/${id}/`;
 export const ACTIVATE_MEMBER = id => `/api/frontend/profile/company/profile_enable/${id}/`;
@@ -85,9 +85,9 @@ export const COMPANY_STAFF_LIST = (searchString, project_id) =>
 	`/api/frontend/profile/company/approve/staff_list_and_external/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__company__name__icontains=${searchString}&filter__email__exact=${searchString}&project_id=${project_id}&per_page=12`;
 export const ADD_TEAM_MEMBER_TO_PROJECT = (pid, is_external) =>
 	`/api/frontend/project/project/${pid}/team_add/?is_external=${is_external}`;
-export const GET_PROJECT_STAFF_LIST = pid => `/api/frontend/project/project/${pid}/approve/team_list/`;
-export const GET_PROJECT_STAFF_WAITING_LIST = pid => `/api/frontend/project/project/${pid}/waiting/team_list/`;
-export const GET_PROJECT_STAFF_REFUSE_LIST = pid => `/api/frontend/project/project/${pid}/refuse/team_list/`;
+export const GET_PROJECT_STAFF_LIST = pid => `/api/frontend/project/project/${pid}/approve/team_list/?no_page=no_page`;
+export const GET_PROJECT_STAFF_WAITING_LIST = pid => `/api/frontend/project/project/${pid}/waiting/team_list/?no_page=no_page`;
+export const GET_PROJECT_STAFF_REFUSE_LIST = pid => `/api/frontend/project/project/${pid}/refuse/team_list/?no_page=no_page`;
 export const ACCEPT_PROJECT_INVITATION = pid => `/api/frontend/project/team/enable/${pid}/`;
 export const REJECT_PROJECT_INVITATION = pid => `/api/frontend/project/team/disable/${pid}/`;
 export const CHAT_LIST = `/api/frontend/profile/company/talk_list/`;
