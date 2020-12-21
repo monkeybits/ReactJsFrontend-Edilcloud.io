@@ -20,6 +20,10 @@ import {
 	faFileWord
 } from '@fortawesome/free-regular-svg-icons';
 import VideoListItem from 'app/VideoPlayer/VideoListItem';
+import FileSaver from 'file-saver';
+import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from './services/apiEndPoints';
+import { apiCall, METHOD } from './services/baseUrl';
+import { getHeaderToken } from './services/serviceUtils';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -79,6 +83,40 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 	if (!imagesArray[step]) {
 		return null;
 	}
+	const handleDownload = () => {
+		const item = imagesArray[step];
+		let type = () => (item.type ? item.type.split('/')[0] : '');
+
+		let apiurl =
+			type() == 'image'
+				? DOWNLOAD_PHOTO(item.id)
+				: type() == 'video'
+				? DOWNLOAD_VIDEO(item.id)
+				: DOWNLOAD_DOCUMENT(item.id);
+		apiCall(
+			apiurl,
+			{},
+			({ headers, data }) => {
+				let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+				var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+				console.log({ file });
+				FileSaver.saveAs(file);
+				// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+				// FileSaver.saveAs(file);
+			},
+			err => {},
+			METHOD.GET,
+			{
+				...getHeaderToken(),
+				responseType: 'arraybuffer',
+				onDownloadProgress: progressEvent => {
+					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					// setProgress(percentCompleted);
+				}
+			},
+			true
+		);
+	};
 	const getPreviewByType = item => {
 		let type = () => (item.type ? item.type.split('/')[0] : '');
 		switch (type()) {
@@ -89,11 +127,7 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 				return <audio controls src={item.media_url} />;
 			}
 			case 'video': {
-				return <VideoListItem
-				width="100%"
-				height="100%"
-				video_url={item.media_url}
-			/>
+				return <VideoListItem width="100%" height="100%" video_url={item.media_url} />;
 			}
 			case 'application': {
 				return item.extension == '.xlsx' || item.extension == '.xls' ? (
@@ -119,8 +153,13 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 			<DialogTitle id="customized-dialog-title" onClose={closeViewFile}>
 				View File
 			</DialogTitle>
-			<DialogContent dividers className="chat-slider-modal-height">{getPreviewByType(imagesArray[step])}</DialogContent>
+			<DialogContent dividers className="chat-slider-modal-height">
+				{getPreviewByType(imagesArray[step])}
+			</DialogContent>
 			<DialogActions>
+				<Button variant="contained" color="primary" onClick={handleDownload}>
+					Download
+				</Button>
 				<Button disabled={step == 0} onClick={handlePrevious}>
 					previous
 				</Button>

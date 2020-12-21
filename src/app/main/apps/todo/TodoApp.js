@@ -1,3 +1,5 @@
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import Fab from '@material-ui/core/Fab';
 import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef } from 'react';
@@ -15,9 +17,20 @@ import CreatePostDialog from './CreatePostDialog';
 import TaskContentDialog from './TaskContentDialog';
 import TodoDialog from './TodoDialog';
 import ShowUpload from './ShowUpload';
+import { Icon, makeStyles } from '@material-ui/core';
+import AccessibilityToggleButton from 'app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton';
 
+const useStyles = makeStyles({
+	addButton: {
+		position: 'fixed',
+		right: 90,
+		bottom: 25,
+		zIndex: 999999
+	}
+});
 function TodoApp(props) {
 	const dispatch = useDispatch();
+	const classes = useStyles(props);
 
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
@@ -56,6 +69,7 @@ function TodoApp(props) {
 			<TodoDialog />
 			<CreatePostDialog />
 			<TaskContentDialog />
+			<AccessibilityToggleButton />
 		</>
 	);
 }

@@ -8,12 +8,15 @@ import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useRef, useState } from 'react';
 import CardAttachment from './CardAttachment';
 import ImagesPreview from 'app/main/apps/notes/todo/ImagesPreview';
+import ImagePreviewDialog from 'app/ImagePreviewDialog';
 
 function CreateAttachments({ taskId, attachments }) {
 	const [images, setImages] = useState(null);
 	const [mediaSets, setMediaSets] = useState(attachments);
 	const inputFile = useRef(null);
-	const [progress, setProgress] = React.useState(0);
+	const [progress, setProgress] = useState(0);
+	const [activtStep, setActivtStep] = useState(0);
+	const [open, setOpen] = useState(false);
 
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
@@ -112,10 +115,15 @@ function CreateAttachments({ taskId, attachments }) {
 						<Typography className="font-600 text-16 mx-8">Attachments</Typography>
 					</div>
 					<div className="flex flex-col sm:flex-row flex-wrap -mx-16">
-						{mediaSets.map(item => (
+						{mediaSets.map((item, i) => (
 							<CardAttachment
 								item={item}
 								card={{}}
+								setActivtStep={index => {
+									setActivtStep(index);
+									setOpen(true);
+								}}
+								index={i}
 								// makeCover={makeCover}
 								// removeCover={removeCover}
 								// removeAttachment={removeAttachment}
@@ -123,6 +131,14 @@ function CreateAttachments({ taskId, attachments }) {
 							/>
 						))}
 					</div>
+					{!!mediaSets && (
+						<ImagePreviewDialog
+							isOpenViewFile={open}
+							imagesArray={mediaSets}
+							activtStep={activtStep}
+							closeViewFile={() => setOpen(false)}
+						/>
+					)}
 				</div>
 			)}
 		</>

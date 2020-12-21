@@ -59,7 +59,8 @@ export default function PostListItem({
 	isOffline,
 	tempAuthor,
 	showPrject,
-	showTask
+	showTask,
+	media
 }) {
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
@@ -315,27 +316,28 @@ export default function PostListItem({
 					<div className="px-8">
 						{isOffline && !currnetPost.successAfterRetry && (
 							<>
-								{currnetPost.retryOption && !isRetryingPost ? (
-									<Button onClick={retryToPost}>Retry</Button>
-								) : null // <Box position="relative" display="inline-flex">
-								// 	<CircularProgress size={20} className="mt-10 mr-24" color="secondary" />
-								// 	<Box
-								// 		top={20}
-								// 		left={0}
-								// 		bottom={0}
-								// 		right={0}
-								// 		position="absolute"
-								// 		display="flex"
-								// 		alignItems="center"
-								// 		justifyContent="center"
-								// 	>
-								// 		<FontAwesomeIcon
-								// 			icon={faUpload}
-								// 			className="text-default"
-								// 			style={{ fontSize: '1.6rem' }}
-								// 		/>
-								// 	</Box>
-								// </Box>
+								{
+									currnetPost.retryOption && !isRetryingPost ? (
+										<Button onClick={retryToPost}>Retry</Button>
+									) : null // <Box position="relative" display="inline-flex">
+									// 	<CircularProgress size={20} className="mt-10 mr-24" color="secondary" />
+									// 	<Box
+									// 		top={20}
+									// 		left={0}
+									// 		bottom={0}
+									// 		right={0}
+									// 		position="absolute"
+									// 		display="flex"
+									// 		alignItems="center"
+									// 		justifyContent="center"
+									// 	>
+									// 		<FontAwesomeIcon
+									// 			icon={faUpload}
+									// 			className="text-default"
+									// 			style={{ fontSize: '1.6rem' }}
+									// 		/>
+									// 	</Box>
+									// </Box>
 								}
 							</>
 						)}
@@ -439,7 +441,7 @@ export default function PostListItem({
 					</Typography>
 				)}
 				<div className="posted-images">
-					<PostedImages images={post.media_set} />
+					<PostedImages images={post.media_set} showClick media={media} />
 				</div>
 				{/* {post.media && <img src={post.media} alt="post" />} */}
 			</CardContent>

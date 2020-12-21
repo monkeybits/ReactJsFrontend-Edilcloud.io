@@ -1310,7 +1310,7 @@ audio {
     color: #9EA1A9; 
 }
 .custom-fuse-page-right-sidebar .permanent {
-    height: 110vh;
+    height: 100%;
     min-height: auto;
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
@@ -1733,7 +1733,21 @@ audio {
 .custom-pdf .react-pdf__Page__canvas{
     height: 25.6rem !important;
 }
+#wrapped-tabpanel-2,
 #wrapped-tabpanel-1,
 #wrapped-tabpanel-3{
     height: calc(100% - 40px);
+}
+@media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
+    #wrapped-tabpanel-2 .custom-fuse-page-right-sidebar .permanent{
+        height: 100%;
+        overflow-y: scroll;
+        position: relative;
+    }
+  }
+
+
+#wrapped-tabpanel-3 .makeStyles-sidebarHeader-373{
+    height: 120px !important;
+    min-height: 120px !important;
 }
