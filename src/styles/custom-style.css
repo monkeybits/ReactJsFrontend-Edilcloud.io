@@ -1730,6 +1730,7 @@ audio {
 .custom-pdf .react-pdf__Page__canvas{
     height: 25.6rem !important;
 }
+#wrapped-tabpanel-2,
 #wrapped-tabpanel-1,
 #wrapped-tabpanel-3{
     height: calc(100% - 40px);
