@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Paper from '@material-ui/core/Paper';
@@ -11,6 +11,7 @@ import DrawImage from './DrawImage';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import VideoListItem from 'app/VideoPlayer/VideoListItem';
+import ImagePreviewDialog from 'app/ImagePreviewDialog';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews); //SwipeableViews;
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -37,12 +38,23 @@ const useStyles = makeStyles(theme => ({
 export default function PostedImages(props) {
 	const classes = useStyles();
 	const theme = useTheme();
-	const [activeStep, setActiveStep] = React.useState(0);
-	const [openDrawer, setOpenDrawer] = React.useState(false);
-	const [ImagePropert, setImagePropert] = React.useState({
+	const [activeStep, setActiveStep] = useState(0);
+	const [openDrawer, setOpenDrawer] = useState(false);
+	const [ImagePropert, setImagePropert] = useState({
 		height: 400,
 		width: 400
 	});
+	const media = props.media;
+	const [open, setOpen] = useState(false);
+	const [activtStep, setActivtStep] = useState(0);
+	const openImage = index => {
+		let selected = media.filter(file => file.id === props.images[index].id)[0];
+		// console.log(files[index], media.files, selected);
+		if (selected) {
+			setOpen(true);
+			setActivtStep(selected.index);
+		}
+	};
 	const maxSteps = props.images.length;
 	const handleNext = () => {
 		setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -76,7 +88,11 @@ export default function PostedImages(props) {
 							<>
 								{/* // props.images[activeStep]?.type == 'image' || true ? ( */}
 								{props.images[activeStep]?.type?.split('/')[0] == 'image' ? (
-									<img className={classes.img} src={props.images[activeStep].media_url} />
+									<img
+										className={classes.img}
+										src={props.images[activeStep].media_url}
+										onClick={() => openImage(index)}
+									/>
 								) : (
 									<VideoListItem
 										width="100%"
@@ -109,6 +125,15 @@ export default function PostedImages(props) {
 							Back
 						</Button>
 					}
+				/>
+			)}
+
+			{!!props.media && (
+				<ImagePreviewDialog
+					isOpenViewFile={open}
+					imagesArray={props.media}
+					activtStep={activtStep}
+					closeViewFile={() => setOpen(false)}
 				/>
 			)}
 		</div>

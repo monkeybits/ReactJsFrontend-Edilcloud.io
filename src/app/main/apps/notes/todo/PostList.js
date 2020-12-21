@@ -36,13 +36,15 @@ function PostList({
 	tempAuthor,
 	showPrject,
 	showTask,
-	scrollRef
+	scrollRef,
+	media
 }) {
 	if (!posts || posts?.length == 0) {
 		return null;
 	}
 	return posts.map((post, index) => (
 		<PostListItem
+			media={media}
 			scrollRef={scrollRef}
 			showTask={showTask}
 			showPrject={showPrject}
