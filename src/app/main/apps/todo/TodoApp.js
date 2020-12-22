@@ -71,16 +71,6 @@ function TodoApp(props) {
 			<CreatePostDialog />
 			<TaskContentDialog />
 			<AccessibilityToggleButton />
-			<FuseAnimate animation="transition.expandIn" delay={300}>
-				<Fab
-					color="primary"
-					aria-label="accessibility_new"
-					className={classes.addButton}
-					onClick={() => history.push(`/api/frontend/payments/?customer_id=${user?.customer}`)}
-				>
-					<Icon>group_work</Icon>
-				</Fab>
-			</FuseAnimate>
 		</>
 	);
 }

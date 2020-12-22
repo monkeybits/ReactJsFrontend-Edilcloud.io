@@ -24,6 +24,8 @@ import FileSaver from 'file-saver';
 import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from './services/apiEndPoints';
 import { apiCall, METHOD } from './services/baseUrl';
 import { getHeaderToken } from './services/serviceUtils';
+import * as ICONS from 'app/main/apps/constants';
+
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -133,12 +135,12 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 				return item.extension == '.xlsx' || item.extension == '.xls' ? (
 					<FontAwesomeIcon icon={faFileExcel} style={{ color: 'green', fontSize: '6.4rem' }} />
 				) : (
-					<FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '6.4rem' }} />
+					<img src={ICONS.GENERIC_ICON_PATH} />
 				);
 			}
 
 			default: {
-				return <FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '6.4rem' }} />;
+				return <img src={ICONS.GENERIC_ICON_PATH} />;
 			}
 		}
 	};

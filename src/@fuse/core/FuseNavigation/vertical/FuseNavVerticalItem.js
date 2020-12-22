@@ -48,6 +48,7 @@ function FuseNavVerticalItem(props) {
 	const userRole = useSelector(({ auth }) => auth.user.role);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const dispatch = useDispatch();
+	const user = useSelector(({ auth }) => auth.user.data.company);
 
 	const theme = useTheme();
 	const mdDown = useMediaQuery(theme.breakpoints.down('md'));
@@ -64,12 +65,27 @@ function FuseNavVerticalItem(props) {
 	}
 	const checkHasPermissOnChat = USER_CHATS_PATHS.filter(d => String(item.url).includes(d));
 	const checkHasPermissOnFile = FILE_MANAHER_PATHS.filter(d => String(item.url).includes(d));
-
+	if (item.isOutsideLink) {
+		console.log({ item });
+	}
 	return (
 		<ListItem
 			button
-			disabled={(checkHasPermissOnChat.length && !company.can_access_chat) || (checkHasPermissOnFile.length && !company.can_access_files)}
-			component={NavLinkAdapter}
+			disabled={
+				(checkHasPermissOnChat.length && !company.can_access_chat) ||
+				(checkHasPermissOnFile.length && !company.can_access_files)
+			}
+			component={item.isOutsideLink ? 'a' : NavLinkAdapter}
+			href={
+				item.isOutsideLink
+					? `${
+							process.env.NODE_ENV !== 'production'
+								? process.env.REACT_APP_BASE_URL_LOCAL
+								: process.env.REACT_APP_BASE_URL
+					  }/api/frontend/payments/?customer_id=${user?.customer}`
+					: 'javascript:;'
+			}
+			// target="_blank"
 			to={item.url}
 			activeClassName="active"
 			className={clsx(classes.item, 'list-item')}
