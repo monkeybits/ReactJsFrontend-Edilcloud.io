@@ -8,11 +8,11 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
-export default function MoreOption() {
+export default function MoreOption(props) {
 	const [anchorEl, setAnchorEl] = React.useState(false);
 	const options = [
-		{ name: 'Edit', icon: 'edit' },
-		{ name: 'Delete', icon: 'delete' }
+		// { name: 'Edit', icon: 'edit', handler: props.editHandler, view: true },
+		{ name: 'Delete', icon: 'delete', handler: props.deleteHandler, view: props.canHaveDeleteOption }
 	];
 	const handleClick = event => {
 		event.preventDefault();
@@ -39,14 +39,16 @@ export default function MoreOption() {
 				onClose={handleClose}
 				className="actions-dropdown"
 			>
-				{options.map(option => (
-					<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-						<ListItemIcon>
-							<Icon>{option.icon}</Icon>
-						</ListItemIcon>
-						<Typography variant="inherit"> {option.name}</Typography>
-					</MenuItem>
-				))}
+				{options.map(option =>
+					option.view ? (
+						<MenuItem key={option} selected={option === 'Pyxis'} onClick={option.handler}>
+							<ListItemIcon>
+								<Icon>{option.icon}</Icon>
+							</ListItemIcon>
+							<Typography variant="inherit"> {option.name}</Typography>
+						</MenuItem>
+					) : null
+				)}
 			</Menu>
 		</div>
 	);

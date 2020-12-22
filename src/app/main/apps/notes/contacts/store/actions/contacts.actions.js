@@ -68,20 +68,26 @@ export function addFilterByKey(filterKey) {
 		});
 	};
 }
-export function getContacts(pid) {
+export function getContacts(pid, handleSetLoading = () => '') {
 	return (dispatch, getState) => {
-		dispatch(getApprovedContacts(pid));
-		dispatch(getWaitingContacts(pid));
-		dispatch(getRefusedContacts(pid));
+		dispatch(getApprovedContacts(pid, handleSetLoading));
+		dispatch(getWaitingContacts(pid, handleSetLoading));
+		dispatch(getRefusedContacts(pid, handleSetLoading));
 		// dispatch(getDeactivatedContacts(routeParams));
 	};
 }
-export function getApprovedContacts(routeParams) {
+export function getApprovedContacts(routeParams, handleSetLoading) {
+	handleSetLoading({
+		loadingApprove: true
+	});
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_PROJECT_STAFF_LIST(routeParams),
 			{},
 			res => {
+				handleSetLoading({
+					loadingApprove: false
+				});
 				let results = [];
 				if (res.length) {
 					results = res.map(d => {
@@ -107,6 +113,9 @@ export function getApprovedContacts(routeParams) {
 				});
 			},
 			err => {
+				handleSetLoading({
+					loadingApprove: false
+				});
 				console.log(err);
 			},
 			METHOD.GET,
@@ -114,12 +123,18 @@ export function getApprovedContacts(routeParams) {
 		);
 	};
 }
-export function getWaitingContacts(routeParams) {
+export function getWaitingContacts(routeParams, handleSetLoading) {
+	handleSetLoading({
+		loadingWaiting: true
+	});
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_PROJECT_STAFF_WAITING_LIST(routeParams),
 			{},
 			res => {
+				handleSetLoading({
+					loadingWaiting: false
+				});
 				let results = [];
 				if (res.length) {
 					results = res.map(d => {
@@ -145,6 +160,9 @@ export function getWaitingContacts(routeParams) {
 				});
 			},
 			err => {
+				handleSetLoading({
+					loadingWaiting: false
+				});
 				console.log(err);
 			},
 			METHOD.GET,
@@ -153,12 +171,18 @@ export function getWaitingContacts(routeParams) {
 	};
 }
 
-export function getRefusedContacts(routeParams) {
+export function getRefusedContacts(routeParams, handleSetLoading) {
+	handleSetLoading({
+		loadingRefuse: true
+	});
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_PROJECT_STAFF_REFUSE_LIST(routeParams),
 			{},
 			res => {
+				handleSetLoading({
+					loadingRefuse: false
+				});
 				let results = [];
 				if (res.length) {
 					results = res.map(d => {
@@ -184,6 +208,9 @@ export function getRefusedContacts(routeParams) {
 				});
 			},
 			err => {
+				handleSetLoading({
+					loadingRefuse: false
+				});
 				console.log(err);
 			},
 			METHOD.GET,

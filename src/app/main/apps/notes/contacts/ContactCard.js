@@ -1,7 +1,7 @@
 import { Button, Grid } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
-import { getCompressFile } from 'app/services/serviceUtils';
+import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
@@ -15,27 +15,34 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import FuseUtils from '@fuse/utils';
+import MoreOption from './MoreOption';
+import DeleteConfirmDialog from '../../file-manager/DeleteConfirmDialog';
+import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
 
-export default function ContactCard({
-	id,
-	name,
-	lastName,
-	role,
-	email,
-	position,
-	status,
-	avatar,
-	address,
-	company,
-	phone,
-	language,
-	can_access_chat,
-	can_access_files,
-	editPermission
-}) {
+export default function ContactCard(props) {
+	const {
+		id,
+		name,
+		lastName,
+		role,
+		email,
+		position,
+		status,
+		avatar,
+		address,
+		company,
+		phone,
+		language,
+		can_access_chat,
+		can_access_files,
+		editPermission
+	} = props;
 	const dispatch = useDispatch();
 	const inputFile = useRef(null);
 	const [viewCroper, setViewCroper] = useState(false);
+	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+	const [userData, setUserData] = useState(null);
 	const [image, setImage] = useState(null);
 	const [permission, setPermission] = useState({
 		can_access_chat,
@@ -46,6 +53,7 @@ export default function ContactCard({
 		imagePreviewUrl: undefined
 	});
 	const [hasRender, setHasRender] = React.useState(false);
+	const routeParams = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.routeParams);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const scrollRef = useRef(null);
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == id;
@@ -63,7 +71,7 @@ export default function ContactCard({
 		let notification = notificationPanel.notificationData?.notification;
 		if (notificationPanel.viewing && notification?.content_type == 'team' && hasRender && scrollRef.current) {
 			dispatch(notificationActions.removeFrmViewNotification());
-			FuseUtils.notificationBackrondColor(scrollRef,'custom-notification-bg');
+			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
 		}
 	}, [notificationPanel.viewing, scrollRef, hasRender]);
 	const getPhoto = fileData => {
@@ -105,59 +113,64 @@ export default function ContactCard({
 		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
 	};
-
+	const openDeleteContactDialog = () => setIsOpenDeleteDialog(true);
+	const colseDeleteContactDialog = () => setIsOpenDeleteDialog(false);
 	const handleClose = event => {
 		event.stopPropagation();
 		setAnchorEl(null);
+	};
+	const onDeactivate = () => {
+		const { id, email } = userData;
+		let url = DELETE_MEMBER_FROM_PROJECT(id);
+		apiCall(
+			url,
+			{},
+			res => {
+				dispatch(Actions.removeContact(email));
+				colseDeleteContactDialog();
+				dispatch(Actions.getContacts(routeParams));
+			},
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
 	};
 	const openMenu = Boolean(anchorEl);
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid
-			
-			className="px-6 mb-20"
-			item
-			xs={6}
-			sm={6}
-			md={3}
-			xl={3}
-		>
-			<div ref={notificationPanel.notificationData?.notification?.object_id == id ? scrollRef : null} class="card-container flex flex-col px-10 text-13">
+		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3}>
+			<DeleteConfirmDialog
+				text={
+					<>
+						<Typography>Are you sure want to delete ?</Typography>
+						{/* {filterKey != 'deactivated' && (
+							<Typography>Account will be deactivated untill you not activet this user again!</Typography>
+						)} */}
+					</>
+				}
+				isOpenDeleteDialog={isOpenDeleteDialog}
+				colseDeleteFileDialog={colseDeleteContactDialog}
+				onYes={onDeactivate}
+				onNo={colseDeleteContactDialog}
+			/>
+			<div
+				ref={notificationPanel.notificationData?.notification?.object_id == id ? scrollRef : null}
+				class="card-container flex flex-col px-10 text-13"
+			>
 				<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
-				<div className="team-action">
-					<IconButton
-						aria-label="more"
-						aria-controls="long-menu"
-						aria-haspopup="true"
-						className="p-2"
-						onClick={handleClick}
-					>
-						<MoreVertIcon />
-					</IconButton>
-					<Menu
-						id="long-menu"
-						anchorEl={anchorEl}
-						keepMounted
-						open={openMenu}
-						onClose={handleClose}
-						className="actions-dropdown"
-						// PaperProps={{
-						// 	style: {
-						// 		width: '20ch'
-						// 	}
-						// }}
-					>
-						{options.map(option => (
-							<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-								<ListItemIcon>
-									<PriorityHighIcon fontSize="small" />
-								</ListItemIcon>
-								<Typography variant="inherit"> {option}</Typography>
-							</MenuItem>
-						))}
-					</Menu>
-				</div>
+				{editPermission && (
+					<div className="team-action">
+						<MoreOption
+							canHaveDeleteOption={editPermission}
+							deleteHandler={ev => {
+								ev.stopPropagation();
+								setUserData(props);
+								openDeleteContactDialog();
+							}}
+						/>
+					</div>
+				)}
 				<input
 					type="file"
 					accept="image/*"

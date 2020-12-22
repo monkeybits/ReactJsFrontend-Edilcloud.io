@@ -64,7 +64,8 @@ export default function ProjectListitem(props) {
 		date_end,
 		profiles,
 		isApproved,
-		talks
+		talks,
+		address
 	} = projects[index];
 	const [expanded, setExpanded] = React.useState(false);
 	const [activeNotification, setActiveNotification] = React.useState(false);
@@ -256,7 +257,7 @@ export default function ProjectListitem(props) {
 				<Tab label="Weather" {...a11yProps(2)} /> */}
 			</Tabs>
 			<TabPanel value={value} index={0} className="tab_panel">
-				{description}{' '}
+				{address}{' '}
 				<div className="flex overflow-x-auto nowrap about-image-section mt-16">
 					{!!profiles?.length &&
 						profiles.map(d => (

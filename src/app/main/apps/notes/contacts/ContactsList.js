@@ -11,7 +11,7 @@ import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 import ContactsTable from './ContactsTable';
 import * as Actions from './store/actions';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
+import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER, DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import DeleteConfirmDialog from '../../file-manager/DeleteConfirmDialog';
 import './contact-cards.css';
@@ -33,6 +33,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import MoreOption from './MoreOption';
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -163,8 +164,24 @@ function ContactsList(props) {
 				Header: 'Action',
 				// width: 128,
 				sortable: false,
-				Cell: ({ row }) =>
-					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && <MoreOption />
+				Cell: ({ row }) => {
+					console.log(user, row.original, userInfo);
+					return (
+						(getRole() == 'o' || getRole() == 'd') &&
+						userInfo.user_id != row.original.profile.id && (
+							<MoreOption
+								canHaveDeleteOption={
+									row.original.profile && userInfo.user_id != row.original.profile.id
+								}
+								deleteHandler={ev => {
+									ev.stopPropagation();
+									setUserData(row.original);
+									openDeleteContactDialog();
+								}}
+							/>
+						)
+					);
+				}
 			}
 		],
 		[dispatch, user.starred]
@@ -252,17 +269,28 @@ function ContactsList(props) {
 	}
 
 	if (filteredData.length === 0) {
-		return (
-			<div className="flex flex-1 items-center justify-center h-full">
-				<Typography color="textSecondary" variant="h5">
-					There are no contacts!
-				</Typography>
-			</div>
-		);
+		if (props.loadingApprove || props.loadingRefuse || props.loadingWaiting) {
+			return (
+				<div className="flex flex-1 flex-col items-center justify-center">
+					<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+						Loading contacts...
+					</Typography>
+					<LinearProgress className="w-xs" color="secondary" />
+				</div>
+			);
+		} else {
+			return (
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						There are no contacts!
+					</Typography>
+				</div>
+			);
+		}
 	}
 	const onDeactivate = () => {
 		const { id, email } = userData;
-		let url = filterKey == 'deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
+		let url = DELETE_MEMBER_FROM_PROJECT(id);
 		apiCall(
 			url,
 			{},
@@ -272,7 +300,7 @@ function ContactsList(props) {
 				dispatch(Actions.getContacts(routeParams));
 			},
 			err => console.log(err),
-			METHOD.PUT,
+			METHOD.DELETE,
 			getHeaderToken()
 		);
 	};
@@ -327,12 +355,10 @@ function ContactsList(props) {
 			<DeleteConfirmDialog
 				text={
 					<>
-						<Typography>
-							Are you sure want to {filterKey == 'deactivated' ? 'activate' : 'deactivate'} ?
-						</Typography>
-						{filterKey != 'deactivated' && (
+						<Typography>Are you sure want to delete ?</Typography>
+						{/* {filterKey != 'deactivated' && (
 							<Typography>Account will be deactivated untill you not activet this user again!</Typography>
-						)}
+						)} */}
 					</>
 				}
 				isOpenDeleteDialog={isOpenDeleteDialog}
@@ -363,7 +389,8 @@ function ContactsList(props) {
 									//company.id == data.profile?.company?.id ?
 									<ContactCard
 										editPermission={
-											getRole() == 'o' || getRole() == 'd' || data.email == userInfo?.email
+											(getRole() == 'o' || getRole() == 'd') &&
+											userInfo.user_id != data.profile.id
 										}
 										{...data}
 									/>
