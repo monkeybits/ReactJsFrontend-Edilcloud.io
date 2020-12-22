@@ -45,6 +45,7 @@ import CreatePostForm from '../CreatePostForm';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
+import ShowUpload from '../ShowUpload';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -174,6 +175,7 @@ const IOSSlider = withStyles({
 
 function TaskContentForm(props) {
 	const dispatch = useDispatch();
+	const upload = useSelector(({ todoAppNote }) => todoAppNote.todos.upload);
 	const taskContent = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
 	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
@@ -380,6 +382,11 @@ function TaskContentForm(props) {
 							<Icon>close</Icon>
 						</IconButton>
 					</Toolbar>
+					{!!upload?.isUploading && (
+						<div className="linear-progress custom-color">
+							<ShowUpload progress={upload.uploadPercentage} label="Processing uploading post" />
+						</div>
+					)}
 				</AppBar>
 			</DialogTitle>
 
@@ -692,8 +699,7 @@ function TaskContentForm(props) {
 				</TabPanel> */}
 			</DialogContent>
 
-			<DialogActions
-					ClassName="bg-blue">
+			<DialogActions ClassName="bg-blue">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {
@@ -702,8 +708,19 @@ function TaskContentForm(props) {
 					showLabels
 					className="flex justify-around w-full"
 				>
-					<BottomNavigationAction ClassName="white" icon={<Icon>timeline</Icon>} label="Contents" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction ClassName="white" icon={<Icon>square_foot</Icon>} label="Drawings" {...a11yProps(1)} />
+					<BottomNavigationAction
+						ClassName="white"
+						icon={<Icon>timeline</Icon>}
+						label="Contents"
+						wrapped
+						{...a11yProps(0)}
+					/>
+					<BottomNavigationAction
+						ClassName="white"
+						icon={<Icon>square_foot</Icon>}
+						label="Drawings"
+						{...a11yProps(1)}
+					/>
 					<BottomNavigationAction ClassName="white" icon={<Icon>edit</Icon>} label="Edit" {...a11yProps(2)} />
 				</BottomNavigation>
 			</DialogActions>
