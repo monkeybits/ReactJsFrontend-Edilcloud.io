@@ -4,7 +4,7 @@ import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
@@ -24,17 +24,18 @@ const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',
 		right: 90,
-		bottom: 25,
+		bottom: 100,
 		zIndex: 999999
 	}
 });
 function TodoApp(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles(props);
-
+	const history = useHistory();
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 	const upload = useSelector(({ todoApp }) => todoApp.todos.upload);
+	const user = useSelector(({ auth }) => auth.user.data.company);
 
 	useEffect(() => {
 		// dispatch(Actions.getFilters());
@@ -70,6 +71,16 @@ function TodoApp(props) {
 			<CreatePostDialog />
 			<TaskContentDialog />
 			<AccessibilityToggleButton />
+			<FuseAnimate animation="transition.expandIn" delay={300}>
+				<Fab
+					color="primary"
+					aria-label="accessibility_new"
+					className={classes.addButton}
+					onClick={() => history.push(`/api/frontend/payments/?customer_id=${user?.customer}`)}
+				>
+					<Icon>group_work</Icon>
+				</Fab>
+			</FuseAnimate>
 		</>
 	);
 }

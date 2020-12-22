@@ -90,6 +90,7 @@ export const GET_PROJECT_STAFF_WAITING_LIST = pid => `/api/frontend/project/proj
 export const GET_PROJECT_STAFF_REFUSE_LIST = pid => `/api/frontend/project/project/${pid}/refuse/team_list/?no_page=no_page`;
 export const ACCEPT_PROJECT_INVITATION = pid => `/api/frontend/project/team/enable/${pid}/`;
 export const REJECT_PROJECT_INVITATION = pid => `/api/frontend/project/team/disable/${pid}/`;
+export const DELETE_MEMBER_FROM_PROJECT = mid => `/api/frontend/project/team/delete/${mid}/`;
 export const CHAT_LIST = `/api/frontend/profile/company/talk_list/`;
 export const ADD_TASK_TO_PROJECT = pid => `/api/frontend/project/project/${pid}/task_add/`;
 export const GET_TASK_LIST = pid => `/api/frontend/project/project/${pid}/task_list/?no_page=no_page`;

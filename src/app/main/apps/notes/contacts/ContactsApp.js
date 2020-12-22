@@ -4,7 +4,7 @@ import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
@@ -33,9 +33,18 @@ function ContactsApp(props) {
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 	const company = useSelector(({ chatApp }) => chatApp?.company);
-
+	const [loading, setLoading] = useState({
+		loadingApprove: false,
+		loadingRefuse: false,
+		loadingWaiting: false
+	});
+	const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+		}));
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getContacts(routeParams.id));
+		dispatch(Actions.getContacts(routeParams.id, handleSetLoading));
 		dispatch(Actions.getUserData());
 		return dispatch(Actions.resetContact());
 	}, [dispatch, routeParams]);
@@ -53,7 +62,7 @@ function ContactsApp(props) {
 					wrapper: 'min-h-0 team-tab p-24'
 				}}
 				// header={<ContactsHeader onOpen={props.setOpenDialog} pageLayout={pageLayout} />}
-				content={<ContactsList pageLayout={pageLayout} />}
+				content={<ContactsList pageLayout={pageLayout} {...loading} />}
 				leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
