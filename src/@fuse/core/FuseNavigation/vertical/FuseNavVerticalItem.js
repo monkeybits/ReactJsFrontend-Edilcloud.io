@@ -82,7 +82,7 @@ function FuseNavVerticalItem(props) {
 							process.env.NODE_ENV !== 'production'
 								? process.env.REACT_APP_BASE_URL_LOCAL
 								: process.env.REACT_APP_BASE_URL
-					  }/api/frontend/payments/?customer_id=${user?.customer}`
+					  }api/frontend/payments/?customer_id=${user?.customer}`
 					: 'javascript:;'
 			}
 			// target="_blank"
