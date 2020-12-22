@@ -39,6 +39,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import EditActivityForm from './EditActivityForm';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShowUpload from './ShowUpload';
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -88,6 +89,7 @@ const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0
 
 function CreatePostDialog(props) {
 	const dispatch = useDispatch();
+	const upload = useSelector(({ todoAppNote }) => todoAppNote.todos.upload);
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	const [value, setValue] = React.useState(0);
 	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
@@ -236,6 +238,11 @@ function CreatePostDialog(props) {
 						<CloseIcon />
 					</IconButton>
 				</div>
+				{!!upload?.isUploading && (
+					<div className="linear-progress custom-color">
+						<ShowUpload progress={upload.uploadPercentage} label="Processing uploading post" />
+					</div>
+				)}
 			</div>
 			<div className="mt-24 mx-24 sm:mx-32 todo-bg-footer p-12 px-20 rounded">
 				{todoDialog.data?.task?.project && (

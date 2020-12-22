@@ -122,11 +122,7 @@ function TodoApp(props) {
 				innerScroll
 			/> */}
 			{/* {isUploadingFiles && ( */}
-			{!!upload?.isUploading && (
-				<div className="linear-progress custom-color">
-					<ShowUpload progress={upload.uploadPercentage} />
-				</div>
-			)}
+			
 			{/* )} */}
 			<FusePageSimple
 				classes={{

@@ -72,6 +72,7 @@ export default function CommentListItem({
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const [hasRender, setHasRender] = React.useState(false);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const [anchorEl, setAnchorEl] = React.useState(null);
 	const scrollRef = useRef(null);
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == comment.id;
 	useEffect(() => {
@@ -99,7 +100,17 @@ export default function CommentListItem({
 			setReplyComments([]);
 		};
 	}, [comment.replies_set]);
-	const options = ['Edit', 'Delete'];
+	const options = [
+		{
+			name: 'Edit',
+			handler: () => {
+				setEditText(comment.text);
+				setIsEditing(true);
+				setAnchorEl(null);
+			}
+		},
+		{ name: 'Delete', handler: handleDeleteComment }
+	];
 
 	useEffect(() => {
 		let notification = notificationPanel.notificationData?.notification;
@@ -288,7 +299,6 @@ export default function CommentListItem({
 		setIsReplying(false);
 		getReplies();
 	};
-	const [anchorEl, setAnchorEl] = React.useState(null);
 	const openMenu = Boolean(anchorEl);
 
 	const handleClick = event => {
@@ -369,11 +379,15 @@ export default function CommentListItem({
 								}}
 							>
 								{options.map(option => (
-									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+									<MenuItem
+										key={option.name}
+										selected={option.name === 'Pyxis'}
+										onClick={option.handler}
+									>
 										<ListItemIcon>
 											<PriorityHighIcon fontSize="small" />
 										</ListItemIcon>
-										<Typography variant="inherit"> {option}</Typography>
+										<Typography variant="inherit"> {option.name}</Typography>
 									</MenuItem>
 								))}
 							</Menu>
