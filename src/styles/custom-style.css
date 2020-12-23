@@ -310,6 +310,7 @@ textarea.MuiOutlinedInput-input {
     margin-left: 6px;
     padding-left: 18px;
     position: relative;
+    color: white;
 }
 .sidebar-content ul a.active {
     background-color: #376aed;
