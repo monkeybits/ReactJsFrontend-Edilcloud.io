@@ -109,7 +109,13 @@ export default function CommentListItem({
 				setAnchorEl(null);
 			}
 		},
-		{ name: 'Delete', handler: handleDeleteComment }
+		{
+			name: 'Delete',
+			handler: e => {
+				handleDeleteComment();
+				setAnchorEl(null);
+			}
+		}
 	];
 
 	useEffect(() => {
@@ -259,7 +265,6 @@ export default function CommentListItem({
 		);
 	};
 	const handleDeleteComment = e => {
-		e.preventDefault();
 		apiCall(
 			DELETE_COMMENT(comment.id),
 			{},

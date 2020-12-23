@@ -54,7 +54,23 @@ export default function ReplyListItem({
 	const [isRetryingPostReply, setIsRetryingPostReply] = useState(false);
 	const [editText, setEditText] = useState('');
 	const [isEditing, setIsEditing] = useState(false);
-	const options = ['Edit', 'Delete'];
+	const options = [
+		{
+			name: 'Edit',
+			handler: () => {
+				setEditText(comment.text);
+				setIsEditing(true);
+				setAnchorEl(null);
+			}
+		},
+		{
+			name: 'Delete',
+			handler: e => {
+				handleDeleteComment();
+				setAnchorEl(null);
+			}
+		}
+	];
 	const [hasRender, setHasRender] = React.useState(false);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const scrollRef = useRef(null);
@@ -106,7 +122,6 @@ export default function ReplyListItem({
 		);
 	};
 	const handleDeleteComment = e => {
-		e.preventDefault();
 		apiCall(
 			DELETE_COMMENT(comment.id),
 			{},
@@ -216,11 +231,15 @@ export default function ReplyListItem({
 								}}
 							>
 								{options.map(option => (
-									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+									<MenuItem
+										key={option.name}
+										selected={option.name === 'Pyxis'}
+										onClick={option.handler}
+									>
 										<ListItemIcon>
 											<PriorityHighIcon fontSize="small" />
 										</ListItemIcon>
-										<Typography variant="inherit"> {option}</Typography>
+										<Typography variant="inherit"> {option.name}</Typography>
 									</MenuItem>
 								))}
 							</Menu>
