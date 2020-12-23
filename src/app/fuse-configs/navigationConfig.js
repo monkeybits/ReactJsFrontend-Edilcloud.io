@@ -142,10 +142,10 @@ const navigationConfig = [
 				title: 'Plan',
 				translate: 'Plan',
 				type: 'item',
-				icon: 'group_work',
+				icon: 'payment',
 				isOutsideLink: true,
 				tag: 'a',
-				url: 'api/frontend/payments/?customer_id='
+				url: 'api/frontend/payments/customer_portal/?customer_id='
 			}
 		]
 	},
