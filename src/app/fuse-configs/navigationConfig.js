@@ -145,7 +145,7 @@ const navigationConfig = [
 				icon: 'payment',
 				isOutsideLink: true,
 				tag: 'a',
-				url: 'api/frontend/payments/customer_portal/?customer_id='
+				url: 'api/frontend/payments/customer-portal/?customer_id='
 			}
 		]
 	},
