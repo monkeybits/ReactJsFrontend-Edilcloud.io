@@ -2,6 +2,7 @@ import _ from '@lodash';
 import * as Actions from '../actions';
 
 const initialState = {
+	isLoadingTodos: false,
 	upload: {
 		isUploading: false,
 		uploadPercentage: 0
@@ -103,6 +104,12 @@ const todosReducer = (state = initialState, action) => {
 					},
 					data: action.todo
 				}
+			};
+		}
+		case Actions.SET_LOADING: {
+			return {
+				...state,
+				isLoadingTodos: action.payload
 			};
 		}
 		case Actions.SET_UPLOAD: {

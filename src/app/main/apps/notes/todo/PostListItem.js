@@ -23,6 +23,7 @@ import {
 	ADD_COMMENT_TO_POST,
 	ADD_POST_TO_ACTIVITY,
 	ADD_POST_TO_TASK,
+	DELETE_POST,
 	EDIT_POST,
 	GET_COMMENT_OF_POST,
 	SHARE_ACTIVITY_POST_TO_TASK
@@ -60,7 +61,8 @@ export default function PostListItem({
 	tempAuthor,
 	showPrject,
 	showTask,
-	media
+	media,
+	afterDeletePost
 }) {
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
@@ -74,8 +76,27 @@ export default function PostListItem({
 	);
 	const [offlinePostComments, setofflinePostComments] = useState({});
 	const [isRetryingPost, setIsRetryingPost] = useState(false);
+	const [anchorEl, setAnchorEl] = React.useState(null);
 
-	const options = ['Edit', 'Delete', 'Report as inapropriate'];
+	const options = [
+		{
+			icon: 'edit',
+			name: 'Edit',
+			handler: () => {
+				// setEditText(comment.text);
+				// setIsEditing(true);
+				// setAnchorEl(null);
+			}
+		},
+		{
+			icon: 'delete',
+			name: 'Delete',
+			handler: e => {
+				handleDeletePost();
+				setAnchorEl(null);
+			}
+		}
+	];
 
 	const [hasRender, setHasRender] = React.useState(false);
 	const [, updateState] = React.useState();
@@ -114,7 +135,6 @@ export default function PostListItem({
 			}, 5000);
 		}
 	}, [notificationPanel.viewing, scrollRef, hasRender]);
-	const [anchorEl, setAnchorEl] = React.useState(null);
 
 	const openMenu = Boolean(anchorEl);
 
@@ -294,6 +314,16 @@ export default function PostListItem({
 		getComments();
 	};
 	const deleteCommentByIndex = index => setPostComments(prevComments => prevComments.filter((d, i) => i != index));
+	const handleDeletePost = () => {
+		apiCall(
+			DELETE_POST(post.id),
+			{},
+			res => afterDeletePost(),
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
 	if (!Object.entries(post).length) {
 		return null;
 	}
@@ -375,11 +405,15 @@ export default function PostListItem({
 								// }}
 							>
 								{options.map(option => (
-									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+									<MenuItem
+										key={option.name}
+										selected={option.name === 'Pyxis'}
+										onClick={option.handler}
+									>
 										<ListItemIcon>
-											<PriorityHighIcon fontSize="small" />
+											<Icon>{option.icon}</Icon>
 										</ListItemIcon>
-										<Typography variant="inherit"> {option}</Typography>
+										<Typography variant="inherit"> {option.name}</Typography>
 									</MenuItem>
 								))}
 							</Menu>
@@ -446,16 +480,16 @@ export default function PostListItem({
 				{/* {post.media && <img src={post.media} alt="post" />} */}
 			</CardContent>
 
-			<CardActions disableSpacing className="bg-custom-primary px-12 py-4">
-				<Button size="small" className="text-white text-13" aria-label="Add to favorites">
+			<CardActions disableSpacing className="bg-custom-primary px-12 py-4 flex justify-center">
+				{/* <Button size="small" className="text-white text-13" aria-label="Add to favorites">
 					<Icon className="text-white text-14">favorite</Icon>
 					<Typography className="normal-case text-white text-13 mx-4">Like</Typography>
 					<Typography className="normal-case text-13">({post.like})</Typography>
-				</Button>
+				</Button> */}
 				<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
 					<Icon className="text-white text-14">share</Icon>
 					<Typography className="normal-case text-white text-13 mx-4">Share</Typography>
-					<Typography className="normal-case text-13">({post.share})</Typography>
+					{!!post.share && <Typography className="normal-case text-13">({post.share})</Typography>}
 				</Button>
 			</CardActions>
 
