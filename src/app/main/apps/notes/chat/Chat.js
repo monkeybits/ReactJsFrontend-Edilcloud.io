@@ -18,7 +18,8 @@ import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
 import RetryToSendMessage from './RetryToSendMessage';
 import SendMessageForm from './SendMessageForm';
-
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import FuseUtils from '@fuse/utils';
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
@@ -122,6 +123,23 @@ function Chat(props) {
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
 	const routeParams = useParams();
 	const [images, setImages] = useState(null);
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+	useEffect(() => {
+		if (!!chat?.chats?.length) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 600);
+		}
+	}, [chat?.chats]);
+
+	useEffect(() => {
+		if (notificationPanel.viewing && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
 
 	useEffect(() => {
 		if (chat?.chats?.length && chat.chats.length != chatLength) {
@@ -230,6 +248,11 @@ function Chat(props) {
 										{ 'last-of-group': isLastMessageOfGroup(item, i) },
 										i + 1 === chat.length && 'pb-96'
 									)}
+									ref={
+										notificationPanel.notificationData?.notification?.object_id == '23'
+											? scrollRef
+											: null
+									}
 								>
 									{isLastMessageOfGroup(item, i) && contact.id != userIdFromCompany && (
 										<Avatar

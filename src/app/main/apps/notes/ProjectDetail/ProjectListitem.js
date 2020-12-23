@@ -257,7 +257,8 @@ export default function ProjectListitem(props) {
 				<Tab label="Weather" {...a11yProps(2)} /> */}
 			</Tabs>
 			<TabPanel value={value} index={0} className="tab_panel">
-				{address}{' '}
+				<Typography>{address}</Typography>
+				<Typography>{description}</Typography>
 				<div className="flex overflow-x-auto nowrap about-image-section mt-16">
 					{!!profiles?.length &&
 						profiles.map(d => (

@@ -346,7 +346,10 @@ function NotificationPanel(props) {
 																						)
 																					);
 																				}}
-																				to={notification.body.url}
+																				to={notification.body.url.replace(
+																					'https://localhost:3000',
+																					''
+																				)}
 																			>
 																				{notification.body.content}
 																			</Link>
