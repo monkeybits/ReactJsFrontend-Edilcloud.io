@@ -1311,7 +1311,7 @@ audio {
     color: #9EA1A9; 
 }
 .custom-fuse-page-right-sidebar .permanent {
-    height: auto;
+    height: 100%;
     min-height: auto;
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
@@ -1735,9 +1735,14 @@ audio {
     height: 25.6rem !important;
 }
 #wrapped-tabpanel-2,
-#wrapped-tabpanel-1,
 #wrapped-tabpanel-3{
     height: calc(100% - 40px);
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+    #wrapped-tabpanel-1{
+        height: calc(100% - 70px);    
+    }
 }
 @media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
     #wrapped-tabpanel-2 .custom-fuse-page-right-sidebar .permanent{

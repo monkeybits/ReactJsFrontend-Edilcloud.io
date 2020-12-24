@@ -394,10 +394,10 @@ export default function PostListItem({
 						<Typography className="font-600 capitalize" color="primary" paragraph={false}>
 							{post.author.first_name} {post.author.last_name}
 						</Typography>
-						<div className="flex">
+						<div className="">
 							{showPrject && (
 								<>
-									<span className="mr-4 flex">
+									<div className="mr-4 flex">
 										<Icon className="text-16 mt-10 mr-4">work_outline</Icon>
 										<Typography
 											variant="h6"
@@ -407,19 +407,19 @@ export default function PostListItem({
 										>
 											{post.project.name}
 										</Typography>
-									</span>
+									</div>
 									{/* )} */}
 									{/* {showTask && (<> */}
-									<span className="mx-4 pt-6">
+									<div className="mx-4">
 										<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
 											{post.task.name}
 										</Typography>
-									</span>
-									<span className="mx-4 pt-6">
+									</div>
+									<div className="mx-4 pt-6">
 										<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
 											{post.sub_task.title}
 										</Typography>
-									</span>
+									</div>
 								</>
 							)}
 							<span className="mx-4">
