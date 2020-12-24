@@ -17,11 +17,17 @@ export const ADD_NOTOFICATION_PANEL_COUNT = '[Notification] ADD COUNT';
 export const INCREMENT_NOTOFICATION_PANEL_COUNT = '[Notification] INCREMENT COUNT';
 export const DECREMENT_NOTOFICATION_PANEL_COUNT = '[Notification] DECREMENT COUNT';
 export const RESET_NOTOFICATION_PANEL_COUNT = '[Notification] RESET COUNT';
+export const RESET_NOTOFICATION_PANEL_DATA = '[Notification] RESET NOTIFICATIONS DATA';
 
 export const PUSH_NOTOFICATION_PANEL_DATA = '[Notification] PUSH DATA';
 
 export const REMOVE_FROM_VIEW_NOTOFICATION_PANEL_DATA = '[Notification] REMOVE FROM VIEW DATA';
 
+export function resetNotificationData() {
+	return {
+		type: RESET_NOTOFICATION_PANEL_DATA
+	};
+}
 export function toggleNotification() {
 	return {
 		type: TOGGLE_NOTOFICATION_PANEL

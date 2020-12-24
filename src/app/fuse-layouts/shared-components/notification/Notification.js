@@ -83,12 +83,13 @@ function NotificationPanel(props) {
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 
 	useEffect(() => {
-		dispatch(Actions.getNotificationData([]));
-		getNotification();
-		getReadNotification();
-		dispatch(Actions.getNotificationCount());
-	}, []);
-
+		if (state == false) {
+			dispatch(Actions.resetNotificationData());
+			getNotification();
+			getReadNotification();
+			dispatch(Actions.getNotificationCount());
+		}
+	}, [state]);
 	const getNotification = () => {
 		if (hasMore) {
 			setHasMore(false);
