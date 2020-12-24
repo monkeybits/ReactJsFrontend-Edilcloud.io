@@ -19,7 +19,7 @@ const company = (state = initialState, action) => {
 				talks: [
 					{
 						...state.talks[0],
-						unread_count: state.talks[0].unread_count + 1
+						unread_count: state.talks[0] ? state.talks[0].unread_count + 1 : 1
 					}
 				],
 				last_message_created: new Date()

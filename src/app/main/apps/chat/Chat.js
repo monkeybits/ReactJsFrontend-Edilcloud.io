@@ -18,6 +18,8 @@ import AudioRecord from 'app/AudioRecord';
 import MessageMoreOptions from './MessageMoreOptions';
 import RetryToSendMessage from './RetryToSendMessage';
 import SendMessageForm from './SendMessageForm';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import FuseUtils from '@fuse/utils';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -120,6 +122,23 @@ function Chat(props) {
 	const [messageText, setMessageText] = useState('');
 	const userInfo = decodeDataFromToken();
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+	useEffect(() => {
+		if (!!chat?.chats?.length) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 600);
+		}
+	}, [chat?.chats]);
+
+	useEffect(() => {
+		if (notificationPanel.viewing && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
 
 	useEffect(() => {
 		scrollToBottom();
@@ -171,7 +190,14 @@ function Chat(props) {
 										</Avatar>
 									)}
 
-									<div className="bubble items-center justify-center p-12 max-w-50 relative">
+									<div
+										className="bubble items-center justify-center p-12 max-w-50 relative"
+										ref={
+											notificationPanel.notificationData?.notification?.object_id == item.id
+												? scrollRef
+												: null
+										}
+									>
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
 												style={{ color: color?.[0]?.contactNameColor }}
@@ -179,8 +205,8 @@ function Chat(props) {
 											>
 												{contact.first_name + ' ' + contact.last_name}
 												<Typography className="font-size-12 ">
-												Project Manager - Impresa Edile Lucchini
-											</Typography>
+													Project Manager - Impresa Edile Lucchini
+												</Typography>
 											</Typography>
 										)}
 										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
@@ -194,7 +220,6 @@ function Chat(props) {
 										<div className="leading-normal p-10 font-size-16 mb-15">{item.body} </div>
 										<ViewFile files={item.files} />
 										<div className="flex items-center mt-8">
-											
 											{
 												// isLastMessageOfGroup(item, i) && (
 												<Typography

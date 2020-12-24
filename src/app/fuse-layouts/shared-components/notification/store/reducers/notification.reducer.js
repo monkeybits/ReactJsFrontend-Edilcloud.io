@@ -20,6 +20,13 @@ const quickPanel = (state = initialState, action) => {
 				readNotifications: [...state.readNotifications, ...action.payload]
 			};
 		}
+		case Actions.RESET_NOTOFICATION_PANEL_DATA: {
+			return {
+				...state,
+				notifications: [],
+				readNotifications: []
+			};
+		}
 		case Actions.DELETE_NOTOFICATION_PANEL_DATA_BY_INDEX: {
 			let key = action.hasRead ? 'readNotifications' : 'notifications';
 			return {

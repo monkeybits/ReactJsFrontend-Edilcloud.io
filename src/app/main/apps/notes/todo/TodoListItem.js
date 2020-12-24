@@ -318,14 +318,15 @@ function TodoListItem(props) {
 							Responsabile: Mandelli Roberto - Idraulico Specializzato
 						</Typography>
 						<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
-							{props.companies?.length && props.companies.map((item, index) => {
-								return (
-									<MenuItem onClick={e => handleSubmit(e, item)} className="px-8" key={item.id}>
-										<Avatar className="w-32 h-32" src={item.avatar} />
-										<ListItemText className="mx-8">{item.company}</ListItemText>
-									</MenuItem>
-								);
-							})}
+							{props.companies?.length &&
+								props.companies.map((item, index) => {
+									return (
+										<MenuItem onClick={e => handleSubmit(e, item)} className="px-8" key={item.id}>
+											<Avatar className="w-32 h-32" src={item.avatar} />
+											<ListItemText className="mx-8">{item.company}</ListItemText>
+										</MenuItem>
+									);
+								})}
 						</ToolbarMenu>
 						{/* dates below */}
 						<div className="flex items-center flex-wrap">
@@ -456,7 +457,10 @@ function TodoListItem(props) {
 															id: props.todo.id,
 															name: props.todo.name,
 															company: props.todo.assigned_company,
-															progress: v
+															progress: v,
+															startDate: props.todo.date_start,
+															endDate: props.todo.date_end,
+															description: props.todo.note
 														},
 														routeParams.id,
 														'new',

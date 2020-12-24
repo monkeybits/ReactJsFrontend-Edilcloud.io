@@ -83,14 +83,29 @@ function NotificationPanel(props) {
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 
 	useEffect(() => {
-		dispatch(Actions.getNotificationData([]));
-		getNotification();
-		getReadNotification();
-		dispatch(Actions.getNotificationCount());
-	}, []);
-
-	const getNotification = () => {
-		if (hasMore) {
+		if (state == false) {
+			notificationInit();
+		}
+	}, [state]);
+	const notificationInit = () => {
+		setHasReadMore(true);
+		dispatch(Actions.resetNotificationData());
+		setDataRead(prev => ({
+			...prev,
+			pageRead: 1
+		}));
+		setData(prev => ({
+			...prev,
+			page: 1
+		}));
+		setTimeout(() => {
+			getNotification(true);
+			getReadNotification(true);
+			dispatch(Actions.getNotificationCount());
+		}, 1000);
+	};
+	const getNotification = isInit => {
+		if (hasMore || isInit) {
 			setHasMore(false);
 			setLoading(true);
 			apiCall(
@@ -114,8 +129,8 @@ function NotificationPanel(props) {
 			getReadNotification();
 		}
 	};
-	const getReadNotification = () => {
-		if (hasReadMore) {
+	const getReadNotification = isInit => {
+		if (hasReadMore || isInit) {
 			setHasReadMore(false);
 			setLoading(true);
 			apiCall(

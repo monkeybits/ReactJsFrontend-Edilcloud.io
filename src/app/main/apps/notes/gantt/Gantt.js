@@ -44,6 +44,14 @@ function ganttInitZoom() {
 		minColumnWidth: 20,
 		levels: [
 			{
+				name: 'day2',
+				min_column_width: 70,
+				scale_unit: 'week',
+				date_scale: '#%W',
+				subscales: [{ unit: 'day', step: 1, date: '%d %M' }],
+				scale_height: 60
+			},
+			{
 				name: 'hour1',
 				scale_unit: 'day',
 				date_scale: '%d %M',
@@ -157,7 +165,7 @@ class Gantt extends Component {
 			loading: false,
 			toggleLeft: false,
 			tasks: undefined,
-			zoomLevel: 2,
+			zoomLevel: 3,
 			expandAll: false,
 			openTasks: []
 		};
@@ -198,6 +206,15 @@ class Gantt extends Component {
 			}
 		}
 		gantt._onTemplatesReadyHandler = gantt.attachEvent('onTemplatesReady', function () {
+			// {
+			// 	name: 'day2',
+			// 	min_column_width: 70,
+			// 	scale_unit: 'week',
+			// 	date_scale: '#%W',
+			// 	subscales: [{ unit: 'day', step: 1, date: '%d %M' }],
+			// 	scale_height: 60
+			// },
+
 			var toggle = document.getElementById('fullScreen');
 
 			toggle.onclick = function () {

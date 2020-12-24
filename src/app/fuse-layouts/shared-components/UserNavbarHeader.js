@@ -26,13 +26,14 @@ const useStyles = makeStyles(theme => ({
 	avatar: {
 		width: 72,
 		height: 72,
-		position: 'absolute',
-		top: 110,
+		// position: 'absolute',
+		// left: '50%',
+		// transform: 'translateX(-50%)',
+		// top: 110,
 		padding: 8,
 		background: theme.palette.background.default,
 		boxSizing: 'content-box',
-		left: '50%',
-		transform: 'translateX(-50%)',
+		margin: '10px auto',
 		transition: theme.transitions.create('all', {
 			duration: theme.transitions.duration.shortest,
 			easing: theme.transitions.easing.easeInOut
@@ -54,7 +55,8 @@ function UserNavbarHeader(props) {
 			position="static"
 			elevation={0}
 			classes={{ root: classes.root }}
-			className="user relative flex flex-col items-center justify-center pt-24 pb-64 mb-40 z-0"
+			className="user relative flex flex-col items-center justify-center pt-24 pb-24 mb-0 z-0"
+			
 		>
 			{user && (
 				<Typography className="username text-16 whitespace-no-wrap" color="inherit">

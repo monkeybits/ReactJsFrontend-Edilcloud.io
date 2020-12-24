@@ -131,6 +131,9 @@ function Chat(props) {
 			setTimeout(() => {
 				setHasRender(true);
 			}, 600);
+			return () => {
+				setHasRender(false);
+			};
 		}
 	}, [chat?.chats]);
 
@@ -248,11 +251,6 @@ function Chat(props) {
 										{ 'last-of-group': isLastMessageOfGroup(item, i) },
 										i + 1 === chat.length && 'pb-96'
 									)}
-									ref={
-										notificationPanel.notificationData?.notification?.object_id == '23'
-											? scrollRef
-											: null
-									}
 								>
 									{isLastMessageOfGroup(item, i) && contact.id != userIdFromCompany && (
 										<Avatar
@@ -262,27 +260,30 @@ function Chat(props) {
 											{contact.first_name.split('')[0]}
 										</Avatar>
 									)}
-									<div className="bubble items-center justify-center p-12 max-w-50">
+									<div
+										className="bubble items-center justify-center p-12 max-w-50 relative"
+										ref={
+											notificationPanel.notificationData?.notification?.object_id == item.id
+												? scrollRef
+												: null
+										}
+									>
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
 												style={{ color: color?.[0]?.contactNameColor }}
 												className="font-bold ml-10 mb-6"
 											>
 												{contact.first_name + ' ' + contact.last_name}
-											<Typography className="font-size-12 ">
-												Project Manager - Impresa Edile Lucchini
+												<Typography className="font-size-12 ">
+													Project Manager - Impresa Edile Lucchini
+												</Typography>
 											</Typography>
-
-											</Typography>
-											
 										)}
-										
-										
+
 										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
 										<div className="leading-normal p-10 font-size-16 mb-15">{item.body}</div>
 										<ViewFile files={item.files} />
 										<div className="flex items-center mt-8">
-											
 											{
 												// isLastMessageOfGroup(item, i) && (
 												<Typography
@@ -294,7 +295,9 @@ function Chat(props) {
 												// )
 											}
 											{contact.id == userIdFromCompany && item.waitingToSend ? (
-												<Icon className="float-right ml-20 text-16 text-check">access_time</Icon>
+												<Icon className="float-right ml-20 text-16 text-check">
+													access_time
+												</Icon>
 											) : (
 												// <Icon className="float-right text-16 text-check">check</Icon>
 												<Icon className="float-right ml-20 text-16 text-check">done_all</Icon>

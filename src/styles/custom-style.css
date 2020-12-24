@@ -310,6 +310,7 @@ textarea.MuiOutlinedInput-input {
     margin-left: 6px;
     padding-left: 18px;
     position: relative;
+    color: white;
 }
 .sidebar-content ul a.active {
     background-color: #376aed;
@@ -712,6 +713,9 @@ textarea.MuiOutlinedInput-input {
 }
 .gantt-menu-item img, .gantt-menu-item svg {
     margin-right: 4px !important;
+}
+.demo-main-container>.gantt-min-height>.gantt_container{
+    height: calc(100vh - 175px) !important;
 }
 
 /* .gantt-container {
@@ -1734,9 +1738,14 @@ audio {
     height: 25.6rem !important;
 }
 #wrapped-tabpanel-2,
-#wrapped-tabpanel-1,
 #wrapped-tabpanel-3{
     height: calc(100% - 40px);
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+    #wrapped-tabpanel-1{
+        height: calc(100% - 70px);    
+    }
 }
 @media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
     #wrapped-tabpanel-2 .custom-fuse-page-right-sidebar .permanent{
@@ -1750,4 +1759,7 @@ audio {
 #wrapped-tabpanel-3 .makeStyles-sidebarHeader-373{
     height: 120px !important;
     min-height: 120px !important;
+}
+.makeStyles-rightSidebar-362.permanent {
+    height: auto;
 }

@@ -354,7 +354,10 @@ function TodoListItem(props) {
 															id: props.todo.id,
 															name: props.todo.name,
 															company: props.todo.assigned_company,
-															progress: v
+															progress: v,
+															startDate: props.todo.date_start,
+															endDate: props.todo.date_end,
+															description: props.todo.note
 														},
 														projectDetail.id,
 														'new',
@@ -483,7 +486,7 @@ function TodoListItem(props) {
 									variant="outlined"
 									color="primary"
 									className={classes.button}
-									startIcon={<add_task/>}
+									startIcon={<add_task />}
 									onClick={ev => {
 										ev.preventDefault();
 										ev.stopPropagation();
