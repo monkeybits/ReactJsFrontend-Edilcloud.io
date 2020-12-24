@@ -86,8 +86,10 @@ export const COMPANY_STAFF_LIST = (searchString, project_id) =>
 export const ADD_TEAM_MEMBER_TO_PROJECT = (pid, is_external) =>
 	`/api/frontend/project/project/${pid}/team_add/?is_external=${is_external}`;
 export const GET_PROJECT_STAFF_LIST = pid => `/api/frontend/project/project/${pid}/approve/team_list/?no_page=no_page`;
-export const GET_PROJECT_STAFF_WAITING_LIST = pid => `/api/frontend/project/project/${pid}/waiting/team_list/?no_page=no_page`;
-export const GET_PROJECT_STAFF_REFUSE_LIST = pid => `/api/frontend/project/project/${pid}/refuse/team_list/?no_page=no_page`;
+export const GET_PROJECT_STAFF_WAITING_LIST = pid =>
+	`/api/frontend/project/project/${pid}/waiting/team_list/?no_page=no_page`;
+export const GET_PROJECT_STAFF_REFUSE_LIST = pid =>
+	`/api/frontend/project/project/${pid}/refuse/team_list/?no_page=no_page`;
 export const ACCEPT_PROJECT_INVITATION = pid => `/api/frontend/project/team/enable/${pid}/`;
 export const REJECT_PROJECT_INVITATION = pid => `/api/frontend/project/team/disable/${pid}/`;
 export const DELETE_MEMBER_FROM_PROJECT = mid => `/api/frontend/project/team/delete/${mid}/`;
@@ -103,6 +105,7 @@ export const ADD_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid
 export const ADD_POST_TO_TASK = tid => `/api/frontend/project/task/${tid}/add_post/`;
 export const GET_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/post_list/`;
 export const GET_POST_FOR_TASK = tid => `/api/frontend/project/task/${tid}/post_list/`;
+export const DELETE_POST = pid => `/api/frontend/project/post/delete/${pid}/`;
 export const DELETE_COMMENT = cid => `/api/frontend/project/comment/delete/${cid}/`;
 export const EDIT_COMMENT = cid => `/api/frontend/project/comment/${cid}/edit/`;
 export const ADD_COMMENT_TO_POST = pid => `/api/frontend/project/post/${pid}/add_comment/`;

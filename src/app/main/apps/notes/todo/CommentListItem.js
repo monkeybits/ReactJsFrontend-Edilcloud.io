@@ -446,12 +446,12 @@ export default function CommentListItem({
 				</div>
 			) : (
 				<div className="flex flex-wrap items-center ml-44">
-					<Button size="small" aria-label="Add to favorites">
+					{/* <Button size="small" aria-label="Add to favorites">
 						<Icon className="text-13" color="action">
 							favorite
 						</Icon>
 						<Typography className="normal-case text-13 ml-4">Like</Typography>
-					</Button>
+					</Button> */}
 					<Button
 						onClick={() => {
 							setIsReplying(prev => !prev);
@@ -469,12 +469,12 @@ export default function CommentListItem({
 						</Icon>
 						<Typography className="normal-case text-13 ml-4">Reply</Typography>
 					</Button>
-					<Button size="small" aria-label="Report">
+					{/* <Button size="small" aria-label="Report">
 						<Icon className="text-13" color="action">
 							flag_outlined
 						</Icon>
 						<Typography className="normal-case text-13 ml-4">Report</Typography>
-					</Button>
+					</Button> */}
 					{/* {getUserId() == comment.author.id && (
 						<Button onClick={handleDeleteComment} size="small" aria-label="Add to favorites">
 							<Icon className="text-13" color="action">
@@ -500,7 +500,9 @@ export default function CommentListItem({
 					)} */}
 
 					<div
-						className="flex items-center ml-auto cursor-pointer"
+						className={`flex items-center ml-auto cursor-pointer ${
+							!!repliesLength() ? ' underline text-blue-500' : ''
+						}`}
 						onClick={ev => {
 							ev.preventDefault();
 							ev.stopPropagation();

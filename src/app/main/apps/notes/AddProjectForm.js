@@ -231,6 +231,7 @@ function AddProjectForm() {
 							type="text"
 							name="address"
 							label="Project Address"
+							value={projectDetail.address}
 						/>
 					</Grid>
 					<Grid item xs={12} md={6}>

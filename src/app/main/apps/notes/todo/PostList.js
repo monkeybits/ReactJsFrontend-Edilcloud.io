@@ -39,10 +39,20 @@ function PostList({
 	scrollRef,
 	media
 }) {
-	if (!posts || posts?.length == 0) {
+	const [postsList, setPostsList] = useState([]);
+
+	useEffect(() => {
+		if (posts) {
+			setPostsList(posts);
+			return () => setPostsList([]);
+		}
+	}, [posts]);
+	const deletePostByIndex = index => setPostsList(prevPosts => prevPosts.filter((d, i) => i != index));
+
+	if (!postsList || postsList?.length == 0) {
 		return null;
 	}
-	return posts.map((post, index) => (
+	return postsList.map((post, index) => (
 		<PostListItem
 			media={media}
 			scrollRef={scrollRef}
@@ -54,6 +64,7 @@ function PostList({
 			taskId={taskId}
 			key={index}
 			currnetPost={post}
+			afterDeletePost={() => deletePostByIndex(index)}
 			callRetryAfterSuccess={callRetryAfterSuccess}
 		/>
 	));

@@ -60,7 +60,7 @@ function GanttWrapper(props) {
 	return (
 		<div>
 			<div className={!isViewChart && 'hidden'}>
-				<Gantt {...{ ...props, company, projectDetail }} />
+				<Gantt {...{ ...props, company, projectDetail, orientation: state.orientation }} />
 			</div>
 			<img className={isViewChart && 'hidden'} src="/assets/images/patterns/rotate_5146697.png" />
 		</div>

@@ -11,6 +11,7 @@ import {
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import { changeFilters } from './filters.actions';
 export const GET_TODOS = '[TODO APP] GET TODOS (PROJECT)';
 export const RESET_ALL_FILTERS = '[TODO APP] RESET ALL FILTERS (PROJECT)';
 export const UPDATE_TODOS = '[TODO APP] UPDATE TODOS (PROJECT)';
@@ -37,9 +38,16 @@ export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING (PROJ
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER (PROJECT)';
 export const SET_UPLOAD = '[TODO APP] SET UPLOAD (PROJECT)';
 export const SET_UPLOAD_PERCENTAGE = '[TODO APP] SET UPLOAD PERCENTAGE (PROJECT)';
+export const SET_LOADING = '[TODO APP] SET LOADING (PROJECT)';
 
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+}
+export function setLoading(payload) {
+	return {
+		type: SET_LOADING,
+		payload
+	};
 }
 export function setUpload(payload) {
 	return {
@@ -57,17 +65,22 @@ export function getTodos(pid, isGantt) {
 	// const request = axios.get('/api/todo-app/todos', { params });
 
 	return dispatch => {
+		dispatch(setLoading(true));
 		apiCall(
 			isGantt ? GET_GANTT_TASK_LIST(pid) : GET_TASK_LIST(pid),
 			{},
 			results => {
+				dispatch(setLoading(false));
 				dispatch({
 					type: GET_TODOS,
 					payload: results.sort(sortHolders),
 					isGantt
 				});
 			},
-			err => console.log(err),
+			err => {
+				dispatch(setLoading(false));
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -155,8 +168,11 @@ export function closeTaskContent() {
 	};
 }
 export function resetAllFilters() {
-	return {
-		type: RESET_ALL_FILTERS
+	return dispatch => {
+		dispatch({
+			type: RESET_ALL_FILTERS
+		});
+		dispatch(changeFilters({ activeFilter: 'genrealFilter', activeFilterKey: 'All' }));
 	};
 }
 export function openNewTodoDialog(data) {
@@ -244,6 +260,7 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 				} else {
 					dispatch(getTodos(pid, isGantt));
 				}
+				dispatch(resetAllFilters());
 				closeTodoDialog();
 			},
 			err => console.log(err),
@@ -372,6 +389,7 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 				} else {
 					dispatch(getTodos(pid, isGantt));
 				}
+				dispatch(resetAllFilters());
 				closeTodoDialog();
 			},
 			err => console.log(err),

@@ -13,7 +13,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT, EDIT_ACTIVITY_TO_TASK } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import axios from 'app/services/axiosConfig';
-import { Button } from '@material-ui/core';
+import { Button, LinearProgress } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Typography from '@material-ui/core/Typography';
@@ -293,6 +293,8 @@ class Gantt extends Component {
 		) {
 			this.templatePermissions(projectDetail, company);
 			return true;
+		} else if (this.props.todos.isLoadingTodos != nextProps.todos.isLoadingTodos) {
+			return true;
 		} else if (
 			this.props.todos?.entities &&
 			todos?.entities &&
@@ -304,6 +306,8 @@ class Gantt extends Component {
 			return true;
 		} else if (!nextState.tasks?.data?.length) {
 			return true;
+		} else if (nextProps.orientation == 'portrait') {
+			gantt.collapse();
 		}
 		return false;
 
@@ -792,13 +796,13 @@ class Gantt extends Component {
 									}
 									header.forEach(function (col, index) {
 										cols.push('<th>' + col + '</th>');
-										headerControls.push(
-											"<td><select data-column-mapping='" +
-												col +
-												"'>" +
-												getOptions(index) +
-												'</select>'
-										);
+										// headerControls.push(
+										// 	"<td><select data-column-mapping='" +
+										// 		col +
+										// 		"'>" +
+										// 		getOptions(index) +
+										// 		'</select>'
+										// );
 									});
 									body.push('<tr>' + cols.join('') + '</tr>');
 									body.push('<tr>' + headerControls.join('') + '</tr>');
@@ -824,6 +828,7 @@ class Gantt extends Component {
 								callback: result => {
 									switch (result) {
 										case 'save':
+											this.props.setLoading(true);
 											this.handleUploadListOfTasks(listOfData, () => {});
 											// var selects = div.querySelectorAll(
 											// 	'[data-column-mapping]'
@@ -899,6 +904,7 @@ class Gantt extends Component {
 				</div> */}
 
 				<div class="demo-main-container">
+					{this.props.todos?.isLoadingTodos && <LinearProgress color="secondary" />}
 					<div class="header gantt-demo-header">
 						<ul class="gantt-controls">
 							{/* <li class="gantt-menu-item" onClick={this.toggleLeftPanel}>
@@ -1072,7 +1078,8 @@ function mapDispatchToProps(dispatch) {
 			editTodo: Actions.editTodo,
 			getTodos: Actions.getTodos,
 			openAddActivityTodoDialog: Actions.openAddActivityTodoDialog,
-			openTimelineDialog: Actions.openTimelineDialog
+			openTimelineDialog: Actions.openTimelineDialog,
+			setLoading: Actions.setLoading
 		},
 		dispatch
 	);
