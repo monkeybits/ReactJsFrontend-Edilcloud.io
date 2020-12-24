@@ -134,7 +134,7 @@ function NotificationPanel(props) {
 			setHasReadMore(false);
 			setLoading(true);
 			apiCall(
-				GET_ALL_NOTIFICATIONS('read_list', dataRead.pageRead),
+				GET_ALL_NOTIFICATIONS('read_list', isInit ? 1 : dataRead.pageRead),
 				{},
 				res => {
 					setDataRead(prev => ({
