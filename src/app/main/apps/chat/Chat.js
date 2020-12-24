@@ -193,8 +193,7 @@ function Chat(props) {
 									<div
 										className="bubble items-center justify-center p-12 max-w-50 relative"
 										ref={
-											notificationPanel.notificationData?.notification?.object_id == '14' &&
-											item.id == 410
+											notificationPanel.notificationData?.notification?.object_id == item.id
 												? scrollRef
 												: null
 										}

@@ -131,6 +131,9 @@ function Chat(props) {
 			setTimeout(() => {
 				setHasRender(true);
 			}, 600);
+			return () => {
+				setHasRender(false);
+			};
 		}
 	}, [chat?.chats]);
 
@@ -260,8 +263,7 @@ function Chat(props) {
 									<div
 										className="bubble items-center justify-center p-12 max-w-50 relative"
 										ref={
-											notificationPanel.notificationData?.notification?.object_id == '28' &&
-											item.id == 411
+											notificationPanel.notificationData?.notification?.object_id == item.id
 												? scrollRef
 												: null
 										}

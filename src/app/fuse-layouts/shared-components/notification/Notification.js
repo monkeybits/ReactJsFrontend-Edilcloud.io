@@ -84,14 +84,28 @@ function NotificationPanel(props) {
 
 	useEffect(() => {
 		if (state == false) {
-			dispatch(Actions.resetNotificationData());
-			getNotification();
-			getReadNotification();
-			dispatch(Actions.getNotificationCount());
+			notificationInit();
 		}
 	}, [state]);
-	const getNotification = () => {
-		if (hasMore) {
+	const notificationInit = () => {
+		setHasReadMore(true);
+		dispatch(Actions.resetNotificationData());
+		setDataRead(prev => ({
+			...prev,
+			pageRead: 1
+		}));
+		setData(prev => ({
+			...prev,
+			page: 1
+		}));
+		setTimeout(() => {
+			getNotification(true);
+			getReadNotification(true);
+			dispatch(Actions.getNotificationCount());
+		}, 1000);
+	};
+	const getNotification = isInit => {
+		if (hasMore || isInit) {
 			setHasMore(false);
 			setLoading(true);
 			apiCall(
@@ -115,8 +129,8 @@ function NotificationPanel(props) {
 			getReadNotification();
 		}
 	};
-	const getReadNotification = () => {
-		if (hasReadMore) {
+	const getReadNotification = isInit => {
+		if (hasReadMore || isInit) {
 			setHasReadMore(false);
 			setLoading(true);
 			apiCall(
