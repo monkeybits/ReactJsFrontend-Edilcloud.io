@@ -1757,3 +1757,6 @@ audio {
     height: 120px !important;
     min-height: 120px !important;
 }
+.makeStyles-rightSidebar-362.permanent {
+    height: auto;
+}
