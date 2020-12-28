@@ -390,6 +390,7 @@ function ContactsList(props) {
 									<ContactCard
 										editPermission={
 											(getRole() == 'o' || getRole() == 'd') &&
+											data.profile &&
 											userInfo.user_id != data.profile.id
 										}
 										{...data}

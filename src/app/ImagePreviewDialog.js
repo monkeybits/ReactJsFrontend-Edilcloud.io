@@ -133,7 +133,7 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 			}
 			case 'application': {
 				return item.extension == '.xlsx' || item.extension == '.xls' ? (
-					<FontAwesomeIcon icon={faFileExcel} style={{ color: 'green', fontSize: '6.4rem' }} />
+					<img className="mr-8" src={ICONS.EXCEL_ICON_PATH} />
 				) : (
 					<img src={ICONS.GENERIC_ICON_PATH} />
 				);

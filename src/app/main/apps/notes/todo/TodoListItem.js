@@ -253,7 +253,10 @@ function TodoListItem(props) {
 					name,
 					description: note,
 					id,
-					company: [{ data: company }]
+					company: [{ data: company }],
+					startDate: props.todo.date_start,
+					endDate: props.todo.date_end,
+					description: props.todo.note
 				},
 				project.id,
 				'new',
