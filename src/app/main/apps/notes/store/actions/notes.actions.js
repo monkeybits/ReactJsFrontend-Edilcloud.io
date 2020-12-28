@@ -18,7 +18,7 @@ export const UPDATE_NOTE = '[NOTES APP] UPDATE NOTE';
 export const REMOVE_NOTE = '[NOTES APP] REMOVE NOTE';
 export const TOGGLE_VARIATE_DESC_SIZE = '[NOTES APP] TOGGLE VARIATE DESC SIZE';
 
-export function getProjects(handleSetLoading) {
+export function getProjects(handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingProjects: true
 	});

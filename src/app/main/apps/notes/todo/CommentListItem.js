@@ -325,8 +325,7 @@ export default function CommentListItem({
 		>
 			<ListItem className="px-0 items-start">
 				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12">
-					{' '}
-					{[...comment.author.first_name][0]}
+					{comment.author.first_name}
 				</Avatar>
 				{isEditing ? (
 					<div className="flex-1 mx-4">

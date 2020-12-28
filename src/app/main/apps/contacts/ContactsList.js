@@ -156,6 +156,7 @@ function ContactsList(props) {
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
 						<MoreOption
+							status={row.original.status}
 							editHandler={ev => {
 								ev.stopPropagation();
 								dispatch(Actions.openEditContactDialog(row.original));

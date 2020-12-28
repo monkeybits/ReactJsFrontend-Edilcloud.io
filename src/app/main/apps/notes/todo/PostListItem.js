@@ -50,6 +50,7 @@ import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import EditPostForm from './EditPostForm';
 const uuidv1 = require('uuid/v1');
 
 export default function PostListItem({
@@ -77,15 +78,16 @@ export default function PostListItem({
 	const [offlinePostComments, setofflinePostComments] = useState({});
 	const [isRetryingPost, setIsRetryingPost] = useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
-
+	const [isEditPost, setIsEditPost] = useState(false);
 	const options = [
 		{
 			icon: 'edit',
 			name: 'Edit',
 			handler: () => {
+				setIsEditPost(true);
+				setAnchorEl(null);
 				// setEditText(comment.text);
 				// setIsEditing(true);
-				// setAnchorEl(null);
 			}
 		},
 		{
@@ -467,18 +469,23 @@ export default function PostListItem({
 				}
 				subheader={moment.parseZone(post.published_date).format('llll')}
 			/>
-
-			<CardContent className="p-0">
-				{post.text && (
-					<Typography component="p" className="mb-16 px-16">
-						{post.text}
-					</Typography>
-				)}
-				<div className="posted-images">
-					<PostedImages images={post.media_set} showClick media={media} />
-				</div>
-				{/* {post.media && <img src={post.media} alt="post" />} */}
-			</CardContent>
+			{isEditPost ? (
+				<CardContent className="p-0">
+					<EditPostForm {...{ currnetPost, setIsEditPost,setPost }} />
+				</CardContent>
+			) : (
+				<CardContent className="p-0">
+					{post.text && (
+						<Typography component="p" className="mb-16 px-16">
+							{post.text}
+						</Typography>
+					)}
+					<div className="posted-images">
+						<PostedImages images={post.media_set} showClick media={media} />
+					</div>
+					{/* {post.media && <img src={post.media} alt="post" />} */}
+				</CardContent>
+			)}
 
 			<CardActions disableSpacing className="bg-custom-primary px-12 py-4 flex justify-center">
 				{/* <Button size="small" className="text-white text-13" aria-label="Add to favorites">

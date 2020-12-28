@@ -230,6 +230,15 @@ class Gantt extends Component {
 			};
 		});
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
+			let end_date = new Date(item.end_date);
+			end_date.setDate(end_date.getDate() - 1);
+			item.end_date = end_date
+			console.log({
+				entityType,
+				action,
+				date_start: item.start_date,
+				date_end: end_date
+			});
 			return new Promise((resolve, reject) => {
 				if (item.parent == 0) {
 					this.editTodo(
@@ -240,7 +249,7 @@ class Gantt extends Component {
 							company: item.data.assigned_company,
 							progress: item.data.progress,
 							date_start: item.start_date,
-							date_end: item.end_date
+							date_end: end_date
 						},
 						this.props.match.params.id
 					);

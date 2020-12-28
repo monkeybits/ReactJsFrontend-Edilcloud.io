@@ -15,9 +15,17 @@ import {
 	faFileImage,
 	faFileWord
 } from '@fortawesome/free-regular-svg-icons';
+import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from 'app/services/apiEndPoints';
+import FileSaver from 'file-saver';
+import * as Actions from 'app/main/apps/notes/todo/store/actions';
+import { useDispatch } from 'react-redux';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import * as ICONS from 'app/main/apps/constants';
 
 function CardAttachment(props) {
 	const [anchorEl, setAnchorEl] = useState(null);
+	const dispatch = useDispatch();
 
 	function handleMenuOpen(event) {
 		setAnchorEl(event.currentTarget);
@@ -26,26 +34,104 @@ function CardAttachment(props) {
 	function handleMenuClose() {
 		setAnchorEl(null);
 	}
+	const handleDownload = () => {
+		const item = props.item;
+		let type = () => (item.type ? item.type.split('/')[0] : '');
+
+		let apiurl =
+			type() == 'image'
+				? DOWNLOAD_PHOTO(item.id)
+				: type() == 'video'
+				? DOWNLOAD_VIDEO(item.id)
+				: DOWNLOAD_DOCUMENT(item.id);
+		apiCall(
+			apiurl,
+			{},
+			({ headers, data }) => {
+				let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+				var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+				console.log({ file });
+				FileSaver.saveAs(file);
+				// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+				// FileSaver.saveAs(file);
+			},
+			err => {},
+			METHOD.GET,
+			{
+				...getHeaderToken(),
+				responseType: 'arraybuffer',
+				onDownloadProgress: progressEvent => {
+					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					dispatch(Actions.setUploadPercentage(percentCompleted));
+				}
+			},
+			true
+		);
+	};
 	const itemImage = () => (
-		<div
-			className="flex w-full sm:w-1/2 mb-16 px-16"
-			key={props.item.id}
-			onClick={props.openImage}
-			onClick={() => props.setActivtStep(props.index)}
-		>
+		<div className="flex w-full sm:w-1/2 mb-16 px-16" key={props.item.id}>
 			<div className="flex items-center justify-center min-w-128 w-128 h-128">
 				<Paper className="rounded-4 overflow-hidden" elevation={1}>
-					<img className="block h-128 w-128 object-cover" src={props.item.media_url} alt="attachment" />
+					<img className="block h-96 max-h-full" src={props.item.media_url} alt="attachment" />
 				</Paper>
+			</div>
+			<div className="flex flex-auto flex-col justify-center items-start min-w-0 px-16">
+				<div className="flex items-center w-full">
+					<Typography className="text-16 font-600 truncate flex-shrink">{props.item.name}</Typography>
+
+					<Icon className="text-orange-300 text-20 mx-4">star</Icon>
+				</div>
+				<Typography className="truncate w-full mb-12" color="textSecondary">
+					{props.item.time}
+				</Typography>
+				<Button
+					aria-owns={anchorEl ? 'actions-menu' : null}
+					aria-haspopup="true"
+					onClick={handleMenuOpen}
+					variant="outlined"
+					size="small"
+				>
+					Actions
+					<Icon className="text-20">arrow_drop_down</Icon>
+				</Button>
+				<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+					<MenuItem onClick={() => props.setActivtStep(props.index)}>View</MenuItem>
+					<MenuItem onClick={handleDownload}>Download</MenuItem>
+				</Menu>
 			</div>
 		</div>
 	);
 	const wrapper = child => (
-		<div className="flex w-full mb-16 px-16 mt-10" key={props.item.id}>
-			<div className="flex items-center justify-center ht-11 w-full">
+		<div className="flex w-full sm:w-1/2 mb-16 px-16" key={props.item.id}>
+			<div className="flex items-center justify-center min-w-128 w-128 h-128">
 				<Paper className="rounded-4 overflow-hidden" elevation={1}>
 					{child}
+					{/* <img className="block max-h-full max-h-full" src={props.item.media_url} alt="attachment" /> */}
 				</Paper>
+			</div>
+			<div className="flex flex-auto flex-col justify-center items-start min-w-0 px-16">
+				<div className="flex items-center w-full">
+					<Typography className="text-16 font-600 truncate flex-shrink">{props.item.name}</Typography>
+
+					<Icon className="text-orange-300 text-20 mx-4">star</Icon>
+				</div>
+				<Typography className="truncate w-full mb-12" color="textSecondary">
+					{props.item.time}
+				</Typography>
+				<Button
+					aria-owns={anchorEl ? 'actions-menu' : null}
+					aria-haspopup="true"
+					onClick={handleMenuOpen}
+					variant="outlined"
+					size="small"
+				>
+					Actions
+					<Icon className="text-20">arrow_drop_down</Icon>
+				</Button>
+				<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+					<MenuItem onClick={() => props.setActivtStep(props.index)}>View</MenuItem>
+					<MenuItem onClick={handleDownload}>Download</MenuItem>
+				</Menu>
 			</div>
 		</div>
 	);
@@ -58,12 +144,12 @@ function CardAttachment(props) {
 			return <audio controls src={props.item.media_url} />;
 		}
 		case 'video': {
-			return wrapper(<FontAwesomeIcon icon={faFileVideo} style={{ color: 'red', fontSize: '4.5rem' }} />);
+			return wrapper(<img className="mr-8" src={ICONS.VIDEO_ICON_PATH} />);
 		}
 		case 'application': {
 			return props.item.extension == '.xlsx' || props.item.extension == '.xls'
-				? wrapper(<FontAwesomeIcon icon={faFileExcel} style={{ color: 'green', fontSize: '4.5rem' }} />)
-				: wrapper(<FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '4.5rem' }} />);
+				? wrapper(<img className="mr-8" src={ICONS.EXCEL_ICON_PATH} />)
+				: wrapper(<img className="mr-8" src={ICONS.GENERIC_ICON_PATH} />);
 		}
 		case 'link': {
 			return (
@@ -104,7 +190,13 @@ function CardAttachment(props) {
 			);
 		}
 		default: {
-			return <FontAwesomeIcon icon={faFile} style={{ color: 'red', fontSize: '4.5rem' }} />;
+			return wrapper(
+				<FontAwesomeIcon
+					className="block max-h-full max-h-full"
+					icon={faFile}
+					style={{ color: 'red', fontSize: '4.5rem' }}
+				/>
+			);
 		}
 	}
 }
