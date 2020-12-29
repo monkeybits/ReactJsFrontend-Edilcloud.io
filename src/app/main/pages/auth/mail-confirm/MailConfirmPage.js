@@ -51,7 +51,7 @@ function MailConfirmPage() {
 							</Typography>
 
 							<Typography className="text-muted font-600 text-center mb-16 w-full">
-								A confirmation e-mail has been sent to <b>example@mymail.com</b>.
+								A confirmation e-mail has been sent to <b>{history.location.state.email}</b>.
 							</Typography>
 
 							<Typography className="text-muted font-600 text-center w-full">
@@ -66,7 +66,9 @@ function MailConfirmPage() {
 									color="primary"
 									className="w-full mx-auto mt-0 uppercase"
 									aria-label="Go Back To Login"
-									onClick={() => { history.push('/pages/auth/login'); }}
+									onClick={() => {
+										history.push('/pages/auth/login');
+									}}
 								>
 									Go back to login
 								</Button>
