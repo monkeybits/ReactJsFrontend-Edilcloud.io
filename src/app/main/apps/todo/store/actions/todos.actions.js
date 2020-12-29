@@ -233,7 +233,7 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 						progress: todo.progress,
 						date_start: moment(todo.startDate).format('YYYY-MM-DD'),
 						date_end: moment(todo.endDate).format('YYYY-MM-DD'),
-						assigned_company: todo.company[0] ? todo.company[0].data.profile.company.id : undefined,
+						assigned_company: todo.company[0].data?.profile?.company ? todo.company[0].data.profile.company.id : undefined,
 						project: pid,
 						date_completed: null,
 						alert: false,

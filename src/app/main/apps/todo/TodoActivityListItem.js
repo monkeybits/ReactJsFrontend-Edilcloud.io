@@ -54,9 +54,20 @@ function TodoActivityListItem(props) {
 	const [members, setMembers] = useState([]);
 	const [inviteMembers, setInviteMembers] = useState([]);
 	const [checkedAll, setCheckedAll] = useState(false);
+	const [canAssign, setCanAssign] = useState([]);
 	useEffect(() => {
-		setMembers(props.todo.workers_in_activity);
+		if (Array.isArray(props.todo.workers_in_activity)) {
+			let workers_in_activity = _.enhance(props.todo.workers_in_activity, { is_exists: true });
+
+			setMembers(workers_in_activity);
+		}
 	}, [props.todo.workers_in_activity]);
+	useEffect(() => {
+		if (Array.isArray(props.todo.can_assign_in_activity)) {
+			let can_assign_in_activity = _.enhance(props.todo.can_assign_in_activity, { is_exists: false });
+			setCanAssign(can_assign_in_activity);
+		}
+	}, [props.todo.can_assign_in_activity]);
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -266,24 +277,26 @@ function TodoActivityListItem(props) {
 							addWorkers={editWorkers}
 							// idMembers={cardForm.idMembers}
 						/> */}
-						<WorkerProfiles workers={props.todo.workers} />
+						<WorkerProfiles
+							workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
+						/>
 					</div>
 					<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 						<>
-							{!!members?.length && 
+							{!!members?.length && (
 								// <Button onClick={handleSelectAll}>Select All </Button>
-								<FormControlLabel className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
-										control={
+								<FormControlLabel
+									className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+									control={
 										<Checkbox
 											// checked={state.checkedB}
 											onClick={handleSelectAll}
 											name="checkedB"
 										/>
-										}
-										label="Select All"
-									/>
-								
-							}
+									}
+									label="Select All"
+								/>
+							)}
 							{!!members?.length ? (
 								members.map((member, index) => {
 									return (
