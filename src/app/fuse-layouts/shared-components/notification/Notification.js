@@ -380,7 +380,7 @@ function NotificationPanel(props) {
 												</SwipeableListItem>
 											);
 										})}
-									<ListItem key="seeMore" className="px-12" onClick={getNotification}>
+									<ListItem key="seeMore" className="px-12" onClick={getReadNotification}>
 										<ListItemText
 											className="flex-1 mx-4"
 											primary={

@@ -322,7 +322,9 @@ function TodoActivityListItem(props) {
 							addWorkers={editWorkers}
 							// idMembers={cardForm.idMembers}
 						/> */}
-						<WorkerProfiles workers={props.todo.workers_in_acitivity} />
+						<WorkerProfiles
+							workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
+						/>
 					</div>
 					<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 						<>
