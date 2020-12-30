@@ -126,6 +126,7 @@ export default function ContactCard(props) {
 				{!!editPermission && (
 					<div className="team-action">
 						<MoreOption
+							status={status}
 							editHandler={ev => {
 								ev.stopPropagation();
 								dispatch(Actions.openEditContactDialog(props));

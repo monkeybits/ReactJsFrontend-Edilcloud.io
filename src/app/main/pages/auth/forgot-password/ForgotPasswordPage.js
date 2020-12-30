@@ -27,21 +27,21 @@ const useStyles = makeStyles(theme => ({
 	},
 	formControl: {
 		margin: theme.spacing(1),
-		minWidth: 150,
-	  },
-	  selectEmpty: {
-		marginTop: theme.spacing(2),
-	  },
+		minWidth: 150
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2)
+	}
 }));
 
 function SimpleSelect() {
 	const classes = useStyles();
 	const [age, setAge] = React.useState('');
-  
-	const handleChange = (event) => {
-	  setAge(event.target.value);
+
+	const handleChange = event => {
+		setAge(event.target.value);
 	};
- }
+}
 
 function ForgotPasswordPage({ history }) {
 	const classes = useStyles();
@@ -64,7 +64,9 @@ function ForgotPasswordPage({ history }) {
 				email: form.email
 			},
 			res => {
-				history.push('/pages/auth/mail-confirm');
+				history.push('/pages/auth/mail-confirm', {
+					email: form.email
+				});
 			},
 			err => {
 				const { email } = err;
@@ -81,7 +83,12 @@ function ForgotPasswordPage({ history }) {
 		handleChange(e);
 	};
 	return (
-		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white')}>
+		<div
+			className={clsx(
+				classes.root,
+				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
+			)}
+		>
 			<div className="flex flex-col items-center justify-center w-full max-w-425">
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full">
@@ -109,12 +116,12 @@ function ForgotPasswordPage({ history }) {
 										endAdornment: (
 											<InputAdornment position="end">
 												<Icon className="text-20" color="action">
-												   mail
+													mail
 												</Icon>
 											</InputAdornment>
 										)
 									}}
-								   variant="outlined"
+									variant="outlined"
 									required
 									fullWidth
 								/>
@@ -144,20 +151,26 @@ function ForgotPasswordPage({ history }) {
 					<FormControl className={clsx(classes.formControl, 'custom-select-remove-border')}>
 						<InputLabel id="demo-simple-select-label">English (United States)</InputLabel>
 						<Select
-						labelId="demo-simple-select-label"
-						id="demo-simple-select"
-						// value={age}
-						// onChange={handleChange}
+							labelId="demo-simple-select-label"
+							id="demo-simple-select"
+							// value={age}
+							// onChange={handleChange}
 						>
-						<MenuItem value={10}>India</MenuItem>
-						<MenuItem value={30}>U.K.</MenuItem>
-						<MenuItem value={20}>Germany</MenuItem>
+							<MenuItem value={10}>India</MenuItem>
+							<MenuItem value={30}>U.K.</MenuItem>
+							<MenuItem value={20}>Germany</MenuItem>
 						</Select>
 					</FormControl>
 					<div className="flex">
-						<a href="javascript:;" className="text-muted mr-20">Help</a>
-						<a href="javascript:;" className="text-muted mr-20">Privacy</a>
-						<a href="javascript:;" className="text-muted">Terms</a>
+						<a href="javascript:;" className="text-muted mr-20">
+							Help
+						</a>
+						<a href="javascript:;" className="text-muted mr-20">
+							Privacy
+						</a>
+						<a href="javascript:;" className="text-muted">
+							Terms
+						</a>
 					</div>
 				</div>
 			</div>

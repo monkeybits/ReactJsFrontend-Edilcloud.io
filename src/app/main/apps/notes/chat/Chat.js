@@ -274,9 +274,11 @@ function Chat(props) {
 												className="font-bold ml-10 mb-6"
 											>
 												{contact.first_name + ' ' + contact.last_name}
-												<Typography className="font-size-12 ">
-													Project Manager - Impresa Edile Lucchini
-												</Typography>
+												{!!contact.position && (
+													<Typography className="font-size-12 ">
+														{contact.position} - {contact.company?.name}
+													</Typography>
+												)}
 											</Typography>
 										)}
 

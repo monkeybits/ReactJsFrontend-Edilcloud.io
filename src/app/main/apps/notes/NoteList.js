@@ -120,8 +120,8 @@ function NoteList(props) {
 		dispatch({
 			type: Actions.RESET_PROEJECTS
 		});
-		dispatch(Actions.getProjects());
-		dispatch(Actions.getRequest());
+		dispatch(Actions.getProjects(props.handleSetLoading));
+		dispatch(Actions.getRequest(props.handleSetLoading));
 		setIsShowRequests(false);
 	};
 	if (projects.length === 0) {
@@ -164,7 +164,6 @@ function NoteList(props) {
 						="subtitle1" className="font-size-18 font-600">Edil Cloud (My Company)</Typography>
 					</div> */}
 					<div className="mb-16">
-						
 						<Typography variant="subtitle1" className="font-size-18 font-600">
 							Edil Cloud (My Company)
 						</Typography>
