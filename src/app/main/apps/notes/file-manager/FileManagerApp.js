@@ -135,6 +135,17 @@ function FileManagerApp(props) {
 		nameError: '',
 		apiError: ''
 	});
+	const [loading, setLoading] = useState({
+		loadingPhotos: false,
+		loadingVideos: false,
+		loadingDocuments: false,
+		loadingFolders: false
+	});
+	const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+		}));
 	const resetError = () =>
 		seterror({
 			fileError: '',
@@ -144,7 +155,7 @@ function FileManagerApp(props) {
 		});
 	useEffect(() => {
 		if (routeParams) {
-			dispatch(Actions.getFiles(routeParams.id));
+			dispatch(Actions.getFiles(routeParams.id, handleSetLoading));
 		}
 	}, [dispatch, routeParams]);
 	const addFile = event => {
@@ -257,7 +268,16 @@ function FileManagerApp(props) {
 		setRadioBtnValue(event.target.value);
 	};
 	const canSubmit = () => (radioBtnValue == 'folder' ? title?.length : title?.length && fileData.file);
-
+	const isLoadingFiles = () =>
+		loading.loadingVideos || loading.loadingPhotos || loading.loadingFolders || loading.loadingDocuments;
+	const loadingComponent = (
+		<div className="flex flex-1 flex-col items-center justify-center">
+			<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+				Loading files...
+			</Typography>
+			<LinearProgress className="w-xs" color="secondary" />
+		</div>
+	);
 	return (
 		<>
 			<FusePageSimple
@@ -360,7 +380,15 @@ function FileManagerApp(props) {
 					</>
 				}
 				content={
-					<div>{viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}</div>
+					<div>
+						{isLoadingFiles() ? (
+							loadingComponent
+						) : viewTable ? (
+							<FileList pageLayout={pageLayout} />
+						) : (
+							<FileGrid pageLayout={pageLayout} />
+						)}
+					</div>
 				}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
