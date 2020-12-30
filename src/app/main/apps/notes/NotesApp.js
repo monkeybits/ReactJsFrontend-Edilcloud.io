@@ -115,7 +115,7 @@ function NotesApp(props) {
 					<div className="flex flex-col w-full items-center">
 						{/* <NewNote /> */}
 						{/* <Button onClick={handleDownload}>Download</Button> */}
-						<NoteList {...loading} />
+						<NoteList {...loading} handleSetLoading={handleSetLoading} />
 						<AddProjectDialog />
 						{/* <NoteDialog /> */}
 						{/* <LabelsDialog /> */}

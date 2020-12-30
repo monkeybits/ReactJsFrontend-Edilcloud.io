@@ -188,9 +188,7 @@ export default function ContactCard(props) {
 					onClick={editPermission && handleOpenFileClick}
 					alt="user"
 				/>
-				<h4 className="font-weight-600 mb-8">
-					{name} {lastName}
-				</h4>
+				<h4 className="font-weight-600 mb-8">{`${name} ${lastName}`}</h4>
 				{/* <h6>{address}</h6> */}
 				<p className="font-500 text-muted mb-8">
 					{position ? position : 'N/A'} - {role}

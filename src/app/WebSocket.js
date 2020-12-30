@@ -26,7 +26,8 @@ export default ({ children }) => {
 		WS_BASE = WS_BASE_DEV;
 	}
 	const passMessage = msg => {
-		console.log({ msg });
+		const userInfo = decodeDataFromToken();
+		const getUserId = () => userInfo?.extra?.profile.id;
 		dispatch((dispatch, getState) => {
 			if (getState().chatPanel.state) {
 				// chat panel
@@ -46,12 +47,14 @@ export default ({ children }) => {
 					dispatch(chatPanelActions.updateChatLog(msg));
 				}
 			}
-			if (msg.message.talk.content_type_name == 'project') {
-				// project chat sidebar update count
-				dispatch(chatPanelActions.updateContactCount(msg));
-			} else {
-				// company chat sidebar update count
-				dispatch(companyChatActions.updateContactCount(msg));
+			if (msg.message['sender']?.['id'] != getUserId()) {
+				if (msg.message.talk.content_type_name == 'project') {
+					// project chat sidebar update count
+					dispatch(chatPanelActions.updateContactCount(msg));
+				} else {
+					// company chat sidebar update count
+					dispatch(companyChatActions.updateContactCount(msg));
+				}
 			}
 			if (
 				msg.message.talk.content_type_name == 'project' &&

@@ -1741,6 +1741,9 @@ audio {
 #wrapped-tabpanel-3{
     height: calc(100% - 40px);
 }
+#right-sidebar-file.custom-fuse-page-right-sidebar .permanent{
+    height: auto !important;
+}
 
 @media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
     #wrapped-tabpanel-1{

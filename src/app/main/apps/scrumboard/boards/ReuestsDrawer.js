@@ -29,10 +29,12 @@ function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSucces
 			acceptAPI,
 			{},
 			res => {
+				setIsShowRequests(false);
 				setLoadingAcceptFalse();
 				afterSuccess();
 			},
 			err => {
+				setIsShowRequests(false);
 				setLoadingAcceptFalse();
 			},
 			METHOD.PUT,
@@ -45,11 +47,13 @@ function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSucces
 			rejectAPI,
 			{},
 			res => {
+				setIsShowRequests(false);
 				console.log(res);
 				setLoadingRejectFalse();
 				afterSuccess();
 			},
 			err => {
+				setIsShowRequests(false);
 				console.log(err);
 				setLoadingRejectFalse();
 			},

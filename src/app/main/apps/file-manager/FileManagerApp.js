@@ -117,7 +117,17 @@ function FileManagerApp(props) {
 	const [description, setDescription] = useState(undefined);
 	const [open, setOpen] = React.useState(false);
 	const currentFolderPath = files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
-
+	const [loading, setLoading] = useState({
+		loadingPhotos: false,
+		loadingVideos: false,
+		loadingDocuments: false,
+		loadingFolders: false
+	});
+	const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+		}));
 	const [error, seterror] = useState({
 		fileError: '',
 		titleError: '',
@@ -136,7 +146,7 @@ function FileManagerApp(props) {
 		if (company.can_access_files) {
 			const userInfo = decodeDataFromToken();
 			const cid = userInfo.extra?.profile?.company;
-			dispatch(Actions.getFiles(cid));
+			dispatch(Actions.getFiles(cid, handleSetLoading));
 		} else {
 			props.history.push('/apps/todo/all');
 		}
@@ -253,6 +263,16 @@ function FileManagerApp(props) {
 		setRadioBtnValue(event.target.value);
 	};
 	const canSubmit = () => (radioBtnValue == 'folder' ? title?.length : title?.length && fileData.file);
+	const isLoadingFiles = () =>
+		loading.loadingVideos || loading.loadingPhotos || loading.loadingFolders || loading.loadingDocuments;
+	const loadingComponent = (
+		<div className="flex flex-1 flex-col items-center justify-center">
+			<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+				Loading files...
+			</Typography>
+			<LinearProgress className="w-xs" color="secondary" />
+		</div>
+	);
 	return (
 		<>
 			<FusePageSimple
@@ -335,7 +355,15 @@ function FileManagerApp(props) {
 						)}
 					</div>
 				}
-				content={viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}
+				content={
+					isLoadingFiles() ? (
+						loadingComponent
+					) : viewTable ? (
+						<FileList pageLayout={pageLayout} />
+					) : (
+						<FileGrid pageLayout={pageLayout} />
+					)
+				}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}

@@ -375,7 +375,7 @@ function FileList(props) {
 					</TableBody>
 				</Table>
 			</FuseAnimate>
-			{currentFolderPath == '' && !Object.entries(allFiles).length && (
+			{currentFolderPath == '' && !allFiles?.length && (
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
 						There are no files!
