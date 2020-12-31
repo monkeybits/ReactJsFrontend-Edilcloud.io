@@ -34,7 +34,7 @@ const addTypeInArray = (arr = [], type) =>
 	arr.map((d, i) => ({ ...d, mainId: d.id, id: i, type, size: formatBytes(d.size) }));
 const mergeArray = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
-		const x = arr.find(item => item.mainId === current.mainId);
+		const x = arr.find(item => item.mainId === current.mainId && item.type === current.type);
 		if (!x) {
 			return arr.concat([current]);
 		} else {
