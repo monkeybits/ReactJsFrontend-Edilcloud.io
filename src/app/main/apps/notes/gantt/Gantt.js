@@ -232,9 +232,11 @@ class Gantt extends Component {
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
 			console.log({ entityType, action, item, id });
 			let end_date = new Date(item.end_date);
-			end_date.setDate(end_date.getDate() - 1);
-			gantt.getTask(id).end_date = end_date;
-			gantt.render();
+			if (action == 'update') {
+				end_date.setDate(end_date.getDate() - 1);
+				gantt.getTask(id).end_date = end_date;
+				gantt.render();
+			}
 			return new Promise((resolve, reject) => {
 				if (item.parent == 0) {
 					this.editTodo(
@@ -330,9 +332,12 @@ class Gantt extends Component {
 			return true;
 		} else if (nextProps.orientation == 'portrait') {
 			gantt.collapse();
+			return false;
+		} else if (nextProps.value == 4) {
+			gantt.render();
+			return false;
 		}
 		return false;
-
 		// if (this.props.zoom !== nextProps.zoom && this.state.tasks) {
 		// 	this.createGantt(this.state.tasks);
 		// 	return true;
@@ -490,10 +495,9 @@ class Gantt extends Component {
 		}
 		gantt.showLightbox = id => {
 			let savedTask = gantt.getTask(id);
+			console.log({ id, savedTask });
 			if (gantt.isTaskExists(id)) {
 				if (savedTask.$new == true) {
-					delete savedTask.$new;
-					gantt.deleteTask(id);
 					if (savedTask.$level == 1) {
 						let captureData = gantt.getTask(savedTask.parent);
 						// let captureData = this.state.tasks.data.filter(task => task.id == savedTask.parent);
@@ -502,6 +506,8 @@ class Gantt extends Component {
 					} else {
 						this.props.openNewTodoDialog({ isGantt: true });
 					}
+					delete savedTask.$new;
+					gantt.deleteTask(id);
 				} else {
 					let captureData = savedTask; //this.state.tasks.data.filter(task => task.id == id);
 					// captureData = captureData && captureData.length ? captureData[0] : undefined;
