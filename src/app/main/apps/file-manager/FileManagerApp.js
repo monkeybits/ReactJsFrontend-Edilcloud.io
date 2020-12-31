@@ -219,14 +219,14 @@ function FileManagerApp(props) {
 					const userInfo = decodeDataFromToken();
 					const cid = userInfo.extra?.profile?.company;
 					if (radioBtnValue == 'folder') {
-						dispatch(Actions.getFolders(cid));
+						dispatch(Actions.getFolders(cid, handleSetLoading));
 					} else {
 						if (fileType == 'image') {
-							dispatch(Actions.getPhotos(cid));
+							dispatch(Actions.getPhotos(cid, handleSetLoading));
 						} else if (fileType == 'video') {
-							dispatch(Actions.getVideos(cid));
+							dispatch(Actions.getVideos(cid, handleSetLoading));
 						} else {
-							dispatch(Actions.getDocuments(cid));
+							dispatch(Actions.getDocuments(cid, handleSetLoading));
 						}
 					}
 				},

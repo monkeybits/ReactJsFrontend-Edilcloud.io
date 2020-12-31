@@ -534,7 +534,7 @@ export default function CommentListItem({
 											setText('');
 										} else {
 											setIsReplying(true);
-											setText('@' + reply.author.user.username);
+											setText('@' + `${reply.author.first_name} ${reply.author.last_name}`);
 											setTimeout(() => {
 												let element = document.getElementById(String(comment.id));
 												element.focus();
@@ -560,7 +560,7 @@ export default function CommentListItem({
 											setText('');
 										} else {
 											setIsReplying(true);
-											setText('@' + reply.author.user.username);
+											setText('@' + `${reply.author.first_name} ${reply.author.last_name}`);
 											setTimeout(() => {
 												let element = document.getElementById(String(comment.id));
 												element.focus();

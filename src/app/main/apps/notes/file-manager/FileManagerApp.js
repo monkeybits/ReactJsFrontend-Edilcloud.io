@@ -224,14 +224,14 @@ function FileManagerApp(props) {
 				formData,
 				res => {
 					if (radioBtnValue == 'folder') {
-						dispatch(Actions.getFolders(routeParams.id));
+						dispatch(Actions.getFolders(routeParams.id, handleSetLoading));
 					} else {
 						if (fileType == 'image') {
-							dispatch(Actions.getPhotos(routeParams.id));
+							dispatch(Actions.getPhotos(routeParams.id, handleSetLoading));
 						} else if (fileType == 'video') {
-							dispatch(Actions.getVideos(routeParams.id));
+							dispatch(Actions.getVideos(routeParams.id, handleSetLoading));
 						} else {
-							dispatch(Actions.getDocuments(routeParams.id));
+							dispatch(Actions.getDocuments(routeParams.id, handleSetLoading));
 						}
 					}
 				},
