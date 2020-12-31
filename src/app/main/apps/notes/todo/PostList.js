@@ -33,14 +33,21 @@ function PostList({
 	taskId,
 	callRetryAfterSuccess,
 	isOffline,
-	tempAuthor,
 	showPrject,
 	showTask,
 	scrollRef,
 	media
 }) {
 	const [postsList, setPostsList] = useState([]);
-
+	const [tempAuthor, setTempAuthor] = useState({});
+	const user = useSelector(({ auth }) => auth.user.data.company);
+	useEffect(() => {
+		if (user) {
+			setTempAuthor({
+				...user
+			});
+		}
+	}, [user]);
 	useEffect(() => {
 		if (posts) {
 			setPostsList(posts);

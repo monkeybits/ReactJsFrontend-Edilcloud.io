@@ -13,7 +13,7 @@ export default function MoreOption(props) {
 	const options = [
 		{ name: 'Edit', icon: 'edit', handler: props.editHandler, view: true },
 		{
-			name: props.status == 'Approved' ? 'Delete' : 'Reactivate',
+			name: props.status == 'Deactivated' ? 'Reactivate' : 'Delete',
 			icon: 'delete',
 			handler: props.deleteHandler,
 			view: props.canHaveDeleteOption
