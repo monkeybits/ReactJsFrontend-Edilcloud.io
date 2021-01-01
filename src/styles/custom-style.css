@@ -212,6 +212,10 @@ a.text-muted:hover {
     bottom: 27px;
     right: 90px;
 }
+.contact-speeddial-btn {
+    bottom: 90px !important;
+    right: 90px;
+}
 .custom-outlined-btn button {
     background-color: #ffffff;
     border: 1px solid #ECECEE;
@@ -829,9 +833,9 @@ textarea.MuiOutlinedInput-input {
     height: auto;
     min-height: auto;
 }
-.team-tab-content > div > p > div > div:first-child {
+/* .team-tab-content > div > p > div > div:first-child {
     display: none;
-}
+} */
 .team-tab .custom-fuse-page-right-sidebar .permanent  {
       background-color: transparent;      
 }
