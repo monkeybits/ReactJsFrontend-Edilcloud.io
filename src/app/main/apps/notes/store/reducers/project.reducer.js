@@ -34,12 +34,23 @@ function sortByProperty(array, property, order = 'ASC') {
 	);
 }
 const deleteByProjectId = (projects = [], pid) => projects.filter(project => project.id != pid);
+const mergeArrayByComapny = arr =>
+	arr.reduce((arr, current) => {
+		const x = arr.find(item => (item.id && current.id ? item.id === current.id : false));
+		if (!x) {
+			return arr.concat([current]);
+		} else {
+			return arr;
+		}
+	}, []);
+const getAllCompanies = (arr = []) => arr.map(item => item.company).filter(i => i && i);
 const labelsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_PROJECTS: {
 			return {
 				...state,
-				entities: sortByProperty(mergeArray(state.entities, action.payload), 'name')
+				entities: sortByProperty(mergeArray(state.entities, action.payload), 'name'),
+				companies: mergeArrayByComapny(getAllCompanies(mergeArray(state.entities, action.payload), 'name'))
 			};
 		}
 		case Actions.GET_PROJECT_LIST: {
