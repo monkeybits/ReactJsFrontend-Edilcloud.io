@@ -15,7 +15,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import { COMPANY_STAFF_LIST } from 'app/services/apiEndPoints';
+import { STAFF_LIST, COMPANY_STAFF_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { SYSTEM_ROLES } from 'app/constants';
@@ -27,6 +27,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import * as ContactActions from './store/actions';
 import { useRouteMatch } from 'react-router';
+import { toast } from 'react-toastify';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -39,7 +40,7 @@ const defaultFormState = {
 	phone: ''
 };
 
-function AddTeamMemberToProject() {
+function AddTeamMemberToProject(props) {
 	const dispatch = useDispatch();
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const contactDialog = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.contactDialog);
@@ -70,11 +71,15 @@ function AddTeamMemberToProject() {
 		 * After Dialog Open
 		 */
 		if (contactDialog.props.open) {
+			if (company.name) {
+				retrieveDataAsynchronously();
+			}
 			return () => {
 				setMember([]);
+				setFilteredData([]);
 			};
 		}
-	}, [contactDialog.props.open]);
+	}, [contactDialog.props.open, company]);
 
 	function closeComposeDialog() {
 		setFile({
@@ -96,14 +101,28 @@ function AddTeamMemberToProject() {
 		event.preventDefault();
 
 		// if (contactDialog.type === 'new') {
-		dispatch(
-			ContactActions.addMemberToProject(
-				match.params.id,
-				{
-					profile: member[0].data.id,
-					role: member[0].data.role?.split('')?.[0]?.toLocaleLowerCase()
-				},
-				company.id != member[0].data.company?.id
+		let name = '';
+		member.map((item, i) =>
+			dispatch(
+				ContactActions.addMemberToProject(
+					match.params.id,
+					{
+						profile: item.data.id,
+						role: item.data.role?.split('')?.[0]?.toLocaleLowerCase()
+					},
+					company.id != item.data.company?.id,
+					i === member.length - 1,
+					(err, showError) => {
+						if (err) {
+							name += getItemValue(item.data) + ', ';
+						}
+						if (showError) {
+							toast.error(`error occured during add ${name}`);
+						}
+					},
+					props.handleSetLoading,
+					name
+				)
 			)
 		);
 		closeComposeDialog();
@@ -114,11 +133,19 @@ function AddTeamMemberToProject() {
 		checkedB: true
 	});
 	function retrieveDataAsynchronously(searchText) {
+		let url =
+			contactDialog.name === 'External'
+				? STAFF_LIST(String(searchText), match.params.id)
+				: COMPANY_STAFF_LIST(String(company.name), match.params.id);
 		apiCall(
-			COMPANY_STAFF_LIST(String(searchText), match.params.id),
+			url,
 			{},
 			res => {
-				setFilteredData(res.results);
+				if (contactDialog.name === 'External') {
+					setFilteredData(filterByValue(res.results, 'name', company.name));
+				} else {
+					setFilteredData(res);
+				}
 			},
 			() => {
 				setFilteredData([]);
@@ -128,6 +155,7 @@ function AddTeamMemberToProject() {
 		);
 	}
 	const getString = strArg => (strArg ? strArg : '');
+	const filterByValue = (arr = [], key, value) => arr.filter(item => item?.company?.[key] != value);
 	return (
 		<Dialog
 			disableBackdropClick
@@ -161,7 +189,7 @@ function AddTeamMemberToProject() {
 							variant="fixed"
 							className="custom-dropdown w-full"
 							onChange={value => {
-								setMember(value.splice(value.length - 1));
+								setMember(value);
 							}}
 							isMulti
 							value={member}
@@ -180,7 +208,6 @@ function AddTeamMemberToProject() {
 									</span>
 								)
 							}))}
-							variant="outlined"
 						/>
 					</div>
 

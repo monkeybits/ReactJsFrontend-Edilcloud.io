@@ -349,7 +349,7 @@ function ContactDialog(props) {
 			</AppBar>
 			<form noValidate onSubmit={handleSubmit} className="flex flex-col md:overflow-hidden">
 				<DialogContent classes={{ root: 'p-24' }}>
-					{contactDialog.type === 'new' && (
+					{contactDialog.type === 'new' && contactDialog.name === 'Search' && (
 						<div className="flex">
 							<div className="min-w-48 pt-20">
 								<Icon color="action">search</Icon>
@@ -359,152 +359,159 @@ function ContactDialog(props) {
 								onSelect={item => {
 									setFile({});
 									setIsExisting(true);
-									// setRole(item.role);
-									// setValue(item.language == 'en' ? 'English' : 'Italian');
-									setForm({ ...item, role: undefined, language: undefined });
+									setRole(item.role);
+									setValue(item.language == 'en' ? 'English' : 'Italian');
+									setForm({ ...item });
+									// role: undefined, language: undefined
 								}}
 							/>
 						</div>
 					)}
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">account_circle</Icon>
-						</div>
+					{contactDialog.name === 'Invite' && (
+						<>
+							<div className="flex">
+								<div className="min-w-48 pt-20">
+									<Icon color="action">account_circle</Icon>
+								</div>
 
-						<TextField
-							className="mb-24"
-							label="Name"
-							id="first_name"
-							name="first_name"
-							value={form.first_name}
-							onChange={handleChange}
-							variant="outlined"
-							required
-							fullWidth
-						/>
-					</div>
+								<TextField
+									className="mb-24"
+									label="Name"
+									id="first_name"
+									name="first_name"
+									value={form.first_name}
+									onChange={handleChange}
+									variant="outlined"
+									required
+									fullWidth
+								/>
+							</div>
 
-					<div className="flex">
-						<div className="min-w-48 pt-20" />
-						<TextField
-							className="mb-24"
-							label="Last name"
-							id="last_name"
-							name="last_name"
-							value={form.last_name}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
+							<div className="flex">
+								<div className="min-w-48 pt-20" />
+								<TextField
+									className="mb-24"
+									label="Last name"
+									id="last_name"
+									name="last_name"
+									value={form.last_name}
+									onChange={handleChange}
+									variant="outlined"
+									fullWidth
+								/>
+							</div>
 
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">email</Icon>
-						</div>
-						<TextField
-							error={!isExisting && !canTryWithExisting}
-							className="mb-24"
-							label="Email"
-							id="email"
-							name="email"
-							value={form.email}
-							onChange={e => {
-								handleChange(e);
-							}}
-							helperText={!isExisting && !canTryWithExisting && 'Try with existing users'}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">nature_people</Icon>
-						</div>
-						<Autocomplete
-							options={SYSTEM_ROLES}
-							style={{ width: '100%' }}
-							className="mb-24"
-							disabled={(contactDialog.type != 'new' && getRole() == 'm') || getRole() == 'w'}
-							getOptionLabel={option => option.label}
-							renderOption={(option, { selected }) => (
-								<>
-									<Checkbox
-										icon={icon}
-										checkedIcon={checkedIcon}
-										style={{ marginRight: 8 }}
-										checked={selected}
-									/>
-									{option.label}
-								</>
-							)}
-							defaultValue={
-								SYSTEM_ROLES.filter(d => d.label == role).length &&
-								SYSTEM_ROLES.filter(d => d.label == role)[0]
-							}
-							inputValue={role}
-							renderInput={params => <TextField {...params} variant="outlined" label="Role" />}
-							onInputChange={(e, value) => setRole(value)}
-						/>
-					</div>
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">translate</Icon>
-						</div>
-						<Autocomplete
-							className="mb-24"
-							options={['English', 'Italian']}
-							style={{ width: '100%' }}
-							disableCloseOnSelect
-							getOptionLabel={option => option}
-							renderOption={(option, { selected }) => (
-								<>
-									<Checkbox
-										icon={icon}
-										checkedIcon={checkedIcon}
-										style={{ marginRight: 8 }}
-										checked={selected}
-									/>
-									{option}
-								</>
-							)}
-							defaultValue={value}
-							inputValue={value}
-							renderInput={params => <TextField {...params} variant="outlined" label="Language" />}
-							onInputChange={(e, value) => setValue(value)}
-						/>
-					</div>
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">work</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							disabled={getRole() == 'm' || getRole() == 'w'}
-							label="Job title"
-							id="position"
-							name="position"
-							value={form.position}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">phone</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							label="Phone"
-							id="phone"
-							name="phone"
-							value={form.phone}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
+							<div className="flex">
+								<div className="min-w-48 pt-20">
+									<Icon color="action">email</Icon>
+								</div>
+								<TextField
+									error={!isExisting && !canTryWithExisting}
+									className="mb-24"
+									label="Email"
+									id="email"
+									name="email"
+									value={form.email}
+									onChange={e => {
+										handleChange(e);
+									}}
+									helperText={!isExisting && !canTryWithExisting && 'Try with existing users'}
+									variant="outlined"
+									fullWidth
+								/>
+							</div>
+							<div className="flex">
+								<div className="min-w-48 pt-20">
+									<Icon color="action">nature_people</Icon>
+								</div>
+								<Autocomplete
+									options={SYSTEM_ROLES}
+									style={{ width: '100%' }}
+									className="mb-24"
+									disabled={(contactDialog.type != 'new' && getRole() == 'm') || getRole() == 'w'}
+									getOptionLabel={option => option.label}
+									renderOption={(option, { selected }) => (
+										<>
+											<Checkbox
+												icon={icon}
+												checkedIcon={checkedIcon}
+												style={{ marginRight: 8 }}
+												checked={selected}
+											/>
+											{option.label}
+										</>
+									)}
+									defaultValue={
+										SYSTEM_ROLES.filter(d => d.label == role).length &&
+										SYSTEM_ROLES.filter(d => d.label == role)[0]
+									}
+									inputValue={role}
+									renderInput={params => <TextField {...params} variant="outlined" label="Role" />}
+									onInputChange={(e, value) => setRole(value)}
+								/>
+							</div>
+							<div className="flex">
+								<div className="min-w-48 pt-20">
+									<Icon color="action">translate</Icon>
+								</div>
+								<Autocomplete
+									className="mb-24"
+									options={['English', 'Italian']}
+									style={{ width: '100%' }}
+									disableCloseOnSelect
+									getOptionLabel={option => option}
+									renderOption={(option, { selected }) => (
+										<>
+											<Checkbox
+												icon={icon}
+												checkedIcon={checkedIcon}
+												style={{ marginRight: 8 }}
+												checked={selected}
+											/>
+											{option}
+										</>
+									)}
+									defaultValue={value}
+									inputValue={value}
+									renderInput={params => (
+										<TextField {...params} variant="outlined" label="Language" />
+									)}
+									onInputChange={(e, value) => setValue(value)}
+								/>
+							</div>
+							<div className="flex">
+								<div className="min-w-48 pt-20">
+									<Icon color="action">work</Icon>
+								</div>
+								<TextField
+									className="mb-24"
+									disabled={getRole() == 'm' || getRole() == 'w'}
+									label="Job title"
+									id="position"
+									name="position"
+									value={form.position}
+									onChange={handleChange}
+									variant="outlined"
+									fullWidth
+								/>
+							</div>
+							<div className="flex">
+								<div className="min-w-48 pt-20">
+									<Icon color="action">phone</Icon>
+								</div>
+								<TextField
+									className="mb-24"
+									label="Phone"
+									id="phone"
+									name="phone"
+									value={form.phone}
+									onChange={handleChange}
+									variant="outlined"
+									fullWidth
+								/>
+							</div>
+						</>
+					)}{' '}
 				</DialogContent>
 
 				{contactDialog.type === 'new' ? (

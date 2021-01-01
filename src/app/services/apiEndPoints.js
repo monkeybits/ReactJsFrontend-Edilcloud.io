@@ -81,8 +81,11 @@ export const PROJECT_DETAIL = id => `/api/frontend/project/project/${id}/`;
 export const DISABLE_PROJECT = id => `/api/frontend/project/project/disable/${id}/`;
 export const ENABLE_PROJECT = id => `/api/frontend/project/project/enable/${id}/`;
 export const EDIT_PROJECT_DETAIL = id => `/api/frontend/project/project/edit/${id}/`;
-export const COMPANY_STAFF_LIST = (searchString, project_id) =>
+export const STAFF_LIST = (searchString, project_id) =>
 	`/api/frontend/profile/company/approve/staff_list_and_external/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__company__name__icontains=${searchString}&filter__email__exact=${searchString}&project_id=${project_id}&per_page=12`;
+
+export const COMPANY_STAFF_LIST = (searchString, project_id) =>
+	`/api/frontend/profile/company/approve/staff_list_and_external/?filter__company__name__icontains=${searchString}&project_id=${project_id}&no_page=no_page`;
 export const ADD_TEAM_MEMBER_TO_PROJECT = (pid, is_external) =>
 	`/api/frontend/project/project/${pid}/team_add/?is_external=${is_external}`;
 export const GET_PROJECT_STAFF_LIST = pid => `/api/frontend/project/project/${pid}/approve/team_list/?no_page=no_page`;

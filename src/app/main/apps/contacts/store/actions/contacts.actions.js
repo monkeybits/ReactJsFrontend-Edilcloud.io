@@ -220,9 +220,10 @@ export function setSearchText(event) {
 	};
 }
 
-export function openNewContactDialog() {
+export function openNewContactDialog(payload) {
 	return {
-		type: OPEN_NEW_CONTACT_DIALOG
+		type: OPEN_NEW_CONTACT_DIALOG,
+		payload
 	};
 }
 

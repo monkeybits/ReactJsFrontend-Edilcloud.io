@@ -73,6 +73,7 @@ const useStyles = makeStyles(theme => ({
 
 function NoteList(props) {
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
+	const companies = useSelector(({ notesApp }) => notesApp.project.companies);
 	const variateDescSize = useSelector(({ notesApp }) => notesApp.notes.variateDescSize);
 	const searchText = useSelector(({ notesApp }) => notesApp.project.searchText);
 	const classes = useStyles();
@@ -163,39 +164,91 @@ function NoteList(props) {
 						<Typography variant
 						="subtitle1" className="font-size-18 font-600">Edil Cloud (My Company)</Typography>
 					</div> */}
-					<div className="mb-16">
+					{companies.map((data, index) => (
+						<>
+							<div className="flex justify-start items-center pb-8 mb-16 border-b-1">
+								<Avatar className="mr-4" aria-label="recipe" src={data?.logo} sizes="25">
+									{data?.name?.split('')[0]}
+								</Avatar>
+								<Typography variant="subtitle1" className="font-size-18 font-600">
+									{data.name}
+								</Typography>
+							</div>
+							<Grid container spacing={12} className="grid-space-remove">
+								{projects.map((project, index) => {
+									if (data.id == project.company?.id)
+										return project.isApproved ? (
+											<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
+												<ProjectListitem
+													key={index}
+													index={index}
+													{...{ project, classes, setRequest }}
+												/>
+											</Grid>
+										) : (
+											<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
+												{' '}
+												<Badge
+													invisible={project.isApproved}
+													color="secondary"
+													className="h-full flex flex-col"
+													onClick={e => {
+														e.stopPropagation();
+														e.preventDefault();
+														setIsShowRequests(true);
+														setRequest(project);
+													}}
+												>
+													<ProjectListitem
+														key={index}
+														index={index}
+														{...{ project, classes, setRequest }}
+													/>
+												</Badge>
+											</Grid>
+										);
+								})}
+							</Grid>
+						</>
+					))}
+					<div className="mb-16 border-b-1">
 						<Typography variant="subtitle1" className="font-size-18 font-600">
-							Edil Cloud (My Company)
+							Requests
 						</Typography>
 					</div>
 					<Grid container spacing={12} className="grid-space-remove">
 						{projects.map((project, index) => {
-							return project.isApproved ? (
-								<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
-									<ProjectListitem key={index} index={index} {...{ project, classes, setRequest }} />
-								</Grid>
-							) : (
-								<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
-									{' '}
-									<Badge
-										invisible={project.isApproved}
-										color="secondary"
-										className="h-full flex flex-col"
-										onClick={e => {
-											e.stopPropagation();
-											e.preventDefault();
-											setIsShowRequests(true);
-											setRequest(project);
-										}}
-									>
+							if (!project.company?.id)
+								return project.isApproved ? (
+									<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
 										<ProjectListitem
 											key={index}
 											index={index}
 											{...{ project, classes, setRequest }}
 										/>
-									</Badge>
-								</Grid>
-							);
+									</Grid>
+								) : (
+									<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
+										{' '}
+										<Badge
+											invisible={project.isApproved}
+											color="secondary"
+											className="h-full flex flex-col"
+											onClick={e => {
+												e.stopPropagation();
+												e.preventDefault();
+												setIsShowRequests(true);
+												setRequest(project);
+											}}
+										>
+											<ProjectListitem
+												key={index}
+												index={index}
+												{...{ project, classes, setRequest }}
+											/>
+										</Badge>
+									</Grid>
+								);
 						})}
 					</Grid>
 				</div>
