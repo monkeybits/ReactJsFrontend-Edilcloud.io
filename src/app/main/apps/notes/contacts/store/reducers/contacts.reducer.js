@@ -12,6 +12,7 @@ const initialState = () => ({
 	routeParams: {},
 	filterKey: 'all',
 	contactDialog: {
+		name: 'External',
 		type: 'new',
 		props: {
 			open: false,
@@ -128,6 +129,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					name: action.payload,
 					type: 'new',
 					props: {
 						open: true
@@ -140,6 +142,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					...state.contactDialog,
 					type: 'new',
 					props: {
 						open: false
@@ -152,6 +155,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					name: undefined,
 					type: 'edit',
 					props: {
 						open: true
@@ -164,6 +168,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					name: undefined,
 					type: 'edit',
 					props: {
 						open: false

@@ -82,7 +82,7 @@ function ContactsApp(props) {
 					/>
 				</FuseAnimate>
 			)}
-			<AddTeamMemberToProject />
+			<AddTeamMemberToProject handleSetLoading={handleSetLoading} />
 			<ViewContactDialog />
 		</>
 	);

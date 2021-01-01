@@ -268,17 +268,17 @@ function ContactsList(props) {
 		return null;
 	}
 
-	if (filteredData.length === 0) {
-		if (props.loadingApprove || props.loadingRefuse || props.loadingWaiting) {
-			return (
-				<div className="flex flex-1 flex-col items-center justify-center">
-					<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
-						Loading contacts...
-					</Typography>
-					<LinearProgress className="w-xs" color="secondary" />
-				</div>
-			);
-		} else {
+	if (props.loadingApprove || props.loadingRefuse || props.loadingWaiting) {
+		return (
+			<div className="flex flex-1 flex-col items-center justify-center">
+				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+					Loading contacts...
+				</Typography>
+				<LinearProgress className="w-xs" color="secondary" />
+			</div>
+		);
+	} else {
+		if (filteredData.length === 0) {
 			return (
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
@@ -288,6 +288,7 @@ function ContactsList(props) {
 			);
 		}
 	}
+
 	const onDeactivate = () => {
 		const { id, email } = userData;
 		let url = DELETE_MEMBER_FROM_PROJECT(id);
