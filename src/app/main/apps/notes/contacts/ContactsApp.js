@@ -16,6 +16,7 @@ import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import ContactsHeader from './ContactsHeader';
+import TeamFloationButton from './TeamFloationButton';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -70,14 +71,15 @@ function ContactsApp(props) {
 			/>
 			{(roleFromCompany == 'o' || roleFromCompany == 'd') && (
 				<FuseAnimate animation="transition.expandIn" delay={300}>
-					<Fab
-						color="primary"
-						aria-label="add"
-						className={classes.addButton}
-						onClick={ev => dispatch(Actions.openNewContactDialog())}
-					>
-						<Icon>add</Icon>
-					</Fab>
+					<TeamFloationButton
+						color="secondary"
+						className=" ltr:left-0 rtl:right-0 mx-16 z-999"
+						callAction={name => {
+							dispatch(Actions.openNewContactDialog(name));
+							// setIsOpenDrawer(true);
+							// return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
+						}}
+					/>
 				</FuseAnimate>
 			)}
 			<AddTeamMemberToProject />

@@ -15,7 +15,7 @@ import ContactsList from './ContactsList';
 import ContactsSidebarContent from './ContactsSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-
+import TeamFloationButton from './TeamFloationButton';
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',
@@ -45,7 +45,7 @@ function ContactsApp(props) {
 					content: 'flex flex-col h-full',
 					leftSidebar: 'w-256 border-0',
 					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
-					customHeader:"flex flex-auto flex-col container z-10 h-full chat-header-bg-remove",
+					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove',
 					wrapper: 'min-h-0 team-tab p-24'
 				}}
 				// header={<ContactsHeader pageLayout={pageLayout} />}
@@ -56,14 +56,15 @@ function ContactsApp(props) {
 				innerScroll
 			/>
 			<FuseAnimate animation="transition.expandIn" delay={300}>
-				<Fab
-					color="primary"
-					aria-label="add"
-					className={classes.addButton}
-					onClick={ev => dispatch(Actions.openNewContactDialog())}
-				>
-					<Icon>add</Icon>
-				</Fab>
+				<TeamFloationButton
+					color="secondary"
+					className=" ltr:left-0 rtl:right-0 mx-16 z-999"
+					callAction={name => {
+						dispatch(Actions.openNewContactDialog(name));
+						// setIsOpenDrawer(true);
+						// return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
+					}}
+				/>
 			</FuseAnimate>
 			<ContactDialog />
 			<ViewContactDialog />
