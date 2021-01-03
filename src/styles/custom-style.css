@@ -151,34 +151,34 @@ a.text-muted:hover {
 
 .MuiButton-containedPrimary, .MuiButton-containedSecondary, .btn-primary, .btn-secondary   {
     color: #fff;
-    background-color: #ff1049;
+    background-color: #0cc906;
     box-shadow: none;
 }
 .MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
-    background-color: #ff1049;
+    background-color: #0cc906;
     box-shadow: none;
 }
 .MuiFab-secondary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
-    background-color: #ff1049;
+    background-color: #0cc906;
 }
 .MuiFab-primary {
     color: #fff;
-    background-color: #ff1049;
+    background-color: #0cc906;
     box-shadow: none;
 }
 .MuiFab-primary:hover {
-    background-color: #ff1049;
+    background-color: #0cc906;
 }
 .MuiButton-containedSizeLarge {
     padding: 7px 22px;
 }
 .custom-float-btn > button, .add-file-btn  {
     color: #ffffff;
-    background-color: #ff1049;
+    background-color: #0cc906;
     box-shadow: none;
 }
 .custom-float-btn > button:hover, .add-file-btn:hover {
-    background-color: #ff1049;
+    background-color: #0cc906;
     box-shadow: none;
 }
 .add-file-btn {

@@ -52,7 +52,7 @@ function RegisterPage() {
 				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
 			)}
 		>
-		<img className="ht-100" src="assets/images/logos/fuse.svg" alt="logo" />
+		<img className="w-200" src="assets/images/logos/fuse.svg" alt="logo" />
 			<div className="flex flex-col items-center justify-center w-full max-w-425">
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full">
