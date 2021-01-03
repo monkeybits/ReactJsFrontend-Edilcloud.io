@@ -93,7 +93,7 @@ function ForgotPasswordPage({ history }) {
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full">
 						<CardContent className="flex flex-col items-center justify-center p-20 sm:p-32">
-							<img className="ht-100" src="assets/images/logos/fuse.svg" alt="logo" />
+							<img className="w-200" src="assets/images/logos/fuse.svg" alt="logo" />
 							<Typography variant="h5" className="text-center font-600 mt-20 mb-28">
 								Recover Password
 							</Typography>

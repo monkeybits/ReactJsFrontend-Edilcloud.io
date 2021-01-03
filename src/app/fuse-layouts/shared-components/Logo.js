@@ -31,7 +31,7 @@ function Logo() {
 
 	return (
 		<div className={clsx(classes.root, 'flex items-center')}>
-			<img className="w-200" src="https://www.edilcloud.io/wp-content/uploads/2020/11/logo-edilcloud.png" alt="logo" />
+			<img className="w-200" src="assets/images/logos/fuse.svg" alt="logo" />
 			<Typography className="text-16 mx-12 font-light logo-text invisible" color="inherit">
 				FUSE
 			</Typography>
