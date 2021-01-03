@@ -302,10 +302,10 @@ textarea.MuiOutlinedInput-input {
     Header
 *********************************************************************************************** */
 .sidebar-header {
-    background-color: #1e2632;
+    background-color: #0d0a27;
 }
 .sidebar-content {
-    background: #1e2632;
+    background: #0d0a27;
 }
 .sidebar-content ul a {
     width: calc(100% - 0px);
