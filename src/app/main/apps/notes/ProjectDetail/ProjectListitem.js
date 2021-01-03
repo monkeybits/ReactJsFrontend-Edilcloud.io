@@ -225,7 +225,7 @@ export default function ProjectListitem(props) {
 				// subheader={moment(date_start).format('MMM DD, YYYY')}
 				subheader={
 					<>
-						<small> Via San Giovanni Bosco 3, Bariano(BG) 24050</small>
+						 {address}
 					</>
 				}
 				//
@@ -257,7 +257,7 @@ export default function ProjectListitem(props) {
 				<Tab label="Weather" {...a11yProps(2)} /> */}
 			</Tabs>
 			<TabPanel value={value} index={0} className="tab_panel">
-				<Typography>{address}</Typography>
+				
 				<Typography>{description}</Typography>
 				<div className="flex overflow-x-auto nowrap about-image-section mt-16">
 					{!!profiles?.length &&

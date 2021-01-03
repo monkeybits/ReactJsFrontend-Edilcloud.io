@@ -89,70 +89,7 @@ function ChatsSidebar(props) {
 			<AppBar position="static" color="default" elevation={1} className="bg-white border-0">
 
 				
-				<Toolbar className="flex justify-between items-center px-4 bg-dark min-h-72 chat-border-right">
-				{/*	{user && (
-						<div
-							className="relative w-48 h-48 p-0 mx-12 cursor-pointer chat-header-img"
-							onClick={() => dispatch(Actions.openUserSidebar())}
-							onKeyDown={() => dispatch(Actions.openUserSidebar())}
-							role="button"
-							tabIndex={0}
-						>
-							<Avatar src={user.avatar} alt={user.name} className="w-48 h-48">
-								{!user.avatar || user.avatar === '' ? user.name[0] : ''}
-							</Avatar>
-
-							<div
-								className="absolute right-0 bottom-0 -m-2 z-10 cursor-pointer"
-								aria-owns={statusMenuEl ? 'switch-menu' : null}
-								aria-haspopup="true"
-								onClick={handleStatusMenuClick}
-								onKeyDown={handleStatusMenuClick}
-								role="button"
-								tabIndex={0}
-							>
-								<StatusIcon status={user.status} />
-							</div>
-
-							<Menu
-								id="status-switch"
-								anchorEl={statusMenuEl}
-								open={Boolean(statusMenuEl)}
-								onClose={handleStatusClose}
-							>
-								{statusArr.map(status => (
-									<MenuItem onClick={ev => handleStatusSelect(ev, status.value)} key={status.value}>
-										<ListItemIcon className="min-w-40">
-											<StatusIcon status={status.value} />
-										</ListItemIcon>
-										<ListItemText primary={status.title} />
-									</MenuItem>
-								))}
-							</Menu>
-						</div>
-					)}
-
-					<div>
-						<IconButton
-							aria-owns={moreMenuEl ? 'chats-more-menu' : null}
-							aria-haspopup="true"
-							onClick={handleMoreMenuClick}
-							className="text-white opacity-60"
-						>
-							<Icon>more_vert</Icon>
-						</IconButton>
-						<Menu
-							id="chats-more-menu"
-							anchorEl={moreMenuEl}
-							open={Boolean(moreMenuEl)}
-							onClose={handleMoreMenuClose}
-						>
-							<MenuItem onClick={handleMoreMenuClose}>Profile</MenuItem>
-							<MenuItem onClick={handleMoreMenuClose}>Logout</MenuItem>
-						</Menu>
-					</div>*/}
-
-				</Toolbar>
+			
 				{useMemo(
 					() => (
 						<Toolbar className="mt-8 px-16">

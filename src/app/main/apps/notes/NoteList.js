@@ -166,7 +166,7 @@ function NoteList(props) {
 					</div> */}
 					{companies.map((data, index) => (
 						<>
-							<div className="flex justify-start items-center pb-8 mb-16 border-b-1">
+							<div className="flex justify-start items-center pb-8 mb-16">
 								<Avatar className="mr-4" aria-label="recipe" src={data?.logo} sizes="25">
 									{data?.name?.split('')[0]}
 								</Avatar>

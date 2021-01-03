@@ -31,7 +31,7 @@ function Logo() {
 
 	return (
 		<div className={clsx(classes.root, 'flex items-center')}>
-			<img className="w-200" src="assets/images/logos/fuse.svg" alt="logo" />
+			<img width="150px"  src="assets/images/logos/fuse-white.svg" alt="logo" />
 			<Typography className="text-16 mx-12 font-light logo-text invisible" color="inherit">
 				FUSE
 			</Typography>

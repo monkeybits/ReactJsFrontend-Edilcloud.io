@@ -770,12 +770,12 @@ textarea.MuiOutlinedInput-input {
     color: #fff;
 }
 .chat-search {
-    background-color: #F7F7FF;
+    background-color: #ffffff;
     border: 1px solid #D8D9DB;
 }
 .chat-bg {
     background-image: none;
-    background: #F7F7FF;
+    background: #ffffff;
 }
 .chat-header-img .text-16 {
     font-size: 20px !important;
@@ -794,7 +794,7 @@ textarea.MuiOutlinedInput-input {
     border-right: 1px solid #466886;
 }
 .chat-form-bg {
-    background-color: #F7F7FF;
+    background-color: #ffffff;
 }
 .chat-border {
     border-left: 3px solid transparent;
@@ -806,7 +806,7 @@ textarea.MuiOutlinedInput-input {
     background-color: #376AED;
 }
 .chat-header-bg-remove > div, .header-bg-remove > div  {
-    background: #F7F7FF;
+    background: #ffffff;
     height: auto;
     min-height: auto;
 }
@@ -831,8 +831,8 @@ textarea.MuiOutlinedInput-input {
     height: 100%;
 }
 .team-tab-content .flex.flex-auto.flex-col > div {
-    background-color: #F7F7FF;
-    background: #F7F7FF;
+    background-color: #ffffff;
+    background: #ffffff;
     height: auto;
     min-height: auto;
 }
@@ -1126,7 +1126,7 @@ audio {
     Project List Page
 *********************************************************************************************** */
 .project_list {
-    background: #F7F7FF;
+    background: #ffffff;
 }
 .project_box .project_card {
     border: 1px solid #ececec;
@@ -1668,7 +1668,7 @@ audio {
     box-shadow: none;
 } 
 .custom-bg ~ .inner-scroll > div:first-child {
-    background-color: #F7F7FF;
+    background-color: #ffffff;
     border-radius: 4px 4px 0px 0px;
 }
 .image-close {
