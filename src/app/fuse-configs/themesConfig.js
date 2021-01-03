@@ -13,7 +13,7 @@ const themesConfig = {
 			},
 			background: {
 				paper: '#FFFFFF',
-				default: '#F7F7F7'
+				default: '#ffffff'
 			},
 			error: red
 		},
@@ -32,7 +32,7 @@ const themesConfig = {
 			},
 			background: {
 				paper: '#FFFFFF',
-				default: '#F7F7F7'
+				default: '#ffffff'
 			},
 			error: red
 		},
@@ -56,7 +56,7 @@ const themesConfig = {
 			},
 			background: {
 				paper: '#FFFFFF',
-				default: '#F7F7F7'
+				default: '#ffffff'
 			},
 			error: red
 		},
@@ -80,7 +80,7 @@ const themesConfig = {
 			},
 			background: {
 				paper: '#FFFFFF',
-				default: '#F7F7F7'
+				default: '#ffffff'
 			},
 			error: red
 		},
@@ -105,7 +105,7 @@ const themesConfig = {
 			},
 			background: {
 				paper: '#FFFFFF',
-				default: '#F7F7F7'
+				default: '#ffffff'
 			}
 		}
 	},
@@ -125,7 +125,7 @@ const themesConfig = {
 			},
 			background: {
 				paper: '#FFFFFF',
-				default: '#F7F7F7'
+				default: '#ffffff'
 			}
 		}
 	},
@@ -145,7 +145,7 @@ const themesConfig = {
 			},
 			background: {
 				paper: '#FFFFFF',
-				default: '#F7F7F7'
+				default: '#ffffff'
 			}
 		}
 	},
