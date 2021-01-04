@@ -18,6 +18,9 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TermsModal from './TermsModal';
+import FacebookLoginComponent from './FacebookLoginComponent';
+import GoogleLoginComponent from './GoogleLoginComponent';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`,
@@ -53,7 +56,7 @@ function LoginPage() {
 					'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
 				)}
 			>
-				<img className="w-200 " src="assets/images/logos/fuse.svg"/>
+				<img className="w-200 " src="assets/images/logos/fuse.svg" />
 				<div className="flex flex-col items-center justify-center w-full max-w-425">
 					<FuseAnimate animation="transition.expandIn">
 						<Card className="w-full">
@@ -66,7 +69,8 @@ function LoginPage() {
 								</Typography>
 								<Grid container spacing={2}>
 									<Grid item xs={6}>
-										<Button
+										<FacebookLoginComponent />
+										{/* <Button
 											variant="outlined"
 											color="primary"
 											size="large"
@@ -78,10 +82,11 @@ function LoginPage() {
 												alt="Facebook"
 											/>
 											Facebook
-										</Button>
+										</Button> */}
 									</Grid>
 									<Grid item xs={6}>
-										<Button
+										<GoogleLoginComponent />
+										{/* <Button
 											variant="outlined"
 											color="primary"
 											size="large"
@@ -93,7 +98,7 @@ function LoginPage() {
 												alt="Google"
 											/>
 											Google
-										</Button>
+										</Button> */}
 									</Grid>
 								</Grid>
 
@@ -106,7 +111,6 @@ function LoginPage() {
 								</div>
 
 								<JWTLoginTab />
-								
 
 								<div className="flex items-center justify-center w-full pt-28">
 									<span className="text-custom font-600 mr-6">Don't have an account?</span>
