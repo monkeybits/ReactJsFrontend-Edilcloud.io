@@ -44,14 +44,6 @@ function ganttInitZoom() {
 		minColumnWidth: 20,
 		levels: [
 			{
-				name: 'day2',
-				min_column_width: 70,
-				scale_unit: 'week',
-				date_scale: '#%W',
-				subscales: [{ unit: 'day', step: 1, date: '%d %M' }],
-				scale_height: 60
-			},
-			{
 				name: 'hour1',
 				scale_unit: 'day',
 				date_scale: '%d %M',
@@ -102,6 +94,7 @@ function ganttInitZoom() {
 		]
 	};
 	gantt.ext.zoom.init(zoomConfig);
+	gantt.ext.zoom.setLevel('day2');
 }
 function to_snake_case(name) {
 	return (name + '').toLowerCase().replace(/ /, '_');
@@ -230,8 +223,8 @@ class Gantt extends Component {
 			};
 		});
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
-			console.log({ entityType, action, item, id });
 			let end_date = new Date(item.end_date);
+			console.log({ entityType, action, item, id, task: gantt.getTask(id) });
 			if (action == 'update') {
 				end_date.setDate(end_date.getDate() - 1);
 				gantt.getTask(id).end_date = end_date;
@@ -297,7 +290,7 @@ class Gantt extends Component {
 			datetime_end: moment(todo.date_end).format('YYYY-MM-DD'),
 			workers: todo.profile?.length ? todo.profile.map(d => d.id) : undefined
 		};
-
+		console.log({ values });
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(todo.id),
 			values,
@@ -457,6 +450,14 @@ class Gantt extends Component {
 				return moment(date).format('YYYY-MM-DD');
 			}
 		};
+		// gantt.attachEvent('onTaskDrag', function (id, mode, task, original) {
+		// 	//any custom logic here
+		// 	let end_date = new Date(task.end_date);
+		// 	end_date.setDate(end_date.getDate() - 1);
+		// 	gantt.getTask(id).end_date = end_date;
+		// 	// gantt.render();
+		// 	console.log('task', gantt.getTask(id));
+		// });
 		// end block for resize
 		if (gantt._onTemplatesReadyHandler) {
 			gantt.detachEvent(gantt._onTemplatesReadyHandler);
