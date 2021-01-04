@@ -325,7 +325,7 @@ function TodoListItem(props) {
 								props.companies.map((item, index) => {
 									return (
 										<MenuItem onClick={e => handleSubmit(e, item)} className="px-8" key={item.id}>
-											<Avatar className="w-32 h-32" src={item.avatar} />
+											<Avatar className="w-32 h-32" src={item.profile?.company?.logo} />
 											<ListItemText className="mx-8">{item.company}</ListItemText>
 										</MenuItem>
 									);
