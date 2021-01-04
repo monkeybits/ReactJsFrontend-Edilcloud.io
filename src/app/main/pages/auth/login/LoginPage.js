@@ -18,6 +18,9 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TermsModal from './TermsModal';
+import FacebookLoginComponent from './FacebookLoginComponent';
+import GoogleLoginComponent from './GoogleLoginComponent';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`,
@@ -66,7 +69,8 @@ function LoginPage() {
 								</Typography>
 								<Grid container spacing={2}>
 									<Grid item xs={6}>
-										<Button
+										<FacebookLoginComponent />
+										{/* <Button
 											variant="outlined"
 											color="primary"
 											size="large"
@@ -78,10 +82,11 @@ function LoginPage() {
 												alt="Facebook"
 											/>
 											Facebook
-										</Button>
+										</Button> */}
 									</Grid>
 									<Grid item xs={6}>
-										<Button
+										<GoogleLoginComponent />
+										{/* <Button
 											variant="outlined"
 											color="primary"
 											size="large"
@@ -93,7 +98,7 @@ function LoginPage() {
 												alt="Google"
 											/>
 											Google
-										</Button>
+										</Button> */}
 									</Grid>
 								</Grid>
 
