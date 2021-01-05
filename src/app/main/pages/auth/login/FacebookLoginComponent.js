@@ -7,11 +7,17 @@ import * as authActions from 'app/auth/store/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
+import { LinearProgress } from '@material-ui/core';
+import { toast } from 'react-toastify';
 class FacebookLoginComponent extends React.Component {
+	state = {
+		loading: false
+	};
 	responseFacebook = response => {
 		const access_token = response.accessToken;
 		const photo = response.picture.data.url;
 		const provider = response.graphDomain;
+		this.startLoading();
 		console.log({
 			access_token,
 			photo,
@@ -36,28 +42,48 @@ class FacebookLoginComponent extends React.Component {
 				})
 					.then(res => {
 						this.props.onLogin(res);
+						setTimeout(() => {
+							this.removeLoading();
+						}, 2000);
 					})
-					.catch(err => console.log(err));
+					.catch(err => {
+						this.removeLoading();
+						console.log(err);
+					});
 			},
-			err => console.log(err),
+			err => {
+				this.removeLoading();
+				console.log(err);
+				toast.error(err);
+			},
 			METHOD.POST
 		);
 		console.log(response);
 	};
-
+	startLoading = () =>
+		this.setState({
+			loading: true
+		});
+	removeLoading = () =>
+		this.setState({
+			loading: false
+		});
 	render() {
 		return (
-			<FacebookLogin
-				cssClass="MuiButtonBase-root MuiButton-root MuiButton-outlined border-1 normal-case w-full flex items-center h-full"
-				appId="1093743794410189"
-				// autoLoad={true}
-				fields="name,email,picture"
-				scope="public_profile,user_friends,user_actions.books"
-				callback={this.responseFacebook}
-				onFailure={err => console.log(err)}
-				icon={<img src="/assets/images/social-icons/facebook.png" className="h-20" alt="Facebook" />}
-				textButton="Facebook"
-			/>
+			<>
+				<FacebookLogin
+					cssClass="MuiButtonBase-root MuiButton-root MuiButton-outlined border-1 normal-case w-full flex items-center h-40"
+					appId="1093743794410189"
+					// autoLoad={true}
+					fields="name,email,picture"
+					scope="public_profile,user_friends,user_actions.books"
+					callback={this.responseFacebook}
+					onFailure={err => console.log(err)}
+					icon={<img src="/assets/images/social-icons/facebook.png" className="h-20" alt="Facebook" />}
+					textButton="Facebook"
+				/>
+				{this.state.loading && <LinearProgress className="m-4" color="secondary" />}
+			</>
 		);
 	}
 }
