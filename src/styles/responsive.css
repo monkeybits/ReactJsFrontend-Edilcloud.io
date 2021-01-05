@@ -48,7 +48,7 @@
         font-size: 1.2rem;
     }
     .custom-dropdown .MuiInputBase-input {
-        height: 3.5em;
+        height: 3.5em !important;
     }
     .react-datepicker-wrapper input {
         padding: 15.5px 14px;
@@ -218,6 +218,18 @@
     }
     
     
+}
+@media only screen and (max-width: 700px) {
+    .gantt-controls{
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .gantt-menu-item a svg{
+        font-size: 2rem !important;
+    }
+    .gantt-menu-item a img{
+        width: 25px;
+    }
 }
 @media only screen and (max-width: 600px) {
     .rs-dialog-sm-full .MuiDialog-paperFullWidth{

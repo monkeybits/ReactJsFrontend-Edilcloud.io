@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
@@ -33,6 +33,7 @@ import { useParams } from 'react-router';
 import PostList from './PostList';
 import ToolbarMenu from './Dialog/toolbar/ToolbarMenu';
 import MenuItem from '@material-ui/core/MenuItem';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -143,8 +144,34 @@ function TodoListItem(props) {
 	const classes = useStyles(props);
 	const routeParams = useParams();
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [hasRender, setHasRender] = React.useState(false);
+	const [loading, setLoading] = useState(false);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
+	useEffect(() => {
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [props.todo, hasNotifcationOnThisItem]);
+
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && notification?.content_type == 'task' && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			scrollRef.current.scrollIntoView(false);
+			scrollRef.current.classList.add('bg-yellow-200');
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove('bg-yellow-200');
+				}
+			}, 5000);
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -200,7 +227,14 @@ function TodoListItem(props) {
 		// 	getCompanyApprovedContacts();
 		// }
 	};
-
+	useEffect(() => {
+		if (
+			notificationPanel.notificationData?.notification?.content_type === 'activity' &&
+			notificationPanel.notificationData?.notification?.body?.task_id == props.todo.id
+		) {
+			setOpen(true);
+		}
+	}, [notificationPanel.notificationData]);
 	const handleMenuClose = event => {
 		stopsEvents(event);
 		setAnchorEl(null);
@@ -208,10 +242,36 @@ function TodoListItem(props) {
 		// 	props.getDetailOfTask();
 		// }
 	};
+	const handleSubmit = (event, company) => {
+		setLoading(true);
+		stopsEvents(event);
+		setAnchorEl(null);
+		const { id, name, note, project } = props.todo;
+		dispatch(
+			Actions.editTodo(
+				{
+					name,
+					description: note,
+					id,
+					company: [{ data: company }],
+					startDate: props.todo.date_start,
+					endDate: props.todo.date_end,
+					description: props.todo.note
+				},
+				project.id,
+				'new',
+				() => {
+					// dispatch(Actions.closeTaskContent());
+				},
+				false,
+				setLoading
+			)
+		);
+	};
 	return (
 		<>
 			<Card
-				ref={hasNotifcationOnThisItem ? props.scrollRef : null}
+				ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				className={clsx(classes.card, 'w-full rounded-4 cursor-pointer border-1 shadow-none mb-16')}
 				onClick={() =>
 					getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''
@@ -239,7 +299,7 @@ function TodoListItem(props) {
 						</Tooltip>
 						</div>
 						{/* content can be below */}
-						<div className="flex items-center mb-6">
+						<div className="flex items-center mb-12">
 							{props.todo.assigned_company && (
 								<TodoChip
 									title={props.todo.assigned_company?.name}
@@ -247,40 +307,46 @@ function TodoListItem(props) {
 								/>
 							)}
 						</div>
-						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit font-semibold mb-6">
-							{' '}
-							{props.todo.name}{' '}
-						</Typography>
-						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary font-medium font-size-12 mb-6">
-							{projectDetail?.name}
-						</Typography>
 						{!props.todo.assigned_company && (
 							<div className="custom-member-menu flex items-center" onClick={handleMenuOpen}>
 								<Icon> business</Icon>
-								Assign Company
+								Assign Company {loading && <CircularProgress size={15} color="secondary" />}
 							</div>
 						)}
+						<Typography className="MuiTypography-root todo-title truncate MuiTypography-h6 MuiTypography-colorInherit font-semibold ">
+							{' '}
+							{props.todo.name}{' '}
+						</Typography>
+						<Typography className="MuiTypography-root todo-title truncate MuiTypography-body MuiTypography-colorInherit  mb-12">
+							Responsabile: Mandelli Roberto - Idraulico Specializzato
+						</Typography>
+
 						<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
-							{props.companies.map((item, index) => {
-								return (
-									<MenuItem onClick={stopsEvents} className="px-8" key={item.id}>
-										<Avatar className="w-32 h-32" src={item.avatar} />
-										<ListItemText className="mx-8">{item.company}</ListItemText>
-									</MenuItem>
-								);
-							})}
+							{props.companies?.length &&
+								props.companies.map((item, index) => {
+									return (
+										<MenuItem onClick={e => handleSubmit(e, item)} className="px-8" key={item.id}>
+											<Avatar className="w-32 h-32" src={item.profile?.company?.logo} />
+											<ListItemText className="mx-8">{item.company}</ListItemText>
+										</MenuItem>
+									);
+								})}
 						</ToolbarMenu>
 						{/* dates below */}
 						<div className="flex items-center flex-wrap">
 							{props.todo.progress == 100 ? (
-								<div className={clsx('flex items-center px-8 py-4 mx-4 rounded bg-green text-white')}>
+								<div className={clsx('flex items-center px-8 py-4 rounded bg-green text-white')}>
 									<Icon className="text-16 mt-4">check_circle</Icon>{' '}
 									<span className="mx-4">Completed</span>
 								</div>
 							) : moment().diff(moment(props.todo.date_start)) > 0 ? (
 								moment().diff(moment(props.todo.date_end)) > 0 ? (
 									<>
-										<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
+										<div
+											className={clsx(
+												'flex items-center px-8 border-grey py-4 rounded font-size-12'
+											)}
+										>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
 											Start: {moment(props.todo.date_start).format('MMM Do YY')}
@@ -311,7 +377,7 @@ function TodoListItem(props) {
 										</div>
 										<div
 											className={clsx(
-												'flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12'
+												'flex items-center px-8 py-4 border-grey rounded font-size-12 ml-12'
 											)}
 										>
 											{/* <Icon className="text-16">access_time</Icon> */}
@@ -323,7 +389,9 @@ function TodoListItem(props) {
 								)
 							) : (
 								<>
-									<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
+									<div
+										className={clsx('flex items-center px-8 py-4 border-grey rounded font-size-12')}
+									>
 										{/* <Icon className="text-16">access_time</Icon> */}
 										{/* <span className="mx-4"> */}
 										Start: {moment(props.todo.date_start).format('MMM Do YY')}
@@ -331,7 +399,7 @@ function TodoListItem(props) {
 									</div>
 									<div
 										className={clsx(
-											'flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12'
+											'flex items-center px-8 py-4 border-grey rounded font-size-12 ml-12'
 										)}
 									>
 										{/* <Icon className="text-16">access_time</Icon> */}
@@ -354,7 +422,12 @@ function TodoListItem(props) {
 								position="relative"
 								display="inline-flex"
 							>
-								<CircularProgress color="secondary" variant="static" value={props.todo.progress} />
+								<CircularProgress
+									className="w-70 h-70"
+									color="secondary"
+									variant="static"
+									value={props.todo.progress}
+								/>
 								<Box
 									top={0}
 									left={0}
@@ -387,7 +460,10 @@ function TodoListItem(props) {
 															id: props.todo.id,
 															name: props.todo.name,
 															company: props.todo.assigned_company,
-															progress: v
+															progress: v,
+															startDate: props.todo.date_start,
+															endDate: props.todo.date_end,
+															description: props.todo.note
 														},
 														routeParams.id,
 														'new',

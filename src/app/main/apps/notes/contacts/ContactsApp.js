@@ -4,7 +4,7 @@ import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
@@ -16,6 +16,7 @@ import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import ContactsHeader from './ContactsHeader';
+import TeamFloationButton from './TeamFloationButton';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -33,9 +34,18 @@ function ContactsApp(props) {
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 	const company = useSelector(({ chatApp }) => chatApp?.company);
-
+	const [loading, setLoading] = useState({
+		loadingApprove: false,
+		loadingRefuse: false,
+		loadingWaiting: false
+	});
+	const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+		}));
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getContacts(routeParams.id));
+		dispatch(Actions.getContacts(routeParams.id, handleSetLoading));
 		dispatch(Actions.getUserData());
 		return dispatch(Actions.resetContact());
 	}, [dispatch, routeParams]);
@@ -53,7 +63,7 @@ function ContactsApp(props) {
 					wrapper: 'min-h-0 team-tab p-24'
 				}}
 				// header={<ContactsHeader onOpen={props.setOpenDialog} pageLayout={pageLayout} />}
-				content={<ContactsList />}
+				content={<ContactsList pageLayout={pageLayout} {...loading} />}
 				leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
@@ -61,17 +71,18 @@ function ContactsApp(props) {
 			/>
 			{(roleFromCompany == 'o' || roleFromCompany == 'd') && (
 				<FuseAnimate animation="transition.expandIn" delay={300}>
-					<Fab
-						color="primary"
-						aria-label="add"
-						className={classes.addButton}
-						onClick={ev => dispatch(Actions.openNewContactDialog())}
-					>
-						<Icon>add</Icon>
-					</Fab>
+					<TeamFloationButton
+						color="secondary"
+						className=" ltr:left-0 rtl:right-0 mx-16 z-999"
+						callAction={name => {
+							dispatch(Actions.openNewContactDialog(name));
+							// setIsOpenDrawer(true);
+							// return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
+						}}
+					/>
 				</FuseAnimate>
 			)}
-			<AddTeamMemberToProject />
+			<AddTeamMemberToProject handleSetLoading={handleSetLoading} />
 			<ViewContactDialog />
 		</>
 	);

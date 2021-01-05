@@ -45,6 +45,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SendIcon from '@material-ui/icons/Send';
 import Menu from '@material-ui/core/Menu';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 const uuidv1 = require('uuid/v1');
 
 export default function CommentListItem({
@@ -56,6 +57,7 @@ export default function CommentListItem({
 	tempAuthor,
 	afterDeleteComment
 }) {
+	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 	const [open, setOpen] = React.useState(false);
 	const [images, setImages] = useState(null);
@@ -68,13 +70,68 @@ export default function CommentListItem({
 	const [offlineCommentReplies, setofflineCommentReplies] = useState({});
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const scrollRef = useRef(null);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == comment.id;
+	useEffect(() => {
+		if (
+			notificationPanel.notificationData?.notification?.content_type === 'comment' &&
+			comment &&
+			notificationPanel.notificationData?.notification.body.hasOwnProperty('comment_id') &&
+			notificationPanel.notificationData?.notification.body.comment_id == comment.id
+		) {
+			setOpen(true);
+		}
+	}, [notificationPanel.notificationData, comment]);
+	useEffect(() => {
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [comment]);
 	useEffect(() => {
 		setReplyComments(comment.replies_set);
 		return () => {
 			setReplyComments([]);
 		};
 	}, [comment.replies_set]);
-	const options = ['Edit', 'Delete'];
+	const options = [
+		{
+			name: 'Edit',
+			handler: () => {
+				setEditText(comment.text);
+				setIsEditing(true);
+				setAnchorEl(null);
+			}
+		},
+		{
+			name: 'Delete',
+			handler: e => {
+				handleDeleteComment();
+				setAnchorEl(null);
+			}
+		}
+	];
+
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && notification?.content_type == 'comment' && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			scrollRef.current.scrollIntoView(false);
+			scrollRef.current.classList.add('bg-yellow-200');
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove('bg-yellow-200');
+				}
+			}, 5000);
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
+
 	const handlePostComment = e => {
 		e.preventDefault();
 		if (!text) return;
@@ -208,7 +265,6 @@ export default function CommentListItem({
 		);
 	};
 	const handleDeleteComment = e => {
-		e.preventDefault();
 		apiCall(
 			DELETE_COMMENT(comment.id),
 			{},
@@ -248,7 +304,6 @@ export default function CommentListItem({
 		setIsReplying(false);
 		getReplies();
 	};
-	const [anchorEl, setAnchorEl] = React.useState(null);
 	const openMenu = Boolean(anchorEl);
 
 	const handleClick = event => {
@@ -264,11 +319,13 @@ export default function CommentListItem({
 	const userInfo = decodeDataFromToken();
 	const getUserId = () => userInfo?.extra?.profile.id;
 	return (
-		<div key={comment.id}>
+		<div
+			key={comment.id}
+			ref={notificationPanel.notificationData?.notification?.object_id == comment.id ? scrollRef : null}
+		>
 			<ListItem className="px-0 items-start">
 				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12">
-					{' '}
-					{[...comment.author.first_name][0]}
+					{comment.author.first_name}
 				</Avatar>
 				{isEditing ? (
 					<div className="flex-1 mx-4">
@@ -326,11 +383,15 @@ export default function CommentListItem({
 								}}
 							>
 								{options.map(option => (
-									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+									<MenuItem
+										key={option.name}
+										selected={option.name === 'Pyxis'}
+										onClick={option.handler}
+									>
 										<ListItemIcon>
 											<PriorityHighIcon fontSize="small" />
 										</ListItemIcon>
-										<Typography variant="inherit"> {option}</Typography>
+										<Typography variant="inherit"> {option.name}</Typography>
 									</MenuItem>
 								))}
 							</Menu>
@@ -383,14 +444,13 @@ export default function CommentListItem({
 					</Button>
 				</div>
 			) : (
-				
 				<div className="flex flex-wrap items-center ml-44">
-					<Button size="small" aria-label="Add to favorites">
+					{/* <Button size="small" aria-label="Add to favorites">
 						<Icon className="text-13" color="action">
 							favorite
 						</Icon>
 						<Typography className="normal-case text-13 ml-4">Like</Typography>
-					</Button>
+					</Button> */}
 					<Button
 						onClick={() => {
 							setIsReplying(prev => !prev);
@@ -408,12 +468,12 @@ export default function CommentListItem({
 						</Icon>
 						<Typography className="normal-case text-13 ml-4">Reply</Typography>
 					</Button>
-					<Button size="small" aria-label="Report">
+					{/* <Button size="small" aria-label="Report">
 						<Icon className="text-13" color="action">
 							flag_outlined
 						</Icon>
 						<Typography className="normal-case text-13 ml-4">Report</Typography>
-					</Button>
+					</Button> */}
 					{/* {getUserId() == comment.author.id && (
 						<Button onClick={handleDeleteComment} size="small" aria-label="Add to favorites">
 							<Icon className="text-13" color="action">
@@ -439,7 +499,9 @@ export default function CommentListItem({
 					)} */}
 
 					<div
-						className="flex items-center ml-auto cursor-pointer"
+						className={`flex items-center ml-auto cursor-pointer ${
+							!!repliesLength() ? ' underline text-blue-500' : ''
+						}`}
 						onClick={ev => {
 							ev.preventDefault();
 							ev.stopPropagation();
@@ -452,7 +514,6 @@ export default function CommentListItem({
 						</Icon>
 					</div>
 				</div>
-				
 			)}
 			{showReplies() && (
 				<Collapse in={open} timeout="auto" unmountOnExit>
@@ -473,7 +534,7 @@ export default function CommentListItem({
 											setText('');
 										} else {
 											setIsReplying(true);
-											setText('@' + reply.author.user.username);
+											setText('@' + `${reply.author.first_name} ${reply.author.last_name}`);
 											setTimeout(() => {
 												let element = document.getElementById(String(comment.id));
 												element.focus();
@@ -499,7 +560,7 @@ export default function CommentListItem({
 											setText('');
 										} else {
 											setIsReplying(true);
-											setText('@' + reply.author.user.username);
+											setText('@' + `${reply.author.first_name} ${reply.author.last_name}`);
 											setTimeout(() => {
 												let element = document.getElementById(String(comment.id));
 												element.focus();

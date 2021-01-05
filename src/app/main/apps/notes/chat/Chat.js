@@ -18,7 +18,8 @@ import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
 import RetryToSendMessage from './RetryToSendMessage';
 import SendMessageForm from './SendMessageForm';
-
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import FuseUtils from '@fuse/utils';
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
@@ -122,6 +123,26 @@ function Chat(props) {
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
 	const routeParams = useParams();
 	const [images, setImages] = useState(null);
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+	useEffect(() => {
+		if (!!chat?.chats?.length) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 600);
+			return () => {
+				setHasRender(false);
+			};
+		}
+	}, [chat?.chats]);
+
+	useEffect(() => {
+		if (notificationPanel.viewing && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
 
 	useEffect(() => {
 		if (chat?.chats?.length && chat.chats.length != chatLength) {
@@ -239,27 +260,32 @@ function Chat(props) {
 											{contact.first_name.split('')[0]}
 										</Avatar>
 									)}
-									<div className="bubble items-center justify-center p-12 max-w-50">
+									<div
+										className="bubble items-center justify-center p-12 max-w-50 relative"
+										ref={
+											notificationPanel.notificationData?.notification?.object_id == item.id
+												? scrollRef
+												: null
+										}
+									>
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
 												style={{ color: color?.[0]?.contactNameColor }}
 												className="font-bold ml-10 mb-6"
 											>
 												{contact.first_name + ' ' + contact.last_name}
-											<Typography className="font-size-12 ">
-												Project Manager - Impresa Edile Lucchini
+												{!!contact.position && (
+													<Typography className="font-size-12 ">
+														{contact.position} - {contact.company?.name}
+													</Typography>
+												)}
 											</Typography>
-
-											</Typography>
-											
 										)}
-										
-										
+
 										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
 										<div className="leading-normal p-10 font-size-16 mb-15">{item.body}</div>
 										<ViewFile files={item.files} />
 										<div className="flex items-center mt-8">
-											
 											{
 												// isLastMessageOfGroup(item, i) && (
 												<Typography
@@ -271,7 +297,9 @@ function Chat(props) {
 												// )
 											}
 											{contact.id == userIdFromCompany && item.waitingToSend ? (
-												<Icon className="float-right ml-20 text-16 text-check">access_time</Icon>
+												<Icon className="float-right ml-20 text-16 text-check">
+													access_time
+												</Icon>
 											) : (
 												// <Icon className="float-right text-16 text-check">check</Icon>
 												<Icon className="float-right ml-20 text-16 text-check">done_all</Icon>

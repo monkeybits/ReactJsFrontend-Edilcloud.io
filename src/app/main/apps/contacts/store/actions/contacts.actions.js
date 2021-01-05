@@ -72,8 +72,8 @@ export function getApprovedContacts() {
 			{},
 			res => {
 				let results = [];
-				if (res.results.length) {
-					results = res.results.map(d => {
+				if (res.length) {
+					results = res.map(d => {
 						const { first_name, last_name, photo, company, position, email, phone } = d;
 						return {
 							...d,
@@ -109,8 +109,8 @@ export function getWaitingContacts() {
 			{},
 			res => {
 				let results = [];
-				if (res.results.length) {
-					results = res.results.map(d => {
+				if (res.length) {
+					results = res.map(d => {
 						const { first_name, last_name, photo, company, position, email, phone } = d;
 						return {
 							...d,
@@ -146,8 +146,8 @@ export function getRefusedContacts() {
 			{},
 			res => {
 				let results = [];
-				if (res.results.length) {
-					results = res.results.map(d => {
+				if (res.length) {
+					results = res.map(d => {
 						const { first_name, last_name, photo, company, position, email, phone } = d;
 						return {
 							...d,
@@ -183,8 +183,8 @@ export function getDeactivatedContacts() {
 			{},
 			res => {
 				let results = [];
-				if (res.results.length) {
-					results = res.results.map(d => {
+				if (res.length) {
+					results = res.map(d => {
 						const { first_name, last_name, photo, company, position, email, phone } = d;
 						return {
 							...d,
@@ -220,9 +220,10 @@ export function setSearchText(event) {
 	};
 }
 
-export function openNewContactDialog() {
+export function openNewContactDialog(payload) {
 	return {
-		type: OPEN_NEW_CONTACT_DIALOG
+		type: OPEN_NEW_CONTACT_DIALOG,
+		payload
 	};
 }
 

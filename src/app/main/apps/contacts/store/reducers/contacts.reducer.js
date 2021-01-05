@@ -11,6 +11,7 @@ const initialState = () => ({
 	routeParams: {},
 	filterKey: 'all',
 	contactDialog: {
+		name: 'Search',
 		type: 'new',
 		props: {
 			open: false,
@@ -44,9 +45,9 @@ const contactsReducer = (state = initialState(), action) => {
 		}
 		case Actions.GET_CONTACTS: {
 			console.log({
-				actiontype : action.type,
-				GET_CONTACTS : Actions.GET_CONTACTS
-			})
+				actiontype: action.type,
+				GET_CONTACTS: Actions.GET_CONTACTS
+			});
 			return {
 				...state,
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Approved')),
@@ -95,6 +96,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					name: action.payload,
 					type: 'new',
 					props: {
 						open: true
@@ -107,6 +109,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					...state.contactDialog,
 					type: 'new',
 					props: {
 						open: false
@@ -119,6 +122,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					name: 'Invite',
 					type: 'edit',
 					props: {
 						open: true
@@ -131,6 +135,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					name: 'Invite',
 					type: 'edit',
 					props: {
 						open: false

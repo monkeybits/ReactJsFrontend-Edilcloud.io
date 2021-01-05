@@ -89,7 +89,7 @@ function Activation(props) {
 												color="primary"
 												className="w-full mx-auto mt-0 uppercase"
 												aria-label="Go Back To Login"
-												// onClick={() => { history.push('/pages/auth/login'); }}
+												onClick={() => { history.push('/pages/auth/login'); }}
 											>
 												Go back to login
 											</Button>
@@ -104,7 +104,7 @@ function Activation(props) {
 										color="primary"
 										className="w-full mx-auto mt-0 uppercase"
 										aria-label="Go Back To Login"
-										// onClick={() => { history.push('/pages/auth/login'); }}
+										onClick={() => { history.push('/pages/auth/login'); }}
 									>
 										Go back to login
 									</Button>

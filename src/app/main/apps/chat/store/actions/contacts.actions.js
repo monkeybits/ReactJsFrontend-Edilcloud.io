@@ -23,8 +23,8 @@ export function getContacts() {
 			{},
 			res => {
 				let results = [];
-				if (res.results.length) {
-					results = res.results.map(d => {
+				if (res.length) {
+					results = res.map(d => {
 						const { first_name, last_name, photo, company, position, email, phone } = d;
 						return {
 							...d,

@@ -11,6 +11,7 @@ import {
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import { changeFilters } from './filters.actions';
 export const GET_TODOS = '[TODO APP] GET TODOS (PROJECT)';
 export const RESET_ALL_FILTERS = '[TODO APP] RESET ALL FILTERS (PROJECT)';
 export const UPDATE_TODOS = '[TODO APP] UPDATE TODOS (PROJECT)';
@@ -23,7 +24,9 @@ export const REMOVE_TODO = '[TODO APP] REMOVE TODO (PROJECT)';
 export const SET_SEARCH_TEXT = '[TODO APP] SET SEARCH TEXT (PROJECT)';
 export const OPEN_NEW_TODO_DIALOG = '[TODO APP] OPEN NEW TODO DIALOG (PROJECT)';
 export const OPEN_TASK_CONTENT_DIALOG = '[TODO APP] OPEN TASK CONTENT DIALOG (PROJECT)';
+export const ADD_TASK_CONTENT_DATA = '[TODO APP] ADD TASK CONTENT DATA (PROJECT)';
 export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG (PROJECT)';
+export const ADD_TIMELINE_DATA = '[TODO APP] ADD TIMELINE DATA (PROJECT)';
 export const CLOSE_NEW_TODO_DIALOG = '[TODO APP] CLOSE NEW TODO DIALOG (PROJECT)';
 export const CLOSE_TASK_CONTENT_DIALOG = '[TODO APP] CLOSE TASK CONTENT DIALOG (PROJECT)';
 export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG (PROJECT)';
@@ -33,25 +36,51 @@ export const CLOSE_EDIT_TODO_DIALOG = '[TODO APP] CLOSE EDIT TODO DIALOG (PROJEC
 export const CLOSE_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE ACTIVITY TODO DIALOG (PROJECT)';
 export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING (PROJECT)';
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER (PROJECT)';
+export const SET_UPLOAD = '[TODO APP] SET UPLOAD (PROJECT)';
+export const SET_UPLOAD_PERCENTAGE = '[TODO APP] SET UPLOAD PERCENTAGE (PROJECT)';
+export const SET_LOADING = '[TODO APP] SET LOADING (PROJECT)';
 
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+}
+export function setLoading(payload) {
+	return {
+		type: SET_LOADING,
+		payload
+	};
+}
+export function setUpload(payload) {
+	return {
+		type: SET_UPLOAD,
+		payload
+	};
+}
+export function setUploadPercentage(payload) {
+	return {
+		type: SET_UPLOAD_PERCENTAGE,
+		payload
+	};
 }
 export function getTodos(pid, isGantt) {
 	// const request = axios.get('/api/todo-app/todos', { params });
 
 	return dispatch => {
+		dispatch(setLoading(true));
 		apiCall(
 			isGantt ? GET_GANTT_TASK_LIST(pid) : GET_TASK_LIST(pid),
 			{},
 			results => {
+				dispatch(setLoading(false));
 				dispatch({
 					type: GET_TODOS,
 					payload: results.sort(sortHolders),
 					isGantt
 				});
 			},
-			err => console.log(err),
+			err => {
+				dispatch(setLoading(false));
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -127,14 +156,23 @@ export function openTaskContent(data) {
 		data
 	};
 }
+export function addTaskData(data) {
+	return {
+		type: ADD_TASK_CONTENT_DATA,
+		data
+	};
+}
 export function closeTaskContent() {
 	return {
 		type: CLOSE_TASK_CONTENT_DIALOG
 	};
 }
 export function resetAllFilters() {
-	return {
-		type: RESET_ALL_FILTERS
+	return dispatch => {
+		dispatch({
+			type: RESET_ALL_FILTERS
+		});
+		dispatch(changeFilters({ activeFilter: 'genrealFilter', activeFilterKey: 'All' }));
 	};
 }
 export function openNewTodoDialog(data) {
@@ -146,6 +184,12 @@ export function openNewTodoDialog(data) {
 export function openTimelineDialog(todo) {
 	return {
 		type: OPEN_TIMELINE_DIALOG,
+		todo
+	};
+}
+export function addTimelineData(todo) {
+	return {
+		type: ADD_TIMELINE_DATA,
 		todo
 	};
 }
@@ -216,6 +260,7 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 				} else {
 					dispatch(getTodos(pid, isGantt));
 				}
+				dispatch(resetAllFilters());
 				closeTodoDialog();
 			},
 			err => console.log(err),
@@ -344,6 +389,7 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 				} else {
 					dispatch(getTodos(pid, isGantt));
 				}
+				dispatch(resetAllFilters());
 				closeTodoDialog();
 			},
 			err => console.log(err),

@@ -1,6 +1,6 @@
 import FuseUtils from '@fuse/utils';
 import Typography from '@material-ui/core/Typography';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link, useRouteMatch } from 'react-router-dom';
@@ -39,8 +39,11 @@ import Divider from '@material-ui/core/Divider';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
 import DownloadPdf from '../DownloadPdf';
-
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 export default function ProjectListitem(props) {
 	const {
@@ -50,6 +53,7 @@ export default function ProjectListitem(props) {
 	} = props;
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const {
+		mainId,
 		id,
 		name,
 		description,
@@ -60,9 +64,11 @@ export default function ProjectListitem(props) {
 		date_end,
 		profiles,
 		isApproved,
-		talks
+		talks,
+		address
 	} = projects[index];
 	const [expanded, setExpanded] = React.useState(false);
+	const [activeNotification, setActiveNotification] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const match = useRouteMatch();
@@ -74,6 +80,28 @@ export default function ProjectListitem(props) {
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == id;
+	useEffect(() => {
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [mainId, hasNotifcationOnThisItem]);
+
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
+
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
@@ -153,7 +181,10 @@ export default function ProjectListitem(props) {
 	}));
 
 	return (
-		<Card className="h-full flex flex-col project_card">
+		<Card
+			ref={notificationPanel.notificationData?.notification?.object_id == mainId ? scrollRef : null}
+			className="h-full flex flex-col project_card"
+		>
 			<CardHeader
 				action={
 					!!isApproved &&
@@ -194,8 +225,7 @@ export default function ProjectListitem(props) {
 				// subheader={moment(date_start).format('MMM DD, YYYY')}
 				subheader={
 					<>
-						<small> Via San Giovanni Bosco 3, Bariano(BG) 24050</small>
-						
+						 {address}
 					</>
 				}
 				//
@@ -223,16 +253,20 @@ export default function ProjectListitem(props) {
 				className="project_tabs"
 			>
 				<Tab label="About" {...a11yProps(0)} />
-				<Tab label="Insights" {...a11yProps(1)} />
-				<Tab label="Weather" {...a11yProps(2)} />
+				{/* <Tab label="Insights" {...a11yProps(1)} />
+				<Tab label="Weather" {...a11yProps(2)} /> */}
 			</Tabs>
 			<TabPanel value={value} index={0} className="tab_panel">
-				Progetto di Ristrutturazione di una palazzina con 15 appartamenti a Treviglio(BG). Respedil, il progetto prevede la realizzazione di 15 appartamenti con finiture di lusso.
+				
+				<Typography>{description}</Typography>
 				<div className="flex overflow-x-auto nowrap about-image-section mt-16">
-					<img src="https://media.gettyimages.com/photos/young-worker-doing-precise-measuring-picture-id601016110?s=612x612" />
-					<img src="https://media.gettyimages.com/photos/young-worker-doing-precise-measuring-picture-id601016110?s=612x612" />
-					<img src="https://media.gettyimages.com/photos/young-worker-doing-precise-measuring-picture-id601016110?s=612x612" />
-					<img src="https://media.gettyimages.com/photos/young-worker-doing-precise-measuring-picture-id601016110?s=612x612" />
+					{!!profiles?.length &&
+						profiles.map(d => (
+							<Tooltip title={`${d.first_name} ${d.last_name}`} key={d.id}>
+								<Avatar className="mx-4 w-32 h-32" src={d.photo} />
+							</Tooltip>
+						))}
+					{/* <img src={d.photo ? d.photo : '/assets/images/avatars/profile.jpg'} /> */}
 					<a href="javascript:;" className="more-pic">
 						<MoreHorizIcon />
 					</a>
@@ -377,7 +411,12 @@ export default function ProjectListitem(props) {
 					<ShareIcon />
 				</IconButton> */}
 				<Button>
-				<DownloadPdf className="MuiButtonBase-root MuiButton-root " label="Download Report" id={name} pid={id} />
+					<DownloadPdf
+						className="MuiButtonBase-root MuiButton-root "
+						label="Download Report"
+						id={name}
+						pid={id}
+					/>
 				</Button>
 				<IconButton
 					className={clsx(classes.expand, 'py-0', {
@@ -388,7 +427,8 @@ export default function ProjectListitem(props) {
 					aria-label="show more"
 				>
 					<Switch name="checkedA" inputProps={{ 'aria-label': 'secondary checkbox' }} />
-					<Icon>notifications</Icon>
+					<NotificationsNoneOutlinedIcon />
+					{/* {activeNotification ? <NotificationsIcon color="secondary" /> : <NotificationsNoneOutlinedIcon />} */}
 				</IconButton>
 			</CardActions>
 		</Card>

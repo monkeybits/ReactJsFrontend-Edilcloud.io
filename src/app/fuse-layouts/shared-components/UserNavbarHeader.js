@@ -13,7 +13,7 @@ import * as authActions from 'app/auth/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		backgroundColor: '#1e2632',
+		backgroundColor: '#0d0a27',
 		'&.user': {
 			'& .username, & .email': {
 				transition: theme.transitions.create('opacity', {
@@ -26,13 +26,14 @@ const useStyles = makeStyles(theme => ({
 	avatar: {
 		width: 72,
 		height: 72,
-		position: 'absolute',
-		top: 92,
+		// position: 'absolute',
+		// left: '50%',
+		// transform: 'translateX(-50%)',
+		// top: 110,
 		padding: 8,
 		background: theme.palette.background.default,
 		boxSizing: 'content-box',
-		left: '50%',
-		transform: 'translateX(-50%)',
+		margin: '10px auto',
 		transition: theme.transitions.create('all', {
 			duration: theme.transitions.duration.shortest,
 			easing: theme.transitions.easing.easeInOut
@@ -54,20 +55,27 @@ function UserNavbarHeader(props) {
 			position="static"
 			elevation={0}
 			classes={{ root: classes.root }}
-			className="user relative flex flex-col items-center justify-center pt-24 pb-64 mb-40 z-0"
+			className="user relative flex flex-col items-center justify-center pt-24 pb-24 mb-0 z-0"
+			
 		>
 			{user && (
 				<Typography className="username text-16 whitespace-no-wrap" color="inherit">
 					{user.first_name + ' ' + user.last_name}
 				</Typography>
 			)}
+			{!!user?.position && (
+				<Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
+					{/* {company?.position} @*/}
+					{user?.position}
+				</Typography>
+			)}
 			<Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
-				{company?.position}@{company?.name}
+				{company?.name}
 			</Typography>
 			<Avatar
 				className={clsx(classes.avatar, 'avatar')}
 				alt="user photo"
-				src={company?.logo ? company?.logo : 'assets/images/avatars/profile.jpg'}
+				src={company?.logo ? company?.logo : '/assets/images/avatars/profile.jpg'}
 			/>
 		</AppBar>
 	);

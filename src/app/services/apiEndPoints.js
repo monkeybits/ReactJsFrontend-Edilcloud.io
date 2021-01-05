@@ -19,10 +19,10 @@ export const REFRESH_TOKEN = id => `/api/frontend/user/token/refresh/${id}/`;
 export const ADD_NEW_MEMBER = '/api/frontend/profile/company/profile_add/';
 export const ADD_EXISTING_MEMBER = uid => `/api/frontend/profile/company/invite/profile_add/${uid}/`;
 
-export const GET_STAFF_LIST = '/api/frontend/profile/company/approve/staff_list/?per_page=12';
-export const GET_DISABLED_STAFF_LIST = 'api/frontend/profile/company/approve/staff_list/disabled/?per_page=12';
-export const GET_WAITING_STAFF_LIST = '/api/frontend/profile/company/waiting/staff_list/?per_page=12';
-export const GET_REFUSED_STAFF_LIST = '/api/frontend/profile/company/refuse/staff_list/?per_page=12';
+export const GET_STAFF_LIST = '/api/frontend/profile/company/approve/staff_list/?no_page=no_page';
+export const GET_DISABLED_STAFF_LIST = 'api/frontend/profile/company/approve/staff_list/disabled/?no_page=no_page';
+export const GET_WAITING_STAFF_LIST = '/api/frontend/profile/company/waiting/staff_list/?no_page=no_page';
+export const GET_REFUSED_STAFF_LIST = '/api/frontend/profile/company/refuse/staff_list/?no_page=no_page';
 export const UPDATE_MEMBER = id => `/api/frontend/profile/company/profile_edit/${id}/`;
 export const DEACTIVATE_MEMBER = id => `/api/frontend/profile/company/profile_disable/${id}/`;
 export const ACTIVATE_MEMBER = id => `/api/frontend/profile/company/profile_enable/${id}/`;
@@ -50,9 +50,9 @@ export const VIDEO_LIST = cid => `/api/frontend/profile/company/company_video_li
 export const VIDEO_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/video_list/`;
 export const FOLDER_LIST = cid => `/api/frontend/media/folder/company/${cid}/list/`;
 export const FOLDER_LIST_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/list/`;
-export const DOWNLOAD_PHOTO = did => `/api/frontend/media/photo/download/${did}`;
-export const DOWNLOAD_VIDEO = did => `/api/frontend/media/video/download/${did}`;
-export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/download/${did}`;
+export const DOWNLOAD_PHOTO = did => `/api/frontend/media/photo/download/${did}/`;
+export const DOWNLOAD_VIDEO = did => `/api/frontend/media/video/download/${did}/`;
+export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/download/${did}/`;
 
 export const PHOTO_DELETE = pid => `/api/frontend/media/photo/delete/${pid}/`;
 export const VIDEO_DELETE = vid => `/api/frontend/media/video/delete/${vid}/ `;
@@ -81,27 +81,34 @@ export const PROJECT_DETAIL = id => `/api/frontend/project/project/${id}/`;
 export const DISABLE_PROJECT = id => `/api/frontend/project/project/disable/${id}/`;
 export const ENABLE_PROJECT = id => `/api/frontend/project/project/enable/${id}/`;
 export const EDIT_PROJECT_DETAIL = id => `/api/frontend/project/project/edit/${id}/`;
-export const COMPANY_STAFF_LIST = (searchString, project_id) =>
+export const STAFF_LIST = (searchString, project_id) =>
 	`/api/frontend/profile/company/approve/staff_list_and_external/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__company__name__icontains=${searchString}&filter__email__exact=${searchString}&project_id=${project_id}&per_page=12`;
+
+export const COMPANY_STAFF_LIST = (searchString, project_id) =>
+	`/api/frontend/profile/company/approve/staff_list_and_external/?filter__company__name__icontains=${searchString}&project_id=${project_id}&no_page=no_page`;
 export const ADD_TEAM_MEMBER_TO_PROJECT = (pid, is_external) =>
 	`/api/frontend/project/project/${pid}/team_add/?is_external=${is_external}`;
-export const GET_PROJECT_STAFF_LIST = pid => `/api/frontend/project/project/${pid}/approve/team_list/`;
-export const GET_PROJECT_STAFF_WAITING_LIST = pid => `/api/frontend/project/project/${pid}/waiting/team_list/`;
-export const GET_PROJECT_STAFF_REFUSE_LIST = pid => `/api/frontend/project/project/${pid}/refuse/team_list/`;
+export const GET_PROJECT_STAFF_LIST = pid => `/api/frontend/project/project/${pid}/approve/team_list/?no_page=no_page`;
+export const GET_PROJECT_STAFF_WAITING_LIST = pid =>
+	`/api/frontend/project/project/${pid}/waiting/team_list/?no_page=no_page`;
+export const GET_PROJECT_STAFF_REFUSE_LIST = pid =>
+	`/api/frontend/project/project/${pid}/refuse/team_list/?no_page=no_page`;
 export const ACCEPT_PROJECT_INVITATION = pid => `/api/frontend/project/team/enable/${pid}/`;
 export const REJECT_PROJECT_INVITATION = pid => `/api/frontend/project/team/disable/${pid}/`;
+export const DELETE_MEMBER_FROM_PROJECT = mid => `/api/frontend/project/team/delete/${mid}/`;
 export const CHAT_LIST = `/api/frontend/profile/company/talk_list/`;
 export const ADD_TASK_TO_PROJECT = pid => `/api/frontend/project/project/${pid}/task_add/`;
 export const GET_TASK_LIST = pid => `/api/frontend/project/project/${pid}/task_list/?no_page=no_page`;
 export const ADD_ACTIVITY_TO_TASK = tid => `/api/frontend/project/task/${tid}/activity_add/`;
 export const EDIT_ACTIVITY_TO_TASK = aid => `/api/frontend/project/activity/edit/${aid}/`;
 export const GET_COMPANY_PROJECT_TEAM_MEMBER_LIST = (pid, cid, searchString) =>
-	`/api/frontend/project/project/${pid}/approve/team_list/?filter__profile__company__id=${cid}&filter__role=worker&filter__profile__first_name__icontains=${searchString}&filter__profile__last_name__icontains=${searchString}&no_page=no_page`;
+	`/api/frontend/project/project/${pid}/approve/team_list/?filter__profile__company__id=${cid}&no_page=no_page`;
 export const GET_ACTIVITY_OF_TASK = tid => `/api/frontend/project/task/${tid}/activity_list/?no_page=no_page`;
 export const ADD_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/add_post/`;
 export const ADD_POST_TO_TASK = tid => `/api/frontend/project/task/${tid}/add_post/`;
 export const GET_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/post_list/`;
 export const GET_POST_FOR_TASK = tid => `/api/frontend/project/task/${tid}/post_list/`;
+export const DELETE_POST = pid => `/api/frontend/project/post/delete/${pid}/`;
 export const DELETE_COMMENT = cid => `/api/frontend/project/comment/delete/${cid}/`;
 export const EDIT_COMMENT = cid => `/api/frontend/project/comment/${cid}/edit/`;
 export const ADD_COMMENT_TO_POST = pid => `/api/frontend/project/post/${pid}/add_comment/`;
@@ -120,5 +127,18 @@ export const ADD_ATTCHMENTS_TO_TASK = tid => `/api/frontend/project/task/${tid}/
 export const EDIT_POST = pid => `/api/frontend/project/post/${pid}/edit/`;
 export const GET_GANTT_TASK_LIST = pid => `/api/frontend/project/gantt/project/${pid}/task_list/?no_page=no_page`;
 export const GET_ALL_PROJECT_TASKS = `/api/frontend/dashboard/projects/?no_page=no_page`;
-export const EXPORT_DATA = pid => `/api/frontend/project/project/${pid}/export/`;
-export const GET_ALL_NOTIFICATIONS = pid => '/api/frontend/notify/notification/recipient/new_list/'
+export const EXPORT_DATA = pid => `/api/frontend/project/project/${pid}/export/?type=zip`; //api/frontend/project/project/id/export/?type=zip
+export const GET_ALL_NOTIFICATIONS = (list, page) =>
+	`/api/frontend/notify/notification/recipient/${list}/?page=${page}`;
+export const GET_ALL_PAGES_NOTIFICATIONS = list =>
+	`/api/frontend/notify/notification/recipient/${list}/?no_page=no_page`;
+export const GET_TASK_BY_ID = tid => `/api/frontend/project/task/${tid}`;
+export const GET_ACTIVITY_BY_ID = aid => `/api/frontend/project/activity/${aid}`;
+export const GET_SETTINGS_PREFERENCES = `/api/frontend/profile/preference/detail`;
+export const UPDATE_SETTINGS_PREFERENCES = `/api/frontend/profile/preference/edit/`;
+export const READ_NOTIFICATION = nid => `/api/frontend/notify/notification/read/${nid}/`;
+export const READ_ALL_NOTIFICATION = `/api/frontend/notify/notification/read/all/`;
+export const GET_NOTIFICATION_COUNT = `/api/frontend/notify/notification/recipient/count/`;
+export const DELETE_NOTIFICATION_BY_ID = nid => `/api/frontend/notify/notification/delete/${nid}/`;
+export const API_GOOGLE_AUTH_LOGIN = '/api/auth/socials/google/';
+export const API_FACEBOOK_AUTH_LOGIN = '/api/auth/socials/facebook/';

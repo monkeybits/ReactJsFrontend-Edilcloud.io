@@ -8,6 +8,8 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import clsx from 'clsx';
 import DrawImage from './DrawImage';
+import VideoListItem from 'app/VideoPlayer/VideoListItem';
+import * as ICONS from 'app/main/apps/constants';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -74,8 +76,10 @@ export default function ImagesPreview(props) {
 			</Paper> */}
 			{props.images[activeStep].fileType == 'image' ? (
 				<img className={classes.img} src={props.images[activeStep].imgPath} />
+			) : props.images[activeStep].fileType == 'video' ? (
+				<VideoListItem width="100%" height="100%" video_url={props.images[activeStep].imgPath} />
 			) : (
-				<video className={classes.img} src={props.images[activeStep].imgPath} autoPlay />
+				<img src={ICONS.GENERIC_ICON_PATH} />
 			)}
 			<MobileStepper
 				steps={maxSteps}

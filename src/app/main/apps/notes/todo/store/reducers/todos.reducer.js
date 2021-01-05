@@ -2,6 +2,11 @@ import _ from '@lodash';
 import * as Actions from '../actions';
 
 const initialState = {
+	isLoadingTodos: false,
+	upload: {
+		isUploading: false,
+		uploadPercentage: 0
+	},
 	entities: [],
 	searchText: '',
 	orderBy: '',
@@ -30,7 +35,7 @@ const todosReducer = (state = initialState, action) => {
 
 			return {
 				...state,
-				[action.isGantt ?  'entities': 'todoEntities']: { ...action.payload },
+				[action.isGantt ? 'entities' : 'todoEntities']: { ...action.payload },
 				searchText: '',
 				routeParams: action.routeParams
 			};
@@ -38,7 +43,7 @@ const todosReducer = (state = initialState, action) => {
 		case Actions.UPDATE_TODOS: {
 			return {
 				...state,
-				[action.isGantt ?  'entities': 'todoEntities']: action.payload
+				[action.isGantt ? 'entities' : 'todoEntities']: action.payload
 			};
 		}
 		case Actions.OPEN_NEW_TODO_DIALOG: {
@@ -65,6 +70,18 @@ const todosReducer = (state = initialState, action) => {
 				}
 			};
 		}
+		case Actions.ADD_TASK_CONTENT_DATA: {
+			return {
+				...state,
+				taskContentDialog: {
+					...state.taskContentDialog,
+					data: {
+						...state.taskContentDialog.data,
+						...action.data
+					}
+				}
+			};
+		}
 		case Actions.CLOSE_TASK_CONTENT_DIALOG: {
 			return {
 				...state,
@@ -86,6 +103,43 @@ const todosReducer = (state = initialState, action) => {
 						openTimelineDialog: true
 					},
 					data: action.todo
+				}
+			};
+		}
+		case Actions.SET_LOADING: {
+			return {
+				...state,
+				isLoadingTodos: action.payload
+			};
+		}
+		case Actions.SET_UPLOAD: {
+			return {
+				...state,
+				upload: {
+					...state.upload,
+					isUploading: action.payload,
+					uploadPercentage: 0
+				}
+			};
+		}
+		case Actions.SET_UPLOAD_PERCENTAGE: {
+			return {
+				...state,
+				upload: {
+					...state.upload,
+					uploadPercentage: action.payload
+				}
+			};
+		}
+		case Actions.ADD_TIMELINE_DATA: {
+			return {
+				...state,
+				todoDialog: {
+					...state.todoDialog,
+					data: {
+						...state.todoDialog.data,
+						...action.todo
+					}
 				}
 			};
 		}
@@ -166,7 +220,7 @@ const todosReducer = (state = initialState, action) => {
 
 			return {
 				...state,
-				[action.isGantt ?  'entities': 'todoEntities']: {
+				[action.isGantt ? 'entities' : 'todoEntities']: {
 					...state.entities,
 					[todo.id]: { ...todo }
 				}
@@ -190,6 +244,7 @@ const todosReducer = (state = initialState, action) => {
 				orderBy: action.orderBy
 			};
 		}
+
 		default:
 			return state;
 	}

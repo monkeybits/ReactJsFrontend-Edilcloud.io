@@ -11,22 +11,22 @@ i18next.addResourceBundle('ar', 'navigation', ar);
 
 const navigationConfig = [
 	{
-		id: 'DASHBOARD',
-		title: 'DASHBOARD',
-		translate: 'DASHBOARD',
+		id: 'dashboards',
+		title: 'Dashboards',
+		translate: 'DASHBOARDS',
 		type: 'group',
+		icon: 'dashboard',
 		children: [
 			{
 				id: '',
 				title: 'Dashboard',
-				translate: 'Dashboard',
+				translate: 'DASHBOARDS',
 				type: 'item',
 				icon: 'dashboard',
-				url: '/apps/todo/all',
-				
+				url: '/apps/todo/all'
 			}
-		]	
-	},	
+		]
+	},
 	{
 		id: 'PROJECTS',
 		title: 'PROJECTS',
@@ -39,12 +39,10 @@ const navigationConfig = [
 				translate: 'Projects List',
 				type: 'item',
 				icon: 'work_outline',
-				url: '/apps/projects',
-				
-			},
-			
+				url: '/apps/projects'
+			}
 		]
-	},	
+	},
 	{
 		id: 'MY COMPANY',
 		title: 'MY COMPANY',
@@ -57,8 +55,7 @@ const navigationConfig = [
 				translate: 'Company Team',
 				type: 'item',
 				icon: 'people_outline',
-				url: '/apps/contacts/all',
-				
+				url: '/apps/contacts/all'
 			},
 			{
 				id: '',
@@ -66,8 +63,7 @@ const navigationConfig = [
 				translate: 'Company File-Manager',
 				type: 'item',
 				icon: 'folder_shared',
-				url: '/apps/file-manager',
-				
+				url: '/apps/file-manager'
 			},
 			{
 				id: '',
@@ -75,11 +71,10 @@ const navigationConfig = [
 				translate: 'Company Chat',
 				type: 'item',
 				icon: 'chat',
-				url: '/apps/chat',
-				
-			},
+				url: '/apps/chat'
+			}
 		]
-	},		
+	},
 	{
 		id: 'HOW TO USE',
 		title: 'HOW TO USE?',
@@ -92,8 +87,7 @@ const navigationConfig = [
 				translate: 'Edilcloud Academy',
 				type: 'item',
 				icon: 'class',
-				url: '/apps/academy/courses',
-				
+				url: '/apps/academy/courses'
 			},
 			{
 				id: '',
@@ -101,10 +95,8 @@ const navigationConfig = [
 				translate: 'Help Center',
 				type: 'item',
 				icon: 'help_center',
-				url: 'https://edilcloud.io/helpcenter/',
-				
-			},
-			
+				url: 'https://edilcloud.io/helpcenter/'
+			}
 		]
 	},
 	{
@@ -119,11 +111,8 @@ const navigationConfig = [
 				translate: 'General Settings',
 				type: 'item',
 				icon: 'settings',
-				url: 'muzz',
-				
-			},
-		
-			
+				url: '/apps/settings'
+			}
 		]
 	},
 	{
@@ -138,11 +127,26 @@ const navigationConfig = [
 				translate: 'Notifications',
 				type: 'item',
 				icon: 'notifications_active',
-				url: 'mazz',
-				
-			},
-		
-			
+				url: 'mazz'
+			}
+		]
+	},
+	{
+		id: 'PLAN',
+		title: 'PLAN',
+		translate: 'PLAN',
+		type: 'group',
+		children: [
+			{
+				id: '',
+				title: 'Plan',
+				translate: 'Plan',
+				type: 'item',
+				icon: 'group_work',
+				isOutsideLink: true,
+				tag: 'a',
+				url: 'api/frontend/payments/?customer_id='
+			}
 		]
 	},
 	{
@@ -157,13 +161,10 @@ const navigationConfig = [
 				translate: 'Logout',
 				type: 'item',
 				icon: 'exit_to_app',
-				url: 'mizz',
-				
-			},
-		
-			
+				url: 'mizz'
+			}
 		]
-	},
+	}
 ];
 
 export default navigationConfig;

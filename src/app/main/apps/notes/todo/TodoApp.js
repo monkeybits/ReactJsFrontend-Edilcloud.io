@@ -21,7 +21,11 @@ import { makeStyles } from '@material-ui/core';
 import TaskContentDialog from './Dialog/TaskContentDialog';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import clsx from 'clsx';
-
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { GET_TASK_BY_ID, GET_ACTIVITY_BY_ID } from 'app/services/apiEndPoints';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import ShowUpload from './ShowUpload';
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',
@@ -37,13 +41,60 @@ function TodoApp(props) {
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const upload = useSelector(({ todoAppNote }) => todoAppNote.todos.upload);
 
 	// useEffect(() => {
 	// 	dispatch(Actions.getFilters());
 	// 	dispatch(Actions.getFolders());
 	// 	dispatch(Actions.getLabels());
 	// }, [dispatch]);
-
+	useEffect(() => {
+		if (notificationPanel.viewing && notificationPanel.notificationData?.notification) {
+			let notification = notificationPanel.notificationData.notification;
+			if (notification.content_type === 'post' || notification.content_type === 'comment') {
+				let task_id = notification.body.task_id;
+				if (notification.body.hasOwnProperty('activity_id')) {
+					let activity_id = notification.body.activity_id;
+					dispatch(Actions.openTimelineDialog({ todo: { id: activity_id }, task: {} }));
+					apiCall(
+						GET_ACTIVITY_BY_ID(activity_id),
+						{},
+						res => {
+							dispatch(
+								Actions.addTimelineData({
+									todo: { id: activity_id, ...res }
+								})
+							);
+						},
+						err => console.log(err),
+						METHOD.GET,
+						getHeaderToken()
+					);
+				} else {
+					dispatch(Actions.openTaskContent({ id: task_id }));
+				}
+				apiCall(
+					GET_TASK_BY_ID(task_id),
+					{},
+					res => {
+						if (notification.body.hasOwnProperty('activity_id')) {
+							dispatch(
+								Actions.addTimelineData({
+									task: { id: task_id, ...res }
+								})
+							);
+						} else {
+							dispatch(Actions.addTaskData(res));
+						}
+					},
+					err => console.log(err),
+					METHOD.GET,
+					getHeaderToken()
+				);
+			}
+		}
+	}, [notificationPanel.viewing]);
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getTodos(routeParams.id));
 		return () => {
@@ -70,13 +121,16 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/> */}
+			{/* {isUploadingFiles && ( */}
+			
+			{/* )} */}
 			<FusePageSimple
 				classes={{
 					contentWrapper: 'h-full',
 					content: 'flex flex-col h-full p-24',
 					leftSidebar: 'w-256 border-0',
 					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
-					customHeader:"flex flex-auto flex-col container z-10 h-full chat-header-bg-remove",
+					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove',
 					wrapper: 'min-h-0 team-tab'
 				}}
 				// header={<TodoHeader pageLayout={pageLayout} />}

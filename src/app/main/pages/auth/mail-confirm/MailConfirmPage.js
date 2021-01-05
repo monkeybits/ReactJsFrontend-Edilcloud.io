@@ -44,14 +44,14 @@ function MailConfirmPage() {
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full">
 						<CardContent className="flex flex-col items-center justify-center p-20 sm:p-32">
-							<img className="ht-100" src="assets/images/logos/fuse.svg" alt="logo" />
+							<img className="w-200" src="assets/images/logos/fuse.svg" alt="logo" />
 
 							<Typography variant="h5" className="text-center font-600 mt-20 mb-24">
 								Confirm Your Email Address!
 							</Typography>
 
 							<Typography className="text-muted font-600 text-center mb-16 w-full">
-								A confirmation e-mail has been sent to <b>example@mymail.com</b>.
+								A confirmation e-mail has been sent to <b>{history.location.state.email}</b>.
 							</Typography>
 
 							<Typography className="text-muted font-600 text-center w-full">
@@ -66,7 +66,9 @@ function MailConfirmPage() {
 									color="primary"
 									className="w-full mx-auto mt-0 uppercase"
 									aria-label="Go Back To Login"
-									onClick={() => { history.push('/pages/auth/login'); }}
+									onClick={() => {
+										history.push('/pages/auth/login');
+									}}
 								>
 									Go back to login
 								</Button>

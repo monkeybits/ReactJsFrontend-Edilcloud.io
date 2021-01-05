@@ -31,8 +31,23 @@ export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG';
 export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG';
 export const OPEN_ACTIVITY_TODO_DIALOG = '[TODO APP] OPEN ACTIVITY TODO DIALOG';
 export const CLOSE_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE ACTIVITY TODO DIALOG';
+export const SET_UPLOAD = '[TODO APP] SET UPLOAD ';
+export const SET_UPLOAD_PERCENTAGE = '[TODO APP] SET UPLOAD PERCENTAGE ';
+
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+}
+export function setUpload(payload) {
+	return {
+		type: SET_UPLOAD,
+		payload
+	};
+}
+export function setUploadPercentage(payload) {
+	return {
+		type: SET_UPLOAD_PERCENTAGE,
+		payload
+	};
 }
 export function getTodos(params) {
 	return (dispatch, getState) => {
@@ -218,7 +233,7 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 						progress: todo.progress,
 						date_start: moment(todo.startDate).format('YYYY-MM-DD'),
 						date_end: moment(todo.endDate).format('YYYY-MM-DD'),
-						assigned_company: todo.company[0] ? todo.company[0].data.profile.company.id : undefined,
+						assigned_company: todo.company[0].data?.profile?.company ? todo.company[0].data.profile.company.id : undefined,
 						project: pid,
 						date_completed: null,
 						alert: false,

@@ -35,7 +35,23 @@ import PostList from 'app/main/apps/notes/todo/PostList';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 const uuidv1 = require('uuid/v1');
-
+const getAllFilesOfTimeline = timeline => {
+	if (Array.isArray(timeline) && timeline.length) {
+		console.log({ timeline });
+		return timeline.reduce(
+			(prev, current) => {
+				return { media_set: [...prev.media_set, ...current.media_set].map((d, index) => ({ ...d, index })) };
+			},
+			{
+				media_set: []
+			}
+		);
+	} else {
+		return {
+			media_set: []
+		};
+	}
+};
 function CreatePostForm({ isTask, taskId }) {
 	const dispatch = useDispatch();
 	const [, updateState] = React.useState();
@@ -43,6 +59,7 @@ function CreatePostForm({ isTask, taskId }) {
 	const user = useSelector(({ auth }) => auth.user.data.company);
 	const [tempAuthor, setTempAuthor] = useState({});
 	const [data, setData] = useState({ posts: [] });
+	const [media, setMedia] = useState({ files: [] });
 	const [offilePosts, setOffilePosts] = useState({});
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
@@ -80,7 +97,11 @@ function CreatePostForm({ isTask, taskId }) {
 		apiCall(
 			isTask ? GET_POST_FOR_TASK(taskId) : GET_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
 			{},
-			res => setData({ posts: res.results }),
+			res => {
+				setData({ posts: res.results });
+				const files = getAllFilesOfTimeline(res.results);
+				setMedia({ files: files.media_set });
+			},
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
@@ -124,10 +145,12 @@ function CreatePostForm({ isTask, taskId }) {
 		console.log({ media_set });
 		let tempOfflinePosts = { ...offilePosts, [unique_code]: tempPost };
 		setOffilePosts(tempOfflinePosts);
+		dispatch(Actions.setUpload(true));
 		apiCall(
 			isTask ? ADD_POST_TO_TASK(taskId) : ADD_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
 			formData,
 			res => {
+				dispatch(Actions.setUpload(false));
 				console.log({ res });
 				delete tempOfflinePosts[res.unique_code];
 				setOffilePosts(tempOfflinePosts);
@@ -136,6 +159,7 @@ function CreatePostForm({ isTask, taskId }) {
 			err => {
 				// console.log({ myError: err, unique_code, tempOfflinePosts });
 				// let tempPosts = { ...offilePosts };
+				dispatch(Actions.setUpload(false));
 				tempOfflinePosts[unique_code] = {
 					...tempOfflinePosts[unique_code],
 					retryOption: true
@@ -145,7 +169,13 @@ function CreatePostForm({ isTask, taskId }) {
 				forceUpdate();
 			},
 			METHOD.POST,
-			getHeaderToken()
+			{
+				...getHeaderToken(),
+				onUploadProgress: function (progressEvent) {
+					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					dispatch(Actions.setUploadPercentage(percentCompleted));
+				}
+			}
 		);
 		document.getElementById('addPost').value = '';
 		setImages(null);
@@ -267,31 +297,35 @@ function CreatePostForm({ isTask, taskId }) {
 							elevation={0}
 						>
 							<div className="add-photo-image">
-									<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo" className="p-8">
-										<Icon>photo</Icon>
-									</IconButton>
-									<input
-										hidden
-										multiple
-										type="file"
-										accept="image/*, video/*"
-										ref={inputRef}
-										onChange={addPhoto}
-									/>
-							</div>
-								<Button
-									onClick={createPost}
-									variant="contained"
-									color="primary"
-									size="small"
-									aria-label="post"
-									disabled={!text.length}
+								<IconButton
+									onClick={() => inputRef.current.click()}
+									aria-label="Add photo"
+									className="p-8"
 								>
-									Post
-								</Button>
+									<Icon>photo</Icon>
+								</IconButton>
+								<input
+									hidden
+									multiple
+									type="file"
+									accept="image/*, video/*"
+									ref={inputRef}
+									onChange={addPhoto}
+								/>
+							</div>
+							<Button
+								onClick={createPost}
+								variant="contained"
+								color="primary"
+								size="small"
+								aria-label="post"
+								disabled={!text.length}
+							>
+								Post
+							</Button>
 						</AppBar>
 					</Card>
-					
+
 					{/* <Divider className="my-32" /> */}
 				</div>
 
@@ -303,7 +337,7 @@ function CreatePostForm({ isTask, taskId }) {
 					posts={Object.values(offilePosts)}
 					callRetryAfterSuccess={callRetryAfterSuccess}
 				/>
-				<PostList tempAuthor={tempAuthor} posts={data.posts} />
+				<PostList tempAuthor={tempAuthor} posts={data.posts} media={media.files} />
 				<PostList tempAuthor={tempAuthor} posts={data.sharedPosts} />
 			</div>
 		</div>

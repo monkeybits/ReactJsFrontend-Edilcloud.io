@@ -265,6 +265,14 @@ function FileGrid(props) {
 					</Grid>
 				</>
 			)}
+			{console.log({currentFolderPath , files : files?.length})}
+			{currentFolderPath == '' && !files?.length && !currentFolders.length && (
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						There are no files!
+					</Typography>
+				</div>
+			)}
 		</div>
 	);
 }

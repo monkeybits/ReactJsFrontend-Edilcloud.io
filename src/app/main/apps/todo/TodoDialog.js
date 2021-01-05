@@ -256,7 +256,18 @@ function TodoDialog(props) {
 		apiCall(
 			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, todoDialog.data.assigned_company?.id, value),
 			{},
-			res => setProfiles(res),
+			profiles => {
+				setProfiles(profiles);
+				setProfileData(
+					profiles
+						.filter(profile => profile.role == 'Owner' || profile.role == 'Delegate')
+						.map(profile => ({
+							data: profile,
+							value: getName(profile),
+							label: <span className="flex items-center pl-12">{getName(profile)}</span>
+						}))
+				);
+			},
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()

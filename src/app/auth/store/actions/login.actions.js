@@ -3,7 +3,7 @@ import jwtService from 'app/services/jwtService';
 import * as Actions from 'app/store/actions';
 import * as UserActions from './user.actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { APPROVE_LIST, GET_MAIN_PROFILE, REFRESH_TOKEN } from 'app/services/apiEndPoints';
+import { APPROVE_LIST, GET_MAIN_PROFILE, REFRESH_TOKEN, REQUEST_LIST } from 'app/services/apiEndPoints';
 import { getHeaderToken, getTokenOnly, saveMainProfileId, saveToken } from 'app/services/serviceUtils';
 import * as authActions from 'app/auth/store/actions';
 
@@ -28,7 +28,30 @@ export function submitLogin({ email, password }) {
 							let companies = results.filter(d => d.company);
 							if (boards.length) {
 								if (companies?.length == 1) {
-									dispatch(afterLogin(companies[0].id));
+									apiCall(
+										REQUEST_LIST,
+										{},
+										({ results }) => {
+											if (Array.isArray(results)) {
+												let filterdBoards = results.filter(d => d.company && d.status);
+												if (filterdBoards?.length > 0) {
+													dispatch(
+														UserActions.setUserData({
+															...user,
+															redirectUrl: '/apps/companies'
+														})
+													);
+												} else {
+													dispatch(afterLogin(companies[0].id));
+												}
+											}
+										},
+										err => {
+											dispatch(afterLogin(companies[0].id));
+										},
+										METHOD.GET,
+										getHeaderToken()
+									);
 								} else {
 									dispatch(UserActions.setUserData({ ...user, redirectUrl: '/apps/companies' }));
 								}
@@ -80,12 +103,13 @@ const afterLogin = company_profile_id => {
 			METHOD.POST
 		);
 };
+
 const getMainProfile = mainProfileId => {
 	return dispatch =>
 		apiCall(
 			GET_MAIN_PROFILE(mainProfileId),
 			{},
-			res => dispatch(UserActions.setUserData({ redirectUrl: '/apps/todo/all' })),
+			res => dispatch(UserActions.setUserData({ ...res, redirectUrl: '/apps/todo/all' })),
 			err => console.log({ err }),
 			METHOD.GET,
 			getHeaderToken()

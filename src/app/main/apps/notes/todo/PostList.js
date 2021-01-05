@@ -27,12 +27,42 @@ import * as Actions from './store/actions';
 import PostListItem from './PostListItem';
 import moment from 'moment';
 
-function PostList({ posts, isTask, taskId, callRetryAfterSuccess, isOffline, tempAuthor, showPrject, showTask }) {
-	if (!posts || posts?.length == 0) {
+function PostList({
+	posts,
+	isTask,
+	taskId,
+	callRetryAfterSuccess,
+	isOffline,
+	showPrject,
+	showTask,
+	scrollRef,
+	media
+}) {
+	const [postsList, setPostsList] = useState([]);
+	const [tempAuthor, setTempAuthor] = useState({});
+	const user = useSelector(({ auth }) => auth.user.data.company);
+	useEffect(() => {
+		if (user) {
+			setTempAuthor({
+				...user
+			});
+		}
+	}, [user]);
+	useEffect(() => {
+		if (posts) {
+			setPostsList(posts);
+			return () => setPostsList([]);
+		}
+	}, [posts]);
+	const deletePostByIndex = index => setPostsList(prevPosts => prevPosts.filter((d, i) => i != index));
+
+	if (!postsList || postsList?.length == 0) {
 		return null;
 	}
-	return posts.map((post, index) => (
+	return postsList.map((post, index) => (
 		<PostListItem
+			media={media}
+			scrollRef={scrollRef}
 			showTask={showTask}
 			showPrject={showPrject}
 			tempAuthor={tempAuthor}
@@ -41,6 +71,7 @@ function PostList({ posts, isTask, taskId, callRetryAfterSuccess, isOffline, tem
 			taskId={taskId}
 			key={index}
 			currnetPost={post}
+			afterDeletePost={() => deletePostByIndex(index)}
 			callRetryAfterSuccess={callRetryAfterSuccess}
 		/>
 	));

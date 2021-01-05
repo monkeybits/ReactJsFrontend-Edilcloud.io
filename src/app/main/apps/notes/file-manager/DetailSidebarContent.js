@@ -42,6 +42,7 @@ import FileSaver from 'file-saver';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
 import Menu from '@material-ui/core/Menu';
 import FileViewDialog from './FileViewDialog';
+import * as ICONS from 'app/main/apps/constants';
 
 const useStyles = makeStyles({
 	table: {
@@ -167,7 +168,7 @@ function DetailSidebarContent({ setProgress }) {
 		);
 	};
 	const openViewFile = () => setIsOpenViewFile(true);
-	const closeViewFile = (event) => {
+	const closeViewFile = event => {
 		setIsOpenViewFile(false);
 		handleClose(event);
 	};
@@ -184,42 +185,38 @@ function DetailSidebarContent({ setProgress }) {
 			<FuseAnimate animation="transition.slideUpIn" delay={600}>
 				<div>
 					<div className="file-details p-24 border-b-1">
-						<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
+						<div className="preview h-128 sm:h-256 file-icon flex items-center justify-center custom-pdf">
 							{selectedItem.type == 'photo' ? (
 								<img className="h-128 sm:h-256 object-contain" src={selectedItem.photo} />
 							) : selectedItem.extension == 'pdf' ? (
 								<ReadPDF height={256} width={270} file={selectedItem.document} />
 							) : selectedItem.type == 'video' ? (
-								<FontAwesomeIcon
-									icon={faFileVideo}
-									style={{ ...getCssColor(selectedItem.type), fontSize: '2.4rem' }}
-								/>
+								<img className="icon mr-8" src={ICONS.VIDEO_ICON_PATH} />
+							) : selectedItem.extension == 'pdf' ? (
+								<img className="icon mr-8" src={ICONS.PDF_ICON_PATH} />
+							) : selectedItem.extension == 'docx' ? (
+								<img className="icon mr-8" src={ICONS.DOC_ICON_PATH} />
+							) : selectedItem.extension == 'xlsx' ? (
+								<img className="icon mr-8" src={ICONS.EXCEL_ICON_PATH} />
+							) : selectedItem.extension == 'mp3' ? (
+								<img className="icon mr-8" src={ICONS.AUDIO_ICON_PATH} />
+							) : selectedItem.extension == 'zip' || selectedItem.extension == 'rar' ? (
+								<div className="soft-icon-title">
+									<img className="icon mr-8" src={ICONS.ZIP_ICON_PATH} />
+								</div>
+							) : selectedItem.extension == 'ppt' ||
+							  selectedItem.extension == 'pptx' ||
+							  selectedItem.extension == 'pptm' ? (
+								<img className="icon mr-8" src={ICONS.SLIDES_ICON_PATH} />
 							) : (
-								<FontAwesomeIcon
-									icon={
-										selectedItem.type == 'document'
-											? selectedItem.extension == 'pdf'
-												? faFilePdf
-												: selectedItem.extension == 'docx'
-												? faFileWord
-												: selectedItem.extension == 'xlsx'
-												? faFileExcel
-												: selectedItem.extension == 'mp3'
-												? faFileAudio
-												: faFile
-											: faFile
-									}
-									style={{ ...getCssColor(selectedItem.extension), fontSize: '2.4rem' }}
-								/>
+								<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 							)}
 						</div>
 					</div>
 					<div className="px-10 py-12 border-b-1">
 						<MenuList className="flex items-center actions-dropdown p-0 small">
 							<MenuItem onClick={onDownload}>
-								<ListItemIcon>
-									<GetAppOutlinedIcon fontSize="medium" />
-								</ListItemIcon>
+								<img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />
 								<Typography variant="inherit">Download</Typography>
 							</MenuItem>
 							<MenuItem onClick={openDeleteFileDialog}>
@@ -261,7 +258,11 @@ function DetailSidebarContent({ setProgress }) {
 							</MenuItem>
 						</MenuList>
 					</div>
-					<FileViewDialog isOpenViewFile={isOpenViewFile} closeViewFile={closeViewFile} setProgress={setProgress} />
+					<FileViewDialog
+						isOpenViewFile={isOpenViewFile}
+						closeViewFile={closeViewFile}
+						setProgress={setProgress}
+					/>
 					<div className="px-24 py-12 border-b-1">
 						<Typography variant="subtitle2" className="py-10 uppercase text-gray-500">
 							Info

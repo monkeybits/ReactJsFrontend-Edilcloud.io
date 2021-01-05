@@ -151,34 +151,34 @@ a.text-muted:hover {
 
 .MuiButton-containedPrimary, .MuiButton-containedSecondary, .btn-primary, .btn-secondary   {
     color: #fff;
-    background-color: #ff1049;
+    background-color: #0cc906;
     box-shadow: none;
 }
 .MuiButton-containedPrimary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
-    background-color: #ff1049;
+    background-color: #0cc906;
     box-shadow: none;
 }
 .MuiFab-secondary:hover, .MuiButton-containedSecondary:hover, .btn-primary:hover, .btn-secondary:hover {
-    background-color: #ff1049;
+    background-color: #0cc906;
 }
 .MuiFab-primary {
     color: #fff;
-    background-color: #ff1049;
+    background-color: #0cc906;
     box-shadow: none;
 }
 .MuiFab-primary:hover {
-    background-color: #ff1049;
+    background-color: #0cc906;
 }
 .MuiButton-containedSizeLarge {
     padding: 7px 22px;
 }
 .custom-float-btn > button, .add-file-btn  {
     color: #ffffff;
-    background-color: #ff1049;
+    background-color: #0cc906;
     box-shadow: none;
 }
 .custom-float-btn > button:hover, .add-file-btn:hover {
-    background-color: #ff1049;
+    background-color: #0cc906;
     box-shadow: none;
 }
 .add-file-btn {
@@ -210,6 +210,10 @@ a.text-muted:hover {
 }
 .speeddial-btn.diff-place {
     bottom: 27px;
+    right: 90px;
+}
+.contact-speeddial-btn {
+    bottom: 90px !important;
     right: 90px;
 }
 .custom-outlined-btn button {
@@ -298,10 +302,10 @@ textarea.MuiOutlinedInput-input {
     Header
 *********************************************************************************************** */
 .sidebar-header {
-    background-color: #1e2632;
+    background-color: #0d0a27;
 }
 .sidebar-content {
-    background: #1e2632;
+    background: #0d0a27;
 }
 .sidebar-content ul a {
     width: calc(100% - 0px);
@@ -310,6 +314,7 @@ textarea.MuiOutlinedInput-input {
     margin-left: 6px;
     padding-left: 18px;
     position: relative;
+    color: white;
 }
 .sidebar-content ul a.active {
     background-color: #376aed;
@@ -412,9 +417,9 @@ textarea.MuiOutlinedInput-input {
     padding-left: 15px !important;
     padding-bottom: 9px;
 }
-/* .zoom-125 {
+.zoom-125 {
     zoom: 125% !important;
-} */
+}
 /* #SpeedDialexample-actions span span {
     top: -28px;
     left: 0;
@@ -487,6 +492,10 @@ textarea.MuiOutlinedInput-input {
 }
 .tabs-content .MuiBox-root {
   padding: 0px !important;
+  height: 100%;
+}
+.tabs-content .MuiBox-root .MuiTypography-body1{
+    height: 100%
 }
 .tabs-content > .flex.flex-col > div {
    background-color: transparent;
@@ -706,6 +715,9 @@ textarea.MuiOutlinedInput-input {
 .gantt-menu-item img, .gantt-menu-item svg {
     margin-right: 4px !important;
 }
+.demo-main-container>.gantt-min-height>.gantt_container{
+    height: calc(100vh - 175px) !important;
+}
 
 /* .gantt-container {
     min-height: calc(100vh - 90px);
@@ -755,12 +767,12 @@ textarea.MuiOutlinedInput-input {
     color: #fff;
 }
 .chat-search {
-    background-color: #F7F7FF;
+    background-color: #ffffff;
     border: 1px solid #D8D9DB;
 }
 .chat-bg {
     background-image: none;
-    background: #F7F7FF;
+    background: #ffffff;
 }
 .chat-header-img .text-16 {
     font-size: 20px !important;
@@ -779,7 +791,7 @@ textarea.MuiOutlinedInput-input {
     border-right: 1px solid #466886;
 }
 .chat-form-bg {
-    background-color: #F7F7FF;
+    background-color: #ffffff;
 }
 .chat-border {
     border-left: 3px solid transparent;
@@ -791,7 +803,7 @@ textarea.MuiOutlinedInput-input {
     background-color: #376AED;
 }
 .chat-header-bg-remove > div, .header-bg-remove > div  {
-    background: #F7F7FF;
+    background: #ffffff;
     height: auto;
     min-height: auto;
 }
@@ -811,17 +823,19 @@ textarea.MuiOutlinedInput-input {
     Team Page
 *********************************************************************************************** */
 .team-tab-content {
-    padding-bottom: 60px;
+    /* padding-bottom: 60px; */
+    /* height: calc(100% - 42px); */
+    height: 100%;
 }
 .team-tab-content .flex.flex-auto.flex-col > div {
-    background-color: #F7F7FF;
-    background: #F7F7FF;
+    background-color: #ffffff;
+    background: #ffffff;
     height: auto;
     min-height: auto;
 }
-.team-tab-content > div > p > div > div:first-child {
+/* .team-tab-content > div > p > div > div:first-child {
     display: none;
-}
+} */
 .team-tab .custom-fuse-page-right-sidebar .permanent  {
       background-color: transparent;      
 }
@@ -898,7 +912,7 @@ textarea.MuiOutlinedInput-input {
 
 /* ********************************************************************************************
     Todo App
-*********************************************************************************************** */
+*********************b************************************************************************** */
 .todo-sidebar .flex-auto.border-l-1 {
     flex: none;
     border: none;
@@ -909,6 +923,31 @@ textarea.MuiOutlinedInput-input {
 }
 .todo-spacing .flex.container.w-full > div {
     padding: 2.4rem;
+}
+.border-grey {
+    border-style: solid;
+    border-width: 1px;
+    border-color: darkgrey;
+}
+.border-red {
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(230, 17, 17);
+}
+.border-green {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #4CAF50;
+}
+.h-70 {
+    height: 70px;
+}
+.w-70 {
+    width: 70px;
+}
+.title-center {
+    align-items: center;
+    justify-content: center;
 }
 
 /* ********************************************************************************************
@@ -1056,7 +1095,7 @@ audio {
     width: 600px;
 }
 .chat-slider-modal img {
-    height: 420px;
+    /* height: 420px; */
     margin: 0 auto;
 }
 .bubble.max-w-50 {
@@ -1084,7 +1123,7 @@ audio {
     Project List Page
 *********************************************************************************************** */
 .project_list {
-    background: #F7F7FF;
+    background: #ffffff;
 }
 .project_box .project_card {
     border: 1px solid #ececec;
@@ -1174,15 +1213,15 @@ audio {
 }
 .custom-progress-chart .MuiCircularProgress-static {
     position: relative;
-    height: 56px !important;
-    width: 56px !important;
+    height: 76px !important;
+    width: 76px !important;
     color: #376aed;
 }
 .custom-progress-chart .MuiCircularProgress-static::before {
     position: absolute;
     content: "";
-    height: 56px;
-    width: 56px;
+    height: 76px;
+    width: 76px;
     border: 3px solid #ECECEE;
     border-radius: 100%;
     z-index: -1;
@@ -1268,14 +1307,21 @@ audio {
 .file-grid .MuiGridListTileBar-title {
     font-size: 1.4rem;
 }
+.file-grid .icon {
+    height: 18px;
+    width: 18px;
+}
 .two-btn button svg, .single-btn button svg {
     color: #9EA1A9; 
 }
 .custom-fuse-page-right-sidebar .permanent {
-    height: auto;
+    height: 100%;
     min-height: auto;
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
+}
+.hide-sidebar .custom-fuse-page-right-sidebar {
+    display: none;
 }
 .linear-progress.custom-color p {
     color: white;
@@ -1619,7 +1665,7 @@ audio {
     box-shadow: none;
 } 
 .custom-bg ~ .inner-scroll > div:first-child {
-    background-color: #F7F7FF;
+    background-color: #ffffff;
     border-radius: 4px 4px 0px 0px;
 }
 .image-close {
@@ -1640,4 +1686,84 @@ audio {
     width: 100% !important;
     height: 100% !important;
     top: -30px !important;
+}
+.custom-notification-bg{
+    background-color: #FFF59D !important;
+}
+.gantt-min-height{
+    min-height: calc(100vh - 220px);
+}
+
+.setting-label-main span {
+    font-size: 22px;
+}
+.setting-label span {
+    font-size: 18px;
+}
+
+.soft-icon{   
+    max-height: 184px;    
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 184px;
+}
+.soft-icon img{
+    width: 24px;
+    height: 28px;
+}
+
+.soft-icon-title img{
+    height: 24px;
+    width: 18px;
+}
+.file-grid .MuiGridListTileBar-title p{    
+    width: 91%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.pdf-pagination{
+    margin-top: 0;
+    z-index: 5;
+    position: relative;
+    background-color: white;
+    bottom: 0;
+    width: 100%;
+}
+/* .sm\:h-256 {
+    height: 381px;
+} */
+.custom-pdf .react-pdf__Page__canvas{
+    height: 25.6rem !important;
+}
+#wrapped-tabpanel-2,
+#wrapped-tabpanel-3{
+    height: calc(100% - 40px);
+}
+#right-sidebar-file.custom-fuse-page-right-sidebar .permanent{
+    height: auto !important;
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+    #wrapped-tabpanel-1{
+        height: calc(100% - 70px);    
+    }
+}
+@media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
+    #wrapped-tabpanel-2 .custom-fuse-page-right-sidebar .permanent{
+        height: 100%;
+        overflow-y: scroll;
+        position: relative;
+    }
+  }
+
+
+#wrapped-tabpanel-3 .makeStyles-sidebarHeader-373{
+    height: 120px !important;
+    min-height: 120px !important;
+}
+.makeStyles-rightSidebar-362.permanent {
+    height: auto;
 }

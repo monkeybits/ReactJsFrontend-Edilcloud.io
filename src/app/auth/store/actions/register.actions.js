@@ -22,7 +22,7 @@ export function submitRegister({ username, first_name, last_name, password, emai
 				email
 			})
 			.then(successData => {
-				history.push('/pages/auth/mail-confirm');
+				history.push('/pages/auth/mail-confirm', { email });
 				return dispatch({
 					type: REGISTER_SUCCESS,
 					payload: successData

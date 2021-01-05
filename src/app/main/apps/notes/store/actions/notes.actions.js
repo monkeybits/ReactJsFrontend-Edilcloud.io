@@ -18,7 +18,10 @@ export const UPDATE_NOTE = '[NOTES APP] UPDATE NOTE';
 export const REMOVE_NOTE = '[NOTES APP] REMOVE NOTE';
 export const TOGGLE_VARIATE_DESC_SIZE = '[NOTES APP] TOGGLE VARIATE DESC SIZE';
 
-export function getProjects(handleSetLoading) {
+export function getProjects(handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingProjects: true
+	});
 	return dispatch => {
 		apiCall(
 			PROJECT_LIST,
@@ -37,7 +40,12 @@ export function getProjects(handleSetLoading) {
 					loadingProjects: false
 				});
 			},
-			err => console.log(err),
+			err => {
+				handleSetLoading({
+					loadingProjects: false
+				});
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -45,6 +53,9 @@ export function getProjects(handleSetLoading) {
 }
 
 export function getRequest(handleSetLoading) {
+	handleSetLoading({
+		loadingProjectRequest: true
+	});
 	return dispatch => {
 		apiCall(
 			PROJECT_INVIATION_LIST,
@@ -65,7 +76,12 @@ export function getRequest(handleSetLoading) {
 					loadingProjectRequest: false
 				});
 			},
-			err => console.log(err),
+			err => {
+				handleSetLoading({
+					loadingProjectRequest: false
+				});
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

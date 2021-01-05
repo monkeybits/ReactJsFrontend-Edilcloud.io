@@ -26,77 +26,121 @@ export function closeMoveFileDialog() {
 		type: FILE_MOVE_CLOSE_DIALOG
 	};
 }
-export function getFiles(cid) {
+export function getFiles(cid, handleSetLoading = () => '') {
 	return (dispatch, getState) => {
-		dispatch(getPhotos(cid));
-		dispatch(getVideos(cid));
-		dispatch(getDocuments(cid));
-		dispatch(getFolders(cid));
+		dispatch(getPhotos(cid, handleSetLoading));
+		dispatch(getVideos(cid, handleSetLoading));
+		dispatch(getDocuments(cid, handleSetLoading));
+		dispatch(getFolders(cid, handleSetLoading));
 	};
 }
-export function getPhotos(cid) {
+export function getPhotos(cid, handleSetLoading) {
+	handleSetLoading({
+		loadingPhotos: true
+	});
 	return (dispatch, getState) => {
 		apiCall(
 			PHOTO_LIST(cid),
 			{},
 			photos => {
+				handleSetLoading({
+					loadingPhotos: false
+				});
 				dispatch({
 					type: GET_PHOTOS,
 					payload: photos
 				});
 			},
-			err => console.log(err),
+			err => {
+				handleSetLoading({
+					loadingPhotos: false
+				});
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
 	};
 }
-export function getVideos(cid) {
+export function getVideos(cid, handleSetLoading) {
+	handleSetLoading({
+		loadingVideos: true
+	});
 	return (dispatch, getState) => {
 		apiCall(
 			VIDEO_LIST(cid),
 			{},
 			videos => {
+				handleSetLoading({
+					loadingVideos: false
+				});
 				dispatch({
 					type: GET_VIDEOS,
 					payload: videos
 				});
 			},
-			err => console.log(err),
+			err => {
+				handleSetLoading({
+					loadingVideos: false
+				});
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
 	};
 }
-export function getDocuments(cid) {
+export function getDocuments(cid, handleSetLoading) {
 	return (dispatch, getState) => {
+		handleSetLoading({
+			loadingDocuments: true
+		});
 		apiCall(
 			DOCUMENT_LIST(cid),
 			{},
 			documents => {
+				handleSetLoading({
+					loadingDocuments: false
+				});
 				dispatch({
 					type: GET_DOCUMENTS,
 					payload: documents
 				});
 			},
-			err => console.log(err),
+			err => {
+				handleSetLoading({
+					loadingDocuments: false
+				});
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
 	};
 }
-export function getFolders(cid) {
+export function getFolders(cid, handleSetLoading) {
+	handleSetLoading({
+		loadingFolders: true
+	});
 	return (dispatch, getState) => {
 		apiCall(
 			FOLDER_LIST(cid),
 			{},
 			folders => {
+				handleSetLoading({
+					loadingFolders: false
+				});
 				dispatch({
 					type: GET_FOLDERS,
 					payload: folders
 				});
 			},
-			err => console.log(err),
+			err => {
+				handleSetLoading({
+					loadingFolders: false
+				});
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

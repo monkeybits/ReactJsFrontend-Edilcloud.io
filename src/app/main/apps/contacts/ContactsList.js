@@ -156,11 +156,12 @@ function ContactsList(props) {
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
 						<MoreOption
+							status={row.original.status}
 							editHandler={ev => {
 								ev.stopPropagation();
 								dispatch(Actions.openEditContactDialog(row.original));
 							}}
-							canHaveDeleteOption={user.data.user_id != row.original.user.id}
+							canHaveDeleteOption={row.original.user && user.data.user_id != row.original.user.id}
 							deleteHandler={ev => {
 								ev.stopPropagation();
 								setUserData(row.original);
@@ -412,9 +413,9 @@ function ContactsList(props) {
 				</Grid>
 			)}
 
-			<div className="flex justify-center mt-12">
+			{/* <div className="flex justify-center mt-12">
 				<Pagination count={10} />
-			</div>
+			</div> */}
 		</>
 	);
 }

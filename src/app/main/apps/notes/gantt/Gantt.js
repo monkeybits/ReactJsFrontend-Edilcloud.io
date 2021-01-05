@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { gantt } from 'dhtmlx-gantt';
-import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
+import 'dhtmlx-gantt/codebase/skins/dhtmlxgantt_material.css';
 import './Gantt.css';
 import './dhtmlxgantt.css';
 import connect from 'react-redux/es/connect/connect';
@@ -13,7 +13,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT, EDIT_ACTIVITY_TO_TASK } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import axios from 'app/services/axiosConfig';
-import { Button } from '@material-ui/core';
+import { Button, LinearProgress } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Typography from '@material-ui/core/Typography';
@@ -94,6 +94,7 @@ function ganttInitZoom() {
 		]
 	};
 	gantt.ext.zoom.init(zoomConfig);
+	gantt.ext.zoom.setLevel('day2');
 }
 function to_snake_case(name) {
 	return (name + '').toLowerCase().replace(/ /, '_');
@@ -157,7 +158,7 @@ class Gantt extends Component {
 			loading: false,
 			toggleLeft: false,
 			tasks: undefined,
-			zoomLevel: 2,
+			zoomLevel: 3,
 			expandAll: false,
 			openTasks: []
 		};
@@ -198,6 +199,15 @@ class Gantt extends Component {
 			}
 		}
 		gantt._onTemplatesReadyHandler = gantt.attachEvent('onTemplatesReady', function () {
+			// {
+			// 	name: 'day2',
+			// 	min_column_width: 70,
+			// 	scale_unit: 'week',
+			// 	date_scale: '#%W',
+			// 	subscales: [{ unit: 'day', step: 1, date: '%d %M' }],
+			// 	scale_height: 60
+			// },
+
 			var toggle = document.getElementById('fullScreen');
 
 			toggle.onclick = function () {
@@ -213,6 +223,13 @@ class Gantt extends Component {
 			};
 		});
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
+			let end_date = new Date(item.end_date);
+			console.log({ entityType, action, item, id, task: gantt.getTask(id) });
+			if (action == 'update') {
+				end_date.setDate(end_date.getDate() - 1);
+				gantt.getTask(id).end_date = end_date;
+				gantt.render();
+			}
 			return new Promise((resolve, reject) => {
 				if (item.parent == 0) {
 					this.editTodo(
@@ -223,7 +240,7 @@ class Gantt extends Component {
 							company: item.data.assigned_company,
 							progress: item.data.progress,
 							date_start: item.start_date,
-							date_end: item.end_date
+							date_end: end_date
 						},
 						this.props.match.params.id
 					);
@@ -273,7 +290,7 @@ class Gantt extends Component {
 			datetime_end: moment(todo.date_end).format('YYYY-MM-DD'),
 			workers: todo.profile?.length ? todo.profile.map(d => d.id) : undefined
 		};
-
+		console.log({ values });
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(todo.id),
 			values,
@@ -293,6 +310,8 @@ class Gantt extends Component {
 		) {
 			this.templatePermissions(projectDetail, company);
 			return true;
+		} else if (this.props.todos.isLoadingTodos != nextProps.todos.isLoadingTodos) {
+			return true;
 		} else if (
 			this.props.todos?.entities &&
 			todos?.entities &&
@@ -304,9 +323,14 @@ class Gantt extends Component {
 			return true;
 		} else if (!nextState.tasks?.data?.length) {
 			return true;
+		} else if (nextProps.orientation == 'portrait') {
+			gantt.collapse();
+			return false;
+		} else if (nextProps.value == 4) {
+			gantt.render();
+			return false;
 		}
 		return false;
-
 		// if (this.props.zoom !== nextProps.zoom && this.state.tasks) {
 		// 	this.createGantt(this.state.tasks);
 		// 	return true;
@@ -426,6 +450,14 @@ class Gantt extends Component {
 				return moment(date).format('YYYY-MM-DD');
 			}
 		};
+		// gantt.attachEvent('onTaskDrag', function (id, mode, task, original) {
+		// 	//any custom logic here
+		// 	let end_date = new Date(task.end_date);
+		// 	end_date.setDate(end_date.getDate() - 1);
+		// 	gantt.getTask(id).end_date = end_date;
+		// 	// gantt.render();
+		// 	console.log('task', gantt.getTask(id));
+		// });
 		// end block for resize
 		if (gantt._onTemplatesReadyHandler) {
 			gantt.detachEvent(gantt._onTemplatesReadyHandler);
@@ -464,10 +496,9 @@ class Gantt extends Component {
 		}
 		gantt.showLightbox = id => {
 			let savedTask = gantt.getTask(id);
+			console.log({ id, savedTask });
 			if (gantt.isTaskExists(id)) {
 				if (savedTask.$new == true) {
-					delete savedTask.$new;
-					gantt.deleteTask(id);
 					if (savedTask.$level == 1) {
 						let captureData = gantt.getTask(savedTask.parent);
 						// let captureData = this.state.tasks.data.filter(task => task.id == savedTask.parent);
@@ -476,6 +507,8 @@ class Gantt extends Component {
 					} else {
 						this.props.openNewTodoDialog({ isGantt: true });
 					}
+					delete savedTask.$new;
+					gantt.deleteTask(id);
 				} else {
 					let captureData = savedTask; //this.state.tasks.data.filter(task => task.id == id);
 					// captureData = captureData && captureData.length ? captureData[0] : undefined;
@@ -792,13 +825,13 @@ class Gantt extends Component {
 									}
 									header.forEach(function (col, index) {
 										cols.push('<th>' + col + '</th>');
-										headerControls.push(
-											"<td><select data-column-mapping='" +
-												col +
-												"'>" +
-												getOptions(index) +
-												'</select>'
-										);
+										// headerControls.push(
+										// 	"<td><select data-column-mapping='" +
+										// 		col +
+										// 		"'>" +
+										// 		getOptions(index) +
+										// 		'</select>'
+										// );
 									});
 									body.push('<tr>' + cols.join('') + '</tr>');
 									body.push('<tr>' + headerControls.join('') + '</tr>');
@@ -824,6 +857,7 @@ class Gantt extends Component {
 								callback: result => {
 									switch (result) {
 										case 'save':
+											this.props.setLoading(true);
 											this.handleUploadListOfTasks(listOfData, () => {});
 											// var selects = div.querySelectorAll(
 											// 	'[data-column-mapping]'
@@ -899,9 +933,10 @@ class Gantt extends Component {
 				</div> */}
 
 				<div class="demo-main-container">
+					{this.props.todos?.isLoadingTodos && <LinearProgress color="secondary" />}
 					<div class="header gantt-demo-header">
 						<ul class="gantt-controls">
-							<li class="gantt-menu-item" onClick={this.toggleLeftPanel}>
+							{/* <li class="gantt-menu-item" onClick={this.toggleLeftPanel}>
 								<a data-action="collapseAll">
 									{this.state.toggleLeft ? (
 										<FontAwesomeIcon icon={faToggleOff} style={{ fontSize: '1.5rem' }} />
@@ -911,7 +946,7 @@ class Gantt extends Component {
 
 									<span class="header-text"> Toggle left </span>
 								</a>
-							</li>
+							</li> */}
 							<li class="gantt-menu-item" onClick={this.closeAll}>
 								<a data-action="collapseAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_collapse_all_24.png" />
@@ -1072,7 +1107,8 @@ function mapDispatchToProps(dispatch) {
 			editTodo: Actions.editTodo,
 			getTodos: Actions.getTodos,
 			openAddActivityTodoDialog: Actions.openAddActivityTodoDialog,
-			openTimelineDialog: Actions.openTimelineDialog
+			openTimelineDialog: Actions.openTimelineDialog,
+			setLoading: Actions.setLoading
 		},
 		dispatch
 	);

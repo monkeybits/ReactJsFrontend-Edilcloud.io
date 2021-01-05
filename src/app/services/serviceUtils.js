@@ -36,4 +36,13 @@ export const saveToken = access_token => localStorage.setItem('jwt_access_token'
 export const saveMainProfileId = main_profile => localStorage.setItem('main_profile', main_profile);
 export const getMainProfileId = () => localStorage.getItem('main_profile');
 
-export const decodeDataFromToken = () => jwtDecode(getTokenOnly());
+export const decodeDataFromToken = () => {
+	try {
+		if (getTokenOnly()) {
+			return jwtDecode(getTokenOnly());
+		}
+	} catch (e) {
+		console.log(e);
+		return null;
+	}
+};

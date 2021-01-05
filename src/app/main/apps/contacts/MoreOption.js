@@ -12,7 +12,12 @@ export default function MoreOption(props) {
 	const [anchorEl, setAnchorEl] = React.useState(false);
 	const options = [
 		{ name: 'Edit', icon: 'edit', handler: props.editHandler, view: true },
-		{ name: 'Delete', icon: 'delete', handler: props.deleteHandler, view: props.canHaveDeleteOption }
+		{
+			name: props.status == 'Deactivated' ? 'Reactivate' : 'Delete',
+			icon: 'delete',
+			handler: props.deleteHandler,
+			view: props.canHaveDeleteOption
+		}
 	];
 	const handleClick = event => {
 		event.preventDefault();

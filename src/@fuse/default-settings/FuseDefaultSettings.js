@@ -144,7 +144,7 @@ export function mainThemeVariations(theme) {
 					type: 'light',
 					background: {
 						paper: '#FFFFFF',
-						default: '#F7F7FF'
+						default: '#ffffff'
 					}
 				},
 				...mustHaveThemeOptions

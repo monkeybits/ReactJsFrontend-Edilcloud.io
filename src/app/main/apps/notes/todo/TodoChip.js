@@ -14,10 +14,10 @@ const useStyles = makeStyles(theme => ({
 		// backgroundColor: 'rgba(0,0,0,.08);'
 	},
 	color: {
-		width: 12,
-		height: 12,
+		width: 32,
+		height: 8,
 		marginRight: 6,
-		borderRadius: '50%'
+		borderRadius: '30%'
 	}
 }));
 

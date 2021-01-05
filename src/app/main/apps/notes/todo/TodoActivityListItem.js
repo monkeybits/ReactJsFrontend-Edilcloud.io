@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
@@ -28,7 +28,13 @@ import ToolbarMenu from './Dialog/toolbar/ToolbarMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import { toast } from 'react-toastify';
+_.enhance = function (list, source) {
+	return _.map(list, function (element) {
+		return _.extend({}, element, source);
+	});
+};
 const useStyles = makeStyles(theme => ({
 	todoItem: {
 		'&.completed': {
@@ -53,11 +59,58 @@ function TodoActivityListItem(props) {
 	const classes = useStyles(props);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [members, setMembers] = useState([]);
+	const [canAssign, setCanAssign] = useState([]);
 	const [inviteMembers, setInviteMembers] = useState([]);
 	const [checkedAll, setCheckedAll] = useState(false);
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
 	useEffect(() => {
-		setMembers(props.todo.workers_in_activity);
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [props.todo, hasNotifcationOnThisItem]);
+
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (
+			notificationPanel.viewing &&
+			notification?.content_type == 'activity' &&
+			notification.body.hasOwnProperty('task_id') &&
+			hasRender &&
+			scrollRef.current
+		) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			scrollRef.current.scrollIntoView({
+				block: 'center'
+			});
+			scrollRef.current.classList.add('bg-yellow-200');
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove('bg-yellow-200');
+				}
+			}, 5000);
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
+
+	useEffect(() => {
+		if (Array.isArray(props.todo.workers_in_activity)) {
+			let workers_in_activity = _.enhance(props.todo.workers_in_activity, { is_exists: true });
+
+			setMembers(workers_in_activity);
+		}
 	}, [props.todo.workers_in_activity]);
+	useEffect(() => {
+		if (Array.isArray(props.todo.workers_in_activity)) {
+			let can_assign_in_activity = _.enhance(props.todo.can_assign_in_activity, { is_exists: false });
+			setCanAssign(can_assign_in_activity);
+		}
+	}, [props.todo.can_assign_in_activity]);
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -102,17 +155,13 @@ function TodoActivityListItem(props) {
 		);
 		setCompleted(status);
 	};
-	const editWorkers = workers => {
+	const editWorkers = (workers, isCanAssign) => {
 		let ids = [];
-		let profileIds = [];
+		let data = isCanAssign ? members : canAssign;
 		if (Array.isArray(workers)) {
-			ids = workers.filter(w => w.is_exists);
+			ids = [...workers, ...data].filter(w => w.is_exists);
 		}
-		console.log({ ids });
-		if (Array.isArray(props.todo.workers)) {
-			profileIds = props.todo.workers;
-		}
-		ids = [...ids, ...profileIds];
+
 		console.log({ ids });
 		let values = {
 			id: props.todo.id,
@@ -120,7 +169,7 @@ function TodoActivityListItem(props) {
 			description: props.todo.description,
 			datetime_start: props.todo.datetime_start,
 			datetime_end: props.todo.datetime_end,
-			workers: ids?.length ? ids.map(d => d.id) : null
+			workers: ids?.length ? ids.map(d => d.profile.id) : null
 		};
 
 		apiCall(
@@ -156,10 +205,13 @@ function TodoActivityListItem(props) {
 	const handleSelectAll = event => {
 		event.stopPropagation();
 		setCheckedAll(event.target.checked);
-		let tempMembers = [...members];
-		tempMembers = tempMembers.map(d => ({ ...d, is_exists: true }));
-		setMembers(tempMembers);
-		editWorkers(tempMembers);
+		if (event.target.checked) {
+			let membersTemp = _.enhance(members, { is_exists: true });
+			let canAssignTemp = _.enhance(canAssign, { is_exists: true });
+			setMembers(membersTemp);
+			setCanAssign(canAssignTemp);
+			editWorkers(canAssignTemp, true);
+		}
 	};
 	const getCompanyApprovedContacts = () => {
 		apiCall(
@@ -200,6 +252,7 @@ function TodoActivityListItem(props) {
 	return (
 		<>
 			<ListItem
+				ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				id={props.todo.id}
 				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-8 px-0 sm:px-8')}
 				checked={completed}
@@ -269,48 +322,87 @@ function TodoActivityListItem(props) {
 							addWorkers={editWorkers}
 							// idMembers={cardForm.idMembers}
 						/> */}
-						<WorkerProfiles workers={props.todo.workers} />
+						<WorkerProfiles
+							workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
+						/>
 					</div>
 					<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 						<>
-							{!!members?.length && 
+							{!!members?.length && (
 								// <Button onClick={handleSelectAll}>Select All </Button>
-								<FormControlLabel className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+								<FormControlLabel
+									className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
 									control={
-									<Checkbox
-										// checked={state.checkedB}
-										onClick={handleSelectAll}
-										name="checkedB"
-									/>
+										<Checkbox
+											checked={
+												members.every(d => d.is_exists) && canAssign.every(d => d.is_exists)
+											}
+											onClick={handleSelectAll}
+											name="checkedB"
+										/>
 									}
 									label="Select All"
 								/>
-							}
-							{!!members?.length ? (
-								members.map((member, index) => {
-									return (
-										<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
-											<Checkbox
-												onClick={ev => ev.stopPropagation()}
-												name={member.first_name}
-												checked={!!member.is_exists}
-												onChange={e => {
-													let tempMembers = [...members];
-													tempMembers[index] = {
-														...tempMembers[index],
-														is_exists: e.target.checked
-													};
-													setMembers(tempMembers);
-													editWorkers(tempMembers);
-												}}
-											/>
-											<Avatar className="w-32 h-32" src={member.avatar} />
-											<ListItemText className="mx-8">
-												{member.profile.first_name} {member.profile.last_name}
-											</ListItemText>
-										</MenuItem>
-									);
-								})
+							)}
+							{!!members?.length || !!canAssign?.length ? (
+								<>
+									{members.map((member, index) => {
+										return (
+											<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
+												<Checkbox
+													onClick={ev => ev.stopPropagation()}
+													name={member.first_name}
+													checked={!!member.is_exists}
+													onChange={e => {
+														let tempMembers = [...members];
+														tempMembers[index] = {
+															...tempMembers[index],
+															is_exists: e.target.checked
+														};
+														if ([...tempMembers, ...canAssign].some(d => d.is_exists)) {
+															setMembers(tempMembers);
+															editWorkers(tempMembers, false);
+														} else {
+															toast.error('Can not remove everyone from activity');
+														}
+													}}
+												/>
+												<Avatar className="w-32 h-32" src={member.avatar} />
+												<ListItemText className="mx-8">
+													{member.profile.first_name} {member.profile.last_name}
+												</ListItemText>
+											</MenuItem>
+										);
+									})}
+									{canAssign.map((member, index) => {
+										return (
+											<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
+												<Checkbox
+													onClick={ev => ev.stopPropagation()}
+													name={member.first_name}
+													checked={!!member.is_exists}
+													onChange={e => {
+														let tempMembers = [...canAssign];
+														tempMembers[index] = {
+															...tempMembers[index],
+															is_exists: e.target.checked
+														};
+														if ([...tempMembers, ...members].some(d => d.is_exists)) {
+															setCanAssign(tempMembers);
+															editWorkers(tempMembers, true);
+														} else {
+															toast.error('Can not remove everyone from activity');
+														}
+													}}
+												/>
+												<Avatar className="w-32 h-32" src={member.avatar} />
+												<ListItemText className="mx-8">
+													{member.profile.first_name} {member.profile.last_name}
+												</ListItemText>
+											</MenuItem>
+										);
+									})}
+								</>
 							) : (
 								<>
 									<Typography variant="subtitle1" className="todo-title p-8">

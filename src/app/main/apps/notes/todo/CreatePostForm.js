@@ -34,8 +34,25 @@ import ImagesPreview from './ImagesPreview';
 import PostList from './PostList';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 const uuidv1 = require('uuid/v1');
-
+const getAllFilesOfTimeline = timeline => {
+	if (Array.isArray(timeline) && timeline.length) {
+		console.log({ timeline });
+		return timeline.reduce(
+			(prev, current) => {
+				return { media_set: [...prev.media_set, ...current.media_set].map((d, index) => ({ ...d, index })) };
+			},
+			{
+				media_set: []
+			}
+		);
+	} else {
+		return {
+			media_set: []
+		};
+	}
+};
 function CreatePostForm({ isTask, taskId }) {
 	const dispatch = useDispatch();
 	const [, updateState] = React.useState();
@@ -47,6 +64,11 @@ function CreatePostForm({ isTask, taskId }) {
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
 	const [viewCroper, setViewCroper] = useState(false);
+
+	const [media, setMedia] = useState({ files: [] });
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	let notification = notificationPanel.notificationData?.notification;
+	let scrollRef = document.getElementById(`post${notification?.object_id}`);
 	const [file, setFile] = useState({
 		fileData: undefined,
 		imagePreviewUrl: undefined
@@ -80,7 +102,11 @@ function CreatePostForm({ isTask, taskId }) {
 		apiCall(
 			isTask ? GET_POST_FOR_TASK(taskId) : GET_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
 			{},
-			res => setData({ posts: res.results }),
+			res => {
+				setData(prev => ({ ...prev, posts: res.results }));
+				const files = getAllFilesOfTimeline(res.results);
+				setMedia({ files: files.media_set });
+			},
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
@@ -124,6 +150,7 @@ function CreatePostForm({ isTask, taskId }) {
 		console.log({ media_set });
 		let tempOfflinePosts = { ...offilePosts, [unique_code]: tempPost };
 		setOffilePosts(tempOfflinePosts);
+		dispatch(Actions.setUpload(true));
 		apiCall(
 			isTask ? ADD_POST_TO_TASK(taskId) : ADD_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
 			formData,
@@ -131,11 +158,13 @@ function CreatePostForm({ isTask, taskId }) {
 				console.log({ res });
 				delete tempOfflinePosts[res.unique_code];
 				setOffilePosts(tempOfflinePosts);
+				dispatch(Actions.setUpload(false));
 				getPosts();
 			},
 			err => {
 				// console.log({ myError: err, unique_code, tempOfflinePosts });
 				// let tempPosts = { ...offilePosts };
+				dispatch(Actions.setUpload(false));
 				tempOfflinePosts[unique_code] = {
 					...tempOfflinePosts[unique_code],
 					retryOption: true
@@ -145,11 +174,36 @@ function CreatePostForm({ isTask, taskId }) {
 				forceUpdate();
 			},
 			METHOD.POST,
-			getHeaderToken()
+			{
+				...getHeaderToken(),
+				onUploadProgress: function (progressEvent) {
+					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					dispatch(Actions.setUploadPercentage(percentCompleted));
+				}
+			}
 		);
 		document.getElementById('addPost').value = '';
 		setImages(null);
 	};
+
+	// useEffect(() => {
+	// 	if (notificationPanel.viewing) {
+	// 		setTimeout(() => {
+	// 			console.log({ posts: data.posts, scrollRef, notificationPanel , ele : document.getElementById(`post${notification?.object_id}`) });
+	// 			if (data.posts.length && scrollRef) {
+	// 				console.log({
+	// 					notificationPanel
+	// 				});
+	// 				scrollRef.scrollIntoView();
+	// 				scrollRef.classList.add('bg-yellow-200');
+	// 				setTimeout(() => {
+	// 					scrollRef.classList.remove('bg-yellow-200');
+	// 				}, 5000);
+	// 			}
+	// 		}, 2000);
+	// 	}
+	// }, [notificationPanel.viewing, data.posts.length, scrollRef]);
+
 	// const createPostOffline = (formData, unique_code) => {
 	// 	let media_set = [];
 	// 	if (images) {
@@ -213,7 +267,7 @@ function CreatePostForm({ isTask, taskId }) {
 		apiCall(
 			GET_SHARED_POSTS_FOR_TASKS(taskId),
 			{},
-			res => setData(prev => ({ sharedPosts: res.results })),
+			res => setData(prev => ({ ...prev, sharedPosts: res.results })),
 			err => console.log(err),
 			METHOD.GET,
 			getHeaderToken()
@@ -267,32 +321,35 @@ function CreatePostForm({ isTask, taskId }) {
 							elevation={0}
 						>
 							<div className="add-photo-image">
-									<IconButton onClick={() => inputRef.current.click()} aria-label="Add photo" className="p-8">
-										<Icon>photo</Icon>
-									</IconButton>
-									<input
-										hidden
-										multiple
-										type="file"
-										accept="image/*, video/*"
-										ref={inputRef}
-										onChange={addPhoto}
-									/>
-							</div>
-								<Button
-									onClick={createPost}
-									variant="contained"
-									color="primary"
-									size="large"
-									aria-label="post"
-									//disabled={!text.length}
+								<IconButton
+									onClick={() => inputRef.current.click()}
+									aria-label="Add photo"
+									className="p-8"
 								>
-									Post
-								</Button>
+									<Icon>photo</Icon>
+								</IconButton>
+								<input
+									hidden
+									multiple
+									type="file"
+									accept="image/*, video/*"
+									ref={inputRef}
+									onChange={addPhoto}
+								/>
+							</div>
+							<Button
+								onClick={createPost}
+								variant="contained"
+								color="primary"
+								size="large"
+								aria-label="post"
+								//disabled={!text.length}
+							>
+								Post
+							</Button>
 						</AppBar>
-						
 					</Card>
-					
+
 					{/* <Divider className="my-32" /> */}
 				</div>
 
@@ -304,7 +361,7 @@ function CreatePostForm({ isTask, taskId }) {
 					posts={Object.values(offilePosts)}
 					callRetryAfterSuccess={callRetryAfterSuccess}
 				/>
-				<PostList tempAuthor={tempAuthor} posts={data.posts} />
+				<PostList tempAuthor={tempAuthor} posts={data.posts} media={media.files} />
 				<PostList tempAuthor={tempAuthor} posts={data.sharedPosts} />
 			</div>
 		</div>

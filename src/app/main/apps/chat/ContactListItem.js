@@ -47,19 +47,22 @@ function ContactListItem(props) {
 					secondary: 'truncate'
 				}}
 				primary={props.contact.name}
-				secondary={props.contact.position + '@' + props.contact.company?.name}
-				
+				secondary={
+					!!props.contact.position
+						? props.contact.position + '@' + props.contact.company?.name
+						: props.contact.company?.name
+				}
 			/>
 
 			{/* {props.contact.chatId && ( */}
-				<div className="flex flex-col justify-center items-end">
-					{/* {props.contact.lastMessageTime && ( */}
-						{/* <Typography className="whitespace-no-wrap mb-8">
+			<div className="flex flex-col justify-center items-end">
+				{/* {props.contact.lastMessageTime && ( */}
+				{/* <Typography className="whitespace-no-wrap mb-8">
 							{moment(props.contact.lastMessageTime).format('ll')}
 						</Typography> */}
-					{/* )} */}
-					{/* {props.contact.unread && ( */}
-						{/* <div
+				{/* )} */}
+				{/* {props.contact.unread && ( */}
+				{/* <div
 							className={clsx(
 								classes.unreadBadge,
 								'flex items-center justify-center min-w-24 h-24 rounded-full text-11 text-white text-center chat-badge leading-normal'
@@ -67,8 +70,8 @@ function ContactListItem(props) {
 						>
 							11
 						</div> */}
-					{/* )} */}
-				</div>
+				{/* )} */}
+			</div>
 			{/* )} */}
 		</ListItem>
 	);

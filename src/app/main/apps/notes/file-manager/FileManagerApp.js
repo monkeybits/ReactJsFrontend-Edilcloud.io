@@ -107,7 +107,8 @@ function FileManagerApp(props) {
 	const searchText = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.searchText);
 	const isUploadingFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.isUploadingFiles);
 	const company = useSelector(({ chatApp }) => chatApp.company);
-	const selectedItem = useSelector(({ fileManagerAppProject }) => files[fileManagerAppProject.selectedItemId]);
+	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
+	const selectedItem = useSelector(({ fileManagerAppProject }) => allFiles[fileManagerAppProject.selectedItemId]);
 	const pageLayout = useRef(null);
 	const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
@@ -134,6 +135,17 @@ function FileManagerApp(props) {
 		nameError: '',
 		apiError: ''
 	});
+	const [loading, setLoading] = useState({
+		loadingPhotos: false,
+		loadingVideos: false,
+		loadingDocuments: false,
+		loadingFolders: false
+	});
+	const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+		}));
 	const resetError = () =>
 		seterror({
 			fileError: '',
@@ -143,7 +155,7 @@ function FileManagerApp(props) {
 		});
 	useEffect(() => {
 		if (routeParams) {
-			dispatch(Actions.getFiles(routeParams.id));
+			dispatch(Actions.getFiles(routeParams.id, handleSetLoading));
 		}
 	}, [dispatch, routeParams]);
 	const addFile = event => {
@@ -212,14 +224,14 @@ function FileManagerApp(props) {
 				formData,
 				res => {
 					if (radioBtnValue == 'folder') {
-						dispatch(Actions.getFolders(routeParams.id));
+						dispatch(Actions.getFolders(routeParams.id, handleSetLoading));
 					} else {
 						if (fileType == 'image') {
-							dispatch(Actions.getPhotos(routeParams.id));
+							dispatch(Actions.getPhotos(routeParams.id, handleSetLoading));
 						} else if (fileType == 'video') {
-							dispatch(Actions.getVideos(routeParams.id));
+							dispatch(Actions.getVideos(routeParams.id, handleSetLoading));
 						} else {
-							dispatch(Actions.getDocuments(routeParams.id));
+							dispatch(Actions.getDocuments(routeParams.id, handleSetLoading));
 						}
 					}
 				},
@@ -256,11 +268,21 @@ function FileManagerApp(props) {
 		setRadioBtnValue(event.target.value);
 	};
 	const canSubmit = () => (radioBtnValue == 'folder' ? title?.length : title?.length && fileData.file);
+	const isLoadingFiles = () =>
+		loading.loadingVideos || loading.loadingPhotos || loading.loadingFolders || loading.loadingDocuments;
+	const loadingComponent = (
+		<div className="flex flex-1 flex-col items-center justify-center">
+			<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+				Loading files...
+			</Typography>
+			<LinearProgress className="w-xs" color="secondary" />
+		</div>
+	);
 	return (
 		<>
 			<FusePageSimple
 				classes={{
-					root: 'fileInfoSidebar',
+					root: selectedItem?.title ? 'fileInfoSidebar' : 'bg-red fileInfoSidebar hide-sidebar',
 					header: 'p-24 pb-0 bg-body h-auto min-h-auto block',
 					sidebarHeader: '',
 					rightSidebar: 'w-320'
@@ -358,12 +380,20 @@ function FileManagerApp(props) {
 					</>
 				}
 				content={
-					<div>{viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}</div>
+					<div>
+						{isLoadingFiles() ? (
+							loadingComponent
+						) : viewTable ? (
+							<FileList pageLayout={pageLayout} />
+						) : (
+							<FileGrid pageLayout={pageLayout} />
+						)}
+					</div>
 				}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}
-				rightSidebarHeader={<DetailSidebarHeader setProgress={setProgress} />}
+				rightSidebarHeader={<DetailSidebarHeader pageLayout={pageLayout} setProgress={setProgress} />}
 				rightSidebarContent={<DetailSidebarContent setProgress={setProgress} />}
 				ref={pageLayout}
 				innerScroll

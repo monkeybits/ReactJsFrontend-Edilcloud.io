@@ -23,6 +23,7 @@ import {
 	ADD_COMMENT_TO_POST,
 	ADD_POST_TO_ACTIVITY,
 	ADD_POST_TO_TASK,
+	DELETE_POST,
 	EDIT_POST,
 	GET_COMMENT_OF_POST,
 	SHARE_ACTIVITY_POST_TO_TASK
@@ -48,6 +49,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import EditPostForm from './EditPostForm';
 const uuidv1 = require('uuid/v1');
 
 export default function PostListItem({
@@ -58,8 +61,11 @@ export default function PostListItem({
 	isOffline,
 	tempAuthor,
 	showPrject,
-	showTask
+	showTask,
+	media,
+	afterDeletePost
 }) {
+	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
@@ -71,13 +77,46 @@ export default function PostListItem({
 	);
 	const [offlinePostComments, setofflinePostComments] = useState({});
 	const [isRetryingPost, setIsRetryingPost] = useState(false);
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [isEditPost, setIsEditPost] = useState(false);
+	const options = [
+		{
+			icon: 'edit',
+			name: 'Edit',
+			handler: () => {
+				setIsEditPost(true);
+				setAnchorEl(null);
+				// setEditText(comment.text);
+				// setIsEditing(true);
+			}
+		},
+		{
+			icon: 'delete',
+			name: 'Delete',
+			handler: e => {
+				handleDeletePost();
+				setAnchorEl(null);
+			}
+		}
+	];
 
-	const options = ['Edit', 'Delete', 'Report as inapropriate'];
-
+	const [hasRender, setHasRender] = React.useState(false);
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == currnetPost.id;
+	console.log({ hasNotifcationOnThisItem });
 	useEffect(() => {
 		setPost(currnetPost);
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
 	}, [currnetPost]);
 	useEffect(() => {
 		if (post.comment_set) {
@@ -85,8 +124,19 @@ export default function PostListItem({
 			return () => setPostComments([]);
 		}
 	}, [post.comment_set]);
-
-	const [anchorEl, setAnchorEl] = React.useState(null);
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && notification?.content_type == 'post' && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			scrollRef.current.scrollIntoView(false);
+			scrollRef.current.classList.add('bg-yellow-200');
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove('bg-yellow-200');
+				}
+			}, 5000);
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
 
 	const openMenu = Boolean(anchorEl);
 
@@ -266,11 +316,26 @@ export default function PostListItem({
 		getComments();
 	};
 	const deleteCommentByIndex = index => setPostComments(prevComments => prevComments.filter((d, i) => i != index));
+	const handleDeletePost = () => {
+		apiCall(
+			DELETE_POST(post.id),
+			{},
+			res => afterDeletePost(),
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
 	if (!Object.entries(post).length) {
 		return null;
 	}
 	return (
-		<Card key={post.id} className="mb-32 overflow-hidden post-form post-card-clx">
+		<Card
+			id={`post${post.id}`}
+			ref={notificationPanel.notificationData?.notification?.object_id == post.id ? scrollRef : null}
+			key={post.id}
+			className="mb-32 overflow-hidden post-form post-card-clx"
+		>
 			<CardHeader
 				avatar={
 					post.author.first_name ? (
@@ -283,29 +348,29 @@ export default function PostListItem({
 					<div className="px-8">
 						{isOffline && !currnetPost.successAfterRetry && (
 							<>
-								{currnetPost.retryOption && !isRetryingPost ? (
-									<Button onClick={retryToPost}>Retry</Button>
-								) : (
-									<Box position="relative" display="inline-flex">
-										<CircularProgress size={20} className="mt-10 mr-24" color="secondary" />
-										<Box
-											top={20}
-											left={0}
-											bottom={0}
-											right={0}
-											position="absolute"
-											display="flex"
-											alignItems="center"
-											justifyContent="center"
-										>
-											<FontAwesomeIcon
-												icon={faUpload}
-												className="text-default"
-												style={{ fontSize: '1.6rem' }}
-											/>
-										</Box>
-									</Box>
-								)}
+								{
+									currnetPost.retryOption && !isRetryingPost ? (
+										<Button onClick={retryToPost}>Retry</Button>
+									) : null // <Box position="relative" display="inline-flex">
+									// 	<CircularProgress size={20} className="mt-10 mr-24" color="secondary" />
+									// 	<Box
+									// 		top={20}
+									// 		left={0}
+									// 		bottom={0}
+									// 		right={0}
+									// 		position="absolute"
+									// 		display="flex"
+									// 		alignItems="center"
+									// 		justifyContent="center"
+									// 	>
+									// 		<FontAwesomeIcon
+									// 			icon={faUpload}
+									// 			className="text-default"
+									// 			style={{ fontSize: '1.6rem' }}
+									// 		/>
+									// 	</Box>
+									// </Box>
+								}
 							</>
 						)}
 						<IconButton
@@ -342,11 +407,15 @@ export default function PostListItem({
 								// }}
 							>
 								{options.map(option => (
-									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+									<MenuItem
+										key={option.name}
+										selected={option.name === 'Pyxis'}
+										onClick={option.handler}
+									>
 										<ListItemIcon>
-											<PriorityHighIcon fontSize="small" />
+											<Icon>{option.icon}</Icon>
 										</ListItemIcon>
-										<Typography variant="inherit"> {option}</Typography>
+										<Typography variant="inherit"> {option.name}</Typography>
 									</MenuItem>
 								))}
 							</Menu>
@@ -361,32 +430,34 @@ export default function PostListItem({
 						<Typography className="font-600 capitalize" color="primary" paragraph={false}>
 							{post.author.first_name} {post.author.last_name}
 						</Typography>
-						<div className="flex">
-							{showPrject && (<>
-								<span className="mr-4 flex">
-									<Icon className="text-16 mt-10 mr-4">work_outline</Icon>
-									<Typography
-										variant="h6"
-										className="font-600 capitalize"
-										color="primary"
-										paragraph={false}
-									>
-										{post.project.name}
-									</Typography>
-								</span>
-							{/* )} */}
-							{/* {showTask && (<> */}
-								<span className="mx-4 pt-6">
-									<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
-										{post.task.name}
-									</Typography>
-								</span>
-								<span className="mx-4 pt-6">
-									<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
-										{post.sub_task.title}
-									</Typography>
-								</span>
-							</>)}
+						<div className="">
+							{showPrject && (
+								<>
+									<div className="mr-4 flex">
+										<Icon className="text-16 mt-10 mr-4">work_outline</Icon>
+										<Typography
+											variant="h6"
+											className="font-600 capitalize"
+											color="primary"
+											paragraph={false}
+										>
+											{post.project.name}
+										</Typography>
+									</div>
+									{/* )} */}
+									{/* {showTask && (<> */}
+									<div className="mx-4">
+										<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
+											{post.task.name}
+										</Typography>
+									</div>
+									<div className="mx-4 pt-6">
+										<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
+											{post.sub_task.title}
+										</Typography>
+									</div>
+								</>
+							)}
 							<span className="mx-4">
 								{post.type === 'post' && 'posted on your timeline'}
 								{post.type === 'something' && 'shared something with you'}
@@ -398,29 +469,34 @@ export default function PostListItem({
 				}
 				subheader={moment.parseZone(post.published_date).format('llll')}
 			/>
+			{isEditPost ? (
+				<CardContent className="p-0">
+					<EditPostForm {...{ currnetPost, setIsEditPost,setPost }} />
+				</CardContent>
+			) : (
+				<CardContent className="p-0">
+					{post.text && (
+						<Typography component="p" className="mb-16 px-16">
+							{post.text}
+						</Typography>
+					)}
+					<div className="posted-images">
+						<PostedImages images={post.media_set} showClick media={media} />
+					</div>
+					{/* {post.media && <img src={post.media} alt="post" />} */}
+				</CardContent>
+			)}
 
-			<CardContent className="p-0">
-				{post.text && (
-					<Typography component="p" className="mb-16 px-16">
-						{post.text}
-					</Typography>
-				)}
-				<div className="posted-images">
-					<PostedImages images={post.media_set} />
-				</div>
-				{/* {post.media && <img src={post.media} alt="post" />} */}
-			</CardContent>
-
-			<CardActions disableSpacing className="bg-custom-primary px-12 py-4">
-				<Button size="small" className="text-white text-13" aria-label="Add to favorites">
+			<CardActions disableSpacing className="bg-custom-primary px-12 py-4 flex justify-center">
+				{/* <Button size="small" className="text-white text-13" aria-label="Add to favorites">
 					<Icon className="text-white text-14">favorite</Icon>
 					<Typography className="normal-case text-white text-13 mx-4">Like</Typography>
 					<Typography className="normal-case text-13">({post.like})</Typography>
-				</Button>
+				</Button> */}
 				<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
 					<Icon className="text-white text-14">share</Icon>
 					<Typography className="normal-case text-white text-13 mx-4">Share</Typography>
-					<Typography className="normal-case text-13">({post.share})</Typography>
+					{!!post.share && <Typography className="normal-case text-13">({post.share})</Typography>}
 				</Button>
 			</CardActions>
 

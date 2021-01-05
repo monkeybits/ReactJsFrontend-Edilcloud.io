@@ -22,7 +22,7 @@ import DeleteConfirmDialog from './DeleteConfirmDialog';
 import FileViewDialog from './FileViewDialog';
 import CloseIcon from '@material-ui/icons/Close';
 
-function DetailSidebarHeader({ setProgress }) {
+function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
@@ -139,9 +139,18 @@ function DetailSidebarHeader({ setProgress }) {
 							{selectedItem.title}
 						</Typography>
 					</FuseAnimate>
-					<IconButton edge="start" color="inherit" aria-label="close" className="close-icon list-view-icon">
-							<CloseIcon />
-						</IconButton>
+					<IconButton
+						edge="start"
+						color="inherit"
+						aria-label="close"
+						className="close-icon list-view-icon"
+						onClick={() => {
+							pageLayout.current.toggleRightSidebar();
+							dispatch(Actions.setSelectedItem(''));
+						}}
+					>
+						<CloseIcon />
+					</IconButton>
 					{/* <FuseAnimate delay={300}>
 						<Typography variant="caption" className="">
 							<span>Edited</span>

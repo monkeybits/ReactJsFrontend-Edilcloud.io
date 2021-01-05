@@ -38,6 +38,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SendIcon from '@material-ui/icons/Send';
 import Menu from '@material-ui/core/Menu';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 export default function ReplyListItem({
 	post,
 	comment,
@@ -49,10 +50,61 @@ export default function ReplyListItem({
 	afterDeleteComment,
 	isOffline
 }) {
+	const dispatch = useDispatch();
 	const [isRetryingPostReply, setIsRetryingPostReply] = useState(false);
 	const [editText, setEditText] = useState('');
 	const [isEditing, setIsEditing] = useState(false);
-	const options = ['Edit', 'Delete' ];
+	const options = [
+		{
+			name: 'Edit',
+			handler: () => {
+				setEditText(comment.text);
+				setIsEditing(true);
+				setAnchorEl(null);
+			}
+		},
+		{
+			name: 'Delete',
+			handler: e => {
+				handleDeleteComment();
+				setAnchorEl(null);
+			}
+		}
+	];
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const scrollRef = useRef(null);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == comment.id;
+	useEffect(() => {
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [comment]);
+
+	useEffect(() => {
+		let notification = notificationPanel.notificationData?.notification;
+		if (
+			notificationPanel.viewing &&
+			notification?.content_type == 'comment' &&
+			notification.body.hasOwnProperty('comment_id') &&
+			hasRender &&
+			scrollRef.current
+		) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			scrollRef.current.scrollIntoView(false);
+			scrollRef.current.classList.add('bg-yellow-200');
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove('bg-yellow-200');
+				}
+			}, 5000);
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
+
 	const retryToPostReply = () => {
 		setIsRetryingPostReply(true);
 		apiCall(
@@ -70,7 +122,6 @@ export default function ReplyListItem({
 		);
 	};
 	const handleDeleteComment = e => {
-		e.preventDefault();
 		apiCall(
 			DELETE_COMMENT(comment.id),
 			{},
@@ -116,7 +167,10 @@ export default function ReplyListItem({
 	const userInfo = decodeDataFromToken();
 	const getUserId = () => userInfo?.extra?.profile.id;
 	return (
-		<div key={comment.id}>
+		<div
+			key={comment.id}
+			ref={notificationPanel.notificationData?.notification?.object_id == comment.id ? scrollRef : null}
+		>
 			<ListItem className="px-0 items-start">
 				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12">
 					{[...comment.author.first_name][0]}
@@ -177,11 +231,15 @@ export default function ReplyListItem({
 								}}
 							>
 								{options.map(option => (
-									<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+									<MenuItem
+										key={option.name}
+										selected={option.name === 'Pyxis'}
+										onClick={option.handler}
+									>
 										<ListItemIcon>
 											<PriorityHighIcon fontSize="small" />
 										</ListItemIcon>
-										<Typography variant="inherit"> {option}</Typography>
+										<Typography variant="inherit"> {option.name}</Typography>
 									</MenuItem>
 								))}
 							</Menu>
