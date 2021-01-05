@@ -23,6 +23,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
+import ProjectReportsProvider, { WebSocketProjectReportContext } from 'app/ProjectReportsWebSocket';
 
 const jss = create({
 	...jssPreset(),
@@ -47,7 +48,9 @@ const App = () => {
 								<FuseAuthorization>
 									<FuseTheme>
 										<WebSocketProvider>
-											<FuseLayout />
+											<ProjectReportsProvider>
+												<FuseLayout />
+											</ProjectReportsProvider>
 										</WebSocketProvider>
 									</FuseTheme>
 								</FuseAuthorization>

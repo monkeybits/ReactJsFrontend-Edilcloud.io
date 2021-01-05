@@ -9,6 +9,7 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 import axios from 'axios';
 
 export const TOGGLE_NOTOFICATION_PANEL = '[Notification] TOGGLE NOTOFICATION PANEL';
+export const LOADING_REPORT = '[Notification] LOADING REPORT';
 export const GET_NOTOFICATION_PANEL_DATA = '[Notification] GET DATA';
 export const GET_READ_NOTOFICATION_PANEL_DATA = '[Notification] GET READ DATA';
 export const DELETE_NOTOFICATION_PANEL_DATA_BY_INDEX = '[Notification] DELETE DATA BY INDEX';
@@ -22,6 +23,13 @@ export const RESET_NOTOFICATION_PANEL_DATA = '[Notification] RESET NOTIFICATIONS
 export const PUSH_NOTOFICATION_PANEL_DATA = '[Notification] PUSH DATA';
 
 export const REMOVE_FROM_VIEW_NOTOFICATION_PANEL_DATA = '[Notification] REMOVE FROM VIEW DATA';
+
+export function loadingReport(payload) {
+	return {
+		type: LOADING_REPORT,
+		payload
+	};
+}
 
 export function resetNotificationData() {
 	return {
