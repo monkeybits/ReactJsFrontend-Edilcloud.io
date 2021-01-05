@@ -1,8 +1,31 @@
+import { API_FACEBOOK_AUTH_LOGIN } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
 
 class FacebookLoginComponent extends React.Component {
 	responseFacebook(response) {
+		const access_token = response.accessToken;
+		const photo = response.picture.data.url;
+		const provider = response.graphDomain;
+		console.log({
+			access_token,
+			photo,
+			provider
+		});
+		apiCall(
+			API_FACEBOOK_AUTH_LOGIN,
+			{
+				access_token,
+				photo,
+				provider
+			},
+			res => {
+				console.log(res);
+			},
+			err => console.log(err),
+			METHOD.POST
+		);
 		console.log(response);
 	}
 

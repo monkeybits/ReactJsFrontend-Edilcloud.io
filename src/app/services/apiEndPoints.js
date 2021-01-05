@@ -140,4 +140,5 @@ export const READ_NOTIFICATION = nid => `/api/frontend/notify/notification/read/
 export const READ_ALL_NOTIFICATION = `/api/frontend/notify/notification/read/all/`;
 export const GET_NOTIFICATION_COUNT = `/api/frontend/notify/notification/recipient/count/`;
 export const DELETE_NOTIFICATION_BY_ID = nid => `/api/frontend/notify/notification/delete/${nid}/`;
-export const API_AUTH_LOGIN = '/api/auth/socials/google/';
+export const API_GOOGLE_AUTH_LOGIN = '/api/auth/socials/google/';
+export const API_FACEBOOK_AUTH_LOGIN = '/api/auth/socials/facebook/';

@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core';
-import { API_AUTH_LOGIN } from 'app/services/apiEndPoints';
+import { API_GOOGLE_AUTH_LOGIN } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import React from 'react';
 import GoogleLogin from 'react-google-login';
@@ -15,7 +15,7 @@ class GoogleLoginComponent extends React.Component {
 			provider
 		});
 		apiCall(
-			API_AUTH_LOGIN,
+			API_GOOGLE_AUTH_LOGIN,
 			{
 				access_token,
 				photo,
