@@ -2,9 +2,13 @@ import { API_FACEBOOK_AUTH_LOGIN } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
-
+import jwtService from 'app/services/jwtService';
+import * as authActions from 'app/auth/store/actions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
 class FacebookLoginComponent extends React.Component {
-	responseFacebook(response) {
+	responseFacebook = response => {
 		const access_token = response.accessToken;
 		const photo = response.picture.data.url;
 		const provider = response.graphDomain;
@@ -21,13 +25,25 @@ class FacebookLoginComponent extends React.Component {
 				provider
 			},
 			res => {
-				console.log(res);
+				const { token } = res;
+				new Promise((resolve, reject) => {
+					if (res) {
+						jwtService.setSession(token);
+						resolve(res);
+					} else {
+						reject(res);
+					}
+				})
+					.then(res => {
+						this.props.onLogin(res);
+					})
+					.catch(err => console.log(err));
 			},
 			err => console.log(err),
 			METHOD.POST
 		);
 		console.log(response);
-	}
+	};
 
 	render() {
 		return (
@@ -38,11 +54,20 @@ class FacebookLoginComponent extends React.Component {
 				fields="name,email,picture"
 				scope="public_profile,user_friends,user_actions.books"
 				callback={this.responseFacebook}
+				onFailure={err => console.log(err)}
 				icon={<img src="/assets/images/social-icons/facebook.png" className="h-20" alt="Facebook" />}
 				textButton="Facebook"
 			/>
 		);
 	}
 }
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			onLogin: authActions.onLogin
+		},
+		dispatch
+	);
+}
 
-export default FacebookLoginComponent;
+export default withRouter(connect(null, mapDispatchToProps)(FacebookLoginComponent));
