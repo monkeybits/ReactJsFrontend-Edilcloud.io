@@ -19,59 +19,7 @@ export function submitLogin({ email, password }) {
 		jwtService
 			.signInWithEmailAndPassword(email, password)
 			.then(user => {
-				apiCall(
-					APPROVE_LIST,
-					{},
-					results => {
-						if (Array.isArray(results)) {
-							let boards = results.filter(d => d.is_main);
-							let companies = results.filter(d => d.company);
-							if (boards.length) {
-								if (companies?.length == 1) {
-									apiCall(
-										REQUEST_LIST,
-										{},
-										({ results }) => {
-											if (Array.isArray(results)) {
-												let filterdBoards = results.filter(d => d.company && d.status);
-												if (filterdBoards?.length > 0) {
-													dispatch(
-														UserActions.setUserData({
-															...user,
-															redirectUrl: '/apps/companies'
-														})
-													);
-												} else {
-													dispatch(afterLogin(companies[0].id));
-												}
-											}
-										},
-										err => {
-											dispatch(afterLogin(companies[0].id));
-										},
-										METHOD.GET,
-										getHeaderToken()
-									);
-								} else {
-									dispatch(UserActions.setUserData({ ...user, redirectUrl: '/apps/companies' }));
-								}
-
-								return dispatch({
-									type: LOGIN_SUCCESS
-								});
-							} else {
-								dispatch(UserActions.setUserData({ ...user, redirectUrl: '/main-profile' }));
-
-								return dispatch({
-									type: LOGIN_SUCCESS
-								});
-							}
-						}
-					},
-					err => console.log(err),
-					METHOD.GET,
-					getHeaderToken()
-				);
+				dispatch(onLogin(user));
 			})
 			.catch(error => {
 				return dispatch({
@@ -81,6 +29,61 @@ export function submitLogin({ email, password }) {
 			});
 	};
 }
+export const onLogin = user => dispatch =>
+	apiCall(
+		APPROVE_LIST,
+		{},
+		results => {
+			if (Array.isArray(results)) {
+				let boards = results.filter(d => d.is_main);
+				let companies = results.filter(d => d.company);
+				if (boards.length) {
+					if (companies?.length == 1) {
+						apiCall(
+							REQUEST_LIST,
+							{},
+							({ results }) => {
+								if (Array.isArray(results)) {
+									let filterdBoards = results.filter(d => d.company && d.status);
+									if (filterdBoards?.length > 0) {
+										dispatch(
+											UserActions.setUserData({
+												...user,
+												redirectUrl: '/apps/companies'
+											})
+										);
+									} else {
+										dispatch(afterLogin(companies[0].id));
+									}
+								}
+							},
+							err => {
+								dispatch(afterLogin(companies[0].id));
+							},
+							METHOD.GET,
+							getHeaderToken()
+						);
+					} else {
+						dispatch(UserActions.setUserData({ ...user, redirectUrl: '/apps/companies' }));
+					}
+
+					return dispatch({
+						type: LOGIN_SUCCESS
+					});
+				} else {
+					dispatch(UserActions.setUserData({ ...user, redirectUrl: '/main-profile' }));
+
+					return dispatch({
+						type: LOGIN_SUCCESS
+					});
+				}
+			}
+		},
+		err => console.log(err),
+		METHOD.GET,
+		getHeaderToken()
+	);
+
 const afterLogin = company_profile_id => {
 	return dispatch =>
 		apiCall(
