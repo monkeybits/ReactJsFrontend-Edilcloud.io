@@ -3,7 +3,8 @@ import * as Actions from '../actions';
 const initialState = {
 	state: false,
 	notifications: [],
-	readNotifications: []
+	readNotifications: [],
+	loadingReport: false
 };
 
 const quickPanel = (state = initialState, action) => {
@@ -84,6 +85,12 @@ const quickPanel = (state = initialState, action) => {
 			return {
 				...state,
 				state: !state.state
+			};
+		}
+		case Actions.LOADING_REPORT: {
+			return {
+				...state,
+				loadingReport: action.payload
 			};
 		}
 		default: {

@@ -20,6 +20,7 @@ export default ({ children }) => {
 	let ws;
 	let WS_BASE;
 	const dispatch = useDispatch();
+	const company = useSelector(({ chatApp }) => chatApp.company);
 	if (process.env.NODE_ENV !== 'production') {
 		WS_BASE = WS_BASE_LOCAL;
 	} else {
@@ -129,7 +130,7 @@ export default ({ children }) => {
 			}, 1000);
 		};
 	};
-	if (!global.socket) {
+	if (!global.socket && company?.name) {
 		createSocket();
 
 		ws = {
