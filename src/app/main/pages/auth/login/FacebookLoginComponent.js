@@ -10,7 +10,7 @@ class FacebookLoginComponent extends React.Component {
 		return (
 			<FacebookLogin
 				cssClass="MuiButtonBase-root MuiButton-root MuiButton-outlined border-1 normal-case w-full flex items-center h-full"
-				appId="1088597931155576"
+				appId="1093743794410189"
 				// autoLoad={true}
 				fields="name,email,picture"
 				scope="public_profile,user_friends,user_actions.books"

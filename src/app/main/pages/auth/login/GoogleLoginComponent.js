@@ -1,9 +1,32 @@
 import { Button } from '@material-ui/core';
+import { API_AUTH_LOGIN } from 'app/services/apiEndPoints';
+import { apiCall, METHOD } from 'app/services/baseUrl';
 import React from 'react';
 import GoogleLogin from 'react-google-login';
 
 class GoogleLoginComponent extends React.Component {
 	responseGoogle(response) {
+		const access_token = response.accessToken;
+		const photo = response.profileObj.imageUrl;
+		const provider = 'google-oauth2';
+		console.log({
+			access_token,
+			photo,
+			provider
+		});
+		apiCall(
+			API_AUTH_LOGIN,
+			{
+				access_token,
+				photo,
+				provider
+			},
+			res => {
+				console.log(res);
+			},
+			err => console.log(err),
+			METHOD.POST
+		);
 		console.log(response);
 	}
 
