@@ -61,6 +61,7 @@ const DownloadPdf = ({ id, label, pid }) => {
 						EXPORT_DATA(pid),
 						{},
 						d => {
+							toast.success(d);
 							dispatch(notificationActions.loadingReport(false));
 						},
 						err => {
@@ -68,8 +69,7 @@ const DownloadPdf = ({ id, label, pid }) => {
 							toast.error(err);
 						},
 						METHOD.POST,
-						getHeaderToken(),
-						true
+						getHeaderToken()
 					);
 				}}
 			>
