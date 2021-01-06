@@ -137,11 +137,22 @@ function NoteList(props) {
 			);
 		} else {
 			return (
-				<div className="flex flex-1 items-center justify-center h-full">
-					<Typography color="textSecondary" variant="h5">
-						There are no projects!
-					</Typography>
+				<div>
+				<div  className="flex flex-1 mb-20px items-center justify-center ">
+					<img width="600px" src="https://www.edilcloud.io/wp-content/uploads/2021/01/Risorsa-4fsad-1.png"></img>
+					
 				</div>
+				<div className="flex flex-1 mt-30 items-center justify-center "> 
+				<Typography color="textSecondary" variant="h5">
+				Seems that there are no projects yet!
+			</Typography>
+			</div>
+			<div className="flex flex-1 mt-20 items-center justify-center "> 
+				<Typography color="textSecondary" variant="h6">
+				Create a task clicking on green + button
+			</Typography>
+			</div>
+			</div>
 			);
 		}
 	}

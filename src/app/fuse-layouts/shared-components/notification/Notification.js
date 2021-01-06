@@ -238,18 +238,18 @@ function NotificationPanel(props) {
 															primary={
 																<>
 																	<div className="flex">
-																		<Typography
+																	<Typography
 																			className="font-medium whitespace-no-wrap"
 																			color="primary"
 																			paragraph={false}
 																		>
 																			{notification.sender.first_name}{' '}
 																			{notification.sender.last_name}
-																		</Typography>
+																	</Typography>
 
 																		<Typography
 																			color="textSecondary"
-																			className="px-4 truncate"
+																			className="px-4"
 																			paragraph={false}
 																		>
 																			{notification.subject}
@@ -342,7 +342,7 @@ function NotificationPanel(props) {
 
 																		<Typography
 																			color="textSecondary"
-																			className="px-4 truncate"
+																			className="px-4"
 																			paragraph={false}
 																		>
 																			{notification.subject}

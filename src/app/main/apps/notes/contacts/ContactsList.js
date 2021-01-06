@@ -281,9 +281,22 @@ function ContactsList(props) {
 		if (filteredData.length === 0) {
 			return (
 				<div className="flex flex-1 items-center justify-center h-full">
-					<Typography color="textSecondary" variant="h5">
-						There are no contacts!
-					</Typography>
+				<div>
+			<div  className="flex flex-1 mb-20px items-center justify-center ">
+				<img width="600px" src="/assets/images/errors/nocontacts.png"></img>
+				
+			</div>
+			<div className="flex flex-1 mt-30 items-center justify-center "> 
+			<Typography color="textSecondary" variant="h5">
+			Seems that there are no contacts!
+		</Typography>
+		</div>
+		<div className="flex flex-1 mt-20 items-center justify-center "> 
+			<Typography color="textSecondary" variant="h6">
+			Create a profile or invite one clicking on green + button
+		</Typography>
+		</div>
+		</div>
 				</div>
 			);
 		}

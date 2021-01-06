@@ -102,7 +102,8 @@ function UserMenu(props) {
 							role="button"
 						>
 							<ListItemIcon className="min-w-40">
-								<Icon>edit</Icon>
+								<Icon>admin_panel_settings
+</Icon>
 							</ListItemIcon>
 							<ListItemText primary="Edit main profile" />
 						</MenuItem>
@@ -117,7 +118,7 @@ function UserMenu(props) {
 								role="button"
 							>
 								<ListItemIcon className="min-w-40">
-									<Icon>edit</Icon>
+									<Icon>store</Icon>
 								</ListItemIcon>
 								<ListItemText primary="Edit Company" />
 							</MenuItem>
