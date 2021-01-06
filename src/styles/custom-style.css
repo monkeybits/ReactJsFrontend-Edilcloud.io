@@ -1717,6 +1717,9 @@ audio {
     white-space: nowrap;
     overflow: hidden;
 }
+.touch-ripple-effect-remove .MuiTouchRipple-root {
+    display: none !important;
+}
 .pdf-pagination{
     margin-top: 0;
     z-index: 5;
