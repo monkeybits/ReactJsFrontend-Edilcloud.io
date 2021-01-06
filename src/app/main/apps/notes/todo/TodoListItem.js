@@ -11,7 +11,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
-import { Collapse, ListItemIcon, ListItemText, List, Slider, withStyles } from '@material-ui/core';
+import {
+	Collapse,
+	ListItemIcon,
+	ListItemText,
+	List,
+	Slider,
+	withStyles,
+	MenuList,
+	Paper,
+	Popover
+} from '@material-ui/core';
 import StarBorder from '@material-ui/icons/StarBorder';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -34,12 +44,16 @@ import PostList from './PostList';
 import ToolbarMenu from './Dialog/toolbar/ToolbarMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import Popper from '@material-ui/core/Popper';
 
 const useStyles = makeStyles(theme => ({
 	card: {
 		transitionProperty: 'box-shadow',
 		transitionDuration: theme.transitions.duration.short,
 		transitionTimingFunction: theme.transitions.easing.easeInOut
+	},
+	paper: {
+		marginRight: theme.spacing(2)
 	}
 }));
 const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
@@ -149,6 +163,17 @@ function TodoListItem(props) {
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const scrollRef = useRef(null);
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
+	const anchorRef = React.useRef();
+	const [state, setState] = React.useState({
+		open: false,
+		anchorOriginVertical: 'bottom',
+		anchorOriginHorizontal: 'left',
+		transformOriginVertical: 'top',
+		transformOriginHorizontal: 'left',
+		positionTop: 200, // Just so the popover can be spotted more easily
+		positionLeft: 400, // Same as above
+		anchorReference: 'anchorEl'
+	});
 	useEffect(() => {
 		if (hasNotifcationOnThisItem) {
 			setTimeout(() => {
@@ -222,7 +247,11 @@ function TodoListItem(props) {
 	};
 	const handleMenuOpen = event => {
 		stopsEvents(event);
-		setAnchorEl(event.currentTarget);
+		// setAnchorEl(event.currentTarget);
+		setState({
+			...state,
+			open: true
+		});
 		// if (!members.length) {
 		// 	getCompanyApprovedContacts();
 		// }
@@ -237,7 +266,11 @@ function TodoListItem(props) {
 	}, [notificationPanel.notificationData]);
 	const handleMenuClose = event => {
 		stopsEvents(event);
-		setAnchorEl(null);
+		// setAnchorEl(null);
+		setState({
+			...state,
+			open: false
+		});
 		// if (!members.length) {
 		// 	props.getDetailOfTask();
 		// }
@@ -308,7 +341,11 @@ function TodoListItem(props) {
 							)}
 						</div>
 						{!props.todo.assigned_company && (
-							<div className="custom-member-menu flex items-center" onClick={handleMenuOpen}>
+							<div
+								ref={anchorRef}
+								className="custom-member-menu flex items-center"
+								onClick={handleMenuOpen}
+							>
 								<Icon> business</Icon>
 								Assign Company {loading && <CircularProgress size={15} color="secondary" />}
 							</div>
@@ -321,17 +358,40 @@ function TodoListItem(props) {
 							Responsabile: Mandelli Roberto - Idraulico Specializzato
 						</Typography>
 
-						<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
-							{props.companies?.length &&
-								props.companies.map((item, index) => {
-									return (
-										<MenuItem onClick={e => handleSubmit(e, item)} className="px-8" key={item.id}>
-											<Avatar className="w-32 h-32" src={item.profile?.company?.logo} />
-											<ListItemText className="mx-8">{item.company}</ListItemText>
-										</MenuItem>
-									);
-								})}
-						</ToolbarMenu>
+						<Popover
+							open={state.open}
+							anchorEl={anchorRef.current}
+							anchorReference={state.anchorReference}
+							anchorPosition={{ top: state.positionTop, left: state.positionLeft }}
+							onClose={handleMenuClose}
+							anchorOrigin={{
+								vertical: state.anchorOriginVertical,
+								horizontal: state.anchorOriginHorizontal
+							}}
+							transformOrigin={{
+								vertical: state.transformOriginVertical,
+								horizontal: state.transformOriginHorizontal
+							}}
+						>
+							<Paper className={classes.paper}>
+								<MenuList>
+									{props.companies?.length &&
+										props.companies.map((item, index) => {
+											return (
+												<MenuItem
+													onClick={e => handleSubmit(e, item)}
+													className="px-8"
+													key={item.id}
+												>
+													<Avatar className="w-32 h-32" src={item.profile?.company?.logo} />
+													<ListItemText className="mx-8">{item.company}</ListItemText>
+												</MenuItem>
+											);
+										})}
+								</MenuList>
+							</Paper>
+						</Popover>
+
 						{/* dates below */}
 						<div className="flex items-center flex-wrap">
 							{props.todo.progress == 100 ? (
