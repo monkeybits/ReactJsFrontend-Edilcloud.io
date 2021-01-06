@@ -487,15 +487,15 @@ export default function PostListItem({
 				</CardContent>
 			)}
 
-			<CardActions disableSpacing className="bg-custom-primary px-12 py-4 flex justify-center">
-				{/* <Button size="small" className="text-white text-13" aria-label="Add to favorites">
-					<Icon className="text-white text-14">favorite</Icon>
-					<Typography className="normal-case text-white text-13 mx-4">Like</Typography>
+			<CardActions disableSpacing className="bg-white px-12 py-12 flex justify-center">
+				{ <Button size="small" className="text-13 color-primary" aria-label="Add to favorites">
+					<Icon className="text-14">chat</Icon>
+					<Typography className="normal-case color-primary  text-13 mx-4">Comments</Typography>
 					<Typography className="normal-case text-13">({post.like})</Typography>
-				</Button> */}
+				</Button> }
 				<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
-					<Icon className="text-white text-14">share</Icon>
-					<Typography className="normal-case text-white text-13 mx-4">Share</Typography>
+					<Icon className=" color-primary text-14">share</Icon>
+					<Typography className="normal-case color-primary  text-13 mx-4">Share</Typography>
 					{!!post.share && <Typography className="normal-case text-13">({post.share})</Typography>}
 				</Button>
 			</CardActions>

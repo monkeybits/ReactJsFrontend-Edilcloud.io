@@ -410,9 +410,10 @@ export default function ProjectListitem(props) {
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton> */}
-				<Button>
+				<Button
+				className="MuiButtonBase-root text-white MuiButton-root MuiButton-contained mr-8 MuiButton-containedSizeSmall MuiButton-sizeSmall">
 					<DownloadPdf
-						className="MuiButtonBase-root MuiButton-root "
+						className="text-white"
 						label="Download Report"
 						id={name}
 						pid={id}

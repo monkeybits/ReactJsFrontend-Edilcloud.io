@@ -717,7 +717,7 @@ function TaskContentForm(props) {
 					/>
 					<BottomNavigationAction
 						ClassName="white"
-						icon={<Icon>square_foot</Icon>}
+						icon={<Icon>attach_file</Icon>}
 						label="Drawings"
 						{...a11yProps(1)}
 					/>

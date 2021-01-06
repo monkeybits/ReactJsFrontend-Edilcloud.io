@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
 			},
 			'& .bubble': {
 				marginLeft: 'auto',
-				backgroundColor: '#4caf501f',
+				backgroundColor: '#4c54af1f',
 				// backgroundColor: theme.palette.primary.dark,
 				color: '#1E2129',
 				// color: theme.palette.getContrastText(theme.palette.primary.dark),
