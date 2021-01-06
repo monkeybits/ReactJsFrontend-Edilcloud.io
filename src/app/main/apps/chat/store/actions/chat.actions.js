@@ -37,7 +37,10 @@ export function resetCount() {
 		type: RESET_CONTECT_COUNT
 	};
 }
-export function getChat(contactId) {
+export function getChat(handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingGetChat: true
+	});
 	return (dispatch, getState) => {
 		apiCall(
 			GET_MESSAGES_API,
@@ -51,6 +54,9 @@ export function getChat(contactId) {
 				// 		});
 				// 	}, 400);
 				// }
+				handleSetLoading({
+					loadingGetChat: false
+				});
 				if (chat && chat[chat.length - 1]) {
 					dispatch(readAllMessages(chat[chat.length - 1].talk.id));
 				}
@@ -60,7 +66,12 @@ export function getChat(contactId) {
 					userChatData: {}
 				});
 			},
-			err => console.log(err),
+			err => {
+				handleSetLoading({
+					loadingGetChat: false
+				});
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -197,18 +208,29 @@ export function readAllMessages(talkCode) {
 		);
 	};
 }
-export function companyInfo() {
+export function companyInfo(handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingCompanyInfo: true
+	});
 	return (dispatch, getState) => {
 		apiCall(
 			COMPANY_DETAIL,
 			{},
 			company => {
+				handleSetLoading({
+					loadingCompanyInfo: false
+				});
 				return dispatch({
 					type: COMPANY_INFO,
 					company
 				});
 			},
-			err => console.log(err),
+			err => {
+				handleSetLoading({
+					loadingCompanyInfo: false
+				});
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

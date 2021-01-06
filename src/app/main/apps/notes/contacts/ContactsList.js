@@ -277,29 +277,6 @@ function ContactsList(props) {
 				<LinearProgress className="w-xs" color="secondary" />
 			</div>
 		);
-	} else {
-		if (filteredData.length === 0) {
-			return (
-				<div className="flex flex-1 items-center justify-center h-full">
-				<div>
-			<div  className="flex flex-1 mb-20px items-center justify-center ">
-				<img width="600px" src="/assets/images/errors/nocontacts.png"></img>
-				
-			</div>
-			<div className="flex flex-1 mt-30 items-center justify-center "> 
-			<Typography color="textSecondary" variant="h5">
-			Seems that there are no contacts!
-		</Typography>
-		</div>
-		<div className="flex flex-1 mt-20 items-center justify-center "> 
-			<Typography color="textSecondary" variant="h6">
-			Create a profile or invite one clicking on green + button
-		</Typography>
-		</div>
-		</div>
-				</div>
-			);
-		}
 	}
 
 	const onDeactivate = () => {
@@ -380,7 +357,25 @@ function ContactsList(props) {
 				onYes={onDeactivate}
 				onNo={colseDeleteContactDialog}
 			/>
-			{viewTable ? (
+			{filteredData.length === 0 ? (
+				<div className="flex flex-1 items-center justify-center h-full">
+					<div>
+						<div className="flex flex-1 mb-20px items-center justify-center ">
+							<img width="600px" src="/assets/images/errors/nocontacts.png"></img>
+						</div>
+						<div className="flex flex-1 mt-30 items-center justify-center ">
+							<Typography color="textSecondary" variant="h5">
+								Seems that there are no contacts!
+							</Typography>
+						</div>
+						<div className="flex flex-1 mt-20 items-center justify-center ">
+							<Typography color="textSecondary" variant="h6">
+								Create a profile or invite one clicking on green + button
+							</Typography>
+						</div>
+					</div>
+				</div>
+			) : viewTable ? (
 				<FuseAnimate animation="transition.slideUpIn" delay={200}>
 					<ContactsTable
 						columns={columns}

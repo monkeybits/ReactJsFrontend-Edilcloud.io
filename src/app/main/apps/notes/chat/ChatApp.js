@@ -12,7 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Chat from './Chat';
 import ChatsSidebar from './ChatsSidebar';
@@ -25,6 +25,7 @@ import { withRouter, useParams } from 'react-router';
 import { GET_CHAT } from './store/actions';
 import { WebSocketContext } from 'app/WebSocket';
 import FuseAnimate from '@fuse/core/FuseAnimate';
+import { LinearProgress } from '@material-ui/core';
 
 const drawerWidth = 350;
 const headerHeight = 200;
@@ -120,16 +121,25 @@ function ChatApp(props) {
 	const routeParams = useParams();
 
 	const classes = useStyles(props);
-
+	const [loading, setLoading] = useState({
+		loadingCompanyInfo: false,
+		loadingGetContacts: false,
+		loadingGetChat: false
+	});
+	const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+		}));
 	useEffect(() => {
-		dispatch(Actions.companyInfo());
+		dispatch(Actions.companyInfo(handleSetLoading));
 	}, [dispatch]);
 
 	useEffect(() => {
 		// if (company.can_access_chat && routeParams.id) {
-		dispatch(Actions.getUserData(routeParams.id));
-		dispatch(Actions.getContacts(routeParams.id));
-		dispatch(Actions.getChat(routeParams.id));
+		dispatch(Actions.getUserData());
+		dispatch(Actions.getContacts(routeParams.id, handleSetLoading));
+		dispatch(Actions.getChat(routeParams.id,handleSetLoading));
 		// let callMessageList = setInterval(() => dispatch(Actions.getChat(routeParams.id)), 3000);
 		return () => {
 			dispatch({
@@ -143,6 +153,16 @@ function ChatApp(props) {
 		// 	props.history.push('/apps/todo/all');
 		// }
 	}, [dispatch, company, routeParams, projectDetail]);
+	if (loading.loadingCompanyInfo || loading.loadingGetChat || loading.loadingGetContacts) {
+		return (
+			<div className="flex flex-1 flex-col items-center justify-center">
+				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+					Loading chats...
+				</Typography>
+				<LinearProgress className="w-xs" color="secondary" />
+			</div>
+		);
+	}
 	return (
 		<div className={clsx(classes.root, 'flex-col h-full')}>
 			{/* <div className={classes.topBg} /> */}
