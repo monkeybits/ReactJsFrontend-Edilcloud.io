@@ -16,12 +16,18 @@ function getRandomColor() {
 	return color;
 }
 
-export function getContacts(routeParams) {
+export function getContacts(routeParams,handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingGetUserData: true
+	});
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_PROJECT_STAFF_LIST(routeParams),
 			{},
 			res => {
+				handleSetLoading({
+					loadingGetUserData: false
+				});
 				let results = [];
 				if (res.length) {
 					results = res.map(d => {
@@ -43,6 +49,9 @@ export function getContacts(routeParams) {
 				});
 			},
 			err => {
+				handleSetLoading({
+					loadingGetUserData: false
+				});
 				console.log(err);
 			},
 			METHOD.GET,
