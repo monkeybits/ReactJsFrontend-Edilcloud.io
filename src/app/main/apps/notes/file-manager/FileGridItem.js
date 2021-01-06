@@ -179,11 +179,22 @@ export default function FileGridItem({ tileData, pageLayout }) {
 						</GridListTile>
 					))
 				) : (
-					<div className="flex flex-1 items-center justify-center h-full">
-						<Typography color="textSecondary" variant="h5">
-							There are no files!
-						</Typography>
-					</div>
+					<div>
+				<div className="flex flex-1 items-center justify-center h-full">
+					<img className="w-400" src="assets/images/errors/nofiles.png"></img>
+					
+				</div>
+				<div className="flex flex-1 items-center justify-center h-full"> 
+				<Typography color="textSecondary" variant="h5">
+				Seems that there are no files yet!
+			</Typography>
+			</div>
+			<div className="flex flex-1 mt-20 items-center justify-center h-full"> 
+				<Typography color="textSecondary" variant="h6">
+				Create a file or a folder clicking on green + button
+			</Typography>
+			</div>
+			</div>
 				)}
 			</GridList>
 		</div>

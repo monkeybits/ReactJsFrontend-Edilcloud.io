@@ -278,7 +278,7 @@ function FileManagerApp(props) {
 			<FusePageSimple
 				classes={{
 					root: selectedItem?.title ? 'bg-red fileInfoSidebar' : 'bg-red fileInfoSidebar hide-sidebar',
-					header: 'p-24 pb-0 bg-body h-auto min-h-auto',
+					header: 'p-24 pb-0 bg-white h-auto min-h-auto',
 					sidebarHeader: '',
 					rightSidebar: 'w-320'
 				}}

@@ -302,11 +302,23 @@ function TodoList(props) {
 	if (filteredData.length === 0) {
 		return (
 			<FuseAnimate delay={100}>
+	<div>
 				<div className="flex flex-1 items-center justify-center h-full">
-					<Typography color="textSecondary" variant="h5">
-						There are no todos!
-					</Typography>
+					<img className="w-400" src="assets/images/errors/nogantt.png"></img>
+					
 				</div>
+				<div className="flex flex-1 items-center justify-center h-full"> 
+				<Typography color="textSecondary" variant="h5">
+				Seems that there are no tasks yet!
+			</Typography>
+			</div>
+			<div className="flex flex-1 mt-20 items-center justify-center h-full"> 
+				<Typography color="textSecondary" variant="h6">
+				Create a task clicking on green + button
+			</Typography>
+			</div>
+			</div>
+				
 			</FuseAnimate>
 		);
 	}

@@ -321,14 +321,7 @@ textarea.MuiOutlinedInput-input {
     color: #fff !important;
 }
 .sidebar-content ul a.active::before, .sidebar-content ul a.active::after  {
-    position: absolute;
-    top: -14px;
-    content: "";
-    width: 0;
-    height: 0;
-    border-bottom: 15px solid #202020;
-    border-left: 17px solid transparent;
-    right: 6px;
+    
 }
 .sidebar-content ul a.active::after {
     top: inherit;
