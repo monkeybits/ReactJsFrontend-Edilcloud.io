@@ -17,6 +17,7 @@ import reducer from './store/reducers';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import ContactsHeader from './ContactsHeader';
 import TeamFloationButton from './TeamFloationButton';
+import { LinearProgress, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -52,6 +53,16 @@ function ContactsApp(props) {
 	const userInfo = decodeDataFromToken();
 	const companyIdFromCompany = userInfo?.extra?.profile?.company;
 	const roleFromCompany = userInfo?.extra?.profile?.role;
+	if (loading.loadingApprove || loading.loadingRefuse || loading.loadingWaiting) {
+		return (
+			<div className="flex flex-1 flex-col items-center justify-center">
+				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+					Loading contacts...
+				</Typography>
+				<LinearProgress className="w-xs" color="secondary" />
+			</div>
+		);
+	}
 	return (
 		<>
 			<FusePageSimple
@@ -63,7 +74,7 @@ function ContactsApp(props) {
 					wrapper: 'min-h-0 team-tab p-24'
 				}}
 				// header={<ContactsHeader onOpen={props.setOpenDialog} pageLayout={pageLayout} />}
-				content={<ContactsList pageLayout={pageLayout} {...loading} />}
+				content={<ContactsList pageLayout={pageLayout}  />}
 				leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}

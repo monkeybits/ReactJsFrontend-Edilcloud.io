@@ -134,7 +134,7 @@ function TodoList(props) {
 			case 'genrealFilter':
 				var result = [];
 				const userInfo = decodeDataFromToken();
-				if (activeFilterKey === 'Mine') {
+				if (activeFilterKey === 'Mine' && userInfo) {
 					result = list.reduce((unique, o) => {
 						let activities = [];
 						if (o.assigned_company && o.assigned_company.id == company.id) {
