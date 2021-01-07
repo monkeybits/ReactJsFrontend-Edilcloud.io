@@ -45,8 +45,8 @@ function NotesApp(props) {
 	const useStyles = makeStyles(theme => ({
 		addButton: {
 			position: 'fixed',
-			right: 82,
-			bottom: 12,
+			right: 100,
+			bottom: 30,
 			zIndex: 99,
 			[theme.breakpoints.down('md')]: {
 				right: 24,
