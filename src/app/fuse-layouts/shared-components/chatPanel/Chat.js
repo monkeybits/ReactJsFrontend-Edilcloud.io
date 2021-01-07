@@ -222,18 +222,17 @@ function Chat(props) {
 													)}
 													<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
 
-													<div className="leading-normal p-10 font-size-16 mb-15">{item.body}</div>
+													<div className="leading-normal py-4 font-size-16 mb-15">{item.body}</div>
 													<ViewFile
 														open={props.open}
 														setOpen={props.setOpen}
 														files={item.files}
 													/>
 													<div className="flex items-center mt-8">
-														
 														{
 															// isLastMessageOfGroup(item, i) && (
 															<Typography
-																className="time text-12 font-500 ml-10 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+																className="time text-12 font-500 ltr:left-0 rtl:right-0 whitespace-no-wrap"
 																color="textSecondary"
 															>
 																{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
@@ -241,12 +240,12 @@ function Chat(props) {
 															// )
 														}
 														{contact.id == userIdFromCompany && item.waitingToSend ? (
-															<Icon className="float-right font-size-16 text-check">
+															<Icon className="float-right font-size-16 ml-10 text-check">
 																access_time
 															</Icon>
 														) : (
 															// <Icon className="float-right text-16 text-check">check</Icon>
-															<Icon className="float-right text-16 text-check">
+															<Icon className="float-right text-16 ml-10 text-check">
 																done_all
 															</Icon>
 														)}

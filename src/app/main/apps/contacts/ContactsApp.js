@@ -4,7 +4,7 @@ import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
@@ -16,6 +16,7 @@ import ContactsSidebarContent from './ContactsSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import TeamFloationButton from './TeamFloationButton';
+import { LinearProgress, Typography } from '@material-ui/core';
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',
@@ -31,12 +32,32 @@ function ContactsApp(props) {
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
-
+	const [loading, setLoading] = useState({
+		loadingApprove: false,
+		loadingRefuse: false,
+		loadingDeactivate: false,
+		loadingWaiting: false
+	});
+	const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+		}));
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getContacts());
+		dispatch(Actions.getContacts(handleSetLoading));
 		dispatch(Actions.getUserData());
 		return dispatch(Actions.resetContact());
 	}, [dispatch]);
+	if (loading.loadingApprove || loading.loadingRefuse || loading.loadingWaiting || loading.loadingDeactivate) {
+		return (
+			<div className="flex flex-1 flex-col items-center justify-center">
+				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+					Loading contacts...
+				</Typography>
+				<LinearProgress className="w-xs" color="secondary" />
+			</div>
+		);
+	}
 	return (
 		<>
 			<FusePageSimple
@@ -48,7 +69,7 @@ function ContactsApp(props) {
 					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove',
 					wrapper: 'min-h-0 team-tab p-24'
 				}}
-				// header={<ContactsHeader pageLayout={pageLayout} />}
+				header={<ContactsHeader pageLayout={pageLayout} />}
 				content={<ContactsList pageLayout={pageLayout} />}
 				leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
@@ -66,7 +87,7 @@ function ContactsApp(props) {
 					}}
 				/>
 			</FuseAnimate>
-			<ContactDialog />
+			<ContactDialog handleSetLoading={handleSetLoading} />
 			<ViewContactDialog />
 		</>
 	);

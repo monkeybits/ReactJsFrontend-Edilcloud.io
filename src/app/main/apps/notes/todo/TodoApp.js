@@ -1,7 +1,7 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ import TodoSidebarHeader from './TodoSidebarHeader';
 import TodoToolbar from './TodoToolbar';
 import CreatePostDialog from './CreatePostDialog';
 import { GET_TODOS } from './store/actions';
-import { makeStyles } from '@material-ui/core';
+import { LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import TaskContentDialog from './Dialog/TaskContentDialog';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import clsx from 'clsx';
@@ -43,7 +43,24 @@ function TodoApp(props) {
 	const routeParams = useParams();
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const upload = useSelector(({ todoAppNote }) => todoAppNote.todos.upload);
-
+	const [loading, setLoading] = useState({
+		loadingTodos: false
+	});
+	const handleSetLoading = data => {
+		if (!data.loadingTodos) {
+			setTimeout(() => {
+				setLoading(loading => ({
+					...loading,
+					...data
+				}));
+			}, 500);
+		} else {
+			setLoading(loading => ({
+				...loading,
+				...data
+			}));
+		}
+	};
 	// useEffect(() => {
 	// 	dispatch(Actions.getFilters());
 	// 	dispatch(Actions.getFolders());
@@ -96,7 +113,7 @@ function TodoApp(props) {
 		}
 	}, [notificationPanel.viewing]);
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getTodos(routeParams.id));
+		dispatch(Actions.getTodos(routeParams.id,false, handleSetLoading));
 		return () => {
 			dispatch({
 				type: GET_TODOS,
@@ -104,7 +121,16 @@ function TodoApp(props) {
 			});
 		};
 	}, [dispatch, routeParams]);
-
+	if (loading.loadingTodos) {
+		return (
+			<div className="flex flex-1 flex-col items-center justify-center">
+				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+					Loading Tasks...
+				</Typography>
+				<LinearProgress className="w-xs" color="secondary" />
+			</div>
+		);
+	}
 	return (
 		<>
 			{/* <FusePageCarded
@@ -122,7 +148,7 @@ function TodoApp(props) {
 				innerScroll
 			/> */}
 			{/* {isUploadingFiles && ( */}
-			
+
 			{/* )} */}
 			<FusePageSimple
 				classes={{

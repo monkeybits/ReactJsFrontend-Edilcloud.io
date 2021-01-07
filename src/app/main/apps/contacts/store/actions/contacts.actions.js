@@ -57,20 +57,26 @@ export function filterByKey(filterKey) {
 		});
 	};
 }
-export function getContacts() {
+export function getContacts(handleSetLoading = () => '') {
 	return (dispatch, getState) => {
-		dispatch(getApprovedContacts());
-		dispatch(getWaitingContacts());
-		dispatch(getRefusedContacts());
-		dispatch(getDeactivatedContacts());
+		dispatch(getApprovedContacts(handleSetLoading));
+		dispatch(getWaitingContacts(handleSetLoading));
+		dispatch(getRefusedContacts(handleSetLoading));
+		dispatch(getDeactivatedContacts(handleSetLoading));
 	};
 }
-export function getApprovedContacts() {
+export function getApprovedContacts(handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingApprove: true
+	});
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_STAFF_LIST,
 			{},
 			res => {
+				handleSetLoading({
+					loadingApprove: false
+				});
 				let results = [];
 				if (res.length) {
 					results = res.map(d => {
@@ -95,6 +101,9 @@ export function getApprovedContacts() {
 				});
 			},
 			err => {
+				handleSetLoading({
+					loadingApprove: false
+				});
 				console.log(err);
 			},
 			METHOD.GET,
@@ -102,12 +111,18 @@ export function getApprovedContacts() {
 		);
 	};
 }
-export function getWaitingContacts() {
+export function getWaitingContacts(handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingWaiting: true
+	});
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_WAITING_STAFF_LIST,
 			{},
 			res => {
+				handleSetLoading({
+					loadingWaiting: false
+				});
 				let results = [];
 				if (res.length) {
 					results = res.map(d => {
@@ -132,6 +147,9 @@ export function getWaitingContacts() {
 				});
 			},
 			err => {
+				handleSetLoading({
+					loadingWaiting: false
+				});
 				console.log(err);
 			},
 			METHOD.GET,
@@ -139,12 +157,18 @@ export function getWaitingContacts() {
 		);
 	};
 }
-export function getRefusedContacts() {
+export function getRefusedContacts(handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingRefuse: true
+	});
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_REFUSED_STAFF_LIST,
 			{},
 			res => {
+				handleSetLoading({
+					loadingRefuse: false
+				});
 				let results = [];
 				if (res.length) {
 					results = res.map(d => {
@@ -169,6 +193,9 @@ export function getRefusedContacts() {
 				});
 			},
 			err => {
+				handleSetLoading({
+					loadingRefuse: false
+				});
 				console.log(err);
 			},
 			METHOD.GET,
@@ -176,12 +203,18 @@ export function getRefusedContacts() {
 		);
 	};
 }
-export function getDeactivatedContacts() {
+export function getDeactivatedContacts(handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingDeactivate: true
+	});
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_DISABLED_STAFF_LIST,
 			{},
 			res => {
+				handleSetLoading({
+					loadingDeactivate: false
+				});
 				let results = [];
 				if (res.length) {
 					results = res.map(d => {
@@ -206,6 +239,9 @@ export function getDeactivatedContacts() {
 				});
 			},
 			err => {
+				handleSetLoading({
+					loadingDeactivate: false
+				});
 				console.log(err);
 			},
 			METHOD.GET,
@@ -257,7 +293,7 @@ export function closeViewContactDialog() {
 		type: CLOSE_VIEW_CONTACT_DIALOG
 	};
 }
-export function addContact(values, isExisting) {
+export function addContact(values, isExisting, handleSetLoading = () => '') {
 	return (dispatch, getState) => {
 		var formData = new FormData();
 		for (let key in values) {
@@ -269,7 +305,7 @@ export function addContact(values, isExisting) {
 			isExisting ? ADD_EXISTING_MEMBER(values.id) : ADD_NEW_MEMBER,
 			formData,
 			res => {
-				dispatch(getContacts());
+				dispatch(getContacts(handleSetLoading));
 			},
 			err => {
 				toast.error(err.detail);
@@ -280,7 +316,7 @@ export function addContact(values, isExisting) {
 	};
 }
 
-export function updateContact(values, id, hideContectCalls) {
+export function updateContact(values, id, hideContectCalls, handleSetLoading = () => '') {
 	return (dispatch, getState) => {
 		var formData = new FormData();
 		for (let key in values) {
@@ -291,7 +327,7 @@ export function updateContact(values, id, hideContectCalls) {
 			formData,
 			res => {
 				if (!hideContectCalls) {
-					dispatch(getContacts());
+					dispatch(getContacts(handleSetLoading));
 				}
 			},
 			err => console.log(err),

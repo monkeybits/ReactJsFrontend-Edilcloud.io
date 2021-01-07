@@ -268,16 +268,7 @@ function ContactsList(props) {
 		return null;
 	}
 
-	if (props.loadingApprove || props.loadingRefuse || props.loadingWaiting) {
-		return (
-			<div className="flex flex-1 flex-col items-center justify-center">
-				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
-					Loading contacts...
-				</Typography>
-				<LinearProgress className="w-xs" color="secondary" />
-			</div>
-		);
-	}
+	
 
 	const onDeactivate = () => {
 		const { id, email } = userData;

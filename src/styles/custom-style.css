@@ -209,7 +209,7 @@ a.text-muted:hover {
     right: 80px;
 }
 .speeddial-btn.diff-place {
-    bottom: 27px;
+    bottom: 29px;
     right: 90px;
 }
 .contact-speeddial-btn {
@@ -491,7 +491,10 @@ textarea.MuiOutlinedInput-input {
   height: 100%;
 }
 .tabs-content .MuiBox-root .MuiTypography-body1{
-    height: 100%
+    height: 100%;
+}
+.tabs-content .MuiBox-root .font-bold.mb-6{
+    height: auto !important;
 }
 .tabs-content > .flex.flex-col > div {
    background-color: transparent;
@@ -1719,6 +1722,9 @@ audio {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+.touch-ripple-effect-remove .MuiTouchRipple-root {
+    display: none !important;
 }
 .pdf-pagination{
     margin-top: 0;

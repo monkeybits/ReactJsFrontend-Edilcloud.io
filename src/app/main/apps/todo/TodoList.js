@@ -79,7 +79,9 @@ function TodoList(props) {
 				}
 				setFilteredData(list);
 				let listDiv = document.getElementById('list-content');
-				listDiv.scrollTop = 0;
+				if (listDiv) {
+					listDiv.scrollTop = 0;
+				}
 			} else {
 				setFilteredData(list);
 			}
@@ -97,7 +99,7 @@ function TodoList(props) {
 			case 'genrealFilter':
 				var result = [];
 				const userInfo = decodeDataFromToken();
-				if (activeFilterKey === 'Mine') {
+				if (activeFilterKey === 'Mine' && userInfo?.extra?.profile) {
 					result = list.reduce((unique, o) => {
 						let activities = [];
 						if (o.assigned_company && o.assigned_company.id == company.id) {
@@ -204,7 +206,7 @@ function TodoList(props) {
 							activities = inLateFilterForActivity(o.activities);
 						}
 						// console.log({ date, endDate, name: o.name });
-						if (date.getTime() >= endDate.getTime() && o.progress < 100 || activities.length) {
+						if ((date.getTime() >= endDate.getTime() && o.progress < 100) || activities.length) {
 							unique.push({ ...o, activities });
 						}
 						return unique;
@@ -302,23 +304,21 @@ function TodoList(props) {
 	if (filteredData.length === 0) {
 		return (
 			<FuseAnimate delay={100}>
-	<div>
-				<div className="flex flex-1 items-center justify-center h-full">
-					<img className="w-400" src="assets/images/errors/nogantt.png"></img>
-					
+				<div>
+					<div className="flex flex-1 items-center justify-center h-full">
+						<img className="w-400" src="assets/images/errors/nogantt.png"></img>
+					</div>
+					<div className="flex flex-1 items-center justify-center h-full">
+						<Typography color="textSecondary" variant="h5">
+							Seems that there are no tasks yet!
+						</Typography>
+					</div>
+					<div className="flex flex-1 mt-20 items-center justify-center h-full">
+						<Typography color="textSecondary" variant="h6">
+							Create a task clicking on green + button
+						</Typography>
+					</div>
 				</div>
-				<div className="flex flex-1 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h5">
-				Seems that there are no tasks yet!
-			</Typography>
-			</div>
-			<div className="flex flex-1 mt-20 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h6">
-				Create a task clicking on green + button
-			</Typography>
-			</div>
-			</div>
-				
 			</FuseAnimate>
 		);
 	}

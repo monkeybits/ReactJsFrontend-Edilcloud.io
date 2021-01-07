@@ -227,9 +227,9 @@ function NotificationPanel(props) {
 													// 	console.info(`Swipe progress: ${progress}%`)
 													// }
 												>
-													<ListItem key={activity.id} className="px-12 bg-blue-200">
+													<ListItem key={activity.id} className="px-12 bg-blue-200 items-start">
 														<Avatar
-															className="mx-4"
+															className="mx-4 mt-10"
 															alt={notification.sender.first_name}
 															src={notification.sender.photo}
 														/>
@@ -238,18 +238,18 @@ function NotificationPanel(props) {
 															primary={
 																<>
 																	<div className="flex">
-																	<Typography
-																			className="font-medium whitespace-no-wrap"
-																			color="primary"
-																			paragraph={false}
-																		>
-																			{notification.sender.first_name}{' '}
-																			{notification.sender.last_name}
-																	</Typography>
-
+																		<Typography
+																				className="font-medium whitespace-no-wrap"
+																				color="primary"
+																				paragraph={false}
+																			>
+																				{notification.sender.first_name}{' '}
+																				{notification.sender.last_name}
+																		</Typography>
+																	</div>
+																	<div className="flex">
 																		<Typography
 																			color="textSecondary"
-																			className="px-4"
 																			paragraph={false}
 																		>
 																			{notification.subject}
@@ -320,9 +320,9 @@ function NotificationPanel(props) {
 													// 	console.info(`Swipe progress: ${progress}%`)
 													// }
 												>
-													<ListItem key={activity.id} className="px-12">
+													<ListItem key={activity.id} className="px-12 items-start">
 														<Avatar
-															className="mx-4"
+															className="mx-4 mt-10"
 															alt={notification.sender.first_name}
 															src={notification.sender.photo}
 														/>
@@ -339,10 +339,10 @@ function NotificationPanel(props) {
 																			{notification.sender.first_name}{' '}
 																			{notification.sender.last_name}
 																		</Typography>
-
+																	</div>
+																	<div className="flex">
 																		<Typography
 																			color="textSecondary"
-																			className="px-4"
 																			paragraph={false}
 																		>
 																			{notification.subject}

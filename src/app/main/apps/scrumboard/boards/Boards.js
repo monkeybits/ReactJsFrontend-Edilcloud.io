@@ -76,6 +76,7 @@ function Boards(props) {
 	const [request, setRequest] = useState({});
 
 	useEffect(() => {
+		localStorage.removeItem('main_profile')
 		dispatch({
 			type: RESET_BOARDS
 		});

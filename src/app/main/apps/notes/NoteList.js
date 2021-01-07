@@ -135,24 +135,26 @@ function NoteList(props) {
 					<LinearProgress className="w-xs" color="secondary" />
 				</div>
 			);
-		} else {
+		} else if (projects && projects.length == 0) {
 			return (
 				<div>
-				<div  className="flex flex-1 mb-20px items-center justify-center ">
-					<img width="600px" src="https://www.edilcloud.io/wp-content/uploads/2021/01/Risorsa-4fsad-1.png"></img>
-					
+					<div className="flex flex-1 mb-20px items-center justify-center ">
+						<img
+							width="600px"
+							src="https://www.edilcloud.io/wp-content/uploads/2021/01/Risorsa-4fsad-1.png"
+						></img>
+					</div>
+					<div className="flex flex-1 mt-30 items-center justify-center ">
+						<Typography color="textSecondary" variant="h5">
+							Seems that there are no projects yet!
+						</Typography>
+					</div>
+					<div className="flex flex-1 mt-20 items-center justify-center ">
+						<Typography color="textSecondary" variant="h6">
+							Create a task clicking on green + button
+						</Typography>
+					</div>
 				</div>
-				<div className="flex flex-1 mt-30 items-center justify-center "> 
-				<Typography color="textSecondary" variant="h5">
-				Seems that there are no projects yet!
-			</Typography>
-			</div>
-			<div className="flex flex-1 mt-20 items-center justify-center "> 
-				<Typography color="textSecondary" variant="h6">
-				Create a task clicking on green + button
-			</Typography>
-			</div>
-			</div>
 			);
 		}
 	}
@@ -222,11 +224,13 @@ function NoteList(props) {
 							</Grid>
 						</>
 					))}
-					<div className="mb-16 border-b-1">
-						<Typography variant="subtitle1" className="font-size-18 font-600">
-							Requests
-						</Typography>
-					</div>
+					{!!projects.filter((project, index) => !project.company?.id).length && (
+						<div className="mb-16 border-b-1">
+							<Typography variant="subtitle1" className="font-size-18 font-600">
+								Requests
+							</Typography>
+						</div>
+					)}
 					<Grid container spacing={12} className="grid-space-remove">
 						{projects.map((project, index) => {
 							if (!project.company?.id)

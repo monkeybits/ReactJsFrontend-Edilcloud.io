@@ -38,15 +38,15 @@ function NotesApp(props) {
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
 	const [loading, setLoading] = useState({
-		loadingProjects: false,
-		loadingProjectRequest: false
+		loadingProjects: true,
+		loadingProjectRequest: true
 	});
 	const getRole = () => userInfo?.extra?.profile.role;
 	const useStyles = makeStyles(theme => ({
 		addButton: {
 			position: 'fixed',
-			right: 82,
-			bottom: 12,
+			right: 100,
+			bottom: 30,
 			zIndex: 99,
 			[theme.breakpoints.down('md')]: {
 				right: 24,
@@ -79,28 +79,6 @@ function NotesApp(props) {
 	});
 
 	const generateClassName = createGenerateClassName();
-	const handleDownload = () => {
-		// let Comp = () => (
-		// 	<StylesProvider jss={jss} generateClassName={generateClassName}>
-		// 		<Provider store={store}>
-		// 			<Router history={history}>
-		// 				<TodoApp />
-		// 			</Router>
-		// 		</Provider>
-		// 	</StylesProvider>
-		// );
-		// ReactDOM.render(<Comp />, document.getElementById('rootpdf'));
-		console.log({
-			a: document.getElementById('rootpdf')
-		});
-		const input = document.getElementById('list-content');
-		html2canvas(input).then(canvas => {
-			const imgData = canvas.toDataURL('image/png');
-			const pdf = new jsPDF();
-			pdf.addImage(imgData, 'JPEG', 0, 0);
-			pdf.save('download.pdf');
-		});
-	};
 	return (
 		<>
 			<FusePageSimple
