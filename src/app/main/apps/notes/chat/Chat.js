@@ -271,7 +271,7 @@ function Chat(props) {
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
 												style={{ color: color?.[0]?.contactNameColor }}
-												className="font-bold ml-10 mb-6"
+												className="font-bold mb-6"
 											>
 												{contact.first_name + ' ' + contact.last_name}
 												{!!contact.position && (
@@ -283,13 +283,13 @@ function Chat(props) {
 										)}
 
 										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
-										<div className="leading-normal p-10 font-size-16 mb-15">{item.body}</div>
+										<div className="leading-normal py-4 font-size-16 mb-15">{item.body}</div>
 										<ViewFile files={item.files} />
 										<div className="flex items-center mt-8">
 											{
 												// isLastMessageOfGroup(item, i) && (
 												<Typography
-													className="time text-12 font-500 ml-10 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+													className="time text-12 font-500 ltr:left-0 rtl:right-0 whitespace-no-wrap"
 													color="textSecondary"
 												>
 													{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
@@ -297,12 +297,12 @@ function Chat(props) {
 												// )
 											}
 											{contact.id == userIdFromCompany && item.waitingToSend ? (
-												<Icon className="float-right ml-20 text-16 text-check">
+												<Icon className="float-right ml-10 text-16 text-check">
 													access_time
 												</Icon>
 											) : (
 												// <Icon className="float-right text-16 text-check">check</Icon>
-												<Icon className="float-right ml-20 text-16 text-check">done_all</Icon>
+												<Icon className="float-right ml-10 text-16 text-check">done_all</Icon>
 											)}
 										</div>
 									</div>

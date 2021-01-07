@@ -302,7 +302,7 @@ function TodoActivityListItem(props) {
 	return (
 		<>
 			<ListItem
-				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-8 px-0 sm:px-8')}
+				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-8 px-0 sm:px-8 touch-ripple-effect-remove')}
 				checked={completed}
 				style={{ borderLeft: '4px solid', borderLeftColor: props.task.assigned_company?.color_project }}
 				onClick={ev => {

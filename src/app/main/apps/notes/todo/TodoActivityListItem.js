@@ -254,7 +254,7 @@ function TodoActivityListItem(props) {
 			<ListItem
 				ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				id={props.todo.id}
-				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-8 px-0 sm:px-8')}
+				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-8 px-0 sm:px-8 touch-ripple-effect-remove')}
 				checked={completed}
 				style={{ borderLeft: '4px solid', borderLeftColor: props.task.assigned_company?.color_project }}
 				onClick={ev => {
