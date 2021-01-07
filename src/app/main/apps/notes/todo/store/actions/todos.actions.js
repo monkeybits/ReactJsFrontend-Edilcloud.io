@@ -61,15 +61,20 @@ export function setUploadPercentage(payload) {
 		payload
 	};
 }
-export function getTodos(pid, isGantt) {
+export function getTodos(pid, isGantt,handleSetLoading=()=>'') {
 	// const request = axios.get('/api/todo-app/todos', { params });
-
+	handleSetLoading({
+		loadingTodos: true
+	});
 	return dispatch => {
 		dispatch(setLoading(true));
 		apiCall(
 			isGantt ? GET_GANTT_TASK_LIST(pid) : GET_TASK_LIST(pid),
 			{},
 			results => {
+				handleSetLoading({
+					loadingTodos: false
+				});
 				dispatch(setLoading(false));
 				dispatch({
 					type: GET_TODOS,
@@ -78,6 +83,9 @@ export function getTodos(pid, isGantt) {
 				});
 			},
 			err => {
+				handleSetLoading({
+					loadingTodos: false
+				});
 				dispatch(setLoading(false));
 				console.log(err);
 			},

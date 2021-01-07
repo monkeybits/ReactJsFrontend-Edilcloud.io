@@ -231,11 +231,12 @@ function ContactDialog(props) {
 						photo: await getCompressFile(fileData.file),
 						id: isExisting ? newformData.id : undefined
 					},
-					isExisting
+					isExisting,
+					props.handleSetLoading
 				)
 			);
 		} else {
-			dispatch(Actions.updateContact(newformData, id));
+			dispatch(Actions.updateContact(newformData, id,props.handleSetLoading));
 		}
 		closeComposeDialog();
 	};

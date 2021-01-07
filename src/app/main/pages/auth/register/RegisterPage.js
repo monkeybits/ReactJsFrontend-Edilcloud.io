@@ -18,6 +18,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
+import Grid from '@material-ui/core/Grid';
+import FacebookLoginComponent from '../login/FacebookLoginComponent';
+import GoogleLoginComponent from '../login/GoogleLoginComponent';
+import { Divider } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -52,7 +56,7 @@ function RegisterPage() {
 				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
 			)}
 		>
-		<img className="w-200" src="assets/images/logos/fuse.svg" alt="logo" />
+			<img className="w-200" src="assets/images/logos/fuse.svg" alt="logo" />
 			<div className="flex flex-col items-center justify-center w-full max-w-425">
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full">
@@ -63,8 +67,47 @@ function RegisterPage() {
 							<Typography variant="subtitle1" className="text-muted mb-40">
 								Join Edicloud, it's for all!
 							</Typography>
-							<JWTRegisterTab />
-							
+							<Grid container spacing={2}>
+								<Grid item xs={6}>
+									<FacebookLoginComponent isRegister />
+									{/* <Button
+											variant="outlined"
+											color="primary"
+											size="large"
+											className="border-1 normal-case w-full"
+										>
+											<img
+												src="assets/images/social-icons/facebook.png"
+												className="h-20 mr-8"
+												alt="Facebook"
+											/>
+											Facebook
+										</Button> */}
+								</Grid>
+								<Grid item xs={6}>
+									<GoogleLoginComponent isRegister />
+									{/* <Button
+											variant="outlined"
+											color="primary"
+											size="large"
+											className="border-1 normal-case w-full"
+										>
+											<img
+												src="assets/images/social-icons/google.png"
+												className="h-20 mr-8"
+												alt="Google"
+											/>
+											Google
+										</Button> */}
+								</Grid>
+							</Grid>
+							<div className="my-28 flex items-center justify-center or-container">
+								<Divider className="w-full" />
+								<span className="mx-8 font-size-16 whitespace-no-wrap text-muted">Or sign up</span>
+								<Divider className="w-full" />
+							</div>
+							<JWTRegisterTab  />
+
 							<div className="flex items-center justify-center w-full pt-24">
 								<span className="text-custom font-600 mr-6">Already have an account?</span>
 								<Link className="text-primary font-600 inline" to="/pages/auth/login">

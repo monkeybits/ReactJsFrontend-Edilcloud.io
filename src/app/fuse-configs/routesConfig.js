@@ -11,10 +11,11 @@ import RegisterConfig from 'app/main/register/RegisterConfig';
 import UserInterfaceConfig from 'app/main/user-interface/UserInterfaceConfig';
 import MainProfileConfig from 'app/main/mainProfile/MainProfileConfig';
 import CompanyCreationConfig from 'app/main/companyCreation/CompanyCreationConfig';
-import EditProfileConfig from 'app/main/editMainProfile/EditProfileConfig.js'; 
+import EditProfileConfig from 'app/main/editMainProfile/EditProfileConfig.js';
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { getMainProfileId } from 'app/services/serviceUtils';
 
 const routeConfigs = [
 	...appsConfigs,
@@ -32,21 +33,21 @@ const routeConfigs = [
 	CompanyCreationConfig,
 	EditProfileConfig
 ];
-
+let path = localStorage.getItem('redirect_path');
 const routes = [
 	// if you want to make whole app auth protected by default change defaultAuth for example:
 	// ...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin','staff','user']),
 	// The individual route configs which has auth option won't be overridden.
-	...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin','staff','user']),
+	...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin', 'staff', 'user']),
 	{
 		path: '/',
 		exact: true,
-		component: () => <Redirect to="/apps/todo/all" />
+		component: () => <Redirect to={getMainProfileId() ?  '/apps/todo/all': "/apps/companies"} />
 	},
 	{
 		path: '/index.html',
 		exact: true,
-		component: () => <Redirect to="/apps/todo/all" />
+		component: () => <Redirect to={getMainProfileId() ?  '/apps/todo/all': "/apps/companies"} />
 	},
 	{
 		component: () => <Redirect to="/pages/errors/error-404" />

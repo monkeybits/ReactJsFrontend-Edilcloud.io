@@ -226,16 +226,19 @@ function CreatePostForm({ isTask, taskId }) {
 		const files = e.currentTarget.files;
 		const fileToCompress = e.currentTarget.files[0];
 		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
-		console.log(`File Index 0`, fileToCompress); // smaller than maxSizeMB
+		console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
 		if (fileToCompress.type?.split('/')[0] == 'image') {
 			const compressedFile = await imageCompression(fileToCompress, {
 				maxSizeMB: 0.1,
 				maxWidthOrHeight: 1024,
 				useWebWorker: true
 			});
-			console.log(`without compressedFile(blob)`, compressedFile);
-			console.log(`compressedFile into the file`, new File([compressedFile], compressedFile.name));
-			console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
+			console.log(`without compressedFile(blob)`, JSON.stringify(compressedFile));
+			console.log(
+				`compressedFile into the file`,
+				JSON.stringify(new File([compressedFile], compressedFile.name))
+			);
+			console.log('compressedFile instanceof Blob', JSON.stringify(compressedFile instanceof Blob)); // true
 			console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 			setFile({
 				fileData: new File([compressedFile], compressedFile.name)
@@ -249,7 +252,9 @@ function CreatePostForm({ isTask, taskId }) {
 		let file = [];
 		for (var i = 0; i < files.length; i++) {
 			let fileType = files[i].type?.split('/');
-			console.log({ fileType });
+			console.log('file', JSON.stringify(file[i]));
+			console.log('fileType', JSON.stringify(fileType));
+			console.log('local url', JSON.stringify(URL.createObjectURL(files[i])));
 			file = [
 				...file,
 				{

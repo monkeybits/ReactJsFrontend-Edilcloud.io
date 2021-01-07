@@ -1,4 +1,4 @@
-import { API_FACEBOOK_AUTH_LOGIN } from 'app/services/apiEndPoints';
+import { API_FACEBOOK_AUTH_LOGIN, API_FACEBOOK_AUTH_REGISTER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
@@ -24,7 +24,7 @@ class FacebookLoginComponent extends React.Component {
 			provider
 		});
 		apiCall(
-			API_FACEBOOK_AUTH_LOGIN,
+			this.props.isRegister ? API_FACEBOOK_AUTH_REGISTER : API_FACEBOOK_AUTH_LOGIN,
 			{
 				access_token,
 				photo,
@@ -54,7 +54,7 @@ class FacebookLoginComponent extends React.Component {
 			err => {
 				this.removeLoading();
 				console.log(err);
-				toast.error(err);
+				toast.error(err?.error);
 			},
 			METHOD.POST
 		);
@@ -95,5 +95,7 @@ function mapDispatchToProps(dispatch) {
 		dispatch
 	);
 }
-
+FacebookLoginComponent.defaultProps = {
+	isRegister: false
+};
 export default withRouter(connect(null, mapDispatchToProps)(FacebookLoginComponent));

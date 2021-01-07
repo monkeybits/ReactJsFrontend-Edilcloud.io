@@ -17,25 +17,44 @@ function ContactsHeader(props) {
 	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
 
 	return (
-		<div className="flex w-full justify-between items-center p-24 pb-10">
-			<div className="mr-20">
-				<Typography variant="h5" className="mb-4">
-					Team
-				</Typography>
-				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-					<Typography variant="subtitle1" className="font-weight-700 mb-4">
-						Project Name
+		// <div className="flex w-full justify-between items-center p-24 pb-10">
+		// 	<div className="mr-20">
+		// 		<Typography variant="h5" className="mb-4">
+		// 			Team
+		// 		</Typography>
+		// 		<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+		// 			<Typography variant="subtitle1" className="font-weight-700 mb-4">
+		// 				Project Name
+		// 			</Typography>
+		// 		</FuseAnimate>
+		// 		<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
+		// 			Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
+		// 		</Typography>
+		// 	</div>
+		// 	<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
+		// 		Open Details
+		// 	</Button>
+		// </div>
+		<div className="flex w-full">
+			<div className="flex w-full items-center justify-between p-20 border-b-1">
+				<div>
+					<Typography variant="h5" className="mb-4">
+						Team
 					</Typography>
-				</FuseAnimate>
-				<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
-					Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
-				</Typography>
+					{/* <Typography variant="subtitle1" className="text-14font-weight-600 ">
+						{projectDetail.address}
+					</Typography> */}
+				</div>
+				{/* <Button
+					onClick={() => props.onOpen(true)}
+					variant="contained"
+					color="primary"
+					className={'btn-primary normal-case m-0'}
+				>
+					Info Progetto
+				</Button> */}
 			</div>
-			<Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
-				Open Details
-			</Button>
 		</div>
-
 		// <div className="flex flex-1 items-center justify-between p-8 sm:p-24">
 		// 	<div className="flex flex-shrink items-center sm:w-224">
 		// 		<Hidden lgUp>

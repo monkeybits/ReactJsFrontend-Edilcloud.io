@@ -2,7 +2,7 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import Fab from '@material-ui/core/Fab';
 import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
@@ -17,7 +17,7 @@ import CreatePostDialog from './CreatePostDialog';
 import TaskContentDialog from './TaskContentDialog';
 import TodoDialog from './TodoDialog';
 import ShowUpload from './ShowUpload';
-import { Icon, makeStyles } from '@material-ui/core';
+import { Icon, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import AccessibilityToggleButton from 'app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton';
 
 const useStyles = makeStyles({
@@ -36,7 +36,24 @@ function TodoApp(props) {
 	const routeParams = useParams();
 	const upload = useSelector(({ todoApp }) => todoApp.todos.upload);
 	const user = useSelector(({ auth }) => auth.user.data.company);
-
+	const [loading, setLoading] = useState({
+		loadingTodos: false
+	});
+	const handleSetLoading = data => {
+		if (!data.loadingTodos) {
+			setTimeout(() => {
+				setLoading(loading => ({
+					...loading,
+					...data
+				}));
+			}, 500);
+		} else {
+			setLoading(loading => ({
+				...loading,
+				...data
+			}));
+		}
+	};
 	useEffect(() => {
 		// dispatch(Actions.getFilters());
 		// dispatch(Actions.getFolders());
@@ -44,9 +61,18 @@ function TodoApp(props) {
 	}, [dispatch]);
 
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getTodos(routeParams));
+		dispatch(Actions.getTodos(routeParams, handleSetLoading));
 	}, [dispatch, routeParams]);
-
+	if (loading.loadingTodos) {
+		return (
+			<div className="flex flex-1 flex-col items-center justify-center">
+				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+					Loading Tasks...
+				</Typography>
+				<LinearProgress className="w-xs" color="secondary" />
+			</div>
+		);
+	}
 	return (
 		<>
 			{!!upload?.isUploading && (

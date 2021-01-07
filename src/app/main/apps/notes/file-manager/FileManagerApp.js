@@ -278,6 +278,7 @@ function FileManagerApp(props) {
 			<LinearProgress className="w-xs" color="secondary" />
 		</div>
 	);
+	if (isLoadingFiles()) return loadingComponent;
 	return (
 		<>
 			<FusePageSimple
@@ -379,17 +380,7 @@ function FileManagerApp(props) {
 						</div>
 					</>
 				}
-				content={
-					<div>
-						{isLoadingFiles() ? (
-							loadingComponent
-						) : viewTable ? (
-							<FileList pageLayout={pageLayout} />
-						) : (
-							<FileGrid pageLayout={pageLayout} />
-						)}
-					</div>
-				}
+				content={viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}

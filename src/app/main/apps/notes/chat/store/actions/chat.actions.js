@@ -27,7 +27,10 @@ export function updateChatLog(update) {
 	};
 }
 
-export function getChat(pid) {
+export function getChat(pid, handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingGetChat: true
+	});
 	return (dispatch, getState) => {
 		apiCall(
 			GET_PROJECT_MESSAGES_API(pid),
@@ -41,6 +44,9 @@ export function getChat(pid) {
 				// 		});
 				// 	}, 400);
 				// }
+				handleSetLoading({
+					loadingGetChat: false
+				});
 				if (chat && chat[chat.length - 1]) {
 					dispatch(readAllMessages(chat[chat.length - 1].talk.id, pid));
 				}
@@ -50,7 +56,12 @@ export function getChat(pid) {
 					userChatData: {}
 				});
 			},
-			err => console.log(err),
+			err => {
+				handleSetLoading({
+					loadingGetChat: false
+				});
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -173,18 +184,29 @@ export function retryToSendMessage(chatItem) {
 		);
 	};
 }
-export function companyInfo() {
+export function companyInfo(handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingCompanyInfo: true
+	});
 	return (dispatch, getState) => {
 		apiCall(
 			COMPANY_DETAIL,
 			{},
 			company => {
+				handleSetLoading({
+					loadingCompanyInfo: false
+				});
 				return dispatch({
 					type: COMPANY_INFO,
 					company
 				});
 			},
-			err => console.log(err),
+			err => {
+				handleSetLoading({
+					loadingCompanyInfo: false
+				});
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

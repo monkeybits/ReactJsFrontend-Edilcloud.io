@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core';
-import { API_GOOGLE_AUTH_LOGIN } from 'app/services/apiEndPoints';
+import { API_GOOGLE_AUTH_LOGIN, API_GOOGLE_AUTH_REGISTER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import React from 'react';
 import GoogleLogin from 'react-google-login';
@@ -25,7 +25,7 @@ class GoogleLoginComponent extends React.Component {
 			provider
 		});
 		apiCall(
-			API_GOOGLE_AUTH_LOGIN,
+			this.props.isRegister ? API_GOOGLE_AUTH_REGISTER : API_GOOGLE_AUTH_LOGIN,
 			{
 				access_token,
 				photo,
@@ -55,7 +55,7 @@ class GoogleLoginComponent extends React.Component {
 			err => {
 				this.removeLoading();
 				console.log(err);
-				toast.error(err);
+				toast.error(err?.error);
 			},
 			METHOD.POST
 		);
@@ -104,5 +104,7 @@ function mapDispatchToProps(dispatch) {
 		dispatch
 	);
 }
-
+GoogleLoginComponent.defaultProps = {
+	isRegister: false
+};
 export default withRouter(connect(null, mapDispatchToProps)(GoogleLoginComponent));
