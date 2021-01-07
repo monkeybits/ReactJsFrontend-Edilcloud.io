@@ -30,13 +30,23 @@ import ToolbarMenu from '../notes/todo/Dialog/toolbar/ToolbarMenu';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { toast } from 'react-toastify';
 import { green } from '@material-ui/core/colors';
-
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import { HIDE_MESSAGE } from 'app/store/actions';
+const JSXContent = () => (
+	<Tippy visible={true} content={<span>Tooltip</span>}>
+		<button>My button</button>
+	</Tippy>
+);
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
 		return _.extend({}, element, source);
 	});
 };
 const useStyles = makeStyles(theme => ({
+	root: {
+		zoom: '110%'
+	},
 	todoItem: {
 		'&.completed': {
 			background: 'rgba(0,0,0,0.03)',
@@ -97,6 +107,9 @@ function TodoActivityListItem(props) {
 	const [checkedAll, setCheckedAll] = useState(false);
 	const [canAssign, setCanAssign] = useState([]);
 	const anchorRef = React.useRef();
+	const [visible, setVisible] = useState(false);
+	const show = () => setVisible(true);
+	const hide = () => setVisible(false);
 	const [state, setState] = React.useState({
 		open: false,
 		anchorOriginVertical: 'bottom',
@@ -194,10 +207,11 @@ function TodoActivityListItem(props) {
 	};
 	const handleMenuOpen = event => {
 		stopsEvents(event);
-		setState({
-			...state,
-			open: true
-		});
+		show();
+		// setState({
+		// 	...state,
+		// 	open: true
+		// });
 		// setAnchorEl(event.currentTarget);
 		// if (!members.length) {
 		// 	getCompanyApprovedContacts();
@@ -207,20 +221,24 @@ function TodoActivityListItem(props) {
 	const handleMenuClose = event => {
 		stopsEvents(event);
 		// setAnchorEl(null);
-		setState({
-			...state,
-			open: false
-		});
+		hide();
+		// setState({
+		// 	...state,
+		// 	open: false
+		// });
 		if (!members.length) {
 			props.getDetailOfTask();
 		}
 	};
 	const stopsEvents = event => {
-		event.preventDefault();
-		event.stopPropagation();
+		if (event.preventDefault && event.stopPropagation) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
 	};
 	const handleSelectAll = event => {
-		event.stopPropagation();
+		// event.stopPropagation();
+		event.preventDefault();
 		setCheckedAll(event.target.checked);
 		let tempMembers = [...members];
 		tempMembers = tempMembers.map(d => ({ ...d, is_exists: true }));
@@ -349,140 +367,158 @@ function TodoActivityListItem(props) {
 							<WorkerProfiles
 								workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
 							/>
-							<div
-								ref={anchorRef}
-								className="custom-member-menu flex items-center"
-								onClick={handleMenuOpen}
+							<Tippy
+								allowHTML
+								placement="bottom-start"
+								visible={visible}
+								po
+								content={
+									<Paper className={classes.paper}>
+										{/* <ToolbarMenu state={anchorEl} onClose={handleMenuClose}> */}
+										<>
+											{!!members?.length && (
+												// <Button onClick={handleSelectAll}>Select All </Button>
+												<FormControlLabel
+													className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+													control={
+														<Checkbox
+															checked={
+																members.every(d => d.is_exists) &&
+																canAssign.every(d => d.is_exists)
+															}
+															onClick={handleSelectAll}
+															name="checkedB"
+														/>
+													}
+													label="Select All"
+												/>
+											)}
+											{!!members?.length || !!canAssign?.length ? (
+												<>
+													{members.map((member, index) => {
+														return (
+															<MenuItem
+																onClick={stopsEvents}
+																className="px-8"
+																key={member.id}
+															>
+																<Checkbox
+																	onClick={ev => ev.stopPropagation()}
+																	name={member.first_name}
+																	checked={!!member.is_exists}
+																	onChange={e => {
+																		let tempMembers = [...members];
+																		tempMembers[index] = {
+																			...tempMembers[index],
+																			is_exists: e.target.checked
+																		};
+																		if (
+																			[...tempMembers, ...canAssign].some(
+																				d => d.is_exists
+																			)
+																		) {
+																			setMembers(tempMembers);
+																			editWorkers(tempMembers, false);
+																		} else {
+																			toast.error(
+																				'Can not remove everyone from activity'
+																			);
+																		}
+																	}}
+																/>
+																<Avatar className="w-32 h-32" src={member.avatar} />
+																<ListItemText className="mx-8">
+																	{member.profile.first_name}{' '}
+																	{member.profile.last_name}
+																</ListItemText>
+															</MenuItem>
+														);
+													})}
+													{canAssign.map((member, index) => {
+														return (
+															<MenuItem
+																onClick={stopsEvents}
+																className="px-8"
+																key={member.id}
+															>
+																<Checkbox
+																	onClick={ev => ev.stopPropagation()}
+																	name={member.first_name}
+																	checked={!!member.is_exists}
+																	onChange={e => {
+																		let tempMembers = [...canAssign];
+																		tempMembers[index] = {
+																			...tempMembers[index],
+																			is_exists: e.target.checked
+																		};
+																		if (
+																			[...tempMembers, ...members].some(
+																				d => d.is_exists
+																			)
+																		) {
+																			setCanAssign(tempMembers);
+																			editWorkers(tempMembers, true);
+																		} else {
+																			toast.error(
+																				'Can not remove everyone from activity'
+																			);
+																		}
+																	}}
+																/>
+																<Avatar className="w-32 h-32" src={member.avatar} />
+																<ListItemText className="mx-8">
+																	{member.profile.first_name}{' '}
+																	{member.profile.last_name}
+																</ListItemText>
+															</MenuItem>
+														);
+													})}
+												</>
+											) : (
+												<>
+													<Typography variant="subtitle1" className="todo-title p-8">
+														{inviteMembers.length
+															? 'You have no workers in your project, add from below list'
+															: 'You have no workers in your company'}
+													</Typography>
+													{inviteMembers.map((member, index) => {
+														return member.is_exists ? null : (
+															<MenuItem
+																onClick={stopsEvents}
+																className="px-8"
+																key={member.id}
+															>
+																<Avatar className="w-32 h-32" src={member.avatar} />
+																<ListItemText className="mx-8">
+																	{member.first_name} {member.last_name}
+																</ListItemText>
+																<Button onClick={e => addMemberToProject(e, index)}>
+																	Add
+																</Button>
+															</MenuItem>
+														);
+													})}
+												</>
+											)}
+										</>
+										{/* </ToolbarMenu> */}
+									</Paper>
+								}
+								// onClickOutside={handleMenuClose}
 							>
-								<Icon>person</Icon>
-								{/* Assign People */}
-							</div>
-							<div
-								className={classes.anchor}
-								style={{
-									...inlineStyles.anchorVertical[state.anchorOriginVertical],
-									...inlineStyles.anchorHorizontal[state.anchorOriginHorizontal]
-								}}
-							/>
+								<div
+									ref={anchorRef}
+									className="custom-member-menu flex items-center"
+									onClick={visible ? handleMenuClose : handleMenuOpen}
+								>
+									<Icon>person</Icon>
+									{/* Assign People */}
+								</div>
+							</Tippy>
+							{/* <JSXContent /> */}
 						</div>
 					</div>
-					<Popover
-						open={state.open}
-						anchorEl={anchorRef.current}
-						anchorReference="anchorEl"
-						anchorPosition={{ top: state.positionTop, left: state.positionLeft }}
-						onClose={handleMenuClose}
-						anchorOrigin={{
-							vertical: state.anchorOriginVertical,
-							horizontal: state.anchorOriginHorizontal
-						}}
-						transformOrigin={{
-							vertical: state.transformOriginVertical,
-							horizontal: state.transformOriginHorizontal
-						}}
-					>
-						<Paper className={classes.paper}>
-							{/* <ToolbarMenu state={anchorEl} onClose={handleMenuClose}> */}
-							<>
-								{!!members?.length && (
-									// <Button onClick={handleSelectAll}>Select All </Button>
-									<FormControlLabel
-										className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
-										control={
-											<Checkbox
-												checked={
-													members.every(d => d.is_exists) && canAssign.every(d => d.is_exists)
-												}
-												onClick={handleSelectAll}
-												name="checkedB"
-											/>
-										}
-										label="Select All"
-									/>
-								)}
-								{!!members?.length || !!canAssign?.length ? (
-									<>
-										{members.map((member, index) => {
-											return (
-												<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
-													<Checkbox
-														onClick={ev => ev.stopPropagation()}
-														name={member.first_name}
-														checked={!!member.is_exists}
-														onChange={e => {
-															let tempMembers = [...members];
-															tempMembers[index] = {
-																...tempMembers[index],
-																is_exists: e.target.checked
-															};
-															if ([...tempMembers, ...canAssign].some(d => d.is_exists)) {
-																setMembers(tempMembers);
-																editWorkers(tempMembers, false);
-															} else {
-																toast.error('Can not remove everyone from activity');
-															}
-														}}
-													/>
-													<Avatar className="w-32 h-32" src={member.avatar} />
-													<ListItemText className="mx-8">
-														{member.profile.first_name} {member.profile.last_name}
-													</ListItemText>
-												</MenuItem>
-											);
-										})}
-										{canAssign.map((member, index) => {
-											return (
-												<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
-													<Checkbox
-														onClick={ev => ev.stopPropagation()}
-														name={member.first_name}
-														checked={!!member.is_exists}
-														onChange={e => {
-															let tempMembers = [...canAssign];
-															tempMembers[index] = {
-																...tempMembers[index],
-																is_exists: e.target.checked
-															};
-															if ([...tempMembers, ...members].some(d => d.is_exists)) {
-																setCanAssign(tempMembers);
-																editWorkers(tempMembers, true);
-															} else {
-																toast.error('Can not remove everyone from activity');
-															}
-														}}
-													/>
-													<Avatar className="w-32 h-32" src={member.avatar} />
-													<ListItemText className="mx-8">
-														{member.profile.first_name} {member.profile.last_name}
-													</ListItemText>
-												</MenuItem>
-											);
-										})}
-									</>
-								) : (
-									<>
-										<Typography variant="subtitle1" className="todo-title p-8">
-											{inviteMembers.length
-												? 'You have no workers in your project, add from below list'
-												: 'You have no workers in your company'}
-										</Typography>
-										{inviteMembers.map((member, index) => {
-											return member.is_exists ? null : (
-												<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
-													<Avatar className="w-32 h-32" src={member.avatar} />
-													<ListItemText className="mx-8">
-														{member.first_name} {member.last_name}
-													</ListItemText>
-													<Button onClick={e => addMemberToProject(e, index)}>Add</Button>
-												</MenuItem>
-											);
-										})}
-									</>
-								)}
-							</>
-							{/* </ToolbarMenu> */}
-						</Paper>
-					</Popover>
+
 					{/* <div className="flex items-center mb-8 ml-32">
 						<div className="flex items-center flex-wrap">
 							{props.todo.progress == 100 ? (
