@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
-import { Collapse, ListItemIcon, ListItemText, List, Avatar, Popover, Paper } from '@material-ui/core';
+import { Collapse, ListItemIcon, ListItemText, List, Avatar, Paper } from '@material-ui/core';
 import StarBorder from '@material-ui/icons/StarBorder';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -33,11 +33,6 @@ import { green } from '@material-ui/core/colors';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { HIDE_MESSAGE } from 'app/store/actions';
-const JSXContent = () => (
-	<Tippy visible={true} content={<span>Tooltip</span>}>
-		<button>My button</button>
-	</Tippy>
-);
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
 		return _.extend({}, element, source);
@@ -110,16 +105,6 @@ function TodoActivityListItem(props) {
 	const [visible, setVisible] = useState(false);
 	const show = () => setVisible(true);
 	const hide = () => setVisible(false);
-	const [state, setState] = React.useState({
-		open: false,
-		anchorOriginVertical: 'bottom',
-		anchorOriginHorizontal: 'right',
-		transformOriginVertical: 'top',
-		transformOriginHorizontal: 'right',
-		positionTop: 200, // Just so the popover can be spotted more easily
-		positionLeft: 400, // Same as above
-		anchorReference: 'anchorPosition'
-	});
 	useEffect(() => {
 		if (Array.isArray(props.todo.workers_in_activity)) {
 			let workers_in_activity = _.enhance(props.todo.workers_in_activity, { is_exists: true });
@@ -237,7 +222,7 @@ function TodoActivityListItem(props) {
 		}
 	};
 	const handleSelectAll = event => {
-		// event.stopPropagation();
+		event.stopPropagation();
 		event.preventDefault();
 		setCheckedAll(event.target.checked);
 		let tempMembers = [...members];
@@ -281,28 +266,15 @@ function TodoActivityListItem(props) {
 			)
 		);
 	};
-	let mode = `
-	anchorReference="${state.anchorReference}"
-	anchorPosition={{ top: ${state.positionTop}, left: ${state.positionLeft} }}`;
 
-	const jsx = `
-	<Popover ${mode}
-	  anchorOrigin={{
-		vertical: '${state.anchorOriginVertical}',
-		horizontal: '${state.anchorOriginHorizontal}',
-	  }}
-	  transformOrigin={{
-		vertical: '${state.transformOriginVertical}',
-		horizontal: '${state.transformOriginHorizontal}',
-	  }}
-	>
-	  The content of the Popover.
-	</Popover>
-	`;
 	return (
 		<>
 			<ListItem
-				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-8 px-0 sm:px-8 touch-ripple-effect-remove')}
+				className={clsx(
+					classes.todoItem,
+					{ completed },
+					'border-solid border-b-1 py-8 px-0 sm:px-8 touch-ripple-effect-remove'
+				)}
 				checked={completed}
 				style={{ borderLeft: '4px solid', borderLeftColor: props.task.assigned_company?.color_project }}
 				onClick={ev => {
@@ -368,10 +340,11 @@ function TodoActivityListItem(props) {
 								workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
 							/>
 							<Tippy
+								className="custom-tippy"
 								allowHTML
 								placement="bottom-start"
 								visible={visible}
-								po
+								// interactive
 								content={
 									<Paper className={classes.paper}>
 										{/* <ToolbarMenu state={anchorEl} onClose={handleMenuClose}> */}

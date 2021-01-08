@@ -614,7 +614,7 @@ function TodoListItem(props) {
 				</div>
 
 				{/* footer */}
-				<div
+				{/* <div
 					className="flex h-48 px-16 border-t-1 todo-bg-footer"
 					onClick={ev => {
 						if (open) {
@@ -629,7 +629,7 @@ function TodoListItem(props) {
 							}
 						}
 					}}
-				>
+				> */}
 					{/* left side footer */}
 					{/* <div className="flex items-center mr-16">
 						<div className="flex items-center px-8 py-4 mx-4 rounded bg-grey-700 text-white">
@@ -638,10 +638,9 @@ function TodoListItem(props) {
 						</div>
 					</div> */}
 					{/* right side footer */}
-					<div className="flex items-center">
+					{/* <div className="flex items-center">
 						{props.todo.assigned_company?.id == company.id && (
 							<div className="flex items-center font-600">
-								{/* <Icon className="text-16">check_circle</Icon> */}
 								<span className="mx-4 underline">Task Activities</span>
 								<span className="mx-4"> (0/{taskDetail?.length})</span>
 
@@ -663,11 +662,11 @@ function TodoListItem(props) {
 								</Button>
 							</div>
 						)}
-					</div>
-				</div>
+					</div> */}
+				{/* </div> */}
 			</Card>
 			{props.isPdf ? props.postlist : null}
-			<Collapse in={open} timeout="auto" unmountOnExit>
+			{/* <Collapse in={open} timeout="auto" unmountOnExit> */}
 				<List className="p-0">
 					<FuseAnimateGroup
 						enter={{
@@ -688,7 +687,7 @@ function TodoListItem(props) {
 							))}
 					</FuseAnimateGroup>
 				</List>
-			</Collapse>
+			{/* </Collapse> */}
 		</>
 	);
 }
