@@ -34,7 +34,7 @@ export function getFiles(cid, handleSetLoading = () => '') {
 		dispatch(getFolders(cid, handleSetLoading));
 	};
 }
-export function getPhotos(cid, handleSetLoading) {
+export function getPhotos(cid, handleSetLoading= () => '') {
 	handleSetLoading({
 		loadingPhotos: true
 	});
@@ -62,7 +62,7 @@ export function getPhotos(cid, handleSetLoading) {
 		);
 	};
 }
-export function getVideos(cid, handleSetLoading) {
+export function getVideos(cid, handleSetLoading= () => '') {
 	handleSetLoading({
 		loadingVideos: true
 	});
@@ -90,7 +90,7 @@ export function getVideos(cid, handleSetLoading) {
 		);
 	};
 }
-export function getDocuments(cid, handleSetLoading) {
+export function getDocuments(cid, handleSetLoading= () => '') {
 	return (dispatch, getState) => {
 		handleSetLoading({
 			loadingDocuments: true
@@ -118,7 +118,7 @@ export function getDocuments(cid, handleSetLoading) {
 		);
 	};
 }
-export function getFolders(cid, handleSetLoading) {
+export function getFolders(cid, handleSetLoading= () => '') {
 	handleSetLoading({
 		loadingFolders: true
 	});
@@ -169,6 +169,12 @@ export function deleteFile(id, fileType, deleteId, selectedItem) {
 	return (dispatch, getState) => {
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
+		console.log({
+			id,
+			fileType,
+			deleteId,
+			selectedItem
+		});
 		if (fileType == 'folder') {
 			dispatch(getFolders(cid));
 		}
