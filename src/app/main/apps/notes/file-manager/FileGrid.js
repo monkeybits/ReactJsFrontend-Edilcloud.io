@@ -47,7 +47,18 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SendIcon from '@material-ui/icons/Send';
 import Menu from '@material-ui/core/Menu';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-
+import TippyMenu from 'app/TippyMenu';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import {
+	DOWNLOAD_PHOTO,
+	DOWNLOAD_VIDEO,
+	DOWNLOAD_DOCUMENT,
+	PHOTO_DELETE,
+	VIDEO_DELETE,
+	DOCUMENT_DELETE,
+	FOLDER_DELETE
+} from 'app/services/apiEndPoints';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 const useStyles = makeStyles({
 	typeIcon: {
 		'&.folder:before': {
@@ -71,7 +82,7 @@ const useStylesList = makeStyles(theme => ({
 		boxShadow: '0 3px 6px #00000029'
 	}
 }));
-const options = ['Test'];
+const options = ['Delete'];
 function FileGrid(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
@@ -177,23 +188,59 @@ function FileGrid(props) {
 			);
 		}
 	}, [currentFolderPath]);
+	const handleDelete = (tile, e) => {
+		e.stopPropagation();
+		let findIndex = 0;
+		if (tile.type == 'folder') {
+			findIndex = [...allFiles].findIndex(element => element.path == tile.path);
+		} else {
+			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
+		}
+		let selectedItem = allFiles[findIndex];
+		const userInfo = decodeDataFromToken();
+		const cid = userInfo.extra?.profile?.company;
+		const fileType = selectedItem.type;
+		const mainId = selectedItem.mainId;
+		const url =
+			fileType == 'folder'
+				? FOLDER_DELETE(cid, selectedItem.path)
+				: fileType == 'photo'
+				? PHOTO_DELETE(selectedItem.mainId)
+				: fileType == 'video'
+				? VIDEO_DELETE(selectedItem.mainId)
+				: DOCUMENT_DELETE(selectedItem.mainId);
+		apiCall(
+			url,
+			{},
+			res => {
+				if (fileType == 'folder') {
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
+				} else {
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
+				}
+				// colseDeleteFileDialog();
+			},
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
 	if (allFiles.length === 0 && searchText) {
 		return (
 			<div>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<img className="w-400" src="assets/images/errors/nofiles.png"></img>
-					
 				</div>
-				<div className="flex flex-1 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h5">
-				Seems that there are no files yet!
-			</Typography>
-			</div>
-			<div className="flex flex-1 mt-20 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h6">
-				Create a file or a folder clicking on green + button
-			</Typography>
-			</div>
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						Seems that there are no files yet!
+					</Typography>
+				</div>
+				<div className="flex flex-1 mt-20 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h6">
+						Create a file or a folder clicking on green + button
+					</Typography>
+				</div>
 			</div>
 		);
 	}
@@ -225,39 +272,27 @@ function FileGrid(props) {
 									<ListItemText primary={d.title} secondary={null} />
 									{/* <MoreVertIcon /> */}
 									<div className="actions-dropdown file-folder-action-dropdown">
-										<IconButton
-											aria-label="more"
-											aria-controls="long-menu"
-											aria-haspopup="true"
-											onClick={handleClick}
-										>
-											<MoreVertIcon />
-										</IconButton>
-										<Menu
-											id="long-menu"
-											anchorEl={anchorEl}
-											keepMounted
-											open={open}
-											onClose={handleClose}
-											PaperProps={{
-												style: {
-													width: '20ch'
-												}
-											}}
+										<TippyMenu
+											icon={
+												<IconButton
+													aria-label="more"
+													aria-controls="long-menu"
+													aria-haspopup="true"
+													// onClick={handleClick}
+												>
+													<MoreVertIcon />
+												</IconButton>
+											}
 										>
 											{options.map(option => (
-												<MenuItem
-													key={option}
-													selected={option === 'Pyxis'}
-													onClick={handleClose}
-												>
+												<MenuItem key={option} onClick={e => handleDelete(d, e)}>
 													<ListItemIcon>
-														<PriorityHighIcon fontSize="small" />
+														<Icon>delete</Icon>
 													</ListItemIcon>
 													<Typography variant="inherit"> {option}</Typography>
 												</MenuItem>
 											))}
-										</Menu>
+										</TippyMenu>
 									</div>
 								</ListItem>
 							</Grid>
@@ -271,27 +306,25 @@ function FileGrid(props) {
 						Files
 					</Typography>
 					<Grid container spacing={12} className="file-grid">
-						<FileGridItem tileData={currentFiles} {...props} />
+						<FileGridItem tileData={currentFiles} {...props} handleDelete={handleDelete} />
 					</Grid>
 				</>
 			) : (
 				<div>
-				<div className="flex flex-1 items-center justify-center h-full">
-					<img className="w-400" src="assets/images/errors/nofiles.png"></img>
-					
+					<div className="flex flex-1 items-center justify-center h-full">
+						<img className="w-400" src="assets/images/errors/nofiles.png"></img>
+					</div>
+					<div className="flex flex-1 items-center justify-center h-full">
+						<Typography color="textSecondary" variant="h5">
+							Seems that there are no files yet!
+						</Typography>
+					</div>
+					<div className="flex flex-1 mt-20 items-center justify-center h-full">
+						<Typography color="textSecondary" variant="h6">
+							Create a file or a folder clicking on green + button
+						</Typography>
+					</div>
 				</div>
-				<div className="flex flex-1 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h5">
-				Seems that there are no files yet!
-			</Typography>
-			</div>
-			<div className="flex flex-1 mt-20 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h6">
-				Create a file or a folder clicking on green + button
-			</Typography>
-			</div>
-			</div>
-			
 			)}
 		</div>
 	);

@@ -240,36 +240,11 @@ function DetailSidebarContent({ setProgress }) {
 								</ListItemIcon>
 								<Typography variant="inherit">Delete</Typography>
 							</MenuItem>
-							<MenuItem
-								aria-label="more"
-								aria-controls="long-menu"
-								aria-haspopup="true"
-								onClick={handleClick}
-							>
+							<MenuItem onClick={openViewFile}>
 								<ListItemIcon>
-									<MoreVertIcon fontSize="medium" />
+									<Icon>visibility</Icon>
 								</ListItemIcon>
-								<Typography variant="inherit">More</Typography>
-								<Menu
-									id="long-menu"
-									anchorEl={anchorEl}
-									keepMounted
-									open={openMenu}
-									onClose={handleClose}
-									// PaperProps={{
-									// 	style: {
-									// 		width: '20ch'
-									// 	}
-									// }}
-								>
-									<MenuItem onClick={openViewFile}>
-										<ListItemIcon>
-											<Icon>visibility</Icon>
-										</ListItemIcon>
-										<Typography variant="inherit">View</Typography>
-									</MenuItem>
-								</Menu>
-								{/* */}
+								<Typography variant="inherit">View</Typography>
 							</MenuItem>
 						</MenuList>
 					</div>

@@ -19,12 +19,13 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import clsx from 'clsx';
 import * as Actions from './store/actions';
-import { Icon, Typography } from '@material-ui/core';
+import { Icon, ListItemIcon, Menu, MenuItem, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PictureAsPdfOutlinedIcon from '@material-ui/icons/PictureAsPdfOutlined';
 import * as ICONS from 'app/main/apps/constants';
+import TippyMenu from 'app/TippyMenu';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -56,10 +57,12 @@ const useStyles = makeStyles(theme => ({
  *   },
  * ];
  */
-export default function FileGridItem({ tileData, pageLayout }) {
+const options = ['Delete'];
+export default function FileGridItem({ tileData, pageLayout, handleDelete }) {
 	const dispatch = useDispatch();
 	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const classes = useStyles();
+	const [anchorEl, setAnchorEl] = React.useState(null);
 	const handleOpenData = (ev, tile) => {
 		ev.preventDefault();
 		ev.stopPropagation();
@@ -82,7 +85,17 @@ export default function FileGridItem({ tileData, pageLayout }) {
 			: fileType == 'xlsx'
 			? { color: 'green' }
 			: {};
+	const handleClick = event => {
+		event.preventDefault();
+		event.stopPropagation();
+		setAnchorEl(event.currentTarget);
+	};
 
+	const handleClose = event => {
+		event.preventDefault();
+		event.stopPropagation();
+		setAnchorEl(null);
+	};
 	return (
 		<div className={classes.root}>
 			<GridList cellHeight={180} className={classes.gridList}>
@@ -117,9 +130,7 @@ export default function FileGridItem({ tileData, pageLayout }) {
 								</div>
 							) : tile.extension == 'ppt' || tile.extension == 'pptx' || tile.extension == 'pptm' ? (
 								<img className="icon mr-8" src={ICONS.SLIDES_ICON_PATH} />
-							) : tile.extension == 'ppt' ||
-							  tile.extension == 'pptx' ||
-							  tile.extension == 'pptm' ? (
+							) : tile.extension == 'ppt' || tile.extension == 'pptx' || tile.extension == 'pptm' ? (
 								<img className="icon mr-8" src={ICONS.SLIDES_ICON_PATH} />
 							) : (
 								<div className="soft-icon">
@@ -171,34 +182,49 @@ export default function FileGridItem({ tileData, pageLayout }) {
 								}
 								// subtitle={<span>size: {tile.size}</span>}
 								actionIcon={
-									<IconButton
-										// onClick={}
-										aria-label={`info about ${tile.title}`}
-										className={clsx(classes.icon, 'file-grid-action-dropdown')}
-									>
-										<MoreVertIcon />
-									</IconButton>
+									<>
+										<TippyMenu
+											icon={
+												<IconButton
+													aria-label="more"
+													aria-controls="long-menu"
+													aria-haspopup="true"
+													// onClick={handleClick}
+												>
+													<MoreVertIcon />
+												</IconButton>
+											}
+										>
+											{/* {options.map(option => ( */}
+											<MenuItem onClick={e => handleDelete(tile, e)}>
+												<ListItemIcon>
+													<Icon>delete</Icon>
+												</ListItemIcon>
+												<Typography variant="inherit"> Delete</Typography>
+											</MenuItem>
+											{/* ))} */}
+										</TippyMenu>
+									</>
 								}
 							/>
 						</GridListTile>
 					))
 				) : (
 					<div>
-				<div className="flex flex-1 items-center justify-center h-full">
-					<img className="w-400" src="assets/images/errors/nofiles.png"></img>
-					
-				</div>
-				<div className="flex flex-1 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h5">
-				Seems that there are no files yet!
-			</Typography>
-			</div>
-			<div className="flex flex-1 mt-20 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h6">
-				Create a file or a folder clicking on green + button
-			</Typography>
-			</div>
-			</div>
+						<div className="flex flex-1 items-center justify-center h-full">
+							<img className="w-400" src="assets/images/errors/nofiles.png"></img>
+						</div>
+						<div className="flex flex-1 items-center justify-center h-full">
+							<Typography color="textSecondary" variant="h5">
+								Seems that there are no files yet!
+							</Typography>
+						</div>
+						<div className="flex flex-1 mt-20 items-center justify-center h-full">
+							<Typography color="textSecondary" variant="h6">
+								Create a file or a folder clicking on green + button
+							</Typography>
+						</div>
+					</div>
 				)}
 			</GridList>
 		</div>

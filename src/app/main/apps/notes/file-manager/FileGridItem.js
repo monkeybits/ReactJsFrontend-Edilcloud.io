@@ -18,11 +18,12 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import clsx from 'clsx';
 import * as Actions from './store/actions';
-import { Icon, Typography } from '@material-ui/core';
+import { Icon, ListItemIcon, MenuItem, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PictureAsPdfOutlinedIcon from '@material-ui/icons/PictureAsPdfOutlined';
 import * as ICONS from 'app/main/apps/constants';
+import TippyMenu from 'app/TippyMenu';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -54,7 +55,7 @@ const useStyles = makeStyles(theme => ({
  *   },
  * ];
  */
-export default function FileGridItem({ tileData, pageLayout }) {
+export default function FileGridItem({ tileData, pageLayout, handleDelete }) {
 	const dispatch = useDispatch();
 	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const classes = useStyles();
@@ -167,34 +168,47 @@ export default function FileGridItem({ tileData, pageLayout }) {
 								}
 								// subtitle={<span>size: {tile.size}</span>}
 								actionIcon={
-									<IconButton
-										// onClick={}
-										aria-label={`info about ${tile.title}`}
-										className={clsx(classes.icon, 'file-grid-action-dropdown')}
+									<TippyMenu
+										icon={
+											<IconButton
+												aria-label="more"
+												aria-controls="long-menu"
+												aria-haspopup="true"
+												// onClick={handleClick}
+											>
+												<MoreVertIcon />
+											</IconButton>
+										}
 									>
-										<MoreVertIcon />
-									</IconButton>
+										{/* {options.map(option => ( */}
+										<MenuItem onClick={e => handleDelete(tile, e)}>
+											<ListItemIcon>
+												<Icon>delete</Icon>
+											</ListItemIcon>
+											<Typography variant="inherit"> Delete</Typography>
+										</MenuItem>
+										{/* ))} */}
+									</TippyMenu>
 								}
 							/>
 						</GridListTile>
 					))
 				) : (
 					<div>
-				<div className="flex flex-1 items-center justify-center h-full">
-					<img className="w-400" src="assets/images/errors/nofiles.png"></img>
-					
-				</div>
-				<div className="flex flex-1 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h5">
-				Seems that there are no files yet!
-			</Typography>
-			</div>
-			<div className="flex flex-1 mt-20 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h6">
-				Create a file or a folder clicking on green + button
-			</Typography>
-			</div>
-			</div>
+						<div className="flex flex-1 items-center justify-center h-full">
+							<img className="w-400" src="assets/images/errors/nofiles.png"></img>
+						</div>
+						<div className="flex flex-1 items-center justify-center h-full">
+							<Typography color="textSecondary" variant="h5">
+								Seems that there are no files yet!
+							</Typography>
+						</div>
+						<div className="flex flex-1 mt-20 items-center justify-center h-full">
+							<Typography color="textSecondary" variant="h6">
+								Create a file or a folder clicking on green + button
+							</Typography>
+						</div>
+					</div>
 				)}
 			</GridList>
 		</div>

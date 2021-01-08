@@ -11,7 +11,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
-import { Collapse, ListItemIcon, ListItemText, List, Avatar } from '@material-ui/core';
+import { Collapse, ListItemIcon, ListItemText, List, Avatar, Paper } from '@material-ui/core';
 import StarBorder from '@material-ui/icons/StarBorder';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -30,6 +30,8 @@ import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { toast } from 'react-toastify';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
 		return _.extend({}, element, source);
@@ -46,6 +48,9 @@ const useStyles = makeStyles(theme => ({
 	},
 	nested: {
 		paddingLeft: theme.spacing(4)
+	},
+	paper: {
+		marginRight: theme.spacing(2)
 	}
 }));
 
@@ -65,6 +70,9 @@ function TodoActivityListItem(props) {
 	const [hasRender, setHasRender] = React.useState(false);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const scrollRef = useRef(null);
+	const [visible, setVisible] = useState(false);
+	const show = () => setVisible(true);
+	const hide = () => setVisible(false);
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
 	useEffect(() => {
 		if (hasNotifcationOnThisItem) {
@@ -185,7 +193,7 @@ function TodoActivityListItem(props) {
 	};
 	const handleMenuOpen = event => {
 		stopsEvents(event);
-		setAnchorEl(event.currentTarget);
+		show();
 		if (!members.length) {
 			getCompanyApprovedContacts();
 		}
@@ -193,14 +201,17 @@ function TodoActivityListItem(props) {
 
 	const handleMenuClose = event => {
 		stopsEvents(event);
-		setAnchorEl(null);
+		// setAnchorEl(null);
+		hide();
 		if (!members.length) {
 			props.getDetailOfTask();
 		}
 	};
 	const stopsEvents = event => {
-		event.preventDefault();
-		event.stopPropagation();
+		if (event.preventDefault && event.stopPropagation) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
 	};
 	const handleSelectAll = event => {
 		event.stopPropagation();
@@ -254,7 +265,11 @@ function TodoActivityListItem(props) {
 			<ListItem
 				ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				id={props.todo.id}
-				className={clsx(classes.todoItem, { completed }, 'border-solid border-b-1 py-8 px-0 sm:px-8 touch-ripple-effect-remove')}
+				className={clsx(
+					classes.todoItem,
+					{ completed },
+					'border-solid border-b-1 py-8 px-0 sm:px-8 touch-ripple-effect-remove'
+				)}
 				checked={completed}
 				style={{ borderLeft: '4px solid', borderLeftColor: props.task.assigned_company?.color_project }}
 				onClick={ev => {
@@ -308,124 +323,158 @@ function TodoActivityListItem(props) {
 										<Icon>error</Icon>
 									</IconButton> */}
 						</div>
-					</div>
-					<div className="flex items-center ml-44 mb-8">
-						<div className="custom-member-menu flex items-center" onClick={handleMenuOpen}>
-							<Icon>person</Icon>
-							Assign People
+						<div className="flex items-center ml-44 mb-8">
+							<WorkerProfiles
+								workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
+							/>
+							<Tippy
+								className="custom-tippy"
+								allowHTML
+								placement="bottom-start"
+								content={
+									<Paper className={classes.paper}>
+										<>
+											{!!members?.length && (
+												// <Button onClick={handleSelectAll}>Select All </Button>
+												<FormControlLabel
+													className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+													control={
+														<Checkbox
+															checked={
+																members.every(d => d.is_exists) &&
+																canAssign.every(d => d.is_exists)
+															}
+															onClick={handleSelectAll}
+															name="checkedB"
+														/>
+													}
+													label="Select All"
+												/>
+											)}
+											{!!members?.length || !!canAssign?.length ? (
+												<>
+													{members.map((member, index) => {
+														return (
+															<MenuItem
+																onClick={stopsEvents}
+																className="px-8"
+																key={member.id}
+															>
+																<Checkbox
+																	onClick={ev => ev.stopPropagation()}
+																	name={member.first_name}
+																	checked={!!member.is_exists}
+																	onChange={e => {
+																		let tempMembers = [...members];
+																		tempMembers[index] = {
+																			...tempMembers[index],
+																			is_exists: e.target.checked
+																		};
+																		if (
+																			[...tempMembers, ...canAssign].some(
+																				d => d.is_exists
+																			)
+																		) {
+																			setMembers(tempMembers);
+																			editWorkers(tempMembers, false);
+																		} else {
+																			toast.error(
+																				'Can not remove everyone from activity'
+																			);
+																		}
+																	}}
+																/>
+																<Avatar className="w-32 h-32" src={member.avatar} />
+																<ListItemText className="mx-8">
+																	{member.profile.first_name}{' '}
+																	{member.profile.last_name}
+																</ListItemText>
+															</MenuItem>
+														);
+													})}
+													{canAssign.map((member, index) => {
+														return (
+															<MenuItem
+																onClick={stopsEvents}
+																className="px-8"
+																key={member.id}
+															>
+																<Checkbox
+																	onClick={ev => ev.stopPropagation()}
+																	name={member.first_name}
+																	checked={!!member.is_exists}
+																	onChange={e => {
+																		let tempMembers = [...canAssign];
+																		tempMembers[index] = {
+																			...tempMembers[index],
+																			is_exists: e.target.checked
+																		};
+																		if (
+																			[...tempMembers, ...members].some(
+																				d => d.is_exists
+																			)
+																		) {
+																			setCanAssign(tempMembers);
+																			editWorkers(tempMembers, true);
+																		} else {
+																			toast.error(
+																				'Can not remove everyone from activity'
+																			);
+																		}
+																	}}
+																/>
+																<Avatar className="w-32 h-32" src={member.avatar} />
+																<ListItemText className="mx-8">
+																	{member.profile.first_name}{' '}
+																	{member.profile.last_name}
+																</ListItemText>
+															</MenuItem>
+														);
+													})}
+												</>
+											) : (
+												<>
+													<Typography variant="subtitle1" className="todo-title p-8">
+														{inviteMembers.length
+															? 'You have no workers in your project, add from below list'
+															: 'You have no workers in your company'}
+													</Typography>
+													{inviteMembers.map((member, index) => {
+														return member.is_exists ? null : (
+															<MenuItem
+																onClick={stopsEvents}
+																className="px-8"
+																key={member.id}
+															>
+																<Avatar className="w-32 h-32" src={member.avatar} />
+																<ListItemText className="mx-8">
+																	{member.first_name} {member.last_name}
+																</ListItemText>
+																<Button onClick={e => addMemberToProject(e, index)}>
+																	Add
+																</Button>
+															</MenuItem>
+														);
+													})}
+												</>
+											)}
+										</>
+									</Paper>
+								}
+								visible={visible}
+								// onClickOutside={handleMenuClose}
+							>
+								<div
+									className="custom-member-menu flex items-center"
+									onClick={visible ? handleMenuClose : handleMenuOpen}
+								>
+									<Icon>person</Icon>
+								</div>
+							</Tippy>
 						</div>
-						{/* 
-						 {...{ value, setValue }}
-						<MembersMenu
-							onToggleMember={() => ''}
-							members={props.todo.team_workers}
-							addWorkers={editWorkers}
-							// idMembers={cardForm.idMembers}
-						/> */}
-						<WorkerProfiles
-							workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
-						/>
 					</div>
-					<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
-						<>
-							{!!members?.length && (
-								// <Button onClick={handleSelectAll}>Select All </Button>
-								<FormControlLabel
-									className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
-									control={
-										<Checkbox
-											checked={
-												members.every(d => d.is_exists) && canAssign.every(d => d.is_exists)
-											}
-											onClick={handleSelectAll}
-											name="checkedB"
-										/>
-									}
-									label="Select All"
-								/>
-							)}
-							{!!members?.length || !!canAssign?.length ? (
-								<>
-									{members.map((member, index) => {
-										return (
-											<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
-												<Checkbox
-													onClick={ev => ev.stopPropagation()}
-													name={member.first_name}
-													checked={!!member.is_exists}
-													onChange={e => {
-														let tempMembers = [...members];
-														tempMembers[index] = {
-															...tempMembers[index],
-															is_exists: e.target.checked
-														};
-														if ([...tempMembers, ...canAssign].some(d => d.is_exists)) {
-															setMembers(tempMembers);
-															editWorkers(tempMembers, false);
-														} else {
-															toast.error('Can not remove everyone from activity');
-														}
-													}}
-												/>
-												<Avatar className="w-32 h-32" src={member.avatar} />
-												<ListItemText className="mx-8">
-													{member.profile.first_name} {member.profile.last_name}
-												</ListItemText>
-											</MenuItem>
-										);
-									})}
-									{canAssign.map((member, index) => {
-										return (
-											<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
-												<Checkbox
-													onClick={ev => ev.stopPropagation()}
-													name={member.first_name}
-													checked={!!member.is_exists}
-													onChange={e => {
-														let tempMembers = [...canAssign];
-														tempMembers[index] = {
-															...tempMembers[index],
-															is_exists: e.target.checked
-														};
-														if ([...tempMembers, ...members].some(d => d.is_exists)) {
-															setCanAssign(tempMembers);
-															editWorkers(tempMembers, true);
-														} else {
-															toast.error('Can not remove everyone from activity');
-														}
-													}}
-												/>
-												<Avatar className="w-32 h-32" src={member.avatar} />
-												<ListItemText className="mx-8">
-													{member.profile.first_name} {member.profile.last_name}
-												</ListItemText>
-											</MenuItem>
-										);
-									})}
-								</>
-							) : (
-								<>
-									<Typography variant="subtitle1" className="todo-title p-8">
-										{inviteMembers.length
-											? 'You have no workers in your project, add from below list'
-											: 'You have no workers in your company'}
-									</Typography>
-									{inviteMembers.map((member, index) => {
-										return member.is_exists ? null : (
-											<MenuItem onClick={stopsEvents} className="px-8" key={member.id}>
-												<Avatar className="w-32 h-32" src={member.avatar} />
-												<ListItemText className="mx-8">
-													{member.first_name} {member.last_name}
-												</ListItemText>
-												<Button onClick={e => addMemberToProject(e, index)}>Add</Button>
-											</MenuItem>
-										);
-									})}
-								</>
-							)}
-						</>
-					</ToolbarMenu>
-					<div className="flex items-center mb-8 ml-32">
+
+					{/* <div className="flex items-center mb-8 ml-32">
 						<div className="flex items-center flex-wrap">
 							{props.todo.progress == 100 ? (
 								<div className={clsx('flex items-center px-8 py-4 rounded-sm bg-green text-white')}>
@@ -436,20 +485,14 @@ function TodoActivityListItem(props) {
 								moment().diff(moment(props.todo.datetime_end)) > 0 ? (
 									<>
 										<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
-											{/* <Icon className="text-16">access_time</Icon> */}
-											{/* <span className="mx-4"> */}
 											Start: {moment(props.todo.datetime_start).format('MMM Do YY')}
-											{/* </span> */}
 										</div>
 										<div
 											className={clsx(
 												'flex items-center px-8 py-4 rounded bg-red text-white font-size-12 ml-12'
 											)}
 										>
-											{/* <Icon className="text-16">access_time</Icon> */}
-											{/* <span className="mx-4"> */}
 											Ends: {moment(props.todo.datetime_end).format('MMM Do YY')}
-											{/* </span> */}
 										</div>
 									</>
 								) : (
@@ -459,65 +502,35 @@ function TodoActivityListItem(props) {
 												'flex items-center px-8 py-4 bg-green rounded text-white font-size-12'
 											)}
 										>
-											{/* <Icon className="text-16">access_time</Icon> */}
-											{/* <span className="mx-4"> */}
 											Start: {moment(props.todo.datetime_start).format('MMM Do YY')}
-											{/* </span> */}
 										</div>
 										<div
 											className={clsx(
 												'flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12'
 											)}
 										>
-											{/* <Icon className="text-16">access_time</Icon> */}
-											{/* <span className="mx-4"> */}
 											Ends: {moment(props.todo.datetime_end).format('MMM Do YY')}
-											{/* </span> */}
 										</div>
 									</>
 								)
 							) : (
 								<>
 									<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
-										{/* <Icon className="text-16">access_time</Icon> */}
-										{/* <span className="mx-4"> */}
+										
 										Start: {moment(props.todo.datetime_start).format('MMM Do YY')}
-										{/* </span> */}
 									</div>
 									<div
 										className={clsx(
 											'flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12'
 										)}
 									>
-										{/* <Icon className="text-16">access_time</Icon> */}
-										{/* <span className="mx-4"> */}
+										
 										Ends: {moment(props.todo.datetime_end).format('MMM Do YY')}
-										{/* </span> */}
 									</div>
 								</>
 							)}
 						</div>
-						{/* <div className="custom-outlined-btn ml-auto">
-								<Button
-									variant="outlined"
-									color="primary"
-									className={classes.button}
-									startIcon={<AddIcon />}
-								>
-									Add
-								</Button>
-							</div> */}
-					</div>
-					<div className={clsx(classes.labels, 'flex -mx-2')}>
-						{props.todo.labels?.map(label => (
-							<TodoChip
-								className="mx-2 mt-4"
-								title={_.find(labels, { id: label }).title}
-								color={_.find(labels, { id: label }).color}
-								key={label}
-							/>
-						))}
-					</div>
+					</div> */}
 				</div>
 
 				{/* <div className="flex items-center px-8">

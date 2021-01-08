@@ -43,6 +43,10 @@ import FileViewDialog from './FileViewDialog';
 import * as ICONS from 'app/main/apps/constants';
 
 import Menu from '@material-ui/core/Menu';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import { Paper } from '@material-ui/core';
+
 const useStyles = makeStyles({
 	table: {
 		'& th': {
@@ -78,12 +82,16 @@ function DetailSidebarContent({ setProgress }) {
 	const handleClick = event => {
 		event.preventDefault();
 		event.stopPropagation();
-		setAnchorEl(event.currentTarget);
+		show();
+		// setAnchorEl(event.currentTarget);
 	};
-
+	const [visible, setVisible] = useState(false);
+	const show = () => setVisible(true);
+	const hide = () => setVisible(false);
 	const handleClose = event => {
 		event.stopPropagation();
-		setAnchorEl(false);
+		hide();
+		// setAnchorEl(false);
 	};
 	if (!selectedItem) {
 		return null;
@@ -246,20 +254,12 @@ function DetailSidebarContent({ setProgress }) {
 								</ListItemIcon>
 								<Typography variant="inherit">Delete</Typography>
 							</MenuItem>
-							<MenuItem onClick={handleClick}>
+
+							<MenuItem onClick={openViewFile}>
 								<ListItemIcon>
-									<MoreVertIcon fontSize="medium" />
+									<Icon>visibility</Icon>
 								</ListItemIcon>
-								<Typography variant="inherit">More</Typography>
-								<Menu anchorEl={anchorEl} open={openMenu} onClose={handleClose}>
-									<MenuItem onClick={openViewFile}>
-										<ListItemIcon>
-											<Icon>visibility</Icon>
-										</ListItemIcon>
-										<Typography variant="inherit">View</Typography>
-									</MenuItem>
-								</Menu>
-								{/* */}
+								<Typography variant="inherit">View</Typography>
 							</MenuItem>
 						</MenuList>
 					</div>

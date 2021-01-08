@@ -1769,3 +1769,6 @@ audio {
 .makeStyles-rightSidebar-362.permanent {
     height: auto;
 }
+.custom-tippy {
+    pointer-events: auto !important;
+}
