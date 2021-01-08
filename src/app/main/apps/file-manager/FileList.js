@@ -9,7 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import clsx from 'clsx';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import moment from 'moment';
@@ -42,6 +42,7 @@ import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import ColorLensOutlinedIcon from '@material-ui/icons/ColorLensOutlined';
 import * as ICONS from 'app/main/apps/constants';
+import TippyMenu from 'app/TippyMenu';
 
 const useStyles = makeStyles({
 	typeIcon: {
@@ -59,7 +60,7 @@ const useStyles = makeStyles({
 		}
 	}
 });
-const options = ['Share', 'Move to', 'Change Color', 'Add to Starred', 'Download', 'Delete'];
+
 function FileList(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
@@ -69,7 +70,38 @@ function FileList(props) {
 	const currentFolderPath = folderPath[folderPath.length - 1];
 	const selectedItemId = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
+	const menuRef = useRef(null);
 	// const [allFiles, setAllFiles] = useState([]);
+	const options = [
+		{
+			name: 'Delete',
+			icon: <Icon>delete</Icon>
+		},
+
+		{
+			name: 'Download',
+			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />
+		},
+		{
+			name: 'Move to',
+			icon: <Icon>transform</Icon>,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				dispatch(Actions.openMoveFileDialog(n));
+			}
+		},
+		{
+			name: 'View',
+			icon: <Icon>info</Icon>,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				props.pageLayout.current.toggleRightSidebar();
+				dispatch(Actions.setSelectedItem(n.id));
+			}
+		}
+	];
 	const classes = useStyles();
 	const checkData = data => (data ? data : '-');
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
@@ -164,18 +196,17 @@ function FileList(props) {
 			<div>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<img className="w-400" src="assets/images/errors/nofiles.png"></img>
-					
 				</div>
-				<div className="flex flex-1 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h5">
-				Seems that there are no files yet!
-			</Typography>
-			</div>
-			<div className="flex flex-1 mt-20 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h6">
-				Create a file or a folder clicking on green + button
-			</Typography>
-			</div>
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						Seems that there are no files yet!
+					</Typography>
+				</div>
+				<div className="flex flex-1 mt-20 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h6">
+						Create a file or a folder clicking on green + button
+					</Typography>
+				</div>
 			</div>
 		);
 	}
@@ -192,8 +223,8 @@ function FileList(props) {
 								<TableCell className="hidden sm:table-cell">Owner</TableCell>
 								<TableCell className="text-center hidden sm:table-cell">Size</TableCell>
 								<TableCell className="hidden sm:table-cell">Modified</TableCell>
-								<TableCell></TableCell>
-								<TableCell></TableCell>
+								{/* <TableCell></TableCell>
+								<TableCell></TableCell> */}
 								<TableCell>Actions</TableCell>
 							</TableRow>
 						</TableHead>
@@ -268,7 +299,7 @@ function FileList(props) {
 										{n.date_last_modify ? getdate(n.date_last_modify) : '-'}
 									</TableCell>
 
-									<TableCell>
+									{/* <TableCell>
 										<IconButton
 											onClick={ev => {
 												ev.preventDefault();
@@ -279,10 +310,10 @@ function FileList(props) {
 										>
 											<Icon>transform</Icon>
 										</IconButton>
-									</TableCell>
+									</TableCell> */}
 
 									{/* <Hidden lgUp> */}
-									<TableCell>
+									{/* <TableCell>
 										<IconButton
 											onClick={ev => {
 												ev.preventDefault();
@@ -294,7 +325,7 @@ function FileList(props) {
 										>
 											<Icon>info</Icon>
 										</IconButton>
-									</TableCell>
+									</TableCell> */}
 									{/* </Hidden> */}
 									<TableCell>
 										{/* <div className="actions-dropdown relative">
@@ -345,39 +376,47 @@ function FileList(props) {
 										</div> */}
 
 										<div className="actions-dropdown">
-											<IconButton
-												aria-label="more"
-												aria-controls="long-menu"
-												aria-haspopup="true"
-												onClick={handleClick}
-											>
-												<MoreVertIcon />
-											</IconButton>
-											<Menu
-												id="long-menu"
-												anchorEl={anchorEl}
-												keepMounted
-												open={open}
-												onClose={handleClose}
-												PaperProps={{
-													style: {
-														width: '20ch'
-													}
-												}}
-											>
-												{options.map(option => (
-													<MenuItem
-														key={option}
-														selected={option === 'Pyxis'}
-														onClick={handleClose}
+											<TippyMenu
+												icon={
+													<IconButton
+														aria-label="more"
+														aria-controls="long-menu"
+														aria-haspopup="true"
+														// onClick={handleClick}
 													>
-														<ListItemIcon>
-															<PriorityHighIcon fontSize="small" />
-														</ListItemIcon>
-														<Typography variant="inherit"> {option}</Typography>
-													</MenuItem>
-												))}
-											</Menu>
+														<MoreVertIcon />
+													</IconButton>
+												}
+												ref={menuRef}
+											>
+												{options.map(({ name, icon, handleClickEvent }) =>
+													name == 'View' || name == 'Move to' ? (
+														n.type != 'folder' ? (
+															<MenuItem
+																key={name}
+																onClick={e => {
+																	// menuRef.current.handleMenuClose();
+																	handleClickEvent(e, n);
+																}}
+															>
+																<ListItemIcon>{icon}</ListItemIcon>
+																<Typography variant="inherit"> {name}</Typography>
+															</MenuItem>
+														) : null
+													) : (
+														<MenuItem
+															key={name}
+															onClick={e => {
+																// menuRef.current.handleMenuClose();
+																handleClickEvent(e, n);
+															}}
+														>
+															<ListItemIcon>{icon}</ListItemIcon>
+															<Typography variant="inherit"> {name}</Typography>
+														</MenuItem>
+													)
+												)}
+											</TippyMenu>
 										</div>
 									</TableCell>
 								</TableRow>
@@ -388,21 +427,20 @@ function FileList(props) {
 			</FuseAnimate>
 			{currentFolderPath == '' && !allFiles?.length && (
 				<div>
-				<div className="flex flex-1 items-center justify-center h-full">
-					<img className="w-400" src="assets/images/errors/nofiles.png"></img>
-					
+					<div className="flex flex-1 items-center justify-center h-full">
+						<img className="w-400" src="assets/images/errors/nofiles.png"></img>
+					</div>
+					<div className="flex flex-1 items-center justify-center h-full">
+						<Typography color="textSecondary" variant="h5">
+							Seems that there are no files yet!
+						</Typography>
+					</div>
+					<div className="flex flex-1 mt-20 items-center justify-center h-full">
+						<Typography color="textSecondary" variant="h6">
+							Create a file or a folder clicking on green + button
+						</Typography>
+					</div>
 				</div>
-				<div className="flex flex-1 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h5">
-				Seems that there are no files yet!
-			</Typography>
-			</div>
-			<div className="flex flex-1 mt-20 items-center justify-center h-full"> 
-				<Typography color="textSecondary" variant="h6">
-				Create a file or a folder clicking on green + button
-			</Typography>
-			</div>
-			</div>
 			)}
 		</div>
 	);

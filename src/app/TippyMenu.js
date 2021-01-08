@@ -46,7 +46,7 @@ function TippyMenu(props) {
 			visible={visible}
 			// interactive
 			content={<Paper className={classes.paper}>{props.children}</Paper>}
-			// onClickOutside={handleMenuClose}
+			onClickOutside={props.outsideClick ? handleMenuClose : () => ''}
 		>
 			<div className="custom-tippy-btn" onClick={visible ? handleMenuClose : handleMenuOpen}>
 				{props.icon ? props.icon : <Icon>person</Icon>}

@@ -8,6 +8,7 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
+import TippyMenu from 'app/TippyMenu';
 export default function MoreOption(props) {
 	const [anchorEl, setAnchorEl] = React.useState(false);
 	const options = [
@@ -28,17 +29,13 @@ export default function MoreOption(props) {
 
 	return (
 		<div className="actions-dropdown relative">
-			<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleClick}>
-				<MoreVertIcon />
-			</IconButton>
-
-			<Menu
-				id="long-menu"
-				anchorEl={anchorEl}
-				keepMounted
-				open={openMenu}
-				onClose={handleClose}
-				className="actions-dropdown"
+			<TippyMenu
+				icon={
+					<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true">
+						<MoreVertIcon />
+					</IconButton>
+				}
+				// ref={menuRef}
 			>
 				{options.map(option =>
 					option.view ? (
@@ -50,7 +47,7 @@ export default function MoreOption(props) {
 						</MenuItem>
 					) : null
 				)}
-			</Menu>
+			</TippyMenu>
 		</div>
 	);
 }
