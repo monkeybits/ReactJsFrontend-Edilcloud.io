@@ -39,7 +39,7 @@ export function getFiles(cid, handleSetLoading = () => '') {
 		dispatch(getFolders(cid, handleSetLoading));
 	};
 }
-export function getPhotos(cid, handleSetLoading) {
+export function getPhotos(cid, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingPhotos: true
 	});
@@ -67,7 +67,7 @@ export function getPhotos(cid, handleSetLoading) {
 		);
 	};
 }
-export function getVideos(cid, handleSetLoading) {
+export function getVideos(cid, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingVideos: true
 	});
@@ -95,7 +95,7 @@ export function getVideos(cid, handleSetLoading) {
 		);
 	};
 }
-export function getDocuments(cid, handleSetLoading) {
+export function getDocuments(cid, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingDocuments: true
 	});
@@ -123,7 +123,7 @@ export function getDocuments(cid, handleSetLoading) {
 		);
 	};
 }
-export function getFolders(cid, handleSetLoading) {
+export function getFolders(cid, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingFolders: true
 	});
