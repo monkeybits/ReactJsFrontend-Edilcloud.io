@@ -305,7 +305,7 @@ function TodoListItem(props) {
 		<>
 			<Card
 				ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
-				className={clsx(classes.card, 'w-full rounded-4 cursor-pointer border-1 shadow-none mb-16')}
+				className={clsx(classes.card, 'w-full rounded-4 custom-task cursor-pointer border-1 shadow-none ')}
 				onClick={() =>
 					getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''
 				}
@@ -355,7 +355,7 @@ function TodoListItem(props) {
 							{props.todo.name}{' '}
 						</Typography>
 						<Typography className="MuiTypography-root todo-title truncate MuiTypography-body MuiTypography-colorInherit  mb-12">
-							Responsabile: Mandelli Roberto - Idraulico Specializzato
+							Responsabile: Mandelli Roberto
 						</Typography>
 
 						<Popover

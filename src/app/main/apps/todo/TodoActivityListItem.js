@@ -273,10 +273,10 @@ function TodoActivityListItem(props) {
 				className={clsx(
 					classes.todoItem,
 					{ completed },
-					'border-solid border-b-1 py-8 px-0 sm:px-8 touch-ripple-effect-remove'
+					'border-solid border-b-1 mt-10 px-0 custom-activity sm:px-8 touch-ripple-effect-remove'
 				)}
 				checked={completed}
-				style={{ borderLeft: '4px solid', borderLeftColor: props.task.assigned_company?.color_project }}
+				style={{ borderLeft: '0px solid', borderLeftColor: props.task.assigned_company?.color_project }}
 				onClick={ev => {
 					ev.preventDefault();
 					dispatch(Actions.openTimelineDialog({ todo: props.todo, task: props.task }));
@@ -285,7 +285,7 @@ function TodoActivityListItem(props) {
 				dense
 				button
 			>
-				<div className="flex flex-1 flex-col mb-8 relative overflow-hidden">
+				<div className="flex flex-1 flex-col  relative overflow-hidden">
 					<div className="flex items-center">
 						<Checkbox
 							tabIndex={-1}
