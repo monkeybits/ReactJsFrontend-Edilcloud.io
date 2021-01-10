@@ -1232,7 +1232,7 @@ audio {
     color: #1E2129;
 }
 .custom-member-menu {
-    background-color: #ffffff;
+    background-color: #f5f5f5;
     border-radius: 4px;
     padding: 6px 8px;
     font-size: 12px;
@@ -1771,4 +1771,25 @@ audio {
 }
 .custom-tippy {
     pointer-events: auto !important;
+}
+
+.custom-task {
+    margin-top:20px !important;
+    box-shadow: 3px 3px #e7e7e7 !important;
+    border-radius:20px !important;
+}
+.custom-activity {
+    box-shadow: 3px 3px #e7e7e7 !important;
+    border-radius:20px !important;
+    background-color: #f5f5f5 !important;
+}
+
+.grey-border {
+    border-width: thin;
+    border-style: solid;
+    border-color: #e7e7e7;
+}
+
+.bg-azure {
+    background-color: ##eff2f7;
 }
