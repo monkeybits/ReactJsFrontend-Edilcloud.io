@@ -34,6 +34,7 @@ import ImagesPreview from 'app/main/apps/notes/todo/ImagesPreview';
 import PostList from 'app/main/apps/notes/todo/PostList';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
+import Dropzone from 'react-dropzone';
 const uuidv1 = require('uuid/v1');
 const getAllFilesOfTimeline = timeline => {
 	if (Array.isArray(timeline) && timeline.length) {
@@ -199,9 +200,9 @@ function CreatePostForm({ isTask, taskId }) {
 	// 	};
 	// 	setOffilePosts(prev => ({ ...prev, [unique_code]: tempPost }));
 	// };
-	const addPhoto = async e => {
-		const files = e.currentTarget.files;
-		const fileToCompress = e.currentTarget.files[0];
+	const addPhoto = async files => {
+		// const files = e.currentTarget.files;
+		const fileToCompress = files[0];
 		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 		console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
 		if (fileToCompress.type?.split('/')[0] == 'image') {
@@ -229,7 +230,7 @@ function CreatePostForm({ isTask, taskId }) {
 		let file = [];
 		for (var i = 0; i < files.length; i++) {
 			let fileType = files[i].type?.split('/');
-			console.log('file',JSON.stringify( files[i]));
+			console.log('file', JSON.stringify(files[i]));
 			console.log('fileType', JSON.stringify(fileType));
 			console.log('local url', JSON.stringify(URL.createObjectURL(files[i])));
 			file = [
@@ -275,6 +276,7 @@ function CreatePostForm({ isTask, taskId }) {
 		setOffilePosts(tempPosts);
 		forceUpdate();
 	};
+
 	if (!data) {
 		return null;
 	}
@@ -303,21 +305,31 @@ function CreatePostForm({ isTask, taskId }) {
 							elevation={0}
 						>
 							<div className="add-photo-image">
-								<IconButton
-									onClick={() => inputRef.current.click()}
-									aria-label="Add photo"
-									className="p-8"
-								>
-									<Icon>photo</Icon>
-								</IconButton>
-								<input
-									hidden
-									multiple
-									type="file"
-									accept="image/*, video/*"
-									ref={inputRef}
-									onChange={addPhoto}
-								/>
+								<Dropzone onDrop={addPhoto}>
+									{({ getRootProps, getInputProps }) => (
+										<section>
+											<div {...getRootProps()}>
+												<IconButton
+													// onClick={() => inputRef.current.click()}
+													aria-label="Add photo"
+													className="p-8"
+												>
+													<Icon>add_a_photo</Icon>
+												</IconButton>
+												<input
+													hidden
+													multiple
+													type="file"
+													accept="image/*, video/*"
+													ref={inputRef}
+													// onChange={addPhoto}
+													{...getInputProps()}
+												/>
+												{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+											</div>
+										</section>
+									)}
+								</Dropzone>
 							</div>
 							<Button
 								onClick={createPost}
