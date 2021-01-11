@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { green } from '@material-ui/core/colors';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light-border.css'
 import { Paper } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -12,7 +13,9 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 function TippyMenu(props) {
+	const [instance, setInstance] = useState(null);
 	const [visible, setVisible] = useState(false);
+	const [ariaExpanded, setAriaExpanded] = useState(false);
 	const show = () => setVisible(true);
 	const hide = () => setVisible(false);
 	const classes = useStyles(props);
@@ -43,12 +46,23 @@ function TippyMenu(props) {
 			className="custom-tippy"
 			allowHTML
 			placement="bottom-start"
-			visible={visible}
+			// visible={Boolean(instance)}
 			// interactive
 			content={<Paper className={classes.paper}>{props.children}</Paper>}
-			onClickOutside={props.outsideClick ? handleMenuClose : () => ''}
+			onCreate={setInstance}
+			// onClickOutside={props.outsideClick ? handleMenuClose : () => ''}
+			trigger="click"
+			// Need to ensure it can be tabbed to directly after with no clipping issues
+			// appendTo="parent"
+			onMount={() => setAriaExpanded('true')}
+			onHide={() => setAriaExpanded('false')}
 		>
-			<div className="custom-tippy-btn" onClick={visible ? handleMenuClose : handleMenuOpen}>
+			<div
+				className="custom-tippy-btn"
+				aria-haspopup="true"
+				aria-expanded={ariaExpanded}
+				onClick={visible ? handleMenuClose : handleMenuOpen}
+			>
 				{props.icon ? props.icon : <Icon>person</Icon>}
 			</div>
 		</Tippy>

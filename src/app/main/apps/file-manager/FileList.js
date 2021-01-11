@@ -43,7 +43,18 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import ColorLensOutlinedIcon from '@material-ui/icons/ColorLensOutlined';
 import * as ICONS from 'app/main/apps/constants';
 import TippyMenu from 'app/TippyMenu';
-
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import {
+	DOWNLOAD_PHOTO,
+	DOWNLOAD_VIDEO,
+	DOWNLOAD_DOCUMENT,
+	PHOTO_DELETE,
+	VIDEO_DELETE,
+	DOCUMENT_DELETE,
+	FOLDER_DELETE
+} from 'app/services/apiEndPoints';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
+import FileSaver from 'file-saver';
 const useStyles = makeStyles({
 	typeIcon: {
 		'&.folder:before': {
@@ -75,12 +86,22 @@ function FileList(props) {
 	const options = [
 		{
 			name: 'Delete',
-			icon: <Icon>delete</Icon>
+			icon: <Icon>delete</Icon>,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				handleDelete(n);
+			}
 		},
 
 		{
 			name: 'Download',
-			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />
+			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				onDownload(n);
+			}
 		},
 		{
 			name: 'Move to',
@@ -191,6 +212,88 @@ function FileList(props) {
 			);
 		}
 	}, [currentFolderPath]);
+	const handleDelete = tile => {
+		let findIndex = 0;
+		if (tile.type == 'folder') {
+			findIndex = [...allFiles].findIndex(element => element.path == tile.path);
+		} else {
+			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
+		}
+		let selectedItem = allFiles[findIndex];
+		const userInfo = decodeDataFromToken();
+		const cid = userInfo.extra?.profile?.company;
+		const fileType = selectedItem.type;
+		const mainId = selectedItem.mainId;
+		const url =
+			fileType == 'folder'
+				? FOLDER_DELETE(cid, selectedItem.path)
+				: fileType == 'photo'
+				? PHOTO_DELETE(selectedItem.mainId)
+				: fileType == 'video'
+				? VIDEO_DELETE(selectedItem.mainId)
+				: DOCUMENT_DELETE(selectedItem.mainId);
+		apiCall(
+			url,
+			{},
+			res => {
+				if (fileType == 'folder') {
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
+				} else {
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
+				}
+				// colseDeleteFileDialog();
+			},
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
+	const onDownload = tile => {
+		let findIndex = 0;
+		if (tile.type == 'folder') {
+			findIndex = [...allFiles].findIndex(element => element.path == tile.path);
+		} else {
+			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
+		}
+		let selectedItem = allFiles[findIndex];
+		if (selectedItem) {
+			props.setProgress(0);
+			dispatch(Actions.onUploadHandleLoading(true));
+			let apiurl =
+				selectedItem.type == 'photo'
+					? DOWNLOAD_PHOTO(selectedItem.mainId)
+					: selectedItem.type == 'video'
+					? DOWNLOAD_VIDEO(selectedItem.mainId)
+					: DOWNLOAD_DOCUMENT(selectedItem.mainId);
+			apiCall(
+				apiurl,
+				{},
+				({ headers, data }) => {
+					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					console.log({ file });
+					FileSaver.saveAs(file);
+					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+					// FileSaver.saveAs(file);
+					dispatch(Actions.onUploadHandleLoading(false));
+				},
+				err => {
+					dispatch(Actions.onUploadHandleLoading(false));
+					props.setProgress(0);
+				},
+				METHOD.GET,
+				{
+					...getHeaderToken(),
+					responseType: 'arraybuffer',
+					onDownloadProgress: progressEvent => {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						props.setProgress(percentCompleted);
+					}
+				},
+				true
+			);
+		}
+	};
 	if (allFiles.length === 0 && searchText) {
 		return (
 			<div>
@@ -388,9 +491,10 @@ function FileList(props) {
 													</IconButton>
 												}
 												ref={menuRef}
+												outsideClick
 											>
 												{options.map(({ name, icon, handleClickEvent }) =>
-													name == 'View' || name == 'Move to' ? (
+													name != 'Delete' ? (
 														n.type != 'folder' ? (
 															<MenuItem
 																key={name}

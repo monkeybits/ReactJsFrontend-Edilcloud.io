@@ -32,6 +32,7 @@ import * as notificationActions from 'app/fuse-layouts/shared-components/notific
 import { toast } from 'react-toastify';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light-border.css'
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
 		return _.extend({}, element, source);

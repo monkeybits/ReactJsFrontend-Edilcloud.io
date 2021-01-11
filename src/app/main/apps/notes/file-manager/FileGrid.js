@@ -82,7 +82,6 @@ const useStylesList = makeStyles(theme => ({
 		boxShadow: '0 3px 6px #00000029'
 	}
 }));
-const options = ['Delete'];
 function FileGrid(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
@@ -189,7 +188,7 @@ function FileGrid(props) {
 		}
 	}, [currentFolderPath]);
 	const handleDelete = (tile, e) => {
-		e.stopPropagation();
+		// e.stopPropagation();
 		let findIndex = 0;
 		if (tile.type == 'folder') {
 			findIndex = [...allFiles].findIndex(element => element.path == tile.path);
@@ -283,15 +282,21 @@ function FileGrid(props) {
 													<MoreVertIcon />
 												</IconButton>
 											}
+											outsideClick
 										>
-											{options.map(option => (
-												<MenuItem key={option} onClick={e => handleDelete(d, e)}>
-													<ListItemIcon>
-														<Icon>delete</Icon>
-													</ListItemIcon>
-													<Typography variant="inherit"> {option}</Typography>
-												</MenuItem>
-											))}
+											{/* {options.map(option => ( */}
+											<MenuItem
+												onClick={e => {
+													e.stopPropagation();
+													handleDelete(d);
+												}}
+											>
+												<ListItemIcon>
+													<Icon>delete</Icon>
+												</ListItemIcon>
+												<Typography variant="inherit"> Delete</Typography>
+											</MenuItem>
+											{/* ))} */}
 										</TippyMenu>
 									</div>
 								</ListItem>

@@ -61,7 +61,7 @@ export function setUploadPercentage(payload) {
 		payload
 	};
 }
-export function getTodos(pid, isGantt,handleSetLoading=()=>'') {
+export function getTodos(pid, isGantt, handleSetLoading = () => '') {
 	// const request = axios.get('/api/todo-app/todos', { params });
 	handleSetLoading({
 		loadingTodos: true
