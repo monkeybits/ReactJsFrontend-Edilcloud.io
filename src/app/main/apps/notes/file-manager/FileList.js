@@ -43,6 +43,18 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import ColorLensOutlinedIcon from '@material-ui/icons/ColorLensOutlined';
 import * as ICONS from 'app/main/apps/constants';
 import TippyMenu from 'app/TippyMenu';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import {
+	DOWNLOAD_PHOTO,
+	DOWNLOAD_VIDEO,
+	DOWNLOAD_DOCUMENT,
+	PHOTO_DELETE,
+	VIDEO_DELETE,
+	DOCUMENT_DELETE,
+	FOLDER_DELETE
+} from 'app/services/apiEndPoints';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
+import FileSaver from 'file-saver';
 const useStyles = makeStyles({
 	typeIcon: {
 		'&.folder:before': {
@@ -392,9 +404,10 @@ function FileList(props) {
 													</IconButton>
 												}
 												ref={menuRef}
+												outsideClick
 											>
 												{options.map(({ name, icon, handleClickEvent }) =>
-													name == 'View' ? (
+													name != 'Delete' ? (
 														n.type != 'folder' ? (
 															<MenuItem
 																key={name}

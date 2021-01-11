@@ -61,7 +61,7 @@ function TodoApp(props) {
 	}, [dispatch]);
 
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getTodos(routeParams, handleSetLoading));
+		dispatch(Actions.getTodos(routeParams, false, handleSetLoading));
 	}, [dispatch, routeParams]);
 	if (loading.loadingTodos) {
 		return (
@@ -87,7 +87,7 @@ function TodoApp(props) {
 				}}
 				header={<TodoHeader pageLayout={pageLayout} />}
 				contentToolbar={<TodoToolbar />}
-				content={<TodoList />}
+				content={<TodoList handleSetLoading={handleSetLoading} />}
 				leftSidebarHeader={<TodoSidebarHeader />}
 				leftSidebarContent={<TodoSidebarContent />}
 				ref={pageLayout}

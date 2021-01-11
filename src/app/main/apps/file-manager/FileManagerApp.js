@@ -284,19 +284,27 @@ function FileManagerApp(props) {
 					rightSidebar: 'w-320'
 				}}
 				header={
-					<div className="flex flex-col flex-1 relative z-50">
-						<div className="flex items-center justify-between left-icon-btn">
-							<FuseAnimate delay={200}>
-								<div>
-									{folderPath && (
-										<Breadcrumb
-											selected={folderPath}
-											className="flex flex-1 filemanager-breadcumb font-700 text-24 text-default mt-6"
-										/>
-									)}
+					<>
+						<div className="flex flex-col flex-1 relative z-50">
+							<div className="flex w-full justify-between items-center mb-20">
+								<div className="mr-20">
+									<Typography variant="h5" className="mb-4">
+										Files
+									</Typography>
 								</div>
-							</FuseAnimate>
-							{/* <IconButton
+							</div>
+							<div className="flex items-center justify-between left-icon-btn">
+								<FuseAnimate delay={200}>
+									<div>
+										{folderPath && (
+											<Breadcrumb
+												selected={folderPath}
+												className="flex flex-1 filemanager-breadcumb font-700 text-24 text-default mt-6"
+											/>
+										)}
+									</div>
+								</FuseAnimate>
+								{/* <IconButton
 								onClick={() => {
 									pageLayout.current.toggleLeftSidebar();
 								}}
@@ -305,7 +313,7 @@ function FileManagerApp(props) {
 							>
 								<Icon>menu</Icon>
 							</IconButton> */}
-							{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
+								{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
 								<Paper className="flex p-4 items-center w-full h-40 px-8 py-4 bg-white search-white-box" elevation={1}>
 									<Icon className="text-20" color="action">search</Icon>
 
@@ -322,22 +330,22 @@ function FileManagerApp(props) {
 									/>
 								</Paper>
 							</FuseAnimate> */}
-							<div className="flex two-btn rounded h-40 ml-10">
-								<IconButton
-									onClick={() => setViewTable(false)}
-									className={!viewTable ? 'text-default' : ''}
-								>
-									<FontAwesomeIcon icon={faTh} />
-								</IconButton>
-								<IconButton onClick={() => setViewTable(true)}>
-									<FontAwesomeIcon icon={faList} className={viewTable ? 'text-default' : ''} />
-								</IconButton>
+								<div className="flex two-btn rounded h-40 ml-10">
+									<IconButton
+										onClick={() => setViewTable(false)}
+										className={!viewTable ? 'text-default' : ''}
+									>
+										<FontAwesomeIcon icon={faTh} />
+									</IconButton>
+									<IconButton onClick={() => setViewTable(true)}>
+										<FontAwesomeIcon icon={faList} className={viewTable ? 'text-default' : ''} />
+									</IconButton>
+								</div>
 							</div>
-						</div>
-						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
-						{/* <div className="flex flex-1 items-end"> */}
+							<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
+							{/* <div className="flex flex-1 items-end"> */}
 
-						{/* <FuseAnimate animation="transition.expandIn" delay={600}>
+							{/* <FuseAnimate animation="transition.expandIn" delay={600}>
 								<Fab
 									onClick={() => setIsOpenDrawer(true)}
 									color="secondary"
@@ -348,15 +356,16 @@ function FileManagerApp(props) {
 								</Fab>
 							</FuseAnimate> */}
 
-						{/* </div> */}
-						{isUploadingFiles && (
-							<div className="linear-progress custom-color">
-								<LinearProgressWithLabel progress={progress} />
-							</div>
-						)}
-					</div>
+							{/* </div> */}
+							{isUploadingFiles && (
+								<div className="linear-progress custom-color">
+									<LinearProgressWithLabel progress={progress} />
+								</div>
+							)}
+						</div>
+					</>
 				}
-				content={viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}
+				content={viewTable ? <FileList setProgress={setProgress} pageLayout={pageLayout} /> : <FileGrid setProgress={setProgress} pageLayout={pageLayout} />}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}

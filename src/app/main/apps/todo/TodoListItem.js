@@ -353,7 +353,7 @@ function TodoListItem(props) {
 														{
 															id: props.todo.id,
 															name: props.todo.name,
-															company: props.todo.assigned_company,
+															company: [{ data: props.todo.assigned_company }],
 															progress: v,
 															startDate: props.todo.date_start,
 															endDate: props.todo.date_end,

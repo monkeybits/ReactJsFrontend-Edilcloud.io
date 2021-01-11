@@ -380,7 +380,7 @@ function FileManagerApp(props) {
 						</div>
 					</>
 				}
-				content={viewTable ? <FileList pageLayout={pageLayout} /> : <FileGrid pageLayout={pageLayout} />}
+				content={viewTable ? <FileList pageLayout={pageLayout} setProgress={setProgress} /> : <FileGrid pageLayout={pageLayout} setProgress={setProgress} />}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}

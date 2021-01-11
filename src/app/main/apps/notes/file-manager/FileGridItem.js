@@ -24,7 +24,18 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PictureAsPdfOutlinedIcon from '@material-ui/icons/PictureAsPdfOutlined';
 import * as ICONS from 'app/main/apps/constants';
 import TippyMenu from 'app/TippyMenu';
-
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import {
+	DOWNLOAD_PHOTO,
+	DOWNLOAD_VIDEO,
+	DOWNLOAD_DOCUMENT,
+	PHOTO_DELETE,
+	VIDEO_DELETE,
+	DOCUMENT_DELETE,
+	FOLDER_DELETE
+} from 'app/services/apiEndPoints';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
+import FileSaver from 'file-saver';
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
@@ -55,7 +66,7 @@ const useStyles = makeStyles(theme => ({
  *   },
  * ];
  */
-export default function FileGridItem({ tileData, pageLayout, handleDelete }) {
+export default function FileGridItem({ tileData, pageLayout, handleDelete, setProgress }) {
 	const dispatch = useDispatch();
 	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const classes = useStyles();
@@ -68,6 +79,89 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete }) {
 		);
 		let fileData = allFiles[findIndex];
 		dispatch(Actions.setSelectedItem(fileData.id));
+	};
+	const options = [
+		{
+			name: 'Delete',
+			icon: <Icon>delete</Icon>,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				handleDelete(n);
+			}
+		},
+
+		{
+			name: 'Download',
+			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				onDownload(n);
+			}
+		},
+		{
+			name: 'Move to',
+			icon: <Icon>transform</Icon>,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				dispatch(Actions.openMoveFileDialog(n));
+			}
+		},
+		{
+			name: 'View',
+			icon: <Icon>info</Icon>,
+			handleClickEvent: (ev, n) => {
+				handleOpenData(ev, n);
+			}
+		}
+	];
+	const onDownload = tile => {
+		let findIndex = 0;
+		if (tile.type == 'folder') {
+			findIndex = [...allFiles].findIndex(element => element.path == tile.path);
+		} else {
+			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
+		}
+		let selectedItem = allFiles[findIndex];
+		if (selectedItem) {
+			setProgress(0);
+			dispatch(Actions.onUploadHandleLoading(true));
+			let apiurl =
+				selectedItem.type == 'photo'
+					? DOWNLOAD_PHOTO(selectedItem.mainId)
+					: selectedItem.type == 'video'
+					? DOWNLOAD_VIDEO(selectedItem.mainId)
+					: DOWNLOAD_DOCUMENT(selectedItem.mainId);
+			apiCall(
+				apiurl,
+				{},
+				({ headers, data }) => {
+					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					console.log({ file });
+					FileSaver.saveAs(file);
+					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+					// FileSaver.saveAs(file);
+					dispatch(Actions.onUploadHandleLoading(false));
+				},
+				err => {
+					dispatch(Actions.onUploadHandleLoading(false));
+					setProgress(0);
+				},
+				METHOD.GET,
+				{
+					...getHeaderToken(),
+					responseType: 'arraybuffer',
+					onDownloadProgress: progressEvent => {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						setProgress(percentCompleted);
+					}
+				},
+				true
+			);
+		}
 	};
 	const getCssColor = fileType =>
 		fileType == 'pdf'
@@ -179,15 +273,20 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete }) {
 												<MoreVertIcon />
 											</IconButton>
 										}
+										outsideClick
 									>
-										{/* {options.map(option => ( */}
-										<MenuItem onClick={e => handleDelete(tile, e)}>
-											<ListItemIcon>
-												<Icon>delete</Icon>
-											</ListItemIcon>
-											<Typography variant="inherit"> Delete</Typography>
-										</MenuItem>
-										{/* ))} */}
+										{options.map(({ name, icon, handleClickEvent }) => (
+											<MenuItem
+												key={name}
+												onClick={e => {
+													// menuRef.current.handleMenuClose();
+													handleClickEvent(e, tile);
+												}}
+											>
+												<ListItemIcon>{icon}</ListItemIcon>
+												<Typography variant="inherit"> {name}</Typography>
+											</MenuItem>
+										))}
 									</TippyMenu>
 								}
 							/>

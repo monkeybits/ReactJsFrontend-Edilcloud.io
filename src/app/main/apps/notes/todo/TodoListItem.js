@@ -286,7 +286,15 @@ function TodoListItem(props) {
 					name,
 					description: note,
 					id,
-					company: [{ data: company }],
+					company: [
+						{
+							data: {
+								profile: {
+									company: props.todo.assigned_company
+								}
+							}
+						}
+					],
 					startDate: props.todo.date_start,
 					endDate: props.todo.date_end,
 					description: props.todo.note
@@ -519,7 +527,15 @@ function TodoListItem(props) {
 														{
 															id: props.todo.id,
 															name: props.todo.name,
-															company: props.todo.assigned_company,
+															company: [
+																{
+																	data: {
+																		profile: {
+																			company: props.todo.assigned_company
+																		}
+																	}
+																}
+															],
 															progress: v,
 															startDate: props.todo.date_start,
 															endDate: props.todo.date_end,
@@ -630,15 +646,15 @@ function TodoListItem(props) {
 						}
 					}}
 				> */}
-					{/* left side footer */}
-					{/* <div className="flex items-center mr-16">
+				{/* left side footer */}
+				{/* <div className="flex items-center mr-16">
 						<div className="flex items-center px-8 py-4 mx-4 rounded bg-grey-700 text-white">
 							<Icon className="text-16">check_circle</Icon>
 							<span className="mx-4">2/7</span>
 						</div>
 					</div> */}
-					{/* right side footer */}
-					{/* <div className="flex items-center">
+				{/* right side footer */}
+				{/* <div className="flex items-center">
 						{props.todo.assigned_company?.id == company.id && (
 							<div className="flex items-center font-600">
 								<span className="mx-4 underline">Task Activities</span>
@@ -667,26 +683,26 @@ function TodoListItem(props) {
 			</Card>
 			{props.isPdf ? props.postlist : null}
 			{/* <Collapse in={open} timeout="auto" unmountOnExit> */}
-				<List className="p-0">
-					<FuseAnimateGroup
-						enter={{
-							animation: 'transition.slideUpBigIn'
-						}}
-					>
-						{taskDetail &&
-							!!taskDetail.length &&
-							taskDetail.map(todo => (
-								<TodoActivityListItem
-									{...props}
-									getDetailOfTask={getDetailOfTask}
-									task={props.todo}
-									todo={todo}
-									key={todo.id}
-									postlist={<PostList tempAuthor={{}} posts={todo.post_set} />}
-								/>
-							))}
-					</FuseAnimateGroup>
-				</List>
+			<List className="p-0">
+				<FuseAnimateGroup
+					enter={{
+						animation: 'transition.slideUpBigIn'
+					}}
+				>
+					{taskDetail &&
+						!!taskDetail.length &&
+						taskDetail.map(todo => (
+							<TodoActivityListItem
+								{...props}
+								getDetailOfTask={getDetailOfTask}
+								task={props.todo}
+								todo={todo}
+								key={todo.id}
+								postlist={<PostList tempAuthor={{}} posts={todo.post_set} />}
+							/>
+						))}
+				</FuseAnimateGroup>
+			</List>
 			{/* </Collapse> */}
 		</>
 	);

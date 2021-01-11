@@ -45,6 +45,7 @@ import * as ICONS from 'app/main/apps/constants';
 import Menu from '@material-ui/core/Menu';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light-border.css'
 import { Paper } from '@material-ui/core';
 
 const useStyles = makeStyles({

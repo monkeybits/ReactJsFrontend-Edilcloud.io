@@ -32,6 +32,7 @@ import { toast } from 'react-toastify';
 import { green } from '@material-ui/core/colors';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light-border.css'
 import { HIDE_MESSAGE } from 'app/store/actions';
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
@@ -103,6 +104,7 @@ function TodoActivityListItem(props) {
 	const [canAssign, setCanAssign] = useState([]);
 	const anchorRef = React.useRef();
 	const [visible, setVisible] = useState(false);
+	const [ariaExpanded, setAriaExpanded] = useState(false);
 	const show = () => setVisible(true);
 	const hide = () => setVisible(false);
 	useEffect(() => {
@@ -341,10 +343,17 @@ function TodoActivityListItem(props) {
 							/>
 							<Tippy
 								className="custom-tippy"
-								allowHTML
-								placement="bottom-start"
-								visible={visible}
+								placement="bottom"
+								animation="fade"
+								arrow={true}
+								theme="light-border"
+								trigger="click"
+								// Need to ensure it can be tabbed to directly after with no clipping issues
+								// appendTo="parent"
+								onMount={() => setAriaExpanded('true')}
+								onHide={() => setAriaExpanded('false')}
 								// interactive
+								// hideOnClick={false}
 								content={
 									<Paper className={classes.paper}>
 										{/* <ToolbarMenu state={anchorEl} onClose={handleMenuClose}> */}
@@ -376,7 +385,7 @@ function TodoActivityListItem(props) {
 																key={member.id}
 															>
 																<Checkbox
-																	onClick={ev => ev.stopPropagation()}
+																	onClick={stopsEvents}
 																	name={member.first_name}
 																	checked={!!member.is_exists}
 																	onChange={e => {
@@ -483,6 +492,8 @@ function TodoActivityListItem(props) {
 									ref={anchorRef}
 									className="custom-member-menu flex items-center"
 									onClick={visible ? handleMenuClose : handleMenuOpen}
+									aria-haspopup="true"
+									aria-expanded={ariaExpanded}
 								>
 									<Icon>person</Icon>
 									{/* Assign People */}

@@ -49,7 +49,7 @@ export function setUploadPercentage(payload) {
 		payload
 	};
 }
-export function getTodos(params, handleSetLoading = () => '') {
+export function getTodos(params, isGantt = false, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingTodos: true
 	});
@@ -231,7 +231,7 @@ export function openAddActivityTodoDialog(data) {
 			data
 		});
 }
-export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, setLoading) {
+export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, setLoading, handleSetLoading) {
 	console.log({
 		todo
 	});
@@ -264,7 +264,7 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 			values,
 			res => {
 				setLoading(false);
-				dispatch(getTodos(pid, isGantt));
+				dispatch(getTodos(pid, isGantt, handleSetLoading));
 				closeTodoDialog();
 			},
 			err => console.log(err),
