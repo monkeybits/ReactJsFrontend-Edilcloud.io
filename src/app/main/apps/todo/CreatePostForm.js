@@ -317,13 +317,13 @@ function CreatePostForm({ isTask, taskId }) {
 													<Icon>add_a_photo</Icon>
 												</IconButton>
 												<input
-													hidden
-													multiple
-													type="file"
-													accept="image/*, video/*"
-													ref={inputRef}
+													// ref={inputRef}
 													// onChange={addPhoto}
 													{...getInputProps()}
+													multiple
+													hidden
+													type="file"
+													accept="image/*, video/*"
 												/>
 												{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
 											</div>
