@@ -1,13 +1,11 @@
 import { authRoles } from 'app/auth';
 import MaterialUIComponentsNavigation from 'app/main/documentation/material-ui-components/MaterialUIComponentsNavigation';
 import i18next from 'i18next';
-import ar from './navigation-i18n/ar';
 import en from './navigation-i18n/en';
-import tr from './navigation-i18n/tr';
+import tr from './navigation-i18n/it';
 
 i18next.addResourceBundle('en', 'navigation', en);
-i18next.addResourceBundle('tr', 'navigation', tr);
-i18next.addResourceBundle('ar', 'navigation', ar);
+i18next.addResourceBundle('it', 'navigation', tr);
 
 const navigationConfig = [
 	{

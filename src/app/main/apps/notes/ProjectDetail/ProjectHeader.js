@@ -2,9 +2,11 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import { Button, Typography } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 export default function ProjectHeader(props) {
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
+	const { t } = useTranslation('projects');
 
 	return (
 		/*	<div
@@ -36,7 +38,7 @@ export default function ProjectHeader(props) {
 					color="primary"
 					className={'btn-primary normal-case m-0'}
 				>
-					Info Progetto
+					{t('PROJECT_INFO')}
 				</Button>
 			</div>
 		</div>

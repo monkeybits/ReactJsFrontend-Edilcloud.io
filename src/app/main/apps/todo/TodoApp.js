@@ -19,6 +19,7 @@ import TodoDialog from './TodoDialog';
 import ShowUpload from './ShowUpload';
 import { Icon, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import AccessibilityToggleButton from 'app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles({
 });
 function TodoApp(props) {
 	const dispatch = useDispatch();
+	const { t } = useTranslation('dashboard');
 	const classes = useStyles(props);
 	const history = useHistory();
 	const pageLayout = useRef(null);

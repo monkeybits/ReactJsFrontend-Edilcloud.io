@@ -17,7 +17,12 @@ import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import i18next from 'i18next';
+import en from './i18n/en';
+import it from './i18n/it';
 
+i18next.addResourceBundle('en', 'chat_panel', en);
+i18next.addResourceBundle('it', 'chat_panel', it);
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: 70,
