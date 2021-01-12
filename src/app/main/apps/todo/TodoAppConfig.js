@@ -1,6 +1,6 @@
-import i18next from 'i18next';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import i18next from 'i18next';
 import en from './i18n/en';
 import it from './i18n/it';
 
