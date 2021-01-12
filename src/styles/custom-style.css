@@ -718,7 +718,7 @@ textarea.MuiOutlinedInput-input {
     height: calc(100vh - 175px) !important;
 }
 .gantt-custom-full-screen .demo-main-container>.gantt-min-height>.gantt_container{
-    height: calc(100vh + 91px) !important;
+    height: calc(100vh + 58px) !important;
 }
 .gantt-custom-full-screen .gantt-demo-header {
     margin-top: 30px;
