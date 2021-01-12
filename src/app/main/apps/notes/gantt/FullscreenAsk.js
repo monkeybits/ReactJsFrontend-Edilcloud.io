@@ -33,7 +33,7 @@ export default function FullscreenAsk({ open, setOpen, onYes, onNeverAsk }) {
 			aria-labelledby="alert-dialog-slide-title"
 			aria-describedby="alert-dialog-slide-description"
 		>
-			<DialogTitle id="alert-dialog-slide-title">For a Better usage use full screen version</DialogTitle>
+			<DialogTitle id="alert-dialog-slide-title">For a Better usage use fullscreen version</DialogTitle>
 			{/* <DialogContent>
 				<DialogContentText id="alert-dialog-slide-description">
 					For a Better usage use full screen version
