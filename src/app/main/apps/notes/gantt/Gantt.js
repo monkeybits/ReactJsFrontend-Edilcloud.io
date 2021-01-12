@@ -32,6 +32,7 @@ import {
 	faArrowAltCircleRight
 } from '@fortawesome/free-regular-svg-icons';
 import { faDownload, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
+import FullscreenAsk from './FullscreenAsk';
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
@@ -160,7 +161,8 @@ class Gantt extends Component {
 			tasks: undefined,
 			zoomLevel: 3,
 			expandAll: false,
-			openTasks: []
+			openTasks: [],
+			open: false
 		};
 		this.fileDnD = null;
 	}
@@ -195,6 +197,9 @@ class Gantt extends Component {
 			) {
 				if (!gantt.getState().fullscreen) {
 					document.body.className = '';
+					setTimeout(() => {
+						gantt.collapse();
+					}, 300);
 				}
 			}
 		}
@@ -223,13 +228,13 @@ class Gantt extends Component {
 			};
 		});
 		this.dataProcessor = gantt.createDataProcessor((entityType, action, item, id) => {
-			let end_date = new Date(item.end_date);
-			console.log({ entityType, action, item, id, task: gantt.getTask(id) });
-			if (action == 'update') {
-				end_date.setDate(end_date.getDate() - 1);
-				gantt.getTask(id).end_date = end_date;
-				gantt.render();
-			}
+			// let end_date = new Date(item.end_date);
+			// console.log({ entityType, action, item, id, task: gantt.getTask(id) });
+			// if (action == 'update') {
+			// 	end_date.setDate(end_date.getDate() - 1);
+			// 	gantt.getTask(id).end_date = end_date;
+			// 	gantt.render();
+			// }
 			return new Promise((resolve, reject) => {
 				if (item.parent == 0) {
 					this.editTodo(
@@ -240,7 +245,7 @@ class Gantt extends Component {
 							company: item.data.assigned_company,
 							progress: item.data.progress,
 							date_start: item.start_date,
-							date_end: end_date
+							date_end: item.end_date
 						},
 						this.props.match.params.id
 					);
@@ -321,11 +326,24 @@ class Gantt extends Component {
 			return false;
 		} else if (this.state.toggleLeft != nextState.toggleLeft) {
 			return true;
+		} else if (this.state.open != nextState.open) {
+			return true;
 		} else if (!nextState.tasks?.data?.length) {
 			return true;
 		} else if (nextProps.orientation == 'portrait') {
 			gantt.collapse();
 			return false;
+		} else if (
+			nextProps.orientation == 'landscape' &&
+			nextProps.value == 4 &&
+			!gantt.getState().fullscreen &&
+			localStorage.getItem('askFullscreen') != 'false'
+		) {
+			this.setState({
+				open: true
+			});
+			// gantt.collapse();
+			// return false;
 		} else if (nextProps.value == 4) {
 			gantt.render();
 			return false;
@@ -912,7 +930,7 @@ class Gantt extends Component {
 		const isUserHavePermssionsFromAdmin =
 			this.props.company?.id == this.props.projectDetail?.company?.id && permissionByRole;
 		return (
-			<div >
+			<div>
 				{/* <div className="flex w-full justify-between items-center p-24 pb-16">
 					<div className="mr-20">
 						<Typography variant="h5" className="mb-4">
@@ -934,6 +952,18 @@ class Gantt extends Component {
 
 				<div class="demo-main-container">
 					{this.props.todos?.isLoadingTodos && <LinearProgress color="secondary" />}
+					<FullscreenAsk
+						open={this.state.open}
+						setOpen={open =>
+							this.setState({
+								open
+							})
+						}
+						onYes={() => {
+							this.fullscreenRef.click();
+						}}
+						onNeverAsk={open => localStorage.setItem('askFullscreen', false)}
+					/>
 					<div class="header gantt-demo-header">
 						<ul class="gantt-controls">
 							{/* <li class="gantt-menu-item" onClick={this.toggleLeftPanel}>
@@ -1070,6 +1100,7 @@ class Gantt extends Component {
 							<li
 								class="gantt-menu-item"
 								id="fullScreen"
+								ref={ref => (this.fullscreenRef = ref)}
 								// onClick={() => {
 								// 	gantt.ext.fullscreen.toggle();
 								// }}
@@ -1081,7 +1112,6 @@ class Gantt extends Component {
 							</li>
 						</ul>
 					</div>
-
 					<div
 						ref={input => {
 							this.ganttContainer = input;

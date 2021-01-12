@@ -31,7 +31,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { toast } from 'react-toastify';
 import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
+// import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css'
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
