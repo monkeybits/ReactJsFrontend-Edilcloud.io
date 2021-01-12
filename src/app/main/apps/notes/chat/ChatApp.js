@@ -155,7 +155,7 @@ function ChatApp(props) {
 	}, [dispatch, company, routeParams, projectDetail]);
 	if (loading.loadingCompanyInfo || loading.loadingGetChat || loading.loadingGetContacts) {
 		return (
-			<div className="flex flex-1 flex-col items-center justify-center">
+			<div className="flex flex-1 flex-col items-center justify-center h-full">
 				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
 					Loading chats...
 				</Typography>

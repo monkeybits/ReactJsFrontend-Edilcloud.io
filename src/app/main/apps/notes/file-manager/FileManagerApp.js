@@ -271,7 +271,7 @@ function FileManagerApp(props) {
 	const isLoadingFiles = () =>
 		loading.loadingVideos || loading.loadingPhotos || loading.loadingFolders || loading.loadingDocuments;
 	const loadingComponent = (
-		<div className="flex flex-1 flex-col items-center justify-center">
+		<div className="flex flex-1 flex-col items-center justify-center h-full">
 			<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
 				Loading files...
 			</Typography>
