@@ -80,7 +80,7 @@ const peopleFilterNames = arr => {
 		let activityPeople = [];
 		if (
 			toFlatten.assigned_company &&
-			userInfo.extra?.profile &&
+			userInfo?.extra?.profile &&
 			toFlatten.assigned_company.id == userInfo.extra.profile.company
 		) {
 			activityPeople = flatten(toFlatten.activities);
