@@ -714,7 +714,12 @@ textarea.MuiOutlinedInput-input {
 .demo-main-container>.gantt-min-height>.gantt_container{
     height: calc(100vh - 175px) !important;
 }
-
+.gantt-custom-full-screen .demo-main-container>.gantt-min-height>.gantt_container{
+    height: calc(100vh + 91px) !important;
+}
+.gantt_layout_cell {
+    height: 100% !important;
+}
 /* .gantt-container {
     min-height: calc(100vh - 90px);
     overflow-y: auto;
@@ -1788,5 +1793,5 @@ audio {
 }
 
 .bg-azure {
-    background-color: ##eff2f7;
+    background-color: #eff2f7;
 }
