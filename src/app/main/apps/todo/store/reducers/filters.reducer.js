@@ -6,33 +6,33 @@ const initialState = () => {
 
 	let genrealFilter = [
 		{
-			name: 'Mine',
+			name: 'MINE',
 			isActive: true
 		},
 		{
-			name: 'All',
+			name: 'ALL',
 			isActive: false
 		},
 		{
-			name: 'Alerted',
+			name: 'ALERTED',
 			isActive: false
 		}
 	];
 	let timeFilter = [
 		{
-			name: 'Today',
+			name: 'TODAY',
 			isActive: true
 		},
 		{
-			name: 'Next week',
+			name: 'NEXT_WEEK',
 			isActive: false
 		},
 		{
-			name: 'In late',
+			name: 'IN_LATE',
 			isActive: false
 		},
 		{
-			name: 'Completed',
+			name: 'COMPLETED',
 			isActive: false
 		}
 	];

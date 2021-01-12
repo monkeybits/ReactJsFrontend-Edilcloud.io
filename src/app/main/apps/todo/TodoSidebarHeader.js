@@ -3,6 +3,7 @@ import Icon from '@material-ui/core/Icon';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const accounts = {
 	creapond: 'johndoe@creapond.com',
@@ -11,6 +12,7 @@ const accounts = {
 
 function TodoSidebarHeader() {
 	const [selectedAccount, setSelectedCount] = useState('creapond');
+	const { t } = useTranslation('dashboard');
 
 	function handleAccountChange(ev) {
 		setSelectedCount(ev.target.value);
@@ -23,7 +25,7 @@ function TodoSidebarHeader() {
 					<Icon className="text-32">check_box</Icon>
 				</FuseAnimate>
 				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-					<span className="text-24 mx-16">To-Do</span>
+					<span className="text-24 mx-16">{t('APP_TITLE')}</span>
 				</FuseAnimate>
 			</div>
 

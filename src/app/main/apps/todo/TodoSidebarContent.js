@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	listItem: {
@@ -53,6 +54,7 @@ function TodoSidebarContent(props) {
 	const peopleFilter = useSelector(({ todoApp }) => todoApp.filters.peopleFilter);
 	const activeFilterKey = useSelector(({ todoApp }) => todoApp.filters.activeFilterKey);
 	const usedKeys = useSelector(({ todoApp }) => todoApp.filters.usedKeys);
+	const { t } = useTranslation('dashboard');
 
 	const classes = useStyles(props);
 	const changeFilter = (activeFilter, activeFilterKey) =>
@@ -95,7 +97,7 @@ function TodoSidebarContent(props) {
 
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-							GENERAL FILTERS
+							{t('GENERAL_FILTERS')}
 						</ListSubheader>
 
 						{genrealFilter.length > 0 &&
@@ -110,14 +112,14 @@ function TodoSidebarContent(props) {
 									<Icon className="list-item-icon" color="action">
 										{filter.icon}
 									</Icon>
-									<ListItemText primary={filter.name} disableTypography />
+									<ListItemText primary={t(filter.name)} disableTypography />
 								</ListItem>
 							))}
 					</List>
 
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-							TIME FILTERS
+						{t('TIME_FILTERS')}	
 						</ListSubheader>
 
 						{timeFilter.length > 0 &&
@@ -132,13 +134,13 @@ function TodoSidebarContent(props) {
 									<Icon className="list-item-icon" color="action">
 										{filter.icon}
 									</Icon>
-									<ListItemText primary={filter.name} disableTypography />
+									<ListItemText primary={t(filter.name)} disableTypography />
 								</ListItem>
 							))}
 					</List>
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-							PROJECT FILTERS
+							{t('PROJECT_FILTERS')}
 						</ListSubheader>
 						{projectFilter.length > 0 &&
 							projectFilter.map(filter => (
@@ -158,7 +160,7 @@ function TodoSidebarContent(props) {
 					</List>
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-							COMPANY FILTERS
+							{t('COMPANY_FILTERS')}
 						</ListSubheader>
 						{companyFilter.length > 0 &&
 							companyFilter.map(filter => (
@@ -178,7 +180,7 @@ function TodoSidebarContent(props) {
 					</List>
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-							PEOPLE FILTERS
+							{t('PEOPLE_FILTERS')}
 						</ListSubheader>
 
 						{peopleFilter.length > 0 &&
