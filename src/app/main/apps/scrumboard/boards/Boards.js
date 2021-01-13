@@ -129,11 +129,14 @@ function Boards(props) {
 	
 		if (window.flutter_inappwebview) {
 			console.log('listenning to flutterInAppWebViewPlatformReady');
-			console.log(window.flutter_inappwebview)
-			window.flutter_inappwebview.callHandler('OneSignal', myCustomUniqueUserId.toString())
+			window.flutter_inappwebview.callHandler('OneSignalSetUser', myCustomUniqueUserId.toString())
 			.then(function(result) {
 				console.log(JSON.stringify(result));
 			})
+			console.log('finish listenning to flutterInAppWebViewPlatformReady');
+		} else {
+			console.log('listenning to flutterInAppWebViewPlatformReady');
+			window.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		}
 		window.OneSignal.push(function () {
