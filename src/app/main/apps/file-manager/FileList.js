@@ -55,6 +55,7 @@ import {
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles({
 	typeIcon: {
 		'&.folder:before': {
@@ -82,10 +83,11 @@ function FileList(props) {
 	const selectedItemId = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
 	const menuRef = useRef(null);
+	const { t } = useTranslation('filemanager');
 	// const [allFiles, setAllFiles] = useState([]);
 	const options = [
 		{
-			name: 'Delete',
+			name: 'DELETE',
 			icon: <Icon>delete</Icon>,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
@@ -95,7 +97,7 @@ function FileList(props) {
 		},
 
 		{
-			name: 'Download',
+			name: 'DOWNLOAD',
 			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
@@ -104,7 +106,7 @@ function FileList(props) {
 			}
 		},
 		{
-			name: 'Move to',
+			name: 'MOVE_TO',
 			icon: <Icon>transform</Icon>,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
@@ -113,7 +115,7 @@ function FileList(props) {
 			}
 		},
 		{
-			name: 'View',
+			name: 'VIEW',
 			icon: <Icon>info</Icon>,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
@@ -321,14 +323,14 @@ function FileList(props) {
 						<TableHead>
 							<TableRow>
 								<TableCell className="max-w-64 w-64 p-0 text-center"> </TableCell>
-								<TableCell>Name</TableCell>
-								<TableCell className="hidden sm:table-cell">Type</TableCell>
-								<TableCell className="hidden sm:table-cell">Owner</TableCell>
-								<TableCell className="text-center hidden sm:table-cell">Size</TableCell>
-								<TableCell className="hidden sm:table-cell">Modified</TableCell>
+								<TableCell>{t('NAME')}</TableCell>
+								<TableCell className="hidden sm:table-cell">{t('TYPE')}</TableCell>
+								<TableCell className="hidden sm:table-cell">{t('OWNER')}</TableCell>
+								<TableCell className="text-center hidden sm:table-cell">{t('SIZE')}</TableCell>
+								<TableCell className="hidden sm:table-cell">{t('MODIFIED')}</TableCell>
 								{/* <TableCell></TableCell>
 								<TableCell></TableCell> */}
-								<TableCell>Actions</TableCell>
+								<TableCell>{t('ACTIONS')}</TableCell>
 							</TableRow>
 						</TableHead>
 					)}
@@ -348,7 +350,7 @@ function FileList(props) {
 								<TableCell className="hidden sm:table-cell"></TableCell>
 								<TableCell></TableCell>
 								<TableCell></TableCell>
-								<TableCell>Actions</TableCell>
+								<TableCell>{t('ACTIONS')}</TableCell>
 							</TableRow>
 						)}
 						{Object.entries(allFiles).map(([key, n]) => {
@@ -494,7 +496,7 @@ function FileList(props) {
 												outsideClick
 											>
 												{options.map(({ name, icon, handleClickEvent }) =>
-													name != 'Delete' ? (
+													name != 'DELETE' ? (
 														n.type != 'folder' ? (
 															<MenuItem
 																key={name}
@@ -504,7 +506,7 @@ function FileList(props) {
 																}}
 															>
 																<ListItemIcon>{icon}</ListItemIcon>
-																<Typography variant="inherit"> {name}</Typography>
+																<Typography variant="inherit"> {t(name)}</Typography>
 															</MenuItem>
 														) : null
 													) : (
@@ -516,7 +518,7 @@ function FileList(props) {
 															}}
 														>
 															<ListItemIcon>{icon}</ListItemIcon>
-															<Typography variant="inherit"> {name}</Typography>
+															<Typography variant="inherit"> {t(name)}</Typography>
 														</MenuItem>
 													)
 												)}
@@ -536,12 +538,12 @@ function FileList(props) {
 					</div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<Typography color="textSecondary" variant="h5">
-							Seems that there are no files yet!
+							{t('NO_FILES_MESSAGE')}
 						</Typography>
 					</div>
 					<div className="flex flex-1 mt-20 items-center justify-center h-full">
 						<Typography color="textSecondary" variant="h6">
-							Create a file or a folder clicking on green + button
+							{t('CREATE_FILE_ADVICE')}
 						</Typography>
 					</div>
 				</div>

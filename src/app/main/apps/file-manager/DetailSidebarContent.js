@@ -45,8 +45,9 @@ import * as ICONS from 'app/main/apps/constants';
 import Menu from '@material-ui/core/Menu';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import 'tippy.js/themes/light-border.css'
+import 'tippy.js/themes/light-border.css';
 import { Paper } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
 	table: {
@@ -71,6 +72,7 @@ const useStyles = makeStyles({
 });
 
 function DetailSidebarContent({ setProgress }) {
+	const { t } = useTranslation('filemanager');
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
 	const dispatch = useDispatch();
@@ -229,20 +231,20 @@ function DetailSidebarContent({ setProgress }) {
 							<MenuItem onClick={onDownload}>
 								<img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />
 
-								<Typography variant="inherit">Download</Typography>
+								<Typography variant="inherit">{t('DOWNLOAD')}</Typography>
 							</MenuItem>
 							<MenuItem onClick={openDeleteFileDialog}>
 								<ListItemIcon>
 									<DeleteOutlineOutlinedIcon fontSize="medium" />
 								</ListItemIcon>
-								<Typography variant="inherit">Delete</Typography>
+								<Typography variant="inherit">{t('DELETE')}</Typography>
 							</MenuItem>
 
 							<MenuItem onClick={openViewFile}>
 								<ListItemIcon>
 									<Icon>visibility</Icon>
 								</ListItemIcon>
-								<Typography variant="inherit">View</Typography>
+								<Typography variant="inherit">{t('VIEW')}</Typography>
 							</MenuItem>
 						</MenuList>
 					</div>
@@ -253,42 +255,42 @@ function DetailSidebarContent({ setProgress }) {
 					/>
 					<div className="px-24 py-12 border-b-1">
 						<Typography variant="subtitle1" className="py-10 uppercase text-gray-500">
-							Info
+							{t('INFO')}
 						</Typography>
 						<table className={clsx(classes.table, 'w-full text-justify')}>
 							<tbody>
 								<tr className="type">
-									<th>Type</th>
+									<th>{t('TYPE')}</th>
 									<td>{checkData(selectedItem.type)}</td>
 								</tr>
 
 								<tr className="size">
-									<th>Size</th>
+									<th>{t('SIZE')}</th>
 									<td>{selectedItem.size === '' ? '-' : selectedItem.size}</td>
 								</tr>
 
 								<tr className="location">
-									<th>Location</th>
+									<th>{t('LOCATION')}</th>
 									<td>{checkData(selectedItem.location)}</td>
 								</tr>
 
 								<tr className="owner">
-									<th>Owner</th>
+									<th>{t('OWNER')}</th>
 									<td>{checkData(selectedItem.owner)}</td>
 								</tr>
 
 								<tr className="modified">
-									<th>Modified</th>
+									<th>{t('MODIFIED')}</th>
 									<td>{getdate(selectedItem.date_last_modify)}</td>
 								</tr>
 
 								<tr className="opened">
-									<th>Opened</th>
+									<th>{t('OPENED')}</th>
 									<td>{checkData(selectedItem.opened)}</td>
 								</tr>
 
 								<tr className="created">
-									<th>Created</th>
+									<th>{t('CREATED')}</th>
 									<td>{getdate(selectedItem.date_create)}</td>
 								</tr>
 							</tbody>
