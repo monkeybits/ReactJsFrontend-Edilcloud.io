@@ -13,6 +13,7 @@ import React from 'react';
 import * as Actions from './store/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	listItem: {
@@ -42,6 +43,7 @@ function ContactsSidebarContent(props) {
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const filterKey = useSelector(({ contactsApp }) => contactsApp.contacts.filterKey);
+	const { t } = useTranslation('contacts');
 
 	const classes = useStyles(props);
 	const getListItemClassName = key => (key == filterKey ? clsx(classes.listItem, 'active') : classes.listItem);
@@ -64,7 +66,7 @@ function ContactsSidebarContent(props) {
 							onClick={() => dispatch(Actions.filterByKey('all'))}
 							className={getListItemClassName('all')}
 						>
-							<ListItemText className="truncate" primary="All Team members" disableTypography />
+							<ListItemText className="truncate" primary={t('ALL_TEAM_MEMBERS')} disableTypography />
 						</ListItem>
 
 						<ListItem
@@ -72,7 +74,7 @@ function ContactsSidebarContent(props) {
 							onClick={() => dispatch(Actions.filterByKey('approved'))}
 							className={getListItemClassName('approved')}
 						>
-							<ListItemText className="truncate" primary="Approved Team members" disableTypography />
+							<ListItemText className="truncate" primary={t('APPROVED_TEAM_MEMBERS')} disableTypography />
 						</ListItem>
 
 						<ListItem
@@ -80,7 +82,7 @@ function ContactsSidebarContent(props) {
 							onClick={() => dispatch(Actions.filterByKey('waiting'))}
 							className={getListItemClassName('waiting')}
 						>
-							<ListItemText className="truncate" primary="Waiting Team members" disableTypography />
+							<ListItemText className="truncate" primary={t('WAITING_TEAM_MEMBERS')} disableTypography />
 						</ListItem>
 
 						<ListItem
@@ -88,14 +90,14 @@ function ContactsSidebarContent(props) {
 							onClick={() => dispatch(Actions.filterByKey('refused'))}
 							className={getListItemClassName('refused')}
 						>
-							<ListItemText className="truncate" primary="Refused Team members" disableTypography />
+							<ListItemText className="truncate" primary={t('REFUSED_TEAM_MEMBERS')} disableTypography />
 						</ListItem>
 						<ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('deactivated'))}
 							className={getListItemClassName('deactivated')}
 						>
-							<ListItemText className="truncate" primary="Deactivated Team members" disableTypography />
+							<ListItemText className="truncate" primary={t('DEACTIVATED_TEAM_MEMBERS')} disableTypography />
 						</ListItem>
 						<Divider />
 						<ListItem
@@ -103,28 +105,28 @@ function ContactsSidebarContent(props) {
 							onClick={() => dispatch(Actions.filterByKey('owner'))}
 							className={getListItemClassName('owner')}
 						>
-							<ListItemText className="truncate" primary="Owner" disableTypography />
+							<ListItemText className="truncate" primary={t('OWNER')} disableTypography />
 						</ListItem>
 						<ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('delegate'))}
 							className={getListItemClassName('delegate')}
 						>
-							<ListItemText className="truncate" primary="Delegate" disableTypography />
+							<ListItemText className="truncate" primary={t('DELEGATE')} disableTypography />
 						</ListItem>
 						<ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('manager'))}
 							className={getListItemClassName('manager')}
 						>
-							<ListItemText className="truncate" primary="Manager" disableTypography />
+							<ListItemText className="truncate" primary={t('MANAGER')} disableTypography />
 						</ListItem>
 						<ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('worker'))}
 							className={getListItemClassName('worker')}
 						>
-							<ListItemText className="truncate" primary="Worker" disableTypography />
+							<ListItemText className="truncate" primary={t('WORKER')} disableTypography />
 						</ListItem>
 					</List>
 				</div>

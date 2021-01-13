@@ -10,11 +10,13 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import Button from '@material-ui/core/Button';
+import { useTranslation } from 'react-i18next';
 
 function ContactsHeader(props) {
 	const dispatch = useDispatch();
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
+	const { t } = useTranslation('contacts');
 
 	return (
 		// <div className="flex w-full justify-between items-center p-24 pb-10">
@@ -39,7 +41,7 @@ function ContactsHeader(props) {
 			<div className="flex w-full items-center justify-between p-20 border-b-1">
 				<div>
 					<Typography variant="h5" className="mb-4">
-						Team
+						{t('TEAM')}
 					</Typography>
 					{/* <Typography variant="subtitle1" className="text-14font-weight-600 ">
 						{projectDetail.address}

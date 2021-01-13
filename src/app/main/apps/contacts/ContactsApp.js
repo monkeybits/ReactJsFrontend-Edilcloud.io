@@ -17,6 +17,7 @@ import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import TeamFloationButton from './TeamFloationButton';
 import { LinearProgress, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
 
 function ContactsApp(props) {
 	const dispatch = useDispatch();
-
+	const { t } = useTranslation('contacts');
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
@@ -52,7 +53,7 @@ function ContactsApp(props) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center">
 				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
-					Loading contacts...
+					{t('LOADING_CONTACTS')}...
 				</Typography>
 				<LinearProgress className="w-xs" color="secondary" />
 			</div>

@@ -7,9 +7,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useTranslation } from 'react-i18next';
 
 export default function UploadProjectImage({ setFile, file, remove }) {
+	const { t } = useTranslation('projects');
 	const [image, setImage] = useState(null);
 	const [viewCroper, setViewCroper] = useState(false);
-	const { t } = useTranslation('projects');
 	const getPhoto = fileData => {
 		// e.preventDefault();
 		let reader = new FileReader();
