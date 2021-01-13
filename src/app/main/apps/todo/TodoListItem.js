@@ -31,6 +31,7 @@ import Button from '@material-ui/core/Button';
 import PlaylistAddOutlinedIcon from '@material-ui/icons/PlaylistAddOutlined';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -142,6 +143,8 @@ function TodoListItem(props) {
 	const routeParams = useParams();
 	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);
 	const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
+	const { t } = useTranslation('dashboard');
+
 	const handleClick = () => {
 		setOpen(!open);
 	};
@@ -248,7 +251,7 @@ function TodoListItem(props) {
 										<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
-											Start: {moment(props.todo.date_start).format('MMM Do YY')}
+											{t('START')} {moment(props.todo.date_start).format('MMM Do YY')}
 											{/* </span> */}
 										</div>
 										<div
@@ -258,7 +261,7 @@ function TodoListItem(props) {
 										>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
-											Ends: {moment(props.todo.date_end).format('MMM Do YY')}
+											{t('ENDS')} {moment(props.todo.date_end).format('MMM Do YY')}
 											{/* </span> */}
 										</div>
 									</>
@@ -271,7 +274,7 @@ function TodoListItem(props) {
 										>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
-											Start: {moment(props.todo.date_start).format('MMM Do YY')}
+											{t('START')} {moment(props.todo.date_start).format('MMM Do YY')}
 											{/* </span> */}
 										</div>
 										<div
@@ -281,7 +284,7 @@ function TodoListItem(props) {
 										>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
-											Ends: {moment(props.todo.date_end).format('MMM Do YY')}
+											{t('ENDS')} {moment(props.todo.date_end).format('MMM Do YY')}
 											{/* </span> */}
 										</div>
 									</>
@@ -291,7 +294,7 @@ function TodoListItem(props) {
 									<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
 										{/* <Icon className="text-16">access_time</Icon> */}
 										{/* <span className="mx-4"> */}
-										Start: {moment(props.todo.date_start).format('MMM Do YY')}
+										{t('START')} {moment(props.todo.date_start).format('MMM Do YY')}
 										{/* </span> */}
 									</div>
 									<div
@@ -301,7 +304,7 @@ function TodoListItem(props) {
 									>
 										{/* <Icon className="text-16">access_time</Icon> */}
 										{/* <span className="mx-4"> */}
-										Ends: {moment(props.todo.date_end).format('MMM Do YY')}
+										{t('ENDS')} {moment(props.todo.date_end).format('MMM Do YY')}
 										{/* </span> */}
 									</div>
 								</>
@@ -339,7 +342,7 @@ function TodoListItem(props) {
 							</Box>
 							{showProgress && (
 								<div className="custom-ios-slider-dropdown page-dashboard zoom-125">
-									<small className="block mb-24">Set Task Progress</small>
+									<small className="block mb-24">{t('SET_TASK_PROGRESS')}</small>
 									<div>
 										<IOSSlider
 											aria-label="ios slider"

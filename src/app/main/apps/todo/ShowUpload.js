@@ -5,8 +5,10 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useStyles } from '@material-ui/pickers/views/Calendar/SlideTransition';
+import { useTranslation } from 'react-i18next';
 
 function LinearProgressWithLabel(props) {
+	const { t } = useTranslation('dashboard');
 	const classes = useStyles1();
 	return (
 		<Box display="flex" alignItems="center" className={classes.progressBox}>
@@ -16,14 +18,14 @@ function LinearProgressWithLabel(props) {
 			<Box className={classes.root}>
 				{/* <Typography variant="body2" color="textSecondary">{`${Math.round(props.value)}%`}</Typography> */}
 				<Typography>
-					{props.label} {`${Math.round(props.value)}%`}
+					{t(props.label)} {`${Math.round(props.value)}%`}
 				</Typography>
 			</Box>
 		</Box>
 	);
 }
 LinearProgressWithLabel.defaultProps = {
-	label: 'Processing uploading file'
+	label: 'PROCESSING_UPLOADING_FILE'
 };
 // LinearProgressWithLabel.propTypes = {
 // 	/**

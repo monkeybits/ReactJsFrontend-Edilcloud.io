@@ -34,6 +34,8 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css'
 import { HIDE_MESSAGE } from 'app/store/actions';
+import { useTranslation } from 'react-i18next';
+
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
 		return _.extend({}, element, source);
@@ -107,6 +109,8 @@ function TodoActivityListItem(props) {
 	const [ariaExpanded, setAriaExpanded] = useState(false);
 	const show = () => setVisible(true);
 	const hide = () => setVisible(false);
+	const { t } = useTranslation('dashboard');
+
 	useEffect(() => {
 		if (Array.isArray(props.todo.workers_in_activity)) {
 			let workers_in_activity = _.enhance(props.todo.workers_in_activity, { is_exists: true });
@@ -372,7 +376,7 @@ function TodoActivityListItem(props) {
 															name="checkedB"
 														/>
 													}
-													label="Select All"
+													label={t('SELECT_ALL')}
 												/>
 											)}
 											{!!members?.length || !!canAssign?.length ? (
