@@ -105,6 +105,7 @@ export default ({ children }) => {
 	};
 	const createSocket = () => {
 		global.socket = new WebSocket(WS_BASE);
+		console.log('CONNECTING FIRST WEBSOCKET');
 		global.socket.onmessage = function (e) {
 			const data = JSON.parse(e.data);
 			const userInfo = decodeDataFromToken();

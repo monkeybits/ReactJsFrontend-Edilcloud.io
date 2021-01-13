@@ -124,6 +124,24 @@ function Boards(props) {
 		);
 	};
 	const redirectAfterGetNewToken = company_profile_id => {
+		const myCustomUniqueUserId = company_profile_id;
+		console.log('LOGGED IN WITH PROFILE ID: ' + myCustomUniqueUserId.toString());
+	
+		if (window.flutter_inappwebview) {
+			console.log('listenning to flutterInAppWebViewPlatformReady');
+			window.flutter_inappwebview.callHandler('OneSignalSetUser', myCustomUniqueUserId.toString())
+			.then(function(result) {
+				console.log(JSON.stringify(result));
+			})
+			console.log('finish listenning to flutterInAppWebViewPlatformReady');
+		} else {
+			console.log('listenning to flutterInAppWebViewPlatformReady');
+			window.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
+			console.log('finish listenning to flutterInAppWebViewPlatformReady');
+		}
+		window.OneSignal.push(function () {
+			window.OneSignal.setExternalUserId(myCustomUniqueUserId);
+		});
 		apiCall(
 			REFRESH_TOKEN(company_profile_id),
 			{

@@ -123,6 +123,24 @@ function FileViewDialog({ isOpenViewFile, closeViewFile , setProgress}) {
 					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
 					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 					console.log({ file });
+					if (window) {
+						console.log('listenning to flutterInAppWebViewPlatformReady');
+						console.log(window.flutter_inappwebview)
+						if (selectedItem.type == 'photo') {
+							window.DownloadFiles.postMessage(selectedItem.photo);
+							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.photo);
+						}
+						if (selectedItem.type == 'video') {
+							window.DownloadFiles.postMessage(selectedItem.video);
+							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.video);
+						}
+						if (selectedItem.type == 'document') {
+							window.DownloadFiles.postMessage(selectedItem.document);
+							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
+						}
+						
+						console.log('finish listenning to flutterInAppWebViewPlatformReady');
+					}
 					FileSaver.saveAs(file);
 					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
 					// FileSaver.saveAs(file);
