@@ -17,6 +17,7 @@ import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
 import MessageMoreOptions from './MessageMoreOptions';
 import RetryToSendMessage from './RetryToSendMessage';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
@@ -111,6 +112,7 @@ export default function SendMessageForm(props) {
 	const [images, setImages] = useState(null);
 	const [messageText, setMessageText] = useState('');
 	const classes = useStyles(props);
+	const { t } = useTranslation('chat');
 
 	function onInputChange(ev) {
 		setMessageText(ev.target.value);
@@ -203,7 +205,7 @@ export default function SendMessageForm(props) {
 							root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-48 rtl:ml-48 my-8',
 							input: ''
 						},
-						placeholder: 'Type your message'
+						placeholder: t('TYPE_YOUR_MESSAGE')
 					}}
 					InputLabelProps={{
 						shrink: false,
