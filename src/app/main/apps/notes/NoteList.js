@@ -24,13 +24,14 @@ import Grid from '@material-ui/core/Grid';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Icon from '@material-ui/core/Icon';
 import * as Actions from 'app/main/apps/notes/store/actions';
-import ProjectListitem from './ProjectDetail/ProjectListitem';
+import ProjectListitem from './ProjectListitem';
 import ReuestsDrawer from '../scrumboard/boards/ReuestsDrawer';
 import { Badge } from '@material-ui/core';
 import { ACCEPT_PROJECT_INVITATION, REJECT_PROJECT_INVITATION } from 'app/services/apiEndPoints';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	// root: {
@@ -81,6 +82,7 @@ function NoteList(props) {
 	const [isShowRequests, setIsShowRequests] = useState(false);
 	const [request, setRequest] = useState({});
 	const [filteredData, setFilteredData] = useState([]);
+	const { t } = useTranslation('projects');
 	useEffect(() => {
 		function filterData() {
 			const { params } = props.match;
@@ -130,7 +132,7 @@ function NoteList(props) {
 			return (
 				<div className="flex flex-1 flex-col items-center justify-center">
 					<Typography className="text-20 mb-16" color="textSecondary">
-						Loading projects...
+					{t('LOADING_PROJECTS')}...
 					</Typography>
 					<LinearProgress className="w-xs" color="secondary" />
 				</div>
@@ -146,12 +148,12 @@ function NoteList(props) {
 					</div>
 					<div className="flex flex-1 mt-30 items-center justify-center ">
 						<Typography color="textSecondary" variant="h5">
-							Seems that there are no projects yet!
+						{t('NO_PROJECTS_HEADER')}
 						</Typography>
 					</div>
 					<div className="flex flex-1 mt-20 items-center justify-center ">
 						<Typography color="textSecondary" variant="h6">
-							Create a task clicking on green + button
+						{t('CREATE_PROJECT_ADVICE_MESSAGE')}
 						</Typography>
 					</div>
 				</div>

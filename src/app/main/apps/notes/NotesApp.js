@@ -33,10 +33,12 @@ import { Router } from 'react-router-dom';
 import store from 'app/store';
 import history from '@history';
 import TodoApp from './todo/TodoApp';
+import { useTranslation } from 'react-i18next';
 
 function NotesApp(props) {
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
+	const { t } = useTranslation('projects');
 	const [loading, setLoading] = useState({
 		loadingProjects: true,
 		loadingProjectRequest: true

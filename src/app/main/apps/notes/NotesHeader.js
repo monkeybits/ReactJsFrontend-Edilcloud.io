@@ -13,14 +13,16 @@ import * as Actions from './store/actions';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import { useTranslation } from 'react-i18next';
 
 function NotesHeader(props) {
 	const dispatch = useDispatch();
 	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
+	const { t } = useTranslation('projects');
 	return (
 		<div className="flex w-full">
 			<div className="flex w-full items-center justify-between pb-20 border-b-1">
-				<Typography variant="h5">All Projects</Typography>
+				<Typography variant="h5">{t('ALL_PROJECTS')}</Typography>
 				{/* <Button
 					variant="contained"
 					color="primary"

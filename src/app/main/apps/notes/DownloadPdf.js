@@ -24,6 +24,8 @@ import FileSaver from 'file-saver';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+
 const pxToMm = px => {
 	return Math.floor(px / document.getElementById('myMm').offsetHeight);
 };
@@ -44,6 +46,7 @@ const range = (start, end) => {
 const DownloadPdf = ({ id, label, pid }) => {
 	const dispatch = useDispatch();
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const { t } = useTranslation('projects');
 	return (
 		<div className="tc mb4 mt2">
 			{/*
