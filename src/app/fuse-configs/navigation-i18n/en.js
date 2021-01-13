@@ -11,7 +11,20 @@ const locale = {
 	CONTACTS: 'Contacts',
 	CHAT: 'Chat',
 	SCRUMBOARD: 'Scrumboard',
-	NOTES: 'Notes'
+	NOTES: 'Notes',
+	PROJECTS_LIST: 'Projects List',
+	COMPANY_TEAM: 'Company Team',
+	COMPANY_FILEMANAGER: 'Company File-Manager',
+	COMPANY_CHAT: 'Company Chat',
+	EDILCLOUD_ACADEMY: 'Edilcloud Academy',
+	HELP_CENTER: 'Help Center',
+	GENERAL_SETTINGS: 'General Settings',
+	NOTIFICATIONS: 'Notifications',
+	PLAN: 'Plan',
+	LOGOUT: 'Logout',
+	SETTINGS: 'Settings',
+	HOW_TO_USE: 'How to use?',
+	MY_COMPANY: 'MY COMPANY'
 };
 
 export default locale;

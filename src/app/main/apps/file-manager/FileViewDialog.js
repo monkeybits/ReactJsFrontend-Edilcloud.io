@@ -30,6 +30,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import FileSaver from 'file-saver';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import VideoListItem from 'app/VideoPlayer/VideoListItem';
+import { useTranslation } from 'react-i18next';
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -71,6 +72,7 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 function FileViewDialog({ isOpenViewFile, closeViewFile , setProgress}) {
+	const { t } = useTranslation('filemanager');
 	const dispatch = useDispatch();
 	const [currentIndex, setcurrentIndex] = useState(null);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
@@ -208,10 +210,10 @@ function FileViewDialog({ isOpenViewFile, closeViewFile , setProgress}) {
 			</DialogContent>
 			<DialogActions className="p-8">
 				<Button variant="contained" color="primary" onClick={handleDownload}>
-					Download
+					{t('DOWNLOAD')}
 				</Button>
 				<Button variant="contained" color="primary" disabled={currentIndex == 0} onClick={handlePrevious}>
-					Previous
+					{t('PREVIOUS')}
 				</Button>
 				<Button
 					variant="contained"
@@ -219,7 +221,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile , setProgress}) {
 					disabled={currentIndex == Allfiles?.length - 1}
 					onClick={handleNext}
 				>
-					Next
+					{t('NEXT')}
 				</Button>
 			</DialogActions>
 		</Dialog>

@@ -28,6 +28,7 @@ import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
+import { useTranslation } from 'react-i18next';
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -70,6 +71,7 @@ function AddProjectForm() {
 	const [projectCoordinators, setProjectCoordinators] = useState([]);
 	const getdate = date => (date ? moment(date).format('YYYY-MM-DD') : undefined);
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
+	const { t } = useTranslation('projects');
 
 	const [projectDate, setProjectDate] = useState({
 		startDate: new Date(),
@@ -212,7 +214,7 @@ function AddProjectForm() {
 							className="mb-12 w-full"
 							type="text"
 							name="name"
-							label="Project Name"
+							label={t('PROJECT_NAME')}
 							value={projectDetail.name}
 							validations={{
 								minLength: 4
@@ -230,7 +232,7 @@ function AddProjectForm() {
 							className="mb-12 w-full"
 							type="text"
 							name="address"
-							label="Project Address"
+							label={t('PROJECT_ADDRESS')}
 							value={projectDetail.address}
 						/>
 					</Grid>
@@ -241,7 +243,7 @@ function AddProjectForm() {
 							type="text"
 							name="description"
 							value={projectDetail.description}
-							label="Project Description"
+							label={t('PROJECT_DESCRIPTION')}
 							validations={{
 								minLength: 4
 							}}
@@ -259,7 +261,7 @@ function AddProjectForm() {
 							}}
 							isMulti
 							value={projectCoordinators}
-							placeholder="Search Project coordinators"
+							placeholder={t('SEARCH_PROJECT_COORFINATORS')}
 							textFieldProps={{
 								onChange: e => retrieveDataAsynchronously(e.target.value),
 								variant: 'outlined'
@@ -321,7 +323,7 @@ function AddProjectForm() {
 							className="mb-16 w-full"
 							type="textarea"
 							name="note"
-							label="Project Notes"
+							label={t('PROJECT_NOTES')}
 						/>
 					</Grid>
 					<Grid item xs={12}>
@@ -334,7 +336,7 @@ function AddProjectForm() {
 								aria-label="LOG IN"
 								disabled={!isFormValid}
 							>
-								add {loading && <CircularProgress size={20} color="secondary" />}
+								{t('ADD')} {loading && <CircularProgress size={20} color="secondary" />}
 							</Button>
 						</div>
 					</Grid>

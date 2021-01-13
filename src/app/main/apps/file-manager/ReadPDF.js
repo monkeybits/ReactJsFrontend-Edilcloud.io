@@ -1,12 +1,14 @@
 import { Button } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
+import { useTranslation } from 'react-i18next';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function ReadPDF({ file, height, width }) {
 	const [numPages, setNumPages] = useState(null);
 	const [pageNumber, setPageNumber] = useState(1);
+	const { t } = useTranslation('filemanager');
 
 	function onDocumentLoadSuccess({ numPages }) {
 		setNumPages(numPages);
@@ -30,7 +32,7 @@ function ReadPDF({ file, height, width }) {
 				<Button onClick={previousPage} type="button">
 					{'<'}
 				</Button>
-				Page {pageNumber} of {numPages}
+				{t('PAGE')} {pageNumber} {t('OF')} {numPages}
 				<Button onClick={nextPage} type="button">
 					{'>'}
 				</Button>

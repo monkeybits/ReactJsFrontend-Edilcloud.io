@@ -30,6 +30,7 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MoreOption from './MoreOption';
+import { useTranslation } from 'react-i18next';
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -66,6 +67,7 @@ function ContactsList(props) {
 	const openDeleteContactDialog = () => setIsOpenDeleteDialog(true);
 	const colseDeleteContactDialog = () => setIsOpenDeleteDialog(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const { t } = useTranslation('contacts');
 	const handleClick = event => {
 		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
@@ -94,39 +96,39 @@ function ContactsList(props) {
 				sortable: false
 			},
 			{
-				Header: 'First Name',
+				Header: t('FIRST_NAME'),
 				accessor: 'name',
 				// className: 'font-bold',
 				sortable: true
 			},
 			{
-				Header: 'Last Name',
+				Header: t('LAST_NAME'),
 				accessor: 'lastName',
 				// className: 'font-bold',
 				sortable: true
 			},
 			{
-				Header: 'Company',
+				Header: t('COMAPNY'),
 				accessor: 'company',
 				sortable: true
 			},
 			{
-				Header: 'Role',
+				Header: t('ROLE'),
 				accessor: 'role',
 				sortable: true
 			},
 			{
-				Header: 'Status',
+				Header: t('STATUS'),
 				accessor: 'status',
 				sortable: true
 			},
 			{
-				Header: 'Job Title',
+				Header: t('JOB_TITLE'),
 				accessor: 'jobTitle',
 				sortable: true
 			},
 			{
-				Header: 'Email',
+				Header: t('EMAIL'),
 				accessor: 'email',
 				sortable: true,
 				Cell: ({ row }) => (
@@ -140,7 +142,7 @@ function ContactsList(props) {
 				)
 			},
 			{
-				Header: 'Phone',
+				Header: t('PHONE'),
 				accessor: 'phone',
 				sortable: true,
 				Cell: ({ row }) => (
@@ -151,7 +153,7 @@ function ContactsList(props) {
 			},
 			{
 				id: 'action',
-				Header: 'Action',
+				Header: t('ACTION'),
 				sortable: false,
 				Cell: ({ row }) =>
 					(getRole() == 'o' || getRole() == 'd' || row.original.email == userInfo?.email) && (
@@ -292,7 +294,6 @@ function ContactsList(props) {
 		return null;
 	}
 
-	
 	const onDeactivate = () => {
 		const { id, email, status } = userData;
 		let url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
@@ -335,7 +336,7 @@ function ContactsList(props) {
 						</Icon>
 
 						<Input
-							placeholder="Search for anything"
+							placeholder={t('SEARCH_FOR_ANYTHING')}
 							className="flex flex-1 px-12"
 							disableUnderline
 							fullWidth
@@ -384,17 +385,17 @@ function ContactsList(props) {
 						</div>
 						<div className="flex flex-1 mt-30 items-center justify-center ">
 							<Typography color="textSecondary" variant="h5">
-								Seems that there are no contacts!
+								{t('ADD_CONTACT_ADVICE')}
 							</Typography>
 						</div>
 						<div className="flex flex-1 mt-20 items-center justify-center ">
 							<Typography color="textSecondary" variant="h6">
-								Create a profile or invite one clicking on green + button
+								{t('ADD_CONTACT_ADVICE')}
 							</Typography>
 						</div>
 					</div>
 				</div>
-			) :viewTable ? (
+			) : viewTable ? (
 				<FuseAnimate animation="transition.slideUpIn" delay={200}>
 					<ContactsTable
 						columns={columns}

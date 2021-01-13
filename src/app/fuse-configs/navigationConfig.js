@@ -34,7 +34,7 @@ const navigationConfig = [
 			{
 				id: '',
 				title: 'Projects List',
-				translate: 'Projects List',
+				translate: 'PROJECTS_LIST',
 				type: 'item',
 				icon: 'work_outline',
 				url: '/apps/projects'
@@ -44,13 +44,13 @@ const navigationConfig = [
 	{
 		id: 'MY COMPANY',
 		title: 'MY COMPANY',
-		translate: 'MY COMPANY',
+		translate: 'MY_COMPANY',
 		type: 'group',
 		children: [
 			{
 				id: '',
 				title: 'Company Team',
-				translate: 'Company Team',
+				translate: 'COMPANY_TEAM',
 				type: 'item',
 				icon: 'people_outline',
 				url: '/apps/contacts/all'
@@ -58,7 +58,7 @@ const navigationConfig = [
 			{
 				id: '',
 				title: 'Company File-Manager',
-				translate: 'Company File-Manager',
+				translate: 'COMPANY_FILEMANAGER',
 				type: 'item',
 				icon: 'folder_shared',
 				url: '/apps/file-manager'
@@ -66,7 +66,7 @@ const navigationConfig = [
 			{
 				id: '',
 				title: 'Company Chat',
-				translate: 'Company Chat',
+				translate: 'COMPANY_CHAT',
 				type: 'item',
 				icon: 'chat',
 				url: '/apps/chat'
@@ -76,13 +76,13 @@ const navigationConfig = [
 	{
 		id: 'HOW TO USE',
 		title: 'HOW TO USE?',
-		translate: 'HOW TO USE?',
+		translate: 'HOW_TO_USE',
 		type: 'group',
 		children: [
 			{
 				id: '',
 				title: 'Edilcloud Academy',
-				translate: 'Edilcloud Academy',
+				translate: 'EDILCLOUD_ACADEMY',
 				type: 'item',
 				icon: 'class',
 				url: '/apps/academy/courses'
@@ -90,7 +90,7 @@ const navigationConfig = [
 			{
 				id: '',
 				title: 'Help Center',
-				translate: 'Help Center',
+				translate: 'HELP_CENTER',
 				type: 'item',
 				icon: 'help_center',
 				url: 'https://edilcloud.io/helpcenter/'
@@ -106,7 +106,7 @@ const navigationConfig = [
 			{
 				id: '',
 				title: 'General Settings',
-				translate: 'General Settings',
+				translate: 'GENERAL_SETTINGS',
 				type: 'item',
 				icon: 'settings',
 				url: '/apps/settings'
@@ -122,7 +122,7 @@ const navigationConfig = [
 			{
 				id: '',
 				title: 'Notifications',
-				translate: 'Notifications',
+				translate: 'NOTIFICATIONS',
 				type: 'item',
 				icon: 'notifications_active',
 				url: 'mazz'
@@ -138,7 +138,7 @@ const navigationConfig = [
 			{
 				id: '',
 				title: 'Plan',
-				translate: 'Plan',
+				translate: 'PLAN',
 				type: 'item',
 				icon: 'payment',
 				isOutsideLink: true,
@@ -156,7 +156,7 @@ const navigationConfig = [
 			{
 				id: '',
 				title: 'Logout',
-				translate: 'Logout',
+				translate: 'LOGOUT',
 				type: 'item',
 				icon: 'exit_to_app',
 				url: 'mizz'

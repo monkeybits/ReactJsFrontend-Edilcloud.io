@@ -25,6 +25,7 @@ import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from './services/ap
 import { apiCall, METHOD } from './services/baseUrl';
 import { getHeaderToken } from './services/serviceUtils';
 import * as ICONS from 'app/main/apps/constants';
+import { useTranslation } from 'react-i18next';
 
 const styles = theme => ({
 	root: {
@@ -71,6 +72,7 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 	useEffect(() => {
 		setStep(activtStep);
 	}, [activtStep]);
+	const { t } = useTranslation('chat');
 
 	const handlePrevious = () => {
 		if (step != 0) {
@@ -153,20 +155,20 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 			className="chat-slider-modal"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closeViewFile}>
-				View File
+				{t('VIEW_FILE')}
 			</DialogTitle>
 			<DialogContent dividers className="chat-slider-modal-height">
 				{getPreviewByType(imagesArray[step])}
 			</DialogContent>
 			<DialogActions>
 				<Button variant="contained" color="primary" onClick={handleDownload}>
-					Download
+					{t('DOWNLOAD')}
 				</Button>
 				<Button disabled={step == 0} onClick={handlePrevious}>
-					previous
+					{t('PREVIOUS')}
 				</Button>
 				<Button disabled={step == imagesArray.length - 1} onClick={handleNext}>
-					Next
+					{t('NEXT')}
 				</Button>
 			</DialogActions>
 		</Dialog>

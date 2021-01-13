@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link, useRouteMatch } from 'react-router-dom';
-import NoteListItem from '../NoteListItem';
+import NoteListItem from './NoteListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -38,12 +38,13 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Divider from '@material-ui/core/Divider';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
-import DownloadPdf from '../DownloadPdf';
+import DownloadPdf from './DownloadPdf';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import { useTranslation } from 'react-i18next';
 
 export default function ProjectListitem(props) {
 	const {
@@ -51,6 +52,7 @@ export default function ProjectListitem(props) {
 		// project: { id, name, description, logo, date_start, status, date_end, profiles },
 		classes
 	} = props;
+	const { t } = useTranslation('projects');
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const {
 		mainId,
@@ -206,9 +208,9 @@ export default function ProjectListitem(props) {
 								) : (
 									<MenuItem onClick={handleDeactivate}>Activate</MenuItem>
 								)} */}
-								<MenuItem onClick={handleUpdateProject}>Update Project Details</MenuItem>
-								<MenuItem onClick={handleArchiveProject}>Archive</MenuItem>
-								<MenuItem onClick={handleDeleteProject}>Delete</MenuItem>
+								<MenuItem onClick={handleUpdateProject}>{t('UPDATE_PROJECT_DETAILS')}</MenuItem>
+								<MenuItem onClick={handleArchiveProject}>{t('ARCHIVE')}</MenuItem>
+								<MenuItem onClick={handleDeleteProject}>{t('DELETE')}</MenuItem>
 							</Menu>
 						</div>
 					)
@@ -252,7 +254,7 @@ export default function ProjectListitem(props) {
 				aria-label="tabs example"
 				className="project_tabs"
 			>
-				<Tab label="About" {...a11yProps(0)} />
+				<Tab label={t('About')} {...a11yProps(0)} />
 				{/* <Tab label="Insights" {...a11yProps(1)} />
 				<Tab label="Weather" {...a11yProps(2)} /> */}
 			</Tabs>
@@ -413,8 +415,8 @@ export default function ProjectListitem(props) {
 				<Button
 				className="MuiButtonBase-root text-white MuiButton-root MuiButton-contained mr-8 MuiButton-containedSizeSmall MuiButton-sizeSmall">
 					<DownloadPdf
-						className="text-white"
-						label="Download Report"
+						className="MuiButtonBase-root MuiButton-root "
+						label={t('DOWNLOAD_REPORT')}
 						id={name}
 						pid={id}
 					/>

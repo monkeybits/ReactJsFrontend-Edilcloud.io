@@ -25,6 +25,7 @@ import { withRouter } from 'react-router';
 import { GET_CHAT } from './store/actions';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { LinearProgress } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 350;
 const headerHeight = 200;
@@ -116,6 +117,7 @@ function ChatApp(props) {
 	const userSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.userSidebarOpen);
 	const contactSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.contactSidebarOpen);
 	const [isMounted, setIsMounted] = useState(false);
+	const { t } = useTranslation('chat');
 
 	const classes = useStyles(props);
 	const [loading, setLoading] = useState({
@@ -165,7 +167,7 @@ function ChatApp(props) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center">
 				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
-					Loading chats...
+					{t('LOADING_CHATS')}...
 				</Typography>
 				<LinearProgress className="w-xs" color="secondary" />
 			</div>
@@ -179,7 +181,7 @@ function ChatApp(props) {
 				<div className="flex w-full justify-between items-center mb-20">
 					<div className="mr-20">
 						<Typography variant="h5" className="mb-4">
-							Chat
+							{t('CHAT')}
 						</Typography>
 						{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
 								<Typography variant="subtitle1" className="font-weight-700 mb-4">
@@ -271,8 +273,8 @@ function ChatApp(props) {
 											</IconButton>
 											<div
 												className="flex items-center cursor-pointer chat-content-header"
-												onClick={() => dispatch(Actions.openContactSidebar())}
-												onKeyDown={() => dispatch(Actions.openContactSidebar())}
+												// onClick={() => dispatch(Actions.openContactSidebar())}
+												// onKeyDown={() => dispatch(Actions.openContactSidebar())}
 												role="button"
 												tabIndex={0}
 											>
@@ -298,7 +300,7 @@ function ChatApp(props) {
 														{company.name}
 													</Typography>
 													<Typography color="inherit" className="text-14 text-muted px-8">
-														Main Profile
+														{t('MAIN_PROFILE')}
 													</Typography>
 												</div>
 											</div>

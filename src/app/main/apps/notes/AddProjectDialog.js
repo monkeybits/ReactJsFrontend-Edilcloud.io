@@ -10,6 +10,8 @@ import AddProjectForm from './AddProjectForm';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import { Box, LinearProgress } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
+
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -41,6 +43,7 @@ export default function CustomizedDialogs() {
 	const dispatch = useDispatch();
 	const [open, setOpen] = React.useState(true);
 	const projectApp = useSelector(({ notesApp }) => notesApp.project);
+	const { t } = useTranslation('projects');
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
@@ -57,7 +60,7 @@ export default function CustomizedDialogs() {
 			open={projectApp.projectDialog}
 		>
 			<DialogTitle id="customized-dialog-title" onClose={handleClose}>
-				{projectApp.dialogType == 'new' ? 'Add Project' : 'Edit Project'}{' '}
+				{projectApp.dialogType == 'new' ? t('ADD_PROJECT') : t('EDIT_PROJECT')}{' '}
 			</DialogTitle>
 			<AddProjectForm />
 		</Dialog>

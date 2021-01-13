@@ -69,7 +69,7 @@ function TodoApp(props) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center">
 				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
-					Loading Tasks...
+					{t('LOADING_TASKS')}...
 				</Typography>
 				<LinearProgress className="w-xs" color="secondary" />
 			</div>
@@ -84,7 +84,7 @@ function TodoApp(props) {
 			)}
 			<FusePageCarded
 				classes={{
-					root: 'w-full',
+					root: 'w-full remove-box-shadow',
 					header: 'items-center min-h-72 h-72 sm:h-136 sm:min-h-136'
 				}}
 				header={<TodoHeader pageLayout={pageLayout} />}

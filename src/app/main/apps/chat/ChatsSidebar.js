@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ContactListItem from './ContactListItem';
 import StatusIcon from './StatusIcon';
 import * as Actions from './store/actions';
+import { useTranslation } from 'react-i18next';
 
 const statusArr = [
 	{
@@ -43,6 +44,7 @@ function ChatsSidebar(props) {
 	const dispatch = useDispatch();
 	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities).filter(contact => contact.can_access_chat);
 	const user = useSelector(({ chatApp }) => chatApp.user);
+	const { t } = useTranslation('chat');
 
 	const [searchText, setSearchText] = useState('');
 	const [statusMenuEl, setStatusMenuEl] = useState(null);
@@ -153,11 +155,14 @@ function ChatsSidebar(props) {
 				{useMemo(
 					() => (
 						<Toolbar className="mt-8 px-16">
-							<Paper className="flex p-4 items-center w-full px-8 py-4 rounded-20 chat-search" elevation={1}>
+							<Paper
+								className="flex p-4 items-center w-full px-8 py-4 rounded-20 chat-search"
+								elevation={1}
+							>
 								<Icon color="action">search</Icon>
 
 								<Input
-									placeholder="Search or start new chat"
+									placeholder={t('SEARCH_PARTICIPANTS')}
 									className="flex flex-1 px-8"
 									disableUnderline
 									fullWidth
@@ -203,8 +208,11 @@ function ChatsSidebar(props) {
 									className="flex flex-col flex-shrink-0"
 								>
 									{contactsArr.length > 0 && (
-										<Typography className="text-default font-weight-700 text-16 px-16 pb-8" color="secondary">
-											Participants
+										<Typography
+											className="text-default font-weight-700 text-16 px-16 pb-8"
+											color="secondary"
+										>
+											{t('PARTICIPANTS')}
 										</Typography>
 									)}
 

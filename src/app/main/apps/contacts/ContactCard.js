@@ -10,8 +10,10 @@ import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
 import MoreOption from './MoreOption';
 import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
+import { useTranslation } from 'react-i18next';
 
 export default function ContactCard(props) {
+	const { t } = useTranslation('contacts');
 	const {
 		id,
 		first_name,
@@ -105,11 +107,11 @@ export default function ContactCard(props) {
 					userData && (
 						<>
 							<Typography>
-								Are you sure want to {userData.status == 'Deactivated' ? 'activate' : 'deactivate'} ?
+							{userData.status == 'Deactivated' ? t('DEACTIVATE_MSG') : t('ACTIVATE_MSG')} ?
 							</Typography>
 							{userData.status != 'Deactivated' && (
 								<Typography>
-									Account will be deactivated untill you not activet this user again!
+									{t('DEACTIVATE_ADVICE')}
 								</Typography>
 							)}
 						</>

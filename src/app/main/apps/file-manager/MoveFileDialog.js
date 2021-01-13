@@ -17,6 +17,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
+import { useTranslation } from 'react-i18next';
 
 const DialogContent = withStyles(theme => ({
 	root: {
@@ -36,6 +37,7 @@ const DialogActions = withStyles(theme => ({
 	}
 }))(MuiDialogActions);
 function MoveFileDialog() {
+	const { t } = useTranslation('filemanager');
 	const dispatch = useDispatch();
 	const moveFileDialog = useSelector(({ fileManagerApp }) => fileManagerApp.files.moveFileDialog);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files);
@@ -116,7 +118,7 @@ function MoveFileDialog() {
 						</IconButton>
 					</div>
 					<Typography variant="subtitle1" color="inherit">
-						Move File
+						{t('MOVE_FILE')}
 					</Typography>
 				</Toolbar>
 			</AppBar>
@@ -140,7 +142,7 @@ function MoveFileDialog() {
 							className="mb-24"
 							getOptionLabel={option => option.path}
 							renderOption={option => <>{option.path}</>}
-							renderInput={params => <TextField {...params} label="Path" />}
+							renderInput={params => <TextField {...params} label={t('PATH')} />}
 							onInputChange={(e, value) => setPath(value)}
 							variant="outlined"
 						/>
@@ -149,7 +151,7 @@ function MoveFileDialog() {
 			</DialogContent>
 			<DialogActions className="p-16">
 				<Button autoFocus onClick={handleMoveFile} variant="contained" color="secondary">
-					Move
+					{t('MOVE')}
 				</Button>
 			</DialogActions>
 		</Dialog>

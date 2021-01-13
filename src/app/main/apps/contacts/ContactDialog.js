@@ -37,6 +37,7 @@ import { SEARCH_USER_BY_EMAIL } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
+import { useTranslation } from 'react-i18next';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -68,6 +69,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 function ContactDialog(props) {
+	const { t } = useTranslation('contacts');
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
@@ -236,7 +238,7 @@ function ContactDialog(props) {
 				)
 			);
 		} else {
-			dispatch(Actions.updateContact(newformData, id,props.handleSetLoading));
+			dispatch(Actions.updateContact(newformData, id, props.handleSetLoading));
 		}
 		closeComposeDialog();
 	};
@@ -275,7 +277,7 @@ function ContactDialog(props) {
 						</IconButton>
 					</div>
 					<Typography variant="subtitle1" className="block mx-auto mb-8" color="inherit">
-						{contactDialog.type === 'new' ? 'Add Team Member' : 'Edit Team Member'}
+						{contactDialog.type === 'new' ? t('ADD_TEAM_MEMBER') : t('EDIT_TEAM_MEMBER')}
 					</Typography>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
@@ -330,7 +332,7 @@ function ContactDialog(props) {
 							}))
 						}
 					>
-						Access File
+						{t('ACCESS_FILE')}
 					</Button>
 					<Button
 						variant={permission.can_access_chat ? 'contained' : 'outlined'}
@@ -344,7 +346,7 @@ function ContactDialog(props) {
 							}))
 						}
 					>
-						Access Chat
+						{t('ACCESS_CHAT')}
 					</Button>
 				</div>
 			</AppBar>
@@ -356,7 +358,7 @@ function ContactDialog(props) {
 								<Icon color="action">search</Icon>
 							</div>
 							<AsyncAutocomplete
-								placeholder="search name, company or add email to invite"
+								placeholder={t('EXISTING_MEMBER_SEARCH')}
 								onSelect={item => {
 									setFile({});
 									setIsExisting(true);
@@ -377,7 +379,7 @@ function ContactDialog(props) {
 
 								<TextField
 									className="mb-24"
-									label="Name"
+									label={t('NAME')}
 									id="first_name"
 									name="first_name"
 									value={form.first_name}
@@ -392,7 +394,7 @@ function ContactDialog(props) {
 								<div className="min-w-48 pt-20" />
 								<TextField
 									className="mb-24"
-									label="Last name"
+									label={t('LAST_NAME')}
 									id="last_name"
 									name="last_name"
 									value={form.last_name}
@@ -409,7 +411,7 @@ function ContactDialog(props) {
 								<TextField
 									error={!isExisting && !canTryWithExisting}
 									className="mb-24"
-									label="Email"
+									label={t('EMAIL')}
 									id="email"
 									name="email"
 									value={form.email}
@@ -447,7 +449,9 @@ function ContactDialog(props) {
 										SYSTEM_ROLES.filter(d => d.label == role)[0]
 									}
 									inputValue={role}
-									renderInput={params => <TextField {...params} variant="outlined" label="Role" />}
+									renderInput={params => (
+										<TextField {...params} variant="outlined" label={t('ROLE')} />
+									)}
 									onInputChange={(e, value) => setRole(value)}
 								/>
 							</div>
@@ -475,7 +479,7 @@ function ContactDialog(props) {
 									defaultValue={value}
 									inputValue={value}
 									renderInput={params => (
-										<TextField {...params} variant="outlined" label="Language" />
+										<TextField {...params} variant="outlined" label={t('LANGUAGE')} />
 									)}
 									onInputChange={(e, value) => setValue(value)}
 								/>
@@ -487,7 +491,7 @@ function ContactDialog(props) {
 								<TextField
 									className="mb-24"
 									disabled={getRole() == 'm' || getRole() == 'w'}
-									label="Job title"
+									label={t('JOB_TITLE')}
 									id="position"
 									name="position"
 									value={form.position}
@@ -502,7 +506,7 @@ function ContactDialog(props) {
 								</div>
 								<TextField
 									className="mb-24"
-									label="Phone"
+									label={t('PHONE')}
 									id="phone"
 									name="phone"
 									value={form.phone}
@@ -525,7 +529,7 @@ function ContactDialog(props) {
 								type="submit"
 								disabled={!canBeSubmitted()}
 							>
-								Add
+								{t('ADD')}
 							</Button>
 						</div>
 					</DialogActions>
@@ -539,7 +543,7 @@ function ContactDialog(props) {
 								onClick={handleSubmit}
 								disabled={!canBeSubmitted()}
 							>
-								Save
+								{t('SAVE')}
 							</Button>
 						</div>
 						<IconButton onClick={handleRemove}>

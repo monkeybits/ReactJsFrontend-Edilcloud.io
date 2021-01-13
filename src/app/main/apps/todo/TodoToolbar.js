@@ -6,11 +6,13 @@ import Select from '@material-ui/core/Select';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
+import { useTranslation } from 'react-i18next';
 
 function TodoToolbar(props) {
 	const dispatch = useDispatch();
 	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);
 	const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
+	const { t } = useTranslation('dashboard');
 
 	function handleOrderChange(ev) {
 		dispatch(Actions.changeOrder(ev.target.value));
@@ -23,15 +25,15 @@ function TodoToolbar(props) {
 				<FormControl className="">
 					<Select value={orderBy} onChange={handleOrderChange} displayEmpty name="filter" className="">
 						<MenuItem value="">
-							<em>Order by</em>
+							<em>{t('ORDER_BY')}</em>
 						</MenuItem>
-						<MenuItem value="date_start">Start Date</MenuItem>
-						<MenuItem value="date_end">Due Date</MenuItem>
-						<MenuItem value="name">Title</MenuItem>
+						<MenuItem value="date_start">{t('START_DATE')}</MenuItem>
+						<MenuItem value="date_end">{t('DUE_DATE')}</MenuItem>
+						<MenuItem value="name">{t('TITLE')}</MenuItem>
 					</Select>
 				</FormControl>
 				<IconButton onClick={ev => dispatch(Actions.toggleOrderDescending())}>
-					<Icon style={{ transform: orderDescending ? 'scaleY(-1)' : 'scaleY(1)' }}>sort</Icon>
+					<Icon style={{ transform: orderDescending ? 'scaleY(-1)' : 'scaleY(1)' }}>{t('SORT')}</Icon>
 				</IconButton>
 			</div>
 		</div>

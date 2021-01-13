@@ -4,8 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import { Input, Button } from '@material-ui/core';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import EditIcon from '@material-ui/icons/Edit';
+import { useTranslation } from 'react-i18next';
 
 export default function UploadProjectImage({ setFile, file, remove }) {
+	const { t } = useTranslation('projects');
 	const [image, setImage] = useState(null);
 	const [viewCroper, setViewCroper] = useState(false);
 	const getPhoto = fileData => {
@@ -34,7 +36,7 @@ export default function UploadProjectImage({ setFile, file, remove }) {
 			</div>
 			<div className="text-center mt-10">
 				<Button variant="contained" onClick={remove}>
-					Remove
+					{t('REMOVE')}
 				</Button>
 			</div>
 		</>

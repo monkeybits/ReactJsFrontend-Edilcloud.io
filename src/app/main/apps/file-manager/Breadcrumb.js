@@ -4,9 +4,11 @@ import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import * as Actions from './store/actions';
+import { useTranslation } from 'react-i18next';
 
 function Breadcrumb({ className, selected }) {
 	const dispatch = useDispatch();
+	const { t } = useTranslation('filemanager');
 
 	const updatePath = index => {
 		const newFolders = selected.filter((d, i) => i <= index);
@@ -21,9 +23,13 @@ function Breadcrumb({ className, selected }) {
 				return (
 					<span key={i} className="flex items-center">
 						{i == 0 ? (
-							<Button className='font-bold underline' onClick={() => updatePath(i)}>My Drive</Button>
+							<Button className="font-bold underline" onClick={() => updatePath(i)}>
+								{t('MY_DRIVE')}
+							</Button>
 						) : (
-							<Button className='font-bold underline' onClick={() => updatePath(i)}>{folderName}</Button>
+							<Button className="font-bold underline" onClick={() => updatePath(i)}>
+								{folderName}
+							</Button>
 						)}
 						{selected.length - 1 !== i && <Icon>chevron_right</Icon>}
 					</span>

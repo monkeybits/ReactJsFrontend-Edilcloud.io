@@ -1798,3 +1798,6 @@ audio {
 .bg-azure {
     background-color: #eff2f7;
 }
+.remove-box-shadow .inner-scroll {
+    box-shadow: none !important;
+}
