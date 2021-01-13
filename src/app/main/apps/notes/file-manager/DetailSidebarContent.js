@@ -121,15 +121,21 @@ function DetailSidebarContent({ setProgress }) {
 						console.log('listenning to flutterInAppWebViewPlatformReady');
 						console.log(window.flutter_inappwebview)
 						if (selectedItem.type == 'photo') {
-							window.DownloadFiles.postMessage(selectedItem.photo);
+							if (window.DownloadFiles) {
+								window.DownloadFiles.postMessage(selectedItem.photo);
+							}
 							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.photo);
 						}
 						if (selectedItem.type == 'video') {
-							window.DownloadFiles.postMessage(selectedItem.video);
+							if (window.DownloadFiles) {
+								window.DownloadFiles.postMessage(selectedItem.video);
+							}
 							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.video);
 						}
 						if (selectedItem.type == 'document') {
-							window.DownloadFiles.postMessage(selectedItem.document);
+							if (window.DownloadFiles) {
+								window.DownloadFiles.postMessage(selectedItem.document);
+							}
 							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
 						}
 						

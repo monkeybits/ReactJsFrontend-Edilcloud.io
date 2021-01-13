@@ -136,7 +136,9 @@ function Boards(props) {
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		} else {
 			console.log('listenning to flutterInAppWebViewPlatformReady');
-			window.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
+			if (window.DownloadFiles) {
+				window.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
+			}
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		}
 		window.OneSignal.push(function () {
