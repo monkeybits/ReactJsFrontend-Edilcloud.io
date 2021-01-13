@@ -55,7 +55,7 @@ function ContactsApp(props) {
 	const roleFromCompany = userInfo?.extra?.profile?.role;
 	if (loading.loadingApprove || loading.loadingRefuse || loading.loadingWaiting) {
 		return (
-			<div className="flex flex-1 flex-col items-center justify-center">
+			<div className="flex flex-1 flex-col items-center justify-center h-full">
 				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
 					Loading contacts...
 				</Typography>
