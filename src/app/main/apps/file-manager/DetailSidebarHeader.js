@@ -33,64 +33,6 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 	if (!selectedItem) {
 		return null;
 	}
-	const onDownload = () => {
-		if (selectedItem) {
-			setProgress(0);
-			dispatch(Actions.onUploadHandleLoading(true));
-			let apiurl =
-				selectedItem.type == 'photo'
-					? DOWNLOAD_PHOTO(selectedItem.mainId)
-					: selectedItem.type == 'video'
-					? DOWNLOAD_VIDEO(selectedItem.mainId)
-					: DOWNLOAD_DOCUMENT(selectedItem.mainId);
-			apiCall(
-				apiurl,
-				{},
-				({ headers, data }) => {
-					var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
-					if (window) {
-						console.log('listenning to flutterInAppWebViewPlatformReady');
-						console.log(window.flutter_inappwebview)
-						if (selectedItem.type == 'photo') {
-							if (window.DownloadFiles) {
-								window.DownloadFiles.postMessage(selectedItem.photo);
-							}
-							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.photo);
-						}
-						if (selectedItem.type == 'video') {
-							if (window.DownloadFiles) {
-								window.DownloadFiles.postMessage(selectedItem.video);
-							}
-							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.video);
-						}
-						if (selectedItem.type == 'document') {
-							if (window.DownloadFiles) {
-								window.DownloadFiles.postMessage(selectedItem.document);
-							}
-							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
-						}
-						
-						console.log('finish listenning to flutterInAppWebViewPlatformReady');
-					}
-					FileSaver.saveAs(file);
-					dispatch(Actions.onUploadHandleLoading(false));
-				},
-				err => {
-					dispatch(Actions.onUploadHandleLoading(false));
-				},
-				METHOD.GET,
-				{
-					...getHeaderToken(),
-					responseType: 'blob',
-					onDownloadProgress: progressEvent => {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-						setProgress(percentCompleted);
-					}
-				},
-				true
-			);
-		}
-	};
 	const openDeleteFileDialog = () => setIsOpenDeleteDialog(true);
 	const colseDeleteFileDialog = () => setIsOpenDeleteDialog(false);
 	const handleDelete = () => {

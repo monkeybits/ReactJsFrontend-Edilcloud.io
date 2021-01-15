@@ -127,7 +127,7 @@ function Boards(props) {
 		const myCustomUniqueUserId = company_profile_id;
 		console.log('LOGGED IN WITH PROFILE ID: ' + myCustomUniqueUserId.toString());
 	
-		if (window.flutter_inappwebview) {
+		if (window.flutter_inappwebview?.callHandler) {
 			console.log('listenning to flutterInAppWebViewPlatformReady');
 			window.flutter_inappwebview.callHandler('OneSignalSetUser', myCustomUniqueUserId.toString())
 			.then(function(result) {
@@ -136,7 +136,7 @@ function Boards(props) {
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		} else {
 			console.log('listenning to flutterInAppWebViewPlatformReady');
-			if (window.DownloadFiles) {
+			if (window.DownloadFiles?.postMessage) {
 				window.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
 			}
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
