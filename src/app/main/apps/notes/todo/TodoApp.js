@@ -67,12 +67,21 @@ function TodoApp(props) {
 	// 	dispatch(Actions.getLabels());
 	// }, [dispatch]);
 	useEffect(() => {
-		if (notificationPanel.viewing && notificationPanel.notificationData?.notification) {
-			let notification = notificationPanel.notificationData.notification;
-			if (notification.content_type === 'post' || notification.content_type === 'comment') {
-				let task_id = notification.body.task_id;
-				if (notification.body.hasOwnProperty('activity_id')) {
-					let activity_id = notification.body.activity_id;
+		if (
+			(notificationPanel.viewing && notificationPanel.notificationData?.notification) ||
+			routeParams.pid ||
+			routeParams.cid
+		) {
+			let notification = notificationPanel.notificationData?.notification;
+			if (
+				notification?.content_type === 'post' ||
+				notification?.content_type === 'comment' ||
+				routeParams.pid ||
+				routeParams.cid
+			) {
+				let task_id = notification?.body.task_id || routeParams.dataId;
+				if (notification?.body.hasOwnProperty('activity_id') || routeParams.aid) {
+					let activity_id = notification?.body.activity_id || routeParams.dataId;
 					dispatch(Actions.openTimelineDialog({ todo: { id: activity_id }, task: {} }));
 					apiCall(
 						GET_ACTIVITY_BY_ID(activity_id),
@@ -95,7 +104,7 @@ function TodoApp(props) {
 					GET_TASK_BY_ID(task_id),
 					{},
 					res => {
-						if (notification.body.hasOwnProperty('activity_id')) {
+						if (notification?.body?.hasOwnProperty('activity_id') || routeParams.tab == 'activity') {
 							dispatch(
 								Actions.addTimelineData({
 									task: { id: task_id, ...res }
@@ -113,7 +122,7 @@ function TodoApp(props) {
 		}
 	}, [notificationPanel.viewing]);
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getTodos(routeParams.id,false, handleSetLoading));
+		dispatch(Actions.getTodos(routeParams.id, false, handleSetLoading));
 		return () => {
 			dispatch({
 				type: GET_TODOS,

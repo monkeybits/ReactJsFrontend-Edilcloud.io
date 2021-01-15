@@ -64,10 +64,37 @@ const NotesAppConfig = {
 		},
 		{
 			exact: true,
-			path: '/apps/projects/:id/:tab/:dataId',
+			path: '/apps/projects/:id/:tab/:dataId', // /apps/projects/2/task/10
+			component: React.lazy(() => import('./ProjectDetail/ProjectDetailsApp'))
+		},
+
+		{
+			exact: true,
+			path: '/apps/projects/:id/:tab/:dataId/post/:pid', // /apps/projects/2/task/10/post/5
+			component: React.lazy(() => import('./ProjectDetail/ProjectDetailsApp'))
+		},
+		{
+			exact: true,
+			path: '/apps/projects/:id/:tab/:dataId/post/:cid_pid/comment/:cid', // /apps/projects/2/task/10/post/5/comment/1
+			component: React.lazy(() => import('./ProjectDetail/ProjectDetailsApp'))
+		},
+		{
+			exact: true,
+			path: '/apps/projects/:id/:tab/:dataId/activity/:aid', // /apps/projects/2/task/10/activity/1
+			component: React.lazy(() => import('./ProjectDetail/ProjectDetailsApp'))
+		},
+		{
+			exact: true,
+			path: '/apps/projects/:id/:tab/:dataId/activity/:aid/post/:pid', // /apps/projects/2/task/10/activity/1/post/10
+			component: React.lazy(() => import('./ProjectDetail/ProjectDetailsApp'))
+		},
+		{
+			exact: true,
+			path: '/apps/projects/:id/:tab/:dataId/activity/:aid/post/:cid_pid/comment/:cid', // /apps/projects/2/task/10/activity/1/post/5/comment/1
 			component: React.lazy(() => import('./ProjectDetail/ProjectDetailsApp'))
 		}
 	]
 };
 
 export default NotesAppConfig;
+// task/10/post/5/comment/1

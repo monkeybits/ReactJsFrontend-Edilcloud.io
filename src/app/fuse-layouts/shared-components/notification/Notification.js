@@ -129,10 +129,14 @@ function NotificationPanel(props) {
 			getReadNotification();
 		}
 	};
-	const getReadNotification = isInit => {
+	const getReadNotification = (isInit = false) => {
 		if (hasReadMore || isInit) {
 			setHasReadMore(false);
 			setLoading(true);
+			console.log({
+				isInit,
+				pageRead: dataRead.pageRead
+			});
 			apiCall(
 				GET_ALL_NOTIFICATIONS('read_list', isInit ? 1 : dataRead.pageRead),
 				{},
@@ -227,7 +231,10 @@ function NotificationPanel(props) {
 													// 	console.info(`Swipe progress: ${progress}%`)
 													// }
 												>
-													<ListItem key={activity.id} className="px-12 bg-blue-200 items-start">
+													<ListItem
+														key={activity.id}
+														className="px-12 bg-blue-200 items-start"
+													>
 														<Avatar
 															className="mx-4 mt-10"
 															alt={notification.sender.first_name}
@@ -239,12 +246,12 @@ function NotificationPanel(props) {
 																<>
 																	<div className="flex">
 																		<Typography
-																				className="font-medium whitespace-no-wrap"
-																				color="primary"
-																				paragraph={false}
-																			>
-																				{notification.sender.first_name}{' '}
-																				{notification.sender.last_name}
+																			className="font-medium whitespace-no-wrap"
+																			color="primary"
+																			paragraph={false}
+																		>
+																			{notification.sender.first_name}{' '}
+																			{notification.sender.last_name}
 																		</Typography>
 																	</div>
 																	<div className="flex">
@@ -380,7 +387,7 @@ function NotificationPanel(props) {
 												</SwipeableListItem>
 											);
 										})}
-									<ListItem key="seeMore" className="px-12" onClick={getReadNotification}>
+									<ListItem key="seeMore" className="px-12" onClick={() => getReadNotification()}>
 										<ListItemText
 											className="flex-1 mx-4"
 											primary={

@@ -38,7 +38,6 @@ import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import * as FuseActions from 'app/store/actions';
 import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 
-
 const useStyles = makeStyles(theme => ({
 	root: {
 		background: theme.palette.primary.main,
@@ -76,7 +75,7 @@ function Boards(props) {
 	const [request, setRequest] = useState({});
 
 	useEffect(() => {
-		localStorage.removeItem('main_profile')
+		localStorage.removeItem('main_profile');
 		dispatch({
 			type: RESET_BOARDS
 		});
@@ -126,13 +125,14 @@ function Boards(props) {
 	const redirectAfterGetNewToken = company_profile_id => {
 		const myCustomUniqueUserId = company_profile_id;
 		console.log('LOGGED IN WITH PROFILE ID: ' + myCustomUniqueUserId.toString());
-	
+
 		if (window.flutter_inappwebview?.callHandler) {
 			console.log('listenning to flutterInAppWebViewPlatformReady');
-			window.flutter_inappwebview.callHandler('OneSignalSetUser', myCustomUniqueUserId.toString())
-			.then(function(result) {
-				console.log(JSON.stringify(result));
-			})
+			window.flutter_inappwebview
+				.callHandler('OneSignalSetUser', myCustomUniqueUserId.toString())
+				.then(function (result) {
+					console.log(JSON.stringify(result));
+				});
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		} else {
 			console.log('listenning to flutterInAppWebViewPlatformReady');
@@ -141,9 +141,10 @@ function Boards(props) {
 			}
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		}
-		window.OneSignal.push(function () {
-			window.OneSignal.setExternalUserId(myCustomUniqueUserId);
-		});
+		if (window.OneSignal)
+			window.OneSignal.push(function () {
+				window.OneSignal.setExternalUserId(myCustomUniqueUserId);
+			});
 		apiCall(
 			REFRESH_TOKEN(company_profile_id),
 			{
@@ -273,7 +274,8 @@ function Boards(props) {
 										)}
 
 										<Typography
-											className="text-16 font-300 text-center pt-16 px-32" color="inherit"
+											className="text-16 font-300 text-center pt-16 px-32"
+											color="inherit"
 										>
 											{board.name}
 										</Typography>
@@ -293,7 +295,10 @@ function Boards(props) {
 								tabIndex={0}
 							>
 								<Icon className="text-56">add_circle</Icon>
-								<Typography className="text-16 font-300 text-uppercase text-center pt-16 px-32" color="inherit">
+								<Typography
+									className="text-16 font-300 text-uppercase text-center pt-16 px-32"
+									color="inherit"
+								>
 									CREATE NEW COMPANY
 								</Typography>
 							</div>

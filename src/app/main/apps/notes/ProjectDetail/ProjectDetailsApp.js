@@ -16,6 +16,7 @@ import ProjectInfo from './ProjectInfo';
 import CreatePostDialog from '../todo/CreatePostDialog';
 import TodoDialog from '../todo/TodoDialog';
 import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();
@@ -24,13 +25,42 @@ function ProjectDetails(props) {
 	const pageLayout = useRef(null);
 	const params = useParams();
 	let havePaddingTabs = [0];
+
 	useEffect(() => {
 		if (params.id) {
+			if (params.dataId) {
+				let key = params.tab == 'task' ? 'task_id' : 'activity_id';
+				dispatch(
+					notificationActions.addNotificationData({
+						notification: {
+							body: {
+								[key]: params.dataId,
+								comment_id: params.cid
+							},
+							content_type: params.pid
+								? 'post'
+								: params.cid_pid
+								? 'comment'
+								: params.aid
+								? 'activity'
+								: params.tab,
+							object_id: params.pid
+								? params.pid
+								: params.cid
+								? params.cid
+								: params.aid
+								? params.aid
+								: params.dataId
+						}
+					})
+				);
+			}
 			dispatch(Actions.getProjectDetail(params.id));
+
 			let tab = params.tab;
 			if (tab == 'chat') {
 				setValue(1);
-			} else if (tab == 'task') {
+			} else if (tab == 'task' || tab == 'activity') {
 				setValue(2);
 			} else if (tab == 'filemanager') {
 				setValue(3);
