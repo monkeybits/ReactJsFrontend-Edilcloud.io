@@ -226,6 +226,7 @@ function CreatePostForm({ isTask, taskId }) {
 		const files = e.currentTarget.files;
 		const fileToCompress = e.currentTarget.files[0];
 		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+		console.log(`File name ${fileToCompress.name}`); // smaller than maxSizeMB
 		console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
 		if (fileToCompress.type?.split('/')[0] == 'image') {
 			const compressedFile = await imageCompression(fileToCompress, {
@@ -260,11 +261,12 @@ function CreatePostForm({ isTask, taskId }) {
 				{
 					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
-					fileType: fileType[0],
-					extension: '.' + fileType[1],
+					fileType: 'image',
+					extension: '.jpg',
 					type: fileType.join('/')
 				}
 			];
+			console.log('fuck     file', JSON.stringify(file));
 			setImages(file);
 		}
 	};
@@ -337,7 +339,7 @@ function CreatePostForm({ isTask, taskId }) {
 									hidden
 									multiple
 									type="file"
-									accept="image/*, video/*"
+									accept="image/*"
 									ref={inputRef}
 									onChange={addPhoto}
 								/>

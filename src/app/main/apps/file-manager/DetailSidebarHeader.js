@@ -48,16 +48,25 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 				{},
 				({ headers, data }) => {
 					var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
-					if (window.flutter_inappwebview) {
+					if (window) {
 						console.log('listenning to flutterInAppWebViewPlatformReady');
 						console.log(window.flutter_inappwebview)
 						if (selectedItem.type == 'photo') {
+							if (window.DownloadFiles) {
+								window.DownloadFiles.postMessage(selectedItem.photo);
+							}
 							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.photo);
 						}
 						if (selectedItem.type == 'video') {
+							if (window.DownloadFiles) {
+								window.DownloadFiles.postMessage(selectedItem.video);
+							}
 							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.video);
 						}
 						if (selectedItem.type == 'document') {
+							if (window.DownloadFiles) {
+								window.DownloadFiles.postMessage(selectedItem.document);
+							}
 							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
 						}
 						

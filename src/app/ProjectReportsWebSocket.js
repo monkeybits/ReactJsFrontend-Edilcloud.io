@@ -76,6 +76,10 @@ export default ({ children }) => {
 			const getUserId = () => userInfo?.extra?.profile.id;
 			console.log({ socketData: data, id: getUserId() });
 			if (data.message.message['dest']?.['id'] === parseInt(getUserId())) {
+				if (window.DownloadFiles) {
+					window.DownloadFiles.postMessage(data.message.message.url);
+					console.log('Download report url sent');
+				}
 				passMessage(data.message);
 			}
 		};
