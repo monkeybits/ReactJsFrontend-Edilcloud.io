@@ -358,10 +358,32 @@ function TodoListItem(props) {
 								Assign Company {loading && <CircularProgress size={15} color="secondary" />}
 							</div>
 						)}
-						<Typography className="MuiTypography-root todo-title truncate MuiTypography-h6 MuiTypography-colorInherit font-semibold ">
-							{' '}
-							{props.todo.name}{' '}
-						</Typography>
+						<div className="flex items-center flex-wrap">
+							<Typography className="MuiTypography-root todo-title truncate MuiTypography-h6 MuiTypography-colorInherit font-semibold ">
+								{' '}
+								{props.todo.name}{' '}
+							</Typography>
+							{props.todo.assigned_company?.id == company.id && (
+								<div className="flex items-center px-8 py-4">
+									<Button
+										variant="outlined"
+										color="primary"
+										className={classes.button}
+										startIcon={<PlaylistAddOutlinedIcon />}
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											if (props.todo.assigned_company) {
+												dispatch(Actions.openAddActivityTodoDialog(props.todo));
+											}
+										}}
+									>
+										Add
+									</Button>
+								</div>
+							)}
+						</div>
+
 						<Typography className="MuiTypography-root todo-title truncate MuiTypography-body MuiTypography-colorInherit  mb-12">
 							Responsabile: Mandelli Roberto
 						</Typography>
