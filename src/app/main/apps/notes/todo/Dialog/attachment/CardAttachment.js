@@ -54,25 +54,25 @@ function CardAttachment(props) {
 				if (window) {
 					console.log('listenning to flutterInAppWebViewPlatformReady');
 					console.log(window.flutter_inappwebview);
-					if (selectedItem.type == 'photo') {
+					if (type() == 'image') {
 						if (window.DownloadFiles) {
-							window.DownloadFiles.postMessage(selectedItem.photo);
+							window.DownloadFiles.postMessage(item.photo);
 						}
 						if (window.flutter_inappwebview)
-							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.photo);
+							window.flutter_inappwebview.callHandler('DownloadFiles', item.photo);
 					}
-					if (selectedItem.type == 'video') {
+					if (type() == 'video') {
 						if (window.DownloadFiles) {
-							window.DownloadFiles.postMessage(selectedItem.video);
+							window.DownloadFiles.postMessage(item.video);
 						}
 						if (window.flutter_inappwebview)
-							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.video);
+							window.flutter_inappwebview.callHandler('DownloadFiles', item.video);
 					} else {
 						if (window.DownloadFiles) {
-							window.DownloadFiles.postMessage(selectedItem.document);
+							window.DownloadFiles.postMessage(item.document);
 						}
 						if (window.flutter_inappwebview)
-							window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
+							window.flutter_inappwebview.callHandler('DownloadFiles', item.document);
 					}
 				}
 				FileSaver.saveAs(file);
