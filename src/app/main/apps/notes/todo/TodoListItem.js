@@ -45,6 +45,7 @@ import ToolbarMenu from './Dialog/toolbar/ToolbarMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import Popper from '@material-ui/core/Popper';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -144,6 +145,7 @@ const IOSSlider = withStyles({
 	}
 })(Slider);
 function TodoListItem(props) {
+	const { t } = useTranslation('todo_project');
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
@@ -439,7 +441,7 @@ function TodoListItem(props) {
 										>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
-											Start: {moment(props.todo.date_start).format('MMM Do YY')}
+											{t('START')}: {moment(props.todo.date_start).format('MMM Do YY')}
 											{/* </span> */}
 										</div>
 										<div
@@ -449,7 +451,7 @@ function TodoListItem(props) {
 										>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
-											Ends: {moment(props.todo.date_end).format('MMM Do YY')}
+											{t('ENDS')}: {moment(props.todo.date_end).format('MMM Do YY')}
 											{/* </span> */}
 										</div>
 									</>
@@ -462,7 +464,7 @@ function TodoListItem(props) {
 										>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
-											Start: {moment(props.todo.date_start).format('MMM Do YY')}
+											{t('START')}: {moment(props.todo.date_start).format('MMM Do YY')}
 											{/* </span> */}
 										</div>
 										<div
@@ -472,7 +474,7 @@ function TodoListItem(props) {
 										>
 											{/* <Icon className="text-16">access_time</Icon> */}
 											{/* <span className="mx-4"> */}
-											Ends: {moment(props.todo.date_end).format('MMM Do YY')}
+											{t('ENDS')}: {moment(props.todo.date_end).format('MMM Do YY')}
 											{/* </span> */}
 										</div>
 									</>
@@ -484,7 +486,7 @@ function TodoListItem(props) {
 									>
 										{/* <Icon className="text-16">access_time</Icon> */}
 										{/* <span className="mx-4"> */}
-										Start: {moment(props.todo.date_start).format('MMM Do YY')}
+										{t('START')}: {moment(props.todo.date_start).format('MMM Do YY')}
 										{/* </span> */}
 									</div>
 									<div
@@ -494,7 +496,7 @@ function TodoListItem(props) {
 									>
 										{/* <Icon className="text-16">access_time</Icon> */}
 										{/* <span className="mx-4"> */}
-										Ends: {moment(props.todo.date_end).format('MMM Do YY')}
+										{t('ENDS')}: {moment(props.todo.date_end).format('MMM Do YY')}
 										{/* </span> */}
 									</div>
 								</>
@@ -535,7 +537,7 @@ function TodoListItem(props) {
 							</Box>
 							{showProgress && (
 								<div className="custom-ios-slider-dropdown page zoom-125">
-									<small className="block mb-24">Set Task Progress</small>
+									<small className="block mb-24">{t('SET_TASK_PROGRESS')}</small>
 									<div>
 										<IOSSlider
 											aria-label="ios slider"

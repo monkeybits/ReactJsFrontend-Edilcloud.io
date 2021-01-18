@@ -134,7 +134,7 @@ function TodoList(props) {
 			case 'genrealFilter':
 				var result = [];
 				const userInfo = decodeDataFromToken();
-				if (activeFilterKey === 'Mine' && userInfo) {
+				if (activeFilterKey === 'MINE' && userInfo) {
 					result = list.reduce((unique, o) => {
 						let activities = [];
 						if (o.assigned_company && o.assigned_company.id == company.id) {
@@ -145,7 +145,7 @@ function TodoList(props) {
 						}
 						return unique;
 					}, []);
-				} else if (activeFilterKey === 'All') {
+				} else if (activeFilterKey === 'ALL') {
 					result = _.orderBy(
 						getFilteredArray(todos, searchText),
 						[orderBy],
@@ -195,7 +195,7 @@ function TodoList(props) {
 				return result;
 			case 'timeFilter':
 				var result = [];
-				if (activeFilterKey === 'Today') {
+				if (activeFilterKey === 'TODAY') {
 					result = list.reduce((unique, o) => {
 						let startDate = new Date(o.date_start);
 						let endDate = new Date(o.date_end);
@@ -212,7 +212,7 @@ function TodoList(props) {
 						}
 						return unique;
 					}, []);
-				} else if (activeFilterKey === 'Next week') {
+				} else if (activeFilterKey === 'NEXT_WEEK') {
 					result = list.reduce((unique, o) => {
 						let startDate = new Date(o.date_start);
 						let endDate = new Date(o.date_end);
@@ -232,7 +232,7 @@ function TodoList(props) {
 						}
 						return unique;
 					}, []);
-				} else if (activeFilterKey === 'In late') {
+				} else if (activeFilterKey === 'IN_LATE') {
 					result = list.reduce((unique, o) => {
 						let endDate = new Date(o.date_end);
 						let date = new Date();
