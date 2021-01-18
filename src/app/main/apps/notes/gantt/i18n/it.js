@@ -1,19 +1,18 @@
 const locale = {
-	APP_TITLE: 'Posta',
-	MINE: 'Mine-it',
-	ALL: 'All-it',
-	ALERTED: 'Alerted-it',
-	TODAY: 'Today-it',
-	NEXT_WEEK: 'Next week-it',
-	IN_LATE: 'In late-it',
-	COMPLETED: 'Completed-it',
-	GENERAL_FILTERS: 'GENERAL FILTERS-it',
-	TIME_FILTERS: 'TIME FILTERS-it',
-	PROJECT_FILTERS: 'PROJECT FILTERS-it',
-	COMPANY_FILTERS: 'COMPANY FILTERS-it',
-	PEOPLE_FILTERS: 'PEOPLE FILTERS-it',
-	STARRED: 'Yıldızlı',
-	IMPORTANT: 'Önemli'
+	COLLAPSE: 'Collapse - it',
+	EXPAND: 'Expand - it',
+	MOVE_FORWORD: 'Move Forword - it',
+	MOVE_BACKWARD: 'Move Backward - it',
+	IMPORT: 'Import - it',
+	EXPORT: 'Export - it',
+	ZOOM_TO_FIT: 'Zoom to Fit - it',
+	ZOOM_OUT: 'Zoom Out - it',
+	ZOOM_IN: 'Zoom In - it',
+	FULLSCREEN: 'Fullscreen - it',
+	TASK_NAME: 'Task name - it',
+	START_DATE: 'Start Date - it',
+	END_DATE: 'End Date - it',
+	COMPANY: 'Company - it',
 };
 
 export default locale;

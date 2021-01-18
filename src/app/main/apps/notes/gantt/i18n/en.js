@@ -1,19 +1,18 @@
 const locale = {
-	APP_TITLE: 'To-Do',
-	MINE: 'Mine',
-	ALL: 'All',
-	ALERTED: 'Alerted',
-	TODAY: 'Today',
-	NEXT_WEEK: 'Next week',
-	IN_LATE: 'In late',
-	COMPLETED: 'Completed',
-	GENERAL_FILTERS: 'GENERAL FILTERS',
-	TIME_FILTERS: 'TIME FILTERS',
-	PROJECT_FILTERS: 'PROJECT FILTERS',
-	COMPANY_FILTERS: 'COMPANY FILTERS',
-	PEOPLE_FILTERS: 'PEOPLE FILTERS',
-	STARRED: 'Starred',
-	IMPORTANT: 'Important'
+	COLLAPSE: 'Collapse',
+	EXPAND: 'Expand',
+	MOVE_FORWORD: 'Move Forword',
+	MOVE_BACKWARD: 'Move Backward',
+	IMPORT: 'Import',
+	EXPORT: 'Export',
+	ZOOM_TO_FIT: 'Zoom to Fit',
+	ZOOM_OUT: 'Zoom Out',
+	ZOOM_IN: 'Zoom In',
+	FULLSCREEN: 'Fullscreen',
+	TASK_NAME: 'Task name',
+	START_DATE: 'Start Date',
+	END_DATE: 'End Date',
+	COMPANY: 'Company',
 };
 
 export default locale;
