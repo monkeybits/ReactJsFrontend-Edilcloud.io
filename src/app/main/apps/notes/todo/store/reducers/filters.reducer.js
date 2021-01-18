@@ -5,33 +5,33 @@ const initialState = () => {
 	let timeFilterJsonData = localStorage.getItem('timeFilterJsonDataProject');
 	let genrealFilter = [
 		{
-			name: 'Mine',
+			name: 'MINE',
 			isActive: true
 		},
 		{
-			name: 'All',
+			name: 'ALL',
 			isActive: false
 		},
 		{
-			name: 'Alerted',
+			name: 'ALERTED',
 			isActive: false
 		}
 	];
 	let timeFilter = [
 		{
-			name: 'Today',
+			name: 'TODAY',
 			isActive: true
 		},
 		{
-			name: 'Next week',
+			name: 'NEXT_WEEK',
 			isActive: false
 		},
 		{
-			name: 'In late',
+			name: 'IN_LATE',
 			isActive: false
 		},
 		{
-			name: 'Completed',
+			name: 'COMPLETED',
 			isActive: false
 		}
 	];
@@ -45,7 +45,7 @@ const initialState = () => {
 		companyFilter: [],
 		peopleFilter: [],
 		activeFilter: 'genrealFilter',
-		activeFilterKey: 'Mine',
+		activeFilterKey: 'MINE',
 		usedKeys: [],
 		genrealFilter: genrealFilterJsonData ? JSON.parse(genrealFilterJsonData) : genrealFilter,
 		timeFilter: timeFilterJsonData ? JSON.parse(timeFilterJsonData) : timeFilter

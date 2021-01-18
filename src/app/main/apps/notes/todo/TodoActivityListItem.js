@@ -31,6 +31,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { toast } from 'react-toastify';
 import Tippy from '@tippyjs/react';
+import { useTranslation } from 'react-i18next';
 // import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css'
 _.enhance = function (list, source) {
@@ -56,6 +57,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function TodoActivityListItem(props) {
+	const { t } = useTranslation('todo_project');
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
 	const [open, setOpen] = React.useState(false);
@@ -349,7 +351,7 @@ function TodoActivityListItem(props) {
 															name="checkedB"
 														/>
 													}
-													label="Select All"
+													label={t('SELECT_ALL')}
 												/>
 											)}
 											{!!members?.length || !!canAssign?.length ? (

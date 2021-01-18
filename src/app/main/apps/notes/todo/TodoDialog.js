@@ -33,6 +33,7 @@ import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints'
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
+import { useTranslation } from 'react-i18next';
 
 const defaultFormState = {
 	id: '',
@@ -134,6 +135,7 @@ const IOSSlider = withStyles({
 	}
 })(Slider);
 function TodoDialog(props) {
+	const { t } = useTranslation('todo_project');
 	const dispatch = useDispatch();
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	const labels = useSelector(({ todoAppNote }) => todoAppNote.labels);
@@ -280,10 +282,10 @@ function TodoDialog(props) {
 				<Toolbar className="flex">
 					<Typography variant="h6" color="inherit">
 						{todoDialog.type === 'new'
-							? 'New Todo'
+							? t('NEW_TODO')
 							: todoDialog.type === 'activity'
-							? 'New Activity'
-							: 'Edit Todo'}
+							? t('NEW_ACTIVITY')
+							: t('EDIT_TODO')}
 					</Typography>
 					<div className="absolute right-m-12">
 						<IconButton onClick={closeTodoDialog} edge="start" color="inherit" aria-label="close">
@@ -390,7 +392,7 @@ function TodoDialog(props) {
 				<div className="px-20 sm:mb-24 mt-16 sm:mt-20 sm:px-32">
 					<FormControl className="mt-8 mb-16" required fullWidth>
 						<TextField
-							label="Task Title"
+							label={t('TASK_TITLE')}
 							autoFocus
 							name="title"
 							value={form.title}
@@ -403,7 +405,7 @@ function TodoDialog(props) {
 					{todoDialog.type === 'activity' ? (
 						<div className="mt-8 mb-16 select-dropdown">
 							<FuseChipSelect
-								placeholder="Select Profile"
+								placeholder={t('SELECT_PROFILE')}
 								variant="fixed"
 								isMulti
 								textFieldProps={{
@@ -432,7 +434,7 @@ function TodoDialog(props) {
 							<div className="mt-8 mb-16 select-dropdown">
 								<FuseChipSelect
 									className=""
-									placeholder="Select Company"
+									placeholder={t('SELECT_COMPANY')}
 									variant="fixed"
 									isMulti
 									textFieldProps={{
@@ -471,7 +473,7 @@ function TodoDialog(props) {
 
 					<FormControl className="mt-8 mb-16" required fullWidth>
 						<TextField
-							label="Notes"
+							label={t('NOTES')}
 							name="notes"
 							multiline
 							rows="6"
@@ -482,7 +484,7 @@ function TodoDialog(props) {
 					</FormControl>
 					<div className="flex -mx-4">
 						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-							<label>Start Date</label>
+							<label>{t('START_DATE')}</label>
 							<DatePicker
 								dateFormat="dd/MM/yyyy"
 								selected={taskDate.startDate}
@@ -497,7 +499,7 @@ function TodoDialog(props) {
 							<Icon className="icon">calendar_today</Icon>
 						</div>
 						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-							<label>End Date</label>
+							<label>{t('END_DATE')}</label>
 							<DatePicker
 								dateFormat="dd/MM/yyyy"
 								selected={taskDate.endDate}
@@ -514,7 +516,7 @@ function TodoDialog(props) {
 					</div>
 					<div className="w-full zoom-125">
 						<label>
-							<small>Task Progress</small>
+							<small>{t('TASK_PROGRESS')}</small>
 						</label>
 						<div className="mx-8 mt-32 custom-ios-slider">
 							<IOSSlider
@@ -556,7 +558,7 @@ function TodoDialog(props) {
 						}}
 						disabled={!canBeSubmitted()}
 					>
-						Add {loading && <CircularProgress size={15} color="secondary" />}
+						{t('ADD')} {loading && <CircularProgress size={15} color="secondary" />}
 					</Button>
 				</DialogActions>
 			) : (
@@ -572,7 +574,7 @@ function TodoDialog(props) {
 							// }}
 							// disabled={!canBeSubmitted()}
 						>
-							Save
+							{t('SAVE')}
 						</Button>
 					</div>
 					<IconButton
