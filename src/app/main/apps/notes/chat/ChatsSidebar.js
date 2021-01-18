@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ContactListItem from './ContactListItem';
 import StatusIcon from './StatusIcon';
 import * as Actions from './store/actions';
+import { useTranslation } from 'react-i18next';
 
 const statusArr = [
 	{
@@ -40,6 +41,7 @@ const statusArr = [
 ];
 
 function ChatsSidebar(props) {
+	const { t } = useTranslation('chat_projects');
 	const dispatch = useDispatch();
 	const contacts = useSelector(({ chatAppProject }) => chatAppProject.contacts.entities);
 	const user = useSelector(({ chatAppProject }) => chatAppProject.user);
@@ -87,17 +89,17 @@ function ChatsSidebar(props) {
 	return (
 		<div className="flex flex-col flex-auto h-full">
 			<AppBar position="static" color="default" elevation={1} className="bg-white border-0">
-
-				
-			
 				{useMemo(
 					() => (
 						<Toolbar className="mt-8 px-16">
-							<Paper className="flex p-4 items-center w-full px-8 py-4 rounded-20 chat-search" elevation={1}>
+							<Paper
+								className="flex p-4 items-center w-full px-8 py-4 rounded-20 chat-search"
+								elevation={1}
+							>
 								<Icon className="text-muted">search</Icon>
 
 								<Input
-									placeholder="Search or start new chat"
+									placeholder={t('SEARCH_PARTICIPANTS')}
 									className="flex flex-1 px-8"
 									disableUnderline
 									fullWidth
@@ -144,7 +146,7 @@ function ChatsSidebar(props) {
 								>
 									{contactsArr.length > 0 && (
 										<Typography className="font-weight-700 text-16 px-16 pb-8">
-											Participants
+											{t('PARTICIPANTS')}
 										</Typography>
 									)}
 

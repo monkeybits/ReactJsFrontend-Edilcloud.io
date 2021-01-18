@@ -137,6 +137,7 @@ function CreateAttachments({ taskId, attachments }) {
 							imagesArray={mediaSets}
 							activtStep={activtStep}
 							closeViewFile={() => setOpen(false)}
+							nameSpace='todo_project'
 						/>
 					)}
 				</div>

@@ -10,6 +10,7 @@ import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils'
 import { useParams } from 'react-router';
 import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
+import { useTranslation } from 'react-i18next';
 
 
 const useStyles = makeStyles(() => ({
@@ -98,6 +99,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function SendMessageForm(props) {
+	const { t } = useTranslation('chat_projects');
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 	const audioRef = useRef(null);
@@ -199,7 +201,7 @@ export default function SendMessageForm(props) {
 							root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-48 rtl:ml-48 my-8',
 							input: ''
 						},
-						placeholder: 'Type your message'
+						placeholder: t('TYPE_YOUR_MESSAGE')
 					}}
 					InputLabelProps={{
 						shrink: false,

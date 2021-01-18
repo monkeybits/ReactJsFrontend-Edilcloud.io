@@ -39,7 +39,11 @@ const locale = {
 	SET_TASK_PROGRESS: 'Set Task Progress',
 	TO_DO_STATE: 'to-do',
 	COMPLETED_STATE: 'completed',
-	TASK_PROGRESS: 'Task Progress'
+	TASK_PROGRESS: 'Task Progress',
+	VIEW_FILE: 'View File',
+	DOWNLOAD: 'Download',
+	PREVIOUS: 'Previous',
+	NEXT: 'Next',
 };
 
 export default locale;
