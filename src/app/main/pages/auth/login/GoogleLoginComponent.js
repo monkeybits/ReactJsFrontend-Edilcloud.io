@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { LinearProgress } from '@material-ui/core';
 import { toast } from 'react-toastify';
+import { REGISTER_SUCCESS } from 'app/auth/store/actions';
 class GoogleLoginComponent extends React.Component {
 	state = {
 		loading: false
@@ -17,9 +18,11 @@ class GoogleLoginComponent extends React.Component {
 	responseGoogle = response => {
 		const access_token = response.accessToken;
 		const photo = response.profileObj.imageUrl;
+		const email = response.profileObj.email;
 		const provider = 'google-oauth2';
 		this.startLoading();
 		console.log({
+			response,
 			access_token,
 			photo,
 			provider
@@ -33,24 +36,33 @@ class GoogleLoginComponent extends React.Component {
 			},
 			res => {
 				const { token } = res;
-				new Promise((resolve, reject) => {
-					if (res) {
-						jwtService.setSession(token);
-						resolve(res);
-					} else {
-						reject(res);
-					}
-				})
-					.then(res => {
-						this.props.onLogin(res);
-						setTimeout(() => {
-							this.removeLoading();
-						}, 2000);
-					})
-					.catch(err => {
-						this.removeLoading();
-						console.log(err);
+				const { history,dispatch } = this.props;
+				if (this.props.isRegister) {
+					history.push('/pages/auth/mail-confirm', { email });
+					return dispatch({
+						type: REGISTER_SUCCESS,
+						payload: res
 					});
+				} else {
+					new Promise((resolve, reject) => {
+						if (res) {
+							jwtService.setSession(token);
+							resolve(res);
+						} else {
+							reject(res);
+						}
+					})
+						.then(res => {
+							this.props.onLogin(res);
+							setTimeout(() => {
+								this.removeLoading();
+							}, 2000);
+						})
+						.catch(err => {
+							this.removeLoading();
+							console.log(err);
+						});
+				}
 			},
 			err => {
 				this.removeLoading();
