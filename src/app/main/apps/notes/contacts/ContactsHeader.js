@@ -10,8 +10,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import Button from '@material-ui/core/Button';
+import { useTranslation } from 'react-i18next';
 
 function ContactsHeader(props) {
+	const { t } = useTranslation('contacts_project');
 	const dispatch = useDispatch();
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	// const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);

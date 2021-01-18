@@ -28,6 +28,7 @@ import Typography from '@material-ui/core/Typography';
 import * as ContactActions from './store/actions';
 import { useRouteMatch } from 'react-router';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -42,6 +43,7 @@ const defaultFormState = {
 
 function AddTeamMemberToProject(props) {
 	const dispatch = useDispatch();
+	const { t } = useTranslation('contacts_project');
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const contactDialog = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.contactDialog);
 	const match = useRouteMatch();
@@ -175,7 +177,9 @@ function AddTeamMemberToProject(props) {
 						</IconButton>
 					</div>
 					<Typography variant="subtitle1" color="inherit">
-						{contactDialog.type === 'new' ? 'Add Team Member to Project' : 'Edit Team Member to Project'}
+						{contactDialog.type === 'new'
+							? t('ADD_TEAM_MEMBER_TO_PROJECT')
+							: t('EDIT_TEAM_MEMBER_TO_PROJECT')}
 					</Typography>
 				</Toolbar>
 			</AppBar>
@@ -193,7 +197,7 @@ function AddTeamMemberToProject(props) {
 							}}
 							isMulti
 							value={member}
-							placeholder="Search Project coordinators"
+							placeholder={contactDialog.name === 'External' ? t('EXTERNAL_MEMBER'): t('INTERNAL_MEMBER')}
 							textFieldProps={{
 								onChange: e => retrieveDataAsynchronously(e.target.value),
 								variant: 'outlined'

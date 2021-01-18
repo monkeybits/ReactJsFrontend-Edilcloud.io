@@ -18,6 +18,7 @@ import { decodeDataFromToken } from 'app/services/serviceUtils';
 import ContactsHeader from './ContactsHeader';
 import TeamFloationButton from './TeamFloationButton';
 import { LinearProgress, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles({
 
 function ContactsApp(props) {
 	const dispatch = useDispatch();
+	const { t } = useTranslation('contacts_project');
 
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
@@ -57,7 +59,7 @@ function ContactsApp(props) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center h-full">
 				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
-					Loading contacts...
+					{t('LOADING_CONTACTS')}...
 				</Typography>
 				<LinearProgress className="w-xs" color="secondary" />
 			</div>
@@ -74,7 +76,7 @@ function ContactsApp(props) {
 					wrapper: 'min-h-0 team-tab p-24'
 				}}
 				// header={<ContactsHeader onOpen={props.setOpenDialog} pageLayout={pageLayout} />}
-				content={<ContactsList pageLayout={pageLayout}  />}
+				content={<ContactsList pageLayout={pageLayout} />}
 				leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}

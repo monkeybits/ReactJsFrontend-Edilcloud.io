@@ -28,6 +28,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { SYSTEM_ROLES } from 'app/constants';
+import { useTranslation } from 'react-i18next';
 
 const defaultFormState = {
 	first_name: '',
@@ -45,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 function ViewContactDialog(props) {
+	const { t } = useTranslation('contacts_project');
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const contactDialog = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.contactDialog);

@@ -19,6 +19,7 @@ import MoreOption from './MoreOption';
 import DeleteConfirmDialog from '../../file-manager/DeleteConfirmDialog';
 import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
+import { useTranslation } from 'react-i18next';
 
 export default function ContactCard(props) {
 	const {
@@ -38,6 +39,7 @@ export default function ContactCard(props) {
 		can_access_files,
 		editPermission
 	} = props;
+	const { t } = useTranslation('contacts_project');
 	const dispatch = useDispatch();
 	const inputFile = useRef(null);
 	const [viewCroper, setViewCroper] = useState(false);

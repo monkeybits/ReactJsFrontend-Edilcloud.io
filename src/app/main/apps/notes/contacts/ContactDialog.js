@@ -37,6 +37,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 import { SYSTEM_ROLES } from 'app/constants';
+import { useTranslation } from 'react-i18next';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -69,6 +70,7 @@ const useStyles = makeStyles(theme => ({
 }));
 function ContactDialog(props) {
 	const dispatch = useDispatch();
+	const { t } = useTranslation('contacts_project');
 	const classes = useStyles();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
 	const [value, setValue] = useState('English');
