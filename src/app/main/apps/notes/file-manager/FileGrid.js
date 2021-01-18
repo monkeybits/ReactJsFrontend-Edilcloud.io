@@ -59,6 +59,7 @@ import {
 	FOLDER_DELETE
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles({
 	typeIcon: {
 		'&.folder:before': {
@@ -83,6 +84,7 @@ const useStylesList = makeStyles(theme => ({
 	}
 }));
 function FileGrid(props) {
+	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.files);
@@ -232,12 +234,12 @@ function FileGrid(props) {
 				</div>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
-						Seems that there are no files yet!
+						{t('NO_FILES_MESSAGE')}
 					</Typography>
 				</div>
 				<div className="flex flex-1 mt-20 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h6">
-						Create a file or a folder clicking on green + button
+						{t('CREATE_FILE_ADVICE')}
 					</Typography>
 				</div>
 			</div>
@@ -249,7 +251,7 @@ function FileGrid(props) {
 				<>
 					{' '}
 					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
-						Folders
+						{t('FOLDERS')}
 					</Typography>
 					<Grid container spacing={12} className="folder-grid">
 						{currentFolders.map(d => (
@@ -294,7 +296,7 @@ function FileGrid(props) {
 												<ListItemIcon>
 													<Icon>delete</Icon>
 												</ListItemIcon>
-												<Typography variant="inherit"> Delete</Typography>
+												<Typography variant="inherit"> {t('DELETE')}</Typography>
 											</MenuItem>
 											{/* ))} */}
 										</TippyMenu>
@@ -308,7 +310,7 @@ function FileGrid(props) {
 			{!!currentFiles.length ? (
 				<>
 					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
-						Files
+						{t('FILES')}
 					</Typography>
 					<Grid container spacing={12} className="file-grid">
 						<FileGridItem tileData={currentFiles} {...props} handleDelete={handleDelete} />
@@ -321,12 +323,12 @@ function FileGrid(props) {
 					</div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<Typography color="textSecondary" variant="h5">
-							Seems that there are no files yet!
+							{t('NO_FILES_MESSAGE')}
 						</Typography>
 					</div>
 					<div className="flex flex-1 mt-20 items-center justify-center h-full">
 						<Typography color="textSecondary" variant="h6">
-							Create a file or a folder clicking on green + button
+							{t('CREATE_FILE_ADVICE')}
 						</Typography>
 					</div>
 				</div>

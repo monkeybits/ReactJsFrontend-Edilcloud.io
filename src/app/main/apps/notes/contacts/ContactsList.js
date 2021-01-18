@@ -35,6 +35,7 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import MoreOption from './MoreOption';
+import { useTranslation } from 'react-i18next';
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
 		order === 'ASC'
@@ -51,6 +52,7 @@ function sortByProperty(array, property, order = 'ASC') {
 	);
 }
 function ContactsList(props) {
+	const { t } = useTranslation('contacts_project');
 	const dispatch = useDispatch();
 	const companies = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.companies);
 	const company = useSelector(({ chatApp }) => chatApp.company);
@@ -108,39 +110,39 @@ function ContactsList(props) {
 				sortable: false
 			},
 			{
-				Header: 'First Name',
+				Header: t('FIRST_NAME'),
 				accessor: 'name',
 				// className: 'font-bold',
 				sortable: true
 			},
 			{
-				Header: 'Last Name',
+				Header: t('LAST_NAME'),
 				accessor: 'lastName',
 				// className: 'font-bold',
 				sortable: true
 			},
 			{
-				Header: 'Company',
+				Header: t('COMAPNY'),
 				accessor: 'company',
 				sortable: true
 			},
 			{
-				Header: 'Role',
+				Header: t('ROLE'),
 				accessor: 'role',
 				sortable: true
 			},
 			{
-				Header: 'Status',
+				Header: t('STATUS'),
 				accessor: 'status',
 				sortable: true
 			},
 			{
-				Header: 'Job Title',
+				Header: t('JOB_TITLE'),
 				accessor: 'jobTitle',
 				sortable: true
 			},
 			{
-				Header: 'Email',
+				Header: t('EMAIL'),
 				accessor: 'email',
 				sortable: true,
 				Cell: ({ row }) => (
@@ -150,7 +152,7 @@ function ContactsList(props) {
 				)
 			},
 			{
-				Header: 'Phone',
+				Header: t('PHONE'),
 				accessor: 'phone',
 				sortable: true,
 				Cell: ({ row }) => (
@@ -161,7 +163,7 @@ function ContactsList(props) {
 			},
 			{
 				id: 'action',
-				Header: 'Action',
+				Header: t('ACTION'),
 				// width: 128,
 				sortable: false,
 				Cell: ({ row }) => {
@@ -268,8 +270,6 @@ function ContactsList(props) {
 		return null;
 	}
 
-	
-
 	const onDeactivate = () => {
 		const { id, email } = userData;
 		let url = DELETE_MEMBER_FROM_PROJECT(id);
@@ -312,7 +312,7 @@ function ContactsList(props) {
 						</Icon>
 
 						<Input
-							placeholder="Search for anything"
+							placeholder={t('SEARCH_FOR_ANYTHING')}
 							className="flex flex-1 px-12"
 							disableUnderline
 							fullWidth
@@ -337,7 +337,7 @@ function ContactsList(props) {
 			<DeleteConfirmDialog
 				text={
 					<>
-						<Typography>Are you sure want to delete ?</Typography>
+						<Typography>{t('DELETE_CONTACT_ASK')}</Typography>
 						{/* {filterKey != 'deactivated' && (
 							<Typography>Account will be deactivated untill you not activet this user again!</Typography>
 						)} */}
@@ -356,12 +356,12 @@ function ContactsList(props) {
 						</div>
 						<div className="flex flex-1 mt-30 items-center justify-center ">
 							<Typography color="textSecondary" variant="h5">
-								Seems that there are no contacts!
+								{t('NO_CONTACT_MESSAGE')}
 							</Typography>
 						</div>
 						<div className="flex flex-1 mt-20 items-center justify-center ">
 							<Typography color="textSecondary" variant="h6">
-								Create a profile or invite one clicking on green + button
+								{t('ADD_CONTACT_ADVICE')}
 							</Typography>
 						</div>
 					</div>
@@ -393,6 +393,11 @@ function ContactsList(props) {
 											data.profile &&
 											userInfo.user_id != data.profile.id
 										}
+										onCardClick={ev => {
+											if (data) {
+												dispatch(Actions.openViewContactDialog(data));
+											}
+										}}
 										{...data}
 									/>
 								); // : null;

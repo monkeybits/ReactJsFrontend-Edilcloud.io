@@ -40,6 +40,10 @@ const locale = {
 	TO_DO_STATE: 'to-do - it',
 	COMPLETED_STATE: 'completed - it',
 	TASK_PROGRESS: 'Task Progress - it',
+	VIEW_FILE: 'View File - it',
+	DOWNLOAD: 'Download - it',
+	PREVIOUS: 'Previous - it',
+	NEXT: 'Next - it',
 };
 
 export default locale;

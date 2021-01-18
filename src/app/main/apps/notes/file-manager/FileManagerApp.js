@@ -53,6 +53,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '@material-ui/lab/Pagination';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import { useTranslation } from 'react-i18next';
 
 const styles = theme => ({
 	root: {
@@ -101,6 +102,7 @@ const DialogActions = withStyles(theme => ({
 
 function FileManagerApp(props) {
 	//filesfolderPath
+	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files);
 	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
@@ -273,7 +275,7 @@ function FileManagerApp(props) {
 	const loadingComponent = (
 		<div className="flex flex-1 flex-col items-center justify-center h-full">
 			<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
-				Loading files...
+				{t('LOADING_FILES')}...
 			</Typography>
 			<LinearProgress className="w-xs" color="secondary" />
 		</div>
@@ -380,7 +382,13 @@ function FileManagerApp(props) {
 						</div>
 					</>
 				}
-				content={viewTable ? <FileList pageLayout={pageLayout} setProgress={setProgress} /> : <FileGrid pageLayout={pageLayout} setProgress={setProgress} />}
+				content={
+					viewTable ? (
+						<FileList pageLayout={pageLayout} setProgress={setProgress} />
+					) : (
+						<FileGrid pageLayout={pageLayout} setProgress={setProgress} />
+					)
+				}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}
 				leftSidebarContent={<MainSidebarContent />}
@@ -419,7 +427,7 @@ function FileManagerApp(props) {
 							</IconButton>
 						</div>
 						<Typography variant="subtitle1" color="inherit">
-							Upload File
+							{t('UPLOAD_FILE')}
 						</Typography>
 					</Toolbar>
 				</AppBar>
@@ -431,7 +439,7 @@ function FileManagerApp(props) {
 									error={!!error.nameError}
 									name="folder"
 									id="folder"
-									label="Folder"
+									label={t('FOLDER')}
 									className="mt-8 mb-16 w-full"
 									value={title}
 									onChange={({ target: { value } }) => {
@@ -450,7 +458,7 @@ function FileManagerApp(props) {
 										className="mb-24"
 										getOptionLabel={option => option.path}
 										renderOption={(option, { selected }) => <>{option.path}</>}
-										renderInput={params => <TextField {...params} label="Path" />}
+										renderInput={params => <TextField {...params} label={t('PATH')} />}
 										onInputChange={(e, value) => setPath(value)}
 										variant="outlined"
 										defaultValue={
@@ -467,7 +475,7 @@ function FileManagerApp(props) {
 									error={!!error.titleError}
 									name="title"
 									id="title"
-									label="Title"
+									label={t('TITLE')}
 									className="mt-8 mb-16 w-full"
 									value={title}
 									onChange={({ target: { value } }) => {
@@ -482,7 +490,7 @@ function FileManagerApp(props) {
 								<TextField
 									error={!!error.descError}
 									name="desc"
-									label="Description"
+									label={t('DESCRIPTION')}
 									className="mt-8 mb-16 w-full"
 									multiline
 									rows={4}
@@ -512,7 +520,7 @@ function FileManagerApp(props) {
 										className="mb-24"
 										getOptionLabel={option => option.path}
 										renderOption={(option, { selected }) => <>{option.path}</>}
-										renderInput={params => <TextField {...params} label="Path" />}
+										renderInput={params => <TextField {...params} label={t('PATH')} />}
 										onInputChange={(e, value) => setFilePath(value)}
 										defaultValue={currentFolderPath?.[0]}
 										variant="outlined"
@@ -530,7 +538,7 @@ function FileManagerApp(props) {
 						variant="contained"
 						color="secondary"
 					>
-						{radioBtnValue == 'folder' ? 'Create' : 'Upload'}
+						{radioBtnValue == 'folder' ? t('CREATE') : t('UPLOAD')}
 					</Button>
 				</DialogActions>
 			</Dialog>

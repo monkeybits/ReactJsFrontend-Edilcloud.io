@@ -67,12 +67,12 @@ const DialogActions = withStyles(theme => ({
 	}
 }))(MuiDialogActions);
 
-function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesArray }) {
+function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesArray, nameSpace = 'chat' }) {
 	const [step, setStep] = useState(activtStep);
 	useEffect(() => {
 		setStep(activtStep);
 	}, [activtStep]);
-	const { t } = useTranslation('chat');
+	const { t } = useTranslation(nameSpace);
 
 	const handlePrevious = () => {
 		if (step != 0) {

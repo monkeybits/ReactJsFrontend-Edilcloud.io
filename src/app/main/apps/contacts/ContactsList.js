@@ -362,13 +362,9 @@ function ContactsList(props) {
 					userData && (
 						<>
 							<Typography>
-								Are you sure want to {userData.status == 'Deactivated' ? 'activate' : 'deactivate'} ?
+								{userData.status == 'Deactivated' ? t('DEACTIVATE_MSG') : t('ACTIVATE_MSG')}
 							</Typography>
-							{userData.status != 'Deactivated' && (
-								<Typography>
-									Account will be deactivated untill you not activet this user again!
-								</Typography>
-							)}
+							{userData.status != 'Deactivated' && <Typography>{t('DEACTIVATE_ADVICE')}</Typography>}
 						</>
 					)
 				}
@@ -385,7 +381,7 @@ function ContactsList(props) {
 						</div>
 						<div className="flex flex-1 mt-30 items-center justify-center ">
 							<Typography color="textSecondary" variant="h5">
-								{t('ADD_CONTACT_ADVICE')}
+								{t('NO_CONTACT_MESSAGE')}
 							</Typography>
 						</div>
 						<div className="flex flex-1 mt-20 items-center justify-center ">

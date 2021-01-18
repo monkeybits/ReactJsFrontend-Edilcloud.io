@@ -37,6 +37,7 @@ export default function ViewFile({ files }) {
 				imagesArray={media.files}
 				activtStep={activtStep}
 				closeViewFile={() => setOpen(false)}
+				nameSpace='chat_projects'
 			/>
 		</div>
 	);

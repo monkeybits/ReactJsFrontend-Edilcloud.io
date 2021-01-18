@@ -107,13 +107,9 @@ export default function ContactCard(props) {
 					userData && (
 						<>
 							<Typography>
-							{userData.status == 'Deactivated' ? t('DEACTIVATE_MSG') : t('ACTIVATE_MSG')} ?
+								{userData.status == 'Deactivated' ? t('DEACTIVATE_MSG') : t('ACTIVATE_MSG')}
 							</Typography>
-							{userData.status != 'Deactivated' && (
-								<Typography>
-									{t('DEACTIVATE_ADVICE')}
-								</Typography>
-							)}
+							{userData.status != 'Deactivated' && <Typography>{t('DEACTIVATE_ADVICE')}</Typography>}
 						</>
 					)
 				}

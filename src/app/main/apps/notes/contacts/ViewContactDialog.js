@@ -28,6 +28,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { SYSTEM_ROLES } from 'app/constants';
+import { useTranslation } from 'react-i18next';
 
 const defaultFormState = {
 	first_name: '',
@@ -45,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 function ViewContactDialog(props) {
+	const { t } = useTranslation('contacts_project');
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const contactDialog = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.contactDialog);
@@ -128,7 +130,7 @@ function ViewContactDialog(props) {
 			<AppBar position="static" elevation={1}>
 				<Toolbar className="flex w-full border-0">
 					<Typography variant="subtitle1" color="inherit">
-						View Contact
+					{t('VIEW_CONTACT')}
 					</Typography>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
@@ -144,39 +146,60 @@ function ViewContactDialog(props) {
 				<DialogContent classes={{ root: 'p-24' }}>
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96">
-							<Typography className="text-base">Name</Typography>
+							<Typography className="text-base">{t('NAME')}</Typography>
 						</div>
-						<Typography variant="h6" className="text-base">{form.first_name}</Typography>
+						<Typography variant="h6" className="text-base">
+							{form.first_name}
+						</Typography>
 					</div>
 
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
-							<Typography className="text-base">Last name</Typography>
+							<Typography className="text-base">{t('LAST_NAME')}</Typography>
 						</div>
-						<Typography variant="h6" className="text-base">{form.last_name}</Typography>
+						<Typography variant="h6" className="text-base">
+							{form.last_name}
+						</Typography>
 					</div>
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
-							<Typography className="text-base">Email</Typography>
+							<Typography className="text-base">{t('EMAIL')}</Typography>
 						</div>
 
-						<Typography variant="h6" className="text-base">{form.email}</Typography>
+						<Typography variant="h6" className="text-base">
+							<a href={`mailto:${form.email}`}>{form.email}</a>
+						</Typography>
+					</div>
+					{form.phone && (
+						<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+							<div className="min-w-96 ">
+								<Typography className="text-base">{t('PHONE')}</Typography>
+							</div>
+
+							<Typography variant="h6" className="text-base">
+								<a href={`tel:${form.phone}`}>{form.phone}</a>
+							</Typography>
+						</div>
+					)}
+					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+						<div className="min-w-96 ">
+							<Typography className="text-base">{t('ROLE')}</Typography>
+						</div>
+						<Typography variant="h6" className="text-base">
+							{form.role}
+						</Typography>
 					</div>
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
-							<Typography className="text-base">Role</Typography>
+							<Typography className="text-base">{t('LANGUAGE')}</Typography>
 						</div>
-						<Typography variant="h6" className="text-base">{form.role}</Typography>
-					</div>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
-						<div className="min-w-96 ">
-							<Typography className="text-base">Language</Typography>
-						</div>
-						<Typography variant="h6" className="text-base">{value}</Typography>
+						<Typography variant="h6" className="text-base">
+							{value}
+						</Typography>
 					</div>
 				</DialogContent>
 			</form>
-		</Dialog>
+			</Dialog>
 	);
 }
 

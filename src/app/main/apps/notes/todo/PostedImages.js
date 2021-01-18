@@ -134,6 +134,7 @@ export default function PostedImages(props) {
 					imagesArray={props.media}
 					activtStep={activtStep}
 					closeViewFile={() => setOpen(false)}
+					nameSpace='todo_project'
 				/>
 			)}
 		</div>

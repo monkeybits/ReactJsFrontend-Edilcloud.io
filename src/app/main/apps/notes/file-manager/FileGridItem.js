@@ -36,6 +36,7 @@ import {
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
@@ -67,6 +68,7 @@ const useStyles = makeStyles(theme => ({
  * ];
  */
 export default function FileGridItem({ tileData, pageLayout, handleDelete, setProgress }) {
+	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
 	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const classes = useStyles();
@@ -82,7 +84,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 	};
 	const options = [
 		{
-			name: 'Delete',
+			name: 'DELETE',
 			icon: <Icon>delete</Icon>,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
@@ -92,7 +94,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 		},
 
 		{
-			name: 'Download',
+			name: 'DOWNLOAD',
 			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
@@ -101,7 +103,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 			}
 		},
 		{
-			name: 'Move to',
+			name: 'MOVE_TO',
 			icon: <Icon>transform</Icon>,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
@@ -110,7 +112,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 			}
 		},
 		{
-			name: 'View',
+			name: 'VIEW',
 			icon: <Icon>info</Icon>,
 			handleClickEvent: (ev, n) => {
 				handleOpenData(ev, n);
@@ -308,7 +310,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 												}}
 											>
 												<ListItemIcon>{icon}</ListItemIcon>
-												<Typography variant="inherit"> {name}</Typography>
+												<Typography variant="inherit"> {t(name)}</Typography>
 											</MenuItem>
 										))}
 									</TippyMenu>
@@ -323,12 +325,12 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 						</div>
 						<div className="flex flex-1 items-center justify-center h-full">
 							<Typography color="textSecondary" variant="h5">
-								Seems that there are no files yet!
+								{t('NO_FILES_MESSAGE')}
 							</Typography>
 						</div>
 						<div className="flex flex-1 mt-20 items-center justify-center h-full">
 							<Typography color="textSecondary" variant="h6">
-								Create a file or a folder clicking on green + button
+								{t('CREATE_FILE_ADVICE')}
 							</Typography>
 						</div>
 					</div>
