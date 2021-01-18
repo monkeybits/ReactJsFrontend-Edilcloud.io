@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { LinearProgress } from '@material-ui/core';
 import { toast } from 'react-toastify';
+import { REGISTER_SUCCESS } from 'app/auth/store/actions';
 class FacebookLoginComponent extends React.Component {
 	state = {
 		loading: false
@@ -19,6 +20,7 @@ class FacebookLoginComponent extends React.Component {
 		const provider = response.graphDomain;
 		this.startLoading();
 		console.log({
+			response,
 			access_token,
 			photo,
 			provider
@@ -32,24 +34,33 @@ class FacebookLoginComponent extends React.Component {
 			},
 			res => {
 				const { token } = res;
-				new Promise((resolve, reject) => {
-					if (res) {
-						jwtService.setSession(token);
-						resolve(res);
-					} else {
-						reject(res);
-					}
-				})
-					.then(res => {
-						this.props.onLogin(res);
-						setTimeout(() => {
-							this.removeLoading();
-						}, 2000);
-					})
-					.catch(err => {
-						this.removeLoading();
-						console.log(err);
+				const { history ,dispatch} = this.props;
+				if (this.props.isRegister) {
+					history.push('/pages/auth/mail-confirm', { email: '' });
+					return dispatch({
+						type: REGISTER_SUCCESS,
+						payload: res
 					});
+				} else {
+					new Promise((resolve, reject) => {
+						if (res) {
+							jwtService.setSession(token);
+							resolve(res);
+						} else {
+							reject(res);
+						}
+					})
+						.then(res => {
+							this.props.onLogin(res);
+							setTimeout(() => {
+								this.removeLoading();
+							}, 2000);
+						})
+						.catch(err => {
+							this.removeLoading();
+							console.log(err);
+						});
+				}
 			},
 			err => {
 				this.removeLoading();
