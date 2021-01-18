@@ -328,12 +328,12 @@ function FileList(props) {
 				</div>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
-						Seems that there are no files yet!
+					{t('NO_FILES_MESSAGE')}
 					</Typography>
 				</div>
 				<div className="flex flex-1 mt-20 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h6">
-						Create a file or a folder clicking on green + button
+					{t('CREATE_FILE_ADVICE')}
 					</Typography>
 				</div>
 			</div>
