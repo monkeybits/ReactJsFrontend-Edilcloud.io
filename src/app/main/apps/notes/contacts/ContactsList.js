@@ -393,6 +393,11 @@ function ContactsList(props) {
 											data.profile &&
 											userInfo.user_id != data.profile.id
 										}
+										onCardClick={ev => {
+											if (data) {
+												dispatch(Actions.openViewContactDialog(data));
+											}
+										}}
 										{...data}
 									/>
 								); // : null;

@@ -37,6 +37,7 @@ export default function ContactCard(props) {
 		language,
 		can_access_chat,
 		can_access_files,
+		onCardClick,
 		editPermission
 	} = props;
 	const { t } = useTranslation('contacts_project');
@@ -141,7 +142,7 @@ export default function ContactCard(props) {
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3}>
+		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3} onClick={onCardClick}>
 			<DeleteConfirmDialog
 				text={
 					<>
@@ -184,12 +185,7 @@ export default function ContactCard(props) {
 					}}
 					style={{ display: 'none' }}
 				/>
-				<img
-					class="round"
-					src={image ? image : avatar}
-					onClick={editPermission && handleOpenFileClick}
-					alt="user"
-				/>
+				<img class="round" src={image ? image : avatar}  alt="user" />
 				<h4 className="font-weight-600 mb-8">{`${name} ${lastName}`}</h4>
 				{/* <h6>{address}</h6> */}
 				<p className="font-500 text-muted mb-8">
