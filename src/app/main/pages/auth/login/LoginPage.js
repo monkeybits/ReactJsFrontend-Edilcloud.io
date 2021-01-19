@@ -76,7 +76,7 @@ function LoginPage() {
 
 	function handleLanguageChange(lng) {
 		const newLangDir = i18n.dir(lng.id);
-
+		localStorage.setItem('language', lng.id);
 		/*
         Change Language
          */

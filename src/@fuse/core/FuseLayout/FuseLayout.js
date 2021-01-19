@@ -11,6 +11,7 @@ import { matchRoutes } from 'react-router-config';
 import { useLocation } from 'react-router-dom';
 import * as Velocity from 'velocity-animate';
 import { defaults as Chartjs2Defaults } from 'react-chartjs-2';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	'@global': {
@@ -54,6 +55,7 @@ function FuseLayout(props) {
 	const dispatch = useDispatch();
 	const settings = useSelector(({ fuse }) => fuse.settings.current);
 	const defaultSettings = useSelector(({ fuse }) => fuse.settings.defaults);
+	const { i18n } = useTranslation();
 
 	const appContext = useContext(AppContext);
 	const { routes } = appContext;
@@ -62,6 +64,9 @@ function FuseLayout(props) {
 	const { pathname } = location;
 	const matched = matchRoutes(routes, pathname)[0];
 	const newSettings = useRef(null);
+	if (localStorage.getItem('language') && localStorage.getItem('language') != i18n.language) {
+		i18n.changeLanguage(localStorage.getItem('language'));
+	}
 	const shouldAwaitRender = useCallback(() => {
 		// document.body.style.zoom = "80%";
 		let _newSettings;

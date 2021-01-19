@@ -14,6 +14,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import { useTranslation } from 'react-i18next';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -35,12 +36,13 @@ const GreenRadio = withStyles({
 })(props => <Radio color="default" {...props} />);
 function BasicInfo({ form, handleChange, resetForm, value, setValue }) {
 	const classes = useStyles();
+	const { t } = useTranslation('mainProfile');
 
 	return (
 		<form name="registerForm" noValidate className="flex flex-col justify-center w-full">
 			<TextField
 				className="mb-8"
-				label="First Name"
+				label={t('FIRST_NAME')}
 				autoFocus
 				type="text"
 				name="fname"
@@ -53,7 +55,7 @@ function BasicInfo({ form, handleChange, resetForm, value, setValue }) {
 
 			<TextField
 				className="mb-8"
-				label="Last Name"
+				label={t('LAST_NAME')}
 				autoFocus
 				type="text"
 				name="lname"
@@ -66,7 +68,7 @@ function BasicInfo({ form, handleChange, resetForm, value, setValue }) {
 			<TextField
 				disabled
 				className="mb-8"
-				label="Email"
+				label={t('EMAIL')}
 				type="email"
 				name="email"
 				value={form.email}
@@ -87,7 +89,7 @@ function BasicInfo({ form, handleChange, resetForm, value, setValue }) {
 					</>
 				)}
 				inputValue={value}
-				renderInput={params => <TextField {...params} variant="outlined" label="Language" />}
+				renderInput={params => <TextField {...params} variant="outlined" label={t('LANGUAGE')} />}
 				onInputChange={(e, value) => setValue(value)}
 			/>
 		</form>

@@ -1,5 +1,11 @@
 import React from 'react';
 
+import i18next from 'i18next';
+import en from './i18n/en';
+import it from './i18n/it';
+
+i18next.addResourceBundle('en', 'mainProfile', en);
+i18next.addResourceBundle('it', 'mainProfile', it);
 const MainProfileConfig = {
 	settings: {
 		layout: {
