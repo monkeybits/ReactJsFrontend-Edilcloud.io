@@ -9,8 +9,10 @@ import React, { useRef, useState } from 'react';
 import CardAttachment from './CardAttachment';
 import ImagesPreview from 'app/main/apps/notes/todo/ImagesPreview';
 import ImagePreviewDialog from 'app/ImagePreviewDialog';
+import { useTranslation } from 'react-i18next';
 
-function CreateAttachments({ taskId, attachments }) {
+function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) {
+	const { t } = useTranslation(nameSpace);
 	const [images, setImages] = useState(null);
 	const [mediaSets, setMediaSets] = useState(attachments);
 	const inputFile = useRef(null);
@@ -78,11 +80,11 @@ function CreateAttachments({ taskId, attachments }) {
 				{images && <ImagesPreview images={images} hideModify />}
 				<div className="flex">
 					<Button className="add-file-btn mr-10" onClick={handleOpenFileClick}>
-						add file
+						{t('ADD_FILE')}
 					</Button>
 
 					<Button className="upload-btn" onClick={handleUpload}>
-						upload{' '}
+						{t('UPLOAD')}{' '}
 						{!!progress && (
 							<Box position="relative" display="inline-flex">
 								<CircularProgress color="secondary" variant="static" value={progress} />
@@ -137,7 +139,7 @@ function CreateAttachments({ taskId, attachments }) {
 							imagesArray={mediaSets}
 							activtStep={activtStep}
 							closeViewFile={() => setOpen(false)}
-							nameSpace='todo_project'
+							nameSpace="todo_project"
 						/>
 					)}
 				</div>

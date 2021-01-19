@@ -44,6 +44,21 @@ const locale = {
 	DOWNLOAD: 'Download',
 	PREVIOUS: 'Previous',
 	NEXT: 'Next',
+	ADD_FILE: 'add file',
+	UPLOAD: 'upload',
+	WRITE_SOMETHING: 'Write something..',
+	CANCEL: 'Cancel',
+	POST: 'Post',
+	SHARE: 'Share',
+	COMMENTS: 'Comments',
+	RETRY: 'Retry',
+	REPLY: 'Reply',
+	REPLIES: 'Replies',
+	REPORT: 'Report',
+	LIKE: 'Like',
+	ADD_COMMENT: 'Add a comment..',
+	EDIT: 'Edit',
+	DELETE: 'Delete',
 };
 
 export default locale;

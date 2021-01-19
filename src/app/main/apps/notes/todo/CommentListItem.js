@@ -46,6 +46,7 @@ import SendIcon from '@material-ui/icons/Send';
 import Menu from '@material-ui/core/Menu';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import { useTranslation } from 'react-i18next';
 const uuidv1 = require('uuid/v1');
 
 export default function CommentListItem({
@@ -55,8 +56,10 @@ export default function CommentListItem({
 	callRetryCommentSuccess,
 	needToGetComments,
 	tempAuthor,
-	afterDeleteComment
+	afterDeleteComment,
+	nameSpace = 'todo_project'
 }) {
+	const { t } = useTranslation(nameSpace);
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 	const [open, setOpen] = React.useState(false);
@@ -102,7 +105,7 @@ export default function CommentListItem({
 	}, [comment.replies_set]);
 	const options = [
 		{
-			name: 'Edit',
+			name: 'EDIT',
 			handler: () => {
 				setEditText(comment.text);
 				setIsEditing(true);
@@ -110,7 +113,7 @@ export default function CommentListItem({
 			}
 		},
 		{
-			name: 'Delete',
+			name: 'DELETE',
 			handler: e => {
 				handleDeleteComment();
 				setAnchorEl(null);
@@ -333,7 +336,7 @@ export default function CommentListItem({
 							<Input
 								className="p-8 w-full border-1"
 								classes={{ root: 'text-13' }}
-								placeholder="Add a comment.."
+								placeholder={t('ADD_COMMENT')}
 								value={editText}
 								multiline
 								rows="2"
@@ -385,13 +388,12 @@ export default function CommentListItem({
 								{options.map(option => (
 									<MenuItem
 										key={option.name}
-										selected={option.name === 'Pyxis'}
 										onClick={option.handler}
 									>
 										<ListItemIcon>
 											<PriorityHighIcon fontSize="small" />
 										</ListItemIcon>
-										<Typography variant="inherit"> {option.name}</Typography>
+										<Typography variant="inherit"> {t(option.name)}</Typography>
 									</MenuItem>
 								))}
 							</Menu>
@@ -401,7 +403,7 @@ export default function CommentListItem({
 				{isOffline && (
 					<>
 						{comment.retryOption && !isRetryingPostComment ? (
-							<Button onClick={retryToPostComment}>Retry</Button>
+							<Button onClick={retryToPostComment}>{t('RETRY')}</Button>
 						) : (
 							<Box position="relative" display="inline-flex">
 								<CircularProgress size={20} color="secondary" />
@@ -430,7 +432,7 @@ export default function CommentListItem({
 			{!isOffline && isEditing ? (
 				<div className="flex flex-wrap items-center ml-52">
 					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
-						<Typography className="normal-case mx-4">Cancel</Typography>
+						<Typography className="normal-case mx-4">{t('CANCEL')}</Typography>
 					</Button>
 					<Button
 						disabled={!editText.length}
@@ -440,7 +442,7 @@ export default function CommentListItem({
 						size="small"
 						color="secondary"
 					>
-						<Typography className="normal-case mx-4">Save</Typography>
+						<Typography className="normal-case mx-4">{t('SAVE')}</Typography>
 					</Button>
 				</div>
 			) : (
@@ -466,7 +468,7 @@ export default function CommentListItem({
 						<Icon className="text-13" color="action">
 							reply_outlined
 						</Icon>
-						<Typography className="normal-case text-13 ml-4">Reply</Typography>
+						<Typography className="normal-case text-13 ml-4">{t('REPLY')}</Typography>
 					</Button>
 					{/* <Button size="small" aria-label="Report">
 						<Icon className="text-13" color="action">
@@ -508,7 +510,7 @@ export default function CommentListItem({
 							setOpen(!open);
 						}}
 					>
-						<Typography className="font-600 text-13">{repliesLength()} Replies</Typography>
+						<Typography className="font-600 text-13">{repliesLength()} {t('REPLIES')}</Typography>
 						<Icon className="font-600 text-16 ml-2" color="action">
 							{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 						</Icon>
@@ -580,7 +582,7 @@ export default function CommentListItem({
 							className="p-8 w-full border-1"
 							id={String(comment.id)}
 							classes={{ root: 'text-13' }}
-							placeholder="Add a comment.."
+							placeholder={t('ADD_COMMENT')}
 							value={text}
 							multiline
 							rows="2"

@@ -51,6 +51,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import EditPostForm from './EditPostForm';
+import { useTranslation } from 'react-i18next';
 const uuidv1 = require('uuid/v1');
 
 export default function PostListItem({
@@ -63,8 +64,10 @@ export default function PostListItem({
 	showPrject,
 	showTask,
 	media,
-	afterDeletePost
+	afterDeletePost,
+	nameSpace = 'todo_project'
 }) {
+	const { t } = useTranslation(nameSpace);
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
@@ -82,7 +85,7 @@ export default function PostListItem({
 	const options = [
 		{
 			icon: 'edit',
-			name: 'Edit',
+			name: 'EDIT',
 			handler: () => {
 				setIsEditPost(true);
 				setAnchorEl(null);
@@ -92,7 +95,7 @@ export default function PostListItem({
 		},
 		{
 			icon: 'delete',
-			name: 'Delete',
+			name: 'DELETE',
 			handler: e => {
 				handleDeletePost();
 				setAnchorEl(null);
@@ -415,7 +418,7 @@ export default function PostListItem({
 										<ListItemIcon>
 											<Icon>{option.icon}</Icon>
 										</ListItemIcon>
-										<Typography variant="inherit"> {option.name}</Typography>
+										<Typography variant="inherit"> {t(option.name)}</Typography>
 									</MenuItem>
 								))}
 							</Menu>
@@ -471,7 +474,7 @@ export default function PostListItem({
 			/>
 			{isEditPost ? (
 				<CardContent className="p-0">
-					<EditPostForm {...{ currnetPost, setIsEditPost,setPost }} />
+					<EditPostForm {...{ currnetPost, setIsEditPost, setPost }} />
 				</CardContent>
 			) : (
 				<CardContent className="p-0">
@@ -495,7 +498,7 @@ export default function PostListItem({
 				</Button> */}
 				<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
 					<Icon className="text-white text-14">share</Icon>
-					<Typography className="normal-case text-white text-13 mx-4">Share</Typography>
+					<Typography className="normal-case text-white text-13 mx-4">{t('SHARE')}</Typography>
 					{!!post.share && <Typography className="normal-case text-13">({post.share})</Typography>}
 				</Button>
 			</CardActions>
@@ -511,7 +514,9 @@ export default function PostListItem({
 								setOpen(!open);
 							}}
 						>
-							<Typography className="text-13 font-600">{commentsLength()} Comments</Typography>
+							<Typography className="text-13 font-600">
+								{commentsLength()} {t('COMMENTS')}
+							</Typography>
 							<Icon className="text-16 font-600 mx-4" color="action">
 								{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 							</Icon>
@@ -551,7 +556,7 @@ export default function PostListItem({
 									className="p-8 w-full border-1"
 									id={String(post.id)}
 									classes={{ root: 'text-13' }}
-									placeholder="Add a comment.."
+									placeholder={t('ADD_COMMENT')}
 									multiline
 									rows="2"
 									margin="none"

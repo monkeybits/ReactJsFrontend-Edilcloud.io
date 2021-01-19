@@ -39,6 +39,7 @@ import SendIcon from '@material-ui/icons/Send';
 import Menu from '@material-ui/core/Menu';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import { useTranslation } from 'react-i18next';
 export default function ReplyListItem({
 	post,
 	comment,
@@ -48,15 +49,17 @@ export default function ReplyListItem({
 	handleReplyClick,
 	callRetryReplySuccess,
 	afterDeleteComment,
-	isOffline
+	isOffline,
+	nameSpace = 'todo_project'
 }) {
+	const { t } = useTranslation(nameSpace);
 	const dispatch = useDispatch();
 	const [isRetryingPostReply, setIsRetryingPostReply] = useState(false);
 	const [editText, setEditText] = useState('');
 	const [isEditing, setIsEditing] = useState(false);
 	const options = [
 		{
-			name: 'Edit',
+			name: 'EDIT',
 			handler: () => {
 				setEditText(comment.text);
 				setIsEditing(true);
@@ -64,7 +67,7 @@ export default function ReplyListItem({
 			}
 		},
 		{
-			name: 'Delete',
+			name: 'DELETE',
 			handler: e => {
 				handleDeleteComment();
 				setAnchorEl(null);
@@ -181,7 +184,7 @@ export default function ReplyListItem({
 							<Input
 								className="p-8 w-full border-1"
 								classes={{ root: 'text-13' }}
-								placeholder="Add a comment.."
+								placeholder={t('ADD_COMMENT')}
 								value={editText}
 								multiline
 								rows="2"
@@ -239,7 +242,7 @@ export default function ReplyListItem({
 										<ListItemIcon>
 											<PriorityHighIcon fontSize="small" />
 										</ListItemIcon>
-										<Typography variant="inherit"> {option.name}</Typography>
+										<Typography variant="inherit"> {t(option.name)}</Typography>
 									</MenuItem>
 								))}
 							</Menu>
@@ -274,7 +277,7 @@ export default function ReplyListItem({
 			{!isOffline && isEditing ? (
 				<div className="flex flex-wrap items-center ml-44">
 					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
-						<Typography className="normal-case mx-4">Cancel</Typography>
+						<Typography className="normal-case mx-4">{t('CANCEL')}</Typography>
 					</Button>
 					<Button
 						disabled={!editText.length}
@@ -284,7 +287,7 @@ export default function ReplyListItem({
 						size="small"
 						color="secondary"
 					>
-						<Typography className="normal-case mx-4">Save</Typography>
+						<Typography className="normal-case mx-4">{t('SAVE')}</Typography>
 					</Button>
 				</div>
 			) : (
@@ -293,13 +296,13 @@ export default function ReplyListItem({
 						<Icon className="text-13" color="action">
 							favorite
 						</Icon>
-						<Typography className="normal-case text-13 ml-4">Like</Typography>
+						<Typography className="normal-case text-13 ml-4">{t('LIKE')}</Typography>
 					</Button>
 					<Button onClick={handleReplyClick} size="small" className="normal-case">
 						<Icon className="text-13" color="action">
 							reply_outlined
 						</Icon>
-						<Typography className="normal-case text-13 ml-4">Reply</Typography>
+						<Typography className="normal-case text-13 ml-4">{t('REPLY')}</Typography>
 					</Button>
 					{/* {getUserId() == comment.author.id && (
 						<Button onClick={handleDeleteComment} size="small" aria-label="Add to favorites">
@@ -329,7 +332,7 @@ export default function ReplyListItem({
 						<Icon className="text-13" color="action">
 							flag_outlined
 						</Icon>
-						<Typography className="normal-case text-13 ml-4">Report</Typography>
+						<Typography className="normal-case text-13 ml-4">{t('REPORT')}</Typography>
 					</Button>
 					<Typography className="mx-6 text-13" variant="caption">
 						{
