@@ -13,6 +13,7 @@ import Radio from '@material-ui/core/Radio';
 import FormLabel from '@material-ui/core/FormLabel';
 
 import { green } from '@material-ui/core/colors';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -33,6 +34,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 	let handleChange = handleChangeAfterRemoveError;
 	const classes = useStyles();
 	const handleRadioChange = event => {};
+	const { t } = useTranslation('company_create');
 
 	return (
 		<form name="registerForm" className="flex flex-col justify-center w-full">
@@ -40,7 +42,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 				error={error.name.length}
 				helperText={!!error.name.length && error.name[0]}
 				className="mb-8"
-				label="Company Name"
+				label={t("COMPANY_NAME")}
 				autoFocus
 				type="text"
 				name="name"
@@ -52,7 +54,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 			/>
 			<TextField
 				className="mb-8"
-				label="Description"
+				label={t("DESCRIPTION")}
 				autoFocus
 				type="text"
 				name="desc"
@@ -64,7 +66,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 			/>
 			<TextField
 				className="mb-8"
-				label="Company Email"
+				label={t("COMPANY_EMAIL")}
 				type="email"
 				name="email"
 				value={form.email}
@@ -75,7 +77,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 			/>
 			<TextField
 				className="mb-8"
-				label="VAT Number"
+				label={t("VAT_NUMBER")}
 				type="text"
 				name="vat_number"
 				value={form.vat_number}
@@ -86,7 +88,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 			/>
 			<TextField
 				className="mb-8"
-				label="Website Url"
+				label={t("WEBSITE_URL")}
 				type="text"
 				name="url"
 				value={form.url}
@@ -97,7 +99,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 			/>
 			<TextField
 				className="mb-8"
-				label="Telephone number"
+				label={t("TELEPHONE_NUMBER")}
 				type="text"
 				name="phone"
 				value={form.phone}

@@ -26,6 +26,7 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import * as Actions from 'app/main/apps/chat/store/actions';
 import { Box, CircularProgress } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -52,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-	return ['Company Details', 'Company Categories', 'Company Logo'];
+	return ['COMPANY_DETAILS', 'COMPANY_CATEGORIES', 'COMPANY_LOGO'];
 }
 
 function getStepContent(step, elementProps) {
@@ -69,6 +70,7 @@ function getStepContent(step, elementProps) {
 }
 
 function CompanyCreationStepper({ user, history }) {
+	const { t } = useTranslation('company_create');
 	const { form, handleChange, resetForm, setForm } = useForm({
 		name: '',
 		desc: '',
@@ -264,7 +266,7 @@ function CompanyCreationStepper({ user, history }) {
 							<Stepper activeStep={activeStep} orientation="vertical">
 								{steps.map((label, index) => (
 									<Step key={label}>
-										<StepLabel>{label}</StepLabel>
+										<StepLabel>{t(label)}</StepLabel>
 										<StepContent>
 											<Typography>
 												{getStepContent(
@@ -290,7 +292,7 @@ function CompanyCreationStepper({ user, history }) {
 														disabled={activeStep === 0}
 														onClick={handleBack}
 													>
-														Back
+														{t('BACK')}
 													</Button>
 													<Button
 														size="large"
@@ -299,7 +301,7 @@ function CompanyCreationStepper({ user, history }) {
 														className={classes.button}
 														onClick={handleNext}
 													>
-														{activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+														{activeStep === steps.length - 1 ? t('FINISH') : t('NEXT')}
 													</Button>
 												</div>
 											</div>
@@ -310,7 +312,7 @@ function CompanyCreationStepper({ user, history }) {
 							{/* {activeStep !== steps.length && ( */}
 							<>
 								<Paper square elevation={0} className={classes.resetContainer}>
-									<Typography>All steps completed - you&apos;re finished</Typography>
+									<Typography>{t('STEP_COMPLETE_MESSAGE')}</Typography>
 									{progress > 0 && (
 										<Box position="relative" display="inline-flex" className={classes.progBox}>
 											<CircularProgress variant="static" color="primary" value={progress} />
