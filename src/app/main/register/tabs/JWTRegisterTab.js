@@ -15,8 +15,10 @@ import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
 
 import InputLabel from '@material-ui/core/InputLabel';
+import { useTranslation } from 'react-i18next';
 
 function JWTRegisterTab({ history }) {
+	const { t } = useTranslation('register');
 	const dispatch = useDispatch();
 	const register = useSelector(({ auth }) => auth.register);
 
@@ -64,22 +66,22 @@ function JWTRegisterTab({ history }) {
 					className="mb-24"
 					type="text"
 					name="username"
-					label="Username"
+					label={t('USERNAME')}
 					validations={{
 						minLength: 4
 					}}
 					validationErrors={{
 						minLength: 'Min character length is 4'
 					}}
-					 InputProps={{
-					 	endAdornment: (
-					 		<InputAdornment position="end">
-					 			<Icon className="text-20" color="action">
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<Icon className="text-20" color="action">
 									person
-					 			</Icon>
-					 		</InputAdornment>
-					 	)
-					 }}
+								</Icon>
+							</InputAdornment>
+						)
+					}}
 					variant="outlined"
 					required
 				/>
@@ -87,7 +89,7 @@ function JWTRegisterTab({ history }) {
 					className="mb-24"
 					type="text"
 					name="first_name"
-					label="First name"
+					label={t('FIRST_NAME')}
 					validations={{
 						minLength: 6
 					}}
@@ -111,7 +113,7 @@ function JWTRegisterTab({ history }) {
 					className="mb-24"
 					type="text"
 					name="last_name"
-					label="Last name"
+					label={t('LAST_NAME')}
 					validations={{
 						minLength: 4
 					}}
@@ -135,20 +137,20 @@ function JWTRegisterTab({ history }) {
 					className="mb-24"
 					type="text"
 					name="email"
-					label="Email"
+					label={t('EMAIL')}
 					validations="isEmail"
 					validationErrors={{
 						isEmail: 'Please enter a valid email'
 					}}
-					 InputProps={{
-					 	endAdornment: (
-					 		<InputAdornment position="end">
-					 			<Icon className="text-20" color="action">
-					 				email
-					 			</Icon>
-					 		</InputAdornment>
-					 	)
-					 }}
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<Icon className="text-20" color="action">
+									email
+								</Icon>
+							</InputAdornment>
+						)
+					}}
 					variant="outlined"
 					required
 				/>
@@ -157,7 +159,7 @@ function JWTRegisterTab({ history }) {
 					className="mb-24"
 					type="password"
 					name="password"
-					label="Password"
+					label={t('PASSWORD')}
 					validations="equalsField:password-confirm"
 					validationErrors={{
 						equalsField: 'Passwords do not match'
@@ -183,7 +185,7 @@ function JWTRegisterTab({ history }) {
 					className="mb-24"
 					type="password"
 					name="password-confirm"
-					label="Confirm Password"
+					label={t('C_PASSWORD')}
 					validations="equalsField:password"
 					validationErrors={{
 						equalsField: 'Passwords do not match'
@@ -228,16 +230,16 @@ function JWTRegisterTab({ history }) {
 					label="Conditions files"
 				/> */}
 				<div className="font-600 text-center mb-20 text-muted">
-								By signing up, I agree to the edilcloud
-								<Link className="text-primary font-600" to="/">
-									{' '}
-									  Privacy policy{' '}
-								</Link>{' '}
-								and 
-								<Link className="text-primary font-600 ml-2" to="/"> 
-									 Terms of service.{' '}
-								</Link>
-							</div>
+					{t('BY_SIGNUP_AGREE')}
+					<Link className="text-primary font-600" to="#">
+						{' '}
+						{t('PRIVACY_POLICY')}{' '}
+					</Link>{' '}
+					{t('AND')}
+					<Link className="text-primary font-600 ml-2" to="#">
+						{t('TERMS_OF_SERVICE')}{' '}
+					</Link>
+				</div>
 				<Button
 					type="submit"
 					variant="contained"
@@ -248,7 +250,8 @@ function JWTRegisterTab({ history }) {
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Get Started {register.loadingRegister && <CircularProgress size={20} color="white" ClassName="ml-20" />}
+					{t('GET_STARTED_BUTTON')}{' '}
+					{register.loadingRegister && <CircularProgress size={20} color="white" ClassName="ml-20" />}
 				</Button>
 				{register.sucessData && (
 					<FormControl>

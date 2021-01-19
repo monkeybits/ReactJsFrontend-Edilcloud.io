@@ -1,6 +1,11 @@
 import React from 'react';
 import { authRoles } from 'app/auth';
+import en from './i18n/en';
+import it from './i18n/it';
+import i18next from 'i18next';
 
+i18next.addResourceBundle('en', 'register', en);
+i18next.addResourceBundle('it', 'register', it);
 const RegisterPageConfig = {
 	settings: {
 		layout: {
