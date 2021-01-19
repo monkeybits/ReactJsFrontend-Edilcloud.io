@@ -20,6 +20,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import i18next from 'i18next';
 import en from './i18n/en';
 import it from './i18n/it';
+import { useTranslation } from 'react-i18next';
 
 i18next.addResourceBundle('en', 'chat_panel', en);
 i18next.addResourceBundle('it', 'chat_panel', it);
@@ -85,6 +86,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ChatPanel(props) {
+	const { t } = useTranslation('chat_panel');
 	const dispatch = useDispatch();
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
@@ -188,7 +190,7 @@ function ChatPanel(props) {
 								</IconButton>
 								{!user?.id && (
 									<Typography className="mx-8 text-16" color="inherit">
-										Team Chat
+										{t('TEAM_CHAT')}
 									</Typography>
 								)}
 							</div>

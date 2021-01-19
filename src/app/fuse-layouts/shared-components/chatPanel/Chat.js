@@ -12,6 +12,7 @@ import { decodeDataFromToken } from 'app/services/serviceUtils';
 import ViewFile from './ViewFile';
 import RetryToSendMessage from './RetryToSendMessage';
 import SendMessageForm from './SendMessageForm';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -150,6 +151,7 @@ function Chat(props) {
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
 	const classes = useStyles();
 	const chatScroll = useRef(null);
+	const { t } = useTranslation('chat_panel');
 
 	useEffect(() => {
 		scrollToBottom();
@@ -180,7 +182,7 @@ function Chat(props) {
 									chat
 								</Icon>
 								<Typography className="px-16 pb-24 mt-24 text-center" color="textSecondary">
-									Select a contact to start a conversation.
+									{t('CREATE_CHAT_MESSAGE')}
 								</Typography>
 							</div>
 						) : chat?.chats?.length ? (
@@ -216,13 +218,15 @@ function Chat(props) {
 														>
 															{contact.first_name + ' ' + contact.last_name}
 															<Typography className="font-size-12 ">
-															Project Manager - Impresa Edile Lucchini
+																Project Manager - Impresa Edile Lucchini
 															</Typography>
 														</Typography>
 													)}
 													<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
 
-													<div className="leading-normal py-4 font-size-16 mb-15">{item.body}</div>
+													<div className="leading-normal py-4 font-size-16 mb-15">
+														{item.body}
+													</div>
 													<ViewFile
 														open={props.open}
 														setOpen={props.setOpen}
@@ -264,7 +268,7 @@ function Chat(props) {
 									</Icon>
 								</div>
 								<Typography className="px-16 pb-24 text-center" color="textSecondary">
-									Start a conversation by typing your message below.
+									{t('START_CONVERSATION')}
 								</Typography>
 							</div>
 						)}

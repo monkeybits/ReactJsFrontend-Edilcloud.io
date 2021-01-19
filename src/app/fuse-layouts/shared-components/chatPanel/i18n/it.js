@@ -1,19 +1,12 @@
 const locale = {
-	APP_TITLE: 'Posta',
-	MINE: 'Mine-it',
-	ALL: 'All-it',
-	ALERTED: 'Alerted-it',
-	TODAY: 'Today-it',
-	NEXT_WEEK: 'Next week-it',
-	IN_LATE: 'In late-it',
-	COMPLETED: 'Completed-it',
-	GENERAL_FILTERS: 'GENERAL FILTERS-it',
-	TIME_FILTERS: 'TIME FILTERS-it',
-	PROJECT_FILTERS: 'PROJECT FILTERS-it',
-	COMPANY_FILTERS: 'COMPANY FILTERS-it',
-	PEOPLE_FILTERS: 'PEOPLE FILTERS-it',
-	STARRED: 'Yıldızlı',
-	IMPORTANT: 'Önemli'
+	VIEW_FILE: 'View File - it',
+	DOWNLOAD: 'Download - it',
+	PREVIOUS: 'Previous - it',
+	CREATE_CHAT_MESSAGE: 'Select a contact to start a conversation. - it',
+	START_CONVERSATION: '	Start a conversation by typing your message below. - it',
+	NEXT: 'Next - it',
+	TEAM_CHAT: 'Team Chat - it',
+	COMPANY_CHAT: 'Company Chat - it',
 };
 
 export default locale;
