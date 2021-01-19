@@ -35,6 +35,7 @@ import PostList from './PostList';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import { useTranslation } from 'react-i18next';
 const uuidv1 = require('uuid/v1');
 const getAllFilesOfTimeline = timeline => {
 	if (Array.isArray(timeline) && timeline.length) {
@@ -54,6 +55,7 @@ const getAllFilesOfTimeline = timeline => {
 	}
 };
 function CreatePostForm({ isTask, taskId }) {
+	const { t } = useTranslation('todo_project');
 	const dispatch = useDispatch();
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -312,7 +314,7 @@ function CreatePostForm({ isTask, taskId }) {
 							id="addPost"
 							className="p-16 w-full write-post"
 							classes={{ root: 'text-14' }}
-							placeholder="Write something.."
+							placeholder={t('WRITE_SOMETHING')}
 							multiline
 							rows="3"
 							margin="none"
@@ -352,7 +354,7 @@ function CreatePostForm({ isTask, taskId }) {
 								aria-label="post"
 								//disabled={!text.length}
 							>
-								Post
+								{t('POST')}
 							</Button>
 						</AppBar>
 					</Card>

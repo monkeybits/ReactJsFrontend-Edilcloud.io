@@ -25,7 +25,7 @@ function FusePageSimpleSidebar(props, ref) {
 					open={isOpen}
 					onClose={ev => handleToggleDrawer()}
 					classes={{
-						root: clsx(classes.sidebarWrapper, props.variant, 'custom-fuse-page-right-sidebar'),
+						root: clsx(classes.sidebarWrapper, props.variant, 'custom-fuse-page-right-sidebar custom-sidebar-one'),
 						paper: clsx(
 							classes.sidebar,
 							props.variant,

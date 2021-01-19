@@ -48,6 +48,9 @@
     .custom-autocomplete input {
         height: 0.8em;
     }
+    .custom-autocomplete input ~ div {
+        z-index: 999999 !important;
+    }
     .MuiButton-containedSizeSmall {
         font-size: 1.2rem;
     }
@@ -219,6 +222,15 @@
     }
     .todo-sidebar .flex-auto.border-l-1 ~ div {
         margin-top: 10px;
+    }
+    #right-sidebar-file.custom-fuse-page-right-sidebar.custom-sidebar-one .permanent {
+        height: -webkit-fill-available !important;
+    }
+    #wrapped-tabpanel-2, #wrapped-tabpanel-3 {
+        height: calc(100% - 93px);
+    }
+    .chat-inner-height {
+        height: calc(100vh - 300px) !important;
     }
     
     

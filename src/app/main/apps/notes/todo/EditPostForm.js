@@ -37,6 +37,7 @@ import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { CircularProgress } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 const uuidv1 = require('uuid/v1');
 const getAllFilesOfTimeline = timeline => {
 	if (Array.isArray(timeline) && timeline.length) {
@@ -57,6 +58,7 @@ const getAllFilesOfTimeline = timeline => {
 };
 function EditPostForm(props) {
 	const { isTask, taskId, postId, setIsEditPost, currnetPost, setPost } = props;
+	const { t } = useTranslation('todo_project');
 	const dispatch = useDispatch();
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -224,7 +226,7 @@ function EditPostForm(props) {
 							id="addPost"
 							className="p-16 w-full write-post"
 							classes={{ root: 'text-14' }}
-							placeholder="Write something.."
+							placeholder={t('WRITE_SOMETHING')}
 							multiline
 							rows="3"
 							margin="none"
@@ -267,7 +269,8 @@ function EditPostForm(props) {
 									aria-label="post"
 									//disabled={!text.length}
 								>
-									Save {loading && <CircularProgress size={20} color="secondary" className="ml-20" />}
+									{t('SAVE')}{' '}
+									{loading && <CircularProgress size={20} color="secondary" className="ml-20" />}
 								</Button>
 								<Button
 									onClick={() => setIsEditPost(false)}
@@ -276,7 +279,7 @@ function EditPostForm(props) {
 									aria-label="post"
 									//disabled={!text.length}
 								>
-									Cancel
+									{t('CANCEL')}
 								</Button>
 							</div>
 						</AppBar>
