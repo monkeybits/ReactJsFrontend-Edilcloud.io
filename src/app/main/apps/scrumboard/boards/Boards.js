@@ -37,6 +37,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import * as FuseActions from 'app/store/actions';
 import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -66,6 +67,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Boards(props) {
+	const { t } = useTranslation('companies');
 	const dispatch = useDispatch();
 	const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
 	const settings = useSelector(({ fuse }) => fuse.settings.current);
@@ -198,7 +200,7 @@ function Boards(props) {
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
 				<FuseAnimate>
 					<Typography className="mt-44 sm:mt-56 sm:py-24 text-32" color="inherit">
-						Companies List
+						{t('COMPANIES_LIST')}
 					</Typography>
 				</FuseAnimate>
 				<div>
@@ -299,7 +301,7 @@ function Boards(props) {
 									className="text-16 font-300 text-uppercase text-center pt-16 px-32"
 									color="inherit"
 								>
-									CREATE NEW COMPANY
+									{t('CREATE_NEW_COMPANY')}
 								</Typography>
 							</div>
 						</div>
