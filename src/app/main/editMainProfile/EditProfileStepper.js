@@ -22,6 +22,7 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import * as userActions from 'app/auth/store/actions';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-	return ['Basic Information', 'Upload Profile Picture'];
+	return ['BASIC_INFORMATION', 'UPLOAD_PROFILE_PICTURE'];
 }
 
 function getStepContent(step, elementProps) {
@@ -57,6 +58,7 @@ function getStepContent(step, elementProps) {
 }
 
 function VerticalLinearStepper({ user, history }) {
+	const { t } = useTranslation('edit_mainProfile');
 	const { form, handleChange, resetForm, setForm } = useForm({
 		fname: user && user.user.first_name,
 		lname: user && user.user.last_name,
@@ -137,12 +139,12 @@ function VerticalLinearStepper({ user, history }) {
 					<Card className="w-full max-w-512">
 						<CardContent className="flex flex-col items-center justify-center">
 							<Paper square elevation={0} className={clsx(classes.resetContainer, 'pb-10')}>
-								<Typography>Edit your profile</Typography>
+								<Typography>{t('EDIT_YOUR_PROFILE')}</Typography>
 							</Paper>
 							<Stepper className="px-0" activeStep={activeStep} orientation="vertical">
 								{steps.map((label, index) => (
 									<Step key={label}>
-										<StepLabel>{label}</StepLabel>
+										<StepLabel>{t(label)}</StepLabel>
 										<StepContent>
 											<Typography>
 												{getStepContent(
@@ -166,7 +168,7 @@ function VerticalLinearStepper({ user, history }) {
 														size="large"
 														className={clsx(classes.button, 'mr-8')}
 													>
-														Back
+														{t('BACK')}
 													</Button>
 													<Button
 														size="large"
@@ -175,7 +177,7 @@ function VerticalLinearStepper({ user, history }) {
 														onClick={handleNext}
 														className={classes.button}
 													>
-														{activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+														{activeStep === steps.length - 1 ? t('FINISH') : t('NEXT')}
 													</Button>
 												</div>
 											</div>

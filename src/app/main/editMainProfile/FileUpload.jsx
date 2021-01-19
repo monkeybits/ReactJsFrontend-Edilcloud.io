@@ -3,8 +3,10 @@ import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import { Input, Button } from '@material-ui/core';
 import ImageCropper from './ImageCropper';
+import { useTranslation } from 'react-i18next';
 
-export default function FileUpload({ setFile, file, remove }) {
+export default function FileUpload({ setFile, file, remove, nameSpace = 'edit_mainProfile' }) {
+	const { t } = useTranslation(nameSpace);
 	const [image, setImage] = useState(null);
 	const [viewCroper, setViewCroper] = useState(false);
 	const getPhoto = fileData => {
@@ -33,7 +35,7 @@ export default function FileUpload({ setFile, file, remove }) {
 			</div>
 			<div className="text-center mt-10">
 				<Button variant="contained" onClick={remove}>
-					Remove
+					{t('REMOVE')}
 				</Button>
 			</div>
 		</>
@@ -56,7 +58,7 @@ export default function FileUpload({ setFile, file, remove }) {
 					<Icon fontSize="inherit" className="align-middle">
 						add_circle
 					</Icon>{' '}
-					Upload photo
+					{t('UPLOAD_PHOTO')}
 				</label>
 			</div>
 		</>

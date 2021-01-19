@@ -83,7 +83,7 @@ function CompanyCreationStepper({ user, history }) {
 	const dispatch = useDispatch();
 	const [typologyList, setTypologyList] = React.useState([]);
 	const [optionList, setOptionList] = React.useState([]);
-	const [progress, setProgress] = React.useState(10);
+	const [progress, setProgress] = React.useState(0);
 	const [isEdit, setIsEdit] = React.useState(false);
 	const [loading, setLoading] = React.useState(false);
 	const routeHistory = useHistory();
