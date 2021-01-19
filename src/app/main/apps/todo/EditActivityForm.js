@@ -16,6 +16,7 @@ import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints'
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { Autocomplete } from '@material-ui/lab';
+import { useTranslation } from 'react-i18next';
 
 const defaultFormState = {
 	id: '',
@@ -29,95 +30,9 @@ const defaultFormState = {
 	deleted: false,
 	labels: []
 };
-const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
-
-const marks = [
-	{
-		value: 0
-	},
-	{
-		value: 10
-	},
-	{
-		value: 20
-	},
-	{
-		value: 30
-	},
-	{
-		value: 40
-	},
-	{
-		value: 50
-	},
-	{
-		value: 60
-	},
-	{
-		value: 70
-	},
-	{
-		value: 80
-	},
-	{
-		value: 90
-	},
-	{
-		value: 100
-	}
-];
-
-const IOSSlider = withStyles({
-	root: {
-		color: '#3880ff',
-		height: 2,
-		padding: '15px 0'
-	},
-	thumb: {
-		height: 28,
-		width: 28,
-		backgroundColor: '#fff',
-		boxShadow: iOSBoxShadow,
-		marginTop: -14,
-		marginLeft: -14,
-		'&:focus, &:hover, &$active': {
-			boxShadow: '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
-			// Reset on touch devices, it doesn't add specificity
-			'@media (hover: none)': {
-				boxShadow: iOSBoxShadow
-			}
-		}
-	},
-	active: {},
-	valueLabel: {
-		left: 'calc(-50% + 12px)',
-		top: -22,
-		'& *': {
-			background: 'transparent',
-			color: '#000'
-		}
-	},
-	track: {
-		height: 2
-	},
-	rail: {
-		height: 2,
-		opacity: 0.5,
-		backgroundColor: '#bfbfbf'
-	},
-	mark: {
-		backgroundColor: '#bfbfbf',
-		height: 8,
-		width: 1,
-		marginTop: -3
-	},
-	markActive: {
-		opacity: 1,
-		backgroundColor: 'currentColor'
-	}
-})(Slider);
 
 export default function EditActivityForm(props) {
+	const { t } = useTranslation('dashboard');
 	const dispatch = useDispatch();
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
@@ -179,7 +94,7 @@ export default function EditActivityForm(props) {
 		<div className="sm:pl-10">
 			<FormControl className="mt-8 mb-24" required fullWidth>
 				<TextField
-					label="Task Title"
+					label={t('TASK_TITLE')}
 					autoFocus
 					name="title"
 					value={form.title}
@@ -190,7 +105,7 @@ export default function EditActivityForm(props) {
 			</FormControl>
 
 			<FuseChipSelect
-				placeholder="Select Profile"
+				placeholder={t('SELECT_PROFILE')}
 				variant="fixed"
 				isMulti
 				textFieldProps={{
@@ -215,10 +130,10 @@ export default function EditActivityForm(props) {
 
 			<FormControl className="mt-8 mb-16" required fullWidth>
 				<TextField
-					label="Notes"
+					label={t('NOTES')}
 					name="notes"
 					multiline
-					rows="6"
+					rows="4"
 					value={form.notes}
 					onChange={handleChange}
 					variant="outlined"
@@ -226,7 +141,7 @@ export default function EditActivityForm(props) {
 			</FormControl>
 			<div className="flex -mx-4">
 				<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-					<label>Start Date</label>
+					<label>{t('START_DATE')}</label>
 					<DatePicker
 						dateFormat="dd/MM/yyyy"
 						selected={taskDate.startDate}
@@ -241,7 +156,7 @@ export default function EditActivityForm(props) {
 					<Icon className="icon">calendar_today</Icon>
 				</div>
 				<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-					<label>End Date</label>
+					<label>{t('END_DATE')}</label>
 					<DatePicker
 						dateFormat="dd/MM/yyyy"
 						selected={taskDate.endDate}
@@ -259,8 +174,8 @@ export default function EditActivityForm(props) {
 			{/* <div className="mt-8 mb-16"> */}
 			<FormControl className="mt-8 mb-16" variant="outlined" required fullWidth>
 				<Select native value={progress} onChange={e => setProgress(e.target.value)}>
-					<option value={'to-do'}>to-do</option>
-					<option value={'completed'}>completed</option>
+					<option value={'to-do'}>{t('TO_DO_STATE')}</option>
+					<option value={'completed'}>{t('COMPLETED_STATE')}</option>
 				</Select>
 			</FormControl>
 			{/* <Autocomplete
@@ -302,7 +217,7 @@ export default function EditActivityForm(props) {
 						);
 					}}
 				>
-					Save {loading && <CircularProgress size={15} color="secondary" />}
+					{t('SAVE')} {loading && <CircularProgress size={15} color="secondary" />}
 				</Button>
 			</div>
 		</div>

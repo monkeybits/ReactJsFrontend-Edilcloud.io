@@ -24,6 +24,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 import ProjectReportsProvider, { WebSocketProjectReportContext } from 'app/ProjectReportsWebSocket';
+import { useTranslation } from 'react-i18next';
 
 const jss = create({
 	...jssPreset(),
@@ -32,7 +33,6 @@ const jss = create({
 });
 
 const generateClassName = createGenerateClassName();
-
 const App = () => {
 	return (
 		<AppContext.Provider

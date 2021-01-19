@@ -37,6 +37,7 @@ import CreatePostForm from './CreatePostForm';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
+import { useTranslation } from 'react-i18next';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -165,6 +166,7 @@ const IOSSlider = withStyles({
 })(Slider);
 
 function TaskContentForm(props) {
+	const { t } = useTranslation('dashboard');
 	const dispatch = useDispatch();
 	const taskContent = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 	const taskContentData = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog?.data);
@@ -229,6 +231,7 @@ function TaskContentForm(props) {
 						endDate: new Date(taskContentData.date_end)
 					});
 					setProgress(taskContentData.progress);
+					setCompany([{ data: taskContentData.assigned_company }]);
 				}
 			} else {
 				setTaskDate({
@@ -236,6 +239,7 @@ function TaskContentForm(props) {
 					endDate: new Date(taskContentData.date_end)
 				});
 				setProgress(taskContentData.progress);
+				setCompany([{ data: taskContentData.assigned_company }]);
 			}
 		}
 	}, [companies, taskContentData]);
@@ -348,9 +352,13 @@ function TaskContentForm(props) {
 						<div className="flex flex-1">
 							<div className="my-12">
 								{taskContentData?.project && (
-									<div className="font-extrabold">{taskContentData?.project.name}</div>
+									<div className="font-extrabold ml-20">
+										{t('PROJECT')}: {taskContentData?.project.name}
+									</div>
 								)}
-								<div className="text-base opacity-75">{taskContentData?.name}</div>
+								<div className="text-base ml-20 opacity-75">
+									{t('TASK')}: {taskContentData?.name}
+								</div>
 							</div>
 						</div>
 
@@ -403,7 +411,7 @@ function TaskContentForm(props) {
 					)}
 					<div className="flex items-center mb-24">
 						<TextField
-							label="Title"
+							label={t('TITLE')}
 							disabled={getIsDisabled()}
 							type="text"
 							name="name"
@@ -427,7 +435,7 @@ function TaskContentForm(props) {
 						<div className="mt-8 mb-16 select-dropdown">
 							<FuseChipSelect
 								isDisabled={getIsDisabled()}
-								placeholder="Select Profile"
+								placeholder={t('SELECT_PROFILE')}
 								variant="fixed"
 								isMulti
 								textFieldProps={{
@@ -455,7 +463,7 @@ function TaskContentForm(props) {
 							<div className="mt-8 mb-16 select-dropdown">
 								<FuseChipSelect
 									className=""
-									placeholder="Select Company"
+									placeholder={t('SELECT_COMPANY')}
 									isDisabled={getIsDisabled()}
 									variant="fixed"
 									isMulti
@@ -492,7 +500,7 @@ function TaskContentForm(props) {
 					)}
 					<div className="w-full mb-24">
 						<TextField
-							label="Description"
+							label={t('DESCRIPTION')}
 							name="description"
 							value={cardForm.description}
 							disabled={getIsDisabled()}
@@ -505,7 +513,7 @@ function TaskContentForm(props) {
 					</div>
 					<div className="flex -mx-4">
 						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-							<label>Start Date</label>
+							<label>{t('START_DATE')}</label>
 							<DatePicker
 								disabled={getIsDisabled()}
 								dateFormat="dd/MM/yyyy"
@@ -521,7 +529,7 @@ function TaskContentForm(props) {
 							<Icon className="icon">calendar_today</Icon>
 						</div>
 						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-							<label>End Date</label>
+							<label>{t('END_DATE')}</label>
 							<DatePicker
 								dateFormat="dd/MM/yyyy"
 								selected={taskDate.endDate}
@@ -560,7 +568,7 @@ function TaskContentForm(props) {
 						disabled={!isFormInvalid() || getIsDisabled()}
 						onClick={getIsDisabled() ? () => '' : handleSubmit}
 					>
-						Save {loading && <CircularProgress size={15} color="secondary" />}
+						{t('SAVE')} {loading && <CircularProgress size={15} color="secondary" />}
 					</Button>
 				</TabPanel>
 

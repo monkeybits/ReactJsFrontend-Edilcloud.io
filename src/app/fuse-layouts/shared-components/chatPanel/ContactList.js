@@ -10,6 +10,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -80,6 +81,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ContactList(props) {
+	const { t } = useTranslation('chat_panel');
 	const dispatch = useDispatch();
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
@@ -143,7 +145,7 @@ function ContactList(props) {
 							{contact.name}
 						</Typography>
 						<Typography className="ml-16 text-left text-12 normal-case truncate" color="inherit">
-							{contact.type == 'project' ? contact.address : 'Company Chat'}
+							{contact.type == 'project' ? contact.address : t('COMPANY_CHAT')}
 						</Typography>
 					</div>
 				</Button>

@@ -166,17 +166,12 @@ class Gantt extends Component {
 			expandAll: false,
 			openTasks: [],
 			open: false,
-			languageChanged: false
+			language: 'en'
 		};
 		this.fileDnD = null;
 	}
 
 	componentWillUnmount() {
-		i18next.on('languageChanged', () => {
-			this.setState(prev => ({
-				languageChanged: !prev.languageChanged
-			}));
-		});
 		if (this.dataProcessor) {
 			this.dataProcessor.destructor();
 			this.dataProcessor = null;
@@ -317,12 +312,11 @@ class Gantt extends Component {
 		);
 	};
 	shouldComponentUpdate(nextProps, nextState) {
-		console.log({
-			isSame: nextState.languageChanged,
-			statelanguageChanged: this.state.languageChanged
-		});
 		const { todos, company, projectDetail } = nextProps;
-		if (this.state.languageChanged != nextState.languageChanged) {
+		if (this.state.language != nextProps.i18n.language) {
+			this.setState({
+				language: nextProps.i18n.language
+			});
 			return true;
 		} else if (
 			(company && projectDetail.company && JSON.stringify(company) != JSON.stringify(this.props.company)) ||

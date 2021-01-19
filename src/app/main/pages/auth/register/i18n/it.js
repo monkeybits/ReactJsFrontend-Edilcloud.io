@@ -1,0 +1,28 @@
+const locale = {
+	APP_HEADING: 'App di condivisione per cantieri edili',
+	APP_SUBHEADER: "Il Cloud per l'edilizia, alla portata di tutti!",
+	OR_SIGN_UP: 'Or sign up - it',
+	USERNAME: 'Username- it',
+	PASSWORD: 'Password - it',
+	C_PASSWORD: "Confirm Password - it",
+	FORGOT_PASSWORD: 'Forgot Password? - it',
+	SIGN_IN_BUTTON: 'Sign In - it',
+	ALREADY_HAVE_AN_ACCOUNT_ASK: "Already have an account? - it",
+	SIGN_UP: 'Sign Up - it',
+	GET_STARTED_BUTTON: 'Get Started - it',
+	HELP: 'Help - it',
+	PRIVACY: 'Privacy - it',
+	EMAIL: 'Email - it',
+	FIRST_NAME: 'First name - it',
+	LAST_NAME: 'Last name - it',
+	TERMS: 'Terms - it',
+	LANGUAGE: 'Language - it',
+	IMPROVE_CONSTRUCTIONS_COMMUNICATION: 'Migliora la comunicazione delle costruzioni',
+	JOIN_MESSAGE: "Unisciti a Edicloud, è per tutti!",
+	BY_SIGNUP_AGREE: "By signing up, I agree to the edilcloud - it",
+	PRIVACY_POLICY: "Privacy policy - it",
+	AND: "and - it",
+	TERMS_OF_SERVICE: "Terms of service. - it",
+};
+
+export default locale;
