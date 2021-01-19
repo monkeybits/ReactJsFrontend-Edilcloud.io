@@ -197,7 +197,7 @@ function ChatApp(props) {
 						</Button> */}
 				</div>
 
-				<div className={clsx(classes.contentCardWrapper, 'container h-full p-0 inner-height')}>
+				<div className={clsx(classes.contentCardWrapper, 'container h-full p-0 inner-height chat-inner-height')}>
 					<div className={clsx(classes.contentCard, 'chat-bg')}>
 						<Hidden mdUp>
 							<Drawer
