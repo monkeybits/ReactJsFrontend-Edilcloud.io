@@ -36,6 +36,7 @@ import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 import Dropzone from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
+import { LinearProgress } from '@material-ui/core';
 const uuidv1 = require('uuid/v1');
 const getAllFilesOfTimeline = timeline => {
 	if (Array.isArray(timeline) && timeline.length) {
@@ -67,6 +68,7 @@ function CreatePostForm({ isTask, taskId }) {
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
 	const [viewCroper, setViewCroper] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [file, setFile] = useState({
 		fileData: undefined,
 		imagePreviewUrl: undefined
@@ -97,15 +99,20 @@ function CreatePostForm({ isTask, taskId }) {
 			: dispatch(Actions.closeActivityTodoDialog());
 	}
 	const getPosts = () => {
+		setLoading(true);
 		apiCall(
 			isTask ? GET_POST_FOR_TASK(taskId) : GET_POST_TO_ACTIVITY(todoDialog.data.todo?.id),
 			{},
 			res => {
+				setLoading(false);
 				setData({ posts: res.results });
 				const files = getAllFilesOfTimeline(res.results);
 				setMedia({ files: files.media_set });
 			},
-			err => console.log(err),
+			err => {
+				setLoading(false);
+				console.log(err);
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -348,7 +355,14 @@ function CreatePostForm({ isTask, taskId }) {
 
 					{/* <Divider className="my-32" /> */}
 				</div>
-
+				{loading && (
+					<div className="flex flex-1 flex-col items-center justify-center">
+						<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+							Loading Posts...
+						</Typography>
+						<LinearProgress className="w-xs" color="secondary" />
+					</div>
+				)}
 				<PostList
 					isOffline
 					tempAuthor={tempAuthor}
