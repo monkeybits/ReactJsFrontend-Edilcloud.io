@@ -38,6 +38,7 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { useTranslation } from 'react-i18next';
+import ShowUpload from '../notes/todo/ShowUpload';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -168,6 +169,7 @@ const IOSSlider = withStyles({
 function TaskContentForm(props) {
 	const { t } = useTranslation('dashboard');
 	const dispatch = useDispatch();
+	const upload = useSelector(({ todoApp }) => todoApp.todos.upload);
 	const taskContent = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 	const taskContentData = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog?.data);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
@@ -366,6 +368,11 @@ function TaskContentForm(props) {
 							<Icon>close</Icon>
 						</IconButton>
 					</Toolbar>
+					{!!upload?.isUploading && (
+						<div className="linear-progress custom-color">
+							<ShowUpload progress={upload.uploadPercentage} label={t('PROCESSING_UPLOADING_POST')} />
+						</div>
+					)}
 				</AppBar>
 			</DialogTitle>
 
