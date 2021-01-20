@@ -154,6 +154,21 @@ function shiftTask(task_id, direction) {
 function sortHolders(a, b) {
 	return a.mainId > b.mainId ? 1 : a.mainId < b.mainId ? -1 : 0;
 }
+function exitHandler() {
+	if (
+		!document.fullscreenElement &&
+		!document.webkitIsFullScreen &&
+		!document.mozFullScreen &&
+		!document.msFullscreenElement
+	) {
+		if (!gantt.getState().fullscreen) {
+			document.body.className = '';
+			setTimeout(() => {
+				gantt.collapse();
+			}, 300);
+		}
+	}
+}
 class Gantt extends Component {
 	constructor(props) {
 		super(props);
@@ -177,6 +192,7 @@ class Gantt extends Component {
 			this.dataProcessor = null;
 		}
 	}
+
 	componentDidMount() {
 		gantt.clearAll();
 		ganttInitZoom();
@@ -192,21 +208,6 @@ class Gantt extends Component {
 		document.addEventListener('mozfullscreenchange', exitHandler);
 		document.addEventListener('MSFullscreenChange', exitHandler);
 
-		function exitHandler() {
-			if (
-				!document.fullscreenElement &&
-				!document.webkitIsFullScreen &&
-				!document.mozFullScreen &&
-				!document.msFullscreenElement
-			) {
-				if (!gantt.getState().fullscreen) {
-					document.body.className = '';
-					setTimeout(() => {
-						gantt.collapse();
-					}, 300);
-				}
-			}
-		}
 		gantt._onTemplatesReadyHandler = gantt.attachEvent('onTemplatesReady', function () {
 			// {
 			// 	name: 'day2',
@@ -340,7 +341,10 @@ class Gantt extends Component {
 		} else if (!nextState.tasks?.data?.length) {
 			return true;
 		} else if (nextProps.orientation == 'portrait') {
-			gantt.collapse();
+			document.body.className = '';
+			setTimeout(() => {
+				gantt.collapse();
+			});
 			return false;
 		} else if (
 			nextProps.orientation == 'landscape' &&
@@ -352,7 +356,7 @@ class Gantt extends Component {
 				open: true
 			});
 			// gantt.collapse();
-			// return false;
+			return false;
 		} else if (nextProps.value == 4) {
 			gantt.render();
 			return false;
