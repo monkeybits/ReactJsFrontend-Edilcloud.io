@@ -45,10 +45,18 @@
     .MuiInputBase-input {
         height: 0.8em;
     }
+    .custom-autocomplete > div {
+        display: block !important;
+    }
     .custom-autocomplete input {
         height: 0.8em;
+        width: 90%;
     }
     .custom-autocomplete input ~ div {
+        position: relative !important;
+        max-height: 150px !important;
+        left: 0px !important;
+        top: 0px !important;
         z-index: 999999 !important;
     }
     .MuiButton-containedSizeSmall {

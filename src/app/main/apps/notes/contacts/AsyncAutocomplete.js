@@ -117,7 +117,7 @@ export default class AsyncAutocomplete extends React.Component {
 
 	render() {
 		return (
-			<div className="custom-autocomplete block w-full mb-24">
+			<div className="custom-autocomplete block w-full mb-24 relative">
 				<Autocomplete
 					inputProps={{ placeholder: this.props.placeholder, autoFocus: true }}
 					getItemValue={this.getItemValue}
@@ -126,6 +126,7 @@ export default class AsyncAutocomplete extends React.Component {
 					value={this.state.value}
 					onChange={this.onChange}
 					onSelect={this.onSelect}
+					open
 				/>
 			</div>
 		);
