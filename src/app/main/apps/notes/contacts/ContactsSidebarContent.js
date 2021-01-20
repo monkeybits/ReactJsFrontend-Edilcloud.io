@@ -14,6 +14,7 @@ import React from 'react';
 import * as Actions from './store/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	listItem: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ContactsSidebarContent(props) {
+	const { t } = useTranslation('contacts_project');
 	const dispatch = useDispatch();
 	const companies = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.companies);
 	const user = useSelector(({ contactsAppProject }) => contactsAppProject.user);
@@ -69,7 +71,7 @@ function ContactsSidebarContent(props) {
 							onClick={() => dispatch(Actions.filterByKey('all'))}
 							className={getListItemClassName('all')}
 						>
-							<ListItemText className="truncate" primary="All Team members" disableTypography />
+							<ListItemText className="truncate" primary={t('ALL_TEAM_MEMBERS')} disableTypography />
 						</ListItem>
 
 						<ListItem
@@ -77,7 +79,7 @@ function ContactsSidebarContent(props) {
 							onClick={() => dispatch(Actions.filterByKey('approved'))}
 							className={getListItemClassName('approved')}
 						>
-							<ListItemText className="truncate" primary="Approved Team members" disableTypography />
+							<ListItemText className="truncate" primary={t('APPROVED_TEAM_MEMBERS')} disableTypography />
 						</ListItem>
 
 						<ListItem
@@ -85,7 +87,7 @@ function ContactsSidebarContent(props) {
 							onClick={() => dispatch(Actions.filterByKey('waiting'))}
 							className={getListItemClassName('waiting')}
 						>
-							<ListItemText className="truncate" primary="Waiting Team members" disableTypography />
+							<ListItemText className="truncate" primary={t('WAITING_TEAM_MEMBERS')} disableTypography />
 						</ListItem>
 
 						<ListItem
@@ -93,13 +95,13 @@ function ContactsSidebarContent(props) {
 							onClick={() => dispatch(Actions.filterByKey('refused'))}
 							className={getListItemClassName('refused')}
 						>
-							<ListItemText className="truncate" primary="Refused Team members" disableTypography />
+							<ListItemText className="truncate" primary={t('REFUSED_TEAM_MEMBERS')} disableTypography />
 						</ListItem>
 					</List>
 					{!!companies?.length && (
 						<List>
 							<ListSubheader className={classes.listSubheader} disableSticky>
-								Company
+								{t('COMAPNY')}
 							</ListSubheader>
 							{companies.map(d => (
 								<ListItem

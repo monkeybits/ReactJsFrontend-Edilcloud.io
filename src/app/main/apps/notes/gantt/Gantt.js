@@ -33,6 +33,9 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import { faDownload, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import FullscreenAsk from './FullscreenAsk';
+import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
+
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
 // 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
@@ -151,6 +154,21 @@ function shiftTask(task_id, direction) {
 function sortHolders(a, b) {
 	return a.mainId > b.mainId ? 1 : a.mainId < b.mainId ? -1 : 0;
 }
+function exitHandler() {
+	if (
+		!document.fullscreenElement &&
+		!document.webkitIsFullScreen &&
+		!document.mozFullScreen &&
+		!document.msFullscreenElement
+	) {
+		if (!gantt.getState().fullscreen) {
+			document.body.className = '';
+			setTimeout(() => {
+				gantt.collapse();
+			}, 300);
+		}
+	}
+}
 class Gantt extends Component {
 	constructor(props) {
 		super(props);
@@ -162,7 +180,8 @@ class Gantt extends Component {
 			zoomLevel: 3,
 			expandAll: false,
 			openTasks: [],
-			open: false
+			open: false,
+			language: 'en'
 		};
 		this.fileDnD = null;
 	}
@@ -173,6 +192,7 @@ class Gantt extends Component {
 			this.dataProcessor = null;
 		}
 	}
+
 	componentDidMount() {
 		gantt.clearAll();
 		ganttInitZoom();
@@ -188,21 +208,6 @@ class Gantt extends Component {
 		document.addEventListener('mozfullscreenchange', exitHandler);
 		document.addEventListener('MSFullscreenChange', exitHandler);
 
-		function exitHandler() {
-			if (
-				!document.fullscreenElement &&
-				!document.webkitIsFullScreen &&
-				!document.mozFullScreen &&
-				!document.msFullscreenElement
-			) {
-				if (!gantt.getState().fullscreen) {
-					document.body.className = '';
-					setTimeout(() => {
-						gantt.collapse();
-					}, 300);
-				}
-			}
-		}
 		gantt._onTemplatesReadyHandler = gantt.attachEvent('onTemplatesReady', function () {
 			// {
 			// 	name: 'day2',
@@ -309,7 +314,12 @@ class Gantt extends Component {
 	};
 	shouldComponentUpdate(nextProps, nextState) {
 		const { todos, company, projectDetail } = nextProps;
-		if (
+		if (this.state.language != nextProps.i18n.language) {
+			this.setState({
+				language: nextProps.i18n.language
+			});
+			return true;
+		} else if (
 			(company && projectDetail.company && JSON.stringify(company) != JSON.stringify(this.props.company)) ||
 			JSON.stringify(projectDetail.company) != JSON.stringify(this.props.projectDetail.company)
 		) {
@@ -331,7 +341,10 @@ class Gantt extends Component {
 		} else if (!nextState.tasks?.data?.length) {
 			return true;
 		} else if (nextProps.orientation == 'portrait') {
-			gantt.collapse();
+			document.body.className = '';
+			setTimeout(() => {
+				gantt.collapse();
+			});
 			return false;
 		} else if (
 			nextProps.orientation == 'landscape' &&
@@ -343,7 +356,7 @@ class Gantt extends Component {
 				open: true
 			});
 			// gantt.collapse();
-			// return false;
+			return false;
 		} else if (nextProps.value == 4) {
 			gantt.render();
 			return false;
@@ -426,11 +439,13 @@ class Gantt extends Component {
 				]
 			};
 		} else {
+			const { t } = this.props;
+
 			gantt.config.columns = [
-				{ name: 'text', label: 'Task name', tree: true, width: 150 },
-				{ name: 'start_date', label: 'Start Date', width: 100 },
-				{ name: 'end_date', label: 'End Date', width: 100 },
-				{ name: 'company', label: 'Company', width: 100 },
+				{ name: 'text', label: t('TASK_NAME'), tree: true, width: 150 },
+				{ name: 'start_date', label: t('START_DATE'), width: 100 },
+				{ name: 'end_date', label: t('END_DATE'), width: 100 },
+				{ name: 'company', label: t('COMPANY'), width: 100 },
 				{ name: 'add', width: 44, min_width: 44, max_width: 44 }
 			];
 			// start block for resize
@@ -922,7 +937,7 @@ class Gantt extends Component {
 		});
 	};
 	render() {
-		// const { zoom } = this.props;
+		const { t } = this.props;
 		// this.setZoom(zoom);
 		const userInfo = decodeDataFromToken();
 		const getRole = () => userInfo?.extra?.profile.role;
@@ -980,13 +995,13 @@ class Gantt extends Component {
 							<li class="gantt-menu-item" onClick={this.closeAll}>
 								<a data-action="collapseAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_collapse_all_24.png" />
-									<span class="header-text">Collapse</span>
+									<span class="header-text">{t('COLLAPSE')}</span>
 								</a>
 							</li>
 							<li class="gantt-menu-item gantt-menu-item-last" onClick={this.openAll}>
 								<a data-action="expandAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_expand_all_24.png" />
-									<span class="header-text">Expand</span>
+									<span class="header-text">{t('EXPAND')}</span>
 								</a>
 							</li>
 							{permissionByRole && (
@@ -994,7 +1009,7 @@ class Gantt extends Component {
 									<a data-action="toggleCriticalPath">
 										<FontAwesomeIcon icon={faArrowAltCircleLeft} style={{ fontSize: '1.5rem' }} />
 
-										<span class="header-text">Move Backward</span>
+										<span class="header-text">{t('MOVE_BACKWARD')}</span>
 									</a>
 								</li>
 							)}
@@ -1002,7 +1017,7 @@ class Gantt extends Component {
 								<li class="gantt-menu-item" onClick={() => this.ganttCallback(this.moveForward)}>
 									<a data-action="toggleAutoScheduling">
 										<FontAwesomeIcon icon={faArrowAltCircleRight} style={{ fontSize: '1.5rem' }} />
-										<span class="header-text">Move Forword</span>
+										<span class="header-text">{t('MOVE_FORWORD')}</span>
 									</a>
 								</li>
 							)}
@@ -1011,7 +1026,7 @@ class Gantt extends Component {
 								<li class="gantt-menu-item">
 									<a>
 										<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
-										<span class="header-text">Import</span>
+										<span class="header-text">{t('IMPORT')}</span>
 									</a>
 									<ul class="gantt-controls">
 										<li
@@ -1049,7 +1064,7 @@ class Gantt extends Component {
 							<li class="gantt-menu-item">
 								<a>
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
-									<span class="header-text">Export</span>
+									<span class="header-text">{t('EXPORT')}</span>
 								</a>
 								<ul class="gantt-controls w-125">
 									<li class="gantt-menu-item" onClick={this.exportPDF}>
@@ -1082,19 +1097,19 @@ class Gantt extends Component {
 							<li class="gantt-menu-item gantt-menu-item-last" onClick={this.setZoomDefaultLevel}>
 								<a data-action="zoomToFit">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_to_fit_24.png" />
-									<span class="header-text">Zoom to Fit</span>
+									<span class="header-text">{t('ZOOM_TO_FIT')}</span>
 								</a>
 							</li>
 							<li class="gantt-menu-item" onClick={this.zoomOut}>
 								<a data-action="zoomOut">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_out.png" />
-									<span class="header-text">Zoom Out</span>
+									<span class="header-text">{t('ZOOM_OUT')}</span>
 								</a>
 							</li>
 							<li class="gantt-menu-item" onClick={this.zoomIn}>
 								<a data-action="zoomIn">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_in.png" />
-									<span class="header-text">Zoom In</span>
+									<span class="header-text">{t('ZOOM_IN')}</span>
 								</a>
 							</li>
 							<li
@@ -1107,7 +1122,7 @@ class Gantt extends Component {
 							>
 								<a data-action="fullscreen">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_fullscreen_24.png" />
-									<span class="header-text">Fullscreen</span>
+									<span class="header-text">{t('FULLSCREEN')}</span>
 								</a>
 							</li>
 						</ul>
@@ -1143,4 +1158,4 @@ function mapDispatchToProps(dispatch) {
 		dispatch
 	);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Gantt));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withTranslation('gantt_project')(Gantt)));

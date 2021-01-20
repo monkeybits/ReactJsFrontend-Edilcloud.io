@@ -46,7 +46,7 @@ const initialState = () => {
 		companyFilter: [],
 		peopleFilter: [],
 		activeFilter: 'genrealFilter',
-		activeFilterKey: 'Mine',
+		activeFilterKey: 'MINE',
 		usedKeys: [],
 		genrealFilter: genrealFilterJsonData ? JSON.parse(genrealFilterJsonData) : genrealFilter,
 		timeFilter: timeFilterJsonData ? JSON.parse(timeFilterJsonData) : timeFilter

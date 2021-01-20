@@ -26,6 +26,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_TASK_BY_ID, GET_ACTIVITY_BY_ID } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import ShowUpload from './ShowUpload';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
 });
 function TodoApp(props) {
 	const dispatch = useDispatch();
+	const { t } = useTranslation('todo_project');
 	const classes = useStyles(props);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
@@ -134,7 +136,7 @@ function TodoApp(props) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center h-full">
 				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
-					Loading Tasks...
+					{t('LOADING_TASKS')}...
 				</Typography>
 				<LinearProgress className="w-xs" color="secondary" />
 			</div>
@@ -162,7 +164,7 @@ function TodoApp(props) {
 			<FusePageSimple
 				classes={{
 					contentWrapper: 'bg-azure h-full',
-					content: 'flex bg-azure flex-col h-full p-24',
+					content: 'flex bg-azure flex-col h-full p-24 pb-80',
 					leftSidebar: 'mobile-h-full w-256 border-0',
 					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove',

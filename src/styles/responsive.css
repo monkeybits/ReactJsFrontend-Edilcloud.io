@@ -45,8 +45,19 @@
     .MuiInputBase-input {
         height: 0.8em;
     }
+    .custom-autocomplete > div {
+        display: block !important;
+    }
     .custom-autocomplete input {
         height: 0.8em;
+        width: 90%;
+    }
+    .custom-autocomplete input ~ div {
+        position: relative !important;
+        max-height: 150px !important;
+        left: 0px !important;
+        top: 0px !important;
+        z-index: 999999 !important;
     }
     .MuiButton-containedSizeSmall {
         font-size: 1.2rem;
@@ -219,6 +230,15 @@
     }
     .todo-sidebar .flex-auto.border-l-1 ~ div {
         margin-top: 10px;
+    }
+    #right-sidebar-file.custom-fuse-page-right-sidebar.custom-sidebar-one .permanent {
+        height: -webkit-fill-available !important;
+    }
+    #wrapped-tabpanel-2, #wrapped-tabpanel-3 {
+        height: calc(100% - 93px);
+    }
+    .chat-inner-height {
+        height: calc(100vh - 300px) !important;
     }
     
     

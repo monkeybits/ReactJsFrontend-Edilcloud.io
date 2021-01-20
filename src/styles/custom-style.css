@@ -482,6 +482,7 @@ textarea.MuiOutlinedInput-input {
 }
 .tabs-content {
     padding-bottom: 50px;
+    flex: auto;
 }
 .tabs-content .MuiTabs-flexContainer {
     justify-content: center;
@@ -505,9 +506,6 @@ textarea.MuiOutlinedInput-input {
 .chat-tab-content-height > .MuiBox-root,
 .chat-tab-content-height >  .MuiBox-root > .MuiTypography-root{
     height: 100%;
-}
-.tabs-content {
-    padding-bottom: 50px;
 }
 /* .chat-tab-content-height {
     height: calc(100vh - 220px);
@@ -597,9 +595,6 @@ textarea.MuiOutlinedInput-input {
 } */
 .o-contain img {
     object-fit: contain;
-}
-.tabs-content {
-    padding-bottom: 50px;
 }
 /* .chat-tab-content-height {
     height: calc(100vh - 192px);
@@ -1747,7 +1742,7 @@ audio {
 }
 #wrapped-tabpanel-2,
 #wrapped-tabpanel-3{
-    height: calc(100% - 40px);
+    height: calc(100% - 98px);
 }
 #right-sidebar-file.custom-fuse-page-right-sidebar .permanent{
     height: auto !important;

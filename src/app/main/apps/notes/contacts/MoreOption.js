@@ -9,11 +9,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import TippyMenu from 'app/TippyMenu';
+import { useTranslation } from 'react-i18next';
 export default function MoreOption(props) {
+	const { t } = useTranslation('contacts_project');
 	const [anchorEl, setAnchorEl] = React.useState(false);
 	const options = [
 		// { name: 'Edit', icon: 'edit', handler: props.editHandler, view: true },
-		{ name: 'Delete', icon: 'delete', handler: props.deleteHandler, view: props.canHaveDeleteOption }
+		{ name: 'DELETE', icon: 'delete', handler: props.deleteHandler, view: props.canHaveDeleteOption }
 	];
 	const handleClick = event => {
 		event.preventDefault();
@@ -39,11 +41,11 @@ export default function MoreOption(props) {
 			>
 				{options.map(option =>
 					option.view ? (
-						<MenuItem key={option} selected={option === 'Pyxis'} onClick={option.handler}>
+						<MenuItem key={option} onClick={option.handler}>
 							<ListItemIcon>
 								<Icon>{option.icon}</Icon>
 							</ListItemIcon>
-							<Typography variant="inherit"> {option.name}</Typography>
+							<Typography variant="inherit"> {t(option.name)}</Typography>
 						</MenuItem>
 					) : null
 				)}

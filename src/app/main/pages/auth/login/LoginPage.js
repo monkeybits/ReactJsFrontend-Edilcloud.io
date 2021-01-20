@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
@@ -20,6 +20,12 @@ import Select from '@material-ui/core/Select';
 import TermsModal from './TermsModal';
 import FacebookLoginComponent from './FacebookLoginComponent';
 import GoogleLoginComponent from './GoogleLoginComponent';
+import { useTranslation } from 'react-i18next';
+import { ListItemIcon, ListItemText } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import * as MainActions from 'app/store/actions';
+import TippyMenu from 'app/TippyMenu';
+import 'tippy.js/themes/light-border.css';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -35,19 +41,56 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function SimpleSelect() {
-	const classes = useStyles();
-	const [age, setAge] = React.useState('');
-
-	const handleChange = event => {
-		setAge(event.target.value);
-	};
-}
+const languages = [
+	{
+		id: 'en',
+		title: 'English',
+		flag: 'us'
+	},
+	{
+		id: 'it',
+		title: 'Italian',
+		flag: 'tr'
+	}
+];
 function LoginPage() {
 	const [open, setOpen] = React.useState(false);
 	const [title, setTitle] = React.useState('Terms');
 	const classes = useStyles();
+	const { t } = useTranslation('login');
+	const dispatch = useDispatch();
 
+	const theme = useTheme();
+	const { i18n } = useTranslation();
+	// const [menu, setMenu] = useState(null);
+
+	const currentLng = languages.find(lng => lng.id === i18n.language);
+
+	// const userMenuClick = event => {
+	// 	setMenu(event.currentTarget);
+	// };
+
+	// const userMenuClose = () => {
+	// 	setMenu(null);
+	// };
+
+	function handleLanguageChange(lng) {
+		const newLangDir = i18n.dir(lng.id);
+		localStorage.setItem('language', lng.id);
+		/*
+        Change Language
+         */
+		i18n.changeLanguage(lng.id);
+
+		/*
+        If necessary, change theme direction
+         */
+		if (newLangDir !== theme.direction) {
+			dispatch(MainActions.setDefaultSettings({ direction: newLangDir }));
+		}
+
+		// userMenuClose();
+	}
 	return (
 		<>
 			<div
@@ -62,10 +105,10 @@ function LoginPage() {
 						<Card className="w-full">
 							<CardContent className="flex flex-col items-center justify-center p-20 sm:p-32">
 								<Typography variant="h6" className="text-center font-600 mt-20 mb-4">
-									App di condivisione per cantieri edili
+									{t('APP_HEADING')}
 								</Typography>
 								<Typography variant="subtitle1" className="text-muted mb-40">
-									Il Cloud per l'edilizia, alla portata di tutti!
+									{t('APP_SUBHEADER')}
 								</Typography>
 								<Grid container spacing={2}>
 									<Grid item xs={6}>
@@ -105,7 +148,7 @@ function LoginPage() {
 								<div className="my-28 flex items-center justify-center or-container">
 									<Divider className="w-full" />
 									<span className="mx-8 font-size-16 whitespace-no-wrap text-muted">
-										Or sign in with email
+										{t('OR_SIGN_IN_WITH_EMAIL')}
 									</span>
 									<Divider className="w-full" />
 								</div>
@@ -114,9 +157,9 @@ function LoginPage() {
 								
 
 								<div className="flex items-center justify-center w-full pt-28">
-									<span className="text-custom font-600 mr-6">Don't have an account?</span>
+									<span className="text-custom font-600 mr-6"> {t('DONT_HAVE_AN_ACCOUNT_ASK')}</span>
 									<Link className="text-primary font-600 inline" to="/pages/auth/register">
-										Sign Up
+										{t('SIGN_UP')}
 									</Link>
 								</div>
 							</CardContent>
@@ -124,21 +167,39 @@ function LoginPage() {
 					</FuseAnimate>
 					<div className="flex items-center justify-between mt-8 w-full text-default font-600">
 						<FormControl className={clsx(classes.formControl, 'custom-select-remove-border')}>
-							<InputLabel id="demo-simple-select-label">Language</InputLabel>
-							<Select
+							<TippyMenu
+								icon={
+									<>
+										<InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel>
+
+										<InputLabel id="demo-simple-select-label">{currentLng.title}</InputLabel>
+									</>
+								}
+								// ref={menuRef}
+								outsideClick
+							>
+								{languages.map(lng => (
+									<MenuItem key={lng.id} onClick={() => handleLanguageChange(lng)}>
+										<ListItemText primary={lng.title} />
+									</MenuItem>
+								))}
+							</TippyMenu>
+							{/* <Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
 								// value={age}
 								// onChange={handleChange}
 							>
-								<MenuItem value={10}>India</MenuItem>
-								<MenuItem value={30}>U.K.</MenuItem>
-								<MenuItem value={20}>Germany</MenuItem>
-							</Select>
+								{languages.map(lng => (
+									<MenuItem key={lng.id} onClick={() => handleLanguageChange(lng)}>
+										<ListItemText primary={lng.title} />
+									</MenuItem>
+								))}
+							</Select> */}
 						</FormControl>
 						<div className="flex">
 							<a href="javascript:;" className="text-muted mr-20">
-								Help
+								{t('HELP')}
 							</a>
 							<a
 								href="javascript:;"
@@ -148,7 +209,7 @@ function LoginPage() {
 									setOpen(true);
 								}}
 							>
-								Privacy
+								{t('PRIVACY')}
 							</a>
 							<a
 								href="javascript:;"
@@ -158,7 +219,7 @@ function LoginPage() {
 									setTitle('Terms');
 								}}
 							>
-								Terms
+								{t('TERMS')}
 							</a>
 						</div>
 					</div>

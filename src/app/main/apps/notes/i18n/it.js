@@ -17,7 +17,12 @@ const locale = {
 	NO_PROJECTS_HEADER: 'Seems that there are no projects yet!-it',
 	CREATE_PROJECT_ADVICE_MESSAGE: 'Create a task clicking on green + button-it',
 	LOADING_PROJECTS: 'Loading projects-it',
-	PROJECT_INFO: 'Info Progetto'
+	PROJECT_INFO: 'Info Progetto',
+	TEAM: 'Team - it',
+	CHAT: 'Chat - it',
+	TODO: 'Todo - it',
+	FILES: 'Files - it',
+	GANTT: 'Gantt - it',
 };
 
 export default locale;

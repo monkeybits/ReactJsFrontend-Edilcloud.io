@@ -36,7 +36,8 @@ function PostList({
 	showPrject,
 	showTask,
 	scrollRef,
-	media
+	media,
+	nameSpace
 }) {
 	const [postsList, setPostsList] = useState([]);
 	const [tempAuthor, setTempAuthor] = useState({});
@@ -73,6 +74,7 @@ function PostList({
 			currnetPost={post}
 			afterDeletePost={() => deletePostByIndex(index)}
 			callRetryAfterSuccess={callRetryAfterSuccess}
+			nameSpace={nameSpace}
 		/>
 	));
 }

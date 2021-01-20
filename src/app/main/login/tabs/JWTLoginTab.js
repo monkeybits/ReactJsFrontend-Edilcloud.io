@@ -12,10 +12,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FormControl, FormHelperText, FormControlLabel, Checkbox } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function JWTLoginTab(props) {
 	const dispatch = useDispatch();
 	const login = useSelector(({ auth }) => auth.login);
+	const { t } = useTranslation('login');
 
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
@@ -61,7 +63,7 @@ function JWTLoginTab(props) {
 					className="mb-24"
 					type="text"
 					name="email"
-					label="Username/Email"
+					label={t('USERNAME_OR_EMAIL')}
 					value="admin"
 					validations={{
 						minLength: 4
@@ -69,15 +71,15 @@ function JWTLoginTab(props) {
 					validationErrors={{
 						minLength: 'Min character length is 4'
 					}}
-					 InputProps={{
+					InputProps={{
 						endAdornment: (
-					 		<InputAdornment position="end">
-					 			<Icon className="text-20" color="action">
-					 				email
-					 			</Icon>
-					 		</InputAdornment>
-					 	)
-					 }}
+							<InputAdornment position="end">
+								<Icon className="text-20" color="action">
+									email
+								</Icon>
+							</InputAdornment>
+						)
+					}}
 					variant="outlined"
 					required
 				/>
@@ -86,7 +88,7 @@ function JWTLoginTab(props) {
 						className="mb-24"
 						type="password"
 						name="password"
-						label="Password"
+						label={t('PASSWORD')}
 						value="admin"
 						validations={{
 							minLength: 4
@@ -121,7 +123,7 @@ function JWTLoginTab(props) {
 					</FormControl> */}
 
 					<Link className="text-primary font-600" to="/pages/auth/forgot-password">
-						Forgot Password?
+						{t('FORGOT_PASSWORD')}
 					</Link>
 				</div>
 				<Button
@@ -134,7 +136,8 @@ function JWTLoginTab(props) {
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Sign In{'  '} {login.loadingLogin && <CircularProgress size={20} color="white" className="ml-20" />}
+					{t('SIGN_IN_BUTTON')}
+					{'  '} {login.loadingLogin && <CircularProgress size={20} color="white" className="ml-20" />}
 				</Button>
 			</Formsy>
 		</div>

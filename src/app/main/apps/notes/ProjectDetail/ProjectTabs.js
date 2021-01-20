@@ -28,6 +28,7 @@ import Toolbar from '../gantt/Toolbar';
 import { Icon } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ProjectHeader from './ProjectHeader';
+import { useTranslation } from 'react-i18next';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -70,6 +71,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ProjectTabs({ value, setValue, setOpenDialog }) {
+	const { t } = useTranslation('projects');
 	const classes = useStyles();
 	const [zoom, setZoom] = useState({
 		currentZoom: 'Months'
@@ -150,11 +152,11 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 					showLabels
 					className={classes.root}
 				>
-					<BottomNavigationAction label="Team" icon={<Icon>people</Icon>} {...a11yProps(0)} />
-					<BottomNavigationAction label="Chat" icon={<Icon>message</Icon>} {...a11yProps(1)} />
-					<BottomNavigationAction label="Todo" icon={<Icon>check_box</Icon>} {...a11yProps(2)} />
-					<BottomNavigationAction label="Files" icon={<Icon>folder</Icon>} {...a11yProps(3)} />
-					<BottomNavigationAction label="Gantt" icon={<Icon>subject</Icon>} {...a11yProps(4)} />
+					<BottomNavigationAction label={t("TEAM")} icon={<Icon>people</Icon>} {...a11yProps(0)} />
+					<BottomNavigationAction label={t("CHAT")} icon={<Icon>message</Icon>} {...a11yProps(1)} />
+					<BottomNavigationAction label={t("TODO")} icon={<Icon>check_box</Icon>} {...a11yProps(2)} />
+					<BottomNavigationAction label={t("FILES")} icon={<Icon>folder</Icon>} {...a11yProps(3)} />
+					<BottomNavigationAction label={t("GANTT")} icon={<Icon>subject</Icon>} {...a11yProps(4)} />
 				</BottomNavigation>
 			</AppBar>
 		</div>

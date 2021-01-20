@@ -26,6 +26,7 @@ import { GET_CHAT } from './store/actions';
 import { WebSocketContext } from 'app/WebSocket';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { LinearProgress } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 350;
 const headerHeight = 200;
@@ -109,6 +110,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ChatApp(props) {
+	const { t } = useTranslation('chat_projects');
 	const dispatch = useDispatch();
 	const chat = useSelector(({ chatAppProject }) => chatAppProject.chat);
 	const company = useSelector(({ chatAppProject }) => chatAppProject.company);
@@ -139,7 +141,7 @@ function ChatApp(props) {
 		// if (company.can_access_chat && routeParams.id) {
 		dispatch(Actions.getUserData());
 		dispatch(Actions.getContacts(routeParams.id, handleSetLoading));
-		dispatch(Actions.getChat(routeParams.id,handleSetLoading));
+		dispatch(Actions.getChat(routeParams.id, handleSetLoading));
 		// let callMessageList = setInterval(() => dispatch(Actions.getChat(routeParams.id)), 3000);
 		return () => {
 			dispatch({
@@ -157,7 +159,7 @@ function ChatApp(props) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center h-full">
 				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
-					Loading chats...
+					{t('LOADING_CHATS')}...
 				</Typography>
 				<LinearProgress className="w-xs" color="secondary" />
 			</div>
@@ -269,9 +271,7 @@ function ChatApp(props) {
 												{/* <div className="absolute right-0 bottom-0 -m-4 z-10">
 													<StatusIcon status={selectedContact.status} />
 												</div> */}
-
 											</div>
-											
 										</div>
 									</Toolbar>
 								</AppBar>

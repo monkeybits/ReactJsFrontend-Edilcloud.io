@@ -55,6 +55,7 @@ import {
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles({
 	typeIcon: {
 		'&.folder:before': {
@@ -72,6 +73,7 @@ const useStyles = makeStyles({
 	}
 });
 function FileList(props) {
+	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.files);
@@ -126,16 +128,26 @@ function FileList(props) {
 	};
 	const options = [
 		{
-			name: 'Delete',
-			icon: <Icon>delete</Icon>
+			name: 'DELETE',
+			icon: <Icon>delete</Icon>,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				handleDelete(n);
+			}
 		},
 
 		{
-			name: 'Download',
-			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />
+			name: 'DOWNLOAD',
+			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				onDownload(n);
+			}
 		},
 		{
-			name: 'Move to',
+			name: 'MOVE_TO',
 			icon: <Icon>transform</Icon>,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
@@ -144,7 +156,7 @@ function FileList(props) {
 			}
 		},
 		{
-			name: 'View',
+			name: 'VIEW',
 			icon: <Icon>info</Icon>,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
@@ -206,6 +218,112 @@ function FileList(props) {
 			);
 		}
 	}, [currentFolderPath]);
+	const handleDelete = tile => {
+		let findIndex = 0;
+		if (tile.type == 'folder') {
+			findIndex = [...allFiles].findIndex(element => element.path == tile.path);
+		} else {
+			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
+		}
+		let selectedItem = allFiles[findIndex];
+		const userInfo = decodeDataFromToken();
+		const cid = userInfo.extra?.profile?.company;
+		const fileType = selectedItem.type;
+		const mainId = selectedItem.mainId;
+		const url =
+			fileType == 'folder'
+				? FOLDER_DELETE(cid, selectedItem.path)
+				: fileType == 'photo'
+				? PHOTO_DELETE(selectedItem.mainId)
+				: fileType == 'video'
+				? VIDEO_DELETE(selectedItem.mainId)
+				: DOCUMENT_DELETE(selectedItem.mainId);
+		apiCall(
+			url,
+			{},
+			res => {
+				if (fileType == 'folder') {
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
+				} else {
+					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
+				}
+				// colseDeleteFileDialog();
+			},
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
+	const onDownload = tile => {
+		let findIndex = 0;
+		if (tile.type == 'folder') {
+			findIndex = [...allFiles].findIndex(element => element.path == tile.path);
+		} else {
+			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
+		}
+		let selectedItem = allFiles[findIndex];
+		if (selectedItem) {
+			props.setProgress(0);
+			dispatch(Actions.onUploadHandleLoading(true));
+			let apiurl =
+				selectedItem.type == 'photo'
+					? DOWNLOAD_PHOTO(selectedItem.mainId)
+					: selectedItem.type == 'video'
+					? DOWNLOAD_VIDEO(selectedItem.mainId)
+					: DOWNLOAD_DOCUMENT(selectedItem.mainId);
+			apiCall(
+				apiurl,
+				{},
+				({ headers, data }) => {
+					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					if (window) {
+						console.log('listenning to flutterInAppWebViewPlatformReady');
+						console.log(window.flutter_inappwebview);
+						if (selectedItem.type == 'photo') {
+							if (window.DownloadFiles) {
+								window.DownloadFiles.postMessage(selectedItem.photo);
+							}
+							if (window.flutter_inappwebview)
+								window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.photo);
+						}
+						if (selectedItem.type == 'video') {
+							if (window.DownloadFiles) {
+								window.DownloadFiles.postMessage(selectedItem.video);
+							}
+							if (window.flutter_inappwebview)
+								window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.video);
+						} else {
+							if (window.DownloadFiles) {
+								window.DownloadFiles.postMessage(selectedItem.document);
+							}
+							if (window.flutter_inappwebview)
+								window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
+						}
+					}
+					console.log({ file });
+					FileSaver.saveAs(file);
+					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+					// FileSaver.saveAs(file);
+					dispatch(Actions.onUploadHandleLoading(false));
+				},
+				err => {
+					dispatch(Actions.onUploadHandleLoading(false));
+					props.setProgress(0);
+				},
+				METHOD.GET,
+				{
+					...getHeaderToken(),
+					responseType: 'arraybuffer',
+					onDownloadProgress: progressEvent => {
+						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						props.setProgress(percentCompleted);
+					}
+				},
+				true
+			);
+		}
+	};
 	if (allFiles.length === 0 && searchText) {
 		return (
 			<div>
@@ -214,12 +332,12 @@ function FileList(props) {
 				</div>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
-						Seems that there are no files yet!
+						{t('NO_FILES_MESSAGE')}
 					</Typography>
 				</div>
 				<div className="flex flex-1 mt-20 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h6">
-						Create a file or a folder clicking on green + button
+						{t('CREATE_FILE_ADVICE')}
 					</Typography>
 				</div>
 			</div>
@@ -233,14 +351,14 @@ function FileList(props) {
 						<TableHead>
 							<TableRow>
 								<TableCell className="max-w-64 w-64 p-0 text-center"> </TableCell>
-								<TableCell>Name</TableCell>
-								<TableCell className="hidden sm:table-cell">Type</TableCell>
-								<TableCell className="hidden sm:table-cell">Owner</TableCell>
-								<TableCell className="text-center hidden sm:table-cell">Size</TableCell>
-								<TableCell className="hidden sm:table-cell">Modified</TableCell>
+								<TableCell>{t('NAME')}</TableCell>
+								<TableCell className="hidden sm:table-cell">{t('TYPE')}</TableCell>
+								<TableCell className="hidden sm:table-cell">{t('OWNER')}</TableCell>
+								<TableCell className="text-center hidden sm:table-cell">{t('SIZE')}</TableCell>
+								<TableCell className="hidden sm:table-cell">{t('MODIFIED')}</TableCell>
 								{/* <TableCell></TableCell>
 								<TableCell></TableCell> */}
-								<TableCell>Actions</TableCell>
+								<TableCell>{t('ACTIONS')}</TableCell>
 							</TableRow>
 						</TableHead>
 					)}
@@ -260,7 +378,7 @@ function FileList(props) {
 								<TableCell className="hidden sm:table-cell"></TableCell>
 								<TableCell></TableCell>
 								<TableCell></TableCell>
-								<TableCell>Actions</TableCell>
+								<TableCell>{t('ACTIONS')}</TableCell>
 							</TableRow>
 						)}
 						{Object.entries(allFiles).map(([key, n]) => {
@@ -407,7 +525,7 @@ function FileList(props) {
 												outsideClick
 											>
 												{options.map(({ name, icon, handleClickEvent }) =>
-													name != 'Delete' ? (
+													name != 'DELETE' ? (
 														n.type != 'folder' ? (
 															<MenuItem
 																key={name}
@@ -417,7 +535,7 @@ function FileList(props) {
 																}}
 															>
 																<ListItemIcon>{icon}</ListItemIcon>
-																<Typography variant="inherit"> {name}</Typography>
+																<Typography variant="inherit"> {t(name)}</Typography>
 															</MenuItem>
 														) : null
 													) : (
@@ -429,7 +547,7 @@ function FileList(props) {
 															}}
 														>
 															<ListItemIcon>{icon}</ListItemIcon>
-															<Typography variant="inherit"> {name}</Typography>
+															<Typography variant="inherit"> {t(name)}</Typography>
 														</MenuItem>
 													)
 												)}
@@ -449,12 +567,12 @@ function FileList(props) {
 					</div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<Typography color="textSecondary" variant="h5">
-							Seems that there are no files yet!
+							{t('NO_FILES_MESSAGE')}
 						</Typography>
 					</div>
 					<div className="flex flex-1 mt-20 items-center justify-center h-full">
 						<Typography color="textSecondary" variant="h6">
-							Create a file or a folder clicking on green + button
+							{t('CREATE_FILE_ADVICE')}
 						</Typography>
 					</div>
 				</div>

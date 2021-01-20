@@ -15,6 +15,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { useTranslation } from 'react-i18next';
 
 const styles = theme => ({
 	root: {
@@ -57,6 +58,7 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 function DeleteConfirmDialog({ isOpenDeleteDialog, colseDeleteFileDialog, onYes, onNo, text }) {
+	const { t } = useTranslation('filemanaer_project');
 	return (
 		<Dialog
 			onClose={colseDeleteFileDialog}
@@ -66,17 +68,17 @@ function DeleteConfirmDialog({ isOpenDeleteDialog, colseDeleteFileDialog, onYes,
 			fullWidth="true"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={colseDeleteFileDialog}>
-				Delete
+				{t('DELETE')}
 			</DialogTitle>
 			<DialogContent dividers>
 				<div>{text}</div>
 			</DialogContent>
 			<DialogActions>
 				<Button autoFocus onClick={onYes} variant="contained" color="secondary">
-					yes
+					{t('YES')}
 				</Button>
 				<Button autoFocus onClick={onNo} variant="contained" color="secondary">
-					No
+					{t('NO')}
 				</Button>
 			</DialogActions>
 		</Dialog>
