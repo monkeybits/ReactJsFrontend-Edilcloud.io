@@ -88,7 +88,7 @@ function FuseNavVerticalItem(props) {
 			// target="_blank"
 			to={item.url}
 			activeClassName="active"
-			className={clsx(classes.item, 'list-item')}
+			className={clsx(classes.item, 'list-item', item.data_tut)}
 			onClick={ev => mdDown && dispatch(Actions.navbarCloseMobile())}
 			exact={item.exact}
 		>

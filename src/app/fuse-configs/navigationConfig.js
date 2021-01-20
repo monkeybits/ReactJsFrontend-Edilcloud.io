@@ -32,7 +32,8 @@ const navigationConfig = [
 		type: 'group',
 		children: [
 			{
-				id: '',
+				data_tut: 'first-step',
+				id: 'reactour__copy',
 				title: 'Projects List',
 				translate: 'PROJECTS_LIST',
 				type: 'item',

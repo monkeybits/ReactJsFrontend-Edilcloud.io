@@ -34,6 +34,9 @@ import store from 'app/store';
 import history from '@history';
 import TodoApp from './todo/TodoApp';
 import { useTranslation } from 'react-i18next';
+import Tour from 'reactour';
+import clsx from 'clsx';
+// import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 function NotesApp(props) {
 	const dispatch = useDispatch();
@@ -111,7 +114,7 @@ function NotesApp(props) {
 					<Fab
 						color="primary"
 						aria-label="add"
-						className={classes.addButton}
+						className={clsx(classes.addButton, 'second-step')}
 						onClick={() => dispatch(Actions.openProjectDialog('new'))}
 					>
 						<FontAwesomeIcon icon={faPlus} size="1x" />
