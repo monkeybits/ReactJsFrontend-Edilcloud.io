@@ -5,28 +5,34 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from 'app/main/apps/chat/store/actions';
 import Tour from 'reactour';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import ProjectTour from 'app/main/apps/project-tour';
-function Navigation(props) {
+import withReducer from 'app/store/withReducer';
+import reducer from './store/reducers';
+
+function ProjectTour(props) {
 	const dispatch = useDispatch();
-	const navigation = useSelector(({ fuse }) => fuse.navigation);
+
 	const [isTourOpen, setIsTourOpen] = React.useState(true);
-	useEffect(() => {
-		dispatch(Actions.companyInfo());
-	}, [dispatch]);
+
 	const disableBody = target => disableBodyScroll(target);
 	const enableBody = target => enableBodyScroll(target);
 	const accentColor = '#5cb7b7';
 	return (
-		<>
-			<FuseNavigation
-				className={clsx('navigation', props.className)}
-				navigation={navigation}
-				layout={props.layout}
-				dense={props.dense}
-				active={props.active}
-			/>
-			<ProjectTour />
-		</>
+		<Tour
+			onRequestClose={() => setIsTourOpen(false)}
+			steps={tourConfig}
+			isOpen={isTourOpen}
+			// disableKeyboardNavigation={['esc']}
+			onAfterOpen={target => (document.body.style.overflowY = 'hidden')}
+			onBeforeClose={target => (document.body.style.overflowY = 'auto')}
+			maskSpace={5}
+			// inViewThreshold={2000}
+			// maskClassName="mask"
+			// className="helper"
+			rounded={20}
+			accentColor="red"
+			onAfterOpen={disableBody}
+			onBeforeClose={enableBody}
+		/>
 	);
 }
 const tourConfig = [
@@ -39,8 +45,5 @@ const tourConfig = [
 		content: `Create Project`
 	}
 ];
-Navigation.defaultProps = {
-	layout: 'vertical'
-};
 
-export default React.memo(Navigation);
+export default withReducer('tour', reducer)(React.memo(ProjectTour));

@@ -1598,6 +1598,10 @@ audio {
 /* ********************************************************************************************
     Other CSS
 *********************************************************************************************** */
+.___reactour > div > svg {
+    width: 1800px !important;
+    height: 1100px !important;
+}
 .custom-header {
     background-color: #ffffff !important;
     box-shadow: 2px 0 3px #00000033;
