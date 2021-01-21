@@ -13,6 +13,7 @@ import { FormControl, FormHelperText, FormControlLabel, Checkbox } from '@materi
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 function JWTLoginTab(props) {
 	const dispatch = useDispatch();
@@ -48,6 +49,7 @@ function JWTLoginTab(props) {
 	function handleSubmit(model) {
 		setNonFieldError('');
 		dispatch(authActions.submitLogin(model));
+		dispatch(notificationActions.resetNotificationData());
 	}
 
 	return (

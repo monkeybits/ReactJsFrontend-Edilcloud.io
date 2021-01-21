@@ -113,22 +113,22 @@ const navigationConfig = [
 			}
 		]
 	},
-	{
-		id: 'NOTIFICATIONS',
-		title: 'NOTIFICATIONS',
-		translate: 'NOTIFICATIONS',
-		type: 'group',
-		children: [
-			{
-				id: '',
-				title: 'Notifications',
-				translate: 'NOTIFICATIONS',
-				type: 'item',
-				icon: 'notifications_active',
-				url: 'mazz'
-			}
-		]
-	},
+	// {
+	// 	id: 'NOTIFICATIONS',
+	// 	title: 'NOTIFICATIONS',
+	// 	translate: 'NOTIFICATIONS',
+	// 	type: 'group',
+	// 	children: [
+	// 		{
+	// 			id: '',
+	// 			title: 'Notifications',
+	// 			translate: 'NOTIFICATIONS',
+	// 			type: 'item',
+	// 			icon: 'notifications_active',
+	// 			url: 'mazz'
+	// 		}
+	// 	]
+	// },
 	{
 		id: 'PLAN',
 		title: 'PLAN',

@@ -238,7 +238,7 @@ function ContactDialog(props) {
 				)
 			);
 		} else {
-			dispatch(Actions.updateContact(newformData, id, props.handleSetLoading));
+			dispatch(Actions.updateContact(newformData, id, true, undefined, contactDialog.data.status));
 		}
 		closeComposeDialog();
 	};

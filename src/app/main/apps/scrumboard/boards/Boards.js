@@ -38,6 +38,7 @@ import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import * as FuseActions from 'app/store/actions';
 import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 import { useTranslation } from 'react-i18next';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -78,6 +79,7 @@ function Boards(props) {
 
 	useEffect(() => {
 		localStorage.removeItem('main_profile');
+		dispatch(notificationActions.resetNotificationData());
 		dispatch({
 			type: RESET_BOARDS
 		});

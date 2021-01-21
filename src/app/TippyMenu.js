@@ -50,10 +50,11 @@ function TippyMenu(props) {
 			// interactive
 			content={<Paper className={classes.paper}>{props.children}</Paper>}
 			onCreate={setInstance}
-			// onClickOutside={props.outsideClick ? handleMenuClose : () => ''}
+			onClickOutside={props.outsideClick ? handleMenuClose : () => ''}
 			trigger="click"
 			// Need to ensure it can be tabbed to directly after with no clipping issues
 			// appendTo="parent"
+			// hideOnClick
 			onMount={() => setAriaExpanded('true')}
 			onHide={() => setAriaExpanded('false')}
 		>

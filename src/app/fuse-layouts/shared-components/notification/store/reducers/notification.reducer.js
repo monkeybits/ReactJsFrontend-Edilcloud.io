@@ -24,6 +24,7 @@ const quickPanel = (state = initialState, action) => {
 		case Actions.RESET_NOTOFICATION_PANEL_DATA: {
 			return {
 				...state,
+				count: 0,
 				notifications: [],
 				readNotifications: []
 			};
