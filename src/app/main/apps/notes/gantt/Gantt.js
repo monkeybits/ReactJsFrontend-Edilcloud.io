@@ -373,8 +373,8 @@ class Gantt extends Component {
 	}
 
 	ganttInit = todos => {
-		gantt.config.start_date = new Date([2018]);
-		gantt.config.end_date = new Date([2022]);
+		// gantt.config.start_date = new Date([2018]);
+		// gantt.config.end_date = new Date([2022]);
 
 		let tasks = {
 			data: Object.values(todos.entities).map((data, i) => {
@@ -778,13 +778,23 @@ class Gantt extends Component {
 		gantt.ext.zoom.setLevel('month1');
 	};
 	exportPNG = () => {
+		let startDates = this.state.tasks.data.map(a => a.start_date && new Date(a.start_date.split('-')));
+		let endDates = this.state.tasks.data.map(a => a.end_date && new Date(a.end_date.split('-')));
+		let min = new Date(Math.min.apply(null, startDates));
+		let max = new Date(Math.min.apply(null, endDates));
+		console.log({
+			startDatesFormat: moment(min).format('DD-MM-YYYY'),
+			endDatesFormat: moment(max).format('DD-MM-YYYY'),
+			min,
+			max
+		});
 		gantt.exportToPNG({
 			name: 'mygantt.png',
 			header: '<h1>My company</h1>',
 			footer: '<h4>Bottom line</h4>',
 			locale: 'en',
-			start: '01-04-2013',
-			end: '11-04-2013',
+			// start: '01-04-2013',
+			// end: '11-04-2013',
 			skin: 'terrace',
 			server: 'https://export.dhtmlx.com/gantt',
 			raw: true
