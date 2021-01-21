@@ -264,7 +264,10 @@ function FileManagerApp(props) {
 	const handleRadioChange = event => {
 		setRadioBtnValue(event.target.value);
 	};
-	const canSubmit = () => (radioBtnValue == 'folder' ? title?.length : title?.length && fileData.file);
+	const canSubmit = () =>
+		radioBtnValue == 'folder'
+			? title?.length && !error.nameError
+			: title?.length && fileData.file && !error.titleError;
 	const isLoadingFiles = () =>
 		loading.loadingVideos || loading.loadingPhotos || loading.loadingFolders || loading.loadingDocuments;
 	const loadingComponent = (
@@ -429,6 +432,12 @@ function FileManagerApp(props) {
 									value={title}
 									onChange={({ target: { value } }) => {
 										resetError();
+										if (allFiles.find(v => v.title == value)) {
+											seterror(prev => ({
+												...prev,
+												nameError: 'should have unique name !'
+											}));
+										}
 										setTitle(value);
 									}}
 									helperText={error.nameError}
@@ -465,6 +474,12 @@ function FileManagerApp(props) {
 									value={title}
 									onChange={({ target: { value } }) => {
 										resetError();
+										if (allFiles.find(v => v.title == value)) {
+											seterror(prev => ({
+												...prev,
+												titleError: 'should have unique name !'
+											}));
+										}
 										setTitle(value);
 									}}
 									variant="outlined"
