@@ -316,7 +316,7 @@ export function addContact(values, isExisting, handleSetLoading = () => '') {
 	};
 }
 
-export function updateContact(values, id, hideContectCalls, handleSetLoading = () => '') {
+export function updateContact(values, id, hideContectCalls, handleSetLoading = () => '', status) {
 	return (dispatch, getState) => {
 		var formData = new FormData();
 		for (let key in values) {
@@ -328,6 +328,14 @@ export function updateContact(values, id, hideContectCalls, handleSetLoading = (
 			res => {
 				if (!hideContectCalls) {
 					dispatch(getContacts(handleSetLoading));
+				} else if (status == 'Approved') {
+					dispatch(getApprovedContacts(handleSetLoading));
+				} else if (status == 'Waiting') {
+					dispatch(getWaitingContacts(handleSetLoading));
+				} else if (status == 'Deactivated') {
+					dispatch(getDeactivatedContacts(handleSetLoading));
+				} else if (status == 'Refused') {
+					dispatch(getRefusedContacts(handleSetLoading));
 				}
 			},
 			err => console.log(err),
