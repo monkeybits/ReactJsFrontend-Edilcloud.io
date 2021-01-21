@@ -25,7 +25,7 @@ function LinearProgressWithLabel(props) {
 	);
 }
 LinearProgressWithLabel.defaultProps = {
-	label: 'PROCESSING_UPLOADING_FILE'
+	label: '' //'PROCESSING_UPLOADING_FILE'
 };
 // LinearProgressWithLabel.propTypes = {
 // 	/**

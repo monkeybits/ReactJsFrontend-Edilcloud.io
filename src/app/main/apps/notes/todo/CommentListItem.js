@@ -327,9 +327,9 @@ export default function CommentListItem({
 			ref={notificationPanel.notificationData?.notification?.object_id == comment.id ? scrollRef : null}
 		>
 			<ListItem className="px-0 items-start">
-				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12">
+				{/* <Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12">
 					{comment.author.first_name}
-				</Avatar>
+				</Avatar> */}
 				{isEditing ? (
 					<div className="flex-1 mx-4">
 						<Paper elevation={0} className="w-full relative post-icons">
