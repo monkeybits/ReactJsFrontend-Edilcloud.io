@@ -394,6 +394,8 @@ function ContactsList(props) {
 											userInfo.user_id != data.profile.id
 										}
 										onCardClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation()
 											if (data) {
 												dispatch(Actions.openViewContactDialog(data));
 											}

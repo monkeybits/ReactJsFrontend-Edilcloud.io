@@ -38,7 +38,8 @@ const locale = {
 	DEACTIVATE_MSG: 'Are you sure want to activate ? - it',
 	DEACTIVATE_ADVICE: 'Account will be deactivated untill you not activet this user again! - it',
 	ACTIVATE_MSG: 'Are you sure want to deactivate ? - it',
-	VIEW_CONTACT: 'View Contact - it'
+	VIEW_CONTACT: 'View Contact - it',
+	VIEW: 'View - it'
 };
 
 export default locale;

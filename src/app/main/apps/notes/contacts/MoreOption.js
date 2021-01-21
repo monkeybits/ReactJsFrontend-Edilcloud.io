@@ -14,7 +14,7 @@ export default function MoreOption(props) {
 	const { t } = useTranslation('contacts_project');
 	const [anchorEl, setAnchorEl] = React.useState(false);
 	const options = [
-		// { name: 'Edit', icon: 'edit', handler: props.editHandler, view: true },
+		{ name: 'VIEW', icon: 'visibility', handler: props.onView, view: true },
 		{ name: 'DELETE', icon: 'delete', handler: props.deleteHandler, view: props.canHaveDeleteOption }
 	];
 	const handleClick = event => {
