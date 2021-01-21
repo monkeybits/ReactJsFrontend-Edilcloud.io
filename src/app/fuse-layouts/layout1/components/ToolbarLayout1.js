@@ -15,6 +15,7 @@ import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
 import clsx from 'clsx';
 import { Icon, IconButton } from '@material-ui/core';
 import NotificationWebSocket from 'app/NotificationWebSocket';
+import { useLocation } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
 	separator: {
@@ -31,7 +32,7 @@ function ToolbarLayout1(props) {
 	const count = useSelector(({ notificationPanel }) => notificationPanel.count);
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const [totalCount, setTotalCount] = useState(0);
-
+	const location = useLocation();
 	const classes = useStyles(props);
 	useEffect(() => {
 		let newContacts = [];
@@ -94,15 +95,23 @@ function ToolbarLayout1(props) {
 
 						<LanguageSwitcher />
 
-						<div className={clsx(classes.separator, 'custom-separator')} />
-						<NotificationWebSocket>
-							<NotificationToggleButton totalCount={count} />
-						</NotificationWebSocket>
-						<div className={clsx(classes.separator, 'custom-separator')} />
+						{/* {!location.pathname?.includes('companies') && ( */}
+						<>
+							<div className={clsx(classes.separator, 'custom-separator')} />
+							<NotificationWebSocket>
+								<NotificationToggleButton totalCount={count} />
+							</NotificationWebSocket>
+						</>
+						{/* )} */}
 
-						<QuickPanelToggleButton>
-							<Icon>error_outline</Icon>
-						</QuickPanelToggleButton>
+						{/* {!location.pathname?.includes('companies') && ( */}
+						<>
+							<div className={clsx(classes.separator, 'custom-separator')} />
+							<QuickPanelToggleButton>
+								<Icon>error_outline</Icon>
+							</QuickPanelToggleButton>
+						</>
+						{/* )} */}
 					</div>
 
 					{config.navbar.display && config.navbar.position === 'right' && (
