@@ -341,6 +341,11 @@ class Gantt extends Component {
 		} else if (!nextState.tasks?.data?.length) {
 			return true;
 		} else if (nextProps.orientation == 'portrait') {
+			if (this.state.open) {
+				this.setState({
+					open: false
+				});
+			}
 			document.body.className = '';
 			setTimeout(() => {
 				gantt.collapse();
@@ -350,7 +355,8 @@ class Gantt extends Component {
 			nextProps.orientation == 'landscape' &&
 			nextProps.value == 4 &&
 			!gantt.getState().fullscreen &&
-			localStorage.getItem('askFullscreen') != 'false'
+			localStorage.getItem('askFullscreen') != 'false' &&
+			!this.state.open
 		) {
 			this.setState({
 				open: true
