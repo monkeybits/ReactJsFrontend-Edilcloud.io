@@ -110,7 +110,13 @@ function TodoActivityListItem(props) {
 	const show = () => setVisible(true);
 	const hide = () => setVisible(false);
 	const { t } = useTranslation('dashboard');
-
+	useEffect(() => {
+		if (props.todo?.status && props.todo.status == 'completed') {
+			setCompleted(true);
+		} else {
+			setCompleted(false);
+		}
+	}, [props.todo?.status]);
 	useEffect(() => {
 		if (Array.isArray(props.todo.workers_in_activity)) {
 			let workers_in_activity = _.enhance(props.todo.workers_in_activity, { is_exists: true });

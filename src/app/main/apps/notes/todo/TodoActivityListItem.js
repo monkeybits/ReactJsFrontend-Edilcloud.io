@@ -33,7 +33,7 @@ import { toast } from 'react-toastify';
 import Tippy from '@tippyjs/react';
 import { useTranslation } from 'react-i18next';
 // import 'tippy.js/dist/tippy.css';
-import 'tippy.js/themes/light-border.css'
+import 'tippy.js/themes/light-border.css';
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
 		return _.extend({}, element, source);
@@ -86,7 +86,13 @@ function TodoActivityListItem(props) {
 			setHasRender(true);
 		}
 	}, [props.todo, hasNotifcationOnThisItem]);
-
+	useEffect(() => {
+		if (props.todo?.status && props.todo.status == 'completed') {
+			setCompleted(true);
+		} else {
+			setCompleted(false);
+		}
+	}, [props.todo?.status]);
 	useEffect(() => {
 		let notification = notificationPanel.notificationData?.notification;
 		if (

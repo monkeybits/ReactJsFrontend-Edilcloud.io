@@ -346,7 +346,7 @@ function CreatePostForm({ isTask, taskId }) {
 								color="primary"
 								size="small"
 								aria-label="post"
-								disabled={!text.length}
+								disabled={!text.length && !images?.length}
 							>
 								{t('POST')}
 							</Button>

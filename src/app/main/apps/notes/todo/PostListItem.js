@@ -581,7 +581,7 @@ export default function PostListItem({
 									className="send p-0"
 									onClick={handlePostComment}
 									aria-label="Send"
-									disabled={!text.length}
+									disabled={!text && !images}
 								>
 									<Icon>send</Icon>
 								</IconButton>
