@@ -591,11 +591,12 @@ class Gantt extends Component {
 		if (projectDetail.company && company) {
 			gantt.templates.grid_header_class = (CN, C) => {
 				if (CN == 'add') {
-					if (projectDetail.company?.id != company.id) {
-						return 'hide_add';
-					} else if (getRole() == 'w' || getRole() == 'm') {
-						return 'hide_add';
-					}
+					return 'hide_add';
+					// if (projectDetail.company?.id != company.id) {
+					// 	return 'hide_add';
+					// } else if (getRole() == 'w' || getRole() == 'm') {
+					// 	return 'hide_add';
+					// }
 				}
 			};
 			gantt.templates.grid_row_class = (start, end, task) => {
@@ -730,19 +731,7 @@ class Gantt extends Component {
 			});
 		});
 	};
-	handleUploadListOfTasks = list => {
-		let token = localStorage.getItem('jwt_access_token');
-		axios
-			.post(ADD_TASK_TO_PROJECT(this.props.match.params.id), list, {
-				headers: {
-					Authorization: `JWT ${token}`
-				}
-			})
-			.then(res => {
-				this.props.getTodos(this.props.match.params.id, true);
-			})
-			.catch(err => console.log(err));
-	};
+
 	closeAll = () => {
 		this.setState({
 			expandAll: false
@@ -845,92 +834,6 @@ class Gantt extends Component {
 				}),
 				() => this.ganttInit(this.props.todos)
 			);
-		}
-	};
-	importExcel = fileInput => {
-		if (fileInput.files[0]) {
-			gantt.importFromExcel({
-				server: 'https://export.dhtmlx.com/gantt',
-				data: fileInput.files[0],
-				callback: project => {
-					if (project) {
-						try {
-							var header = [];
-							var headerControls = [];
-							var body = [];
-							let listOfData = project.map(item => ({
-								name: item['Task name'],
-								progress: item['Completed percentage'],
-								date_start: item['Start time']
-									? moment(item['Start time']).format('YYYY-MM-DD')
-									: undefined,
-								date_end: item['End time'] ? moment(item['End time']).format('YYYY-MM-DD') : undefined
-							}));
-							project.forEach(function (task) {
-								var cols = [];
-								if (!header.length) {
-									for (var i in task) {
-										header.push(i);
-									}
-									header.forEach(function (col, index) {
-										cols.push('<th>' + col + '</th>');
-										// headerControls.push(
-										// 	"<td><select data-column-mapping='" +
-										// 		col +
-										// 		"'>" +
-										// 		getOptions(index) +
-										// 		'</select>'
-										// );
-									});
-									body.push('<tr>' + cols.join('') + '</tr>');
-									body.push('<tr>' + headerControls.join('') + '</tr>');
-								}
-								cols = [];
-								header.forEach(function (col) {
-									cols.push('<td>' + task[col] + '</td>');
-								});
-								body.push('<tr>' + cols.join('') + '</tr>');
-							});
-
-							var div = gantt.modalbox({
-								title: 'Assign columns',
-								type: 'excel-form',
-								text:
-									'<div class="table-responsive"> <table class="table m-0">' +
-									body.join('') +
-									'</table> </div>',
-								buttons: [
-									{ label: 'Save', css: 'link_save_btn', value: 'save' },
-									{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
-								],
-								callback: result => {
-									switch (result) {
-										case 'save':
-											this.props.setLoading(true);
-											this.handleUploadListOfTasks(listOfData, () => {});
-											// var selects = div.querySelectorAll(
-											// 	'[data-column-mapping]'
-											// );
-											// var mapping = {};
-											// selects.forEach(function (select) {
-											// 	mapping[
-											// 		select.getAttribute('data-column-mapping')
-											// 	] = select.value;
-											// });
-											// loadTable(mapping, project);
-											break;
-										case 'cancel':
-											//Cancel
-											break;
-									}
-								}
-							});
-						} catch {
-							toast.error('Not supported ');
-						}
-					}
-				}
-			});
 		}
 	};
 	addDragEvent = () => {
@@ -1056,7 +959,7 @@ class Gantt extends Component {
 												id="excelFile"
 												name="file"
 												accept=".xlsx,.xls"
-												onChange={e => this.importExcel(e.target)}
+												onChange={e => this.props.importExcel(e.target.files[0])}
 												hidden
 											/>
 											<a data-action="toExcel">
