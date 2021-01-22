@@ -486,7 +486,7 @@ function FileManagerApp(props) {
 									helperText={error.titleError}
 								/>
 							</div>
-							<div>
+							{/* <div>
 								<TextField
 									error={!!error.descError}
 									name="desc"
@@ -501,7 +501,7 @@ function FileManagerApp(props) {
 									}}
 									helperText={error.descError}
 								/>
-							</div>
+							</div> */}
 							<div>
 								<TextField
 									accept="image/*, video/*"
