@@ -292,12 +292,6 @@ export default function ReplyListItem({
 				</div>
 			) : (
 				<div className="flex items-center ml-44 mb-8">
-					<Button size="small" aria-label="Add to favorites">
-						<Icon className="text-13" color="action">
-							favorite
-						</Icon>
-						<Typography className="normal-case text-13 ml-4">{t('LIKE')}</Typography>
-					</Button>
 					<Button onClick={handleReplyClick} size="small" className="normal-case">
 						<Icon className="text-13" color="action">
 							reply_outlined
@@ -328,12 +322,6 @@ export default function ReplyListItem({
 						</Button>
 					)} */}
 					{/* <Icon className="text-14 mx-8 cursor-pointer">flag</Icon> */}
-					<Button size="small" aria-label="Report">
-						<Icon className="text-13" color="action">
-							flag_outlined
-						</Icon>
-						<Typography className="normal-case text-13 ml-4">{t('REPORT')}</Typography>
-					</Button>
 					<Typography className="mx-6 text-13" variant="caption">
 						{
 							moment.parseZone(comment.created_date).fromNow() //format('LL')

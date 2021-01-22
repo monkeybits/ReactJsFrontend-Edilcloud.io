@@ -110,6 +110,14 @@ const navigationConfig = [
 				type: 'item',
 				icon: 'settings',
 				url: '/apps/settings'
+			},
+			{
+				id: '',
+				title: 'Storage',
+				translate: 'STORAGE',
+				type: 'item',
+				icon: 'cloud',
+				url: '/apps/storage'
 			}
 		]
 	},

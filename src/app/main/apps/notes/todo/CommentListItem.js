@@ -137,7 +137,7 @@ export default function CommentListItem({
 
 	const handlePostComment = e => {
 		e.preventDefault();
-		if (!text) return;
+		if (!text && !images?.length) return;
 		const unique_code = uuidv1();
 		let media_set = [];
 		if (images) {
@@ -602,7 +602,7 @@ export default function CommentListItem({
 							className="send p-0"
 							onClick={handlePostComment}
 							aria-label="Send"
-							disabled={!text.length}
+							disabled={!text && !images}
 						>
 							<Icon>send</Icon>
 						</IconButton>

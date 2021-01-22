@@ -19,6 +19,7 @@ const locale = {
 	EDILCLOUD_ACADEMY: 'Edilcloud Academy-it',
 	HELP_CENTER: 'Help Center-it',
 	GENERAL_SETTINGS: 'General Settings-it',
+	STORAGE:'Storage-it',
 	NOTIFICATIONS: 'Notifications-it',
 	PLAN: 'Plan-it',
 	LOGOUT: 'Logout-it',
