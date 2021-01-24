@@ -353,7 +353,7 @@ function TodoList(props) {
 								onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
 								aria-label="open left sidebar"
 							>
-								<Icon>menu</Icon>
+								<Icon>filter_list</Icon>
 							</IconButton>
 						</Hidden>
 

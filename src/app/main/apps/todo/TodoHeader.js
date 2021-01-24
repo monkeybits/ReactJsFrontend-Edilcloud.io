@@ -25,14 +25,14 @@ function TodoHeader(props) {
 							onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
 							aria-label="open left sidebar"
 						>
-							<Icon>menu</Icon>
+							<Icon>filter_list</Icon>
 						</IconButton>
 					</Hidden>
 
 					<Icon color="action">search</Icon>
 
 					<Input
-						placeholder="Search"
+						placeholder="Cerca"
 						className="px-16"
 						disableUnderline
 						fullWidth

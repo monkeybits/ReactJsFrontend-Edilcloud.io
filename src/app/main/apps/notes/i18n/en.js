@@ -3,7 +3,7 @@ const locale = {
 	REMOVE: 'Remove',
 	DOWNLOAD_REPORT: 'Download Report',
 	ABOUT: 'About',
-	UPDATE_PROJECT_DETAILS: 'Update Project Details',
+	UPDATE_PROJECT_DETAILS: 'Modifica Progetto',
 	DELETE: 'Delete',
 	ARCHIVE: 'Archive',
 	ADD: 'Add',
