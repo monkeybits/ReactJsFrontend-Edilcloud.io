@@ -1,12 +1,12 @@
 const locale = {
-	VIEW_FILE: 'View File',
+	VIEW_FILE: 'Vedi File',
 	DOWNLOAD: 'Download',
-	PREVIOUS: 'Previous',
-	CREATE_CHAT_MESSAGE: 'Select a contact to start a conversation.',
-	START_CONVERSATION: '	Start a conversation by typing your message below.',
-	NEXT: 'Next',
-	TEAM_CHAT: 'Team Chat',
-	COMPANY_CHAT: 'Company Chat'
+	PREVIOUS: 'Precedente',
+	CREATE_CHAT_MESSAGE: 'Seleziona un contatto per iniziare una conversazione.',
+	START_CONVERSATION: '	Scrivi un messaggio per comunicare con i reponsabili delle aziende coinvolte nel progetto.',
+	NEXT: 'Prossimo',
+	TEAM_CHAT: 'Chat Progetto',
+	COMPANY_CHAT: 'Chat Aziendale'
 };
 
 export default locale;

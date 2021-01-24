@@ -1,19 +1,19 @@
 const locale = {
-	COMPANY_DETAILS: 'Company Details - it',
-	COMPANY_NAME: 'Company Name - it',
-	DESCRIPTION: 'Description - it',
-	COMPANY_EMAIL: 'Company Email - it',
-	VAT_NUMBER: 'VAT Number - it',
-	WEBSITE_URL: 'Website Url - it',
-	TELEPHONE_NUMBER: 'Telephone number - it',
-	BACK: 'Back - it',
-	NEXT: 'Next - it',
-	UPLOAD_PHOTO: 'Upload photo - it',
-	COMPANY_CATEGORIES: 'Company Categories - it',
-	COMPANY_LOGO: 'Company Logo - it',
-	STEP_COMPLETE_MESSAGE: "All steps completed - you're finished - it",
-	FINISH: 'Finish - it',
-	REMOVE: 'Remove - it'
+	COMPANY_DETAILS: 'Dettagli Azienda',
+	COMPANY_NAME: 'Nome azienda',
+	DESCRIPTION: 'Descrizione',
+	COMPANY_EMAIL: 'Email Aziendale',
+	VAT_NUMBER: 'Partita IVA',
+	WEBSITE_URL: 'Sito internet',
+	TELEPHONE_NUMBER: 'Telefono',
+	BACK: 'Indietro',
+	NEXT: 'Prossimo',
+	UPLOAD_PHOTO: 'Carica foto',
+	COMPANY_CATEGORIES: 'Categorie di lavoro',
+	COMPANY_LOGO: 'Logo aziendale',
+	STEP_COMPLETE_MESSAGE: "Tutti gli step sono completati - attendi il caricamento",
+	FINISH: 'Concludi',
+	REMOVE: 'Rimuovi'
 };
 
 export default locale;

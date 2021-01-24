@@ -1,16 +1,16 @@
 const locale = {
-	BACK: 'Back - it',
-	NEXT: 'Next - it',
-	UPLOAD_PHOTO: 'Upload photo - it',
-	FINISH: 'Finish - it',
-	REMOVE: 'Remove - it',
-	FIRST_NAME: 'First Name - it',
-	LAST_NAME: 'Last Name - it',
-	EMAIL: 'Email - it',
-	LANGUAGE: 'Language - it',
-	EDIT_YOUR_PROFILE: 'Edit your profile - it',
-	BASIC_INFORMATION: 'Basic Information - it',
-	UPLOAD_PROFILE_PICTURE: 'Upload Profile Picture - it',
+	BACK: 'Indietro',
+	NEXT: 'Prossimo',
+	UPLOAD_PHOTO: 'Carica foto',
+	FINISH: 'Fine',
+	REMOVE: 'Rimuovi',
+	FIRST_NAME: 'Nome',
+	LAST_NAME: 'Cognome',
+	EMAIL: 'Email',
+	LANGUAGE: 'Lingua',
+	EDIT_YOUR_PROFILE: 'Modifica profilo',
+	BASIC_INFORMATION: 'Informazioni di base',
+	UPLOAD_PROFILE_PICTURE: 'Carica una foto profilo',
 };
 
 export default locale;

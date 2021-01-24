@@ -1,15 +1,15 @@
 const locale = {
-	LOADING_CHATS: 'Loading chats - it',
-	CHAT: 'Chats - it',
-	VIEW_FILE: 'View File - it',
-	DOWNLOAD: 'Download - it',
-	PREVIOUS: 'Previous - it',
-	NEXT: 'Next - it',
-	DELETE: 'Delete - it',
-	PARTICIPANTS: 'Participants - it',
-	TYPE_YOUR_MESSAGE: 'Type your message - it',
-	SEARCH_PARTICIPANTS: 'Search or start new chat - it',
-	MAIN_PROFILE: 'Main Profile - it'
+	LOADING_CHATS: 'Caricamento Chat',
+	CHAT: 'Chats',
+	VIEW_FILE: 'Vedi File',
+	DOWNLOAD: 'Download',
+	PREVIOUS: 'Precedente',
+	NEXT: 'Prossimo',
+	DELETE: 'Cancella',
+	PARTICIPANTS: 'Partecipanti',
+	TYPE_YOUR_MESSAGE: 'Scrivi un messaggio',
+	SEARCH_PARTICIPANTS: 'Cerca o inizia una nuova chat',
+	MAIN_PROFILE: 'Profilo Principale'
 };
 
 export default locale;
