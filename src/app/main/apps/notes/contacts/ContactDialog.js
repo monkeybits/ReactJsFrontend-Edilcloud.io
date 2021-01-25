@@ -72,7 +72,7 @@ function ContactDialog(props) {
 	const dispatch = useDispatch();
 	const { t } = useTranslation('contacts_project');
 	const classes = useStyles();
-	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
+	const contactDialog = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.contactDialog);
 	const [value, setValue] = useState('English');
 	const [role, setRole] = useState('');
 	const [canTryWithExisting, setCanTryWithExisting] = useState(true);

@@ -370,7 +370,7 @@ function ContactDialog(props) {
 							/>
 						</div>
 					)}
-					{contactDialog.name === 'Invite' && (
+					{contactDialog.name !== 'Search' && (
 						<>
 							<div className="flex">
 								<div className="min-w-48 pt-20">

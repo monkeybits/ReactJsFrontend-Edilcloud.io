@@ -1554,6 +1554,9 @@ audio {
     font-size: 1.6rem;
     color: #5C616F;
 }
+.content-modal {
+    border-radius: 8px;
+}
 .custom-drawing-modal{
     z-index: 5000;
     position: absolute;
@@ -1795,4 +1798,14 @@ audio {
 }
 .remove-box-shadow .inner-scroll {
     box-shadow: none !important;
+}
+.min-w-auto {
+    min-width: auto !important;
+}
+.custom-label-up.MuiFormControl-root .MuiFormLabel-root {
+    transform: translate(14px, -6px) scale(0.75);
+}
+.custom-label-up.MuiFormControl-root fieldset legend {
+    max-width: 1000px;
+    transition: max-width 100ms cubic-bezier(0.0, 0, 0.2, 1) 50ms;
 }

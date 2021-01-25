@@ -43,6 +43,7 @@ function GanttWrapper(props) {
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
+	let orientation = 'portrait';
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getTodos(routeParams.id, true));
 		return () => {
@@ -60,7 +61,23 @@ function GanttWrapper(props) {
 			window.removeEventListener('resize', detect);
 		};
 	}, [dispatch, routeParams, props.value]);
-
+	function checkOrientation() {
+		// Announce the new orientation number
+		if (window.orientation == 90 && state.device === 'mobile' && state.orientation === 'portrait') {
+			orientation = 'landscape';
+			setState(prev => ({ ...prev, orientation: 'landscape' }));
+		} else if (window.orientation == 0 && state.device === 'mobile' && state.orientation === 'landscape') {
+			orientation = 'portrait';
+			setState(prev => ({ ...prev, orientation: 'portrait' }));
+		}
+	}
+	useEffect(() => {
+		window.addEventListener('orientationchange', checkOrientation, false);
+		return () => {
+			window.removeEventListener('orientationchange', checkOrientation);
+		};
+		// toast.info(JSON.stringify(state));
+	}, [state.orientation]);
 	const detect = () => {
 		setState({
 			device: !!navigator.maxTouchPoints ? 'mobile' : 'computer',

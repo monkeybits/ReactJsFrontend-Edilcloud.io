@@ -47,6 +47,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import ShowUpload from '../ShowUpload';
 import { useTranslation } from 'react-i18next';
+import CloseIcon from '@material-ui/icons/Close';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -368,36 +369,63 @@ function TaskContentForm(props) {
 	};
 	return (
 		<>
-			<DialogTitle component="div" className="p-0">
-				<AppBar position="static" elevation={1}>
-					<Toolbar className="flex w-full overflow-x-auto px-8 sm:px-16">
-						<div className="flex flex-1">
-							<div className="my-12">
-								{taskContentData?.project && (
-									<div className="font-extrabold ml-20">{t('PROJECT')}: {taskContentData?.project.name}</div>
-								)}
-								<div className="text-base ml-20 opacity-75">{t('TASK')}: {taskContentData?.name}</div>
-							</div>
-						</div>
-
-						<IconButton color="inherit" onClick={ev => dispatch(Actions.closeTaskContent())}>
-							<Icon>close</Icon>
-						</IconButton>
-					</Toolbar>
-					{!!upload?.isUploading && (
-						<div className="linear-progress custom-color">
-							<ShowUpload progress={upload.uploadPercentage} label={t('PROCESSING_UPLOADING_POST')} />
-						</div>
-					)}
-				</AppBar>
-			</DialogTitle>
-
-			<DialogContent id="dialog-content" className="p-0 sm:p-10">
+			<div className="custom-tab-header flex justify-start relative">
+				<BottomNavigation
+					value={value}
+					onChange={(event, newValue) => {
+						setValue(newValue);
+					}}
+					showLabels
+				>
+					<BottomNavigationAction
+						className="min-w-auto"
+						label="Contents"
+						wrapped
+						{...a11yProps(0)}
+					/>
+					<BottomNavigationAction
+						className="min-w-auto"
+						label="Drawings"
+						{...a11yProps(1)}
+					/>
+					<BottomNavigationAction className="min-w-auto" label="Edit" {...a11yProps(2)} />
+				</BottomNavigation>
+				<div className="absolute right-m-12">
+					<IconButton onClick={ev => dispatch(Actions.closeTaskContent())}
+					edge="start"
+					color="inherit"
+					aria-label="close"
+					className="close-icon"
+					>
+						<CloseIcon />
+					</IconButton>
+				</div>
+				{!!upload?.isUploading && (
+				<div className="linear-progress custom-color">
+					<ShowUpload progress={upload.uploadPercentage} label={t('PROCESSING_UPLOADING_POST')} />
+				</div>
+				)}
+			</div>
+			<div className="mt-24 mx-24 sm:mx-32 todo-bg-footer p-12 px-20 rounded">
+				{taskContentData?.project && (
+					<Typography variant="h6" color="inherit" className="font-size-18 font-weight-700">
+					<div>{t('PROJECT')}: {taskContentData?.project.name}</div>
+					</Typography>
+				)}
+				<div className="flex items-center font-size-12">
+					<div className="my-4">{t('TASK')}: {taskContentData?.name}</div>
+					<span className="mx-12">{' > '}</span>
+					<div>Title</div>
+				</div>
+			</div>
+			<DialogContent id="dialog-content" className="p-0">
 				<TabPanel value={value} index={0} class="write-post-img-full">
 					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
 				</TabPanel>
 				<TabPanel value={value} index={1}>
-					<CreateAttachments taskId={taskContentData?.id} attachments={taskContentData?.media_set} />
+					<div className="sm:mx-12">
+						<CreateAttachments taskId={taskContentData?.id} attachments={taskContentData?.media_set} />
+					</div>
 					{/* <div className="mb-24">
 						<div className="flex items-center mt-16">
 							<Icon className="text-20" color="inherit">
@@ -427,167 +455,170 @@ function TaskContentForm(props) {
 				</TabPanel>
 
 				<TabPanel value={value} index={2}>
-					<div className="flex items-center mb-24">
-						<TextField
-							label={t('TITLE')}
-							disabled={getIsDisabled()}
-							type="text"
-							name="name"
-							variant="outlined"
-							value={cardForm.name}
-							onChange={handleChange}
-							fullWidth
-							required
-							InputProps={{
-								endAdornment: (
-									<InputAdornment position="end">
-										<Icon className="text-20" color="action">
-											remove_red_eye
-										</Icon>
-									</InputAdornment>
-								)
-							}}
-						/>
-					</div>
-					{taskContentData?.isGantt && taskContentData?.parent == 1 ? (
-						<div className="mt-8 mb-16 select-dropdown">
-							<FuseChipSelect
-								isDisabled={getIsDisabled()}
-								placeholder={t('SELECT_PROFILE')}
-								variant="fixed"
-								isMulti
-								textFieldProps={{
-									label: 'Profile',
-									InputLabelProps: {
-										shrink: true
-									},
-									variant: 'outlined'
-									// onChange: e => getProjectCompanyTeamProfiles(e.target.value)
+					<div className="sm:mx-12">
+						<div className="flex items-center mb-24">
+							<TextField
+								label={t('TITLE')}
+								disabled={getIsDisabled()}
+								type="text"
+								name="name"
+								variant="outlined"
+								value={cardForm.name}
+								onChange={handleChange}
+								fullWidth
+								required
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<Icon className="text-20" color="action">
+												remove_red_eye
+											</Icon>
+										</InputAdornment>
+									)
 								}}
-								onChange={value => {
-									setProfileData(value.splice(value.length - 1));
-								}}
-								value={profileData}
-								options={profiles.map(profile => ({
-									data: profile,
-									value: getName(profile),
-									label: <span className="flex items-center">{getName(profile)}</span>
-								}))}
 							/>
 						</div>
-					) : (
-						companies &&
-						!!companies.length && (
+						{taskContentData?.isGantt && taskContentData?.parent == 1 ? (
 							<div className="mt-8 mb-16 select-dropdown">
 								<FuseChipSelect
-									className=""
-									placeholder={t('SELECT_COMPANY')}
 									isDisabled={getIsDisabled()}
+									placeholder={t('SELECT_PROFILE')}
 									variant="fixed"
 									isMulti
 									textFieldProps={{
-										label: 'Company',
+										label: 'Profile',
 										InputLabelProps: {
 											shrink: true
 										},
 										variant: 'outlined'
+										// onChange: e => getProjectCompanyTeamProfiles(e.target.value)
 									}}
 									onChange={value => {
-										setCompany(value.splice(value.length - 1));
+										setProfileData(value.splice(value.length - 1));
 									}}
-									value={company}
-									options={companies.map(company => ({
-										data: company,
-										value: company.profile?.company?.name,
-										label: (
-											<span className="flex items-center">
-												<Icon
-													className="list-item-icon mx-6 text-20"
-													style={{ color: company.profile.company?.color_project }}
-													color="action"
-												>
-													label
-												</Icon>{' '}
-												{company.profile.company.name}
-											</span>
-										)
+									value={profileData}
+									options={profiles.map(profile => ({
+										data: profile,
+										value: getName(profile),
+										label: <span className="flex items-center">{getName(profile)}</span>
 									}))}
 								/>
 							</div>
-						)
-					)}
-					<div className="w-full mb-24">
-						<TextField
-							label={t('DESCRIPTION')}
-							name="description"
-							value={cardForm.description}
-							disabled={getIsDisabled()}
-							onChange={handleChange}
-							multiline
-							rows="4"
-							variant="outlined"
-							fullWidth
-						/>
+						) : (
+							companies &&
+							!!companies.length && (
+								<div className="mt-8 mb-16 select-dropdown">
+									<FuseChipSelect
+										className=""
+										placeholder={t('SELECT_COMPANY')}
+										isDisabled={getIsDisabled()}
+										variant="fixed"
+										isMulti
+										textFieldProps={{
+											label: 'Company',
+											InputLabelProps: {
+												shrink: true
+											},
+											variant: 'outlined'
+										}}
+										onChange={value => {
+											setCompany(value.splice(value.length - 1));
+										}}
+										value={company}
+										options={companies.map(company => ({
+											data: company,
+											value: company.profile?.company?.name,
+											label: (
+												<span className="flex items-center">
+													<Icon
+														className="list-item-icon mx-6 text-20"
+														style={{ color: company.profile.company?.color_project }}
+														color="action"
+													>
+														label
+													</Icon>{' '}
+													{company.profile.company.name}
+												</span>
+											)
+										}))}
+									/>
+								</div>
+							)
+						)}
+						<div className="w-full mb-24">
+							<TextField
+								label={t('DESCRIPTION')}
+								name="description"
+								value={cardForm.description}
+								disabled={getIsDisabled()}
+								onChange={handleChange}
+								multiline
+								rows="4"
+								variant="outlined"
+								fullWidth
+							/>
+						</div>
+						<div className="flex -mx-4">
+							<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
+								<label>{t('START_DATE')}</label>
+								<DatePicker
+									disabled={getIsDisabled()}
+									dateFormat="dd/MM/yyyy"
+									selected={taskDate.startDate}
+									// minDate={taskDate.startDate}
+									onChange={startDate => {
+										setTaskDate({
+											...taskDate,
+											startDate
+										});
+									}}
+								/>
+								<Icon className="icon">calendar_today</Icon>
+							</div>
+							<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
+								<label>{t('END_DATE')}</label>
+								<DatePicker
+									dateFormat="dd/MM/yyyy"
+									selected={taskDate.endDate}
+									disabled={getIsDisabled()}
+									minDate={taskDate.startDate}
+									onChange={endDate => {
+										setTaskDate({
+											...taskDate,
+											endDate
+										});
+									}}
+								/>
+								<Icon className="icon">calendar_today</Icon>
+							</div>
+						</div>
+						{taskContentData?.isGantt && taskContentData?.parent == 1 ? null : (
+							<div className="mt-24 mx-12 zoom-125">
+								<IOSSlider
+									aria-label="ios slider"
+									disabled={getIsDisabled()}
+									defaultValue={0}
+									marks={marks}
+									onChange={(e, v) => setProgress(v)}
+									value={progress}
+									valueLabelDisplay="on"
+								/>
+							</div>
+						)}
+						<div className="flex justify-end mt-16">
+							<Button
+								aria-label="save"
+								variant="contained"
+								color="secondary"
+								type="submit"
+								size="small"
+								disabled={!isFormInvalid() || getIsDisabled()}
+								onClick={getIsDisabled() ? () => '' : handleSubmit}
+							>
+								{t('SAVE')} {loading && <CircularProgress size={15} color="secondary" />}
+							</Button>
+						</div>
 					</div>
-					<div className="flex -mx-4">
-						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-							<label>{t('START_DATE')}</label>
-							<DatePicker
-								disabled={getIsDisabled()}
-								dateFormat="dd/MM/yyyy"
-								selected={taskDate.startDate}
-								// minDate={taskDate.startDate}
-								onChange={startDate => {
-									setTaskDate({
-										...taskDate,
-										startDate
-									});
-								}}
-							/>
-							<Icon className="icon">calendar_today</Icon>
-						</div>
-						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-							<label>{t('END_DATE')}</label>
-							<DatePicker
-								dateFormat="dd/MM/yyyy"
-								selected={taskDate.endDate}
-								disabled={getIsDisabled()}
-								minDate={taskDate.startDate}
-								onChange={endDate => {
-									setTaskDate({
-										...taskDate,
-										endDate
-									});
-								}}
-							/>
-							<Icon className="icon">calendar_today</Icon>
-						</div>
-					</div>
-					{taskContentData?.isGantt && taskContentData?.parent == 1 ? null : (
-						<div className="mt-24 mx-12 zoom-125">
-							<IOSSlider
-								aria-label="ios slider"
-								disabled={getIsDisabled()}
-								defaultValue={0}
-								marks={marks}
-								onChange={(e, v) => setProgress(v)}
-								value={progress}
-								valueLabelDisplay="on"
-							/>
-						</div>
-					)}
-					<Button
-						className="mt-16 float-right"
-						aria-label="save"
-						variant="contained"
-						color="secondary"
-						type="submit"
-						size="small"
-						disabled={!isFormInvalid() || getIsDisabled()}
-						onClick={getIsDisabled() ? () => '' : handleSubmit}
-					>
-						{t('SAVE')} {loading && <CircularProgress size={15} color="secondary" />}
-					</Button>
 				</TabPanel>
 
 				{/* <TabPanel value={value} index={1}>
@@ -701,31 +732,7 @@ function TaskContentForm(props) {
 				</TabPanel> */}
 			</DialogContent>
 
-			<DialogActions ClassName="bg-blue">
-				<BottomNavigation
-					value={value}
-					onChange={(event, newValue) => {
-						setValue(newValue);
-					}}
-					showLabels
-					className="flex justify-around w-full"
-				>
-					<BottomNavigationAction
-						ClassName="white"
-						icon={<Icon>timeline</Icon>}
-						label="Contents"
-						wrapped
-						{...a11yProps(0)}
-					/>
-					<BottomNavigationAction
-						ClassName="white"
-						icon={<Icon>attach_file</Icon>}
-						label="Drawings"
-						{...a11yProps(1)}
-					/>
-					<BottomNavigationAction ClassName="white" icon={<Icon>edit</Icon>} label="Edit" {...a11yProps(2)} />
-				</BottomNavigation>
-			</DialogActions>
+			
 		</>
 	);
 }

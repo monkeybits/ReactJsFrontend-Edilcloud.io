@@ -121,6 +121,16 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 			handleClickEvent: (ev, n) => {
 				handleOpenData(ev, n);
 			}
+		},
+
+		{
+			name: 'RENAME',
+			icon: <Icon>edit</Icon>,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				dispatch(Actions.openRenameFileDialog(n));
+			}
 		}
 	];
 	const onDownload = tile => {
