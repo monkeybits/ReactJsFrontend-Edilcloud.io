@@ -159,11 +159,11 @@ function FileManagerApp(props) {
 		var files = event.target.files;
 		for (var i = 0; i < files.length; i++) {
 			console.log(files[i]);
-			if (title) {
+			// if (title) {
 				let fileName = files[i].name.split('.');
 				fileName.pop();
 				setTitle(fileName.join(' '));
-			}
+			// }
 			let fileType = files[i].type?.split('/')[0];
 			setFile({
 				file: files[i],
@@ -478,7 +478,7 @@ function FileManagerApp(props) {
 									name="title"
 									id="title"
 									label={t('TITLE')}
-									className="mt-8 mb-16 w-full"
+									className={title ? "mt-8 mb-16 w-full custom-label-up" : "mt-8 mb-16 w-full"}
 									value={title}
 									onChange={({ target: { value } }) => {
 										resetError();
