@@ -23,10 +23,16 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
 import clsx from 'clsx';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { GET_TASK_BY_ID, GET_ACTIVITY_BY_ID } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { GET_TASK_BY_ID, GET_ACTIVITY_BY_ID, ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import ShowUpload from './ShowUpload';
 import { useTranslation } from 'react-i18next';
+import CreateTasks from '../gantt/CreateTasks';
+import axios from 'app/services/axiosConfig';
+import { gantt } from 'dhtmlx-gantt';
+import moment from 'moment';
+import { toast } from 'react-toastify';
+import ImportExcelDialog from '../gantt/ImportExcelDialog';
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',
@@ -45,6 +51,10 @@ function TodoApp(props) {
 	const routeParams = useParams();
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const upload = useSelector(({ todoAppNote }) => todoAppNote.todos.upload);
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
+	const [target, setTarget] = React.useState(null);
+	const [open, setOpen] = React.useState(false);
 	const [loading, setLoading] = useState({
 		loadingTodos: false
 	});
@@ -132,6 +142,110 @@ function TodoApp(props) {
 			});
 		};
 	}, [dispatch, routeParams]);
+	const handleUploadListOfTasks = list => {
+		let token = localStorage.getItem('jwt_access_token');
+		axios
+			.post(ADD_TASK_TO_PROJECT(routeParams.id), list, {
+				headers: {
+					Authorization: `JWT ${token}`
+				}
+			})
+			.then(res => {
+				dispatch(Actions.getTodos(routeParams.id, false));
+			})
+			.catch(err => console.log(err));
+	};
+	const importExcel = data => {
+		let file = data ? data : target;
+		if (file) {
+			setOpen(false);
+			gantt.importFromExcel({
+				server: 'https://export.dhtmlx.com/gantt',
+				data: file,
+				callback: project => {
+					if (project) {
+						try {
+							var header = [];
+							var headerControls = [];
+							var body = [];
+							let listOfData = project.map(item => ({
+								name: item['Task name'],
+								progress: item['Completed percentage'],
+								date_start: item['Start time']
+									? moment(item['Start time']).format('YYYY-MM-DD')
+									: undefined,
+								date_end: item['End time'] ? moment(item['End time']).format('YYYY-MM-DD') : undefined
+							}));
+							project.forEach(function (task) {
+								var cols = [];
+								if (!header.length) {
+									for (var i in task) {
+										header.push(i);
+									}
+									header.forEach(function (col, index) {
+										cols.push('<th>' + col + '</th>');
+										// headerControls.push(
+										// 	"<td><select data-column-mapping='" +
+										// 		col +
+										// 		"'>" +
+										// 		getOptions(index) +
+										// 		'</select>'
+										// );
+									});
+									body.push('<tr>' + cols.join('') + '</tr>');
+									body.push('<tr>' + headerControls.join('') + '</tr>');
+								}
+								cols = [];
+								header.forEach(function (col) {
+									cols.push('<td>' + task[col] + '</td>');
+								});
+								body.push('<tr>' + cols.join('') + '</tr>');
+							});
+
+							var div = gantt.modalbox({
+								title: 'Assign columns',
+								type: 'excel-form',
+								text:
+									'<div class="table-responsive"> <table class="table m-0">' +
+									body.join('') +
+									'</table> </div>',
+								buttons: [
+									{ label: 'Save', css: 'link_save_btn', value: 'save' },
+									{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
+								],
+								callback: result => {
+									switch (result) {
+										case 'save':
+											dispatch(Actions.setLoading(true));
+											handleUploadListOfTasks(listOfData, () => {});
+											// var selects = div.querySelectorAll(
+											// 	'[data-column-mapping]'
+											// );
+											// var mapping = {};
+											// selects.forEach(function (select) {
+											// 	mapping[
+											// 		select.getAttribute('data-column-mapping')
+											// 	] = select.value;
+											// });
+											// loadTable(mapping, project);
+											break;
+										case 'cancel':
+											//Cancel
+											break;
+									}
+								}
+							});
+						} catch {
+							toast.error('Not supported ');
+						}
+					}
+				}
+			});
+		}
+	};
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
 	if (loading.loadingTodos) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center h-full">
@@ -177,19 +291,15 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			{projectDetail.company?.id == company.id && (
-				<FuseAnimate animation="transition.expandIn" delay={300}>
-					<Fab
-						color="primary"
-						aria-label="add"
-						// className={classes.addButton }
-						className={clsx('speeddial-btn diff-place')}
-						onClick={ev => dispatch(Actions.openNewTodoDialog())}
-					>
-						<Icon>add</Icon>
-					</Fab>
-				</FuseAnimate>
+			{projectDetail.company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
+				<CreateTasks
+					importExcel={ev => {
+						handleClickOpen();
+					}}
+					createTasks={ev => dispatch(Actions.openNewTodoDialog())}
+				/>
 			)}
+			<ImportExcelDialog {...{ open, setOpen, target, setTarget }} onImport={() => importExcel(undefined)} />
 			{/* <CreatePostDialog />
 			<TodoDialog />
 			<TaskContentDialog /> */}

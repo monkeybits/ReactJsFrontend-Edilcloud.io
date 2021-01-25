@@ -119,6 +119,7 @@ function FileManagerApp(props) {
 	const [description, setDescription] = useState(undefined);
 	const [open, setOpen] = React.useState(false);
 	const currentFolderPath = files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
+	const inputName = useRef();
 	const [loading, setLoading] = useState({
 		loadingPhotos: false,
 		loadingVideos: false,
@@ -157,6 +158,12 @@ function FileManagerApp(props) {
 		resetError();
 		var files = event.target.files;
 		for (var i = 0; i < files.length; i++) {
+			console.log(files[i]);
+			if (title) {
+				let fileName = files[i].name.split('.');
+				fileName.pop();
+				setTitle(fileName.join(' '));
+			}
 			let fileType = files[i].type?.split('/')[0];
 			setFile({
 				file: files[i],
@@ -466,6 +473,7 @@ function FileManagerApp(props) {
 						<>
 							<div>
 								<TextField
+									ref={inputName}
 									error={!!error.titleError}
 									name="title"
 									id="title"
