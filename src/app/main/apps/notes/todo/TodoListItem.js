@@ -715,16 +715,18 @@ function TodoListItem(props) {
 				>
 					{taskDetail &&
 						!!taskDetail.length &&
-						taskDetail.map(todo => (
-							<TodoActivityListItem
-								{...props}
-								getDetailOfTask={getDetailOfTask}
-								task={props.todo}
-								todo={todo}
-								key={todo.id}
-								postlist={<PostList tempAuthor={{}} posts={todo.post_set} />}
-							/>
-						))}
+						taskDetail
+							.sort((a, b) => parseFloat(a.id) - parseFloat(b.id))
+							.map(todo => (
+								<TodoActivityListItem
+									{...props}
+									getDetailOfTask={getDetailOfTask}
+									task={props.todo}
+									todo={todo}
+									key={todo.id}
+									postlist={<PostList tempAuthor={{}} posts={todo.post_set} />}
+								/>
+							))}
 				</FuseAnimateGroup>
 			</List>
 			{/* </Collapse> */}
