@@ -143,7 +143,7 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 			</div>
 			{/* </div> */}
 			{/* </TabPanel> */}
-			<AppBar className="fixed custom-tab-header right-0 bottom-0">
+			<AppBar className="fixed custom-tab-header custom-tab-header-mobile right-0 bottom-0">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {
