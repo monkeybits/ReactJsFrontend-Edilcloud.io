@@ -66,11 +66,9 @@ function GanttWrapper(props) {
 		if (window.orientation == 90 && state.device === 'mobile' && state.orientation === 'portrait') {
 			orientation = 'landscape';
 			setState(prev => ({ ...prev, orientation: 'landscape' }));
-			toast.info(window.orientation);
 		} else if (window.orientation == 0 && state.device === 'mobile' && state.orientation === 'landscape') {
 			orientation = 'portrait';
 			setState(prev => ({ ...prev, orientation: 'portrait' }));
-			toast.info(window.orientation);
 		}
 	}
 	useEffect(() => {
