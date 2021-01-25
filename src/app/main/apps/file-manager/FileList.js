@@ -123,6 +123,15 @@ function FileList(props) {
 				props.pageLayout.current.toggleRightSidebar();
 				dispatch(Actions.setSelectedItem(n.id));
 			}
+		},
+		{
+			name: 'RENAME',
+			icon: <Icon>edit</Icon>,
+			handleClickEvent: (ev, n) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				dispatch(Actions.openRenameFileDialog(n));
+			}
 		}
 	];
 	const classes = useStyles();

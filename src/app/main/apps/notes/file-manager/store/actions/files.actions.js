@@ -20,6 +20,19 @@ export const RESET_FILES = '[FILE MANAGER APP(PROJECT)] RESET FILES';
 export const FILE_MOVE_OPEN_DIALOG = '[FILE MANAGER APP(PROJECT)] FILE MOVE OPEN DIALOG';
 export const FILE_MOVE_CLOSE_DIALOG = '[FILE MANAGER APP(PROJECT)] FILE MOVE CLOSE DIALOG';
 
+export const FILE_RENAME_OPEN_DIALOG = '[FILE MANAGER APP(PROJECT)] FILE RENAME OPEN DIALOG';
+export const FILE_RENAME_CLOSE_DIALOG = '[FILE MANAGER APP(PROJECT)] FILE RENAME CLOSE DIALOG';
+export function openRenameFileDialog(payload) {
+	return {
+		type: FILE_RENAME_OPEN_DIALOG,
+		payload
+	};
+}
+export function closeRenameFileDialog() {
+	return {
+		type: FILE_RENAME_CLOSE_DIALOG
+	};
+}
 export function openMoveFileDialog(payload) {
 	return {
 		type: FILE_MOVE_OPEN_DIALOG,

@@ -159,7 +159,7 @@ function FileManagerApp(props) {
 		var files = event.target.files;
 		for (var i = 0; i < files.length; i++) {
 			console.log(files[i]);
-			if (title) {
+			if (!title) {
 				let fileName = files[i].name.split('.');
 				fileName.pop();
 				setTitle(fileName.join(' '));

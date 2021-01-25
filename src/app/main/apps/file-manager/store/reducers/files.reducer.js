@@ -227,6 +227,30 @@ const filesReducer = (state = initialState(), action) => {
 				}
 			};
 		}
+		case Actions.FILE_RENAME_OPEN_DIALOG: {
+			return {
+				...state,
+				moveFileDialog: {
+					type: 'rename',
+					props: {
+						open: true
+					},
+					data: action.payload
+				}
+			};
+		}
+		case Actions.FILE_RENAME_CLOSE_DIALOG: {
+			return {
+				...state,
+				moveFileDialog: {
+					type: 'rename',
+					props: {
+						open: false
+					},
+					data: {}
+				}
+			};
+		}
 		default:
 			return state;
 	}

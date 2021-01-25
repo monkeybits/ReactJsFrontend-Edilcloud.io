@@ -43,7 +43,9 @@ function MoveFileDialog() {
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files);
 	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
 	const currentFolderPath = files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
-	const [error] = useState({
+	const [title, setTitle] = useState(undefined);
+	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
+	const [error, seterror] = useState({
 		fileError: '',
 		titleError: '',
 		descError: '',
@@ -57,7 +59,11 @@ function MoveFileDialog() {
 		 * After Dialog Open
 		 */
 	}, [moveFileDialog.props.open]);
-
+	useEffect(() => {
+		if (moveFileDialog.data.title) {
+			setTitle(moveFileDialog.data.title);
+		}
+	}, [moveFileDialog.data.title]);
 	function handleClose() {
 		dispatch(Actions.closeMoveFileDialog());
 	}
@@ -100,7 +106,13 @@ function MoveFileDialog() {
 			getHeaderToken()
 		);
 	};
-
+	const resetError = () =>
+		seterror({
+			fileError: '',
+			titleError: '',
+			descError: '',
+			nameError: ''
+		});
 	const { relative_path } = moveFileDialog.data;
 	return (
 		<Dialog
@@ -118,23 +130,44 @@ function MoveFileDialog() {
 						</IconButton>
 					</div>
 					<Typography variant="subtitle1" color="inherit">
-					{t('MOVE_FILE')}
+						{moveFileDialog.type === 'rename' ? t('RENAME') : t('MOVE_FILE')}
 					</Typography>
 				</Toolbar>
 			</AppBar>
 			<DialogContent dividers>
 				<div>
-					<TextField
-						error={!!error.nameError}
-						id="folder"
-						className="mt-8 mb-16 w-full"
-						value={relative_path}
-						disabled
-						helperText={error.nameError}
-						variant="outlined"
-					/>
+					{moveFileDialog.type === 'rename' ? (
+						<TextField
+							error={!!error.titleError}
+							name="title"
+							id="title"
+							label={t('TITLE')}
+							className="mt-8 mb-16 w-full"
+							value={title}
+							onChange={({ target: { value } }) => {
+								resetError();
+								if (allFiles.find(v => v.title == value)) {
+									seterror(prev => ({
+										...prev,
+										titleError: 'should have unique name !'
+									}));
+								}
+								setTitle(value);
+							}}
+							variant="outlined"
+							helperText={error.titleError}
+						/>
+					) : (
+						<TextField
+							id="folder"
+							className="mt-8 mb-16 w-full"
+							value={relative_path}
+							disabled
+							variant="outlined"
+						/>
+					)}
 				</div>
-				{files.folders && !!files.folders.length && (
+				{moveFileDialog.type !== 'rename' && files.folders && !!files.folders.length && (
 					<div>
 						<Autocomplete
 							options={files.folders.filter(f => f.path != currentFolderPath?.[0]?.path)}
@@ -151,7 +184,7 @@ function MoveFileDialog() {
 			</DialogContent>
 			<DialogActions className="p-16">
 				<Button autoFocus onClick={handleMoveFile} variant="contained" color="secondary">
-				{t('MOVE')}
+					{moveFileDialog.type === 'rename' ? t('RENAME') : t('MOVE')}
 				</Button>
 			</DialogActions>
 		</Dialog>

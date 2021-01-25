@@ -35,7 +35,8 @@ const locale = {
 	MOVE: 'Move',
 	PAGE: 'Page', //EX: PAGE 1 OF 2
 	OF: 'of',
-	PROCESSING_UPLOADING_FILE: 'Processing uploading file'
+	PROCESSING_UPLOADING_FILE: 'Processing uploading file',
+	RENAME: 'Rename'
 };
 
 export default locale;

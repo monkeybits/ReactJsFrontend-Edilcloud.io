@@ -35,7 +35,8 @@ const locale = {
 	MOVE: 'Sposta',
 	PAGE: 'Pagina', //EX: PAGE 1 OF 2
 	OF: 'di',
-	PROCESSING_UPLOADING_FILE: 'Sto processand il file'
+	PROCESSING_UPLOADING_FILE: 'Sto processand il file',
+	RENAME: 'Rinominare'
 };
 
 export default locale;
