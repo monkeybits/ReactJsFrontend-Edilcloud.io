@@ -20,7 +20,13 @@ import ShowUpload from './ShowUpload';
 import { Icon, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import AccessibilityToggleButton from 'app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton';
 import { useTranslation } from 'react-i18next';
-
+/* 
+*This TodoApp is written for Dashboard
+TODO: Main action to get all tasks from all project is -> dispatch(Actions.getTodos(routeParams, false, handleSetLoading));
+Main files to make changes are 
+* 1. src/app/main/apps/todo/TodoListItem.js  -> used for task item
+* 2. src/app/main/apps/todo/TodoActivityListItem.js  -> every task may have activity if you want to make change on activity.
+*/
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',

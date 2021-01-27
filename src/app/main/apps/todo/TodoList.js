@@ -8,10 +8,15 @@ import { decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import TodoListItem from './TodoListItem';
-
+/* 
+This is part of dashboard 
+TODO: This file simpley get list from redux store and do filters 
+! Main function here to do the filters is handleDoFilter()
+after do the filters it will show all the tasks 
+*/
 function TodoList(props) {
 	const todos = useSelector(({ todoApp }) => todoApp.todos.entities);
-	const searchText = useSelector(({ todoApp }) => todoApp.todos.searchText);
+	const searchText = useSelector(({ todoApp }) => todoApp.todos.searchText); // its search text in dashboard you'll see search option and you can search task by this
 	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);
 	const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
 	const [filteredData, setFilteredData] = useState([]);
@@ -20,7 +25,14 @@ function TodoList(props) {
 	const activeFilterKey = useSelector(({ todoApp }) => todoApp.filters.activeFilterKey);
 	const usedKeys = useSelector(({ todoApp }) => todoApp.filters.usedKeys);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
+	/**
+		 * * we have 5-6 filter category but, by default we can select only one filter from each categaory but some category need to allow multiple select 
+		 * ! we need to allow to select multiple project for projects, multiple people for activity, multiple company for tasks
+	*/
 	const canSelectMultiple = ['projectFilter', 'companyFilter', 'peopleFilter'];
+	/**
+	 * *below useeffect called for search text only
+	 */
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -44,6 +56,9 @@ function TodoList(props) {
 			});
 		}
 	}, [searchText, orderBy, orderDescending, company]);
+	/**
+	 * *below useeffect called filter change
+	 */
 	useEffect(() => {
 		handleDoFilter();
 	}, [activeFilterKey, company, usedKeys, todos]);
@@ -331,7 +346,7 @@ function TodoList(props) {
 			}}
 		>
 			{filteredData.map((todo, index) => (
-				<TodoListItem {...props} todo={todo} key={todo.id} index={index}  />
+				<TodoListItem {...props} todo={todo} key={todo.id} index={index} />
 			))}
 		</FuseAnimateGroup>
 		// </List>
