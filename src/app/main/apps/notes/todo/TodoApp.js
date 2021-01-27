@@ -133,6 +133,19 @@ function TodoApp(props) {
 			}
 		}
 	}, [notificationPanel.viewing]);
+	useEffect(() => {
+		if (notificationPanel.notificationData?.notification || routeParams.pid || routeParams.cid) {
+			let notification = notificationPanel.notificationData?.notification;
+			if (
+				notification?.content_type === 'activity' ||
+				notification?.content_type === 'task' ||
+				routeParams.pid ||
+				routeParams.cid
+			) {
+				dispatch(Actions.getTodos(routeParams.id, false));
+			}
+		}
+	}, [notificationPanel, routeParams]);
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getTodos(routeParams.id, false, handleSetLoading));
 		return () => {

@@ -372,7 +372,7 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 						progress: todo.progress,
 						date_start: moment(todo.startDate).format('YYYY-MM-DD'),
 						date_end: moment(todo.endDate).format('YYYY-MM-DD'),
-						assigned_company: todo.company[0] ? todo.company[0].data.profile.company.id : undefined,
+						assigned_company: todo.company[0]?.data?.profile?.company?.id ? todo.company[0].data.profile.company.id : null,
 						project: pid,
 						date_completed: null,
 						alert: false,
@@ -383,7 +383,7 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 						description: todo.notes,
 						datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
 						datetime_end: moment(todo.endDate).format('YYYY-MM-DD'),
-						profile: todo.profile[0] ? todo.profile[0].data.profile.id : undefined
+						profile: todo.profile[0] ? todo.profile[0].data.profile.id : null
 				  };
 		// console.log({ values });
 		apiCall(
