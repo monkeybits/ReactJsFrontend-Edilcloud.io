@@ -137,10 +137,8 @@ function TodoApp(props) {
 		if (notificationPanel.notificationData?.notification || routeParams.pid || routeParams.cid) {
 			let notification = notificationPanel.notificationData?.notification;
 			if (
-				notification?.content_type === 'activity' ||
-				notification?.content_type === 'task' ||
-				routeParams.pid ||
-				routeParams.cid
+				notification?.project_id == routeParams.id &&
+				(notification?.content_type === 'activity' || notification?.content_type === 'task')
 			) {
 				dispatch(Actions.getTodos(routeParams.id, false));
 			}
