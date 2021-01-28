@@ -384,7 +384,7 @@ export default function PostListItem({
 							}}
 							className="text-default p-8"
 						>
-							{post.alert ? <Icon style={{ color: red[500] }}>error</Icon> : <Icon>error_outline</Icon>}
+							{post.alert ? <Icon style={{ color: red[500] }}>new_releases</Icon> : <Icon>new_releases</Icon>}
 						</IconButton>
 						<div className="inline">
 							<IconButton

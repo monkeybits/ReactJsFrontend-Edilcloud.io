@@ -108,7 +108,7 @@ function ToolbarLayout1(props) {
 						<>
 							<div className={clsx(classes.separator, 'custom-separator')} />
 							<QuickPanelToggleButton>
-								<Icon>error_outline</Icon>
+								<Icon>new_releases</Icon>
 							</QuickPanelToggleButton>
 						</>
 						{/* )} */}

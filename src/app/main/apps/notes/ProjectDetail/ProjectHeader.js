@@ -1,5 +1,5 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Icon, IconButton, Typography } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -27,19 +27,24 @@ export default function ProjectHeader(props) {
 		<div className="flex w-full">
 			<div className="flex w-full items-center justify-between p-20 border-b-1">
 				<div>
-					<Typography variant="h5">{projectDetail.name}</Typography>
+					<div className="flex w-full items-center justify-between">
+						<Typography variant="h5">{projectDetail.name}</Typography>{' '}
+						<IconButton onClick={() => props.onOpen(true)}>
+							<Icon>info</Icon>
+						</IconButton>
+					</div>
 					<Typography variant="subtitle1" className="text-14font-weight-600 ">
 						{projectDetail.address}
 					</Typography>
 				</div>
-				<Button
+				{/* <Button
 					onClick={() => props.onOpen(true)}
 					variant="contained"
 					color="primary"
 					className={'btn-primary normal-case m-0'}
 				>
 					{t('PROJECT_INFO')}
-				</Button>
+				</Button> */}
 			</div>
 		</div>
 	);

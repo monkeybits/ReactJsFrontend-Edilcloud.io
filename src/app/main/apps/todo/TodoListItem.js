@@ -1,6 +1,6 @@
 import _ from '@lodash';
 import Checkbox from '@material-ui/core/Checkbox';
-import { amber, red } from '@material-ui/core/colors';
+import { amber, blue, red } from '@material-ui/core/colors';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,7 +11,18 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import TodoChip from './TodoChip';
-import { Collapse, ListItemIcon, ListItemText, List, Slider, withStyles } from '@material-ui/core';
+import {
+	Collapse,
+	ListItemIcon,
+	ListItemText,
+	List,
+	Slider,
+	withStyles,
+	CardContent,
+	CardActions,
+	LinearProgress,
+	Divider
+} from '@material-ui/core';
 import StarBorder from '@material-ui/icons/StarBorder';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -32,6 +43,8 @@ import PlaylistAddOutlinedIcon from '@material-ui/icons/PlaylistAddOutlined';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import TaskContentForm from './TaskContentForm';
+import EditActivityPostForm from './EditActivityPostForm';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -137,6 +150,7 @@ function TodoListItem(props) {
 	const [showProgress, setShowProgress] = React.useState(false);
 	const [id, setId] = React.useState(null);
 	const [taskDetail, setTaskDetail] = useState([]);
+	const [activityId, setactivityId] = useState(null);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 	const classes = useStyles(props);
@@ -144,6 +158,7 @@ function TodoListItem(props) {
 	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);
 	const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
 	const { t } = useTranslation('dashboard');
+	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 
 	const handleClick = () => {
 		setOpen(!open);
@@ -189,37 +204,29 @@ function TodoListItem(props) {
 		// }
 	};
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
-	return (
-		<>
-			<Card
-				className={clsx(classes.card, 'w-full rounded-4 custom-task cursor-pointer border-1 shadow-none ')}
-				onClick={() =>
-					getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''
-				}
-			>
-				{/* card body */}
-				<div className="p-16 flex items-center justify-content-between">
-					{/* lebels are below */}
-					<div className="flex-fill mr-12">
-						{/*<div className="flex flex-wrap mb-8 -mx-4">
-							{props.todo.assigned_company?.name && (
-								<Tooltip title={props.todo.assigned_company.name}>
-									<div
-										className={clsx('text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')}
-										style={{ borderColor: props.todo.assigned_company.color_project }}
-									/>
-								</Tooltip>
-							)}
-							 <Tooltip title={'hello'}>
-							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
-						</Tooltip> */}
 
-						{/* <Tooltip title={'hello'}>
-							<div className={clsx('bg-orange text-white', 'w-32  h-6 rounded-6 mx-4 mb-6')} />
-						</Tooltip>
-						</div>
-						{/* content can be below */}
-						<div className="flex items-center mb-6">
+	return (
+		<div className="flex">
+			<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={props.todo.id}>
+				<Card
+					elevation={1}
+					className="flex flex-col h-256"
+					onClick={() =>
+						getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''
+					}
+				>
+					{/* card body */}
+					<div
+						className="flex flex-shrink-0 items-center justify-between px-24 h-64"
+						style={{
+							background: blue[500]
+							// color: theme.palette.getContrastText()
+						}}
+					>
+						<Typography className="font-medium truncate" color="inherit">
+							{props.todo.name}
+						</Typography>
+						<div className="flex items-center justify-center opacity-75">
 							{props.todo.assigned_company && (
 								<TodoChip
 									title={props.todo.assigned_company?.name}
@@ -227,19 +234,12 @@ function TodoListItem(props) {
 								/>
 							)}
 						</div>
-						<Typography className="MuiTypography-root todo-title truncate MuiTypography-subtitle1 MuiTypography-colorInherit font-semibold mb-6">
-							{' '}
-							{props.todo.name}{' '}
-						</Typography>
-						<Typography className="MuiTypography-root todo-notes truncate mb-8 MuiTypography-body1 MuiTypography-colorTextSecondary font-medium font-size-12 mb-6">
+					</div>
+					<CardContent className="flex flex-col flex-auto ">
+						<Typography className="text-center text-16 font-400 items-center justify-center">
 							{projectDetail?.name}
-							{/* <Link className="font-size-17" to={`/apps/projects/${projectDetail.id}`}>
-								{projectDetail?.name}
-							</Link> */}
 						</Typography>
-
-						{/* dates below */}
-						<div className="flex items-center flex-wrap">
+						<div className="flex items-center flex-wrap items-center justify-center my-12">
 							{props.todo.progress == 100 ? (
 								<div className={clsx('flex items-center px-8 py-4 mx-4 rounded bg-green text-white')}>
 									<Icon className="text-16 mt-4">check_circle</Icon>{' '}
@@ -310,150 +310,127 @@ function TodoListItem(props) {
 								</>
 							)}
 						</div>
-					</div>
-					<div className="custom-progress-chart">
-						<div className="flex justify-end relative">
-							<Box
-								onClick={ev => {
-									ev.preventDefault();
-									ev.stopPropagation();
-									if (props.todo.assigned_company?.id == company.id) {
-										setShowProgress(prev => !prev);
-									}
-								}}
-								position="relative"
-								display="inline-flex"
-							>
-								<CircularProgress color="secondary" variant="static" value={props.todo.progress} />
-								<Box
-									top={0}
-									left={0}
-									bottom={0}
-									right={0}
-									position="absolute"
-									display="flex"
-									alignItems="center"
-									justifyContent="center"
+					</CardContent>
+					<Divider />
+					{/* <div className="flex flex-col justify-items-end"> */}
+					<CardActions className="justify-center">
+						<div className="custom-progress-chart">
+							<div className="flex justify-end relative">
+								<Button
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										if (props.todo.assigned_company?.id == company.id) {
+											setShowProgress(prev => !prev);
+										}
+									}}
+									className="justify-start px-32"
 								>
-									<Typography variant="caption" component="div" color="textSecondary">
-										{props.todo.progress}%
-									</Typography>
-								</Box>
-							</Box>
-							{showProgress && (
-								<div className="custom-ios-slider-dropdown page-dashboard zoom-125">
-									<small className="block mb-24">{t('SET_TASK_PROGRESS')}</small>
+									progress {props.todo.progress}%
+								</Button>
+
+								{showProgress && (
+									<div className="custom-ios-slider-dropdown page-dashboard zoom-125">
+										<small className="block mb-24">{t('SET_TASK_PROGRESS')}</small>
+										<div>
+											<IOSSlider
+												aria-label="ios slider"
+												defaultValue={props.todo.progress}
+												marks={marks}
+												onChangeCommitted={(e, v) => {
+													e.stopPropagation();
+													e.preventDefault();
+													dispatch(
+														Actions.editTodo(
+															{
+																id: props.todo.id,
+																name: props.todo.name,
+																company: [{ data: props.todo.assigned_company }],
+																progress: v,
+																startDate: props.todo.date_start,
+																endDate: props.todo.date_end,
+																description: props.todo.note
+															},
+															projectDetail.id,
+															'new',
+															() => {},
+															false,
+															() => {
+																setShowProgress(prev => !prev);
+															}
+														)
+													);
+												}}
+												onClick={e => {
+													e.stopPropagation();
+													e.preventDefault();
+												}}
+												valueLabelDisplay="on"
+											/>
+										</div>
+									</div>
+								)}
+							</div>
+							{props.todo.assigned_company?.id == company.id && (
+								<div className="flex items-center mt-8">
 									<div>
-										<IOSSlider
-											aria-label="ios slider"
-											defaultValue={props.todo.progress}
-											marks={marks}
-											onChangeCommitted={(e, v) => {
-												e.stopPropagation();
-												e.preventDefault();
-												dispatch(
-													Actions.editTodo(
-														{
-															id: props.todo.id,
-															name: props.todo.name,
-															company: [{ data: props.todo.assigned_company }],
-															progress: v,
-															startDate: props.todo.date_start,
-															endDate: props.todo.date_end,
-															description: props.todo.note
-														},
-														projectDetail.id,
-														'new',
-														() => {},
-														false,
-														() => {
-															setShowProgress(prev => !prev);
-														}
-													)
-												);
+										{/* <Tooltip
+											title="There is a issue with some tree are not clean on site"
+											placement="top"
+										>
+											<IconButton
+												onClick={e => {
+													e.stopPropagation();
+													e.preventDefault();
+												}}
+											>
+												<Icon>info_outlined</Icon>
+											</IconButton>
+										</Tooltip> */}
+									</div>
+									<div className="custom-outlined-btn">
+										{/* <Button
+											variant="outlined"
+											color="primary"
+											className={classes.button}
+											startIcon={<PlaylistAddOutlinedIcon />}
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												if (props.todo.assigned_company) {
+													dispatch(Actions.openAddActivityTodoDialog(props.todo));
+												}
 											}}
-											onClick={e => {
-												e.stopPropagation();
-												e.preventDefault();
+										>
+											Add
+										</Button> */}
+										{/* <IconButton
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												if (props.todo.assigned_company) {
+													dispatch(Actions.openAddActivityTodoDialog(props.todo));
+												}
 											}}
-											valueLabelDisplay="on"
-										/>
+										>
+											<Icon>playlist_add</Icon>
+											
+										</IconButton>
+										Add */}
 									</div>
 								</div>
 							)}
 						</div>
-						{props.todo.assigned_company?.id == company.id && (
-							<div className="flex items-center mt-8">
-								<div>
-									{/* <Tooltip
-										title="There is a issue with some tree are not clean on site"
-										placement="top"
-									>
-										<IconButton
-											onClick={e => {
-												e.stopPropagation();
-												e.preventDefault();
-											}}
-										>
-											<Icon>info_outlined</Icon>
-										</IconButton>
-									</Tooltip> */}
-								</div>
-								<div className="custom-outlined-btn">
-									{/* <Button
-										variant="outlined"
-										color="primary"
-										className={classes.button}
-										startIcon={<PlaylistAddOutlinedIcon />}
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											if (props.todo.assigned_company) {
-												dispatch(Actions.openAddActivityTodoDialog(props.todo));
-											}
-										}}
-									>
-										Add
-									</Button> */}
-									{/* <IconButton
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											if (props.todo.assigned_company) {
-												dispatch(Actions.openAddActivityTodoDialog(props.todo));
-											}
-										}}
-									>
-										<Icon>playlist_add</Icon>
-										
-									</IconButton>
-									Add */}
-								</div>
-							</div>
-						)}
-					</div>
-					{/* <div className="flex items-center mb-12 -mx-4">
-						{moment().diff(moment(props.todo.date_end)) > 0 && (
-							<div className="flex items-center px-8 py-4 mx-4 rounded bg-red text-white">
-								<Icon className="text-16">access_time</Icon>
-								<span className="mx-4">{moment(props.todo.date_end).format('MMM Do YY')}</span>
-							</div>
-						)}
-					</div> */}
-
-					{/* members list who involved in this 
-					<div className="flex flex-wrap mb-12 -mx-4">
-						<Tooltip title={'James Lewis'}>
-							<Avatar className="mx-4 w-32 h-32" src={'/assets/images/avatars/james.jpg'} />
-						</Tooltip>
-						<Tooltip title={'James Lewis'}>
-							<Avatar className="mx-4 w-32 h-32" src={'/assets/images/avatars/james.jpg'} />
-						</Tooltip>
-					</div>*/}
-				</div>
-
-				{/* footer */}
-				{/* <div
+					</CardActions>
+					<LinearProgress
+						className="w-full"
+						variant="determinate"
+						value={props.todo.progress}
+						color="secondary"
+					/>
+					{/* </div> */}
+					{/* footer */}
+					{/* <div
 					className="flex h-48 px-16 border-t-1 todo-bg-footer"
 					onClick={ev => {
 						if (open) {
@@ -502,9 +479,9 @@ function TodoListItem(props) {
 							</div>
 						)}
 					</div> */}
-				{/* </div> */}
-			</Card>
-			{/* <Collapse in={open} timeout="auto" unmountOnExit> */}
+					{/* </div> */}
+				</Card>
+				{/* <Collapse in={open} timeout="auto" unmountOnExit> */}
 				<List className="p-0">
 					<FuseAnimateGroup
 						enter={{
@@ -531,8 +508,13 @@ function TodoListItem(props) {
 							))}
 					</FuseAnimateGroup>
 				</List>
-			{/* </Collapse> */}
-		</>
+				{/* </Collapse> */}
+			</div>
+			{taskContentDialog.props.open && props.todo.id == taskContentDialog.data.id && <TaskContentForm />}
+			{todoDialog.props.openTimelineDialog && props.todo.id == todoDialog.data.task.id && (
+				<EditActivityPostForm />
+			)}
+		</div>
 	);
 }
 

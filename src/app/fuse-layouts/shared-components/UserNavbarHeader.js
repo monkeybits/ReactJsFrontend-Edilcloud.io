@@ -56,7 +56,6 @@ function UserNavbarHeader(props) {
 			elevation={0}
 			classes={{ root: classes.root }}
 			className="user relative flex flex-col items-center justify-center pt-24 pb-24 mb-0 z-0"
-			
 		>
 			{user && (
 				<Typography className="username text-16 whitespace-no-wrap" color="inherit">
@@ -77,6 +76,7 @@ function UserNavbarHeader(props) {
 				alt="user photo"
 				src={company?.logo ? company?.logo : '/assets/images/avatars/profile.jpg'}
 			/>
+			<span class={`trial intrial`}>{company.trial_used ? 'Plan' : 'in Trial'}</span>
 		</AppBar>
 	);
 }
