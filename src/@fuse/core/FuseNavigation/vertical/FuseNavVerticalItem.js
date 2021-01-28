@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import FuseNavBadge from '../FuseNavBadge';
 import { USER_CHATS_PATHS, FILE_MANAHER_PATHS } from 'app/constants';
+import * as authActions from 'app/auth/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	item: props => ({
@@ -87,9 +88,13 @@ function FuseNavVerticalItem(props) {
 			}
 			// target="_blank"
 			to={item.url}
-			activeClassName="active"
+			activeClassName={item.isLogoutActionOnClick ? '' : 'active'}
 			className={clsx(classes.item, 'list-item')}
-			onClick={ev => mdDown && dispatch(Actions.navbarCloseMobile())}
+			onClick={ev =>
+				item.isLogoutActionOnClick
+					? dispatch(authActions.logoutUser())
+					: mdDown && dispatch(Actions.navbarCloseMobile())
+			}
 			exact={item.exact}
 		>
 			{item.icon && (

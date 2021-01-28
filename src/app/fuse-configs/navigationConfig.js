@@ -167,7 +167,8 @@ const navigationConfig = [
 				translate: 'LOGOUT',
 				type: 'item',
 				icon: 'exit_to_app',
-				url: 'mizz'
+				url: '/pages/auth/login',
+				isLogoutActionOnClick: true
 			}
 		]
 	}

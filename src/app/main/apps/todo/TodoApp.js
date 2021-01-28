@@ -44,6 +44,12 @@ function TodoApp(props) {
 	const routeParams = useParams();
 	const upload = useSelector(({ todoApp }) => todoApp.todos.upload);
 	const user = useSelector(({ auth }) => auth.user.data.company);
+	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
+	useEffect(() => {
+		return () => {
+			dispatch(Actions.getTodos());
+		};
+	}, [taskContentDialog.props.open]);
 	const [loading, setLoading] = useState({
 		loadingTodos: false
 	});
@@ -102,8 +108,8 @@ function TodoApp(props) {
 				innerScroll
 			/>
 			<TodoDialog />
-			<CreatePostDialog />
-			<TaskContentDialog />
+			{/* <CreatePostDialog /> */}
+			{/* <TaskContentDialog /> */}
 			<AccessibilityToggleButton />
 		</>
 	);

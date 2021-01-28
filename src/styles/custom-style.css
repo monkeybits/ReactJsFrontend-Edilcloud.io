@@ -1475,7 +1475,34 @@ audio {
 .company-icon{
     font-size: 190px;
 }
-
+.pro {
+    color: #fff;
+    background-color: #4CAF50;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 7px;
+    top: 15px;
+    left: 15px;
+    text-transform: capitalize;
+}
+.pro.approved {
+    background-color: #4CAF50;
+}
+.trial {
+    color: #fff;
+    background-color: #285249;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 7px;
+    top: 15px;
+    left: 15px;
+    text-transform: capitalize;
+}
+.trial.intrial {
+    background-color: #285249;
+}
 /* ********************************************************************************************
     Modal
 *********************************************************************************************** */

@@ -290,11 +290,13 @@ function TodoListItem(props) {
 					id,
 					company: [
 						{
-							data: {
-								profile: {
-									company: props.todo.assigned_company
-								}
-							}
+							data: company
+								? company
+								: {
+										profile: {
+											company: company ? company : props.todo.assigned_company
+										}
+								  }
 						}
 					],
 					startDate: props.todo.date_start,
