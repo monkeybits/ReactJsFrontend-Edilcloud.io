@@ -115,23 +115,23 @@ function FileGrid(props) {
 			: {};
 
 	const setAllFilesInit = () => {
-		let modifyfolders = folders?.filter(
-			f =>
-				f.path.includes(currentFolderPath) &&
-				f.path.split('/').length <= folderPath.length &&
-				!folderPath.includes(f.path)
-		);
-		if (modifyfolders) {
-			modifyfolders = modifyfolders.map(item => {
-				let title = item.path.split('/');
-				title = title[title.length - 1];
-				return { ...item, title, type: 'folder' };
-			});
-			setCurrentFolders(modifyfolders);
-			let tempFiles = files.filter(f => f.folder_relative_path == currentFolderPath);
-			setCurrentFiles(tempFiles);
-			dispatch(Actions.setAllFiles([...modifyfolders, ...tempFiles]));
-		}
+		// let modifyfolders = folders?.filter(
+		// 	f =>
+		// 		f.path.includes(currentFolderPath) &&
+		// 		f.path.split('/').length <= folderPath.length &&
+		// 		!folderPath.includes(f.path)
+		// );
+		// if (modifyfolders) {
+		// 	modifyfolders = modifyfolders.map(item => {
+		// 		let title = item.path.split('/');
+		// 		title = title[title.length - 1];
+		// 		return { ...item, title, type: 'folder' };
+		// 	});
+		// 	setCurrentFolders(modifyfolders);
+		// 	let tempFiles = files.filter(f => f.folder_relative_path == currentFolderPath);
+		// 	setCurrentFiles(tempFiles);
+		// 	dispatch(Actions.setAllFiles([...modifyfolders, ...tempFiles]));
+		// }
 	};
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -170,27 +170,27 @@ function FileGrid(props) {
 			setAllFilesInit();
 		}
 	}, [searchText]);
-	useEffect(() => {
-		let modifyfolders = folders?.filter(
-			f =>
-				f.path.includes(currentFolderPath) &&
-				f.path.split('/').length <= folderPath.length &&
-				!folderPath.includes(f.path)
-		);
-		if (modifyfolders) {
-			modifyfolders = modifyfolders.map(item => {
-				let title = item.path.split('/');
-				title = title[title.length - 1];
-				return { ...item, title, type: 'folder' };
-			});
-			dispatch(
-				Actions.setAllFiles([
-					...modifyfolders,
-					...files.filter(f => f.folder_relative_path == currentFolderPath)
-				])
-			);
-		}
-	}, [currentFolderPath]);
+	// useEffect(() => {
+	// 	let modifyfolders = folders?.filter(
+	// 		f =>
+	// 			f.path.includes(currentFolderPath) &&
+	// 			f.path.split('/').length <= folderPath.length &&
+	// 			!folderPath.includes(f.path)
+	// 	);
+	// 	if (modifyfolders) {
+	// 		modifyfolders = modifyfolders.map(item => {
+	// 			let title = item.path.split('/');
+	// 			title = title[title.length - 1];
+	// 			return { ...item, title, type: 'folder' };
+	// 		});
+	// 		dispatch(
+	// 			Actions.setAllFiles([
+	// 				...modifyfolders,
+	// 				...files.filter(f => f.folder_relative_path == currentFolderPath)
+	// 			])
+	// 		);
+	// 	}
+	// }, [currentFolderPath]);
 	const handleDelete = tile => {
 		// e.stopPropagation();
 		let findIndex = 0;
@@ -244,14 +244,14 @@ function FileGrid(props) {
 	}
 	return (
 		<div className="file-folder-grid px-24 mt-12">
-			{!!currentFolders.length && (
+			{!!folders?.length && (
 				<>
 					{' '}
 					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
 						{t('FOLDERS')}
 					</Typography>
 					<Grid container spacing={12} className="folder-grid">
-						{currentFolders.map(d => (
+						{folders?.map(d => (
 							<Grid
 								className="px-6 mb-20"
 								item
@@ -259,7 +259,7 @@ function FileGrid(props) {
 								sm={6}
 								md={4}
 								xl={3}
-								onClick={() => dispatch(Actions.setFolderPath(d.path))}
+								onClick={() => dispatch(Actions.setFolderPath(d))}
 							>
 								<ListItem className={clsx(classesListItems.root, 'custom-box-shadow')}>
 									<ListItemIcon>
@@ -267,7 +267,7 @@ function FileGrid(props) {
 										{/* <FolderSharedOutlinedIcon className="text-custom-danger" /> */}
 										{/* <FolderSpecialOutlinedIcon className="text-custom-warning" /> */}
 									</ListItemIcon>
-									<ListItemText primary={d.title} secondary={null} />
+									<ListItemText primary={d.name} secondary={null} />
 									<div className="actions-dropdown file-folder-action-dropdown">
 										<TippyMenu
 											icon={

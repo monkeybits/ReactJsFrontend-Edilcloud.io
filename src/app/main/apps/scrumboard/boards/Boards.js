@@ -281,8 +281,11 @@ function Boards(props) {
 											className="text-16 font-300 text-center pt-16 px-32"
 											color="inherit"
 										>
-											{board.name}
+											{board.name}{' '}
 										</Typography>
+										<span className={`trial intrial text-center mt-4 mx-2`}>
+											{board.trial_used ? 'Plan' : 'in Trial'}
+										</span>
 									</Link>
 								</div>
 							))}

@@ -118,7 +118,7 @@ function FileManagerApp(props) {
 	const [title, setTitle] = useState(undefined);
 	const [description, setDescription] = useState(undefined);
 	const [open, setOpen] = React.useState(false);
-	const currentFolderPath = files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
+	const currentFolderPath = ''; //files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
 	const inputName = useRef();
 	const [loading, setLoading] = useState({
 		loadingPhotos: false,
@@ -202,13 +202,14 @@ function FileManagerApp(props) {
 				radioBtnValue == 'folder'
 					? {
 							name: title,
-							path: files.folders && !!files.folders.length ? path : ''
+							parent: files.folders && !!files.folders.length ? path.id : '',
+							is_public: false
 					  }
 					: {
 							[datakey]: fileType == 'image' ? await getCompressFile(file) : file,
 							title,
 							description,
-							additional_path: filePath ? filePath : ''
+							folder: filePath ? filePath.id : null
 					  };
 			for (let key in values) {
 				formData.append(key, values[key]);
@@ -457,14 +458,16 @@ function FileManagerApp(props) {
 										options={files.folders}
 										style={{ width: '100%' }}
 										className="mb-24"
-										getOptionLabel={option => option.path}
-										renderOption={(option, { selected }) => <>{option.path}</>}
+										getOptionLabel={option => option.name}
+										renderOption={(option, { selected }) => <>{option.name}</>}
 										renderInput={params => <TextField {...params} label={t('PATH')} />}
-										onInputChange={(e, value) => setPath(value)}
+										onChange={(e, value) => {
+											setPath(value);
+										}}
 										variant="outlined"
-										defaultValue={
-											files.folders && !!files.folders.length ? currentFolderPath?.[0] : ''
-										}
+										// defaultValue={
+										// 	files.folders && !!files.folders.length ? currentFolderPath?.[0] : ''
+										// }
 									/>
 								</div>
 							)}
@@ -478,7 +481,7 @@ function FileManagerApp(props) {
 									name="title"
 									id="title"
 									label={t('TITLE')}
-									className={title ? "mt-8 mb-16 w-full custom-label-up" : "mt-8 mb-16 w-full"}
+									className={title ? 'mt-8 mb-16 w-full custom-label-up' : 'mt-8 mb-16 w-full'}
 									value={title}
 									onChange={({ target: { value } }) => {
 										resetError();
@@ -527,12 +530,16 @@ function FileManagerApp(props) {
 										options={files.folders}
 										style={{ width: '100%' }}
 										className="mb-24"
-										getOptionLabel={option => option.path}
-										renderOption={(option, { selected }) => <>{option.path}</>}
+										getOptionLabel={option => option.name}
+										renderOption={(option, { selected }) => <>{option.name}</>}
 										renderInput={params => <TextField {...params} label={t('PATH')} />}
-										onInputChange={(e, value) => setFilePath(value)}
-										defaultValue={currentFolderPath?.[0]}
+										onChange={(e, value) => {
+											setFilePath(value);
+										}}
 										variant="outlined"
+										// defaultValue={
+										// 	files.folders && !!files.folders.length ? currentFolderPath?.[0] : ''
+										// }
 									/>
 								</div>
 							)}

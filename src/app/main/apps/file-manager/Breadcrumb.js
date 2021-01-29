@@ -17,9 +17,9 @@ function Breadcrumb({ className, selected }) {
 	};
 	return (
 		<Typography className={className}>
-			{selected.map((path, i) => {
-				let list = path.split('/');
-				const folderName = list[list.length - 1];
+			{selected.map(({ name }, i) => {
+				// let list = path.split('/');
+				// const folderName = list[list.length - 1];
 				return (
 					<span key={i} className="flex items-center">
 						{i == 0 ? (
@@ -28,7 +28,7 @@ function Breadcrumb({ className, selected }) {
 							</Button>
 						) : (
 							<Button className="font-bold underline" onClick={() => updatePath(i)}>
-								{folderName}
+								{name}
 							</Button>
 						)}
 						{selected.length - 1 !== i && <Icon>chevron_right</Icon>}

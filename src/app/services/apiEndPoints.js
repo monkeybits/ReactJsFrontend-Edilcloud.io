@@ -48,7 +48,7 @@ export const DOCUMENT_LIST = cid => `/api/frontend/profile/company/company_docum
 export const DOCUMENT_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/document_list/`;
 export const VIDEO_LIST = cid => `/api/frontend/profile/company/company_video_list/private/?companyId=${cid}`;
 export const VIDEO_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/video_list/`;
-export const FOLDER_LIST = cid => `/api/frontend/media/folder/company/${cid}/list/`;
+export const FOLDER_LIST = cid => `/api/frontend/media/folder/company/${cid}/list/?no_page=no_page`;
 export const FOLDER_LIST_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/list/`;
 export const DOWNLOAD_PHOTO = did => `/api/frontend/media/photo/download/${did}/`;
 export const DOWNLOAD_VIDEO = did => `/api/frontend/media/video/download/${did}/`;

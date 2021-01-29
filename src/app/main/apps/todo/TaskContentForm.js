@@ -349,7 +349,7 @@ function TaskContentForm(props) {
 	};
 	return (
 		<div className="flex-auto">
-			<div className="custom-tab-header flex justify-start relative">
+			<div className="custom-tab-header flex justify-center relative">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {

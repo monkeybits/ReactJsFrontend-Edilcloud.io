@@ -4,7 +4,7 @@ import { amber, blue, red } from '@material-ui/core/colors';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
@@ -141,6 +141,7 @@ const IOSSlider = withStyles({
 	}
 })(Slider);
 function TodoListItem(props) {
+	const theme = useTheme();
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoApp }) => todoApp.labels);
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
@@ -210,32 +211,35 @@ function TodoListItem(props) {
 			<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={props.todo.id}>
 				<Card
 					elevation={1}
-					className="flex flex-col h-256"
-					onClick={() =>
-						getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''
-					}
+					className="flex flex-col"
+					onClick={() => {
+						if (getRole() == 'o' || getRole() == 'd') {
+							dispatch(Actions.closeTimelineDialog());
+							dispatch(Actions.openTaskContent(props.todo));
+						}
+					}}
 				>
 					{/* card body */}
 					<div
 						className="flex flex-shrink-0 items-center justify-between px-24 h-64"
 						style={{
-							background: blue[500]
-							// color: theme.palette.getContrastText()
+							background: blue[500],
+							color: theme.palette.getContrastText(blue[500])
 						}}
 					>
 						<Typography className="font-medium truncate" color="inherit">
-							{props.todo.name}
+							{props.todo.assigned_company?.name}
 						</Typography>
-						<div className="flex items-center justify-center opacity-75">
-							{props.todo.assigned_company && (
-								<TodoChip
-									title={props.todo.assigned_company?.name}
-									color={props.todo.assigned_company?.color_project}
-								/>
-							)}
-						</div>
+
+						<Icon>notifications_active</Icon>
 					</div>
 					<CardContent className="flex flex-col flex-auto ">
+						<Typography
+							className="text-center text-16 font-400 items-center justify-center"
+							color="inherit"
+						>
+							{props.todo.name}
+						</Typography>
 						<Typography className="text-center text-16 font-400 items-center justify-center">
 							{projectDetail?.name}
 						</Typography>
@@ -310,6 +314,55 @@ function TodoListItem(props) {
 								</>
 							)}
 						</div>
+						{props.todo.assigned_company?.id == company.id && (
+							<div className="flex items-center justify-center mt-8">
+								<div>
+									{/* <Tooltip
+											title="There is a issue with some tree are not clean on site"
+											placement="top"
+										>
+											<IconButton
+												onClick={e => {
+													e.stopPropagation();
+													e.preventDefault();
+												}}
+											>
+												<Icon>info_outlined</Icon>
+											</IconButton>
+										</Tooltip> */}
+								</div>
+								{/* <div className="custom-outlined-btn"> */}
+								{/* <Button
+											variant="outlined"
+											color="primary"
+											className={classes.button}
+											startIcon={<PlaylistAddOutlinedIcon />}
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												if (props.todo.assigned_company) {
+													dispatch(Actions.openAddActivityTodoDialog(props.todo));
+												}
+											}}
+										>
+											Add
+										</Button> */}
+								<Button
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										if (props.todo.assigned_company) {
+											dispatch(Actions.openAddActivityTodoDialog(props.todo));
+										}
+									}}
+									variant="outlined"
+								>
+									<Icon>playlist_add</Icon>
+									Add
+								</Button>
+								{/* </div> */}
+							</div>
+						)}
 					</CardContent>
 					<Divider />
 					{/* <div className="flex flex-col justify-items-end"> */}
@@ -371,55 +424,6 @@ function TodoListItem(props) {
 									</div>
 								)}
 							</div>
-							{props.todo.assigned_company?.id == company.id && (
-								<div className="flex items-center mt-8">
-									<div>
-										{/* <Tooltip
-											title="There is a issue with some tree are not clean on site"
-											placement="top"
-										>
-											<IconButton
-												onClick={e => {
-													e.stopPropagation();
-													e.preventDefault();
-												}}
-											>
-												<Icon>info_outlined</Icon>
-											</IconButton>
-										</Tooltip> */}
-									</div>
-									<div className="custom-outlined-btn">
-										{/* <Button
-											variant="outlined"
-											color="primary"
-											className={classes.button}
-											startIcon={<PlaylistAddOutlinedIcon />}
-											onClick={ev => {
-												ev.preventDefault();
-												ev.stopPropagation();
-												if (props.todo.assigned_company) {
-													dispatch(Actions.openAddActivityTodoDialog(props.todo));
-												}
-											}}
-										>
-											Add
-										</Button> */}
-										{/* <IconButton
-											onClick={ev => {
-												ev.preventDefault();
-												ev.stopPropagation();
-												if (props.todo.assigned_company) {
-													dispatch(Actions.openAddActivityTodoDialog(props.todo));
-												}
-											}}
-										>
-											<Icon>playlist_add</Icon>
-											
-										</IconButton>
-										Add */}
-									</div>
-								</div>
-							)}
 						</div>
 					</CardActions>
 					<LinearProgress
