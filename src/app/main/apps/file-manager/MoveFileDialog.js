@@ -42,7 +42,7 @@ function MoveFileDialog() {
 	const moveFileDialog = useSelector(({ fileManagerApp }) => fileManagerApp.files.moveFileDialog);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files);
 	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
-	const currentFolderPath = files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
+	const currentFolderPath = ''//files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
 	const [title, setTitle] = useState(undefined);
 	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const [error, seterror] = useState({

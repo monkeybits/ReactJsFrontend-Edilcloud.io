@@ -158,11 +158,12 @@ const filesReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				isUploadingFiles: false,
-				folders: action.payload.sort((_a, _b) => {
-					let a = _a.path.replace('/', '');
-					let b = _b.path.replace('/', '');
-					return a > b ? 1 : a < b ? -1 : 0;
-				})
+				folders: action.payload
+				// .sort((_a, _b) => {
+				// 	let a = _a.path.replace('/', '');
+				// 	let b = _b.path.replace('/', '');
+				// 	return a > b ? 1 : a < b ? -1 : 0;
+				// })
 			};
 		case Actions.SET_SEARCH_TEXT: {
 			return {
