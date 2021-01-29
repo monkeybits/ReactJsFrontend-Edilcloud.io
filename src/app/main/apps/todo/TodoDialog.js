@@ -25,6 +25,7 @@ import moment from 'moment/moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
+import * as ProjectTodoActions from 'app/main/apps/notes/todo/store/actions';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
 import DatePicker from 'react-datepicker';
@@ -254,7 +255,7 @@ function TodoDialog(props) {
 	const getProjectCompanyTeamProfiles = value => {
 		console.log(routeParams.id, todoDialog.data.assigned_company.id, value);
 		apiCall(
-			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, todoDialog.data.assigned_company?.id, value),
+			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(todoDialog.data.project.id, todoDialog.data.assigned_company?.id, value),
 			{},
 			profiles => {
 				setProfiles(profiles);
@@ -536,7 +537,7 @@ function TodoDialog(props) {
 							onClick={() => {
 								setLoading(true);
 								dispatch(
-									Actions.addTodo(
+									ProjectTodoActions.addTodo(
 										{
 											...form,
 											id: todoDialog.data?.id,
@@ -545,7 +546,7 @@ function TodoDialog(props) {
 											progress,
 											...taskDate
 										},
-										routeParams.id,
+										todoDialog.data.project.id,
 										todoDialog.type,
 										closeTodoDialog,
 										todoDialog.data?.isGantt

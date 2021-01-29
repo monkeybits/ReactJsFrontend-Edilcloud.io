@@ -35,6 +35,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import Toolbar from '@material-ui/core/Toolbar';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -169,7 +170,7 @@ function QuickPanel(props) {
 			onClose={ev => dispatch(Actions.toggleQuickPanel())}
 		>
 			<FuseScrollbars>
-				<div className="flex justify-between items-center">
+				<Toolbar className="px-4 flex justify-between items-center">
 					{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
 					<Typography className="mx-16 text-16" color="inherit">
 						Alerted posts
@@ -179,19 +180,25 @@ function QuickPanel(props) {
 							<Icon>close</Icon>
 						</IconButton>
 					</div>
-				</div>
+				</Toolbar>
 				<div className={classesTabs.root}>
 					<AppBar position="static">
-						<Tabs fullWidth={true} value={value} onChange={handleChange} centered aria-label="simple tabs example">
+						<Tabs
+							fullWidth={true}
+							value={value}
+							onChange={handleChange}
+							centered
+							aria-label="simple tabs example"
+						>
 							<Tab label="Tasks" {...a11yProps(0)} />
 							<Tab label="Activities" {...a11yProps(1)} />
 						</Tabs>
 					</AppBar>
 					<TabPanel value={value} index={0}>
-						<PostList posts={listTask} showPrject  />
+						<PostList posts={listTask} showPrject />
 					</TabPanel>
 					<TabPanel value={value} index={1}>
-						<PostList posts={listActivity}  showPrject showTask />
+						<PostList posts={listActivity} showPrject showTask />
 					</TabPanel>
 				</div>
 			</FuseScrollbars>

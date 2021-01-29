@@ -20,6 +20,7 @@ import ShowUpload from './ShowUpload';
 import { Icon, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import AccessibilityToggleButton from 'app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton';
 import { useTranslation } from 'react-i18next';
+import FusePageSimple from '@fuse/core/FusePageSimple';
 /* 
 *This TodoApp is written for Dashboard
 TODO: Main action to get all tasks from all project is -> dispatch(Actions.getTodos(routeParams, false, handleSetLoading));
@@ -94,7 +95,7 @@ function TodoApp(props) {
 					<ShowUpload progress={upload.uploadPercentage} />
 				</div>
 			)}
-			<FusePageCarded
+			{/* <FusePageCarded
 				classes={{
 					root: 'w-full remove-box-shadow',
 					header: 'items-center min-h-72 h-72 sm:h-136 sm:min-h-136'
@@ -104,6 +105,42 @@ function TodoApp(props) {
 				content={<TodoList handleSetLoading={handleSetLoading} />}
 				leftSidebarHeader={<TodoSidebarHeader />}
 				leftSidebarContent={<TodoSidebarContent />}
+				ref={pageLayout}
+				innerScroll
+			/> */}
+			<div className="flex w-full">
+				<div className="flex w-full items-center justify-between p-20 border-b-1">
+					<div>
+						<div className="flex w-full items-center justify-between">
+							<Typography variant="h5">Dashboard</Typography>{' '}
+						</div>
+						<Typography variant="subtitle1" className="text-14 font-weight-600 ">
+							Tutti le fasi di lavoro da tutti i progetti
+						</Typography>
+					</div>
+					{/* <Button
+					onClick={() => props.onOpen(true)}
+					variant="contained"
+					color="primary"
+					className={'btn-primary normal-case m-0'}
+				>
+					{t('PROJECT_INFO')}
+				</Button> */}
+				</div>
+			</div>
+			<FusePageSimple
+				classes={{
+					contentWrapper: 'bg-azure h-full',
+					content: 'flex bg-azure flex-col h-full p-24 pb-80',
+					leftSidebar: 'mobile-h-full w-256 border-0',
+					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
+					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove',
+					wrapper: 'min-h-0 team-tab'
+				}}
+				header={<TodoHeader pageLayout={pageLayout} />}
+				content={<TodoList pageLayout={pageLayout} {...props} />}
+				leftSidebarContent={<TodoSidebarContent />}
+				sidebarInner
 				ref={pageLayout}
 				innerScroll
 			/>
