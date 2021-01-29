@@ -368,7 +368,7 @@ function TaskContentForm(props) {
 		// );
 	};
 	return (
-		<>
+		<div className="flex-auto">
 			<div className="custom-tab-header flex justify-start relative">
 				<BottomNavigation
 					value={value}
@@ -377,43 +377,39 @@ function TaskContentForm(props) {
 					}}
 					showLabels
 				>
-					<BottomNavigationAction
-						className="min-w-auto"
-						label="Contents"
-						wrapped
-						{...a11yProps(0)}
-					/>
-					<BottomNavigationAction
-						className="min-w-auto"
-						label="Drawings"
-						{...a11yProps(1)}
-					/>
+					<BottomNavigationAction className="min-w-auto" label="Contents" wrapped {...a11yProps(0)} />
+					<BottomNavigationAction className="min-w-auto" label="Drawings" {...a11yProps(1)} />
 					<BottomNavigationAction className="min-w-auto" label="Edit" {...a11yProps(2)} />
 				</BottomNavigation>
 				<div className="absolute right-m-12">
-					<IconButton onClick={ev => dispatch(Actions.closeTaskContent())}
-					edge="start"
-					color="inherit"
-					aria-label="close"
-					className="close-icon"
+					<IconButton
+						onClick={ev => dispatch(Actions.closeTaskContent())}
+						edge="start"
+						color="inherit"
+						aria-label="close"
+						className="close-icon"
 					>
 						<CloseIcon />
 					</IconButton>
 				</div>
 				{!!upload?.isUploading && (
-				<div className="linear-progress custom-color">
-					<ShowUpload progress={upload.uploadPercentage} label={t('PROCESSING_UPLOADING_POST')} />
-				</div>
+					<div className="linear-progress custom-color">
+						<ShowUpload progress={upload.uploadPercentage} label={t('PROCESSING_UPLOADING_POST')} />
+					</div>
 				)}
 			</div>
 			<div className="mt-24 mx-24 sm:mx-32 todo-bg-footer p-12 px-20 rounded">
 				{taskContentData?.project && (
 					<Typography variant="h6" color="inherit" className="font-size-18 font-weight-700">
-					<div>{t('PROJECT')}: {taskContentData?.project.name}</div>
+						<div>
+							{t('PROJECT')}: {taskContentData?.project.name}
+						</div>
 					</Typography>
 				)}
 				<div className="flex items-center font-size-12">
-					<div className="my-4">{t('TASK')}: {taskContentData?.name}</div>
+					<div className="my-4">
+						{t('TASK')}: {taskContentData?.name}
+					</div>
 					<span className="mx-12">{' > '}</span>
 					<div>Title</div>
 				</div>
@@ -731,9 +727,7 @@ function TaskContentForm(props) {
 					))}
 				</TabPanel> */}
 			</DialogContent>
-
-			
-		</>
+		</div>
 	);
 }
 

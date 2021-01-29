@@ -212,9 +212,12 @@ function TodoListItem(props) {
 				<Card
 					elevation={1}
 					className="flex flex-col"
-					onClick={() =>
-						getRole() == 'o' || getRole() == 'd' ? dispatch(Actions.openTaskContent(props.todo)) : ''
-					}
+					onClick={() => {
+						if (getRole() == 'o' || getRole() == 'd') {
+							dispatch(Actions.closeTimelineDialog());
+							dispatch(Actions.openTaskContent(props.todo));
+						}
+					}}
 				>
 					{/* card body */}
 					<div

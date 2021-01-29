@@ -291,6 +291,7 @@ function TodoActivityListItem(props) {
 				style={{ borderLeft: '0px solid', borderLeftColor: props.task.assigned_company?.color_project }}
 				onClick={ev => {
 					ev.preventDefault();
+					dispatch(Actions.closeTaskContent());
 					dispatch(Actions.openTimelineDialog({ todo: props.todo, task: props.task }));
 					// getDetailOfTask();
 				}}

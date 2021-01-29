@@ -89,9 +89,9 @@ function ProjectDetails(props) {
 				innerScroll
 			/>
 			<ProjectInfo openDialog={openDialog} closeDialog={() => setOpenDialog(false)} />
-			<CreatePostDialog />
+			{/* <CreatePostDialog /> */}
 			<TodoDialog />
-			<TaskContentDialog />
+			{/* <TaskContentDialog /> */}
 		</>
 	);
 }
