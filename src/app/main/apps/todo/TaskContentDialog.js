@@ -25,6 +25,7 @@ function TaskContentDialog(props) {
 	return (
 		<Dialog
 			classes={{
+				root:'md:hidden',
 				paper: clsx(classes.paper, 'custom-modal-new timeline-modal content-modal')
 			}}
 			onClose={ev => dispatch(Actions.closeTaskContent())}

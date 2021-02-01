@@ -141,12 +141,13 @@ function TodoApp(props) {
 				content={<TodoList pageLayout={pageLayout} {...props} />}
 				leftSidebarContent={<TodoSidebarContent />}
 				sidebarInner
+				leftSidebarVariant
 				ref={pageLayout}
 				innerScroll
 			/>
 			<TodoDialog />
-			{/* <CreatePostDialog /> */}
-			{/* <TaskContentDialog /> */}
+			<CreatePostDialog />
+			<TaskContentDialog />
 			<AccessibilityToggleButton />
 		</>
 	);

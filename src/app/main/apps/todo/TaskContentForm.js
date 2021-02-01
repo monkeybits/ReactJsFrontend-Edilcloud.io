@@ -348,8 +348,8 @@ function TaskContentForm(props) {
 		// );
 	};
 	return (
-		<div className="flex-auto">
-			<div className="custom-tab-header flex justify-center relative">
+		<div className="flex-auto custom-task-content">
+			<div className="custom-tab-header flex relative">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {
