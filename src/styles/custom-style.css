@@ -768,6 +768,10 @@ textarea.MuiOutlinedInput-input {
     background-color: #ffffff;
     border: 1px solid #D8D9DB;
 }
+
+.bg-white{
+    background-color: white;
+}
 .chat-bg {
     background-image: none;
     background: #ffffff;
