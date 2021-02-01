@@ -132,6 +132,12 @@ function FileGrid(props) {
 		// 	setCurrentFiles(tempFiles);
 		// 	dispatch(Actions.setAllFiles([...modifyfolders, ...tempFiles]));
 		// }
+		if (Array.isArray(files)) {
+			let tempFiles = files.filter(d => d.folder == currentFolderPath.id);
+			setCurrentFiles(tempFiles);
+		} else {
+			setCurrentFiles([]);
+		}
 	};
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);

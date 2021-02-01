@@ -26,7 +26,7 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
-	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
+	const selectedItem = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [isOpenViewFile, setIsOpenViewFile] = useState(false);
 

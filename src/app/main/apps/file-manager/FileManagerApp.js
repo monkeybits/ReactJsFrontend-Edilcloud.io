@@ -96,13 +96,14 @@ function FileManagerApp(props) {
 	//filesfolderPath
 	const { t } = useTranslation('filemanager');
 	const dispatch = useDispatch();
+	const allFolderPaths = useSelector(({ fileManagerApp }) => fileManagerApp.files.allFolderPaths);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files);
 	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
 	const isUploadingFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files.isUploadingFiles);
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
-	const selectedItem = useSelector(({ fileManagerApp }) => allFiles[fileManagerApp.selectedItemId]);
+	const selectedItem = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const pageLayout = useRef(null);
 	const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
@@ -154,6 +155,10 @@ function FileManagerApp(props) {
 			props.history.push('/apps/todo/all');
 		}
 	}, [dispatch]);
+	useEffect(() => {
+		setFilePath(folderPath[folderPath.length - 1]);
+		setPath(folderPath[folderPath.length - 1]);
+	}, [folderPath, isOpenDrawer]);
 	const addFile = event => {
 		resetError();
 		var files = event.target.files;
@@ -228,17 +233,23 @@ function FileManagerApp(props) {
 				res => {
 					const userInfo = decodeDataFromToken();
 					const cid = userInfo.extra?.profile?.company;
-					if (radioBtnValue == 'folder') {
-						dispatch(Actions.getFolders(cid, handleSetLoading));
+					// if (radioBtnValue == 'folder') {
+					console.log({ folderPath11: folderPath });
+					if (folderPath.length > 1) {
+						dispatch(Actions.folderDetail(cid, handleSetLoading));
 					} else {
-						if (fileType == 'image') {
-							dispatch(Actions.getPhotos(cid, handleSetLoading));
-						} else if (fileType == 'video') {
-							dispatch(Actions.getVideos(cid, handleSetLoading));
-						} else {
-							dispatch(Actions.getDocuments(cid, handleSetLoading));
-						}
+						dispatch(Actions.getFolders(cid, handleSetLoading));
 					}
+					// } else {
+					// 	if (fileType == 'image') {
+					// 		dispatch(Actions.getPhotos(cid, handleSetLoading));
+					// 	} else if (fileType == 'video') {
+					// 		dispatch(Actions.getVideos(cid, handleSetLoading));
+					// 	} else {
+					// 		dispatch(Actions.getDocuments(cid, handleSetLoading));
+					// 	}
+					// }
+					dispatch(Actions.onUploadHandleLoading(false));
 				},
 				err => {
 					seterror({
@@ -452,22 +463,20 @@ function FileManagerApp(props) {
 									variant="outlined"
 								/>
 							</div>
-							{files.folders && !!files.folders.length && (
+							{allFolderPaths && !!allFolderPaths.length && (
 								<div>
 									<Autocomplete
-										options={files.folders}
+										options={allFolderPaths}
 										style={{ width: '100%' }}
 										className="mb-24"
-										getOptionLabel={option => option.name}
-										renderOption={(option, { selected }) => <>{option.name}</>}
+										getOptionLabel={option => option.path}
+										renderOption={(option, { selected }) => <>{option.path}</>}
 										renderInput={params => <TextField {...params} label={t('PATH')} />}
 										onChange={(e, value) => {
 											setPath(value);
 										}}
 										variant="outlined"
-										// defaultValue={
-										// 	files.folders && !!files.folders.length ? currentFolderPath?.[0] : ''
-										// }
+										defaultValue={path}
 									/>
 								</div>
 							)}
@@ -524,22 +533,20 @@ function FileManagerApp(props) {
 									helperText={error.fileError}
 								/>
 							</div>
-							{files.folders && !!files.folders.length && (
+							{allFolderPaths && !!allFolderPaths.length && (
 								<div>
 									<Autocomplete
-										options={files.folders}
+										options={allFolderPaths}
 										style={{ width: '100%' }}
 										className="mb-24"
-										getOptionLabel={option => option.name}
-										renderOption={(option, { selected }) => <>{option.name}</>}
+										getOptionLabel={option => option.path}
+										renderOption={(option, { selected }) => <>{option.path}</>}
 										renderInput={params => <TextField {...params} label={t('PATH')} />}
 										onChange={(e, value) => {
 											setFilePath(value);
 										}}
 										variant="outlined"
-										// defaultValue={
-										// 	files.folders && !!files.folders.length ? currentFolderPath?.[0] : ''
-										// }
+										defaultValue={filePath}
 									/>
 								</div>
 							)}
