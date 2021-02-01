@@ -208,10 +208,10 @@ function TodoListItem(props) {
 
 	return (
 		<div className="flex">
-			<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={props.todo.id}>
+			<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 mr-28 cursor-pointer" key={props.todo.id}>
 				<Card
 					elevation={1}
-					className="flex flex-col"
+					className="flex flex-col overflow-inherit"
 					onClick={() => {
 						if (getRole() == 'o' || getRole() == 'd') {
 							dispatch(Actions.closeTimelineDialog());

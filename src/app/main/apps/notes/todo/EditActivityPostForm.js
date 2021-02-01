@@ -209,7 +209,7 @@ function EditActivityPostForm(props) {
 	};
 	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
 	return (
-		<div className="flex-auto">
+		<div className="flex-auto custom-task-content">
 			<div className="custom-tab-header flex justify-start relative">
 				<BottomNavigation
 					value={value}

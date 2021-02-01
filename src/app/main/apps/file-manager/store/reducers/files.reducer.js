@@ -2,6 +2,7 @@ import _ from '@lodash';
 import * as Actions from '../actions';
 
 const initialState = () => ({
+	allFolderPaths: [],
 	allFiles: [],
 	photos: [],
 	videos: [],
@@ -120,6 +121,18 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) =>
 		};
 	}
 };
+const getnestedFilesById = (folders, id) => {
+	console.log({ folders, id });
+	if (Array.isArray(folders)) {
+		if (folders.find(x => x.id === id)) {
+			return folders;
+		} else {
+			for (let i = 0; i < folders.length; i++) {
+				getnestedFilesById(folders[i].folders, id);
+			}
+		}
+	}
+};
 const filesReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_ALL_FILES:
@@ -154,16 +167,18 @@ const filesReducer = (state = initialState(), action) => {
 					sortByProperty(mergeArray(state.files, addTypeInArray(action.payload.results, 'document')), 'title')
 				)
 			};
+		case Actions.GET_FOLDERS_PATHS:
+			return {
+				...state,
+				isUploadingFiles: false,
+				allFolderPaths: action.payload
+			};
 		case Actions.GET_FOLDERS:
 			return {
 				...state,
 				isUploadingFiles: false,
-				folders: action.payload
-				// .sort((_a, _b) => {
-				// 	let a = _a.path.replace('/', '');
-				// 	let b = _b.path.replace('/', '');
-				// 	return a > b ? 1 : a < b ? -1 : 0;
-				// })
+				folders: action.payload,
+				rootFolders: action.payload
 			};
 		case Actions.SET_SEARCH_TEXT: {
 			return {
@@ -172,14 +187,77 @@ const filesReducer = (state = initialState(), action) => {
 			};
 		}
 		case Actions.SET_FOLDER_PATH:
+			console.log(action.payload);
 			return {
 				...state,
-				folderPath: [...state.folderPath, action.payload]
+				folderPath: [...state.folderPath, action.payload],
+				folders: action.payload.folders,
+				photos: action.payload.media.photo,
+				files: chnageIds(
+					sortByProperty(
+						mergeArray(state.files, addTypeInArray(action.payload.media.photo, 'photo')),
+						'title'
+					)
+				),
+				files: chnageIds(
+					sortByProperty(
+						mergeArray(state.files, addTypeInArray(action.payload.media.video, 'video')),
+						'title'
+					)
+				),
+				files: chnageIds(
+					sortByProperty(
+						mergeArray(state.files, addTypeInArray(action.payload.media.document, 'document')),
+						'title'
+					)
+				)
 			};
+		case Actions.UPDATE_SPECIFIC_FOLDERS:
+			console.log(action.payload);
+			return action.payload.media
+				? {
+						...state,
+						folders: action.payload.folders,
+						files: []
+				  }
+				: {
+						...state,
+						folders: action.payload.folders,
+						files: chnageIds(
+							sortByProperty(
+								mergeArray(state.files, addTypeInArray(action.payload.media.photo, 'photo')),
+								'title'
+							)
+						),
+						files: chnageIds(
+							sortByProperty(
+								mergeArray(state.files, addTypeInArray(action.payload.media.video, 'video')),
+								'title'
+							)
+						),
+						files: chnageIds(
+							sortByProperty(
+								mergeArray(state.files, addTypeInArray(action.payload.media.document, 'document')),
+								'title'
+							)
+						)
+				  };
 		case Actions.UPDATE_FOLDER_PATH:
+			console.log(action.payload);
+			const pathData = action.payload[action.payload.length - 1];
 			return {
 				...state,
-				folderPath: [...action.payload]
+				folderPath: [...action.payload],
+				photos: pathData?.media ? pathData.media.photo : [], //pathData.media.photo,
+				files: pathData?.media
+					? chnageIds(
+							sortByProperty(
+								mergeArray(state.files, addTypeInArray(pathData.media.photo, 'photo')),
+								'title'
+							)
+					  )
+					: [], //pathData.media.photo,
+				folders: pathData?.folders ? pathData.folders : state.rootFolders
 			};
 		case Actions.POP_FOLDER_PATH:
 			let folderPath = state.folderPath;

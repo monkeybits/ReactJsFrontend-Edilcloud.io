@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { PHOTO_LIST, VIDEO_LIST, FOLDER_LIST, DOCUMENT_LIST } from 'app/services/apiEndPoints';
+import {
+	PHOTO_LIST,
+	VIDEO_LIST,
+	FOLDER_LIST,
+	DOCUMENT_LIST,
+	FOLDER_STRUCTURE_LIST,
+	GET_FOLDERS_DETAIL
+} from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 
 export const GET_ALL_FILES = '[FILE MANAGER APP] GET ALL FILES';
@@ -9,6 +16,8 @@ export const GET_PHOTOS = '[FILE MANAGER APP] GET PHOTOS';
 export const GET_VIDEOS = '[FILE MANAGER APP] GET VIDEOS';
 export const GET_DOCUMENTS = '[FILE MANAGER APP] GET DOCUMENTS';
 export const GET_FOLDERS = '[FILE MANAGER APP] GET FOLDERS';
+export const GET_FOLDERS_PATHS = '[FILE MANAGER APP] GET FOLDERS PATHS';
+export const UPDATE_SPECIFIC_FOLDERS = '[FILE MANAGER APP] UPDATE SPECIFIC FOLDER';
 export const SET_SEARCH_TEXT = '[FILE MANAGER APP] SET SEARCH TEXT';
 export const HANDLE_UPLOAD_LOADING = '[FILE MANAGER APP] HANDLE UPLOAD LOADING';
 export const RESET_FILES = '[FILE MANAGER APP] RESET FILES';
@@ -40,41 +49,42 @@ export function closeMoveFileDialog() {
 }
 export function getFiles(cid, handleSetLoading = () => '') {
 	return (dispatch, getState) => {
-		dispatch(getPhotos(cid, handleSetLoading));
-		dispatch(getVideos(cid, handleSetLoading));
-		dispatch(getDocuments(cid, handleSetLoading));
+		// dispatch(getPhotos(cid, handleSetLoading));
+		// dispatch(getVideos(cid, handleSetLoading));
+		// dispatch(getDocuments(cid, handleSetLoading));
 		dispatch(getFolders(cid, handleSetLoading));
+		dispatch(foldersPaths(cid, handleSetLoading));
 	};
 }
-export function getPhotos(cid, handleSetLoading= () => '') {
+export function getPhotos(cid, handleSetLoading = () => '', photos) {
 	handleSetLoading({
 		loadingPhotos: true
 	});
 	return (dispatch, getState) => {
-		apiCall(
-			PHOTO_LIST(cid),
-			{},
-			photos => {
-				handleSetLoading({
-					loadingPhotos: false
-				});
-				dispatch({
-					type: GET_PHOTOS,
-					payload: photos
-				});
-			},
-			err => {
-				handleSetLoading({
-					loadingPhotos: false
-				});
-				console.log(err);
-			},
-			METHOD.GET,
-			getHeaderToken()
-		);
+		// apiCall(
+		// 	PHOTO_LIST(cid),
+		// 	{},
+		// 	photos => {
+		// 		handleSetLoading({
+		// 			loadingPhotos: false
+		// 		});
+		dispatch({
+			type: GET_PHOTOS,
+			payload: photos
+		});
+		// },
+		// err => {
+		// 	handleSetLoading({
+		// 		loadingPhotos: false
+		// 	});
+		// 	console.log(err);
+		// },
+		// METHOD.GET,
+		// getHeaderToken()
+		// );
 	};
 }
-export function getVideos(cid, handleSetLoading= () => '') {
+export function getVideos(cid, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingVideos: true
 	});
@@ -102,7 +112,7 @@ export function getVideos(cid, handleSetLoading= () => '') {
 		);
 	};
 }
-export function getDocuments(cid, handleSetLoading= () => '') {
+export function getDocuments(cid, handleSetLoading = () => '') {
 	return (dispatch, getState) => {
 		handleSetLoading({
 			loadingDocuments: true
@@ -130,7 +140,7 @@ export function getDocuments(cid, handleSetLoading= () => '') {
 		);
 	};
 }
-export function getFolders(cid, handleSetLoading= () => '') {
+export function getFolders(cid, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingFolders: true
 	});
@@ -144,6 +154,69 @@ export function getFolders(cid, handleSetLoading= () => '') {
 				});
 				dispatch({
 					type: GET_FOLDERS,
+					payload: folders
+				});
+			},
+			err => {
+				handleSetLoading({
+					loadingFolders: false
+				});
+				console.log(err);
+			},
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+}
+export function folderDetail(cid, handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingFolders: true
+	});
+	return (dispatch, getState) => {
+		const folderPath = getState().fileManagerApp.files.folderPath;
+		let pathdata = folderPath[folderPath.length - 1];
+		if (pathdata) {
+			apiCall(
+				GET_FOLDERS_DETAIL(pathdata.id),
+				{},
+				folders => {
+					console.log('GET_FOLDERS_DETAIL', folders);
+					handleSetLoading({
+						loadingFolders: false
+					});
+					console.log(folders);
+					dispatch({
+						type: UPDATE_SPECIFIC_FOLDERS,
+						payload: folders
+					});
+				},
+				err => {
+					handleSetLoading({
+						loadingFolders: false
+					});
+					console.log(err);
+				},
+				METHOD.GET,
+				getHeaderToken()
+			);
+		}
+	};
+}
+export function foldersPaths(cid, handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingFolders: true
+	});
+	return (dispatch, getState) => {
+		apiCall(
+			FOLDER_STRUCTURE_LIST(cid),
+			{},
+			folders => {
+				console.log(folders);
+				handleSetLoading({
+					loadingFolders: false
+				});
+				dispatch({
+					type: GET_FOLDERS_PATHS,
 					payload: folders
 				});
 			},
@@ -197,9 +270,9 @@ export function deleteFile(id, fileType, deleteId, selectedItem) {
 		// } else if (fileType == 'document') {
 		// 	dispatch(getDocuments(cid));
 		// }
-		dispatch({
-			type: DELETE_FILE,
-			payload: { id, fileType, deleteId, selectedItem }
-		});
+		// dispatch({
+		// 	type: DELETE_FILE,
+		// 	payload: { id, fileType, deleteId, selectedItem }
+		// });
 	};
 }

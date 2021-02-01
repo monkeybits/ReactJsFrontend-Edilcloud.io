@@ -17,7 +17,7 @@ function Breadcrumb({ className, selected }) {
 	};
 	return (
 		<Typography className={className}>
-			{selected.map(({ name }, i) => {
+			{selected.map(({ name = '' }, i) => {
 				// let list = path.split('/');
 				// const folderName = list[list.length - 1];
 				return (

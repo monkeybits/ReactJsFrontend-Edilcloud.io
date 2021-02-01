@@ -77,14 +77,14 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const handleOpenData = (ev, tile) => {
-		ev.preventDefault();
-		ev.stopPropagation();
+		// ev.preventDefault();
+		// ev.stopPropagation();
 		pageLayout.current.toggleRightSidebar();
-		const findIndex = [...allFiles].findIndex(
-			element => element.mainId == tile.mainId && element.type == tile.type
-		);
-		let fileData = allFiles[findIndex];
-		dispatch(Actions.setSelectedItem(fileData.id));
+		// const findIndex = [...allFiles].findIndex(
+		// 	element => element.mainId == tile.mainId && element.type == tile.type
+		// );
+		// let fileData = allFiles[findIndex];
+		dispatch(Actions.setSelectedItem(tile));
 	};
 	const options = [
 		{

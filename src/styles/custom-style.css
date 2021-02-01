@@ -144,7 +144,9 @@ a.text-muted:hover {
     color: #1E2129;
     font-weight: 700;
 }
-
+.overflow-inherit {
+    overflow: inherit;
+}
 /* ********************************************************************************************
     Button
 *********************************************************************************************** */
@@ -1522,10 +1524,11 @@ audio {
     z-index: 1;
 }   
 .custom-ios-slider-dropdown.page-dashboard {
-    left: -260px;
+    left: -50px;
     padding: 12px;
     width: 250px;
     z-index: 1;
+    top: 40px;
 }   
 .custom-member-menu {
     background-color: #ffffff;

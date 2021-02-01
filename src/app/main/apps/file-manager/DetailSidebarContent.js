@@ -74,9 +74,7 @@ const useStyles = makeStyles({
 function DetailSidebarContent({ setProgress }) {
 	const { t } = useTranslation('filemanager');
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
-	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
-	console.log('______________________________');
-	console.log(selectedItem);
+	const selectedItem = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
@@ -186,11 +184,15 @@ function DetailSidebarContent({ setProgress }) {
 			url,
 			{},
 			res => {
-				if (fileType == 'folder') {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
-				} else {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
-				}
+				const userInfo = decodeDataFromToken();
+				const cid = userInfo.extra?.profile?.company;
+				dispatch(Actions.getFolders(cid));
+
+				// if (fileType == 'folder') {
+				// 	dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
+				// } else {
+				// 	dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
+				// }
 				colseDeleteFileDialog();
 			},
 			err => console.log(err),

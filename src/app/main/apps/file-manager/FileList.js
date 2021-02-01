@@ -151,25 +151,25 @@ function FileList(props) {
 			: {};
 
 	const setAllFilesInit = () => {
-		let modifyfolders = folders?.filter(
-			f =>
-				f.path.includes(currentFolderPath) &&
-				f.path.split('/').length <= folderPath.length &&
-				!folderPath.includes(f.path)
-		);
-		if (modifyfolders) {
-			modifyfolders = modifyfolders.map(item => {
-				let title = item.path.split('/');
-				title = title[title.length - 1];
-				return { ...item, title, type: 'folder' };
-			});
-			dispatch(
-				Actions.setAllFiles([
-					...modifyfolders,
-					...files.filter(f => f.folder_relative_path == currentFolderPath)
-				])
-			);
-		}
+		// let modifyfolders = folders?.filter(
+		// 	f =>
+		// 		f.path.includes(currentFolderPath) &&
+		// 		f.path.split('/').length <= folderPath.length &&
+		// 		!folderPath.includes(f.path)
+		// );
+		// if (modifyfolders) {
+		// 	modifyfolders = modifyfolders.map(item => {
+		// 		let title = item.path.split('/');
+		// 		title = title[title.length - 1];
+		// 		return { ...item, title, type: 'folder' };
+		// 	});
+		// 	dispatch(
+		// 		Actions.setAllFiles([
+		// 			...modifyfolders,
+		// 			...files.filter(f => f.folder_relative_path == currentFolderPath)
+		// 		])
+		// 	);
+		// }
 	};
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -203,25 +203,25 @@ function FileList(props) {
 		}
 	}, [searchText]);
 	useEffect(() => {
-		let modifyfolders = folders?.filter(
-			f =>
-				f.path.includes(currentFolderPath) &&
-				f.path.split('/').length <= folderPath.length &&
-				!folderPath.includes(f.path)
-		);
-		if (modifyfolders) {
-			modifyfolders = modifyfolders.map(item => {
-				let title = item.path.split('/');
-				title = title[title.length - 1];
-				return { ...item, title, type: 'folder' };
-			});
-			dispatch(
-				Actions.setAllFiles([
-					...modifyfolders,
-					...files.filter(f => f.folder_relative_path == currentFolderPath)
-				])
-			);
-		}
+		// let modifyfolders = folders?.filter(
+		// 	f =>
+		// 		f.path.includes(currentFolderPath) &&
+		// 		f.path.split('/').length <= folderPath.length &&
+		// 		!folderPath.includes(f.path)
+		// );
+		// if (modifyfolders) {
+		// 	modifyfolders = modifyfolders.map(item => {
+		// 		let title = item.path.split('/');
+		// 		title = title[title.length - 1];
+		// 		return { ...item, title, type: 'folder' };
+		// 	});
+		// 	dispatch(
+		// 		Actions.setAllFiles([
+		// 			...modifyfolders,
+		// 			...files.filter(f => f.folder_relative_path == currentFolderPath)
+		// 		])
+		// 	);
+		// }
 	}, [currentFolderPath]);
 	const handleDelete = tile => {
 		let findIndex = 0;
