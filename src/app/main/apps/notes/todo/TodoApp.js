@@ -298,6 +298,7 @@ function TodoApp(props) {
 				// header={<TodoHeader pageLayout={pageLayout} />}
 				content={<TodoList pageLayout={pageLayout} {...props} />}
 				leftSidebarContent={<TodoSidebarContent />}
+				leftSidebarVariant
 				sidebarInner
 				ref={pageLayout}
 				innerScroll
@@ -311,9 +312,9 @@ function TodoApp(props) {
 				/>
 			)}
 			<ImportExcelDialog {...{ open, setOpen, target, setTarget }} onImport={() => importExcel(undefined)} />
-			{/* <CreatePostDialog />
+			<CreatePostDialog />
 			<TodoDialog />
-			<TaskContentDialog /> */}
+			<TaskContentDialog />
 		</>
 	);
 }

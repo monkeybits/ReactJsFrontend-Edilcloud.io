@@ -368,8 +368,8 @@ function TaskContentForm(props) {
 		// );
 	};
 	return (
-		<div className="flex-auto">
-			<div className="custom-tab-header flex justify-start relative">
+		<div className="w-full custom-task-content">
+			<div className="custom-tab-header flex relative">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {
@@ -415,7 +415,7 @@ function TaskContentForm(props) {
 				</div>
 			</div>
 			<DialogContent id="dialog-content" className="p-0">
-				<TabPanel value={value} index={0} class="write-post-img-full">
+				<TabPanel value={value} index={0} class="write-post-img-full custom-create-post-padding">
 					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
 				</TabPanel>
 				<TabPanel value={value} index={1}>

@@ -215,7 +215,7 @@ function EditActivityPostForm(props) {
 	};
 	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
 	return (
-		<div className="flex-auto custom-task-content">
+		<div className="w-full custom-task-content">
 			<div className="custom-tab-header flex justify-start relative">
 				<BottomNavigation
 					value={value}
@@ -255,7 +255,7 @@ function EditActivityPostForm(props) {
 					<div>{todoDialog.data?.todo?.title}</div>
 				</div>
 			</div>
-			<DialogContent id="dialog-content" classes={{ root: 'p-0' }}>
+			<DialogContent id="dialog-content" classes={{ root: 'p-0 web-pad' }}>
 				<TabPanel value={value} index={0}>
 					<CreatePostForm />
 				</TabPanel>

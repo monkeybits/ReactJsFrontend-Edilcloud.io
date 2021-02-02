@@ -15,6 +15,8 @@ import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import * as Actions from './store/actions';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import EditActivityPostForm from './EditActivityPostForm';
+import TaskContentForm from './Dialog/TaskContentForm';
 
 function TodoList(props) {
 	const dispatch = useDispatch();
@@ -33,6 +35,9 @@ function TodoList(props) {
 	const canSelectMultiple = ['companyFilter', 'peopleFilter'];
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const scrollRef = useRef(null);
+	const [todoId, setTodoId] = useState(null);
+	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
+	const taskContentDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
 
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
@@ -343,19 +348,17 @@ function TodoList(props) {
 			}}
 		>
 			<div>
-				<div className="flex flex-1">
+				<div className="flex flex-1 mb-20">
 					<Paper
 						className="flex items-center w-full h-48 sm:h-56 grey-border p-16 ltr:pl-4 lg:ltr:pl-16 rtl:pr-4 lg:rtl:pr-16 rounded-8"
 						elevation={1}
 					>
-						<Hidden lgUp>
-							<IconButton
-								onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
-								aria-label="open left sidebar"
-							>
-								<Icon>filter_list</Icon>
-							</IconButton>
-						</Hidden>
+						<IconButton
+							onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
+							aria-label="open left sidebar"
+						>
+							<Icon>filter_list</Icon>
+						</IconButton>
 
 						<Icon color="action">search</Icon>
 
@@ -392,9 +395,28 @@ function TodoList(props) {
 						</div>
 					</FuseAnimate>
 				) : (
-					filteredData.map((todo, index) => (
-						<TodoListItem {...props} todo={todo} key={todo.id} index={index} companies={companies} />
-					))
+					<div className="flex">
+						<div className="sidebar-ht">
+							<div className="pb-24 md:mr-28 cursor-pointer">
+								{filteredData.map((todo, index) => (
+									<TodoListItem
+										setTodoId={setTodoId}
+										{...props}
+										todo={todo}
+										key={todo.id}
+										index={index}
+										companies={companies}
+									/>
+								))}
+							</div>
+						</div>
+						<div className="content-ht hidden md:block flex-fill">
+							{taskContentDialog.props.open && todoId == taskContentDialog.data.id && <TaskContentForm />}
+							{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
+								<EditActivityPostForm />
+							)}
+						</div>
+					</div>
 				)}
 			</div>
 		</FuseAnimateGroup>
