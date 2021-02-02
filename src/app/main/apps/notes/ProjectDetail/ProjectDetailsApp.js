@@ -20,7 +20,7 @@ import * as notificationActions from 'app/fuse-layouts/shared-components/notific
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();
-	const [value, setValue] = React.useState(0);
+	const [value, setValue] = React.useState(2);
 	const [openDialog, setOpenDialog] = React.useState(false);
 	const pageLayout = useRef(null);
 	const params = useParams();
@@ -67,7 +67,7 @@ function ProjectDetails(props) {
 			} else if (tab == 'gantt') {
 				setValue(4);
 			} else {
-				setValue(0);
+				setValue(2);
 			}
 		}
 	}, [dispatch, params.id]);

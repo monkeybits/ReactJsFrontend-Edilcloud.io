@@ -285,7 +285,7 @@ function TodoActivityListItem(props) {
 					ev.preventDefault();
 					dispatch(Actions.closeTaskContent());
 					dispatch(Actions.openTimelineDialog({ todo: props.todo, task: props.task }));
-					// getDetailOfTask();
+					props.setTodoId(props.task.id); // getDetailOfTask();
 				}}
 				dense
 				button

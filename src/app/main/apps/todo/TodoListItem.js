@@ -207,27 +207,28 @@ function TodoListItem(props) {
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
 
 	return (
-		<div className="flex">
-			<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 mr-28 cursor-pointer" key={props.todo.id}>
+		<div className="mb-20">
+			
 				<Card
 					elevation={1}
-					className="flex flex-col overflow-inherit"
+					className="flex flex-col overflow-inherit mb-20"
 					onClick={() => {
 						if (getRole() == 'o' || getRole() == 'd') {
 							dispatch(Actions.closeTimelineDialog());
 							dispatch(Actions.openTaskContent(props.todo));
+							props.setTodoId(props.todo.id)
 						}
 					}}
 				>
 					{/* card body */}
 					<div
-						className="flex flex-shrink-0 items-center justify-between px-24 h-64"
+						className="flex flex-shrink-0 items-center justify-between px-24 h-64 rounded-t"
 						style={{
 							background: blue[500],
 							color: theme.palette.getContrastText(blue[500])
 						}}
 					>
-						<Typography className="font-medium truncate" color="inherit">
+						<Typography className="font-medium truncate ht-auto" color="inherit">
 							{props.todo.assigned_company?.name}
 						</Typography>
 
@@ -235,12 +236,12 @@ function TodoListItem(props) {
 					</div>
 					<CardContent className="flex flex-col flex-auto ">
 						<Typography
-							className="text-center text-16 font-400 items-center justify-center"
+							className="text-center text-16 font-400 items-center justify-center ht-auto"
 							color="inherit"
 						>
 							{props.todo.name}
 						</Typography>
-						<Typography className="text-center text-16 font-400 items-center justify-center">
+						<Typography className="text-center text-16 font-400 items-center justify-center ht-auto">
 							{projectDetail?.name}
 						</Typography>
 						<div className="flex items-center flex-wrap items-center justify-center my-12">
@@ -504,6 +505,7 @@ function TodoListItem(props) {
 								[orderDescending ? 'desc' : 'asc']
 							).map(todo => (
 								<TodoActivityListItem
+								setTodoId={props.setTodoId}
 									getDetailOfTask={getDetailOfTask}
 									task={props.todo}
 									todo={todo}
@@ -513,11 +515,8 @@ function TodoListItem(props) {
 					</FuseAnimateGroup>
 				</List>
 				{/* </Collapse> */}
-			</div>
-			{taskContentDialog.props.open && props.todo.id == taskContentDialog.data.id && <TaskContentForm />}
-			{todoDialog.props.openTimelineDialog && props.todo.id == todoDialog.data.task.id && (
-				<EditActivityPostForm />
-			)}
+		
+			
 		</div>
 	);
 }

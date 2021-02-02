@@ -293,6 +293,7 @@ function TodoActivityListItem(props) {
 					ev.preventDefault();
 					dispatch(Actions.closeTaskContent());
 					dispatch(Actions.openTimelineDialog({ todo: props.todo, task: props.task }));
+					props.	setTodoId(props.task.id)
 					// getDetailOfTask();
 				}}
 				dense

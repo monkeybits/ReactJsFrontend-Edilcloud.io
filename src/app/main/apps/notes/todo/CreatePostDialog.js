@@ -15,6 +15,9 @@ function CreatePostDialog() {
 
 	return (
 		<Dialog
+			classes={{
+				root:'md:hidden',
+			}}
 			open={todoDialog.props.openTimelineDialog}
 			onClose={closeTodoDialog}
 			fullWidth
