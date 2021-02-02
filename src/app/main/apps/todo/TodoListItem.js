@@ -208,7 +208,7 @@ function TodoListItem(props) {
 
 	return (
 		<div className="flex">
-			<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 mr-28 cursor-pointer" key={props.todo.id}>
+			
 				<Card
 					elevation={1}
 					className="flex flex-col overflow-inherit"
@@ -216,6 +216,7 @@ function TodoListItem(props) {
 						if (getRole() == 'o' || getRole() == 'd') {
 							dispatch(Actions.closeTimelineDialog());
 							dispatch(Actions.openTaskContent(props.todo));
+							props.setTodoId(props.todo.id)
 						}
 					}}
 				>
@@ -504,6 +505,7 @@ function TodoListItem(props) {
 								[orderDescending ? 'desc' : 'asc']
 							).map(todo => (
 								<TodoActivityListItem
+								setTodoId={props.setTodoId}
 									getDetailOfTask={getDetailOfTask}
 									task={props.todo}
 									todo={todo}
@@ -513,11 +515,8 @@ function TodoListItem(props) {
 					</FuseAnimateGroup>
 				</List>
 				{/* </Collapse> */}
-			</div>
-			{taskContentDialog.props.open && props.todo.id == taskContentDialog.data.id && <TaskContentForm />}
-			{todoDialog.props.openTimelineDialog && props.todo.id == todoDialog.data.task.id && (
-				<EditActivityPostForm />
-			)}
+		
+			
 		</div>
 	);
 }

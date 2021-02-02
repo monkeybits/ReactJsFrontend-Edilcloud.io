@@ -8,6 +8,8 @@ import { decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import TodoListItem from './TodoListItem';
+import TaskContentForm from './TaskContentForm';
+import EditActivityPostForm from './EditActivityPostForm';
 /* 
 This is part of dashboard 
 TODO: This file simpley get list from redux store and do filters 
@@ -25,10 +27,14 @@ function TodoList(props) {
 	const activeFilterKey = useSelector(({ todoApp }) => todoApp.filters.activeFilterKey);
 	const usedKeys = useSelector(({ todoApp }) => todoApp.filters.usedKeys);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
+	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
+	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
+	const [todoId, setTodoId] = useState(null);
+	
 	/**
-		 * * we have 5-6 filter category but, by default we can select only one filter from each categaory but some category need to allow multiple select 
-		 * ! we need to allow to select multiple project for projects, multiple people for activity, multiple company for tasks
-	*/
+	 * * we have 5-6 filter category but, by default we can select only one filter from each categaory but some category need to allow multiple select
+	 * ! we need to allow to select multiple project for projects, multiple people for activity, multiple company for tasks
+	 */
 	const canSelectMultiple = ['projectFilter', 'companyFilter', 'peopleFilter'];
 	/**
 	 * *below useeffect called for search text only
@@ -345,9 +351,24 @@ function TodoList(props) {
 				animation: 'transition.slideUpBigIn'
 			}}
 		>
-			{filteredData.map((todo, index) => (
-				<TodoListItem {...props} todo={todo} key={todo.id} index={index} />
-			))}
+			<div className="flex">
+				<div className="clearfix">
+					<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 mr-28 cursor-pointer">
+						{filteredData.map((todo, index) => (
+							<TodoListItem setTodoId={setTodoId} {...props} todo={todo} key={todo.id} index={index} />
+						))}
+					</div>
+				</div>
+				<div className="clearfix">
+					
+						{taskContentDialog.props.open && todoId == taskContentDialog.data.id && (
+							<TaskContentForm />
+						)}
+						{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
+							<EditActivityPostForm />
+						)}
+				</div>
+			</div>
 		</FuseAnimateGroup>
 		// </List>
 	);
