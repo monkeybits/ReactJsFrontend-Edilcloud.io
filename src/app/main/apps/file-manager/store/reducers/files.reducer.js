@@ -195,19 +195,11 @@ const filesReducer = (state = initialState(), action) => {
 				photos: action.payload.media.photo,
 				files: chnageIds(
 					sortByProperty(
-						mergeArray(state.files, addTypeInArray(action.payload.media.photo, 'photo')),
-						'title'
-					)
-				),
-				files: chnageIds(
-					sortByProperty(
-						mergeArray(state.files, addTypeInArray(action.payload.media.video, 'video')),
-						'title'
-					)
-				),
-				files: chnageIds(
-					sortByProperty(
-						mergeArray(state.files, addTypeInArray(action.payload.media.document, 'document')),
+						mergeArray(state.files, [
+							...addTypeInArray(action.payload.media.photo, 'photo'),
+							...addTypeInArray(action.payload.media.video, 'video'),
+							...addTypeInArray(action.payload.media.document, 'document')
+						]),
 						'title'
 					)
 				)
@@ -218,30 +210,23 @@ const filesReducer = (state = initialState(), action) => {
 				? {
 						...state,
 						folders: action.payload.folders,
-						files: []
+						files: chnageIds(
+							sortByProperty(
+								mergeArray(state.files, [
+									...addTypeInArray(action.payload.media.photo, 'photo'),
+									...addTypeInArray(action.payload.media.video, 'video'),
+									...addTypeInArray(action.payload.media.document, 'document')
+								]),
+								'title'
+							)
+						)
 				  }
 				: {
 						...state,
 						folders: action.payload.folders,
-						files: chnageIds(
-							sortByProperty(
-								mergeArray(state.files, addTypeInArray(action.payload.media.photo, 'photo')),
-								'title'
-							)
-						),
-						files: chnageIds(
-							sortByProperty(
-								mergeArray(state.files, addTypeInArray(action.payload.media.video, 'video')),
-								'title'
-							)
-						),
-						files: chnageIds(
-							sortByProperty(
-								mergeArray(state.files, addTypeInArray(action.payload.media.document, 'document')),
-								'title'
-							)
-						)
+						files: []
 				  };
+
 		case Actions.UPDATE_FOLDER_PATH:
 			console.log(action.payload);
 			const pathData = action.payload[action.payload.length - 1];
@@ -252,7 +237,11 @@ const filesReducer = (state = initialState(), action) => {
 				files: pathData?.media
 					? chnageIds(
 							sortByProperty(
-								mergeArray(state.files, addTypeInArray(pathData.media.photo, 'photo')),
+								mergeArray(state.files, [
+									...addTypeInArray(action.payload.media.photo, 'photo'),
+									...addTypeInArray(action.payload.media.video, 'video'),
+									...addTypeInArray(action.payload.media.document, 'document')
+								]),
 								'title'
 							)
 					  )
