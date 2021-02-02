@@ -31,8 +31,7 @@ function formatBytes(a, b = 2) {
 	);
 }
 
-const addTypeInArray = (arr = [], type) =>
-	arr.map((d, i) => ({ ...d, mainId: d.id, id: i, type, size: formatBytes(d.size) }));
+const addTypeInArray = (arr = [], type) => arr.map((d, i) => ({ ...d, mainId: d.id, type, size: formatBytes(d.size) }));
 const mergeArray = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
 		const x = arr.find(item => item.mainId === current.mainId && item.type === current.type);
@@ -174,10 +173,11 @@ const filesReducer = (state = initialState(), action) => {
 				allFolderPaths: action.payload
 			};
 		case Actions.GET_FOLDERS:
+			let cFolderPath = state.folderPath;
 			return {
 				...state,
 				isUploadingFiles: false,
-				folders: action.payload,
+				folders: cFolderPath[cFolderPath.length - 1] ? state.folders : addTypeInArray(action.payload, 'folder'),
 				rootFolders: action.payload
 			};
 		case Actions.SET_SEARCH_TEXT: {
@@ -191,7 +191,7 @@ const filesReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				folderPath: [...state.folderPath, action.payload],
-				folders: action.payload.folders,
+				folders: addTypeInArray(action.payload.folders, 'folder'),
 				photos: action.payload.media.photo,
 				files: chnageIds(
 					sortByProperty(
@@ -209,21 +209,24 @@ const filesReducer = (state = initialState(), action) => {
 			return action.payload.media
 				? {
 						...state,
-						folders: action.payload.folders,
+						folders: addTypeInArray(action.payload.folders, 'folder'),
 						files: chnageIds(
 							sortByProperty(
-								mergeArray(state.files, [
-									...addTypeInArray(action.payload.media.photo, 'photo'),
-									...addTypeInArray(action.payload.media.video, 'video'),
-									...addTypeInArray(action.payload.media.document, 'document')
-								]),
+								mergeArray(
+									[],
+									[
+										...addTypeInArray(action.payload.media.photo, 'photo'),
+										...addTypeInArray(action.payload.media.video, 'video'),
+										...addTypeInArray(action.payload.media.document, 'document')
+									]
+								),
 								'title'
 							)
 						)
 				  }
 				: {
 						...state,
-						folders: action.payload.folders,
+						folders: addTypeInArray(action.payload.folders, 'folder'),
 						files: []
 				  };
 
@@ -238,22 +241,41 @@ const filesReducer = (state = initialState(), action) => {
 					? chnageIds(
 							sortByProperty(
 								mergeArray(state.files, [
-									...addTypeInArray(action.payload.media.photo, 'photo'),
-									...addTypeInArray(action.payload.media.video, 'video'),
-									...addTypeInArray(action.payload.media.document, 'document')
+									...addTypeInArray(pathData.media.photo, 'photo'),
+									...addTypeInArray(pathData.media.video, 'video'),
+									...addTypeInArray(pathData.media.document, 'document')
 								]),
 								'title'
 							)
 					  )
 					: [], //pathData.media.photo,
-				folders: pathData?.folders ? pathData.folders : state.rootFolders
+				folders: pathData?.folders
+					? addTypeInArray(pathData.folders, 'folder')
+					: addTypeInArray(state.rootFolders, 'folder')
 			};
 		case Actions.POP_FOLDER_PATH:
 			let folderPath = state.folderPath;
 			folderPath.pop();
+			const pathDataAfterPop = folderPath[folderPath.length - 1];
 			return {
 				...state,
-				folderPath
+				folderPath,
+				photos: pathDataAfterPop?.media ? pathDataAfterPop.media.photo : [], //pathDataAfterPop.media.photo,
+				files: pathDataAfterPop?.media
+					? chnageIds(
+							sortByProperty(
+								mergeArray(state.files, [
+									...addTypeInArray(pathDataAfterPop.media.photo, 'photo'),
+									...addTypeInArray(pathDataAfterPop.media.video, 'video'),
+									...addTypeInArray(pathDataAfterPop.media.document, 'document')
+								]),
+								'title'
+							)
+					  )
+					: [], //pathDataAfterPop.media.photo,
+				folders: pathDataAfterPop?.folders
+					? addTypeInArray(pathDataAfterPop.folders, 'folder')
+					: addTypeInArray(state.rootFolders, 'folder')
 			};
 		case Actions.HANDLE_UPLOAD_LOADING:
 			return {

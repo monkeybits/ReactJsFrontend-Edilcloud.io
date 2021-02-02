@@ -348,7 +348,7 @@ function TaskContentForm(props) {
 		// );
 	};
 	return (
-		<div className="flex-auto custom-task-content">
+		<div className="w-full custom-task-content">
 			<div className="custom-tab-header flex relative">
 				<BottomNavigation
 					value={value}

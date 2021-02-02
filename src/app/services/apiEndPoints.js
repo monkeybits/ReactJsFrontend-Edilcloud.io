@@ -51,7 +51,8 @@ export const VIDEO_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/v
 export const FOLDER_STRUCTURE_LIST = cid => `/api/frontend/media/folder/company/${cid}/structure_list/?no_page=no_page`;
 export const GET_FOLDERS_DETAIL = fid => `/api/frontend/media/folder/${fid}/detail/`;
 export const FOLDER_LIST = cid => `/api/frontend/media/folder/company/${cid}/list/?no_page=no_page`;
-export const FOLDER_LIST_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/list/`;
+export const FOLDER_LIST_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/list/?no_page=no_page`;
+export const FOLDER_STRUCTURE_LIST_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/structure_list/?no_page=no_page`;
 export const DOWNLOAD_PHOTO = did => `/api/frontend/media/photo/download/${did}/`;
 export const DOWNLOAD_VIDEO = did => `/api/frontend/media/video/download/${did}/`;
 export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/download/${did}/`;
@@ -59,7 +60,7 @@ export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/downloa
 export const PHOTO_DELETE = pid => `/api/frontend/media/photo/delete/${pid}/`;
 export const VIDEO_DELETE = vid => `/api/frontend/media/video/delete/${vid}/ `;
 export const DOCUMENT_DELETE = did => `/api/frontend/document/document/delete/${did}/ `;
-export const FOLDER_DELETE = (cid, path) => `/api/frontend/media/folder/company/${cid}/delete/?name=${path}`;
+export const FOLDER_DELETE = (fid) => `/api/frontend/media/folder/${fid}/delete/`; //`/api/frontend/media/folder/company/${cid}/delete/?name=${path}`;
 export const FOLDER_DELETE_PROJECT = (pid, path) => `/api/frontend/media/folder/project/${pid}/delete/?name=${path}`;
 export const SEARCH_USER = searchString =>
 	`/api/frontend/profile/profiles/active_list/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__company__name__icontains=${searchString}&filter__email__exact=${searchString}&no_page=no_page`;

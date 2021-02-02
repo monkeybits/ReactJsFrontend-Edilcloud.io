@@ -121,7 +121,7 @@ function FileList(props) {
 				ev.preventDefault();
 				ev.stopPropagation();
 				props.pageLayout.current.toggleRightSidebar();
-				dispatch(Actions.setSelectedItem(n.id));
+				dispatch(Actions.setSelectedItem(n));
 			}
 		},
 		{
@@ -170,6 +170,13 @@ function FileList(props) {
 		// 		])
 		// 	);
 		// }
+		dispatch(Actions.setAllFiles([...folders, ...files.filter(d => d.folder == currentFolderPath.mainId)]));
+		// if (Array.isArray(files)) {
+		// 	let tempFiles = files.filter(d => d.folder == currentFolderPath.id);
+		// 	setCurrentFiles(tempFiles);
+		// } else {
+		// 	setCurrentFiles([]);
+		// }
 	};
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -203,25 +210,8 @@ function FileList(props) {
 		}
 	}, [searchText]);
 	useEffect(() => {
-		// let modifyfolders = folders?.filter(
-		// 	f =>
-		// 		f.path.includes(currentFolderPath) &&
-		// 		f.path.split('/').length <= folderPath.length &&
-		// 		!folderPath.includes(f.path)
-		// );
-		// if (modifyfolders) {
-		// 	modifyfolders = modifyfolders.map(item => {
-		// 		let title = item.path.split('/');
-		// 		title = title[title.length - 1];
-		// 		return { ...item, title, type: 'folder' };
-		// 	});
-		// 	dispatch(
-		// 		Actions.setAllFiles([
-		// 			...modifyfolders,
-		// 			...files.filter(f => f.folder_relative_path == currentFolderPath)
-		// 		])
-		// 	);
-		// }
+		dispatch(Actions.setSelectedItem(''));
+		setAllFilesInit();
 	}, [currentFolderPath]);
 	const handleDelete = tile => {
 		let findIndex = 0;
@@ -237,7 +227,7 @@ function FileList(props) {
 		const mainId = selectedItem.mainId;
 		const url =
 			fileType == 'folder'
-				? FOLDER_DELETE(cid, selectedItem.path)
+				? FOLDER_DELETE(selectedItem.mainId)
 				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
 				: fileType == 'video'
@@ -247,11 +237,11 @@ function FileList(props) {
 			url,
 			{},
 			res => {
-				if (fileType == 'folder') {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
-				} else {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
+				if (folderPath.length > 1) {
+					dispatch(Actions.folderDetail(cid));
 				}
+				dispatch(Actions.getFolders(cid));
+				dispatch(Actions.setSelectedItem(''));
 				// colseDeleteFileDialog();
 			},
 			err => console.log(err),
@@ -337,12 +327,12 @@ function FileList(props) {
 				</div>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
-					{t('NO_FILES_MESSAGE')}
+						{t('NO_FILES_MESSAGE')}
 					</Typography>
 				</div>
 				<div className="flex flex-1 mt-20 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h6">
-					{t('CREATE_FILE_ADVICE')}
+						{t('CREATE_FILE_ADVICE')}
 					</Typography>
 				</div>
 			</div>
@@ -393,8 +383,8 @@ function FileList(props) {
 									hover
 									onClick={event =>
 										n.type == 'folder'
-											? dispatch(Actions.setFolderPath(n.path))
-											: dispatch(Actions.setSelectedItem(n.id))
+											? dispatch(Actions.setFolderPath(n))
+											: dispatch(Actions.setSelectedItem(n))
 									}
 									selected={n.id === selectedItemId}
 									className="cursor-pointer"
@@ -427,7 +417,7 @@ function FileList(props) {
 											<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 										)}
 									</TableCell>
-									<TableCell>{n.title}</TableCell>
+									<TableCell>{n.title||n.name}</TableCell>
 									<TableCell className="hidden sm:table-cell">{n.type}</TableCell>
 									<TableCell className="hidden sm:table-cell">{checkData(n.owner)}</TableCell>
 									<TableCell className="text-center hidden sm:table-cell">
@@ -457,7 +447,7 @@ function FileList(props) {
 												ev.preventDefault();
 												ev.stopPropagation();
 												props.pageLayout.current.toggleRightSidebar();
-												dispatch(Actions.setSelectedItem(n.id));
+												dispatch(Actions.setSelectedItem(n));
 											}}
 											aria-label="open right sidebar"
 										>

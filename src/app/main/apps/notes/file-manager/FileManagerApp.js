@@ -104,6 +104,7 @@ function FileManagerApp(props) {
 	//filesfolderPath
 	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
+	const allFolderPaths = useSelector(({ fileManagerApp }) => fileManagerApp.files.allFolderPaths);
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files);
 	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
 	const searchText = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.searchText);
@@ -202,13 +203,14 @@ function FileManagerApp(props) {
 				radioBtnValue == 'folder'
 					? {
 							name: title,
-							path: files.folders && !!files.folders.length ? path : ''
+							parent: files.folders && !!files.folders.length ? path.id : '',
+							is_public: false
 					  }
 					: {
 							[datakey]: fileType == 'image' ? await getCompressFile(file) : file,
 							title,
 							description,
-							additional_path: filePath ? filePath : ''
+							folder: filePath ? filePath.id : null
 					  };
 			for (let key in values) {
 				formData.append(key, values[key]);

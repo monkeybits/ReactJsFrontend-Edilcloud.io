@@ -29,6 +29,7 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const selectedItem = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [isOpenViewFile, setIsOpenViewFile] = useState(false);
+	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
 
 	if (!selectedItem) {
 		return null;
@@ -42,7 +43,7 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 		const mainId = selectedItem.mainId;
 		const url =
 			fileType == 'folder'
-				? FOLDER_DELETE(cid, selectedItem.path)
+				? FOLDER_DELETE(selectedItem.mainId)
 				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
 				: fileType == 'video'
@@ -52,11 +53,11 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 			url,
 			{},
 			res => {
-				if (fileType == 'folder') {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
-				} else {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
+				if (folderPath.length > 1) {
+					dispatch(Actions.folderDetail(cid));
 				}
+				dispatch(Actions.getFolders(cid));
+				dispatch(Actions.setSelectedItem(''));
 				colseDeleteFileDialog();
 			},
 			err => console.log(err),

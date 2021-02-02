@@ -4,7 +4,8 @@ import {
 	PHOTO_LIST_PROJECT,
 	VIDEO_LIST_PROJECT,
 	FOLDER_LIST_PROJECT,
-	DOCUMENT_LIST_PROJECT
+	DOCUMENT_LIST_PROJECT,
+	FOLDER_STRUCTURE_LIST_PROJECT
 } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 
@@ -13,6 +14,8 @@ export const DELETE_FILE = '[FILE MANAGER APP(PROJECT)] DELETE FILE';
 export const GET_PHOTOS = '[FILE MANAGER APP(PROJECT)] GET PHOTOS';
 export const GET_VIDEOS = '[FILE MANAGER APP(PROJECT)] GET VIDEOS';
 export const GET_DOCUMENTS = '[FILE MANAGER APP(PROJECT)] GET DOCUMENTS';
+export const GET_FOLDERS_PATHS = '[FILE MANAGER APP(PROJECT)] GET FOLDERS PATHS';
+export const UPDATE_SPECIFIC_FOLDERS = '[FILE MANAGER APP(PROJECT)] UPDATE SPECIFIC FOLDER';
 export const GET_FOLDERS = '[FILE MANAGER APP(PROJECT)] GET FOLDERS';
 export const SET_SEARCH_TEXT = '[FILE MANAGER APP(PROJECT)] SET SEARCH TEXT';
 export const HANDLE_UPLOAD_LOADING = '[FILE MANAGER APP(PROJECT)] HANDLE UPLOAD LOADING';
@@ -46,10 +49,11 @@ export function closeMoveFileDialog() {
 }
 export function getFiles(cid, handleSetLoading = () => '') {
 	return (dispatch, getState) => {
-		dispatch(getPhotos(cid, handleSetLoading));
-		dispatch(getVideos(cid, handleSetLoading));
-		dispatch(getDocuments(cid, handleSetLoading));
+		// dispatch(getPhotos(cid, handleSetLoading));
+		// dispatch(getVideos(cid, handleSetLoading));
+		// dispatch(getDocuments(cid, handleSetLoading));
 		dispatch(getFolders(cid, handleSetLoading));
+		dispatch(foldersPaths(cid, handleSetLoading));
 	};
 }
 export function getPhotos(cid, handleSetLoading = () => '') {
@@ -150,6 +154,35 @@ export function getFolders(cid, handleSetLoading = () => '') {
 				});
 				dispatch({
 					type: GET_FOLDERS,
+					payload: folders
+				});
+			},
+			err => {
+				handleSetLoading({
+					loadingFolders: false
+				});
+				console.log(err);
+			},
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+}
+export function foldersPaths(pid, handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingFolders: true
+	});
+	return (dispatch, getState) => {
+		apiCall(
+			FOLDER_STRUCTURE_LIST_PROJECT(pid),
+			{},
+			folders => {
+				console.log(folders);
+				handleSetLoading({
+					loadingFolders: false
+				});
+				dispatch({
+					type: GET_FOLDERS_PATHS,
 					payload: folders
 				});
 			},

@@ -27,12 +27,13 @@ function TaskContentDialog(props) {
 	return (
 		<Dialog
 			classes={{
-				paper: clsx(classes.paper, 'custom-modal-new timeline-modal content-modal')
+				root:'md:hidden',
 			}}
 			onClose={ev => dispatch(Actions.closeTaskContent())}
 			open={taskContentDialog.props.open}
 			fullWidth
 			maxWidth="sm"
+			className="custom-modal-new timeline-modal content-modal"
 		>
 			<TaskContentForm />
 		</Dialog>

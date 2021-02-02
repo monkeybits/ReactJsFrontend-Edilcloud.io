@@ -801,9 +801,6 @@ textarea.MuiOutlinedInput-input {
 .chat-border {
     border-left: 3px solid transparent;
 }
-.chat-border.active {
-   
-}
 .chat-badge {
     background-color: #376AED;
 }
@@ -811,6 +808,12 @@ textarea.MuiOutlinedInput-input {
     background: #ffffff;
     height: auto;
     min-height: auto;
+}
+.chat-header-bg-remove.dashboard > div {
+    background: #f5f5f5;
+}
+.chat-header-bg-remove.dashboard .dashboard-todo-header {
+    margin: 0px 20px;
 }
 .chat-options {
     position: absolute;
@@ -1842,4 +1845,14 @@ audio {
 .custom-label-up.MuiFormControl-root fieldset legend {
     max-width: 1000px;
     transition: max-width 100ms cubic-bezier(0.0, 0, 0.2, 1) 50ms;
+}
+.sidebar-ht, .content-ht {
+    height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+.sidebar-ht.dashboard, .content-ht.dashboard {
+    height: calc(100vh - 120px);
+}
+.ht-auto {
+    height: auto !important;
 }
