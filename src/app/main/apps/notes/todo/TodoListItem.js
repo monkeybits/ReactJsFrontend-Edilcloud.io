@@ -346,10 +346,56 @@ function TodoListItem(props) {
 							color: theme.palette.getContrastText(blue[500])
 						}}
 					>
-						<Typography className="font-medium truncate" color="inherit">
-							{props.todo.assigned_company?.name}
-						</Typography>
-
+						{!props.todo.assigned_company ? (
+							<>
+								<div ref={anchorRef} onClick={handleMenuOpen}>
+									<IconButton>
+										<Icon> business</Icon>
+									</IconButton>
+									{loading && <CircularProgress size={15} color="secondary" />}
+								</div>
+								<Popover
+									open={state.open}
+									anchorEl={anchorRef.current}
+									anchorReference={state.anchorReference}
+									anchorPosition={{ top: state.positionTop, left: state.positionLeft }}
+									onClose={handleMenuClose}
+									anchorOrigin={{
+										vertical: state.anchorOriginVertical,
+										horizontal: state.anchorOriginHorizontal
+									}}
+									transformOrigin={{
+										vertical: state.transformOriginVertical,
+										horizontal: state.transformOriginHorizontal
+									}}
+								>
+									<Paper className={classes.paper}>
+										<MenuList>
+											{props.companies?.length &&
+												props.companies.map((item, index) => {
+													return (
+														<MenuItem
+															onClick={e => handleSubmit(e, item)}
+															className="px-8"
+															key={item.id}
+														>
+															<Avatar
+																className="w-32 h-32"
+																src={item.profile?.company?.logo}
+															/>
+															<ListItemText className="mx-8">{item.company}</ListItemText>
+														</MenuItem>
+													);
+												})}
+										</MenuList>
+									</Paper>
+								</Popover>
+							</>
+						) : (
+							<Typography className="font-medium truncate" color="inherit">
+								{props.todo.assigned_company?.name}
+							</Typography>
+						)}
 						<Icon>notifications_active</Icon>
 					</div>
 					<CardContent className="flex flex-col flex-auto ">
