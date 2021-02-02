@@ -5,7 +5,8 @@ import {
 	VIDEO_LIST_PROJECT,
 	FOLDER_LIST_PROJECT,
 	DOCUMENT_LIST_PROJECT,
-	FOLDER_STRUCTURE_LIST_PROJECT
+	FOLDER_STRUCTURE_LIST_PROJECT,
+	GET_FOLDERS_DETAIL
 } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 
@@ -166,6 +167,40 @@ export function getFolders(cid, handleSetLoading = () => '') {
 			METHOD.GET,
 			getHeaderToken()
 		);
+	};
+}
+export function folderDetail(cid, handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingFolders: true
+	});
+	return (dispatch, getState) => {
+		const folderPath = getState().fileManagerApp.files.folderPath;
+		let pathdata = folderPath[folderPath.length - 1];
+		if (pathdata) {
+			apiCall(
+				GET_FOLDERS_DETAIL(pathdata.id),
+				{},
+				folders => {
+					console.log('GET_FOLDERS_DETAIL', folders);
+					handleSetLoading({
+						loadingFolders: false
+					});
+					console.log(folders);
+					dispatch({
+						type: UPDATE_SPECIFIC_FOLDERS,
+						payload: folders
+					});
+				},
+				err => {
+					handleSetLoading({
+						loadingFolders: false
+					});
+					console.log(err);
+				},
+				METHOD.GET,
+				getHeaderToken()
+			);
+		}
 	};
 }
 export function foldersPaths(pid, handleSetLoading = () => '') {

@@ -17,15 +17,15 @@ function Breadcrumb({ className, selected }) {
 	};
 	return (
 		<Typography className={className}>
-			{selected.map((path, i) => {
-				let list = path.split('/');
-				const folderName = list[list.length - 1];
+			{selected.map(({ name }, i) => {
+				// let list = path.split('/');
+				// const folderName = list[list.length - 1];
 				return (
 					<span key={i} className="flex items-center">
 						{i == 0 ? (
 							<Button onClick={() => updatePath(i)}>{t('MY_DRIVE')}</Button>
 						) : (
-							<Button onClick={() => updatePath(i)}>{folderName}</Button>
+							<Button onClick={() => updatePath(i)}>{name}</Button>
 						)}
 						{selected.length - 1 !== i && <Icon>chevron_right</Icon>}
 					</span>
