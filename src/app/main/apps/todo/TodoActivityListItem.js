@@ -44,6 +44,7 @@ _.enhance = function (list, source) {
 const useStyles = makeStyles(theme => ({
 	root: {
 		zoom: '110%'
+		
 	},
 	todoItem: {
 		'&.completed': {
@@ -285,7 +286,7 @@ function TodoActivityListItem(props) {
 				className={clsx(
 					classes.todoItem,
 					{ completed },
-					'border-solid border-b-1 mt-10 px-0 custom-activity sm:px-8 touch-ripple-effect-remove'
+					'border-solid border-b-1 mt-10 bg-white px-0 custom-activity sm:px-8 touch-ripple-effect-remove'
 				)}
 				checked={completed}
 				style={{ borderLeft: '0px solid', borderLeftColor: props.task.assigned_company?.color_project }}

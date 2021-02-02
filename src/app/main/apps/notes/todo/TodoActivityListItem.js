@@ -277,10 +277,10 @@ function TodoActivityListItem(props) {
 				className={clsx(
 					classes.todoItem,
 					{ completed },
-					'border-solid border-b-1 mt-10 custom-activity px-0 sm:px-8 touch-ripple-effect-remove'
+					'border-solid border-b-1 mt-10 custom-activity bg-white px-0 sm:px-8 touch-ripple-effect-remove'
 				)}
 				checked={completed}
-				style={{ borderLeft: '0px solid', borderLeftColor: props.task.assigned_company?.color_project }}
+				style={{ borderLeft: '4px solid', borderLeftColor: props.task.assigned_company?.color_project }}
 				onClick={ev => {
 					ev.preventDefault();
 					dispatch(Actions.closeTaskContent());
@@ -333,7 +333,7 @@ function TodoActivityListItem(props) {
 										<Icon>error</Icon>
 									</IconButton> */}
 						</div>
-						<div className="flex items-center ml-44 mb-8">
+						<div className="flex items-center  ml-44 mb-8">
 							<WorkerProfiles
 								workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
 							/>
