@@ -237,9 +237,8 @@ function FileManagerApp(props) {
 					console.log({ folderPath11: folderPath });
 					if (folderPath.length > 1) {
 						dispatch(Actions.folderDetail(cid, handleSetLoading));
-					} else {
-						dispatch(Actions.getFolders(cid, handleSetLoading));
 					}
+					dispatch(Actions.getFolders(cid, handleSetLoading));
 					// } else {
 					// 	if (fileType == 'image') {
 					// 		dispatch(Actions.getPhotos(cid, handleSetLoading));

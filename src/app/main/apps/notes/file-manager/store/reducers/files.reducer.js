@@ -31,8 +31,7 @@ function formatBytes(a, b = 2) {
 	);
 }
 
-const addTypeInArray = (arr = [], type) =>
-	arr.map((d, i) => ({ ...d, mainId: d.id, id: i, type, size: formatBytes(d.size) }));
+const addTypeInArray = (arr = [], type) => arr.map((d, i) => ({ ...d, mainId: d.id, type, size: formatBytes(d.size) }));
 const mergeArray = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
 		const x = arr.find(item => item.mainId === current.mainId && item.type === current.type);
@@ -155,15 +154,19 @@ const filesReducer = (state = initialState(), action) => {
 					sortByProperty(mergeArray(state.files, addTypeInArray(action.payload.results, 'document')), 'title')
 				)
 			};
-		case Actions.GET_FOLDERS:
+		case Actions.GET_FOLDERS_PATHS:
 			return {
 				...state,
 				isUploadingFiles: false,
-				folders: action.payload.sort((_a, _b) => {
-					let a = _a.path.replace('/', '');
-					let b = _b.path.replace('/', '');
-					return a > b ? 1 : a < b ? -1 : 0;
-				})
+				allFolderPaths: action.payload
+			};
+		case Actions.GET_FOLDERS:
+			let cFolderPath = state.folderPath;
+			return {
+				...state,
+				isUploadingFiles: false,
+				folders: cFolderPath[cFolderPath.length - 1] ? state.folders : addTypeInArray(action.payload, 'folder'),
+				rootFolders: action.payload
 			};
 		case Actions.SET_SEARCH_TEXT: {
 			return {
@@ -172,21 +175,95 @@ const filesReducer = (state = initialState(), action) => {
 			};
 		}
 		case Actions.SET_FOLDER_PATH:
+			console.log(action.payload);
 			return {
 				...state,
-				folderPath: [...state.folderPath, action.payload]
+				folderPath: [...state.folderPath, action.payload],
+				folders: addTypeInArray(action.payload.folders, 'folder'),
+				photos: action.payload.media.photo,
+				files: chnageIds(
+					sortByProperty(
+						mergeArray(state.files, [
+							...addTypeInArray(action.payload.media.photo, 'photo'),
+							...addTypeInArray(action.payload.media.video, 'video'),
+							...addTypeInArray(action.payload.media.document, 'document')
+						]),
+						'title'
+					)
+				)
 			};
+		case Actions.UPDATE_SPECIFIC_FOLDERS:
+			console.log(action.payload);
+			return action.payload.media
+				? {
+						...state,
+						folders: addTypeInArray(action.payload.folders, 'folder'),
+						files: chnageIds(
+							sortByProperty(
+								mergeArray(
+									[],
+									[
+										...addTypeInArray(action.payload.media.photo, 'photo'),
+										...addTypeInArray(action.payload.media.video, 'video'),
+										...addTypeInArray(action.payload.media.document, 'document')
+									]
+								),
+								'title'
+							)
+						)
+				  }
+				: {
+						...state,
+						folders: addTypeInArray(action.payload.folders, 'folder'),
+						files: []
+				  };
+
 		case Actions.UPDATE_FOLDER_PATH:
+			console.log(action.payload);
+			const pathData = action.payload[action.payload.length - 1];
 			return {
 				...state,
-				folderPath: [...action.payload]
+				folderPath: [...action.payload],
+				photos: pathData?.media ? pathData.media.photo : [], //pathData.media.photo,
+				files: pathData?.media
+					? chnageIds(
+							sortByProperty(
+								mergeArray(state.files, [
+									...addTypeInArray(pathData.media.photo, 'photo'),
+									...addTypeInArray(pathData.media.video, 'video'),
+									...addTypeInArray(pathData.media.document, 'document')
+								]),
+								'title'
+							)
+					  )
+					: [], //pathData.media.photo,
+				folders: pathData?.folders
+					? addTypeInArray(pathData.folders, 'folder')
+					: addTypeInArray(state.rootFolders, 'folder')
 			};
 		case Actions.POP_FOLDER_PATH:
 			let folderPath = state.folderPath;
 			folderPath.pop();
+			const pathDataAfterPop = folderPath[folderPath.length - 1];
 			return {
 				...state,
-				folderPath
+				folderPath,
+				photos: pathDataAfterPop?.media ? pathDataAfterPop.media.photo : [], //pathDataAfterPop.media.photo,
+				files: pathDataAfterPop?.media
+					? chnageIds(
+							sortByProperty(
+								mergeArray(state.files, [
+									...addTypeInArray(pathDataAfterPop.media.photo, 'photo'),
+									...addTypeInArray(pathDataAfterPop.media.video, 'video'),
+									...addTypeInArray(pathDataAfterPop.media.document, 'document')
+								]),
+								'title'
+							)
+					  )
+					: [], //pathDataAfterPop.media.photo,
+				folders: pathDataAfterPop?.folders
+					? addTypeInArray(pathDataAfterPop.folders, 'folder')
+					: addTypeInArray(state.rootFolders, 'folder')
 			};
 		case Actions.HANDLE_UPLOAD_LOADING:
 			return {

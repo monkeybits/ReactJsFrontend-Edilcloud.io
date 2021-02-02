@@ -80,6 +80,7 @@ function DetailSidebarContent({ setProgress }) {
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [isOpenViewFile, setIsOpenViewFile] = useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(false);
+	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
 	const handleClick = event => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -173,7 +174,7 @@ function DetailSidebarContent({ setProgress }) {
 		const mainId = selectedItem.mainId;
 		const url =
 			fileType == 'folder'
-				? FOLDER_DELETE(cid, selectedItem.path)
+				? FOLDER_DELETE(selectedItem.mainId)
 				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
 				: fileType == 'video'
@@ -185,8 +186,11 @@ function DetailSidebarContent({ setProgress }) {
 			res => {
 				const userInfo = decodeDataFromToken();
 				const cid = userInfo.extra?.profile?.company;
+				if (folderPath.length > 1) {
+					dispatch(Actions.folderDetail(cid));
+				}
 				dispatch(Actions.getFolders(cid));
-
+				dispatch(Actions.setSelectedItem(''));
 				// if (fileType == 'folder') {
 				// 	dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
 				// } else {
