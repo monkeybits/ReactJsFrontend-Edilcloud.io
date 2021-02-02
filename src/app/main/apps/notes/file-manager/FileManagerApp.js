@@ -104,7 +104,7 @@ function FileManagerApp(props) {
 	//filesfolderPath
 	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
-	const allFolderPaths = useSelector(({ fileManagerApp }) => fileManagerApp.files.allFolderPaths);
+	const allFolderPaths = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.allFolderPaths);
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files);
 	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
 	const searchText = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.searchText);
@@ -157,6 +157,10 @@ function FileManagerApp(props) {
 			nameError: ''
 		});
 	useEffect(() => {
+		setFilePath(folderPath[folderPath.length - 1]);
+		setPath(folderPath[folderPath.length - 1]);
+	}, [folderPath, isOpenDrawer]);
+	useEffect(() => {
 		if (routeParams) {
 			dispatch(Actions.getFiles(routeParams.id, handleSetLoading));
 		}
@@ -203,7 +207,7 @@ function FileManagerApp(props) {
 				radioBtnValue == 'folder'
 					? {
 							name: title,
-							parent: files.folders && !!files.folders.length ? path.id : '',
+							parent: path?.id ? path.id : null,
 							is_public: false
 					  }
 					: {
@@ -227,17 +231,13 @@ function FileManagerApp(props) {
 				apiUrl,
 				formData,
 				res => {
-					if (radioBtnValue == 'folder') {
-						dispatch(Actions.getFolders(routeParams.id, handleSetLoading));
-					} else {
-						if (fileType == 'image') {
-							dispatch(Actions.getPhotos(routeParams.id, handleSetLoading));
-						} else if (fileType == 'video') {
-							dispatch(Actions.getVideos(routeParams.id, handleSetLoading));
-						} else {
-							dispatch(Actions.getDocuments(routeParams.id, handleSetLoading));
-						}
+					const userInfo = decodeDataFromToken();
+					const cid = userInfo.extra?.profile?.company;
+					if (folderPath.length > 1) {
+						dispatch(Actions.folderDetail(cid, handleSetLoading));
 					}
+					dispatch(Actions.getFolders(cid, handleSetLoading));
+					dispatch(Actions.onUploadHandleLoading(false));
 				},
 				err => {
 					seterror({
@@ -452,20 +452,20 @@ function FileManagerApp(props) {
 									variant="outlined"
 								/>
 							</div>
-							{files.folders && !!files.folders.length && (
+							{allFolderPaths && !!allFolderPaths.length && (
 								<div>
 									<Autocomplete
-										options={files.folders}
+										options={allFolderPaths}
 										style={{ width: '100%' }}
 										className="mb-24"
 										getOptionLabel={option => option.path}
 										renderOption={(option, { selected }) => <>{option.path}</>}
 										renderInput={params => <TextField {...params} label={t('PATH')} />}
-										onInputChange={(e, value) => setPath(value)}
+										onChange={(e, value) => {
+											setPath(value);
+										}}
 										variant="outlined"
-										defaultValue={
-											files.folders && !!files.folders.length ? currentFolderPath?.[0] : ''
-										}
+										defaultValue={path}
 									/>
 								</div>
 							)}
@@ -514,18 +514,20 @@ function FileManagerApp(props) {
 									helperText={error.fileError}
 								/>
 							</div>
-							{files.folders && !!files.folders.length && (
+							{allFolderPaths && !!allFolderPaths.length && (
 								<div>
 									<Autocomplete
-										options={files.folders}
+										options={allFolderPaths}
 										style={{ width: '100%' }}
 										className="mb-24"
 										getOptionLabel={option => option.path}
 										renderOption={(option, { selected }) => <>{option.path}</>}
 										renderInput={params => <TextField {...params} label={t('PATH')} />}
-										onInputChange={(e, value) => setFilePath(value)}
-										defaultValue={currentFolderPath?.[0]}
+										onChange={(e, value) => {
+											setFilePath(value);
+										}}
 										variant="outlined"
+										defaultValue={filePath}
 									/>
 								</div>
 							)}

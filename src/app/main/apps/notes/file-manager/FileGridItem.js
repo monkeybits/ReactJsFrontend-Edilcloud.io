@@ -76,11 +76,11 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 		ev.preventDefault();
 		ev.stopPropagation();
 		pageLayout.current.toggleRightSidebar();
-		const findIndex = [...allFiles].findIndex(
-			element => element.mainId == tile.mainId && element.type == tile.type
-		);
-		let fileData = allFiles[findIndex];
-		dispatch(Actions.setSelectedItem(fileData.id));
+		// const findIndex = [...allFiles].findIndex(
+		// 	element => element.mainId == tile.mainId && element.type == tile.type
+		// );
+		// let fileData = allFiles[findIndex];
+		dispatch(Actions.setSelectedItem(tile));
 	};
 	const options = [
 		{
