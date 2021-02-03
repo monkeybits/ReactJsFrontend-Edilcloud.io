@@ -51,11 +51,13 @@ import {
 	PHOTO_DELETE,
 	VIDEO_DELETE,
 	DOCUMENT_DELETE,
-	FOLDER_DELETE
+	FOLDER_DELETE,
+	FOLDER_DELETE_PROJECT
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router';
 const useStyles = makeStyles({
 	typeIcon: {
 		'&.folder:before': {
@@ -104,6 +106,7 @@ function FileList(props) {
 			: fileType == 'xlsx'
 			? { color: 'green' }
 			: {};
+	const routeParams = useParams();
 
 	const setAllFilesInit = () => {
 		dispatch(Actions.setAllFiles([...folders, ...files.filter(d => d.folder == currentFolderPath.mainId)]));
@@ -213,19 +216,15 @@ function FileList(props) {
 	}, [currentFolderPath]);
 	const handleDelete = tile => {
 		let findIndex = 0;
-		if (tile.type == 'folder') {
-			findIndex = [...allFiles].findIndex(element => element.path == tile.path);
-		} else {
-			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
-		}
-		let selectedItem = allFiles[findIndex];
+		let selectedItem = tile; // allFiles[findIndex];
+
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
 		const fileType = selectedItem.type;
 		const mainId = selectedItem.mainId;
 		const url =
 			fileType == 'folder'
-				? FOLDER_DELETE(cid, selectedItem.path)
+				? FOLDER_DELETE_PROJECT(routeParams.id, selectedItem.mainId || selectedItem.id)
 				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
 				: fileType == 'video'
@@ -236,10 +235,12 @@ function FileList(props) {
 			{},
 			res => {
 				if (fileType == 'folder') {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
-				} else {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
+					dispatch(Actions.foldersPaths(routeParams.id));
 				}
+				if (folderPath.length > 1) {
+					dispatch(Actions.folderDetail());
+				}
+				dispatch(Actions.getFolders(routeParams.id));
 				// colseDeleteFileDialog();
 			},
 			err => console.log(err),
