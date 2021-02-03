@@ -74,7 +74,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 	const dispatch = useDispatch();
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const Allfiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.files);
-	const index = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
+	const item = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
 	const [currentIndex, setcurrentIndex] = useState(null);
 	const [selectedItem, setSelectedItem] = useState(null);
 
@@ -84,8 +84,8 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 		setSelectedItem(fileData);
 	}, [currentIndex]);
 	useEffect(() => {
-		if (Array.isArray(Allfiles) && files[index]) {
-			let tile = files[index];
+		if (Array.isArray(Allfiles) && item) {
+			let tile = item;
 			const findIndex = Allfiles.findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 			console.log({ findIndex, Allfiles });
 			if (findIndex >= 0) {
@@ -94,7 +94,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 				setSelectedItem(fileData);
 			}
 		}
-	}, [index, Allfiles, files]);
+	}, [item, Allfiles, files]);
 	const handlePrevious = () => {
 		if (currentIndex > 0) {
 			setcurrentIndex(i => i - 1);

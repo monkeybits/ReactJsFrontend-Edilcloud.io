@@ -71,13 +71,13 @@ const DialogActions = withStyles(theme => ({
 	}
 }))(MuiDialogActions);
 
-function FileViewDialog({ isOpenViewFile, closeViewFile , setProgress}) {
+function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 	const { t } = useTranslation('filemanager');
 	const dispatch = useDispatch();
 	const [currentIndex, setcurrentIndex] = useState(null);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const Allfiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
-	const index = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
+	const item = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const [selectedItem, setSelectedItem] = useState(null);
 	useEffect(() => {
 		console.log({ currentIndex });
@@ -85,8 +85,8 @@ function FileViewDialog({ isOpenViewFile, closeViewFile , setProgress}) {
 		setSelectedItem(fileData);
 	}, [currentIndex]);
 	useEffect(() => {
-		if (Array.isArray(Allfiles) && files[index]) {
-			let tile = files[index];
+		if (Array.isArray(Allfiles) && item) {
+			let tile = item;
 			const findIndex = Allfiles.findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 			console.log({ findIndex, Allfiles });
 			if (findIndex >= 0) {
@@ -95,7 +95,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile , setProgress}) {
 				setSelectedItem(fileData);
 			}
 		}
-	}, [index, Allfiles, files]);
+	}, [item, Allfiles, files]);
 	const handlePrevious = () => {
 		if (currentIndex > 0) {
 			setcurrentIndex(i => i - 1);
@@ -125,26 +125,29 @@ function FileViewDialog({ isOpenViewFile, closeViewFile , setProgress}) {
 					console.log({ file });
 					if (window) {
 						console.log('listenning to flutterInAppWebViewPlatformReady');
-						console.log(window.flutter_inappwebview)
+						console.log(window.flutter_inappwebview);
 						if (selectedItem.type == 'photo') {
 							if (window.DownloadFiles) {
 								window.DownloadFiles.postMessage(selectedItem.photo);
 							}
-							if (window.flutter_inappwebview)	window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.photo);
+							if (window.flutter_inappwebview)
+								window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.photo);
 						}
 						if (selectedItem.type == 'video') {
 							if (window.DownloadFiles) {
 								window.DownloadFiles.postMessage(selectedItem.video);
 							}
-							if (window.flutter_inappwebview)	window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.video);
+							if (window.flutter_inappwebview)
+								window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.video);
 						}
 						if (selectedItem.type == 'document') {
 							if (window.DownloadFiles) {
 								window.DownloadFiles.postMessage(selectedItem.document);
 							}
-							if (window.flutter_inappwebview)	window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
+							if (window.flutter_inappwebview)
+								window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
 						}
-						
+
 						console.log('finish listenning to flutterInAppWebViewPlatformReady');
 					}
 					FileSaver.saveAs(file);
