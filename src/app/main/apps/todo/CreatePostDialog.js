@@ -16,7 +16,7 @@ function CreatePostDialog() {
 	return (
 		<Dialog
 		classes={{
-			root:'md:hidden'
+			root:'custom-modal-close'
 		}}
 			open={todoDialog.props.openTimelineDialog}
 			onClose={closeTodoDialog}

@@ -1846,12 +1846,15 @@ audio {
     transition: max-width 100ms cubic-bezier(0.0, 0, 0.2, 1) 50ms;
 }
 .sidebar-ht, .content-ht {
-    height: calc(100vh - 200px);
+    height: calc(100vh - 175px);
     overflow-y: auto;
 }
 .sidebar-ht.dashboard, .content-ht.dashboard {
-    height: calc(100vh - 120px);
+    height: calc(100vh - 67px);
 }
 .ht-auto {
     height: auto !important;
+}
+.inner-scroll-min-ht ~ div {
+    min-height: auto;
 }

@@ -27,7 +27,7 @@ function TaskContentDialog(props) {
 	return (
 		<Dialog
 			classes={{
-				root:'md:hidden',
+				root:'custom-modal-close',
 			}}
 			onClose={ev => dispatch(Actions.closeTaskContent())}
 			open={taskContentDialog.props.open}
