@@ -237,10 +237,13 @@ function FileManagerApp(props) {
 				res => {
 					const userInfo = decodeDataFromToken();
 					const cid = userInfo.extra?.profile?.company;
+					if (radioBtnValue == 'folder') {
+						dispatch(Actions.foldersPaths(routeParams.id, handleSetLoading));
+					}
 					if (folderPath.length > 1) {
 						dispatch(Actions.folderDetail(cid, handleSetLoading));
 					}
-					dispatch(Actions.getFolders(cid, handleSetLoading));
+					dispatch(Actions.getFolders(routeParams.id, handleSetLoading));
 					dispatch(Actions.onUploadHandleLoading(false));
 				},
 				err => {
