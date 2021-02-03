@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { ADD_ATTCHMENTS_TO_TASK } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import CardAttachment from './CardAttachment';
 import ImagesPreview from 'app/main/apps/notes/todo/ImagesPreview';
 import ImagePreviewDialog from 'app/ImagePreviewDialog';
@@ -14,12 +14,14 @@ import { useTranslation } from 'react-i18next';
 function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) {
 	const { t } = useTranslation(nameSpace);
 	const [images, setImages] = useState(null);
-	const [mediaSets, setMediaSets] = useState(attachments);
+	const [mediaSets, setMediaSets] = useState([]);
 	const inputFile = useRef(null);
 	const [progress, setProgress] = useState(0);
 	const [activtStep, setActivtStep] = useState(0);
 	const [open, setOpen] = useState(false);
-
+	useEffect(() => {
+		setMediaSets(attachments);
+	}, [attachments]);
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
 	}

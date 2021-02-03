@@ -108,6 +108,7 @@ function EditActivityPostForm(props) {
 		endDate: undefined
 	});
 	const initDialog = useCallback(() => {
+		setValue(0);
 		/**
 		 * Dialog type: 'edit'
 		 */

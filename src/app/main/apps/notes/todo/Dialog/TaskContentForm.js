@@ -252,6 +252,9 @@ function TaskContentForm(props) {
 			}
 		}
 	}, [companies, taskContentData]);
+	useEffect(() => {
+		setValue(0);
+	}, [taskContentData]);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 
