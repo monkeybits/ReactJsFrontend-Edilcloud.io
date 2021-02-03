@@ -49,10 +49,19 @@
         width: 100%;
     }
     .custom-task-content .web-pad {
-        padding: 24px;
+        padding: 24px 24px 0px 24px !important;
     } 
     .tabs-content .custom-create-post-padding .MuiBox-root {
-        padding: 24px !important;
+        padding: 24px 24px 0px 24px !important;
+    }
+    .write-post-img-full > .MuiBox-root {
+        padding: 24px 24px 0px 24px !important;
+    }
+    .custom-modal-open {
+        display: block;
+    }
+    .custom-modal-close {
+        display: none;
     }
 }
 @media only screen and (max-width: 767px) {
@@ -166,6 +175,9 @@
         align-items: inherit !important;
     }
     .md:hidden .MuiDialog-container {
+        align-items: inherit !important;
+    }
+    .custom-modal-close .MuiDialog-container {
         align-items: inherit !important;
     }
     .timeline-modal .MuiDialog-scrollPaper {
@@ -287,6 +299,9 @@
     }
     .sidebar-ht {
         width: 100% !important;
+    }
+    .sidebar-ht.dashboard, .content-ht.dashboard {
+        height: calc(100vh - 0px);
     }
     
     

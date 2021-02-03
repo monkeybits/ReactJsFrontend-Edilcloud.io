@@ -108,7 +108,7 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/> */}
-			<div className="flex w-full">
+			<div className="flex w-full inner-scroll-min-ht">
 				<div className="flex w-full items-center justify-between p-20">
 					<div>
 						<div className="flex w-full items-center justify-between">
