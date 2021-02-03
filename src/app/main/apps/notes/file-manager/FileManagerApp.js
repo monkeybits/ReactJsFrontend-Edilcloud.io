@@ -214,7 +214,7 @@ function FileManagerApp(props) {
 							[datakey]: fileType == 'image' ? await getCompressFile(file) : file,
 							title,
 							description,
-							folder: filePath ? filePath.id : null
+							folder: filePath ? filePath.mainId || filePath.id : null
 					  };
 			if (radioBtnValue == 'folder') {
 				formData = values;
@@ -390,9 +390,9 @@ function FileManagerApp(props) {
 				}
 				content={
 					viewTable ? (
-						<FileList pageLayout={pageLayout} setProgress={setProgress} />
+						<FileList viewTable={viewTable} pageLayout={pageLayout} setProgress={setProgress} />
 					) : (
-						<FileGrid pageLayout={pageLayout} setProgress={setProgress} />
+						<FileGrid viewTable={viewTable} pageLayout={pageLayout} setProgress={setProgress} />
 					)
 				}
 				leftSidebarVariant="temporary"

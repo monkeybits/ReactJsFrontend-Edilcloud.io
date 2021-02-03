@@ -131,7 +131,8 @@ function FileGrid(props) {
 		// 	dispatch(Actions.setAllFiles([...modifyfolders, ...tempFiles]));
 		// }
 		if (Array.isArray(files)) {
-			let tempFiles = files.filter(d => d.folder == currentFolderPath.id);
+			let tempFiles = files.filter(d => d.folder == currentFolderPath.mainId);
+			console.log({ tempFiles });
 			setCurrentFiles(tempFiles);
 		} else {
 			setCurrentFiles([]);
@@ -153,7 +154,7 @@ function FileGrid(props) {
 	};
 	useEffect(() => {
 		setAllFilesInit();
-	}, [files, folders, files.photos, files.videos, files.documents]);
+	}, [files, folders, files.photos, files.videos, files.documents, props.viewTable]);
 	useEffect(() => {
 		dispatch(Actions.setSelectedItem(''));
 		setAllFilesInit();
