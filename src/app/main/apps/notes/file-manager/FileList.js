@@ -106,25 +106,7 @@ function FileList(props) {
 			: {};
 
 	const setAllFilesInit = () => {
-		let modifyfolders = folders?.filter(
-			f =>
-				f.path.includes(currentFolderPath) &&
-				f.path.split('/').length <= folderPath.length &&
-				!folderPath.includes(f.path)
-		);
-		if (modifyfolders) {
-			modifyfolders = modifyfolders.map(item => {
-				let title = item.path.split('/');
-				title = title[title.length - 1];
-				return { ...item, title, type: 'folder' };
-			});
-			dispatch(
-				Actions.setAllFiles([
-					...modifyfolders,
-					...files.filter(f => f.folder_relative_path == currentFolderPath)
-				])
-			);
-		}
+		dispatch(Actions.setAllFiles([...folders, ...files.filter(d => d.folder == currentFolderPath.mainId)]));
 	};
 	const options = [
 		{
@@ -207,25 +189,27 @@ function FileList(props) {
 		}
 	}, [searchText]);
 	useEffect(() => {
-		let modifyfolders = folders?.filter(
-			f =>
-				f.path.includes(currentFolderPath) &&
-				f.path.split('/').length <= folderPath.length &&
-				!folderPath.includes(f.path)
-		);
-		if (modifyfolders) {
-			modifyfolders = modifyfolders.map(item => {
-				let title = item.path.split('/');
-				title = title[title.length - 1];
-				return { ...item, title, type: 'folder' };
-			});
-			dispatch(
-				Actions.setAllFiles([
-					...modifyfolders,
-					...files.filter(f => f.folder_relative_path == currentFolderPath)
-				])
-			);
-		}
+		// let modifyfolders = folders?.filter(
+		// 	f =>
+		// 		f.path.includes(currentFolderPath) &&
+		// 		f.path.split('/').length <= folderPath.length &&
+		// 		!folderPath.includes(f.path)
+		// );
+		// if (modifyfolders) {
+		// 	modifyfolders = modifyfolders.map(item => {
+		// 		let title = item.path.split('/');
+		// 		title = title[title.length - 1];
+		// 		return { ...item, title, type: 'folder' };
+		// 	});
+		// 	dispatch(
+		// 		Actions.setAllFiles([
+		// 			...modifyfolders,
+		// 			...files.filter(f => f.folder_relative_path == currentFolderPath)
+		// 		])
+		// 	);
+		// }
+		dispatch(Actions.setSelectedItem(''));
+		setAllFilesInit();
 	}, [currentFolderPath]);
 	const handleDelete = tile => {
 		let findIndex = 0;
@@ -397,8 +381,8 @@ function FileList(props) {
 									hover
 									onClick={event =>
 										n.type == 'folder'
-											? dispatch(Actions.setFolderPath(n.path))
-											: dispatch(Actions.setSelectedItem(n.id))
+											? dispatch(Actions.setFolderPath(n))
+											: dispatch(Actions.setSelectedItem(n))
 									}
 									selected={n.id === selectedItemId}
 									className="cursor-pointer"
@@ -431,7 +415,7 @@ function FileList(props) {
 											<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 										)}
 									</TableCell>
-									<TableCell>{n.title}</TableCell>
+									<TableCell>{n.title || n.name}</TableCell>
 									<TableCell className="hidden sm:table-cell">{n.type}</TableCell>
 									<TableCell className="hidden sm:table-cell">{checkData(n.owner)}</TableCell>
 									<TableCell className="text-center hidden sm:table-cell">

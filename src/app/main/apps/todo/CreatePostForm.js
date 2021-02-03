@@ -83,16 +83,22 @@ function CreatePostForm({ isTask, taskId }) {
 		}
 	}, [user]);
 	useEffect(() => {
+		setData({
+			posts: []
+		});
 		if (todoDialog.data?.todo?.id) {
 			getPosts();
 		}
 	}, [todoDialog.data]);
 	useEffect(() => {
 		if (isTask) {
+			setData({
+				posts: []
+			});
 			getSharedPosts();
 			getPosts();
 		}
-	}, [isTask]);
+	}, [isTask, taskId]);
 	function closeTodoDialog() {
 		return todoDialog.type === 'edit'
 			? dispatch(Actions.closeActivityTodoDialog())
@@ -256,14 +262,14 @@ function CreatePostForm({ isTask, taskId }) {
 		}
 	};
 	const getSharedPosts = () => {
-		apiCall(
-			GET_SHARED_POSTS_FOR_TASKS(taskId),
-			{},
-			res => setData(prev => ({ sharedPosts: res.results })),
-			err => console.log(err),
-			METHOD.GET,
-			getHeaderToken()
-		);
+		// apiCall(
+		// 	GET_SHARED_POSTS_FOR_TASKS(taskId),
+		// 	{},
+		// 	res => setData(prev => ({ sharedPosts: res.results })),
+		// 	err => console.log(err),
+		// 	METHOD.GET,
+		// 	getHeaderToken()
+		// );
 	};
 	const replaceImageUrl = (url, index) => {
 		images[index] = {

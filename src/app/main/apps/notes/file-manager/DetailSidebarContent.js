@@ -44,6 +44,7 @@ import Menu from '@material-ui/core/Menu';
 import FileViewDialog from './FileViewDialog';
 import * as ICONS from 'app/main/apps/constants';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router';
 
 const useStyles = makeStyles({
 	table: {
@@ -70,9 +71,11 @@ const useStyles = makeStyles({
 function DetailSidebarContent({ setProgress }) {
 	const { t } = useTranslation('filemanaer_project');
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
-	const selectedItem = useSelector(({ fileManagerAppProject }) => files[fileManagerAppProject.selectedItemId]);
+	const selectedItem = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
+	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
 	const dispatch = useDispatch();
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+	const routeParams = useParams();
 	const [isOpenViewFile, setIsOpenViewFile] = useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(false);
 	const handleClick = event => {
@@ -174,7 +177,7 @@ function DetailSidebarContent({ setProgress }) {
 		const mainId = selectedItem.mainId;
 		const url =
 			fileType == 'folder'
-				? FOLDER_DELETE(cid, selectedItem.path)
+				? FOLDER_DELETE(selectedItem.mainId)
 				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
 				: fileType == 'video'
@@ -184,11 +187,11 @@ function DetailSidebarContent({ setProgress }) {
 			url,
 			{},
 			res => {
-				if (fileType == 'folder') {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
-				} else {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
+				if (folderPath.length > 1) {
+					dispatch(Actions.folderDetail(routeParams.id));
 				}
+				dispatch(Actions.getFolders(routeParams.id));
+				dispatch(Actions.setSelectedItem(''));
 				colseDeleteFileDialog();
 			},
 			err => console.log(err),

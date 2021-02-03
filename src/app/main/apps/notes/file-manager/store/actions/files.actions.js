@@ -141,13 +141,13 @@ export function getDocuments(cid, handleSetLoading = () => '') {
 		);
 	};
 }
-export function getFolders(cid, handleSetLoading = () => '') {
+export function getFolders(pid, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingFolders: true
 	});
 	return (dispatch, getState) => {
 		apiCall(
-			FOLDER_LIST_PROJECT(cid),
+			FOLDER_LIST_PROJECT(pid),
 			{},
 			folders => {
 				handleSetLoading({
@@ -174,7 +174,7 @@ export function folderDetail(cid, handleSetLoading = () => '') {
 		loadingFolders: true
 	});
 	return (dispatch, getState) => {
-		const folderPath = getState().fileManagerApp.files.folderPath;
+		const folderPath = getState().fileManagerAppProject.files.folderPath;
 		let pathdata = folderPath[folderPath.length - 1];
 		if (pathdata) {
 			apiCall(

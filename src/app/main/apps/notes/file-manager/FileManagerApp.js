@@ -111,7 +111,7 @@ function FileManagerApp(props) {
 	const isUploadingFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.isUploadingFiles);
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
-	const selectedItem = useSelector(({ fileManagerAppProject }) => allFiles[fileManagerAppProject.selectedItemId]);
+	const selectedItem = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
 	const pageLayout = useRef(null);
 	const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
@@ -216,8 +216,12 @@ function FileManagerApp(props) {
 							description,
 							folder: filePath ? filePath.id : null
 					  };
-			for (let key in values) {
-				formData.append(key, values[key]);
+			if (radioBtnValue == 'folder') {
+				formData = values;
+			} else {
+				for (let key in values) {
+					formData.append(key, values[key]);
+				}
 			}
 			let apiUrl =
 				radioBtnValue == 'folder'
