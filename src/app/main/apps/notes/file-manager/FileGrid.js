@@ -90,6 +90,7 @@ function FileGrid(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.files);
+	const rootFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.rootFiles);
 	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
 	const currentFolderPath = folderPath[folderPath.length - 1];
@@ -133,7 +134,10 @@ function FileGrid(props) {
 		// 	setCurrentFiles(tempFiles);
 		// 	dispatch(Actions.setAllFiles([...modifyfolders, ...tempFiles]));
 		// }
-		if (Array.isArray(files)) {
+		console.log({ currentFolderPath, rootFiles });
+		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
+			setCurrentFiles(rootFiles);
+		} else if (Array.isArray(files)) {
 			let tempFiles = files.filter(d => d.folder == currentFolderPath.mainId);
 			console.log({ tempFiles });
 			setCurrentFiles(tempFiles);
@@ -157,7 +161,7 @@ function FileGrid(props) {
 	};
 	useEffect(() => {
 		setAllFilesInit();
-	}, [files, folders, files.photos, files.videos, files.documents, props.viewTable]);
+	}, [files, folders, files.photos, files.videos, files.documents, props.viewTable, rootFiles]);
 	useEffect(() => {
 		dispatch(Actions.setSelectedItem(''));
 		setAllFilesInit();
@@ -209,7 +213,7 @@ function FileGrid(props) {
 		const mainId = selectedItem.mainId;
 		const url =
 			fileType == 'folder'
-				? FOLDER_DELETE_PROJECT(routeParams.id, selectedItem.mainId || selectedItem.id)
+				? FOLDER_DELETE(selectedItem.mainId || selectedItem.id)
 				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
 				: fileType == 'video'
@@ -224,6 +228,15 @@ function FileGrid(props) {
 				}
 				if (folderPath.length > 1) {
 					dispatch(Actions.folderDetail());
+				}
+				if (fileType != 'folder') {
+					if (fileType == 'photo') {
+						dispatch(Actions.getPhotos(routeParams.id));
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos(routeParams.id));
+					} else {
+						dispatch(Actions.getDocuments(routeParams.id));
+					}
 				}
 				dispatch(Actions.getFolders(routeParams.id));
 				// colseDeleteFileDialog();
@@ -278,7 +291,6 @@ function FileGrid(props) {
 										{/* <FolderSpecialOutlinedIcon className="text-custom-warning" /> */}
 									</ListItemIcon>
 									<ListItemText primary={d.name} secondary={null} />
-									{/* <MoreVertIcon /> */}
 									<div className="actions-dropdown file-folder-action-dropdown">
 										<TippyMenu
 											icon={
@@ -305,7 +317,29 @@ function FileGrid(props) {
 												</ListItemIcon>
 												<Typography variant="inherit"> {t('DELETE')}</Typography>
 											</MenuItem>
-											{/* ))} */}
+											<MenuItem
+												onClick={e => {
+													e.stopPropagation();
+													dispatch(Actions.openRenameFileDialog(d));
+												}}
+											>
+												<ListItemIcon>
+													<Icon>edit</Icon>
+												</ListItemIcon>
+												<Typography variant="inherit"> {t('RENAME')}</Typography>
+											</MenuItem>
+											<MenuItem
+												onClick={ev => {
+													ev.preventDefault();
+													ev.stopPropagation();
+													dispatch(Actions.openMoveFileDialog(d));
+												}}
+											>
+												<ListItemIcon>
+													<Icon>transform</Icon>
+												</ListItemIcon>
+												<Typography variant="inherit"> {t('MOVE_TO')}</Typography>
+											</MenuItem>
 										</TippyMenu>
 									</div>
 								</ListItem>

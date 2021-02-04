@@ -189,6 +189,16 @@ function DetailSidebarContent({ setProgress }) {
 				if (folderPath.length > 1) {
 					dispatch(Actions.folderDetail(cid));
 				}
+				if (fileType != 'folder') {
+					if (fileType == 'photo') {
+						dispatch(Actions.getPhotos(cid));
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos(cid));
+					} else {
+						dispatch(Actions.getDocuments(cid));
+					}
+				}
+
 				dispatch(Actions.getFolders(cid));
 				dispatch(Actions.setSelectedItem(''));
 				// if (fileType == 'folder') {

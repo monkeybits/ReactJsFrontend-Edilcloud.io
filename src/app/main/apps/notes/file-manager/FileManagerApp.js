@@ -220,7 +220,7 @@ function FileManagerApp(props) {
 				formData = values;
 			} else {
 				for (let key in values) {
-					formData.append(key, values[key]);
+					if (values[key]) formData.append(key, values[key]);
 				}
 			}
 			let apiUrl =
@@ -242,6 +242,16 @@ function FileManagerApp(props) {
 					}
 					if (folderPath.length > 1) {
 						dispatch(Actions.folderDetail(cid, handleSetLoading));
+					} else {
+						if (radioBtnValue != 'folder') {
+							if (fileType == 'image') {
+								dispatch(Actions.getPhotos(routeParams.id, handleSetLoading));
+							} else if (fileType == 'video') {
+								dispatch(Actions.getVideos(routeParams.id, handleSetLoading));
+							} else {
+								dispatch(Actions.getDocuments(routeParams.id, handleSetLoading));
+							}
+						}
 					}
 					dispatch(Actions.getFolders(routeParams.id, handleSetLoading));
 					dispatch(Actions.onUploadHandleLoading(false));

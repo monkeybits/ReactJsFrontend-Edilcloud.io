@@ -82,6 +82,7 @@ function FileList(props) {
 	const currentFolderPath = folderPath[folderPath.length - 1];
 	const selectedItemId = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
+	const rootFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.rootFiles);
 	const menuRef = useRef(null);
 	const { t } = useTranslation('filemanager');
 	// const [allFiles, setAllFiles] = useState([]);
@@ -170,7 +171,11 @@ function FileList(props) {
 		// 		])
 		// 	);
 		// }
-		dispatch(Actions.setAllFiles([...folders, ...files.filter(d => d.folder == currentFolderPath.mainId)]));
+		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
+			dispatch(Actions.setAllFiles([...folders, ...rootFiles]));
+		} else {
+			dispatch(Actions.setAllFiles([...folders, ...files.filter(d => d.folder == currentFolderPath.mainId)]));
+		}
 		// if (Array.isArray(files)) {
 		// 	let tempFiles = files.filter(d => d.folder == currentFolderPath.id);
 		// 	setCurrentFiles(tempFiles);
@@ -191,7 +196,7 @@ function FileList(props) {
 	};
 	useEffect(() => {
 		setAllFilesInit();
-	}, [files, folders, files.photos, files.videos, files.documents]);
+	}, [files, folders, files.photos, files.videos, files.documents, rootFiles]);
 
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
@@ -240,6 +245,16 @@ function FileList(props) {
 				if (folderPath.length > 1) {
 					dispatch(Actions.folderDetail(cid));
 				}
+				if (fileType != 'folder') {
+					if (fileType == 'photo') {
+						dispatch(Actions.getPhotos(cid));
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos(cid));
+					} else {
+						dispatch(Actions.getDocuments(cid));
+					}
+				}
+
 				dispatch(Actions.getFolders(cid));
 				dispatch(Actions.setSelectedItem(''));
 				// colseDeleteFileDialog();
@@ -371,9 +386,8 @@ function FileList(props) {
 								<TableCell className="hidden sm:table-cell"></TableCell>
 								<TableCell className="hidden sm:table-cell"></TableCell>
 								<TableCell className="hidden sm:table-cell"></TableCell>
-								<TableCell></TableCell>
-								<TableCell></TableCell>
-								<TableCell>{t('ACTIONS')}</TableCell>
+								{/* <TableCell></TableCell>
+								<TableCell></TableCell> */}
 							</TableRow>
 						)}
 						{Object.entries(allFiles).map(([key, n]) => {
@@ -417,7 +431,7 @@ function FileList(props) {
 											<img className="icon mr-8" src={ICONS.GENERIC_ICON_PATH} />
 										)}
 									</TableCell>
-									<TableCell>{n.title||n.name}</TableCell>
+									<TableCell>{n.title || n.name}</TableCell>
 									<TableCell className="hidden sm:table-cell">{n.type}</TableCell>
 									<TableCell className="hidden sm:table-cell">{checkData(n.owner)}</TableCell>
 									<TableCell className="text-center hidden sm:table-cell">

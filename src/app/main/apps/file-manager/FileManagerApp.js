@@ -216,8 +216,12 @@ function FileManagerApp(props) {
 							description,
 							folder: filePath ? filePath.id : null
 					  };
-			for (let key in values) {
-				formData.append(key, values[key]);
+			if (radioBtnValue == 'folder') {
+				formData = values;
+			} else {
+				for (let key in values) {
+					if (values[key]) formData.append(key, values[key]);
+				}
 			}
 			let apiUrl =
 				radioBtnValue == 'folder'
@@ -233,21 +237,25 @@ function FileManagerApp(props) {
 				res => {
 					const userInfo = decodeDataFromToken();
 					const cid = userInfo.extra?.profile?.company;
+					if (radioBtnValue == 'folder') {
+						dispatch(Actions.foldersPaths(cid, handleSetLoading));
+					}
 					// if (radioBtnValue == 'folder') {
 					console.log({ folderPath11: folderPath });
 					if (folderPath.length > 1) {
 						dispatch(Actions.folderDetail(cid, handleSetLoading));
+					} else {
+						if (radioBtnValue != 'folder') {
+							if (fileType == 'image') {
+								dispatch(Actions.getPhotos(cid, handleSetLoading));
+							} else if (fileType == 'video') {
+								dispatch(Actions.getVideos(cid, handleSetLoading));
+							} else {
+								dispatch(Actions.getDocuments(cid, handleSetLoading));
+							}
+						}
 					}
 					dispatch(Actions.getFolders(cid, handleSetLoading));
-					// } else {
-					// 	if (fileType == 'image') {
-					// 		dispatch(Actions.getPhotos(cid, handleSetLoading));
-					// 	} else if (fileType == 'video') {
-					// 		dispatch(Actions.getVideos(cid, handleSetLoading));
-					// 	} else {
-					// 		dispatch(Actions.getDocuments(cid, handleSetLoading));
-					// 	}
-					// }
 					dispatch(Actions.onUploadHandleLoading(false));
 				},
 				err => {
