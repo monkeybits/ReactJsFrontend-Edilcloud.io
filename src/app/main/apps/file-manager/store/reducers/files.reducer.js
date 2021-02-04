@@ -2,6 +2,7 @@ import _ from '@lodash';
 import * as Actions from '../actions';
 
 const initialState = () => ({
+	rootFiles: [],
 	allFolderPaths: [],
 	allFiles: [],
 	photos: [],
@@ -132,6 +133,7 @@ const getnestedFilesById = (folders, id) => {
 		}
 	}
 };
+const checkTypeAndReturn = (arr = [], type) => arr.filter(ar => ar.type != type);
 const filesReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_ALL_FILES:
@@ -144,8 +146,14 @@ const filesReducer = (state = initialState(), action) => {
 				...state,
 				isUploadingFiles: false,
 				photos: action.payload,
-				files: chnageIds(
-					sortByProperty(mergeArray(state.files, addTypeInArray(action.payload.results, 'photo')), 'title')
+				rootFiles: chnageIds(
+					sortByProperty(
+						mergeArray(
+							checkTypeAndReturn(state.rootFiles, 'photo'),
+							addTypeInArray(action.payload, 'photo')
+						),
+						'title'
+					)
 				)
 			};
 		case Actions.GET_VIDEOS:
@@ -153,8 +161,14 @@ const filesReducer = (state = initialState(), action) => {
 				...state,
 				isUploadingFiles: false,
 				videos: action.payload,
-				files: chnageIds(
-					sortByProperty(mergeArray(state.files, addTypeInArray(action.payload.results, 'video')), 'title')
+				rootFiles: chnageIds(
+					sortByProperty(
+						mergeArray(
+							checkTypeAndReturn(state.rootFiles, 'video'),
+							addTypeInArray(action.payload, 'video')
+						),
+						'title'
+					)
 				)
 			};
 		case Actions.GET_DOCUMENTS:
@@ -162,8 +176,14 @@ const filesReducer = (state = initialState(), action) => {
 				...state,
 				isUploadingFiles: false,
 				documents: action.payload,
-				files: chnageIds(
-					sortByProperty(mergeArray(state.files, addTypeInArray(action.payload.results, 'document')), 'title')
+				rootFiles: chnageIds(
+					sortByProperty(
+						mergeArray(
+							checkTypeAndReturn(state.rootFiles, 'document'),
+							addTypeInArray(action.payload, 'document')
+						),
+						'title'
+					)
 				)
 			};
 		case Actions.GET_FOLDERS_PATHS:
@@ -227,7 +247,16 @@ const filesReducer = (state = initialState(), action) => {
 				: {
 						...state,
 						folders: addTypeInArray(action.payload.folders, 'folder'),
-						files: []
+						files: chnageIds(
+							sortByProperty(
+								mergeArray(state.files, [
+									...addTypeInArray(state.photos, 'photo'),
+									...addTypeInArray(state.videos, 'video'),
+									...addTypeInArray(state.documents, 'document')
+								]),
+								'title'
+							)
+						)
 				  };
 
 		case Actions.UPDATE_FOLDER_PATH:
@@ -248,7 +277,16 @@ const filesReducer = (state = initialState(), action) => {
 								'title'
 							)
 					  )
-					: [], //pathData.media.photo,
+					: chnageIds(
+							sortByProperty(
+								mergeArray(state.files, [
+									...addTypeInArray(state.photos, 'photo'),
+									...addTypeInArray(state.videos, 'video'),
+									...addTypeInArray(state.documents, 'document')
+								]),
+								'title'
+							)
+					  ), //pathData.media.photo,
 				folders: pathData?.folders
 					? addTypeInArray(pathData.folders, 'folder')
 					: addTypeInArray(state.rootFolders, 'folder')
@@ -272,7 +310,16 @@ const filesReducer = (state = initialState(), action) => {
 								'title'
 							)
 					  )
-					: [], //pathDataAfterPop.media.photo,
+					: chnageIds(
+							sortByProperty(
+								mergeArray(state.files, [
+									...addTypeInArray(state.photos, 'photo'),
+									...addTypeInArray(state.videos, 'video'),
+									...addTypeInArray(state.documents, 'document')
+								]),
+								'title'
+							)
+					  ), //pathDataAfterPop.media.photo,
 				folders: pathDataAfterPop?.folders
 					? addTypeInArray(pathDataAfterPop.folders, 'folder')
 					: addTypeInArray(state.rootFolders, 'folder')

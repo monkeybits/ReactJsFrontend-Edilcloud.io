@@ -50,9 +50,9 @@ export function closeMoveFileDialog() {
 }
 export function getFiles(cid, handleSetLoading = () => '') {
 	return (dispatch, getState) => {
-		// dispatch(getPhotos(cid, handleSetLoading));
-		// dispatch(getVideos(cid, handleSetLoading));
-		// dispatch(getDocuments(cid, handleSetLoading));
+		dispatch(getPhotos(cid, handleSetLoading));
+		dispatch(getVideos(cid, handleSetLoading));
+		dispatch(getDocuments(cid, handleSetLoading));
 		dispatch(getFolders(cid, handleSetLoading));
 		dispatch(foldersPaths(cid, handleSetLoading));
 	};

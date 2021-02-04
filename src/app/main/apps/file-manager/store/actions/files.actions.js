@@ -49,9 +49,9 @@ export function closeMoveFileDialog() {
 }
 export function getFiles(cid, handleSetLoading = () => '') {
 	return (dispatch, getState) => {
-		// dispatch(getPhotos(cid, handleSetLoading));
-		// dispatch(getVideos(cid, handleSetLoading));
-		// dispatch(getDocuments(cid, handleSetLoading));
+		dispatch(getPhotos(cid, handleSetLoading));
+		dispatch(getVideos(cid, handleSetLoading));
+		dispatch(getDocuments(cid, handleSetLoading));
 		dispatch(getFolders(cid, handleSetLoading));
 		dispatch(foldersPaths(cid, handleSetLoading));
 	};
@@ -61,27 +61,27 @@ export function getPhotos(cid, handleSetLoading = () => '', photos) {
 		loadingPhotos: true
 	});
 	return (dispatch, getState) => {
-		// apiCall(
-		// 	PHOTO_LIST(cid),
-		// 	{},
-		// 	photos => {
-		// 		handleSetLoading({
-		// 			loadingPhotos: false
-		// 		});
-		dispatch({
-			type: GET_PHOTOS,
-			payload: photos
-		});
-		// },
-		// err => {
-		// 	handleSetLoading({
-		// 		loadingPhotos: false
-		// 	});
-		// 	console.log(err);
-		// },
-		// METHOD.GET,
-		// getHeaderToken()
-		// );
+		apiCall(
+			PHOTO_LIST(cid),
+			{},
+			photos => {
+				handleSetLoading({
+					loadingPhotos: false
+				});
+				dispatch({
+					type: GET_PHOTOS,
+					payload: photos
+				});
+			},
+			err => {
+				handleSetLoading({
+					loadingPhotos: false
+				});
+				console.log(err);
+			},
+			METHOD.GET,
+			getHeaderToken()
+		);
 	};
 }
 export function getVideos(cid, handleSetLoading = () => '') {
@@ -177,7 +177,7 @@ export function folderDetail(cid, handleSetLoading = () => '') {
 		let pathdata = folderPath[folderPath.length - 1];
 		if (pathdata) {
 			apiCall(
-				GET_FOLDERS_DETAIL(pathdata.id),
+				GET_FOLDERS_DETAIL(pathdata.mainId || pathdata.id),
 				{},
 				folders => {
 					console.log('GET_FOLDERS_DETAIL', folders);

@@ -88,6 +88,7 @@ function FileGrid(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.files);
+	const rootFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.rootFiles);
 	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
 	const currentFolderPath = folderPath[folderPath.length - 1];
@@ -132,7 +133,10 @@ function FileGrid(props) {
 		// 	setCurrentFiles(tempFiles);
 		// 	dispatch(Actions.setAllFiles([...modifyfolders, ...tempFiles]));
 		// }
-		if (Array.isArray(files)) {
+		console.log({ currentFolderPath, rootFiles });
+		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
+			setCurrentFiles(rootFiles);
+		} else if (Array.isArray(files)) {
 			let tempFiles = files.filter(d => d.folder == currentFolderPath.id);
 			setCurrentFiles(tempFiles);
 		} else {
@@ -155,7 +159,7 @@ function FileGrid(props) {
 	};
 	useEffect(() => {
 		setAllFilesInit();
-	}, [files, folders, files.photos, files.videos, files.documents]);
+	}, [files, folders, files.photos, files.videos, files.documents, rootFiles]);
 	useEffect(() => {
 		dispatch(Actions.setSelectedItem(''));
 		setAllFilesInit();
@@ -221,6 +225,16 @@ function FileGrid(props) {
 				if (folderPath.length > 1) {
 					dispatch(Actions.folderDetail(cid));
 				}
+				if (fileType != 'folder') {
+					if (fileType == 'photo') {
+						dispatch(Actions.getPhotos(cid));
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos(cid));
+					} else {
+						dispatch(Actions.getDocuments(cid));
+					}
+				}
+
 				dispatch(Actions.getFolders(cid));
 				// if (fileType == 'folder') {
 				// 	dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
@@ -294,6 +308,29 @@ function FileGrid(props) {
 													<Icon>delete</Icon>
 												</ListItemIcon>
 												<Typography variant="inherit"> {t('DELETE')}</Typography>
+											</MenuItem>
+											<MenuItem
+												onClick={e => {
+													e.stopPropagation();
+													dispatch(Actions.openRenameFileDialog(d));
+												}}
+											>
+												<ListItemIcon>
+													<Icon>edit</Icon>
+												</ListItemIcon>
+												<Typography variant="inherit"> {t('RENAME')}</Typography>
+											</MenuItem>
+											<MenuItem
+												onClick={ev => {
+													ev.preventDefault();
+													ev.stopPropagation();
+													dispatch(Actions.openMoveFileDialog(d));
+												}}
+											>
+												<ListItemIcon>
+													<Icon>transform</Icon>
+												</ListItemIcon>
+												<Typography variant="inherit"> {t('MOVE_TO')}</Typography>
 											</MenuItem>
 											{/* ))} */}
 										</TippyMenu>

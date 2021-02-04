@@ -12,7 +12,8 @@ import {
 	PHOTO_DELETE,
 	VIDEO_DELETE,
 	DOCUMENT_DELETE,
-	FOLDER_DELETE_PROJECT
+	FOLDER_DELETE_PROJECT,
+	FOLDER_DELETE
 } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
@@ -30,6 +31,7 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const selectedItem = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [isOpenViewFile, setIsOpenViewFile] = useState(false);
+	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
 	const routeParams = useParams();
 
 	if (!selectedItem) {
@@ -43,7 +45,7 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 		const mainId = selectedItem.mainId;
 		const url =
 			fileType == 'folder'
-				? FOLDER_DELETE_PROJECT(pid, selectedItem.path)
+				? FOLDER_DELETE(selectedItem.mainId || selectedItem.id)
 				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
 				: fileType == 'video'
@@ -53,11 +55,20 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 			url,
 			{},
 			res => {
-				if (fileType == 'folder') {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, selectedItem.path, selectedItem));
-				} else {
-					dispatch(Actions.deleteFile(selectedItem.id, fileType, mainId, selectedItem));
+				if (folderPath.length > 1) {
+					dispatch(Actions.folderDetail(routeParams.id));
 				}
+				if (fileType != 'folder') {
+					if (fileType == 'photo') {
+						dispatch(Actions.getPhotos(routeParams.id));
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos(routeParams.id));
+					} else {
+						dispatch(Actions.getDocuments(routeParams.id));
+					}
+				}
+				dispatch(Actions.getFolders(routeParams.id));
+				dispatch(Actions.setSelectedItem(''));
 				colseDeleteFileDialog();
 			},
 			err => console.log(err),

@@ -79,6 +79,7 @@ function FileList(props) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.folders);
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.files);
+	const rootFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.rootFiles);
 	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
 	const currentFolderPath = folderPath[folderPath.length - 1];
@@ -109,7 +110,11 @@ function FileList(props) {
 	const routeParams = useParams();
 
 	const setAllFilesInit = () => {
-		dispatch(Actions.setAllFiles([...folders, ...files.filter(d => d.folder == currentFolderPath.mainId)]));
+		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
+			dispatch(Actions.setAllFiles([...folders, ...rootFiles]));
+		} else {
+			dispatch(Actions.setAllFiles([...folders, ...files.filter(d => d.folder == currentFolderPath.mainId)]));
+		}
 	};
 	const options = [
 		{
@@ -224,7 +229,7 @@ function FileList(props) {
 		const mainId = selectedItem.mainId;
 		const url =
 			fileType == 'folder'
-				? FOLDER_DELETE_PROJECT(routeParams.id, selectedItem.mainId || selectedItem.id)
+				? FOLDER_DELETE(selectedItem.mainId || selectedItem.id)
 				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
 				: fileType == 'video'
@@ -239,6 +244,15 @@ function FileList(props) {
 				}
 				if (folderPath.length > 1) {
 					dispatch(Actions.folderDetail());
+				}
+				if (fileType != 'folder') {
+					if (fileType == 'photo') {
+						dispatch(Actions.getPhotos(routeParams.id));
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos(routeParams.id));
+					} else {
+						dispatch(Actions.getDocuments(routeParams.id));
+					}
 				}
 				dispatch(Actions.getFolders(routeParams.id));
 				// colseDeleteFileDialog();

@@ -3,7 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import { Button, TextField } from '@material-ui/core';
-import { MOVE_PHOTO_FILE, MOVE_VIDEO_FILE, MOVE_DOCUMENT_FILE } from 'app/services/apiEndPoints';
+import {
+	MOVE_PHOTO_FILE,
+	MOVE_VIDEO_FILE,
+	MOVE_DOCUMENT_FILE,
+	FOLDER_EDIT,
+	PHOTO_EDIT,
+	VIDEO_EDIT,
+	DOCUMENT_EDIT
+} from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 
@@ -18,6 +26,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router';
 
 const DialogContent = withStyles(theme => ({
 	root: {
@@ -39,12 +48,14 @@ const DialogActions = withStyles(theme => ({
 function MoveFileDialog() {
 	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
+	const allFolderPaths = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.allFolderPaths);
 	const moveFileDialog = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.moveFileDialog);
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files);
 	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
 	const currentFolderPath = files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
 	const [title, setTitle] = useState(undefined);
 	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
+	const routeParams = useParams();
 	const [error, seterror] = useState({
 		fileError: '',
 		titleError: '',
@@ -60,10 +71,10 @@ function MoveFileDialog() {
 		 */
 	}, [moveFileDialog.props.open]);
 	useEffect(() => {
-		if (moveFileDialog.data.title) {
-			setTitle(moveFileDialog.data.title);
+		if (moveFileDialog.data.name || moveFileDialog.data.title) {
+			setTitle(moveFileDialog.data.name || moveFileDialog.data.title);
 		}
-	}, [moveFileDialog.data.title]);
+	}, [moveFileDialog.data]);
 	function handleClose() {
 		dispatch(Actions.closeMoveFileDialog());
 	}
@@ -73,32 +84,66 @@ function MoveFileDialog() {
 		let fileId = moveFileDialog.data.mainId;
 		let relative_path = moveFileDialog.data.folder_relative_path;
 		let apiUrl =
-			fileType == 'photo'
-				? MOVE_PHOTO_FILE(fileId)
+			fileType == 'folder'
+				? FOLDER_EDIT(fileId)
+				: fileType == 'photo'
+				? PHOTO_EDIT(fileId)
 				: fileType == 'video'
-				? MOVE_VIDEO_FILE(fileId)
-				: MOVE_DOCUMENT_FILE(fileId);
-		let values = {
-			from: relative_path,
-			to: path
-		};
-		var formData = new FormData();
-		for (let key in values) {
-			formData.append(key, values[key]);
+				? VIDEO_EDIT(fileId)
+				: DOCUMENT_EDIT(fileId);
+		let values = {};
+		if (moveFileDialog.type === 'rename') {
+			if (fileType == 'folder') {
+				values = {
+					name: title,
+					parent: moveFileDialog.data.parent
+				};
+			} else {
+				values = {
+					title
+				};
+			}
+		} else {
+			if (fileType == 'folder') {
+				values = {
+					name: title,
+					parent: path.id ? path.id : null
+				};
+			} else {
+				values = {
+					title,
+					folder: path.id ? path.id : null
+				};
+			}
 		}
+		// var formData = new FormData();
+		// for (let key in values) {
+		// 	formData.append(key, values[key]);
+		// }
 		apiCall(
 			apiUrl,
-			formData,
+			values,
 			res => {
 				const userInfo = decodeDataFromToken();
 				const cid = userInfo.extra?.profile?.company;
-				if (fileType == 'photo') {
-					dispatch(Actions.getPhotos(cid));
-				} else if (fileType == 'video') {
-					dispatch(Actions.getVideos(cid));
-				} else {
-					dispatch(Actions.getDocuments(cid));
+				if (fileType == 'folder') {
+					dispatch(Actions.foldersPaths(routeParams.id));
 				}
+				// if (fileType == 'folder') {
+				console.log({ folderPath11: folderPath });
+				if (folderPath.length > 1) {
+					dispatch(Actions.folderDetail(routeParams.id));
+				}
+				if (fileType != 'folder') {
+					if (fileType == 'photo') {
+						dispatch(Actions.getPhotos(routeParams.id));
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos(routeParams.id));
+					} else {
+						dispatch(Actions.getDocuments(routeParams.id));
+					}
+				}
+				dispatch(Actions.getFolders(routeParams.id));
 				handleClose();
 			},
 			err => console.log(err),
@@ -167,16 +212,16 @@ function MoveFileDialog() {
 						/>
 					)}
 				</div>
-				{moveFileDialog.type !== 'rename' && files.folders && !!files.folders.length && (
+				{moveFileDialog.type !== 'rename' && allFolderPaths && !!allFolderPaths.length && (
 					<div>
 						<Autocomplete
-							options={files.folders.filter(f => f.path != currentFolderPath?.[0]?.path)}
+							options={allFolderPaths}
 							style={{ width: '100%' }}
 							className="mb-24"
 							getOptionLabel={option => option.path}
-							renderOption={option => <>{option.path}</>}
+							renderOption={(option, { selected }) => <>{option.path}</>}
 							renderInput={params => <TextField {...params} label={t('PATH')} />}
-							onInputChange={(e, value) => setPath(value)}
+							onChange={(e, value) => setPath(value)}
 							variant="outlined"
 						/>
 					</div>

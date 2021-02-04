@@ -177,7 +177,7 @@ function DetailSidebarContent({ setProgress }) {
 		const mainId = selectedItem.mainId;
 		const url =
 			fileType == 'folder'
-				? FOLDER_DELETE(selectedItem.mainId)
+				? FOLDER_DELETE(selectedItem.mainId || selectedItem.id)
 				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
 				: fileType == 'video'
@@ -190,6 +190,16 @@ function DetailSidebarContent({ setProgress }) {
 				if (folderPath.length > 1) {
 					dispatch(Actions.folderDetail(routeParams.id));
 				}
+				if (fileType != 'folder') {
+					if (fileType == 'photo') {
+						dispatch(Actions.getPhotos(routeParams.id));
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos(routeParams.id));
+					} else {
+						dispatch(Actions.getDocuments(routeParams.id));
+					}
+				}
+
 				dispatch(Actions.getFolders(routeParams.id));
 				dispatch(Actions.setSelectedItem(''));
 				colseDeleteFileDialog();
