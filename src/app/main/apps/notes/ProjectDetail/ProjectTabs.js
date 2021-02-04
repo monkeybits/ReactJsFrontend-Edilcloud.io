@@ -96,7 +96,7 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 		setValue(newValue);
 	};
 	useDeepCompareEffect(() => {
-		dispatch(Actions.getContacts(routeParams.id));
+		dispatch(Actions.getApprovedContacts(routeParams.id));
 
 		return dispatch(Actions.resetContact());
 	}, [dispatch, routeParams]);
