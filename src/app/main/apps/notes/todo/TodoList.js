@@ -25,7 +25,7 @@ function TodoList(props) {
 	const [hasRenderd, setHasRenderd] = useState(false);
 	const orderBy = useSelector(({ todoAppNote }) => todoAppNote.todos.orderBy);
 	const orderDescending = useSelector(({ todoAppNote }) => todoAppNote.todos.orderDescending);
-	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.companies);
+	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [filteredData, setFilteredData] = useState(null);
 	const filters = useSelector(({ todoAppNote }) => todoAppNote.filters);
 	const activeFilter = useSelector(({ todoAppNote }) => todoAppNote.filters.activeFilter);

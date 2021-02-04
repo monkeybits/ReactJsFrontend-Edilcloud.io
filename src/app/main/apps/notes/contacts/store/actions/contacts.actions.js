@@ -76,7 +76,7 @@ export function getContacts(pid, handleSetLoading = () => '') {
 		// dispatch(getDeactivatedContacts(routeParams));
 	};
 }
-export function getApprovedContacts(routeParams, handleSetLoading) {
+export function getApprovedContacts(routeParams, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingApprove: true
 	});

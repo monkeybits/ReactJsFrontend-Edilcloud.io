@@ -90,12 +90,12 @@ function JWTRegisterTab({ history }) {
 					type="text"
 					name="first_name"
 					label={t('FIRST_NAME')}
-					validations={{
-						minLength: 6
-					}}
-					validationErrors={{
-						minLength: 'Min character length is 6'
-					}}
+					// validations={{
+					// 	minLength: 
+					// }}
+					// validationErrors={{
+					// 	minLength: 'Min character length is 6'
+					// }}
 					//InputProps={{
 					//	endAdornment: (
 					//		<InputAdornment position="end">
@@ -114,12 +114,12 @@ function JWTRegisterTab({ history }) {
 					type="text"
 					name="last_name"
 					label={t('LAST_NAME')}
-					validations={{
-						minLength: 4
-					}}
-					validationErrors={{
-						minLength: 'Min character length is 4'
-					}}
+					// validations={{
+					// 	minLength: 4
+					// }}
+					// validationErrors={{
+					// 	minLength: 'Min character length is 4'
+					// }}
 					//InputProps={{
 					//	endAdornment: (
 					//		<InputAdornment position="end">
