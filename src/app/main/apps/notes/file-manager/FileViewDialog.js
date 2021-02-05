@@ -73,7 +73,9 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
-	const Allfiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.files);
+	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
+	const currentFolderPath = folderPath[folderPath.length - 1];
+	const Allfiles = useSelector(({ fileManagerAppProject }) => currentFolderPath == '' ? fileManagerAppProject.files?.rootFiles : fileManagerAppProject.files?.files);
 	const item = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
 	const [currentIndex, setcurrentIndex] = useState(null);
 	const [selectedItem, setSelectedItem] = useState(null);
