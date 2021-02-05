@@ -455,6 +455,11 @@ function TaskContentForm(props) {
 
 				<TabPanel value={value} index={2}>
 					<div className="sm:mx-12">
+						{getIsDisabled() && (
+							<div className="flex items-center mb-24">
+								<Icon>lock</Icon> only company owner can change this details
+							</div>
+						)}
 						<div className="flex items-center mb-24">
 							<TextField
 								label={t('TITLE')}

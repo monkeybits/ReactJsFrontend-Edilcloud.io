@@ -29,7 +29,7 @@ function NavbarLayout1(props) {
 	const theme = useTheme();
 
 	return (
-		<div className={clsx('flex flex-col overflow-hidden h-full', props.className)}>
+		<div className={clsx('flex flex-col overflow-hidden h-full sidebar-content', props.className)}>
 			<AppBar
 				color="primary"
 				position="static"

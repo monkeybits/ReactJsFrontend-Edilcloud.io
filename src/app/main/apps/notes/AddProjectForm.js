@@ -336,7 +336,8 @@ function AddProjectForm() {
 								aria-label="LOG IN"
 								disabled={!isFormValid}
 							>
-								{t('ADD')} {loading && <CircularProgress size={20} color="secondary" />}
+								{projectApp.dialogType == 'new' ? t('ADD') : t('SAVE')}
+								{loading && <CircularProgress size={20} color="secondary" />}
 							</Button>
 						</div>
 					</Grid>
