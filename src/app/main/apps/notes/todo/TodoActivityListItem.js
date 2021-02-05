@@ -478,7 +478,7 @@ function TodoActivityListItem(props) {
 									className="custom-member-menu flex items-center"
 									onClick={visible ? handleMenuClose : handleMenuOpen}
 								>
-									<Icon>person</Icon>
+									<Icon className="bg-custom-primary text-white">person</Icon>
 								</div>
 							</Tippy>
 						</div>

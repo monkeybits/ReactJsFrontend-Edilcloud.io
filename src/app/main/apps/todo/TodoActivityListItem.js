@@ -508,7 +508,7 @@ function TodoActivityListItem(props) {
 									aria-haspopup="true"
 									aria-expanded={ariaExpanded}
 								>
-									<Icon>person</Icon>
+									<Icon className="bg-custom-primary text-white">person</Icon>
 									{/* Assign People */}
 								</div>
 							</Tippy>

@@ -85,12 +85,6 @@ function ToolbarLayout1(props) {
 
 						{/* <FuseSearch /> */}
 
-						<Hidden lgUp>
-							<div className={clsx(classes.separator, 'custom-separator')} />
-
-							<ChatPanelToggleButton totalCount={totalCount} />
-						</Hidden>
-
 						<div className={clsx(classes.separator, 'custom-separator')} />
 
 						<LanguageSwitcher />
@@ -119,6 +113,11 @@ function ToolbarLayout1(props) {
 							<NavbarMobileToggleButton />
 						</Hidden>
 					)}
+					<Hidden lgUp>
+						{/* <div className={clsx(classes.separator, 'custom-separator')} /> */}
+
+						<ChatPanelToggleButton totalCount={totalCount} />
+					</Hidden>
 				</Toolbar>
 			</AppBar>
 		</ThemeProvider>

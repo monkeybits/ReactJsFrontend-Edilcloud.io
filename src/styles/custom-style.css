@@ -55,7 +55,7 @@ body {
     background: #0D3B63;
 }
 .bg-custom-primary {
-    background: #376aed;
+    background-color: #376aed !important;
 }
 .todo-bg-footer {
     background: rgb(236 236 238 / 0.30);

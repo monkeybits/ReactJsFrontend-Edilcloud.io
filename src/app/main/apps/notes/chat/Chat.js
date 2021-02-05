@@ -270,7 +270,7 @@ function Chat(props) {
 									>
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
-												style={{ color: color?.[0]?.contactNameColor }}
+												style={{ color: contact.company?.color_project }}
 												className="font-bold mb-6"
 											>
 												{contact.first_name + ' ' + contact.last_name}

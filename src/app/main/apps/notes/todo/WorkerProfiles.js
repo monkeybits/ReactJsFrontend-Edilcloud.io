@@ -16,11 +16,18 @@ export default function ImageAvatars({ workers }) {
 
 	return (
 		<div className={classes.root}>
-			{workers && workers.map(worker => (
-				<Avatar alt="Remy Sharp" src={worker.profile.photo}>
-					{!!worker.profile.first_name?.length && [...worker.profile.first_name][0]}
-				</Avatar>
-			))}
+			{workers &&
+				workers.map(worker => (
+					<Avatar
+						classes={{
+							root: 'h-28 w-28 my-3 mt-10 mx-4 text-18'
+						}}
+						alt="Remy Sharp"
+						src={worker.profile.photo}
+					>
+						{!!worker.profile.first_name?.length && [...worker.profile.first_name][0]}
+					</Avatar>
+				))}
 		</div>
 	);
 }
