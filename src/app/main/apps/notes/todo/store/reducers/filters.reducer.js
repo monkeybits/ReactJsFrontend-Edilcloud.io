@@ -6,11 +6,11 @@ const initialState = () => {
 	let genrealFilter = [
 		{
 			name: 'MINE',
-			isActive: true
+			isActive: false
 		},
 		{
 			name: 'ALL',
-			isActive: false
+			isActive: true
 		},
 		{
 			name: 'ALERTED',
@@ -20,7 +20,7 @@ const initialState = () => {
 	let timeFilter = [
 		{
 			name: 'TODAY',
-			isActive: true
+			isActive: false
 		},
 		{
 			name: 'NEXT_WEEK',
@@ -47,8 +47,8 @@ const initialState = () => {
 		activeFilter: 'genrealFilter',
 		activeFilterKey: 'MINE',
 		usedKeys: [],
-		genrealFilter: genrealFilterJsonData ? JSON.parse(genrealFilterJsonData) : genrealFilter,
-		timeFilter: timeFilterJsonData ? JSON.parse(timeFilterJsonData) : timeFilter
+		genrealFilter: genrealFilter, // genrealFilterJsonData ? JSON.parse(genrealFilterJsonData) : genrealFilter,
+		timeFilter: timeFilter //timeFilterJsonData ? JSON.parse(timeFilterJsonData) : timeFilter
 	};
 };
 const addIsActiveToDefault = (arr = []) => arr.map(d => (d = { ...d, isActive: false }));
@@ -129,7 +129,7 @@ const filtersReducer = (state = initialState(), action) => {
 				companyFilter: addIsActiveToDefault(state.companyFilter),
 				peopleFilter: addIsActiveToDefault(state.peopleFilter),
 				genrealFilter: addIsActiveToDefault(state.genrealFilter),
-				timeFilter: addIsActiveToDefault(state.timeFilter),
+				timeFilter: addIsActiveToDefault(state.timeFilter)
 			};
 		case Actions.CHANGE_FILTERS:
 			let tempUsedKeys = [...state.usedKeys];

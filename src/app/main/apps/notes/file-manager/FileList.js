@@ -111,7 +111,8 @@ function FileList(props) {
 
 	const setAllFilesInit = () => {
 		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
-			dispatch(Actions.setAllFiles([...folders, ...rootFiles]));
+			let rootfolders = folders || [];
+			dispatch(Actions.setAllFiles([...rootfolders, ...rootFiles]));
 		} else {
 			dispatch(Actions.setAllFiles([...folders, ...files.filter(d => d.folder == currentFolderPath.mainId)]));
 		}

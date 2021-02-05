@@ -63,7 +63,7 @@ function MoveFileDialog() {
 		nameError: '',
 		apiError: ''
 	});
-	const [path, setPath] = useState('');
+	const [path, setPath] = useState(null);
 
 	useEffect(() => {
 		/**
@@ -107,12 +107,12 @@ function MoveFileDialog() {
 			if (fileType == 'folder') {
 				values = {
 					name: title,
-					parent: path.id ? path.id : null
+					parent: path?.id ? path.id : null
 				};
 			} else {
 				values = {
 					title,
-					folder: path.id ? path.id : null
+					folder: path?.id ? path.id : null
 				};
 			}
 		}
