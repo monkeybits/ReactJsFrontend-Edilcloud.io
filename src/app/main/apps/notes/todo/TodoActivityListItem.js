@@ -17,7 +17,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_ACTIVITY_TO_TASK, GET_ACTIVITY_OF_TASK, GET_STAFF_LIST } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 import MembersMenu from './Dialog/toolbar/MembersMenu';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -64,6 +64,7 @@ function TodoActivityListItem(props) {
 	const [completed, setCompleted] = React.useState(props.todo.status == 'to-do' ? false : true);
 	const [taskDetail, setTaskDetail] = useState([]);
 	const routeParams = useParams();
+	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const classes = useStyles(props);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [members, setMembers] = useState([]);
@@ -77,6 +78,8 @@ function TodoActivityListItem(props) {
 	const show = () => setVisible(true);
 	const hide = () => setVisible(false);
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	useEffect(() => {
 		if (hasNotifcationOnThisItem) {
 			setTimeout(() => {
@@ -337,150 +340,164 @@ function TodoActivityListItem(props) {
 							<WorkerProfiles
 								workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
 							/>
-							<Tippy
-								className="custom-tippy"
-								allowHTML
-								placement="bottom-start"
-								content={
-									<Paper className={classes.paper}>
-										<>
-											{!!members?.length && (
-												// <Button onClick={handleSelectAll}>Select All </Button>
-												<FormControlLabel
-													className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
-													control={
-														<Checkbox
-															checked={
-																members.every(d => d.is_exists) &&
-																canAssign.every(d => d.is_exists)
+							{props.task.assigned_company?.id == company.id &&
+								(getRole() == 'd' || getRole() == 'o') && (
+									<Tippy
+										className="custom-tippy"
+										allowHTML
+										placement="bottom-start"
+										content={
+											<Paper className={classes.paper}>
+												<>
+													{!!members?.length && (
+														// <Button onClick={handleSelectAll}>Select All </Button>
+														<FormControlLabel
+															className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+															control={
+																<Checkbox
+																	checked={
+																		members.every(d => d.is_exists) &&
+																		canAssign.every(d => d.is_exists)
+																	}
+																	onClick={handleSelectAll}
+																	name="checkedB"
+																/>
 															}
-															onClick={handleSelectAll}
-															name="checkedB"
+															label={t('SELECT_ALL')}
 														/>
-													}
-													label={t('SELECT_ALL')}
-												/>
-											)}
-											{!!members?.length || !!canAssign?.length ? (
-												<>
-													{members.map((member, index) => {
-														return (
-															<MenuItem
-																onClick={stopsEvents}
-																className="px-8"
-																key={member.id}
-															>
-																<Checkbox
-																	onClick={ev => ev.stopPropagation()}
-																	name={member.first_name}
-																	checked={!!member.is_exists}
-																	onChange={e => {
-																		let tempMembers = [...members];
-																		tempMembers[index] = {
-																			...tempMembers[index],
-																			is_exists: e.target.checked
-																		};
-																		if (
-																			[...tempMembers, ...canAssign].some(
-																				d => d.is_exists
-																			)
-																		) {
-																			setMembers(tempMembers);
-																			editWorkers(tempMembers, false);
-																		} else {
-																			toast.error(
-																				'Can not remove everyone from activity'
-																			);
-																		}
-																	}}
-																/>
-																<Avatar className="w-32 h-32" src={member.avatar} />
-																<ListItemText className="mx-8">
-																	{member.profile.first_name}{' '}
-																	{member.profile.last_name}
-																</ListItemText>
-															</MenuItem>
-														);
-													})}
-													{canAssign.map((member, index) => {
-														return (
-															<MenuItem
-																onClick={stopsEvents}
-																className="px-8"
-																key={member.id}
-															>
-																<Checkbox
-																	onClick={ev => ev.stopPropagation()}
-																	name={member.first_name}
-																	checked={!!member.is_exists}
-																	onChange={e => {
-																		let tempMembers = [...canAssign];
-																		tempMembers[index] = {
-																			...tempMembers[index],
-																			is_exists: e.target.checked
-																		};
-																		if (
-																			[...tempMembers, ...members].some(
-																				d => d.is_exists
-																			)
-																		) {
-																			setCanAssign(tempMembers);
-																			editWorkers(tempMembers, true);
-																		} else {
-																			toast.error(
-																				'Can not remove everyone from activity'
-																			);
-																		}
-																	}}
-																/>
-																<Avatar className="w-32 h-32" src={member.avatar} />
-																<ListItemText className="mx-8">
-																	{member.profile.first_name}{' '}
-																	{member.profile.last_name}
-																</ListItemText>
-															</MenuItem>
-														);
-													})}
+													)}
+													{!!members?.length || !!canAssign?.length ? (
+														<>
+															{members.map((member, index) => {
+																return (
+																	<MenuItem
+																		onClick={stopsEvents}
+																		className="px-8"
+																		key={member.id}
+																	>
+																		<Checkbox
+																			onClick={ev => ev.stopPropagation()}
+																			name={member.first_name}
+																			checked={!!member.is_exists}
+																			onChange={e => {
+																				let tempMembers = [...members];
+																				tempMembers[index] = {
+																					...tempMembers[index],
+																					is_exists: e.target.checked
+																				};
+																				if (
+																					[...tempMembers, ...canAssign].some(
+																						d => d.is_exists
+																					)
+																				) {
+																					setMembers(tempMembers);
+																					editWorkers(tempMembers, false);
+																				} else {
+																					toast.error(
+																						'Can not remove everyone from activity'
+																					);
+																				}
+																			}}
+																		/>
+																		<Avatar
+																			className="w-32 h-32"
+																			src={member.avatar}
+																		/>
+																		<ListItemText className="mx-8">
+																			{member.profile.first_name}{' '}
+																			{member.profile.last_name}
+																		</ListItemText>
+																	</MenuItem>
+																);
+															})}
+															{canAssign.map((member, index) => {
+																return (
+																	<MenuItem
+																		onClick={stopsEvents}
+																		className="px-8"
+																		key={member.id}
+																	>
+																		<Checkbox
+																			onClick={ev => ev.stopPropagation()}
+																			name={member.first_name}
+																			checked={!!member.is_exists}
+																			onChange={e => {
+																				let tempMembers = [...canAssign];
+																				tempMembers[index] = {
+																					...tempMembers[index],
+																					is_exists: e.target.checked
+																				};
+																				if (
+																					[...tempMembers, ...members].some(
+																						d => d.is_exists
+																					)
+																				) {
+																					setCanAssign(tempMembers);
+																					editWorkers(tempMembers, true);
+																				} else {
+																					toast.error(
+																						'Can not remove everyone from activity'
+																					);
+																				}
+																			}}
+																		/>
+																		<Avatar
+																			className="w-32 h-32"
+																			src={member.avatar}
+																		/>
+																		<ListItemText className="mx-8">
+																			{member.profile.first_name}{' '}
+																			{member.profile.last_name}
+																		</ListItemText>
+																	</MenuItem>
+																);
+															})}
+														</>
+													) : (
+														<>
+															<Typography variant="subtitle1" className="todo-title p-8">
+																{inviteMembers.length
+																	? 'You have no workers in your project, add from below list'
+																	: 'You have no workers in your company'}
+															</Typography>
+															{inviteMembers.map((member, index) => {
+																return member.is_exists ? null : (
+																	<MenuItem
+																		onClick={stopsEvents}
+																		className="px-8"
+																		key={member.id}
+																	>
+																		<Avatar
+																			className="w-32 h-32"
+																			src={member.avatar}
+																		/>
+																		<ListItemText className="mx-8">
+																			{member.first_name} {member.last_name}
+																		</ListItemText>
+																		<Button
+																			onClick={e => addMemberToProject(e, index)}
+																		>
+																			Add
+																		</Button>
+																	</MenuItem>
+																);
+															})}
+														</>
+													)}
 												</>
-											) : (
-												<>
-													<Typography variant="subtitle1" className="todo-title p-8">
-														{inviteMembers.length
-															? 'You have no workers in your project, add from below list'
-															: 'You have no workers in your company'}
-													</Typography>
-													{inviteMembers.map((member, index) => {
-														return member.is_exists ? null : (
-															<MenuItem
-																onClick={stopsEvents}
-																className="px-8"
-																key={member.id}
-															>
-																<Avatar className="w-32 h-32" src={member.avatar} />
-																<ListItemText className="mx-8">
-																	{member.first_name} {member.last_name}
-																</ListItemText>
-																<Button onClick={e => addMemberToProject(e, index)}>
-																	Add
-																</Button>
-															</MenuItem>
-														);
-													})}
-												</>
-											)}
-										</>
-									</Paper>
-								}
-								visible={visible}
-								// onClickOutside={handleMenuClose}
-							>
-								<div
-									className="custom-member-menu flex items-center"
-									onClick={visible ? handleMenuClose : handleMenuOpen}
-								>
-									<Icon className="bg-custom-primary text-white">person</Icon>
-								</div>
-							</Tippy>
+											</Paper>
+										}
+										visible={visible}
+										// onClickOutside={handleMenuClose}
+									>
+										<div
+											className="custom-member-menu flex items-center"
+											onClick={visible ? handleMenuClose : handleMenuOpen}
+										>
+											<Icon className="bg-custom-primary text-white">person</Icon>
+										</div>
+									</Tippy>
+								)}
 						</div>
 					</div>
 

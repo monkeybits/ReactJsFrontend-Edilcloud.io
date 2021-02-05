@@ -16,15 +16,15 @@ export default function ImageAvatars({ workers }) {
 
 	return (
 		<div className={classes.root}>
-			{workers.map(worker => (
+			{workers.map(({ profile }) => (
 				<Avatar
 					classes={{
 						root: 'h-28 w-28 my-3 mt-10 mx-4 text-18'
 					}}
 					alt="Remy Sharp"
-					src={worker.photo}
+					src={profile.photo}
 				>
-					{!!worker.first_name?.length && [...worker.first_name][0]}
+					{!!profile.first_name?.length && [...profile.first_name][0]}
 				</Avatar>
 			))}
 		</div>

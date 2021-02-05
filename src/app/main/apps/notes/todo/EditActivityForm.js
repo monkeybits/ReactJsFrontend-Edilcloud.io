@@ -14,7 +14,7 @@ import DatePicker from 'react-datepicker';
 import { Button, CircularProgress, Select, Slider, withStyles } from '@material-ui/core';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { Autocomplete } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 
@@ -43,6 +43,7 @@ export default function EditActivityForm(props) {
 	const [company, setCompany] = useState([]);
 	const [profiles, setProfiles] = useState([]);
 	const [profileData, setProfileData] = useState([]);
+	const companyDetail = useSelector(({ chatApp }) => chatApp?.company);
 	const [progress, setProgress] = useState('to-do');
 	const [loading, setLoading] = useState(false);
 	const routeParams = useParams();
@@ -87,11 +88,19 @@ export default function EditActivityForm(props) {
 			getHeaderToken()
 		);
 	};
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const getName = profile => profile.first_name + ' ' + profile.last_name;
 	const getUsername = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
-
+	const getIsDisabled = () =>
+		todoDialog.data.task.assigned_company.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
 	return (
 		<div className="sm:pl-10">
+			{getIsDisabled() && (
+				<div className="flex items-center mb-24">
+					<Icon>lock</Icon> only company owner can change this details
+				</div>
+			)}
 			<FormControl className="mt-8 mb-24" required fullWidth>
 				<TextField
 					label={t('TASK_TITLE')}
@@ -101,6 +110,7 @@ export default function EditActivityForm(props) {
 					onChange={handleChange}
 					required
 					variant="outlined"
+					disabled={getIsDisabled()}
 				/>
 			</FormControl>
 
@@ -126,6 +136,7 @@ export default function EditActivityForm(props) {
 					label: <span className="flex items-center">{getUsername(profile)}</span>
 				}))}
 				className="select-dropdown mb-16"
+				isDisabled={getIsDisabled()}
 			/>
 
 			<FormControl className="mt-8 mb-16" required fullWidth>
@@ -137,6 +148,7 @@ export default function EditActivityForm(props) {
 					value={form.notes}
 					onChange={handleChange}
 					variant="outlined"
+					disabled={getIsDisabled()}
 				/>
 			</FormControl>
 			<div className="flex -mx-4">
@@ -152,6 +164,7 @@ export default function EditActivityForm(props) {
 								startDate
 							});
 						}}
+						disabled={getIsDisabled()}
 					/>
 					<Icon className="icon">calendar_today</Icon>
 				</div>
@@ -167,13 +180,14 @@ export default function EditActivityForm(props) {
 								endDate
 							});
 						}}
+						disabled={getIsDisabled()}
 					/>
 					<Icon className="icon">calendar_today</Icon>
 				</div>
 			</div>
 			{/* <div className="mt-8 mb-16"> */}
 			<FormControl className="mt-8 mb-16" variant="outlined" required fullWidth>
-				<Select native value={progress} onChange={e => setProgress(e.target.value)}>
+				<Select disabled={getIsDisabled()} native value={progress} onChange={e => setProgress(e.target.value)}>
 					<option value={'to-do'}>{t('TO_DO_STATE')}</option>
 					<option value={'completed'}>{t('COMPLETED_STATE')}</option>
 				</Select>
@@ -216,6 +230,7 @@ export default function EditActivityForm(props) {
 							)
 						);
 					}}
+					disabled={getIsDisabled()}
 				>
 					{t('SAVE')} {loading && <CircularProgress size={15} color="secondary" />}
 				</Button>

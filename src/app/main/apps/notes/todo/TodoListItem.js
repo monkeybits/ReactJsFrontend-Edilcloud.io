@@ -329,11 +329,11 @@ function TodoListItem(props) {
 				ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				// className={clsx(classes.card, 'w-full rounded-4 custom-task cursor-pointer border-1 shadow-none ')}
 				onClick={() => {
-					if (getRole() == 'o' || getRole() == 'd') {
-						dispatch(Actions.closeTimelineDialog());
-						dispatch(Actions.openTaskContent(props.todo));
-						props.setTodoId(props.todo.id);
-					}
+					// if (getRole() == 'o' || getRole() == 'd') {
+					dispatch(Actions.closeTimelineDialog());
+					dispatch(Actions.openTaskContent(props.todo));
+					props.setTodoId(props.todo.id);
+					// }
 				}}
 			>
 				{/* card body */}
@@ -477,7 +477,7 @@ function TodoListItem(props) {
 							</>
 						)}
 					</div>
-					{props.todo.assigned_company?.id == company.id && (
+					{props.todo.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
 						<div className="flex items-center justify-center mt-8">
 							<div>
 								{/* <Tooltip

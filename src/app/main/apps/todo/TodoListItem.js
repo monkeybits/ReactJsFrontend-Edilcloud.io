@@ -314,7 +314,7 @@ function TodoListItem(props) {
 							</>
 						)}
 					</div>
-					{props.todo.assigned_company?.id == company.id && (
+					{props.todo.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
 						<div className="flex items-center justify-center mt-8">
 							<div>
 								{/* <Tooltip
