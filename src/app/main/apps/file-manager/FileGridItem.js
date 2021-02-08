@@ -76,6 +76,8 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const handleOpenData = (ev, tile) => {
 		// ev.preventDefault();
 		// ev.stopPropagation();
@@ -94,7 +96,8 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				ev.preventDefault();
 				ev.stopPropagation();
 				handleDelete(n);
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		},
 
 		{
@@ -104,7 +107,8 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				ev.preventDefault();
 				ev.stopPropagation();
 				onDownload(n);
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		},
 		{
 			name: 'MOVE_TO',
@@ -113,14 +117,16 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				ev.preventDefault();
 				ev.stopPropagation();
 				dispatch(Actions.openMoveFileDialog(n));
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		},
 		{
 			name: 'VIEW',
 			icon: <Icon>info</Icon>,
 			handleClickEvent: (ev, n) => {
 				handleOpenData(ev, n);
-			}
+			},
+			hasPermission: true //getRole() == 'o' || getRole() == 'd'
 		},
 
 		{
@@ -130,7 +136,8 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				ev.preventDefault();
 				ev.stopPropagation();
 				dispatch(Actions.openRenameFileDialog(n));
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		}
 	];
 	const onDownload = tile => {
@@ -326,18 +333,20 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 											}
 											outsideClick
 										>
-											{options.map(({ name, icon, handleClickEvent }) => (
-												<MenuItem
-													key={name}
-													onClick={e => {
-														// menuRef.current.handleMenuClose();
-														handleClickEvent(e, tile);
-													}}
-												>
-													<ListItemIcon>{icon}</ListItemIcon>
-													<Typography variant="inherit"> {t(name)}</Typography>
-												</MenuItem>
-											))}
+											{options.map(({ name, icon, handleClickEvent, hasPermission }) =>
+												hasPermission ? (
+													<MenuItem
+														key={name}
+														onClick={e => {
+															// menuRef.current.handleMenuClose();
+															handleClickEvent(e, tile);
+														}}
+													>
+														<ListItemIcon>{icon}</ListItemIcon>
+														<Typography variant="inherit"> {t(name)}</Typography>
+													</MenuItem>
+												) : null
+											)}
 										</TippyMenu>
 									</>
 								}

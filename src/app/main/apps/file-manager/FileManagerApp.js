@@ -121,6 +121,8 @@ function FileManagerApp(props) {
 	const [open, setOpen] = React.useState(false);
 	const currentFolderPath = ''; //files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
 	const inputName = useRef();
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const [loading, setLoading] = useState({
 		loadingPhotos: false,
 		loadingVideos: false,
@@ -411,16 +413,18 @@ function FileManagerApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			<FuseAnimate animation="transition.expandIn" delay={600}>
-				<FloatingButtonUpload
-					color="secondary"
-					className=" ltr:left-0 rtl:right-0 mx-16 z-999"
-					callAction={name => {
-						setIsOpenDrawer(true);
-						return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
-					}}
-				/>
-			</FuseAnimate>
+			{(getRole() == 'o' || getRole() == 'd') && (
+				<FuseAnimate animation="transition.expandIn" delay={600}>
+					<FloatingButtonUpload
+						color="secondary"
+						className=" ltr:left-0 rtl:right-0 mx-16 z-999"
+						callAction={name => {
+							setIsOpenDrawer(true);
+							return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
+						}}
+					/>
+				</FuseAnimate>
+			)}
 			<MoveFileDialog />
 
 			<Dialog
