@@ -20,6 +20,7 @@ import RetryToSendMessage from './RetryToSendMessage';
 import SendMessageForm from './SendMessageForm';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import FuseUtils from '@fuse/utils';
+import MessageMoreOptions from 'app/main/apps/chat/MessageMoreOptions';
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
@@ -126,6 +127,7 @@ function Chat(props) {
 	const [hasRender, setHasRender] = React.useState(false);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const scrollRef = useRef(null);
+	const getRole = () => userInfo?.extra?.profile.role;
 	useEffect(() => {
 		if (!!chat?.chats?.length) {
 			setTimeout(() => {
@@ -283,6 +285,13 @@ function Chat(props) {
 										)}
 
 										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
+										{!item.waitingToSend && contact.id == userIdFromCompany && (
+											<MessageMoreOptions
+												className="text-right chat-options"
+												item={item}
+												deleteMessage={Actions.deleteMessage}
+											/>
+										)}
 										<div className="leading-normal py-4 font-size-16 mb-15">{item.body}</div>
 										<ViewFile files={item.files} />
 										<div className="flex items-center mt-8">
@@ -324,7 +333,7 @@ function Chat(props) {
 				)}
 			</FuseScrollbars>
 
-			<SendMessageForm />
+			{getRole() != 'w' && <SendMessageForm />}
 		</div>
 	);
 }

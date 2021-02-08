@@ -9,7 +9,8 @@ import {
 	COMPANY_DETAIL,
 	GET_PROJECT_MESSAGES_API,
 	READ_ALL_MESSAGES,
-	SEND_PROJECT_MESSAGE_API
+	SEND_PROJECT_MESSAGE_API,
+	DELETE_MESSAGE
 } from 'app/services/apiEndPoints';
 import { resetContactCount } from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
 const uuidv1 = require('uuid/v1');
@@ -153,6 +154,18 @@ export function sendMessage(messageText, setMessageText, pid, images, setImages)
 		);
 		setImages(null);
 		setMessageText('');
+	};
+}
+export function deleteMessage(mid) {
+	return (dispatch, getState) => {
+		apiCall(
+			DELETE_MESSAGE(mid),
+			{},
+			chat => {},
+			err => console.log(err),
+			METHOD.DELETE,
+			getHeaderToken()
+		);
 	};
 }
 export function readAllMessages(talkCode, pid) {
