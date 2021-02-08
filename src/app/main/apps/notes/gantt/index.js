@@ -19,6 +19,7 @@ import axios from 'app/services/axiosConfig';
 import { toast } from 'react-toastify';
 import { gantt } from 'dhtmlx-gantt';
 import moment from 'moment';
+import { useMediaQuery } from 'react-responsive';
 
 const useStyles = makeStyles(theme => ({
 	backdrop: {
@@ -32,13 +33,15 @@ function GanttWrapper(props) {
 	const [target, setTarget] = React.useState(null);
 	const [open, setOpen] = React.useState(false);
 	let ganttRef = null;
+	const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 	const dispatch = useDispatch();
 	const routeParams = useParams();
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
+	const entities = useSelector(({ todoAppNote }) => todoAppNote.todos.entities);
 	const [state, setState] = useState({
 		device: 'computer',
-		orientation: 'desktop'
+		orientation: 'portrait'
 	});
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -53,41 +56,14 @@ function GanttWrapper(props) {
 				isGantt: true
 			});
 		};
-	}, [dispatch, routeParams]);
-	useEffect(() => {
-		detect();
-		window.addEventListener('resize', detect);
-		return () => {
-			window.removeEventListener('resize', detect);
-		};
 	}, [dispatch, routeParams, props.value]);
-	function checkOrientation() {
-		// Announce the new orientation number
-		if (window.orientation == 90 && state.device === 'mobile' && state.orientation === 'portrait') {
-			orientation = 'landscape';
-			setState(prev => ({ ...prev, orientation: 'landscape' }));
-		} else if (window.orientation == 0 && state.device === 'mobile' && state.orientation === 'landscape') {
-			orientation = 'portrait';
-			setState(prev => ({ ...prev, orientation: 'portrait' }));
-		}
-	}
 	useEffect(() => {
-		window.addEventListener('orientationchange', checkOrientation, false);
-		return () => {
-			window.removeEventListener('orientationchange', checkOrientation);
-		};
-		// toast.info(JSON.stringify(state));
-	}, [state.orientation]);
-	const detect = () => {
-		setState({
-			device: !!navigator.maxTouchPoints ? 'mobile' : 'computer',
-			orientation: !navigator.maxTouchPoints
-				? 'desktop'
-				: !window.screen.orientation.angle
-				? 'portrait'
-				: 'landscape'
-		});
-	};
+		if (isPortrait) {
+			setState(prev => ({ ...prev, orientation: 'portrait' }));
+		} else {
+			setState(prev => ({ ...prev, orientation: 'landscape' }));
+		}
+	}, [isPortrait]);
 
 	const isViewChart = state.orientation == 'desktop' || state.orientation == 'landscape';
 	const userInfo = decodeDataFromToken();

@@ -207,7 +207,7 @@ class Gantt extends Component {
 		document.addEventListener('webkitfullscreenchange', exitHandler);
 		document.addEventListener('mozfullscreenchange', exitHandler);
 		document.addEventListener('MSFullscreenChange', exitHandler);
-
+		gantt.config.show_errors = false;
 		gantt._onTemplatesReadyHandler = gantt.attachEvent('onTemplatesReady', function () {
 			// {
 			// 	name: 'day2',

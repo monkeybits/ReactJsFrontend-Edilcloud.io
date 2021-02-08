@@ -62,6 +62,7 @@ export function setUploadPercentage(payload) {
 	};
 }
 export function getTodos(pid, isGantt, handleSetLoading = () => '') {
+	console.log({ pid, isGantt, handleSetLoading });
 	// const request = axios.get('/api/todo-app/todos', { params });
 	handleSetLoading({
 		loadingTodos: true
@@ -372,7 +373,9 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 						progress: todo.progress,
 						date_start: moment(todo.startDate).format('YYYY-MM-DD'),
 						date_end: moment(todo.endDate).format('YYYY-MM-DD'),
-						assigned_company: todo.company[0]?.data?.profile?.company?.id ? todo.company[0].data.profile.company.id : null,
+						assigned_company: todo.company[0]?.data?.profile?.company?.id
+							? todo.company[0].data.profile.company.id
+							: null,
 						project: pid,
 						date_completed: null,
 						alert: false,
