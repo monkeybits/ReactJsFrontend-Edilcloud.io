@@ -397,15 +397,16 @@ function TodoListItem(props) {
 					<Icon>notifications_active</Icon>
 				</div>
 				<CardContent className="flex flex-col flex-auto ">
+					<Typography className="text-center text-16 font-400 items-center justify-center ht-auto">
+						{projectDetail?.name}
+					</Typography>
 					<Typography
-						className="text-center text-16 font-400 items-center justify-center ht-auto"
+						className="text-center text-18 font-700 items-center justify-center ht-auto mt-8"
 						color="inherit"
 					>
 						{props.todo.name}
 					</Typography>
-					<Typography className="text-center text-16 font-400 items-center justify-center ht-auto">
-						{projectDetail?.name}
-					</Typography>
+
 					<div className="flex items-center flex-wrap items-center justify-center my-12">
 						{props.todo.progress == 100 ? (
 							<div className={clsx('flex items-center px-8 py-4 mx-4 rounded bg-green text-white')}>
@@ -649,29 +650,31 @@ function TodoListItem(props) {
 			</Card>
 			{props.isPdf ? props.postlist : null}
 			{/* <Collapse in={open} timeout="auto" unmountOnExit> */}
-			<List className="p-0">
-				<FuseAnimateGroup
-					enter={{
-						animation: 'transition.slideUpBigIn'
-					}}
-				>
-					{taskDetail &&
-						!!taskDetail.length &&
-						taskDetail
-							.sort((a, b) => parseFloat(a.id) - parseFloat(b.id))
-							.map(todo => (
-								<TodoActivityListItem
-									setTodoId={props.setTodoId}
-									{...props}
-									getDetailOfTask={getDetailOfTask}
-									task={props.todo}
-									todo={todo}
-									key={todo.id}
-									postlist={<PostList tempAuthor={{}} posts={todo.post_set} />}
-								/>
-							))}
-				</FuseAnimateGroup>
-			</List>
+			{props.todo.assigned_company?.id == company.id && (
+				<List className="p-0">
+					<FuseAnimateGroup
+						enter={{
+							animation: 'transition.slideUpBigIn'
+						}}
+					>
+						{taskDetail &&
+							!!taskDetail.length &&
+							taskDetail
+								.sort((a, b) => parseFloat(a.id) - parseFloat(b.id))
+								.map(todo => (
+									<TodoActivityListItem
+										setTodoId={props.setTodoId}
+										{...props}
+										getDetailOfTask={getDetailOfTask}
+										task={props.todo}
+										todo={todo}
+										key={todo.id}
+										postlist={<PostList tempAuthor={{}} posts={todo.post_set} />}
+									/>
+								))}
+					</FuseAnimateGroup>
+				</List>
+			)}
 			{/* </Collapse> */}
 		</div>
 	);
