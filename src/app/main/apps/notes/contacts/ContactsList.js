@@ -169,19 +169,16 @@ function ContactsList(props) {
 				Cell: ({ row }) => {
 					console.log(user, row.original, userInfo);
 					return (
-						(getRole() == 'o' || getRole() == 'd') &&
-						userInfo.user_id != row.original.profile.id && (
-							<MoreOption
-								canHaveDeleteOption={
-									row.original.profile && userInfo.user_id != row.original.profile.id
-								}
-								deleteHandler={ev => {
-									ev.stopPropagation();
-									setUserData(row.original);
-									openDeleteContactDialog();
-								}}
-							/>
-						)
+						<MoreOption
+							canHaveDeleteOption={
+								(getRole() == 'o' || getRole() == 'd') && userInfo.user_id != row.original.profile.id
+							}
+							deleteHandler={ev => {
+								ev.stopPropagation();
+								setUserData(row.original);
+								openDeleteContactDialog();
+							}}
+						/>
 					);
 				}
 			}
@@ -395,7 +392,7 @@ function ContactsList(props) {
 										}
 										onCardClick={ev => {
 											ev.preventDefault();
-											ev.stopPropagation()
+											ev.stopPropagation();
 											if (data) {
 												dispatch(Actions.openViewContactDialog(data));
 											}

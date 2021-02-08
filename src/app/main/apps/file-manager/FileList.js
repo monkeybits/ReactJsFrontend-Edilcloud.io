@@ -86,6 +86,8 @@ function FileList(props) {
 	const menuRef = useRef(null);
 	const { t } = useTranslation('filemanager');
 	// const [allFiles, setAllFiles] = useState([]);
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const options = [
 		{
 			name: 'DELETE',
@@ -94,7 +96,8 @@ function FileList(props) {
 				ev.preventDefault();
 				ev.stopPropagation();
 				handleDelete(n);
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		},
 
 		{
@@ -104,7 +107,8 @@ function FileList(props) {
 				ev.preventDefault();
 				ev.stopPropagation();
 				onDownload(n);
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		},
 		{
 			name: 'MOVE_TO',
@@ -113,7 +117,8 @@ function FileList(props) {
 				ev.preventDefault();
 				ev.stopPropagation();
 				dispatch(Actions.openMoveFileDialog(n));
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		},
 		{
 			name: 'VIEW',
@@ -123,7 +128,8 @@ function FileList(props) {
 				ev.stopPropagation();
 				props.pageLayout.current.toggleRightSidebar();
 				dispatch(Actions.setSelectedItem(n));
-			}
+			},
+			hasPermission:true // getRole() == 'o' || getRole() == 'd'
 		},
 		{
 			name: 'RENAME',
@@ -132,7 +138,8 @@ function FileList(props) {
 				ev.preventDefault();
 				ev.stopPropagation();
 				dispatch(Actions.openRenameFileDialog(n));
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		}
 	];
 	const classes = useStyles();
@@ -533,9 +540,25 @@ function FileList(props) {
 												ref={menuRef}
 												outsideClick
 											>
-												{options.map(({ name, icon, handleClickEvent }) =>
-													name != 'DELETE' ? (
-														n.type != 'folder' ? (
+												{options.map(({ name, icon, handleClickEvent, hasPermission }) =>
+													hasPermission ? (
+														name != 'DELETE' ? (
+															n.type != 'folder' ? (
+																<MenuItem
+																	key={name}
+																	onClick={e => {
+																		// menuRef.current.handleMenuClose();
+																		handleClickEvent(e, n);
+																	}}
+																>
+																	<ListItemIcon>{icon}</ListItemIcon>
+																	<Typography variant="inherit">
+																		{' '}
+																		{t(name)}
+																	</Typography>
+																</MenuItem>
+															) : null
+														) : (
 															<MenuItem
 																key={name}
 																onClick={e => {
@@ -546,19 +569,8 @@ function FileList(props) {
 																<ListItemIcon>{icon}</ListItemIcon>
 																<Typography variant="inherit"> {t(name)}</Typography>
 															</MenuItem>
-														) : null
-													) : (
-														<MenuItem
-															key={name}
-															onClick={e => {
-																// menuRef.current.handleMenuClose();
-																handleClickEvent(e, n);
-															}}
-														>
-															<ListItemIcon>{icon}</ListItemIcon>
-															<Typography variant="inherit"> {t(name)}</Typography>
-														</MenuItem>
-													)
+														)
+													) : null
 												)}
 											</TippyMenu>
 										</div>

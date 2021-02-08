@@ -98,6 +98,8 @@ function FileGrid(props) {
 	const [currentFiles, setCurrentFiles] = useState([]);
 	const classes = useStyles();
 	const [, updateState] = React.useState();
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const classesListItems = useStylesList();
 	const checkData = data => (data ? data : '-');
@@ -283,58 +285,60 @@ function FileGrid(props) {
 										{/* <FolderSpecialOutlinedIcon className="text-custom-warning" /> */}
 									</ListItemIcon>
 									<ListItemText primary={d.name} secondary={null} />
-									<div className="actions-dropdown file-folder-action-dropdown">
-										<TippyMenu
-											icon={
-												<IconButton
-													aria-label="more"
-													aria-controls="long-menu"
-													aria-haspopup="true"
-													// onClick={handleClick}
+									{(getRole() == 'o' || getRole() == 'd') && (
+										<div className="actions-dropdown file-folder-action-dropdown">
+											<TippyMenu
+												icon={
+													<IconButton
+														aria-label="more"
+														aria-controls="long-menu"
+														aria-haspopup="true"
+														// onClick={handleClick}
+													>
+														<MoreVertIcon />
+													</IconButton>
+												}
+												outsideClick
+											>
+												{/* {options.map(option => ( */}
+												<MenuItem
+													onClick={e => {
+														e.stopPropagation();
+														handleDelete(d);
+													}}
 												>
-													<MoreVertIcon />
-												</IconButton>
-											}
-											outsideClick
-										>
-											{/* {options.map(option => ( */}
-											<MenuItem
-												onClick={e => {
-													e.stopPropagation();
-													handleDelete(d);
-												}}
-											>
-												<ListItemIcon>
-													<Icon>delete</Icon>
-												</ListItemIcon>
-												<Typography variant="inherit"> {t('DELETE')}</Typography>
-											</MenuItem>
-											<MenuItem
-												onClick={e => {
-													e.stopPropagation();
-													dispatch(Actions.openRenameFileDialog(d));
-												}}
-											>
-												<ListItemIcon>
-													<Icon>edit</Icon>
-												</ListItemIcon>
-												<Typography variant="inherit"> {t('RENAME')}</Typography>
-											</MenuItem>
-											<MenuItem
-												onClick={ev => {
-													ev.preventDefault();
-													ev.stopPropagation();
-													dispatch(Actions.openMoveFileDialog(d));
-												}}
-											>
-												<ListItemIcon>
-													<Icon>transform</Icon>
-												</ListItemIcon>
-												<Typography variant="inherit"> {t('MOVE_TO')}</Typography>
-											</MenuItem>
-											{/* ))} */}
-										</TippyMenu>
-									</div>
+													<ListItemIcon>
+														<Icon>delete</Icon>
+													</ListItemIcon>
+													<Typography variant="inherit"> {t('DELETE')}</Typography>
+												</MenuItem>
+												<MenuItem
+													onClick={e => {
+														e.stopPropagation();
+														dispatch(Actions.openRenameFileDialog(d));
+													}}
+												>
+													<ListItemIcon>
+														<Icon>edit</Icon>
+													</ListItemIcon>
+													<Typography variant="inherit"> {t('RENAME')}</Typography>
+												</MenuItem>
+												<MenuItem
+													onClick={ev => {
+														ev.preventDefault();
+														ev.stopPropagation();
+														dispatch(Actions.openMoveFileDialog(d));
+													}}
+												>
+													<ListItemIcon>
+														<Icon>transform</Icon>
+													</ListItemIcon>
+													<Typography variant="inherit"> {t('MOVE_TO')}</Typography>
+												</MenuItem>
+												{/* ))} */}
+											</TippyMenu>
+										</div>
+									)}
 								</ListItem>
 							</Grid>
 						))}

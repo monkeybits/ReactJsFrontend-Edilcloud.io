@@ -81,6 +81,8 @@ function DetailSidebarContent({ setProgress }) {
 	const [isOpenViewFile, setIsOpenViewFile] = useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(false);
 	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const handleClick = event => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -279,7 +281,8 @@ function DetailSidebarContent({ setProgress }) {
 
 								<Typography variant="inherit">{t('DOWNLOAD')}</Typography>
 							</MenuItem>
-							<MenuItem onClick={openDeleteFileDialog}>
+
+							<MenuItem disabled={getRole() == 'w' || getRole() == 'm'} onClick={openDeleteFileDialog}>
 								<ListItemIcon>
 									<DeleteOutlineOutlinedIcon fontSize="medium" />
 								</ListItemIcon>

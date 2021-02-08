@@ -225,11 +225,7 @@ export default function ProjectListitem(props) {
 					)
 				}
 				// subheader={moment(date_start).format('MMM DD, YYYY')}
-				subheader={
-					<>
-						 {address}
-					</>
-				}
+				subheader={<>{address}</>}
 				//
 				avatar={
 					<>
@@ -242,7 +238,7 @@ export default function ProjectListitem(props) {
 				}
 			/>
 			<div className="project_card_action">
-				<IconButton onClick={handleClick} aria-label="settings">
+				<IconButton disabled={getRole() == 'w' || getRole() == 'm'} onClick={handleClick} aria-label="settings">
 					<MoreHorizIcon />
 				</IconButton>
 			</div>
@@ -259,7 +255,6 @@ export default function ProjectListitem(props) {
 				<Tab label="Weather" {...a11yProps(2)} /> */}
 			</Tabs>
 			<TabPanel value={value} index={0} className="tab_panel">
-				
 				<Typography>{description}</Typography>
 				<div className="flex overflow-x-auto nowrap about-image-section mt-16">
 					{!!profiles?.length &&
@@ -429,7 +424,7 @@ export default function ProjectListitem(props) {
 					aria-expanded={expanded}
 					aria-label="show more"
 				>
-					<Switch name="checkedA" inputProps={{ 'aria-label': 'secondary checkbox' }} />
+					<Switch disabled={getRole() == 'w' || getRole() == 'm'} name="checkedA" inputProps={{ 'aria-label': 'secondary checkbox' }} />
 					<NotificationsNoneOutlinedIcon />
 					{/* {activeNotification ? <NotificationsIcon color="secondary" /> : <NotificationsNoneOutlinedIcon />} */}
 				</IconButton>

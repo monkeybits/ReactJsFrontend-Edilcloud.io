@@ -162,7 +162,7 @@ export default function ContactCard(props) {
 				class="card-container flex flex-col px-10 text-13"
 			>
 				<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
-				{editPermission && (
+				{/* {editPermission && ( */}
 					<div className="team-action">
 						<MoreOption
 							canHaveDeleteOption={editPermission}
@@ -174,7 +174,7 @@ export default function ContactCard(props) {
 							onView={onCardClick}
 						/>
 					</div>
-				)}
+				{/* )} */}
 				<input
 					type="file"
 					accept="image/*"

@@ -43,9 +43,7 @@ function UserMenu(props) {
 					<Typography component="span" className="normal-case font-600 flex text-default">
 						{userData?.first_name} {userData?.last_name}
 					</Typography>
-					<Typography className="text-11 capitalize text-muted">
-						Main profile
-					</Typography>
+					<Typography className="text-11 capitalize text-muted">Main profile</Typography>
 				</div>
 
 				<Icon className="text-16 hidden sm:flex" variant="action">
@@ -102,12 +100,11 @@ function UserMenu(props) {
 							role="button"
 						>
 							<ListItemIcon className="min-w-40">
-								<Icon>admin_panel_settings
-</Icon>
+								<Icon>admin_panel_settings</Icon>
 							</ListItemIcon>
 							<ListItemText primary="Edit main profile" />
 						</MenuItem>
-						{(getRole() == 'd' || getRole() == 'o') && (
+						{getRole() == 'o' && (
 							<MenuItem
 								component={Link}
 								to={{

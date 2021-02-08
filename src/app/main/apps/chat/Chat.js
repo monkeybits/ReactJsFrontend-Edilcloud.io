@@ -212,7 +212,7 @@ function Chat(props) {
 											</Typography>
 										)}
 										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
-										{!item.waitingToSend && (
+										{!item.waitingToSend && contact.id == userIdFromCompany && (
 											<MessageMoreOptions
 												className="text-right chat-options"
 												item={item}
@@ -233,7 +233,9 @@ function Chat(props) {
 												// )
 											}
 											{contact.id == userIdFromCompany && item.waitingToSend ? (
-												<Icon className="float-right font-size-16 ml-10 text-check">access_time</Icon>
+												<Icon className="float-right font-size-16 ml-10 text-check">
+													access_time
+												</Icon>
 											) : (
 												// <Icon className="float-right text-16 text-check">check</Icon>
 												<Icon className="float-right text-16 ml-10 text-check">done_all</Icon>
