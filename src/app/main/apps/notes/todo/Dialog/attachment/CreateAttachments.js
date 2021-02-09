@@ -4,7 +4,7 @@ import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import { ADD_ATTCHMENTS_TO_TASK } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
+import { decodeDataFromToken, getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import CardAttachment from './CardAttachment';
 import ImagesPreview from 'app/main/apps/notes/todo/ImagesPreview';
@@ -19,6 +19,8 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 	const [progress, setProgress] = useState(0);
 	const [activtStep, setActivtStep] = useState(0);
 	const [open, setOpen] = useState(false);
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	useEffect(() => {
 		setMediaSets(attachments);
 	}, [attachments]);
@@ -75,41 +77,46 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 		);
 		setImages(null);
 	};
+
 	return (
 		<>
-			<div className="mb-24 image-center">
-				<input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden />
-				{images && <ImagesPreview images={images} hideModify />}
-				<div className="flex">
-					<Button className="add-file-btn mr-10" onClick={handleOpenFileClick}>
-						{t('ADD_FILE')}
-					</Button>
+			{(getRole() == 'o' || getRole() == 'd') && (
+				<>
+					<div className="mb-24 image-center">
+						<input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden />
+						{images && <ImagesPreview images={images} hideModify />}
+						<div className="flex">
+							<Button className="add-file-btn mr-10" onClick={handleOpenFileClick}>
+								{t('ADD_FILE')}
+							</Button>
 
-					<Button className="upload-btn" onClick={handleUpload}>
-						{t('UPLOAD')}{' '}
-						{!!progress && (
-							<Box position="relative" display="inline-flex">
-								<CircularProgress color="secondary" variant="static" value={progress} />
-								<Box
-									top={0}
-									left={0}
-									bottom={0}
-									right={0}
-									position="absolute"
-									display="flex"
-									alignItems="center"
-									justifyContent="center"
-								>
-									<Typography variant="caption" component="div" color="textSecondary">
-										{progress}%
-									</Typography>
-								</Box>
-							</Box>
-						)}
-					</Button>
-				</div>
-			</div>
-			<Divider />
+							<Button className="upload-btn" onClick={handleUpload}>
+								{t('UPLOAD')}{' '}
+								{!!progress && (
+									<Box position="relative" display="inline-flex">
+										<CircularProgress color="secondary" variant="static" value={progress} />
+										<Box
+											top={0}
+											left={0}
+											bottom={0}
+											right={0}
+											position="absolute"
+											display="flex"
+											alignItems="center"
+											justifyContent="center"
+										>
+											<Typography variant="caption" component="div" color="textSecondary">
+												{progress}%
+											</Typography>
+										</Box>
+									</Box>
+								)}
+							</Button>
+						</div>
+					</div>
+					<Divider />
+				</>
+			)}
 			{mediaSets && (
 				<div className="mb-24">
 					<div className="flex items-center mt-16 mb-12">

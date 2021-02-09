@@ -321,6 +321,7 @@ export default function CommentListItem({
 	};
 	const userInfo = decodeDataFromToken();
 	const getUserId = () => userInfo?.extra?.profile.id;
+	const getRole = () => userInfo?.extra?.profile.role;
 	return (
 		<div
 			key={comment.id}
@@ -360,44 +361,43 @@ export default function CommentListItem({
 							secondary={comment.text}
 						/>
 						<div className="posted-images comment-post-img">
-							<PostedImages images={comment.media_set} hideNavigation />
+							{/* <PostedImages images={comment.media_set} hideNavigation /> */}
 						</div>
-						<div className="actions-dropdown resize-action-btn absolute top-0 right-0">
-							<IconButton
-								aria-label="more"
-								aria-controls="long-menu"
-								aria-haspopup="true"
-								onClick={handleClick}
-								className="p-10"
-							>
-								<MoreVertIcon />
-							</IconButton>
-							<Menu
-								id="long-menu"
-								anchorEl={anchorEl}
-								keepMounted
-								open={openMenu}
-								onClose={handleClose}
-								className="actions-dropdown"
-								PaperProps={{
-									style: {
-										width: '20ch'
-									}
-								}}
-							>
-								{options.map(option => (
-									<MenuItem
-										key={option.name}
-										onClick={option.handler}
-									>
-										<ListItemIcon>
-											<PriorityHighIcon fontSize="small" />
-										</ListItemIcon>
-										<Typography variant="inherit"> {t(option.name)}</Typography>
-									</MenuItem>
-								))}
-							</Menu>
-						</div>
+						{tempAuthor.id == comment.author.id && (
+							<div className="actions-dropdown resize-action-btn absolute top-0 right-0">
+								<IconButton
+									aria-label="more"
+									aria-controls="long-menu"
+									aria-haspopup="true"
+									onClick={handleClick}
+									className="p-10"
+								>
+									<MoreVertIcon />
+								</IconButton>
+								<Menu
+									id="long-menu"
+									anchorEl={anchorEl}
+									keepMounted
+									open={openMenu}
+									onClose={handleClose}
+									className="actions-dropdown"
+									PaperProps={{
+										style: {
+											width: '20ch'
+										}
+									}}
+								>
+									{options.map(option => (
+										<MenuItem key={option.name} onClick={option.handler}>
+											<ListItemIcon>
+												<PriorityHighIcon fontSize="small" />
+											</ListItemIcon>
+											<Typography variant="inherit"> {t(option.name)}</Typography>
+										</MenuItem>
+									))}
+								</Menu>
+							</div>
+						)}
 					</div>
 				)}
 				{isOffline && (
@@ -429,7 +429,7 @@ export default function CommentListItem({
 					<PostedImages images={comment.media_set} hideNavigation />
 				</div>
 			)} */}
-			{!isOffline && isEditing ? (
+			{!isOffline && isEditing && getRole() != 'w' ? (
 				<div className="flex flex-wrap items-center ml-52">
 					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
 						<Typography className="normal-case mx-4">{t('CANCEL')}</Typography>
@@ -454,14 +454,17 @@ export default function CommentListItem({
 						<Typography className="normal-case text-13 ml-4">Like</Typography>
 					</Button> */}
 					<Button
+						disabled={getRole() == 'w'}
 						onClick={() => {
-							setIsReplying(prev => !prev);
-							setText('@' + `${comment.author.first_name} ${comment.author.last_name}`);
-							setTimeout(() => {
-								if (!isReplying) {
-									document.getElementById(String(comment.id)).focus();
-								}
-							}, 100);
+							if (getRole() != 'w') {
+								setIsReplying(prev => !prev);
+								setText('@' + `${comment.author.first_name} ${comment.author.last_name}`);
+								setTimeout(() => {
+									if (!isReplying) {
+										document.getElementById(String(comment.id)).focus();
+									}
+								}, 100);
+							}
 						}}
 						size="small"
 					>
@@ -510,7 +513,9 @@ export default function CommentListItem({
 							setOpen(!open);
 						}}
 					>
-						<Typography className="font-600 text-13">{repliesLength()} {t('REPLIES')}</Typography>
+						<Typography className="font-600 text-13">
+							{repliesLength()} {t('REPLIES')}
+						</Typography>
 						<Icon className="font-600 text-16 ml-2" color="action">
 							{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
 						</Icon>
@@ -523,6 +528,7 @@ export default function CommentListItem({
 						<List className="clearfix">
 							{replyComments.map((reply, index) => (
 								<ReplyListItem
+									tempAuthor={tempAuthor}
 									commentId={comment.id}
 									author={comment.author}
 									key={index}
@@ -548,6 +554,7 @@ export default function CommentListItem({
 							{Object.values(offlineCommentReplies).map((reply, index) => (
 								<ReplyListItem
 									isOffline
+									tempAuthor={tempAuthor}
 									key={reply.unique_code}
 									callRetryReplySuccess={callRetryReplySuccess}
 									commentId={comment.id}

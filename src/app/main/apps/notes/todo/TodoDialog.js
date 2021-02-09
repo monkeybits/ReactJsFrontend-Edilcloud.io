@@ -262,7 +262,7 @@ function TodoDialog(props) {
 				setProfiles(profiles);
 				setProfileData(
 					profiles
-						.filter(profile => profile.role == 'Owner' || profile.role == 'Delegate')
+						.filter(profile => profile.role == 'Owner' || profile.role == 'Delegate') //.filter(profile => profile.role != 'Worker')
 						.map(profile => ({
 							data: profile,
 							value: getName(profile),

@@ -80,7 +80,9 @@ function EditPostForm(props) {
 		imagePreviewUrl: undefined
 	});
 	const inputRef = useRef(null);
-	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
+	const todoDialog = useSelector(state =>
+		state.todoAppNote?.todos?.todoDialog ? state.todoAppNote.todos.todoDialog : state.todoApp.todos.todoDialog
+	);
 	useEffect(() => {
 		setText(props.currnetPost.text);
 	}, [props.currnetPost.text]);

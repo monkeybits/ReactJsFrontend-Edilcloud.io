@@ -28,7 +28,7 @@ import {
 	GET_COMMENT_OF_POST,
 	SHARE_ACTIVITY_POST_TO_TASK
 } from 'app/services/apiEndPoints';
-import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import * as Actions from './store/actions';
@@ -102,7 +102,8 @@ export default function PostListItem({
 			}
 		}
 	];
-
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const [hasRender, setHasRender] = React.useState(false);
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -384,45 +385,51 @@ export default function PostListItem({
 							}}
 							className="text-default p-8"
 						>
-							{post.alert ? <Icon style={{ color: red[500] }}>new_releases</Icon> : <Icon>new_releases</Icon>}
+							{post.alert ? (
+								<Icon style={{ color: red[500] }}>new_releases</Icon>
+							) : (
+								<Icon>new_releases</Icon>
+							)}
 						</IconButton>
-						<div className="inline">
-							<IconButton
-								aria-label="more"
-								aria-controls="long-menu"
-								aria-haspopup="true"
-								onClick={handleClick}
-								className="p-8"
-							>
-								<MoreVertIcon />
-							</IconButton>
-							<Menu
-								id="long-menu"
-								anchorEl={anchorEl}
-								keepMounted
-								open={openMenu}
-								onClose={handleClose}
-								className="actions-dropdown"
-								// PaperProps={{
-								// 	style: {
-								// 		width: '20ch'
-								// 	}
-								// }}
-							>
-								{options.map(option => (
-									<MenuItem
-										key={option.name}
-										selected={option.name === 'Pyxis'}
-										onClick={option.handler}
-									>
-										<ListItemIcon>
-											<Icon>{option.icon}</Icon>
-										</ListItemIcon>
-										<Typography variant="inherit"> {t(option.name)}</Typography>
-									</MenuItem>
-								))}
-							</Menu>
-						</div>
+						{tempAuthor.id == post.author.id && (
+							<div className="inline">
+								<IconButton
+									aria-label="more"
+									aria-controls="long-menu"
+									aria-haspopup="true"
+									onClick={handleClick}
+									className="p-8"
+								>
+									<MoreVertIcon />
+								</IconButton>
+								<Menu
+									id="long-menu"
+									anchorEl={anchorEl}
+									keepMounted
+									open={openMenu}
+									onClose={handleClose}
+									className="actions-dropdown"
+									// PaperProps={{
+									// 	style: {
+									// 		width: '20ch'
+									// 	}
+									// }}
+								>
+									{options.map(option => (
+										<MenuItem
+											key={option.name}
+											selected={option.name === 'Pyxis'}
+											onClick={option.handler}
+										>
+											<ListItemIcon>
+												<Icon>{option.icon}</Icon>
+											</ListItemIcon>
+											<Typography variant="inherit"> {t(option.name)}</Typography>
+										</MenuItem>
+									))}
+								</Menu>
+							</div>
+						)}
 						{/* <IconButton className="text-default p-8" aria-label="more">
 							<Icon>more_vert</Icon>
 						</IconButton> */}
@@ -490,18 +497,20 @@ export default function PostListItem({
 				</CardContent>
 			)}
 
-			<CardActions disableSpacing className="bg-custom-primary px-12 py-4 flex justify-center">
-				{/* <Button size="small" className="text-white text-13" aria-label="Add to favorites">
+			{getRole() != 'w' && !isTask && (
+				<CardActions disableSpacing className="bg-custom-primary px-12 py-4 flex justify-center">
+					{/* <Button size="small" className="text-white text-13" aria-label="Add to favorites">
 					<Icon className="text-white text-14">favorite</Icon>
 					<Typography className="normal-case text-white text-13 mx-4">Like</Typography>
 					<Typography className="normal-case text-13">({post.like})</Typography>
 				</Button> */}
-				<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
-					<Icon className="text-white text-14">share</Icon>
-					<Typography className="normal-case text-white text-13 mx-4">{t('SHARE')}</Typography>
-					{!!post.share && <Typography className="normal-case text-13">({post.share})</Typography>}
-				</Button>
-			</CardActions>
+					<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
+						<Icon className="text-white text-14">share</Icon>
+						<Typography className="normal-case text-white text-13 mx-4">{t('SHARE')}</Typography>
+						{!!post.share && <Typography className="normal-case text-13">({post.share})</Typography>}
+					</Button>
+				</CardActions>
+			)}
 
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
 				{showComments() && (
@@ -536,10 +545,11 @@ export default function PostListItem({
 								{Object.values(offlinePostComments).map((comment, index) => (
 									<CommentListItem
 										isOffline
+										tempAuthor={tempAuthor}
 										key={comment.unique_code}
 										callRetryCommentSuccess={callRetryCommentSuccess}
 										post={post}
-										comment={comment}
+										comment={{ ...comment, author: tempAuthor }}
 									/>
 								))}
 							</List>
@@ -547,7 +557,7 @@ export default function PostListItem({
 					</div>
 				)}
 
-				{(!isOffline || currnetPost.successAfterRetry) && (
+				{(!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
 					<div className="flex flex-auto">
 						<Avatar className="mr-10" src="assets/images/avatars/profile.jpg" />
 						<div className="flex-1">

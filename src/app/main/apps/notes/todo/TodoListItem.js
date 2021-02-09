@@ -480,7 +480,7 @@ function TodoListItem(props) {
 							</>
 						)}
 					</div>
-					{props.todo.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
+					{props.todo.assigned_company?.id == company.id && getRole() != 'w' && (
 						<div className="flex items-center justify-center mt-8">
 							<div>
 								{/* <Tooltip
@@ -536,6 +536,7 @@ function TodoListItem(props) {
 					<div className="custom-progress-chart">
 						<div className="flex justify-end relative">
 							<Button
+								disabled={props.todo.assigned_company?.id != company.id}
 								onClick={ev => {
 									ev.preventDefault();
 									ev.stopPropagation();

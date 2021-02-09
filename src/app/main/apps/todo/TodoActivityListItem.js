@@ -305,6 +305,9 @@ function TodoActivityListItem(props) {
 				<div className="flex flex-1 flex-col  relative overflow-hidden">
 					<div className="flex items-center">
 						<Checkbox
+							disabled={
+								props.task.assigned_company?.id != company.id || getRole() == 'w' 
+							}
 							tabIndex={-1}
 							disableRipple
 							checked={completed}

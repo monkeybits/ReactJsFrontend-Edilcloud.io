@@ -49,7 +49,7 @@ function FuseNavVerticalItem(props) {
 	const userRole = useSelector(({ auth }) => auth.user.role);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const dispatch = useDispatch();
-	const user = useSelector(({ auth }) => auth.user.data.company);
+	const user = useSelector(({ auth }) => auth.user.data);
 
 	const theme = useTheme();
 	const mdDown = useMediaQuery(theme.breakpoints.down('md'));
@@ -64,6 +64,8 @@ function FuseNavVerticalItem(props) {
 	if (!hasPermission) {
 		return null;
 	}
+	// const userInfo = decodeDataFromToken();
+	// const getRole = () => userInfo?.extra?.profile.role;
 	const checkHasPermissOnChat = USER_CHATS_PATHS.filter(d => String(item.url).includes(d));
 	const checkHasPermissOnFile = FILE_MANAHER_PATHS.filter(d => String(item.url).includes(d));
 	if (item.isOutsideLink) {
@@ -89,7 +91,11 @@ function FuseNavVerticalItem(props) {
 			// target="_blank"
 			to={item.url}
 			activeClassName={item.isLogoutActionOnClick ? '' : 'active'}
-			className={clsx(classes.item, 'list-item')}
+			className={
+				props.item.checkRole && !props.item.roles.includes(user.extra?.profile?.role)
+					? clsx(classes.item, 'list-item pointer-events-none')
+					: clsx(classes.item, 'list-item')
+			}
 			onClick={ev =>
 				item.isLogoutActionOnClick
 					? dispatch(authActions.logoutUser())
@@ -99,7 +105,7 @@ function FuseNavVerticalItem(props) {
 		>
 			{item.icon && (
 				<Icon className="list-item-icon text-18 flex-shrink-0" color="action">
-					{item.icon}
+					{props.item.checkRole && !props.item.roles.includes(user.extra?.profile?.role) ? 'lock' : item.icon}
 				</Icon>
 			)}
 

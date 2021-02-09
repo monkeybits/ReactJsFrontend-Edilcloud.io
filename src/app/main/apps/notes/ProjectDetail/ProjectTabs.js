@@ -12,7 +12,7 @@ import ContactsApp from '../contacts/ContactsApp';
 import ChatApp from '../chat/ChatApp';
 import TodoApp from '../todo/TodoApp';
 import FileManagerApp from '../file-manager/FileManagerApp';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import * as Actions from 'app/main/apps/notes/contacts/store/actions';
 import reducer from 'app/main/apps/notes/contacts/store/reducers';
@@ -29,7 +29,7 @@ import { Icon } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ProjectHeader from './ProjectHeader';
 import { useTranslation } from 'react-i18next';
-
+import * as TodoActions from 'app/main/apps/notes/todo/store/actions';
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -73,6 +73,8 @@ const useStyles = makeStyles(theme => ({
 function ProjectTabs({ value, setValue, setOpenDialog }) {
 	const { t } = useTranslation('projects');
 	const classes = useStyles();
+	const taskContentDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
+	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	const [zoom, setZoom] = useState({
 		currentZoom: 'Months'
 	});
@@ -147,16 +149,28 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {
-						setValue(newValue);
+						if (taskContentDialog.props.open) {
+							dispatch(TodoActions.closeTaskContent());
+							setTimeout(() => {
+								setValue(newValue);
+							}, 0);
+						} else if (todoDialog.props.openTimelineDialog) {
+							dispatch(TodoActions.closeTimelineDialog());
+							setTimeout(() => {
+								setValue(newValue);
+							}, 0);
+						} else {
+							setValue(newValue);
+						}
 					}}
 					showLabels
 					className={classes.root}
 				>
-					<BottomNavigationAction label={t("TEAM")} icon={<Icon>people</Icon>} {...a11yProps(0)} />
-					<BottomNavigationAction label={t("CHAT")} icon={<Icon>message</Icon>} {...a11yProps(1)} />
-					<BottomNavigationAction label={t("TODO")} icon={<Icon>check_box</Icon>} {...a11yProps(2)} />
-					<BottomNavigationAction label={t("FILES")} icon={<Icon>folder</Icon>} {...a11yProps(3)} />
-					<BottomNavigationAction label={t("GANTT")} icon={<Icon>subject</Icon>} {...a11yProps(4)} />
+					<BottomNavigationAction label={t('TEAM')} icon={<Icon>people</Icon>} {...a11yProps(0)} />
+					<BottomNavigationAction label={t('CHAT')} icon={<Icon>message</Icon>} {...a11yProps(1)} />
+					<BottomNavigationAction label={t('TODO')} icon={<Icon>check_box</Icon>} {...a11yProps(2)} />
+					<BottomNavigationAction label={t('FILES')} icon={<Icon>folder</Icon>} {...a11yProps(3)} />
+					<BottomNavigationAction label={t('GANTT')} icon={<Icon>subject</Icon>} {...a11yProps(4)} />
 				</BottomNavigation>
 			</AppBar>
 		</div>
