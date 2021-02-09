@@ -212,11 +212,11 @@ function TodoListItem(props) {
 				elevation={1}
 				className="flex flex-col overflow-inherit mb-20"
 				onClick={() => {
-					if (getRole() == 'o' || getRole() == 'd') {
-						dispatch(Actions.closeTimelineDialog());
-						dispatch(Actions.openTaskContent(props.todo));
-						props.setTodoId(props.todo.id);
-					}
+					// if (getRole() == 'o' || getRole() == 'd') {
+					dispatch(Actions.closeTimelineDialog());
+					dispatch(Actions.openTaskContent(props.todo));
+					props.setTodoId(props.todo.id);
+					// }
 				}}
 			>
 				{/* card body */}
@@ -314,7 +314,7 @@ function TodoListItem(props) {
 							</>
 						)}
 					</div>
-					{props.todo.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
+					{props.todo.assigned_company?.id == company.id && getRole() != 'w' && (
 						<div className="flex items-center justify-center mt-8">
 							<div>
 								{/* <Tooltip
@@ -370,6 +370,11 @@ function TodoListItem(props) {
 					<div className="custom-progress-chart">
 						<div className="flex justify-end relative">
 							<Button
+								disabled={
+									props.todo.assigned_company?.id != company.id ||
+									getRole() == 'w' ||
+									getRole() == 'm'
+								}
 								onClick={ev => {
 									ev.preventDefault();
 									ev.stopPropagation();

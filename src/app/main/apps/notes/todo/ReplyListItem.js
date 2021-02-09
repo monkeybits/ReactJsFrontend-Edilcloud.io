@@ -49,6 +49,7 @@ export default function ReplyListItem({
 	handleReplyClick,
 	callRetryReplySuccess,
 	afterDeleteComment,
+	tempAuthor,
 	isOffline,
 	nameSpace = 'todo_project'
 }) {
@@ -169,6 +170,7 @@ export default function ReplyListItem({
 	};
 	const userInfo = decodeDataFromToken();
 	const getUserId = () => userInfo?.extra?.profile.id;
+	const getRole = () => userInfo?.extra?.profile.role;
 	return (
 		<div
 			key={comment.id}
@@ -210,43 +212,45 @@ export default function ReplyListItem({
 						<div className="posted-images comment-post-img">
 							<PostedImages images={comment.media_set} hideNavigation />
 						</div>
-						<div className="actions-dropdown resize-action-btn absolute top-0 right-0 mt-8">
-							<IconButton
-								aria-label="more"
-								aria-controls="long-menu"
-								aria-haspopup="true"
-								onClick={handleClick}
-								className="p-10"
-							>
-								<MoreVertIcon />
-							</IconButton>
-							<Menu
-								id="long-menu"
-								anchorEl={anchorEl}
-								keepMounted
-								open={openMenu}
-								onClose={handleClose}
-								className="actions-dropdown"
-								PaperProps={{
-									style: {
-										width: '20ch'
-									}
-								}}
-							>
-								{options.map(option => (
-									<MenuItem
-										key={option.name}
-										selected={option.name === 'Pyxis'}
-										onClick={option.handler}
-									>
-										<ListItemIcon>
-											<PriorityHighIcon fontSize="small" />
-										</ListItemIcon>
-										<Typography variant="inherit"> {t(option.name)}</Typography>
-									</MenuItem>
-								))}
-							</Menu>
-						</div>
+						{tempAuthor.id == comment.author.id && (
+							<div className="actions-dropdown resize-action-btn absolute top-0 right-0 mt-8">
+								<IconButton
+									aria-label="more"
+									aria-controls="long-menu"
+									aria-haspopup="true"
+									onClick={handleClick}
+									className="p-10"
+								>
+									<MoreVertIcon />
+								</IconButton>
+								<Menu
+									id="long-menu"
+									anchorEl={anchorEl}
+									keepMounted
+									open={openMenu}
+									onClose={handleClose}
+									className="actions-dropdown"
+									PaperProps={{
+										style: {
+											width: '20ch'
+										}
+									}}
+								>
+									{options.map(option => (
+										<MenuItem
+											key={option.name}
+											selected={option.name === 'Pyxis'}
+											onClick={option.handler}
+										>
+											<ListItemIcon>
+												<PriorityHighIcon fontSize="small" />
+											</ListItemIcon>
+											<Typography variant="inherit"> {t(option.name)}</Typography>
+										</MenuItem>
+									))}
+								</Menu>
+							</div>
+						)}
 					</div>
 				)}
 				{isOffline && (
@@ -274,7 +278,7 @@ export default function ReplyListItem({
 				)}
 			</ListItem>
 
-			{!isOffline && isEditing ? (
+			{!isOffline && isEditing && getRole() != 'w' ? (
 				<div className="flex flex-wrap items-center ml-44">
 					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
 						<Typography className="normal-case mx-4">{t('CANCEL')}</Typography>

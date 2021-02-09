@@ -92,8 +92,7 @@ export default function EditActivityForm(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const getName = profile => profile.first_name + ' ' + profile.last_name;
 	const getUsername = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
-	const getIsDisabled = () =>
-		todoDialog.data.task.assigned_company.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
+	const getIsDisabled = () => todoDialog.data.task.assigned_company.id != companyDetail.id || getRole() == 'w';
 	return (
 		<div className="sm:pl-10">
 			{getIsDisabled() && (

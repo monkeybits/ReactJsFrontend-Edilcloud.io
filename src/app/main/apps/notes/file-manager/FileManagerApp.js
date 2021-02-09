@@ -171,6 +171,12 @@ function FileManagerApp(props) {
 		resetError();
 		var files = event.target.files;
 		for (var i = 0; i < files.length; i++) {
+			console.log(files[i]);
+			if (!title) {
+				let fileName = files[i].name.split('.');
+				fileName.pop();
+				setTitle(fileName.join(' '));
+			}
 			let fileType = files[i].type?.split('/')[0];
 			setFile({
 				file: files[i],
@@ -418,16 +424,18 @@ function FileManagerApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-	{	(getRole() == 'o' || getRole() == 'd') && 	<FuseAnimate animation="transition.expandIn" delay={600}>
-				<FloatingButtonUpload
-					color="secondary"
-					className=" ltr:left-0 rtl:right-0 mx-16 z-999"
-					callAction={name => {
-						setIsOpenDrawer(true);
-						return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
-					}}
-				/>
-			</FuseAnimate>}
+			{(getRole() == 'o' || getRole() == 'd') && (
+				<FuseAnimate animation="transition.expandIn" delay={600}>
+					<FloatingButtonUpload
+						color="secondary"
+						className=" ltr:left-0 rtl:right-0 mx-16 z-999"
+						callAction={name => {
+							setIsOpenDrawer(true);
+							return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
+						}}
+					/>
+				</FuseAnimate>
+			)}
 			<MoveFileDialog />
 
 			<Dialog

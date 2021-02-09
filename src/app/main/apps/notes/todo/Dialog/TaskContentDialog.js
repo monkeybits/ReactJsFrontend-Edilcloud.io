@@ -27,7 +27,7 @@ function TaskContentDialog(props) {
 	return (
 		<Dialog
 			classes={{
-				root:'custom-modal-close',
+				root: props.isGantt ? '' : 'custom-modal-close'
 			}}
 			onClose={ev => dispatch(Actions.closeTaskContent())}
 			open={taskContentDialog.props.open}

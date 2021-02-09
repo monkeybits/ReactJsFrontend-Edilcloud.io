@@ -296,6 +296,9 @@ function TodoActivityListItem(props) {
 				<div className="flex flex-1 flex-col relative overflow-hidden">
 					<div className="flex items-center">
 						<Checkbox
+							disabled={
+								props.task.assigned_company?.id != company.id || getRole() == 'w' || getRole() == 'm'
+							}
 							tabIndex={-1}
 							disableRipple
 							onClick={ev => ev.stopPropagation()}
@@ -340,164 +343,152 @@ function TodoActivityListItem(props) {
 							<WorkerProfiles
 								workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
 							/>
-							{props.task.assigned_company?.id == company.id &&
-								(getRole() == 'd' || getRole() == 'o') && (
-									<Tippy
-										className="custom-tippy"
-										allowHTML
-										placement="bottom-start"
-										content={
-											<Paper className={classes.paper}>
-												<>
-													{!!members?.length && (
-														// <Button onClick={handleSelectAll}>Select All </Button>
-														<FormControlLabel
-															className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
-															control={
-																<Checkbox
-																	checked={
-																		members.every(d => d.is_exists) &&
-																		canAssign.every(d => d.is_exists)
-																	}
-																	onClick={handleSelectAll}
-																	name="checkedB"
-																/>
-															}
-															label={t('SELECT_ALL')}
-														/>
-													)}
-													{!!members?.length || !!canAssign?.length ? (
-														<>
-															{members.map((member, index) => {
-																return (
-																	<MenuItem
-																		onClick={stopsEvents}
-																		className="px-8"
-																		key={member.id}
-																	>
-																		<Checkbox
-																			onClick={ev => ev.stopPropagation()}
-																			name={member.first_name}
-																			checked={!!member.is_exists}
-																			onChange={e => {
-																				let tempMembers = [...members];
-																				tempMembers[index] = {
-																					...tempMembers[index],
-																					is_exists: e.target.checked
-																				};
-																				if (
-																					[...tempMembers, ...canAssign].some(
-																						d => d.is_exists
-																					)
-																				) {
-																					setMembers(tempMembers);
-																					editWorkers(tempMembers, false);
-																				} else {
-																					toast.error(
-																						'Can not remove everyone from activity'
-																					);
-																				}
-																			}}
-																		/>
-																		<Avatar
-																			className="w-32 h-32"
-																			src={member.avatar}
-																		/>
-																		<ListItemText className="mx-8">
-																			{member.profile.first_name}{' '}
-																			{member.profile.last_name}
-																		</ListItemText>
-																	</MenuItem>
-																);
-															})}
-															{canAssign.map((member, index) => {
-																return (
-																	<MenuItem
-																		onClick={stopsEvents}
-																		className="px-8"
-																		key={member.id}
-																	>
-																		<Checkbox
-																			onClick={ev => ev.stopPropagation()}
-																			name={member.first_name}
-																			checked={!!member.is_exists}
-																			onChange={e => {
-																				let tempMembers = [...canAssign];
-																				tempMembers[index] = {
-																					...tempMembers[index],
-																					is_exists: e.target.checked
-																				};
-																				if (
-																					[...tempMembers, ...members].some(
-																						d => d.is_exists
-																					)
-																				) {
-																					setCanAssign(tempMembers);
-																					editWorkers(tempMembers, true);
-																				} else {
-																					toast.error(
-																						'Can not remove everyone from activity'
-																					);
-																				}
-																			}}
-																		/>
-																		<Avatar
-																			className="w-32 h-32"
-																			src={member.avatar}
-																		/>
-																		<ListItemText className="mx-8">
-																			{member.profile.first_name}{' '}
-																			{member.profile.last_name}
-																		</ListItemText>
-																	</MenuItem>
-																);
-															})}
-														</>
-													) : (
-														<>
-															<Typography variant="subtitle1" className="todo-title p-8">
-																{inviteMembers.length
-																	? 'You have no workers in your project, add from below list'
-																	: 'You have no workers in your company'}
-															</Typography>
-															{inviteMembers.map((member, index) => {
-																return member.is_exists ? null : (
-																	<MenuItem
-																		onClick={stopsEvents}
-																		className="px-8"
-																		key={member.id}
-																	>
-																		<Avatar
-																			className="w-32 h-32"
-																			src={member.avatar}
-																		/>
-																		<ListItemText className="mx-8">
-																			{member.first_name} {member.last_name}
-																		</ListItemText>
-																		<Button
-																			onClick={e => addMemberToProject(e, index)}
-																		>
-																			Add
-																		</Button>
-																	</MenuItem>
-																);
-															})}
-														</>
-													)}
-												</>
-											</Paper>
-										}
-										visible={visible}
-										// onClickOutside={handleMenuClose}
+							{props.task.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
+								<Tippy
+									className="custom-tippy"
+									allowHTML
+									placement="bottom-start"
+									content={
+										<Paper className={classes.paper}>
+											<>
+												{!!members?.length && (
+													// <Button onClick={handleSelectAll}>Select All </Button>
+													<FormControlLabel
+														className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+														control={
+															<Checkbox
+																checked={
+																	members.every(d => d.is_exists) &&
+																	canAssign.every(d => d.is_exists)
+																}
+																onClick={handleSelectAll}
+																name="checkedB"
+															/>
+														}
+														label={t('SELECT_ALL')}
+													/>
+												)}
+												{!!members?.length || !!canAssign?.length ? (
+													<>
+														{members.map((member, index) => {
+															return (
+																<MenuItem
+																	onClick={stopsEvents}
+																	className="px-8"
+																	key={member.id}
+																>
+																	<Checkbox
+																		onClick={ev => ev.stopPropagation()}
+																		name={member.first_name}
+																		checked={!!member.is_exists}
+																		onChange={e => {
+																			let tempMembers = [...members];
+																			tempMembers[index] = {
+																				...tempMembers[index],
+																				is_exists: e.target.checked
+																			};
+																			if (
+																				[...tempMembers, ...canAssign].some(
+																					d => d.is_exists
+																				)
+																			) {
+																				setMembers(tempMembers);
+																				editWorkers(tempMembers, false);
+																			} else {
+																				toast.error(
+																					'Can not remove everyone from activity'
+																				);
+																			}
+																		}}
+																	/>
+																	<Avatar className="w-32 h-32" src={member.avatar} />
+																	<ListItemText className="mx-8">
+																		{member.profile.first_name}{' '}
+																		{member.profile.last_name}
+																	</ListItemText>
+																</MenuItem>
+															);
+														})}
+														{canAssign.map((member, index) => {
+															return (
+																<MenuItem
+																	onClick={stopsEvents}
+																	className="px-8"
+																	key={member.id}
+																>
+																	<Checkbox
+																		onClick={ev => ev.stopPropagation()}
+																		name={member.first_name}
+																		checked={!!member.is_exists}
+																		onChange={e => {
+																			let tempMembers = [...canAssign];
+																			tempMembers[index] = {
+																				...tempMembers[index],
+																				is_exists: e.target.checked
+																			};
+																			if (
+																				[...tempMembers, ...members].some(
+																					d => d.is_exists
+																				)
+																			) {
+																				setCanAssign(tempMembers);
+																				editWorkers(tempMembers, true);
+																			} else {
+																				toast.error(
+																					'Can not remove everyone from activity'
+																				);
+																			}
+																		}}
+																	/>
+																	<Avatar className="w-32 h-32" src={member.avatar} />
+																	<ListItemText className="mx-8">
+																		{member.profile.first_name}{' '}
+																		{member.profile.last_name}
+																	</ListItemText>
+																</MenuItem>
+															);
+														})}
+													</>
+												) : (
+													<>
+														<Typography variant="subtitle1" className="todo-title p-8">
+															{inviteMembers.length
+																? 'You have no workers in your project, add from below list'
+																: 'You have no workers in your company'}
+														</Typography>
+														{inviteMembers.map((member, index) => {
+															return member.is_exists ? null : (
+																<MenuItem
+																	onClick={stopsEvents}
+																	className="px-8"
+																	key={member.id}
+																>
+																	<Avatar className="w-32 h-32" src={member.avatar} />
+																	<ListItemText className="mx-8">
+																		{member.first_name} {member.last_name}
+																	</ListItemText>
+																	<Button onClick={e => addMemberToProject(e, index)}>
+																		Add
+																	</Button>
+																</MenuItem>
+															);
+														})}
+													</>
+												)}
+											</>
+										</Paper>
+									}
+									visible={visible}
+									// onClickOutside={handleMenuClose}
+								>
+									<div
+										className="custom-member-menu flex items-center"
+										onClick={visible ? handleMenuClose : handleMenuOpen}
 									>
-										<div
-											className="custom-member-menu flex items-center"
-											onClick={visible ? handleMenuClose : handleMenuOpen}
-										>
-											<Icon className="bg-custom-primary text-white">person</Icon>
-										</div>
-									</Tippy>
-								)}
+										<Icon className="bg-custom-primary text-white">person</Icon>
+									</div>
+								</Tippy>
+							)}
 						</div>
 					</div>
 

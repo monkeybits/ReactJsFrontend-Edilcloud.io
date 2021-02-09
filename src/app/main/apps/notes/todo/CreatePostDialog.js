@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import EditActivityPostForm from './EditActivityPostForm';
 
-function CreatePostDialog() {
+function CreatePostDialog(props) {
 	const dispatch = useDispatch();
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 
@@ -16,7 +16,7 @@ function CreatePostDialog() {
 	return (
 		<Dialog
 			classes={{
-				root:'custom-modal-close',
+				root: props.isGantt ? '' : 'custom-modal-close'
 			}}
 			open={todoDialog.props.openTimelineDialog}
 			onClose={closeTodoDialog}

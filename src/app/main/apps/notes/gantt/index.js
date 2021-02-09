@@ -34,6 +34,9 @@ function GanttWrapper(props) {
 	const [open, setOpen] = React.useState(false);
 	let ganttRef = null;
 	const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
+	const isDesktopOrLaptop = useMediaQuery({
+		query: '(min-device-width: 1224px)'
+	});
 	const dispatch = useDispatch();
 	const routeParams = useParams();
 	const company = useSelector(({ chatApp }) => chatApp?.company);
@@ -58,7 +61,9 @@ function GanttWrapper(props) {
 		};
 	}, [dispatch, routeParams, props.value]);
 	useEffect(() => {
-		if (isPortrait) {
+		if (isDesktopOrLaptop) {
+			setState(prev => ({ ...prev, orientation: 'desktop' }));
+		} else if (isPortrait) {
 			setState(prev => ({ ...prev, orientation: 'portrait' }));
 		} else {
 			setState(prev => ({ ...prev, orientation: 'landscape' }));
@@ -187,6 +192,8 @@ function GanttWrapper(props) {
 				<ImportExcelDialog {...{ open, setOpen, target, setTarget }} onImport={() => importExcel(undefined)} />
 			</div>
 			<img className={isViewChart && 'hidden'} src="/assets/images/patterns/rotate_5146697.png" />
+			<CreatePostDialog isGantt={props.value == 4} />
+			<TaskContentDialog isGantt={props.value == 4} />
 		</div>
 	);
 }

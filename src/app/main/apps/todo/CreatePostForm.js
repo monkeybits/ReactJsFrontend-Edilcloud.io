@@ -26,7 +26,7 @@ import {
 	ADD_POST_TO_TASK,
 	GET_SHARED_POSTS_FOR_TASKS
 } from 'app/services/apiEndPoints';
-import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import * as Actions from './store/actions';
@@ -75,6 +75,8 @@ function CreatePostForm({ isTask, taskId }) {
 	});
 	const inputRef = useRef(null);
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	useEffect(() => {
 		if (user) {
 			setTempAuthor({
@@ -298,69 +300,71 @@ function CreatePostForm({ isTask, taskId }) {
 	return (
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1 ml-8">
-				<div>
-					<Card className="w-full overflow-hidden post-form mb-20 post-card-clx">
-						<Input
-							id="addPost"
-							className="p-16 w-full write-post"
-							classes={{ root: 'text-14' }}
-							placeholder={t('WRITE_SOMETHING')}
-							multiline
-							rows="3"
-							margin="none"
-							disableUnderline
-							onChange={e => setText(e.target.value)}
-						/>
-						{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
+				{getRole() != 'w' && (
+					<div>
+						<Card className="w-full overflow-hidden post-form mb-20 post-card-clx">
+							<Input
+								id="addPost"
+								className="p-16 w-full write-post"
+								classes={{ root: 'text-14' }}
+								placeholder={t('WRITE_SOMETHING')}
+								multiline
+								rows="3"
+								margin="none"
+								disableUnderline
+								onChange={e => setText(e.target.value)}
+							/>
+							{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
 
-						<AppBar
-							className="card-footer flex flex-row border-t-1 items-center justify-between pt-8 pb-6 pr-12 pl-10"
-							position="static"
-							color="default"
-							elevation={0}
-						>
-							<div className="add-photo-image">
-								<Dropzone onDrop={addPhoto}>
-									{({ getRootProps, getInputProps }) => (
-										<section>
-											<div {...getRootProps()}>
-												<IconButton
-													// onClick={() => inputRef.current.click()}
-													aria-label="Add photo"
-													className="p-8"
-												>
-													<Icon>add_a_photo</Icon>
-												</IconButton>
-												<input
-													// ref={inputRef}
-													// onChange={addPhoto}
-													{...getInputProps()}
-													multiple
-													hidden
-													type="file"
-													accept="image/*, video/*"
-												/>
-												{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
-											</div>
-										</section>
-									)}
-								</Dropzone>
-							</div>
-							<Button
-								onClick={createPost}
-								variant="contained"
-								color="primary"
-								size="small"
-								aria-label="post"
-								disabled={!text.length && !images?.length}
+							<AppBar
+								className="card-footer flex flex-row border-t-1 items-center justify-between pt-8 pb-6 pr-12 pl-10"
+								position="static"
+								color="default"
+								elevation={0}
 							>
-								{t('POST')}
-							</Button>
-						</AppBar>
-					</Card>
+								<div className="add-photo-image">
+									<Dropzone onDrop={addPhoto}>
+										{({ getRootProps, getInputProps }) => (
+											<section>
+												<div {...getRootProps()}>
+													<IconButton
+														// onClick={() => inputRef.current.click()}
+														aria-label="Add photo"
+														className="p-8"
+													>
+														<Icon>add_a_photo</Icon>
+													</IconButton>
+													<input
+														// ref={inputRef}
+														// onChange={addPhoto}
+														{...getInputProps()}
+														multiple
+														hidden
+														type="file"
+														accept="image/*, video/*"
+													/>
+													{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+												</div>
+											</section>
+										)}
+									</Dropzone>
+								</div>
+								<Button
+									onClick={createPost}
+									variant="contained"
+									color="primary"
+									size="small"
+									aria-label="post"
+									disabled={!text.length && !images?.length}
+								>
+									{t('POST')}
+								</Button>
+							</AppBar>
+						</Card>
 
-					{/* <Divider className="my-32" /> */}
-				</div>
+						{/* <Divider className="my-32" /> */}
+					</div>
+				)}
 				{loading && (
 					<div className="flex flex-1 flex-col items-center justify-center">
 						<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
@@ -378,8 +382,14 @@ function CreatePostForm({ isTask, taskId }) {
 					callRetryAfterSuccess={callRetryAfterSuccess}
 					nameSpace="dashboard"
 				/>
-				<PostList tempAuthor={tempAuthor} posts={data.posts} media={media.files} nameSpace="dashboard" />
-				<PostList tempAuthor={tempAuthor} posts={data.sharedPosts} nameSpace="dashboard" />
+				<PostList
+					isTask={isTask}
+					tempAuthor={tempAuthor}
+					posts={data.posts}
+					media={media.files}
+					nameSpace="dashboard"
+				/>
+				<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.sharedPosts} nameSpace="dashboard" />
 			</div>
 		</div>
 	);

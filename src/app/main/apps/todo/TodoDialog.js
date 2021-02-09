@@ -255,13 +255,17 @@ function TodoDialog(props) {
 	const getProjectCompanyTeamProfiles = value => {
 		console.log(routeParams.id, todoDialog.data.assigned_company.id, value);
 		apiCall(
-			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(todoDialog.data.project.id, todoDialog.data.assigned_company?.id, value),
+			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(
+				todoDialog.data.project.id,
+				todoDialog.data.assigned_company?.id,
+				value
+			),
 			{},
 			profiles => {
 				setProfiles(profiles);
 				setProfileData(
 					profiles
-						.filter(profile => profile.role == 'Owner' || profile.role == 'Delegate')
+						.filter(profile => profile.role == 'Owner' || profile.role == 'Delegate') //.filter(profile => profile.role != 'Worker')
 						.map(profile => ({
 							data: profile,
 							value: getName(profile),
@@ -514,7 +518,9 @@ function TodoDialog(props) {
 						</div>
 					</div>
 					<div className="w-full zoom-125">
-						<label><small>Task Progress</small></label>
+						<label>
+							<small>Task Progress</small>
+						</label>
 						<div className="mx-8 mt-32 custom-ios-slider">
 							<IOSSlider
 								aria-label="ios slider"
@@ -530,33 +536,33 @@ function TodoDialog(props) {
 
 			{todoDialog.type === 'new' || todoDialog.type === 'activity' ? (
 				<DialogActions className="p-16 pb-24 px-44">
-						<Button
-							variant="contained"
-							color="primary"
-							size="large"
-							onClick={() => {
-								setLoading(true);
-								dispatch(
-									ProjectTodoActions.addTodo(
-										{
-											...form,
-											id: todoDialog.data?.id,
-											company,
-											profile: profileData,
-											progress,
-											...taskDate
-										},
-										todoDialog.data.project.id,
-										todoDialog.type,
-										closeTodoDialog,
-										todoDialog.data?.isGantt
-									)
-								);
-							}}
-							disabled={!canBeSubmitted()}
-						>
-							Add {loading && <CircularProgress size={15} color="secondary" />}
-						</Button>
+					<Button
+						variant="contained"
+						color="primary"
+						size="large"
+						onClick={() => {
+							setLoading(true);
+							dispatch(
+								ProjectTodoActions.addTodo(
+									{
+										...form,
+										id: todoDialog.data?.id,
+										company,
+										profile: profileData,
+										progress,
+										...taskDate
+									},
+									todoDialog.data.project.id,
+									todoDialog.type,
+									closeTodoDialog,
+									todoDialog.data?.isGantt
+								)
+							);
+						}}
+						disabled={!canBeSubmitted()}
+					>
+						Add {loading && <CircularProgress size={15} color="secondary" />}
+					</Button>
 				</DialogActions>
 			) : (
 				<DialogActions className="justify-between p-8">
