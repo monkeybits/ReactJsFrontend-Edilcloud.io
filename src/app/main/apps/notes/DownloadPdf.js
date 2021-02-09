@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -46,6 +46,7 @@ const range = (start, end) => {
 const DownloadPdf = ({ id, label, pid }) => {
 	const dispatch = useDispatch();
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const [loading, setLoading] = useState(false);
 	const { t } = useTranslation('projects');
 	return (
 		<div className="tc mb4 mt2">
@@ -59,16 +60,16 @@ const DownloadPdf = ({ id, label, pid }) => {
 				size="small"
 				ClassName="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
 				onClick={() => {
-					dispatch(notificationActions.loadingReport(true));
+					setLoading(true);
 					apiCall(
 						EXPORT_DATA(pid),
 						{},
 						d => {
 							toast.success(d);
-							dispatch(notificationActions.loadingReport(false));
+							setLoading(false);
 						},
 						err => {
-							dispatch(notificationActions.loadingReport(false));
+							setLoading(false);
 							toast.error(err);
 						},
 						METHOD.POST,
@@ -76,8 +77,7 @@ const DownloadPdf = ({ id, label, pid }) => {
 					);
 				}}
 			>
-				{label}{' '}
-				{notificationPanel.loadingReport && <CircularProgress size={20} color="white" className="ml-20" />}
+				{label} {loading && <CircularProgress size={20} color="white" className="ml-20" />}
 			</Button>
 		</div>
 	);
