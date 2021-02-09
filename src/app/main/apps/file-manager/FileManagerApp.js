@@ -209,7 +209,7 @@ function FileManagerApp(props) {
 				radioBtnValue == 'folder'
 					? {
 							name: title,
-							parent: files.folders && !!files.folders.length ? path.id : '',
+							parent: path?.id ? path.id : '',
 							is_public: false
 					  }
 					: {
@@ -239,9 +239,8 @@ function FileManagerApp(props) {
 				res => {
 					const userInfo = decodeDataFromToken();
 					const cid = userInfo.extra?.profile?.company;
-					if (radioBtnValue == 'folder') {
-						dispatch(Actions.foldersPaths(cid, handleSetLoading));
-					}
+					// if (radioBtnValue == 'folder') {
+					// }
 					// if (radioBtnValue == 'folder') {
 					console.log({ folderPath11: folderPath });
 					if (folderPath.length > 1) {
@@ -257,6 +256,7 @@ function FileManagerApp(props) {
 							}
 						}
 					}
+					dispatch(Actions.foldersPaths(cid, handleSetLoading));
 					dispatch(Actions.getFolders(cid, handleSetLoading));
 					dispatch(Actions.onUploadHandleLoading(false));
 				},
