@@ -344,7 +344,9 @@ function TodoListItem(props) {
 						color: theme.palette.getContrastText(props.todo.assigned_company?.color_project || '#D3D3D3') //)
 					}}
 				>
-					{!props.todo.assigned_company ? (
+					{!props.todo.assigned_company &&
+					projectDetail.company?.id == company.id &&
+					(getRole() == 'd' || getRole() == 'o') ? (
 						<>
 							<div ref={anchorRef} onClick={handleMenuOpen}>
 								<IconButton>
