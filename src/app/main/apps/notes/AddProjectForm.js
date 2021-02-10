@@ -279,6 +279,7 @@ function AddProjectForm() {
 									</span>
 								)
 							}))}
+							noOptionsMessage={() => 'Insert Name'}
 							variant="outlined"
 						/>
 					</Grid>

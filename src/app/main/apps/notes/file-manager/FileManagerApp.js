@@ -505,7 +505,7 @@ function FileManagerApp(props) {
 									name="title"
 									id="title"
 									label={t('TITLE')}
-									className="mt-8 mb-16 w-full"
+									className={title ? 'mt-8 mb-16 w-full custom-label-up' : 'mt-8 mb-16 w-full'}
 									value={title}
 									onChange={({ target: { value } }) => {
 										resetError();

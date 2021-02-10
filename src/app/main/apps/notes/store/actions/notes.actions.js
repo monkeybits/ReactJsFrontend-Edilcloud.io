@@ -22,18 +22,20 @@ export function getProjects(handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingProjects: true
 	});
-	return dispatch => {
+	return (dispatch, getState) => {
 		apiCall(
 			PROJECT_LIST,
 			{},
 			results => {
+				const company = getState().chatApp.company;
 				if (Array.isArray(results)) {
 					dispatch({
 						type: GET_PROJECTS,
 						payload: results.map(d => ({
 							...d,
 							isApproved: true
-						}))
+						})),
+						company
 					});
 				}
 				handleSetLoading({
