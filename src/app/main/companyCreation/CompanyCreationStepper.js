@@ -27,7 +27,8 @@ import * as Actions from 'app/main/apps/chat/store/actions';
 import { Box, CircularProgress } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useTranslation } from 'react-i18next';
-
+import FullscreenModal from './FullscreenModal';
+import Steps from './Steps';
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: '100%',
@@ -70,6 +71,8 @@ function getStepContent(step, elementProps) {
 }
 
 function CompanyCreationStepper({ user, history }) {
+	const [activeStep, setActiveStep] = React.useState(0);
+	const [open, setOpen] = React.useState(true);
 	const { t } = useTranslation('company_create');
 	const { form, handleChange, resetForm, setForm } = useForm({
 		name: '',
@@ -90,7 +93,7 @@ function CompanyCreationStepper({ user, history }) {
 
 	const classes = useStyles();
 
-	const [activeStep, setActiveStep] = React.useState(0);
+	const [activeStepComponent, setActiveStepComponent] = React.useState(0);
 	const steps = getSteps();
 	const [value, setValue] = React.useState('English');
 	const [file, setFile] = React.useState(null);
@@ -253,96 +256,113 @@ function CompanyCreationStepper({ user, history }) {
 		handleChange(e);
 	};
 	return (
-		<div
-			className={clsx(
-				classes.root,
-				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 md:p-40'
-			)}
-		>
-			<div className="flex flex-col items-center justify-center w-full">
-				<FuseAnimate animation="transition.expandIn">
-					<Card className="w-full max-w-512">
-						<CardContent className="flex flex-col items-center justify-center">
-							<Stepper activeStep={activeStep} orientation="vertical">
-								{steps.map((label, index) => (
-									<Step key={label}>
-										<StepLabel>{t(label)}</StepLabel>
-										<StepContent>
-											<Typography>
-												{getStepContent(
-													index,
-													index == 0
-														? { form, handleChangeAfterRemoveError, error }
-														: index == 1
-														? { typologyList, optionList }
-														: { setFile, file, remove: () => setFile(null) }
-												)}
-											</Typography>
-											<div
-												className={clsx(
-													classes.actionsContainer,
-													'text-center custom-btn-group mt-12'
-												)}
-											>
-												<div>
-													<Button
-														variant="contained"
-														size="large"
-														className={clsx(classes.button, 'mr-8')}
-														disabled={activeStep === 0}
-														onClick={handleBack}
+		<FullscreenModal open={open} setOpen={setOpen}>
+			{activeStepComponent == 0 ? (
+				<div>Welcome to Edilcloud</div>
+			) : (
+				<div
+					className={clsx(
+						classes.root,
+						'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 md:p-40'
+					)}
+				>
+					<div className="flex flex-col items-center justify-center w-full">
+						<FuseAnimate animation="transition.expandIn">
+							<Card className="w-full max-w-512">
+								<CardContent className="flex flex-col items-center justify-center">
+									<Stepper activeStep={activeStep} orientation="vertical">
+										{steps.map((label, index) => (
+											<Step key={label}>
+												<StepLabel>{t(label)}</StepLabel>
+												<StepContent>
+													<Typography>
+														{getStepContent(
+															index,
+															index == 0
+																? { form, handleChangeAfterRemoveError, error }
+																: index == 1
+																? { typologyList, optionList }
+																: { setFile, file, remove: () => setFile(null) }
+														)}
+													</Typography>
+													<div
+														className={clsx(
+															classes.actionsContainer,
+															'text-center custom-btn-group mt-12'
+														)}
 													>
-														{t('BACK')}
-													</Button>
-													<Button
-														size="large"
-														variant="contained"
+														<div>
+															<Button
+																variant="contained"
+																size="large"
+																className={clsx(classes.button, 'mr-8')}
+																disabled={activeStep === 0}
+																onClick={handleBack}
+															>
+																{t('BACK')}
+															</Button>
+															<Button
+																size="large"
+																variant="contained"
+																color="primary"
+																className={classes.button}
+																onClick={handleNext}
+															>
+																{activeStep === steps.length - 1
+																	? t('FINISH')
+																	: t('NEXT')}
+															</Button>
+														</div>
+													</div>
+												</StepContent>
+											</Step>
+										))}
+									</Stepper>
+									{/* {activeStep !== steps.length && ( */}
+									<>
+										<Paper square elevation={0} className={classes.resetContainer}>
+											<Typography>{t('STEP_COMPLETE_MESSAGE')}</Typography>
+											{progress > 0 && (
+												<Box
+													position="relative"
+													display="inline-flex"
+													className={classes.progBox}
+												>
+													<CircularProgress
+														variant="static"
 														color="primary"
-														className={classes.button}
-														onClick={handleNext}
-													>
-														{activeStep === steps.length - 1 ? t('FINISH') : t('NEXT')}
-													</Button>
-												</div>
-											</div>
-										</StepContent>
-									</Step>
-								))}
-							</Stepper>
-							{/* {activeStep !== steps.length && ( */}
-							<>
-								<Paper square elevation={0} className={classes.resetContainer}>
-									<Typography>{t('STEP_COMPLETE_MESSAGE')}</Typography>
-									{progress > 0 && (
-										<Box position="relative" display="inline-flex" className={classes.progBox}>
-											<CircularProgress variant="static" color="primary" value={progress} />
+														value={progress}
+													/>
 
-											<Box
-												top={0}
-												left={0}
-												bottom={0}
-												right={0}
-												position="absolute"
-												display="flex"
-												alignItems="center"
-												justifyContent="center"
-											>
-												<Typography
-													variant="caption"
-													component="div"
-													color="textInfo"
-												>{`${Math.round(progress)}%`}</Typography>
-											</Box>
-										</Box>
-									)}
-								</Paper>
-							</>
-							{/* )} */}
-						</CardContent>
-					</Card>
-				</FuseAnimate>
-			</div>
-		</div>
+													<Box
+														top={0}
+														left={0}
+														bottom={0}
+														right={0}
+														position="absolute"
+														display="flex"
+														alignItems="center"
+														justifyContent="center"
+													>
+														<Typography
+															variant="caption"
+															component="div"
+															color="textInfo"
+														>{`${Math.round(progress)}%`}</Typography>
+													</Box>
+												</Box>
+											)}
+										</Paper>
+									</>
+									{/* )} */}
+								</CardContent>
+							</Card>
+						</FuseAnimate>
+					</div>
+				</div>
+			)}{' '}
+			<Steps {...{ activeStep: activeStepComponent, setActiveStep: setActiveStepComponent }} />
+		</FullscreenModal>
 	);
 }
 
