@@ -47,9 +47,17 @@ const getAllCompanies = (arr = []) => arr.map(item => item.company).filter(i => 
 const labelsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_PROJECTS: {
+			const company = action.company;
+			let entities = sortByProperty(mergeArray(state.entities, action.payload), 'name');
+			if (Array.isArray(entities) && !!entities.length && company) {
+				let myCompanyProjects = entities.filter(d => d.company.id == company.id);
+				let notMyCompanyProjects = entities.filter(d => d.company.id != company.id);
+				entities = [...myCompanyProjects, ...notMyCompanyProjects];
+				// console.log({ entities, company, myCompanyProjects, notMyCompanyProjects }); // myCompanyProjects, notMyCompanyProjects
+			}
 			return {
 				...state,
-				entities: sortByProperty(mergeArray(state.entities, action.payload), 'name'),
+				entities,
 				companies: mergeArrayByComapny(getAllCompanies(mergeArray(state.entities, action.payload), 'name'))
 			};
 		}
