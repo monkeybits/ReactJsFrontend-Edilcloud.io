@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: TaskContentForm.js
+ ===============================================================================
+This is part of dashboard 
+TODO: This file is created edit task / attchments / timeline
+*/
 import PropTypes from 'prop-types';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useDebounce, useForm, useUpdateEffect } from '@fuse/hooks';
@@ -42,6 +48,9 @@ import ShowUpload from '../notes/todo/ShowUpload';
 import CloseIcon from '@material-ui/icons/Close';
 
 function TabPanel(props) {
+	/**
+	 * Tab panel is used for show tab
+*/
 	const { children, value, index, ...other } = props;
 
 	return (
@@ -81,6 +90,9 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.background.paper
 	}
 }));
+/**
+ * marks for set progress
+ */
 const marks = [
 	{
 		value: 0
@@ -117,6 +129,9 @@ const marks = [
 	}
 ];
 const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
+/**
+ * set progress from Slider
+ */
 const IOSSlider = withStyles({
 	root: {
 		color: '#3880ff',
@@ -168,7 +183,7 @@ const IOSSlider = withStyles({
 })(Slider);
 
 function TaskContentForm(props) {
-	const { t } = useTranslation('dashboard');
+	const { t } = useTranslation('dashboard'); // translate dashbord
 	const dispatch = useDispatch();
 	const upload = useSelector(({ todoApp }) => todoApp.todos.upload);
 	const taskContent = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);

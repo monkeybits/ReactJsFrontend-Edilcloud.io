@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: TodoSidebarContent.js
+ ===============================================================================
+This is part of dashboard 
+TODO: This file is used to show Filters and apply filters on tasks 
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import { Avatar } from '@material-ui/core';
@@ -57,12 +63,17 @@ function TodoSidebarContent(props) {
 	const { t } = useTranslation('dashboard');
 
 	const classes = useStyles(props);
+	/**
+	 * changeFilter is functtion to change filter
+	*/
 	const changeFilter = (activeFilter, activeFilterKey) =>
 		dispatch(Actions.changeFilters({ activeFilter, activeFilterKey }));
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className="flex-auto border-l-1 border-solid">
-				{/* <div className="p-24">
+				{/*
+				// *The below old code was for UI, I just had to leave it here for you to see.
+				<div className="p-24">
 					<Button
 						onClick={() => {
 							dispatch(Actions.openNewTodoDialog());
@@ -76,7 +87,9 @@ function TodoSidebarContent(props) {
 				</div> */}
 
 				<div className={classes.listWrapper}>
-					{/* <List>
+					{/*
+					// *The below old code was for UI, I just had to leave it here for you to see.
+					<List>
 						{folders.length > 0 &&
 							folders.map(folder => (
 								<ListItem
@@ -119,7 +132,7 @@ function TodoSidebarContent(props) {
 
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-						{t('TIME_FILTERS')}	
+							{t('TIME_FILTERS')}
 						</ListSubheader>
 
 						{timeFilter.length > 0 &&

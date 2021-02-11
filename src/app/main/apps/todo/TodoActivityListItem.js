@@ -1,3 +1,9 @@
+/* =============================================================================
+ TodoActivityListItem.js
+ ===============================================================================
+This is part of dashboard 
+TODO: This file is created for activity list item 
+*/
 import _ from '@lodash';
 import Checkbox from '@material-ui/core/Checkbox';
 import { amber, red } from '@material-ui/core/colors';
@@ -93,9 +99,9 @@ const inlineStyles = {
 };
 function TodoActivityListItem(props) {
 	const dispatch = useDispatch();
-	const labels = useSelector(({ todoApp }) => todoApp.labels);
+	const labels = useSelector(({ todoApp }) => todoApp.labels); // to get the labels
 	const [open, setOpen] = React.useState(false);
-	const [completed, setCompleted] = React.useState(props.todo.status == 'to-do' ? false : true);
+	const [completed, setCompleted] = React.useState(props.todo.status == 'to-do' ? false : true); // to set task compalted or not
 	const [taskDetail, setTaskDetail] = useState([]);
 	const routeParams = useParams();
 	const classes = useStyles(props);
@@ -110,7 +116,7 @@ function TodoActivityListItem(props) {
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const show = () => setVisible(true);
 	const hide = () => setVisible(false);
-	const { t } = useTranslation('dashboard');
+	const { t } = useTranslation('dashboard'); // dashboard translate
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 	useEffect(() => {
@@ -294,9 +300,9 @@ function TodoActivityListItem(props) {
 				style={{ borderLeft: '0px solid', borderLeftColor: props.task.assigned_company?.color_project }}
 				onClick={ev => {
 					ev.preventDefault();
-					dispatch(Actions.closeTaskContent());
-					dispatch(Actions.openTimelineDialog({ todo: props.todo, task: props.task }));
-					props.setTodoId(props.task.id);
+					dispatch(Actions.closeTaskContent()); // we need to close the task conennt dialog to open activity dialog
+					dispatch(Actions.openTimelineDialog({ todo: props.todo, task: props.task })); // when open activity dialog we need to pass the task and current activity
+					props.setTodoId(props.task.id); // we are passing this ID to parent component to we can compare the id and we can open one actvity dialo only else all dialog will be opened
 					// getDetailOfTask();
 				}}
 				dense
@@ -306,7 +312,7 @@ function TodoActivityListItem(props) {
 					<div className="flex items-center">
 						<Checkbox
 							disabled={
-								props.task.assigned_company?.id != company.id || getRole() == 'w' 
+								props.task.assigned_company?.id != company.id || getRole() == 'w' // we have to disbale check box for some roles or for other comapnies
 							}
 							tabIndex={-1}
 							disableRipple
@@ -314,19 +320,22 @@ function TodoActivityListItem(props) {
 							onChange={e => {
 								e.stopPropagation();
 								// e.preventDefault();
-								editTodoActivty(e.target.checked);
+								editTodoActivty(e.target.checked); // call the API to Edit Activity
 							}}
 							onClick={ev => ev.stopPropagation()}
 						/>
 						<Typography
 							variant="subtitle1"
 							className="todo-title"
-							color={completed ? 'textSecondary' : 'inherit'}
+							color={completed ? 'textSecondary' : 'inherit'} // in change of activity change styles
 						>
 							{props.todo.title}
 						</Typography>
 						<div className="ml-auto">
-							{/* <Tooltip title="There is a issue with some tree are not clean on site" placement="top">
+							{/* 
+							// *The below old code was for UI, I just had to leave it here for you to see.
+
+							<Tooltip title="There is a issue with some tree are not clean on site" placement="top">
 								<IconButton
 									onClick={e => {
 										e.stopPropagation();
@@ -336,7 +345,9 @@ function TodoActivityListItem(props) {
 									<Icon>info_outlined</Icon>
 								</IconButton>
 							</Tooltip> */}
-							{/* <IconButton
+							{/*
+							// *The below old code was for UI, I just had to leave it here for you to see.
+							<IconButton
 										onClick={ev => {
 											ev.preventDefault();
 											ev.stopPropagation();
@@ -350,6 +361,7 @@ function TodoActivityListItem(props) {
 						</div>
 						<div className="flex items-center ml-44 mb-8">
 							{/* 
+							// *The below old code was for UI, I just had to leave it here for you to see.
 						<MembersMenu
 							onToggleMember={() => ''}
 							members={props.todo.team_workers}
@@ -523,7 +535,9 @@ function TodoActivityListItem(props) {
 						</div>
 					</div>
 
-					{/* <div className="flex items-center mb-8 ml-32">
+					{/*
+					// *The below old code was for UI, I just had to leave it here for you to see.
+					<div className="flex items-center mb-8 ml-32">
 						<div className="flex items-center flex-wrap">
 							{props.todo.progress == 100 ? (
 								<div className={clsx('flex items-center px-8 py-4 rounded-sm bg-green text-white')}>
@@ -590,7 +604,9 @@ function TodoActivityListItem(props) {
 					</div>
 				</div>
 
-				{/* <div className="flex items-center px-8">
+				{/*
+				// *The below old code was for UI, I just had to leave it here for you to see.
+				<div className="flex items-center px-8">
 					<div className="custom-error-icon">
 						<IconButton
 							onClick={ev => {

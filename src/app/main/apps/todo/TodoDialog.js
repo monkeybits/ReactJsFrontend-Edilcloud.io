@@ -1,3 +1,9 @@
+/* =============================================================================
+TodoDialog.js
+ ===============================================================================
+This is part of dashboard 
+TODO: THIS DISALOG IS USED FOR CREATE ACTIVITY ONLY
+*/
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
@@ -48,7 +54,9 @@ const defaultFormState = {
 	labels: []
 };
 const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
-
+/**
+ * marks for set progress
+ */
 const marks = [
 	{
 		value: 0
@@ -84,7 +92,9 @@ const marks = [
 		value: 100
 	}
 ];
-
+/**
+ * set progress from Slider
+ */
 const IOSSlider = withStyles({
 	root: {
 		color: '#3880ff',
@@ -253,6 +263,9 @@ function TodoDialog(props) {
 		return form.title.length > 0 && taskDate.startDate && taskDate.endDate;
 	}
 	const getProjectCompanyTeamProfiles = value => {
+		/**
+		 * get company team mates
+		 */
 		console.log(routeParams.id, todoDialog.data.assigned_company.id, value);
 		apiCall(
 			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(
@@ -299,7 +312,10 @@ function TodoDialog(props) {
 			</AppBar>
 
 			<DialogContent classes={{ root: 'p-0' }}>
-				{/* <div className="mb-16">
+				{/*
+				// *The below old code was for UI, I just had to leave it here for you to see.
+
+				<div className="mb-16">
 					<div className="flex items-center justify-between p-12">
 						<div className="flex">
 							<Checkbox
@@ -369,7 +385,9 @@ function TodoDialog(props) {
 					<Divider className="mx-24" />
 				</div> */}
 
-				{/* {form.labels.length > 0 && (
+				{/*
+				// *The below old code was for UI, I just had to leave it here for you to see.
+				{form.labels.length > 0 && (
 					<div className="flex flex-wrap w-full px-12 sm:px-20 mb-16">
 						{form.labels.map(label => (
 							<Chip

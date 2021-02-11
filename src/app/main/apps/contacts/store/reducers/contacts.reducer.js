@@ -11,7 +11,7 @@ const initialState = () => ({
 	routeParams: {},
 	filterKey: 'all',
 	contactDialog: {
-		name: 'Search',
+		name: 'Invite',
 		type: 'new',
 		props: {
 			open: false,

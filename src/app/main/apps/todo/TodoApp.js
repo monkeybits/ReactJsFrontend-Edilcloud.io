@@ -1,3 +1,12 @@
+/* =============================================================================
+ TodoApp.js
+ ===============================================================================
+*This TodoApp is written for Dashboard
+TODO: Main action to get all tasks from all project is -> dispatch(Actions.getTodos(routeParams, false, handleSetLoading));
+Main files to make changes are 
+* 1. src/app/main/apps/todo/TodoListItem.js  -> used for task item
+* 2. src/app/main/apps/todo/TodoActivityListItem.js  -> every task may have activity if you want to make change on activity.
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Fab from '@material-ui/core/Fab';
 import FusePageCarded from '@fuse/core/FusePageCarded';
@@ -21,13 +30,7 @@ import { Icon, LinearProgress, makeStyles, Typography } from '@material-ui/core'
 import AccessibilityToggleButton from 'app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton';
 import { useTranslation } from 'react-i18next';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-/* 
-*This TodoApp is written for Dashboard
-TODO: Main action to get all tasks from all project is -> dispatch(Actions.getTodos(routeParams, false, handleSetLoading));
-Main files to make changes are 
-* 1. src/app/main/apps/todo/TodoListItem.js  -> used for task item
-* 2. src/app/main/apps/todo/TodoActivityListItem.js  -> every task may have activity if you want to make change on activity.
-*/
+
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',
@@ -48,13 +51,15 @@ function TodoApp(props) {
 	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 	useEffect(() => {
 		return () => {
-			dispatch(Actions.getTodos());
+			dispatch(Actions.getTodos()); // * It will get the tasks and activities of tasks
 		};
-	}, [taskContentDialog.props.open]);
+	}, [taskContentDialog.props.open]); // * when todo dialog states changes we need to call getTodos
 	const [loading, setLoading] = useState({
+		// when fetching tasks we need to show user a loading screen
 		loadingTodos: false
 	});
 	const handleSetLoading = data => {
+		// we will pass this funcion on component did mount to show user that we are fetching data
 		if (!data.loadingTodos) {
 			setTimeout(() => {
 				setLoading(loading => ({
@@ -76,9 +81,11 @@ function TodoApp(props) {
 	}, [dispatch]);
 
 	useDeepCompareEffect(() => {
+		// this is a component did mount it will call when we have dispatcher ready to dispatch the event
 		dispatch(Actions.getTodos(routeParams, false, handleSetLoading));
 	}, [dispatch, routeParams]);
 	if (loading.loadingTodos) {
+		// when we are fetching data we will show below loading HTML
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center">
 				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
@@ -89,13 +96,17 @@ function TodoApp(props) {
 		);
 	}
 	return (
+		// after data loaded it will return tasks
 		<>
 			{!!upload?.isUploading && (
 				<div className="linear-progress custom-color">
 					<ShowUpload progress={upload.uploadPercentage} />
 				</div>
 			)}
-			{/* <FusePageCarded
+			{/*
+			// *The below old code was for UI, I just had to leave it here for you to see.
+			
+			<FusePageCarded
 				classes={{
 					root: 'w-full remove-box-shadow',
 					header: 'items-center min-h-72 h-72 sm:h-136 sm:min-h-136'
@@ -118,17 +129,9 @@ function TodoApp(props) {
 							Tutti le fasi di lavoro da tutti i progetti
 						</Typography>
 					</div>
-					{/* <Button
-					onClick={() => props.onOpen(true)}
-					variant="contained"
-					color="primary"
-					className={'btn-primary normal-case m-0'}
-				>
-					{t('PROJECT_INFO')}
-				</Button> */}
 				</div>
 			</div>
-			<FusePageSimple
+			<FusePageSimple // check fuse page simple to let undertand props and UI
 				classes={{
 					contentWrapper: 'bg-azure h-full',
 					content: 'flex bg-azure flex-col h-full p-24 pb-0',
@@ -145,6 +148,20 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
+			{/**
+			 * ======================================================
+			 * 1. <TodoDialog />
+			 * To create task or activity .
+			 * ======================================================
+			 * 2. 	<CreatePostDialog />
+			 * To edit activity or see timeline of activity
+			 * ======================================================
+			 * 3.<TaskContentDialog />
+			 * To see task timeine or create attchments on task or edit task
+			 * ======================================================
+			 * 4. <AccessibilityToggleButton />
+			 * it have dummy data it created to let user understand platform but haven't implemented yet.
+			 */}
 			<TodoDialog />
 			<CreatePostDialog />
 			<TaskContentDialog />

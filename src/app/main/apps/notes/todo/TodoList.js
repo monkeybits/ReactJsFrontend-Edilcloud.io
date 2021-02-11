@@ -397,7 +397,7 @@ function TodoList(props) {
 				) : (
 					<div className="flex">
 						<div className="lg:w-1/3 sidebar-ht">
-							<div className="sm:mr-28 cursor-pointer">
+							<div className="lg:mr-28 custom-margin cursor-pointer">
 								{filteredData.map((todo, index) => (
 									<TodoListItem
 										setTodoId={setTodoId}
@@ -410,7 +410,7 @@ function TodoList(props) {
 								))}
 							</div>
 						</div>
-						<div className="lg:w-2/3 content-ht hidden custom-modal-open flex-fill">
+						<div className="lg:w-2/3 content-ht custom-modal-open flex-fill">
 							{taskContentDialog.props.open && todoId == taskContentDialog.data.id && <TaskContentForm />}
 							{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
 								<EditActivityPostForm />

@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import * as Actions from './store/actions';
+import clsx from 'clsx';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -23,7 +24,7 @@ function AccessibilityToggleButton(props) {
 			<Fab
 				color="primary"
 				aria-label="accessibility_new"
-				className={classes.addButton}
+				className={clsx(classes.addButton, 'custom-accessibility-btn')}
 				onClick={ev => dispatch(Actions.toggleAccessibility())}
 			>
 				<Icon>accessibility_new</Icon>

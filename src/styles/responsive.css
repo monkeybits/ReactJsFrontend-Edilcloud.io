@@ -20,6 +20,39 @@
         right: 7px;
     }
 }
+@media only screen and (min-width: 1200px) {
+    .custom-lg-hidden {
+        display: none;
+    }
+    .custom-modal-open {
+        display: block;
+    }
+    .custom-modal-close {
+        display: none;
+    }
+    .sidebar-ht .custom-margin {
+        margin-right: 2.8rem;
+    }
+    .custom-task-content .web-pad {
+        padding: 24px 24px 0px 24px !important;
+    } 
+    
+}
+@media only screen and (max-width: 1199px) {
+    .sidebar-ht {
+        width: 100% !important;
+    }
+    .custom-modal-open {
+        display: none;
+    }
+    .custom-modal-close {
+        display: block;
+    }
+    .custom-accessibility-btn {
+        right: 25px;
+    }
+}
+
 @media only screen and (max-width: 1024px) and (min-width: 992px) {
     .gantt-menu-item a {
         padding: 0px 7px !important;
@@ -48,20 +81,18 @@
         box-shadow: none !important;
         width: 100%;
     }
-    .custom-task-content .web-pad {
-        padding: 24px 24px 0px 24px !important;
-    } 
+    
     .tabs-content .custom-create-post-padding .MuiBox-root {
         padding: 24px 24px 0px 24px !important;
     }
     .write-post-img-full > .MuiBox-root {
         padding: 24px 24px 0px 24px !important;
     }
-    .custom-modal-open {
-        display: block;
-    }
-    .custom-modal-close {
-        display: none;
+    
+}
+@media only screen and (max-width: 1199px) and (min-width: 768px) {
+    .custom-task-content .custom-tab-header {
+        width: auto;
     }
 }
 @media only screen and (max-width: 767px) {
@@ -170,7 +201,7 @@
         border-radius: 0px !important;
         width: 100% !important;
         max-height: 100%;
-        height: 100%;
+        max-width: 100% !important;
     }
     .timeline-modal .MuiDialog-container {
         align-items: inherit !important;
@@ -301,13 +332,10 @@
         font-size: 20px;
         display: block;
     }
-    .sidebar-ht {
-        width: 100% !important;
-    }
+    
     .sidebar-ht.dashboard, .content-ht.dashboard {
         height: calc(100vh - 0px);
     }
-    
     
     
 }

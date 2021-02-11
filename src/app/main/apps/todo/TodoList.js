@@ -1,3 +1,11 @@
+/* =============================================================================
+ TodoList.js
+ ===============================================================================
+This is part of dashboard 
+TODO: This file simpley get list from redux store and do filters 
+! Main function here to do the filters is handleDoFilter()
+after do the filters it will show all the tasks 
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseUtils from '@fuse/utils';
@@ -10,19 +18,14 @@ import { useSelector } from 'react-redux';
 import TodoListItem from './TodoListItem';
 import TaskContentForm from './TaskContentForm';
 import EditActivityPostForm from './EditActivityPostForm';
-/* 
-This is part of dashboard 
-TODO: This file simpley get list from redux store and do filters 
-! Main function here to do the filters is handleDoFilter()
-after do the filters it will show all the tasks 
-*/
+
 function TodoList(props) {
-	const todos = useSelector(({ todoApp }) => todoApp.todos.entities);
+	const todos = useSelector(({ todoApp }) => todoApp.todos.entities);// it will get all tasks
 	const searchText = useSelector(({ todoApp }) => todoApp.todos.searchText); // its search text in dashboard you'll see search option and you can search task by this
-	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);
+	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);// to get the current order(sorting of list)
 	const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
-	const [filteredData, setFilteredData] = useState([]);
-	const filters = useSelector(({ todoApp }) => todoApp.filters);
+	const [filteredData, setFilteredData] = useState([]);// applied filter data list will be saved here
+	const filters = useSelector(({ todoApp }) => todoApp.filters);// get filters categories 
 	const activeFilter = useSelector(({ todoApp }) => todoApp.filters.activeFilter);
 	const activeFilterKey = useSelector(({ todoApp }) => todoApp.filters.activeFilterKey);
 	const usedKeys = useSelector(({ todoApp }) => todoApp.filters.usedKeys);
@@ -68,7 +71,7 @@ function TodoList(props) {
 	useEffect(() => {
 		handleDoFilter();
 	}, [activeFilterKey, company, usedKeys, todos]);
-	const handleDoFilter = () => {
+	const handleDoFilter = () => { // this function is called to apply a filter, whenever user apply new filter this function will be called
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
 			if (_searchText.length === 0) {
@@ -76,7 +79,7 @@ function TodoList(props) {
 			}
 			return FuseUtils.filterArrayByString(arr, _searchText);
 		}
-		if (company && todos) {
+		if (company && todos) { 
 			let list = _.orderBy(getFilteredArray(todos, searchText), [orderBy], [orderDescending ? 'desc' : 'asc']);
 			if (usedKeys && usedKeys.length) {
 				for (const key in usedKeys) {
@@ -322,7 +325,7 @@ function TodoList(props) {
 		return null;
 	}
 
-	if (filteredData.length === 0) {
+	if (filteredData.length === 0) { // if there are no tasks to show below HTML code wiil be display
 		return (
 			<FuseAnimate delay={100}>
 				<div>
@@ -353,18 +356,18 @@ function TodoList(props) {
 		>
 			<div className="flex">
 				<div className="lg:w-1/3 sidebar-ht dashboard">
-					<div className="sm:mr-28 cursor-pointer">
+					<div className="lg:mr-28 custom-margin cursor-pointer">
 						{filteredData.map((todo, index) => (
-							<TodoListItem setTodoId={setTodoId} {...props} todo={todo} key={todo.id} index={index} />
+							<TodoListItem setTodoId={setTodoId} {...props} todo={todo} key={todo.id} index={index} /> // all tasks will be display from this function
 						))}
 					</div>
 				</div>
-				<div className="lg:w-2/3 content-ht dashboard hidden custom-modal-open flex-fill">
+				<div className="lg:w-2/3 content-ht dashboard custom-modal-open flex-fill">
 						{taskContentDialog.props.open && todoId == taskContentDialog.data.id && (
-							<TaskContentForm />
+							<TaskContentForm />  // if we click on tasks this component will be displayed
 						)}
 						{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
-							<EditActivityPostForm />
+							<EditActivityPostForm />  // if we click on activity this component will be displayed
 						)}
 				</div>
 			</div>

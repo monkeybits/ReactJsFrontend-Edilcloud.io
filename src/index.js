@@ -1,4 +1,14 @@
-// Internet Explorer 11 requires polyfills and partially supported by this project.  
+//********************************************************************************
+// Title : Edilcloud
+// Developer: Chaitnya parikh
+// *Email:chaitnya@peerbits.com
+// *Company:Peerbits Solution
+// Created By : Chaitnya parikh
+// Created Date :
+// Updated Date :
+// Updated By :
+//********************************************************************************
+// Internet Explorer 11 requires polyfills and partially supported by this project.
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React from 'react';
