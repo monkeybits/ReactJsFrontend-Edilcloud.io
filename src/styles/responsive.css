@@ -20,6 +20,32 @@
         right: 7px;
     }
 }
+@media only screen and (min-width: 1200px) {
+    .custom-lg-hidden {
+        display: none;
+    }
+    .custom-modal-open {
+        display: block;
+    }
+    .custom-modal-close {
+        display: none;
+    }
+    .sidebar-ht .lg:mr-28 {
+        
+    }
+}
+@media only screen and (max-width: 1199px) {
+    .sidebar-ht {
+        width: 100% !important;
+    }
+    .custom-modal-open {
+        display: none;
+    }
+    .custom-modal-close {
+        display: block;
+    }
+}
+
 @media only screen and (max-width: 1024px) and (min-width: 992px) {
     .gantt-menu-item a {
         padding: 0px 7px !important;
@@ -57,12 +83,7 @@
     .write-post-img-full > .MuiBox-root {
         padding: 24px 24px 0px 24px !important;
     }
-    .custom-modal-open {
-        display: block;
-    }
-    .custom-modal-close {
-        display: none;
-    }
+    
 }
 @media only screen and (max-width: 767px) {
     .MuiTypography-h5 {
@@ -297,9 +318,7 @@
         font-size: 20px;
         display: block;
     }
-    .sidebar-ht {
-        width: 100% !important;
-    }
+    
     .sidebar-ht.dashboard, .content-ht.dashboard {
         height: calc(100vh - 0px);
     }
