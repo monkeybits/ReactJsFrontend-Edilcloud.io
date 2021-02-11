@@ -29,6 +29,8 @@ import * as MainActions from 'app/store/actions';
 import TippyMenu from 'app/TippyMenu';
 import 'tippy.js/themes/light-border.css';
 import TermsModal from '../login/TermsModal';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`,
@@ -164,14 +166,14 @@ function RegisterPage() {
 							</CardContent>
 						</Card>
 					</FuseAnimate>
-					<div className="flex items-center justify-between mt-8 w-full text-default font-600">
+					<div className="flex items-center justify-between mt-8 w-full text-default font-600 px-32">
 						<FormControl className={clsx(classes.formControl, 'custom-select-remove-border')}>
 							<TippyMenu
 								icon={
 									<>
-										<InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel>
+										{/* <InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel> */}
 
-										<InputLabel id="demo-simple-select-label">{currentLng.title}</InputLabel>
+										<InputLabel id="demo-simple-select-label">{currentLng.title} <span className="arrow-icon"> <KeyboardArrowDownIcon /> </span> </InputLabel>
 									</>
 								}
 								// ref={menuRef}

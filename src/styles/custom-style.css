@@ -441,7 +441,14 @@ textarea.MuiOutlinedInput-input {
     border: none !important;
 }
 .custom-select-remove-border .MuiInputBase-root, .custom-select-remove-border .MuiFormLabel-root {
-    font-size: 12px;
+    transform: none;
+    top: -10px;
+    font-size: 13px;
+    cursor: pointer;
+}
+.custom-select-remove-border .arrow-icon {
+    margin-left: -5px;
+    vertical-align: 1px;
 }
 
 /* ********************************************************************************************
