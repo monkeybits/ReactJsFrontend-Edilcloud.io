@@ -397,7 +397,7 @@ function TodoList(props) {
 				) : (
 					<div className="flex">
 						<div className="lg:w-1/3 sidebar-ht">
-							<div className="lg:mr-28 cursor-pointer">
+							<div className="lg:mr-28 custom-margin cursor-pointer">
 								{filteredData.map((todo, index) => (
 									<TodoListItem
 										setTodoId={setTodoId}

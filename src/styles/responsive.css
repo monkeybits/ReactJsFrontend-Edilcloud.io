@@ -30,9 +30,13 @@
     .custom-modal-close {
         display: none;
     }
-    .sidebar-ht .lg:mr-28 {
-        
+    .sidebar-ht .custom-margin {
+        margin-right: 2.8rem;
     }
+    .custom-task-content .web-pad {
+        padding: 24px 24px 0px 24px !important;
+    } 
+    
 }
 @media only screen and (max-width: 1199px) {
     .sidebar-ht {
@@ -43,6 +47,9 @@
     }
     .custom-modal-close {
         display: block;
+    }
+    .custom-accessibility-btn {
+        right: 25px;
     }
 }
 
@@ -74,9 +81,7 @@
         box-shadow: none !important;
         width: 100%;
     }
-    .custom-task-content .web-pad {
-        padding: 24px 24px 0px 24px !important;
-    } 
+    
     .tabs-content .custom-create-post-padding .MuiBox-root {
         padding: 24px 24px 0px 24px !important;
     }
@@ -84,6 +89,11 @@
         padding: 24px 24px 0px 24px !important;
     }
     
+}
+@media only screen and (max-width: 1199px) and (min-width: 768px) {
+    .custom-task-content .custom-tab-header {
+        width: auto;
+    }
 }
 @media only screen and (max-width: 767px) {
     .MuiTypography-h5 {
@@ -191,6 +201,7 @@
         border-radius: 0px !important;
         width: 100% !important;
         max-height: 100%;
+        max-width: 100% !important;
     }
     .timeline-modal .MuiDialog-container {
         align-items: inherit !important;
@@ -322,7 +333,6 @@
     .sidebar-ht.dashboard, .content-ht.dashboard {
         height: calc(100vh - 0px);
     }
-    
     
     
 }

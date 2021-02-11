@@ -3,7 +3,7 @@ import { useForm } from '@fuse/hooks';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -19,6 +19,13 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Icon from '@material-ui/core/Icon';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import * as MainActions from 'app/store/actions';
+import TippyMenu from 'app/TippyMenu';
+import 'tippy.js/themes/light-border.css';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { ListItemText } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -33,7 +40,18 @@ const useStyles = makeStyles(theme => ({
 		marginTop: theme.spacing(2)
 	}
 }));
-
+const languages = [
+	{
+		id: 'en',
+		title: 'English',
+		flag: 'us'
+	},
+	{
+		id: 'it',
+		title: 'Italian',
+		flag: 'tr'
+	}
+];
 function SimpleSelect() {
 	const classes = useStyles();
 	const [age, setAge] = React.useState('');
@@ -45,6 +63,11 @@ function SimpleSelect() {
 
 function ForgotPasswordPage({ history }) {
 	const classes = useStyles();
+	const { i18n } = useTranslation();
+	const { t } = useTranslation('login');
+	const dispatch = useDispatch();
+	const currentLng = languages.find(lng => lng.id === i18n.language);
+	const theme = useTheme();
 	const [error, setError] = useState({
 		email: []
 	});
@@ -82,6 +105,25 @@ function ForgotPasswordPage({ history }) {
 		});
 		handleChange(e);
 	};
+
+	function handleLanguageChange(lng) {
+		const newLangDir = i18n.dir(lng.id);
+		localStorage.setItem('language', lng.id);
+		/*
+        Change Language
+         */
+		i18n.changeLanguage(lng.id);
+
+		/*
+        If necessary, change theme direction
+         */
+		if (newLangDir !== theme.direction) {
+			dispatch(MainActions.setDefaultSettings({ direction: newLangDir }));
+		}
+
+		// userMenuClose();
+	}
+
 	return (
 		<div
 			className={clsx(
@@ -147,20 +189,49 @@ function ForgotPasswordPage({ history }) {
 						</CardContent>
 					</Card>
 				</FuseAnimate>
-				<div className="flex items-center justify-between mt-8 w-full text-default font-600">
+				<div className="flex items-center justify-between mt-8 w-full text-default font-600 px-32">
 					<FormControl className={clsx(classes.formControl, 'custom-select-remove-border')}>
+							<TippyMenu
+								icon={
+									<>
+										{/* <InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel> */}
+										<InputLabel id="demo-simple-select-label">{currentLng.title} <span className="arrow-icon"> <KeyboardArrowDownIcon /> </span> </InputLabel>
+									</>
+								}
+								// ref={menuRef}
+								outsideClick
+							>
+								{languages.map(lng => (
+									<MenuItem key={lng.id} onClick={() => handleLanguageChange(lng)}>
+										<ListItemText primary={lng.title} /> 
+									</MenuItem>
+								))}
+							</TippyMenu>
+							{/* <Select
+								labelId="demo-simple-select-label"
+								id="demo-simple-select"
+								// value={age}
+								// onChange={handleChange}
+							>
+								{languages.map(lng => (
+									<MenuItem key={lng.id} onClick={() => handleLanguageChange(lng)}>
+										<ListItemText primary={lng.title} />
+									</MenuItem>
+								))}
+							</Select> */}
+						</FormControl>
+					{/* <FormControl className={clsx(classes.formControl, 'custom-select-remove-border')}>
 						<InputLabel id="demo-simple-select-label">English (United States)</InputLabel>
 						<Select
 							labelId="demo-simple-select-label"
 							id="demo-simple-select"
-							// value={age}
-							// onChange={handleChange}
+							
 						>
 							<MenuItem value={10}>India</MenuItem>
 							<MenuItem value={30}>U.K.</MenuItem>
 							<MenuItem value={20}>Germany</MenuItem>
 						</Select>
-					</FormControl>
+					</FormControl> */}
 					<div className="flex">
 						<a href="javascript:;" className="text-muted mr-20">
 							Help
