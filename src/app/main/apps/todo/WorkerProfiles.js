@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: WorkerProfiles.js
+ ===============================================================================
+This is part of dashboard 
+TODO: This file is used to show workers on activity 
+*/
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';

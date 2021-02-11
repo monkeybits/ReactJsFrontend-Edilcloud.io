@@ -1,3 +1,10 @@
+/* =============================================================================
+ TodoAppConfig.js
+ ===============================================================================
+This is part of dashboard 
+TODO: This file is created for routing of dashboard app
+*/
+
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import i18next from 'i18next';
