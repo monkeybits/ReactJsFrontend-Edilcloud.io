@@ -39,7 +39,7 @@ import * as FuseActions from 'app/store/actions';
 import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 import { useTranslation } from 'react-i18next';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
-
+import Tutorial from './Tutorial';
 const useStyles = makeStyles(theme => ({
 	root: {
 		background: theme.palette.primary.main,
@@ -75,6 +75,7 @@ function Boards(props) {
 	const classes = useStyles(props);
 	const [isShowRequests, setIsShowRequests] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isViewTutorial, setIsViewTutorial] = useState(true);
 	const [request, setRequest] = useState({});
 
 	useEffect(() => {
@@ -197,6 +198,8 @@ function Boards(props) {
 	};
 	return isLoading ? (
 		<FuseSplashScreen />
+	) : isViewTutorial ? (
+		<Tutorial {...{ open: isViewTutorial, setOpen: setIsViewTutorial }} />
 	) : (
 		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
