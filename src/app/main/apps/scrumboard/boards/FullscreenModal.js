@@ -47,11 +47,11 @@ export default function FullscreenModal({ open, setOpen, children }) {
 						<IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
 							<CloseIcon />
 						</IconButton>
-						<Typography variant="h6" className={classes.title}>
-							Sound
+						<Typography variant="h6" color="inherit" className={classes.title}>
+							Tutorial
 						</Typography>
 						<Button autoFocus color="inherit" onClick={handleClose}>
-							save
+							Skip
 						</Button>
 					</Toolbar>
 				</AppBar>
