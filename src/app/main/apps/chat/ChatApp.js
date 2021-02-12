@@ -1,3 +1,9 @@
+/* =============================================================================
+ ChatApp.js
+ ===============================================================================
+*This file is created for ChatApp
+TODO: ChatApp is created for do chats between company team mates
+*/
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
