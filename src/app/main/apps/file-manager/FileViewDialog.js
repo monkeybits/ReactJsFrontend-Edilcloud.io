@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: FileViewDialog.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: This File is created to view view the media file 
+*/
 import IconButton from '@material-ui/core/IconButton';
 import React, { useEffect, useState } from 'react';
 

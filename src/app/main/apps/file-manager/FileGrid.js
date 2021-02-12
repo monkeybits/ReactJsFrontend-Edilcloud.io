@@ -1,3 +1,10 @@
+/* =============================================================================
+ TODO: FileGrid.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: Grid is part of view we have 2 views grid and list
+*/
+
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Hidden from '@material-ui/core/Hidden';
 import Icon from '@material-ui/core/Icon';

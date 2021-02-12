@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: FileManagerAppConfig.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: Here we have declared routes for Company File manager
+*/
 import React from 'react';
 import i18next from 'i18next';
 import en from './i18n/en';

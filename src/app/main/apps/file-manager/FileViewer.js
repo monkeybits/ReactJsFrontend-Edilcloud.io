@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: FileViewer.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: This File is created to view view the media file 
+*/
 import React, { Component } from 'react';
 import FileViewer from 'react-file-viewer';
 import { CustomErrorComponent } from 'custom-error';

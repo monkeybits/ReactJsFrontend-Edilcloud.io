@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: FileList.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: its list of all files in table view
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Hidden from '@material-ui/core/Hidden';
 import Icon from '@material-ui/core/Icon';

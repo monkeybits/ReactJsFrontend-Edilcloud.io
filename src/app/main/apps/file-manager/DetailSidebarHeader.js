@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: DetailSidebarHeader.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: This is Header of right sidebar check company file manager UI 
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
