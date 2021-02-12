@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: DetailSidebarContent.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: This file have details of files(filemanager uploaded files), check UI company file manager its displayed on right  side of file manager
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Icon from '@material-ui/core/Icon';

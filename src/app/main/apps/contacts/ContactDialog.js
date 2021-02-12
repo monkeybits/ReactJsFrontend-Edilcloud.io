@@ -1,3 +1,9 @@
+/* =============================================================================
+ ContactDialog.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: dialog to create new company team member
+*/
 import Dialog from '@material-ui/core/Dialog';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';

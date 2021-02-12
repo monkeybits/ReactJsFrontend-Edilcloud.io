@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO:NotesHeader.js
+ ===============================================================================
+*This file is part of project list page 
+TODO: created for project Header
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Hidden from '@material-ui/core/Hidden';
 import Icon from '@material-ui/core/Icon';

@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: FileGridItem.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: its single item of grid
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';

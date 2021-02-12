@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: AddProjectForm.js
+ ===============================================================================
+*This file is part of project list page 
+TODO: This File is created for showing add project form and on submit method we are creating new project and geting list of project
+*/
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import Icon from '@material-ui/core/Icon';
 import {

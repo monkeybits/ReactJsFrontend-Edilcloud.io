@@ -1,3 +1,9 @@
+/* =============================================================================
+ TodoListItem.js
+ ===============================================================================
+*This File is written for Dashboard
+Todo: This file is return each task item and list of activity which includes in task
+*/
 import _ from '@lodash';
 import Checkbox from '@material-ui/core/Checkbox';
 import { amber, blue, red } from '@material-ui/core/colors';

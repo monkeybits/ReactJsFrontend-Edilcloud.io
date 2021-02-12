@@ -1,3 +1,9 @@
+/* =============================================================================
+TODO: Boards.js
+ ===============================================================================
+*This file is part of company list page
+TODO: This file fetch request from other company and user compamies.
+*/
 import _ from '@lodash';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
@@ -87,6 +93,9 @@ function Boards(props) {
 		getcompanyList();
 		getRequest();
 	}, [dispatch]);
+	/**
+	 * get user companies
+	 */
 	const getcompanyList = () => {
 		apiCall(
 			APPROVE_LIST,
@@ -107,6 +116,9 @@ function Boards(props) {
 			getHeaderToken()
 		);
 	};
+	/**
+	 * get companies who invited users
+	 */
 	const getRequest = () => {
 		apiCall(
 			REQUEST_LIST,
@@ -127,6 +139,10 @@ function Boards(props) {
 			getHeaderToken()
 		);
 	};
+	/**
+	 * its company click
+	 * we need to genrate a new token when user click on a company
+	 */
 	const redirectAfterGetNewToken = company_profile_id => {
 		const myCustomUniqueUserId = company_profile_id;
 		console.log('LOGGED IN WITH PROFILE ID: ' + myCustomUniqueUserId.toString());
@@ -171,6 +187,9 @@ function Boards(props) {
 			METHOD.POST
 		);
 	};
+	/**
+	 * get Main profile data
+	 */
 	const getMainProfile = mainProfileId => {
 		apiCall(
 			GET_MAIN_PROFILE(mainProfileId),
@@ -181,6 +200,9 @@ function Boards(props) {
 			getHeaderToken()
 		);
 	};
+	/**
+	 * on click on invitation accept need to get new list of companies and requests
+	 */
 	const handleInvitation = () => {
 		dispatch({
 			type: RESET_BOARDS

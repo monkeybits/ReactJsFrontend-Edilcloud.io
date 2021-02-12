@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: DeleteConfirmDialog.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: when we delete something from file manager this dialog will be displayed 
+*/
 import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
 import { Button, TextField } from '@material-ui/core';

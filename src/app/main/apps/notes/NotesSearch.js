@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO:NotesSearch.js
+ ===============================================================================
+*This file is part of project list page 
+TODO: Search projects
+*/
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';

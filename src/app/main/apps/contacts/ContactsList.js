@@ -1,3 +1,9 @@
+/* =============================================================================
+ ContactsList.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: listing of all contacts in contacts app
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseUtils from '@fuse/utils';
 import Avatar from '@material-ui/core/Avatar';

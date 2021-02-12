@@ -1,3 +1,9 @@
+/* =============================================================================
+ ContactsApp.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: we are setting company team routes here
+*/
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import i18next from 'i18next';

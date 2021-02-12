@@ -1,3 +1,9 @@
+/* =============================================================================
+ MoreOption.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: More option like delete, edit or view contact
+*/
 import { Icon, IconButton, Typography } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';

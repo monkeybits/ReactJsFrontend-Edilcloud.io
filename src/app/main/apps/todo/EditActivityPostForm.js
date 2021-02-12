@@ -1,3 +1,9 @@
+/* =============================================================================
+ Todo: EditActivityPostForm.js
+ ===============================================================================
+*This File is written for Dashboard
+Todo: This File is created for Edit activity show timeline of Activity
+*/
 import PropTypes from 'prop-types';
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils';
@@ -200,6 +206,9 @@ function EditActivityPostForm(props) {
 	function canBeSubmitted() {
 		return form.title.length > 0 && taskDate.startDate && taskDate.endDate;
 	}
+	/**
+	 * getProjectCompanyTeamProfiles: get external & company team mates
+	 */
 	const getProjectCompanyTeamProfiles = value => {
 		apiCall(
 			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(
@@ -256,6 +265,14 @@ function EditActivityPostForm(props) {
 					<div>{todoDialog.data?.todo?.title}</div>
 				</div>
 			</div>
+			{/**
+			 * ======================================================
+			 * 1.<CreatePostForm />
+			 * To create timelien  or view posts on activity timeline
+			 * ======================================================
+			 * 2. 	<EditActivityForm />
+			 * To edit activity
+			 */}
 			<DialogContent id="dialog-content" classes={{ root: 'p-0 web-pad' }}>
 				<TabPanel value={value} index={0}>
 					<CreatePostForm />

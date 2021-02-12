@@ -1,3 +1,9 @@
+/* =============================================================================
+TODO: ScrumboardAppConfig.js
+ ===============================================================================
+*This file is part of company list page
+TODO: This is route of company list page
+*/
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 

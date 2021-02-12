@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO:NotesAppConfig.js
+ ===============================================================================
+*This file is for project list page 
+TODO: created project routes
+*/
 import React from 'react';
 import i18next from 'i18next';
 import en from './i18n/en';

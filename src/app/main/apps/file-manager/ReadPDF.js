@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: ReadPDF.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: Read PDF this file is kind PDF viewer
+*/
 import { Button } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';

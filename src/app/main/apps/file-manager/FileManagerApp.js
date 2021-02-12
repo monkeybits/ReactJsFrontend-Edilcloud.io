@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: FileManagerApp.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: Here we are fetching all company files and folders 
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import Fab from '@material-ui/core/Fab';

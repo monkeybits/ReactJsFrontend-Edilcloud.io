@@ -1,3 +1,9 @@
+/* =============================================================================
+ ContactCard.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: contatcard is view of GRID
+*/
 import { Button, Grid, Typography } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
