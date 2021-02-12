@@ -1,3 +1,9 @@
+/* =============================================================================
+ TODO: NotesApp.js
+ ===============================================================================
+*This NotesApp is for project list page 
+TODO: created for select project from project listing
+*/
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
