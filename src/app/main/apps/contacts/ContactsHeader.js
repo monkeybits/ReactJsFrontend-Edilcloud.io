@@ -1,3 +1,9 @@
+/* =============================================================================
+ ContactsHeader.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: This is contacts page Header
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Hidden from '@material-ui/core/Hidden';
 import Icon from '@material-ui/core/Icon';

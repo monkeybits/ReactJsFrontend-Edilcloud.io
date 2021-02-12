@@ -1,3 +1,9 @@
+/* =============================================================================
+ ContactsTable.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: view of contact table
+*/
 import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import MaUTable from '@material-ui/core/Table';

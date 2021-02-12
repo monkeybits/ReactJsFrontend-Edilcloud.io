@@ -1,3 +1,9 @@
+/* =============================================================================
+ ContactsTable.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: Contact pagination numbers wiil be displayed here.
+*/
 import React from 'react';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import IconButton from '@material-ui/core/IconButton';

@@ -1,3 +1,9 @@
+/* =============================================================================
+ ContactsApp.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: ContactsApp is created for company teams
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import Fab from '@material-ui/core/Fab';

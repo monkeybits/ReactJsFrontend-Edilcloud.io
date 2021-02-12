@@ -1,3 +1,9 @@
+/* =============================================================================
+ ContactsSidebarContent.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: sidebar filters are decleared here.
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import Avatar from '@material-ui/core/Avatar';

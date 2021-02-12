@@ -1,3 +1,9 @@
+/* =============================================================================
+ ViewContactDialog.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: view contact dialog 
+*/
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils/FuseUtils';
 import AppBar from '@material-ui/core/AppBar';
