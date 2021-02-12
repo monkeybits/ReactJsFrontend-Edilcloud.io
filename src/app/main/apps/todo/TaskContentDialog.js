@@ -1,3 +1,9 @@
+/* =============================================================================
+ Todo: TaskContentDialog.js
+ ===============================================================================
+*This File is written for Dashboard
+Todo: This File is created for create timeline posts and view timeline of task
+*/
 import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
 import * as Actions from './store/actions';

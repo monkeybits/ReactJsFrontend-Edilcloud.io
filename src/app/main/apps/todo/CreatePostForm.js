@@ -1,3 +1,9 @@
+/* =============================================================================
+ Todo: CreatePostForm.js
+ ===============================================================================
+*This File is written for Dashboard
+Todo: This File is created for create timeline posts and view timeline 
+*/
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
@@ -38,6 +44,10 @@ import Dropzone from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import { LinearProgress } from '@material-ui/core';
 const uuidv1 = require('uuid/v1');
+
+/**
+ * below function will return all medial files from all posts and merge them to single array so when user click on post he can browse medai files directly
+ */
 const getAllFilesOfTimeline = timeline => {
 	if (Array.isArray(timeline) && timeline.length) {
 		console.log({ timeline });
@@ -106,6 +116,9 @@ function CreatePostForm({ isTask, taskId }) {
 			? dispatch(Actions.closeActivityTodoDialog())
 			: dispatch(Actions.closeActivityTodoDialog());
 	}
+	/**
+	 * below function will return posts on activity or on task based on condition. if its task "isTask" wii be true else it false and it must be an activity
+	 */
 	const getPosts = () => {
 		setLoading(true);
 		apiCall(
@@ -125,6 +138,9 @@ function CreatePostForm({ isTask, taskId }) {
 			getHeaderToken()
 		);
 	};
+	/**
+	 * below function will is defined to upload/create post on task or activity
+	 */
 	const createPost = async () => {
 		var formData = new FormData();
 		const unique_code = uuidv1();
@@ -217,6 +233,10 @@ function CreatePostForm({ isTask, taskId }) {
 	// 	};
 	// 	setOffilePosts(prev => ({ ...prev, [unique_code]: tempPost }));
 	// };
+
+	/**
+	 * below function is used to add media file before post it will store all files locallay on state called "fileData"
+	 */
 	const addPhoto = async files => {
 		// const files = e.currentTarget.files;
 		const fileToCompress = files[0];
@@ -253,7 +273,7 @@ function CreatePostForm({ isTask, taskId }) {
 			file = [
 				...file,
 				{
-					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
+					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i], // if file is image then we need to reduce the size of image by calling the getCompressFile function
 					imgPath: URL.createObjectURL(files[i]),
 					fileType: fileType[0],
 					extension: '.' + fileType[1],
@@ -263,6 +283,9 @@ function CreatePostForm({ isTask, taskId }) {
 			setImages(file);
 		}
 	};
+	/**
+	 * below function is to get shared posts from activity
+	 */
 	const getSharedPosts = () => {
 		// apiCall(
 		// 	GET_SHARED_POSTS_FOR_TASKS(taskId),
@@ -273,15 +296,21 @@ function CreatePostForm({ isTask, taskId }) {
 		// 	getHeaderToken()
 		// );
 	};
+	/**
+	 * below function is to replace image URL from blob to base64, check FuseUtils.dataURItoFile
+	 */
 	const replaceImageUrl = (url, index) => {
 		images[index] = {
 			...images[index],
 			imgPath: url,
-			file: FuseUtils.dataURItoFile(url)
+			file: FuseUtils.dataURItoFile(url) // blob to base64
 		};
 		// console.log('Fileurl', URL.createObjectURL(FuseUtils.dataURItoFile(url)));
 		setImages(images);
 	};
+	/**
+	 * below function is used for retry upload the post when it API filed to upload the post
+	 */
 	const callRetryAfterSuccess = (unique_code, res) => {
 		let tempPosts = { ...offilePosts };
 		tempPosts[unique_code] = {
@@ -300,7 +329,7 @@ function CreatePostForm({ isTask, taskId }) {
 	return (
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1 ml-8">
-				{getRole() != 'w' && (
+				{getRole() != 'w' && ( // when You have permission to upload post
 					<div>
 						<Card className="w-full overflow-hidden post-form mb-20 post-card-clx">
 							<Input
@@ -365,7 +394,7 @@ function CreatePostForm({ isTask, taskId }) {
 						{/* <Divider className="my-32" /> */}
 					</div>
 				)}
-				{loading && (
+				{loading && ( // when posts are loading
 					<div className="flex flex-1 flex-col items-center justify-center">
 						<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
 							Loading Posts...
@@ -373,14 +402,18 @@ function CreatePostForm({ isTask, taskId }) {
 						<LinearProgress className="w-xs" color="secondary" />
 					</div>
 				)}
+				{/**
+				 * it will show posts
+				
+				*/}
 				<PostList
 					isOffline
-					tempAuthor={tempAuthor}
-					isTask={isTask}
-					taskId={taskId}
-					posts={Object.values(offilePosts)}
-					callRetryAfterSuccess={callRetryAfterSuccess}
-					nameSpace="dashboard"
+					tempAuthor={tempAuthor} // pass the current user
+					isTask={isTask} // pass is task or not | currently it passed from parent component
+					taskId={taskId} // pass task id
+					posts={Object.values(offilePosts)} //  pass all posts
+					callRetryAfterSuccess={callRetryAfterSuccess} // below function is used edit post locally
+					nameSpace="dashboard" // pass name sapce it will be  used for translate
 				/>
 				<PostList
 					isTask={isTask}

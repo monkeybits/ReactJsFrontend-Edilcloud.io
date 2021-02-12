@@ -1,3 +1,9 @@
+/* =============================================================================
+ Todo: EditActivityForm.js
+ ===============================================================================
+*This File is written for Dashboard
+Todo: Edit activity form fileds and submit method of edit activity written here
+*/
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
@@ -18,6 +24,7 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { Autocomplete } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 
+//* defaultFormState: Default props of Edit activity form will be decleared below
 const defaultFormState = {
 	id: '',
 	title: '',
@@ -76,7 +83,9 @@ export default function EditActivityForm(props) {
 			};
 		}
 	}, []);
-
+	/**
+	 * getProjectCompanyTeamProfiles: get external & company team mates
+	 */
 	const getProjectCompanyTeamProfiles = value => {
 		// console.log(routeParams.id, todoDialog, value);
 		apiCall(
@@ -92,14 +101,26 @@ export default function EditActivityForm(props) {
 			getHeaderToken()
 		);
 	};
+	/**
+	 * userInfo: get user detail by decoding user token
+	 */
 	const userInfo = decodeDataFromToken();
+	/**
+	 * getRole: get user role by from user token data
+	 */
 	const getRole = () => userInfo?.extra?.profile.role;
 	const getName = profile => profile.first_name + ' ' + profile.last_name;
 	const getUsername = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
+	/**
+	 * getIsDisabled: Make Fields disbaled when user has no permissions to change activity data, This function will return boolean
+	 */
 	const getIsDisabled = () => todoDialog.data.task.assigned_company.id != companyDetail.id || getRole() == 'w';
 	return (
 		<div className="sm:pl-10">
 			{getIsDisabled() && (
+				/**
+				 * Show permissions info.
+				 */
 				<div className="flex items-center mb-24">
 					<Icon>lock</Icon> only company owner can change this details
 				</div>
@@ -195,7 +216,9 @@ export default function EditActivityForm(props) {
 					<option value={'completed'}>{t('COMPLETED_STATE')}</option>
 				</Select>
 			</FormControl>
-			{/* <Autocomplete
+			{/* 
+				// *The below old code was for UI, I just had to leave it here for you to see.
+			<Autocomplete
 					options={['to-do', 'completed']}
 					inputValue={progress}
 					getOptionLabel={option => option}
@@ -203,7 +226,9 @@ export default function EditActivityForm(props) {
 					onInputChange={(e, value) => setProgress(value)}
 				/> */}
 			{/* </div> */}
-			{/* <div className="mt-24 mx-12 zoom-125">
+			{/*
+				// *The below old code was for UI, I just had to leave it here for you to see.
+			<div className="mt-24 mx-12 zoom-125">
 				<IOSSlider
 					aria-label="ios slider"
 					defaultValue={0}
@@ -219,6 +244,7 @@ export default function EditActivityForm(props) {
 					onClick={() => {
 						setLoading(true);
 						dispatch(
+							// * dispatch edit activty it will call API and update your data
 							Actions.editActivity(
 								{
 									...form,

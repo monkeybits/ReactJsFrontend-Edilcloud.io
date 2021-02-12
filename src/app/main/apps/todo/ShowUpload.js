@@ -1,3 +1,9 @@
+/* =============================================================================
+ Todo: ShowUpload.js
+ ===============================================================================
+*This File is written for Dashboard
+Todo: When user Upload post in activity or in task this uploader will be displayed so user can see that his post is updating on server.
+*/
 import React from 'react';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
