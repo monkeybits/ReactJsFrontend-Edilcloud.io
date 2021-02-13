@@ -377,7 +377,8 @@ export default function PostListItem({
 								}
 							</>
 						)}
-						<IconButton
+						<Button
+							variant="outlined"
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
@@ -386,11 +387,13 @@ export default function PostListItem({
 							className="text-default p-8"
 						>
 							{post.alert ? (
-								<Icon style={{ color: red[500] }}>new_releases</Icon>
+								<Icon className="mr-10" style={{ color: red[500] }}>new_releases</Icon> 
 							) : (
-								<Icon>new_releases</Icon>
+								<Icon className="mr-10">new_releases</Icon>
+							
 							)}
-						</IconButton>
+						 Stato di allerta
+						</Button>
 						{tempAuthor.id == post.author.id && (
 							<div className="inline">
 								<IconButton
@@ -437,7 +440,7 @@ export default function PostListItem({
 				}
 				title={
 					<span>
-						<Typography className="font-600 capitalize" color="primary" paragraph={false}>
+						<Typography className="font-600 font-size-18 capitalize" color="primary" paragraph={false}>
 							{post.author.first_name} {post.author.last_name}
 						</Typography>
 						<div className="">
@@ -486,7 +489,7 @@ export default function PostListItem({
 			) : (
 				<CardContent className="p-0">
 					{post.text && (
-						<Typography component="p" className="mb-16 px-16">
+						<Typography component="p" className="mb-24 text-24 px-24">
 							{post.text}
 						</Typography>
 					)}
@@ -506,8 +509,8 @@ export default function PostListItem({
 				</Button> */}
 					<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
 						<Icon className="text-white text-14">share</Icon>
-						<Typography className="normal-case text-white text-13 mx-4">{t('SHARE')}</Typography>
-						{!!post.share && <Typography className="normal-case text-13">({post.share})</Typography>}
+						<Typography className="normal-case text-white text-16 mx-4">{t('SHARE')}</Typography>
+						{!!post.share && <Typography className="normal-case text-16">({post.share})</Typography>}
 					</Button>
 				</CardActions>
 			)}
