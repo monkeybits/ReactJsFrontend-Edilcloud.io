@@ -392,7 +392,7 @@ export default function PostListItem({
 								<Icon className="mr-10">new_releases</Icon>
 							
 							)}
-						 Stato di allerta
+						allerta
 						</Button>
 						{tempAuthor.id == post.author.id && (
 							<div className="inline">
@@ -489,7 +489,7 @@ export default function PostListItem({
 			) : (
 				<CardContent className="p-0">
 					{post.text && (
-						<Typography component="p" className="mb-24 text-24 px-24">
+						<Typography component="p" className="mb-24 text-18 px-24">
 							{post.text}
 						</Typography>
 					)}
