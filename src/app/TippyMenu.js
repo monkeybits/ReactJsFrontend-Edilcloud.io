@@ -44,6 +44,7 @@ function TippyMenu(props) {
 	return (
 		<Tippy
 			className="custom-tippy"
+			theme="light-border"
 			allowHTML
 			placement="bottom-start"
 			// visible={Boolean(instance)}
