@@ -489,7 +489,7 @@ export default function PostListItem({
 			) : (
 				<CardContent className="p-0">
 					{post.text && (
-						<Typography component="p" className="mb-24 text-18 px-24">
+						<Typography component="p" className="p-24 text-18 px-24">
 							{post.text}
 						</Typography>
 					)}
