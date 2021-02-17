@@ -76,7 +76,7 @@ function UserNavbarHeader(props) {
 				alt="user photo"
 				src={company?.logo ? company?.logo : '/assets/images/avatars/profile.jpg'}
 			/>
-			<span class={`trial intrial`}>{company.trial_used ? 'Plan' : 'in Trial'}</span>
+			<span class={`trial intrial`}>{company.subscription.status}</span>
 		</AppBar>
 	);
 }
