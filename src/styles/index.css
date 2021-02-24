@@ -61,6 +61,14 @@ a[role=button] {
     text-decoration: none;
 }
 
+.pl-menu-custom {
+    top: 10rem
+}
+
+.project-list-menu {
+    pointer-events: auto !important;
+}
+
 [role="tooltip"] {
     z-index: 9999;
 }

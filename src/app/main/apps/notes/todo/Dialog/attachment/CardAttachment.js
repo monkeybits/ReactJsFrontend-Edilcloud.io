@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import * as ICONS from 'app/main/apps/constants';
+import TippyMenu from 'app/TippyMenu';
 
 function CardAttachment(props) {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -108,20 +109,26 @@ function CardAttachment(props) {
 				<Typography className="truncate w-full mb-12" color="textSecondary">
 					{props.item.time}
 				</Typography>
-				<Button
-					aria-owns={anchorEl ? 'actions-menu' : null}
-					aria-haspopup="true"
-					onClick={handleMenuOpen}
-					variant="outlined"
-					size="small"
+				<TippyMenu
+					icon={
+						<>
+							<Button
+								aria-owns={anchorEl ? 'actions-menu' : null}
+								aria-haspopup="true"
+								onClick={handleMenuOpen}
+								variant="outlined"
+								size="small"
+							>
+								Actions
+								<Icon className="text-20">arrow_drop_down</Icon>
+							</Button>
+						</>
+					}
+					outsideClick
 				>
-					Actions
-					<Icon className="text-20">arrow_drop_down</Icon>
-				</Button>
-				<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
 					<MenuItem onClick={() => props.setActivtStep(props.index)}>View</MenuItem>
 					<MenuItem onClick={handleDownload}>Download</MenuItem>
-				</Menu>
+				</TippyMenu>
 			</div>
 		</div>
 	);
@@ -142,20 +149,26 @@ function CardAttachment(props) {
 				<Typography className="truncate w-full mb-12" color="textSecondary">
 					{props.item.time}
 				</Typography>
-				<Button
-					aria-owns={anchorEl ? 'actions-menu' : null}
-					aria-haspopup="true"
-					onClick={handleMenuOpen}
-					variant="outlined"
-					size="small"
+				<TippyMenu
+					icon={
+						<>
+							<Button
+								aria-owns={anchorEl ? 'actions-menu' : null}
+								aria-haspopup="true"
+								onClick={handleMenuOpen}
+								variant="outlined"
+								size="small"
+							>
+								Actions
+								<Icon className="text-20">arrow_drop_down</Icon>
+							</Button>
+						</>
+					}
+					outsideClick
 				>
-					Actions
-					<Icon className="text-20">arrow_drop_down</Icon>
-				</Button>
-				<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
 					<MenuItem onClick={() => props.setActivtStep(props.index)}>View</MenuItem>
 					<MenuItem onClick={handleDownload}>Download</MenuItem>
-				</Menu>
+				</TippyMenu>
 			</div>
 		</div>
 	);
@@ -189,17 +202,23 @@ function CardAttachment(props) {
 						<Typography className="truncate w-full mb-12" color="textSecondary">
 							{props.item.time}
 						</Typography>
-						<Button
-							aria-owns={anchorEl ? 'actions-menu' : null}
-							aria-haspopup="true"
-							onClick={handleMenuOpen}
-							variant="outlined"
-							size="small"
+						<TippyMenu
+							icon={
+								<>
+									<Button
+										aria-owns={anchorEl ? 'actions-menu' : null}
+										aria-haspopup="true"
+										onClick={handleMenuOpen}
+										variant="outlined"
+										size="small"
+									>
+										Actions
+										<Icon className="text-20">arrow_drop_down</Icon>
+									</Button>
+								</>
+							}
+							outsideClick
 						>
-							Actions
-							<Icon className="text-20">arrow_drop_down</Icon>
-						</Button>
-						<Menu id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
 							<MenuItem
 								onClick={() => {
 									handleMenuClose();
@@ -208,7 +227,7 @@ function CardAttachment(props) {
 							>
 								Remove Attachment
 							</MenuItem>
-						</Menu>
+						</TippyMenu>
 					</div>
 				</div>
 			);

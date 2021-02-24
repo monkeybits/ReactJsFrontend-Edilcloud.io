@@ -385,6 +385,7 @@ function TodoActivityListItem(props) {
 									onHide={() => setAriaExpanded('false')}
 									// interactive
 									// hideOnClick={false}
+									onClickOutside={handleMenuClose}
 									content={
 										<Paper className={classes.paper}>
 											{/* <ToolbarMenu state={anchorEl} onClose={handleMenuClose}> */}

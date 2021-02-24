@@ -13,6 +13,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { getMainProfileId, getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
+import TippyMenu from 'app/TippyMenu';
 
 function UserMenu(props) {
 	const dispatch = useDispatch();
@@ -34,38 +35,28 @@ function UserMenu(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	return (
 		<>
-			<Button className="h-64" onClick={userMenuClick}>
-				<Avatar className="" alt="user photo" src={userData?.photo}>
-					{userData?.first_name?.split('')?.[0]}{' '}
-				</Avatar>
+			<TippyMenu
+				icon={
+					<>
+						<Button className="h-64" onClick={userMenuClick}>
+							<Avatar className="" alt="user photo" src={userData?.photo}>
+								{userData?.first_name?.split('')?.[0]}{' '}
+							</Avatar>
 
-				<div className="hidden md:flex flex-col mx-12 items-start">
-					<Typography component="span" className="normal-case font-600 flex text-default">
-						{userData?.first_name} {userData?.last_name}
-					</Typography>
-					<Typography className="text-11 capitalize text-muted">Main profile</Typography>
-				</div>
+							<div className="hidden md:flex flex-col mx-12 items-start">
+								<Typography component="span" className="normal-case font-600 flex text-default">
+									{userData?.first_name} {userData?.last_name}
+								</Typography>
+								<Typography className="text-11 capitalize text-muted">Main profile</Typography>
+							</div>
 
-				<Icon className="text-16 hidden sm:flex" variant="action">
-					keyboard_arrow_down
-				</Icon>
-			</Button>
-
-			<Popover
-				open={Boolean(userMenu)}
-				anchorEl={userMenu}
-				onClose={userMenuClose}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'center'
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'center'
-				}}
-				classes={{
-					paper: 'py-8'
-				}}
+							<Icon className="text-16 hidden sm:flex" variant="action">
+								keyboard_arrow_down
+							</Icon>
+						</Button>
+					</>
+				}
+				outsideClick
 			>
 				{!user.role || user.role.length === 0 ? (
 					<>
@@ -133,7 +124,7 @@ function UserMenu(props) {
 						</MenuItem>
 					</>
 				)}
-			</Popover>
+			</TippyMenu>
 		</>
 	);
 }

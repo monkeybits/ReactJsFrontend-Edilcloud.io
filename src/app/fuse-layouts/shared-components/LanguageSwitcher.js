@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import TippyMenu from 'app/TippyMenu';
 
 const languages = [
 	{
@@ -61,31 +62,21 @@ function LanguageSwitcher(props) {
 
 	return (
 		<>
-			<Button className="h-64 w-64 text-default" onClick={userMenuClick}>
-				<img
-					className="mx-4 min-w-20"
-					src={`assets/images/flags/${currentLng.flag}.png`}
-					alt={currentLng.title}
-				/>
+			<TippyMenu
+				icon={
+					<>
+						<Button className="h-64 w-64 text-default" onClick={userMenuClick}>
+							<img
+								className="mx-4 min-w-20"
+								src={`assets/images/flags/${currentLng.flag}.png`}
+								alt={currentLng.title}
+							/>
 
-				<Typography className="mx-4 font-600">{currentLng.id}</Typography>
-			</Button>
-
-			<Popover
-				open={Boolean(menu)}
-				anchorEl={menu}
-				onClose={userMenuClose}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'center'
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'center'
-				}}
-				classes={{
-					paper: 'py-8'
-				}}
+							<Typography className="mx-4 font-600">{currentLng.id}</Typography>
+						</Button>
+					</>
+				}
+				outsideClick
 			>
 				{languages.map(lng => (
 					<MenuItem key={lng.id} onClick={() => handleLanguageChange(lng)}>
@@ -104,7 +95,7 @@ function LanguageSwitcher(props) {
 				>
 					<ListItemText primary="Learn More" />
 				</MenuItem> */}
-			</Popover>
+			</TippyMenu>
 		</>
 	);
 }
