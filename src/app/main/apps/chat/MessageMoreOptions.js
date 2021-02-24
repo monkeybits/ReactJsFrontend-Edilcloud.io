@@ -5,6 +5,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { IconButton } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import TippyMenu from 'app/TippyMenu';
 
 export default function SimpleMenu(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,12 +25,18 @@ export default function SimpleMenu(props) {
 	};
 	return (
 		<div className={props.className}>
-			<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleClick}>
-				<MoreVertIcon />
-			</IconButton>
-			<Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+			<TippyMenu
+				icon={
+					<>
+						<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleClick}>
+							<MoreVertIcon />
+						</IconButton>
+					</>
+				}
+				outsideClick
+			>
 				<MenuItem onClick={handleDelete}>{t('DELETE')}</MenuItem>
-			</Menu>
+			</TippyMenu>
 		</div>
 	);
 }

@@ -41,6 +41,7 @@ import { Box, CircularProgress, Collapse } from '@material-ui/core';
 import FuseUtils from '@fuse/utils';
 import { red } from '@material-ui/core/colors';
 import { toast } from 'react-toastify';
+import TippyMenu from 'app/TippyMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import MenuList from '@material-ui/core/MenuList';
@@ -349,7 +350,7 @@ export default function PostListItem({
 					) : null
 				}
 				action={
-					<div className="px-8">
+					<div className="px-8 flex">
 						{isOffline && !currnetPost.successAfterRetry && (
 							<>
 								{
@@ -396,27 +397,20 @@ export default function PostListItem({
 						</Button>
 						{tempAuthor.id == post.author.id && (
 							<div className="inline">
-								<IconButton
-									aria-label="more"
-									aria-controls="long-menu"
-									aria-haspopup="true"
-									onClick={handleClick}
-									className="p-8"
-								>
-									<MoreVertIcon />
-								</IconButton>
-								<Menu
-									id="long-menu"
-									anchorEl={anchorEl}
-									keepMounted
-									open={openMenu}
-									onClose={handleClose}
-									className="actions-dropdown"
-									// PaperProps={{
-									// 	style: {
-									// 		width: '20ch'
-									// 	}
-									// }}
+								<TippyMenu
+									icon={
+										<>
+											<IconButton
+												aria-label="more"
+												aria-controls="long-menu"
+												aria-haspopup="true"
+												className="p-8"
+											>
+												<MoreVertIcon />
+											</IconButton>
+										</>
+									}
+									outsideClick
 								>
 									{options.map(option => (
 										<MenuItem
@@ -430,7 +424,7 @@ export default function PostListItem({
 											<Typography variant="inherit"> {t(option.name)}</Typography>
 										</MenuItem>
 									))}
-								</Menu>
+								</TippyMenu>
 							</div>
 						)}
 						{/* <IconButton className="text-default p-8" aria-label="more">

@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { green } from '@material-ui/core/colors';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css'
 import { Paper } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
@@ -43,6 +44,7 @@ function TippyMenu(props) {
 
 	return (
 		<Tippy
+			theme="light"
 			className="custom-tippy"
 			theme="light-border"
 			allowHTML

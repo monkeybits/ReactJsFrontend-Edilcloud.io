@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../store/actions';
+import TippyMenu from 'app/TippyMenu';
 
 function BoardListHeader(props) {
 	const dispatch = useDispatch();
@@ -101,16 +102,22 @@ function BoardListHeader(props) {
 					)}
 				</div>
 				<div className="">
-					<IconButton
-						aria-owns={anchorEl ? 'actions-menu' : null}
-						aria-haspopup="true"
-						onClick={handleMenuClick}
-						variant="outlined"
-						size="small"
+					<TippyMenu
+						icon={
+							<>
+								<IconButton
+									aria-owns={anchorEl ? 'actions-menu' : null}
+									aria-haspopup="true"
+									onClick={handleMenuClick}
+									variant="outlined"
+									size="small"
+								>
+									<Icon className="text-20">more_vert</Icon>
+								</IconButton>
+							</>
+						}
+						outsideClick
 					>
-						<Icon className="text-20">more_vert</Icon>
-					</IconButton>
-					<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
 						<MenuItem
 							onClick={() => {
 								dispatch(Actions.removeList(board.id, props.list.id));
@@ -127,7 +134,7 @@ function BoardListHeader(props) {
 							</ListItemIcon>
 							<ListItemText primary="Rename List" />
 						</MenuItem>
-					</Menu>
+					</TippyMenu>
 				</div>
 			</div>
 		</div>

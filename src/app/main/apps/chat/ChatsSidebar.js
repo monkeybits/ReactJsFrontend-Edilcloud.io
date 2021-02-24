@@ -20,6 +20,7 @@ import ContactListItem from './ContactListItem';
 import StatusIcon from './StatusIcon';
 import * as Actions from './store/actions';
 import { useTranslation } from 'react-i18next';
+import TippyMenu from 'app/TippyMenu';
 
 const statusArr = [
 	{
@@ -133,23 +134,24 @@ function ChatsSidebar(props) {
 					)}
 
 					<div>
-						<IconButton
-							aria-owns={moreMenuEl ? 'chats-more-menu' : null}
-							aria-haspopup="true"
-							onClick={handleMoreMenuClick}
-							className="text-white opacity-60"
-						>
-							<Icon>more_vert</Icon>
-						</IconButton>
-						<Menu
-							id="chats-more-menu"
-							anchorEl={moreMenuEl}
-							open={Boolean(moreMenuEl)}
-							onClose={handleMoreMenuClose}
+						<TippyMenu
+							icon={
+								<>
+									<IconButton
+										aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+										aria-haspopup="true"
+										onClick={handleMoreMenuClick}
+										className="text-white opacity-60"
+									>
+										<Icon>more_vert</Icon>
+									</IconButton>
+								</>
+							}
+							outsideClick
 						>
 							<MenuItem onClick={handleMoreMenuClose}>Profile</MenuItem>
 							<MenuItem onClick={handleMoreMenuClose}>Logout</MenuItem>
-						</Menu>
+						</TippyMenu>
 					</div>
 				</Toolbar>
 				{useMemo(

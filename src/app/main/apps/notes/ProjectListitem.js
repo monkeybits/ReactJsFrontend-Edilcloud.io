@@ -51,6 +51,16 @@ import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneO
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import { useTranslation } from 'react-i18next';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
+import 'tippy.js/themes/light-border.css'
+import { Paper } from '@material-ui/core';
+const useStyles = makeStyles(theme => ({
+	paper: {
+		marginRight: theme.spacing(2)
+	}
+}));
 
 export default function ProjectListitem(props) {
 	const {
@@ -78,12 +88,14 @@ export default function ProjectListitem(props) {
 	const [expanded, setExpanded] = React.useState(false);
 	const [activeNotification, setActiveNotification] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [visible, setVisible] = React.useState(false);
 	const open = Boolean(anchorEl);
 	const match = useRouteMatch();
 	const handleClick = event => {
 		event.stopPropagation();
 		event.preventDefault();
-		setAnchorEl(event.currentTarget);
+		// setAnchorEl(event.currentTarget);
+		setVisible(true);
 	};
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
@@ -188,6 +200,10 @@ export default function ProjectListitem(props) {
 		}
 	}));
 
+	const onClickOutside = () => {
+		setVisible(false)
+	}
+
 	return (
 		<Card
 			ref={notificationPanel.notificationData?.notification?.object_id == mainId ? scrollRef : null}
@@ -201,23 +217,20 @@ export default function ProjectListitem(props) {
 							{/* <IconButton onClick={handleClick} aria-label="settings">
 								<MoreVertIcon />
 							</IconButton> */}
-							<Menu
-								id="long-menu"
-								anchorEl={anchorEl}
-								keepMounted
-								open={open}
-								onClose={handleClose}
-								PaperProps={{}}
+							<Tippy
+								theme="light"
+								content={<Paper className={classes.paper}>
+									<MenuItem onClick={handleUpdateProject}>{t('UPDATE_PROJECT_DETAILS')}</MenuItem>
+									<MenuItem onClick={handleArchiveProject}>{t('ARCHIVE')}</MenuItem>
+									<MenuItem onClick={handleDeleteProject}>{t('DELETE')}</MenuItem>
+								</Paper>}
+								visible={visible}
+								placement="bottom-end"
+								onClickOutside={onClickOutside}
+								className="project-list-menu"
 							>
-								{/* {status ? (
-									<MenuItem onClick={handleDeactivate}>Deactivate</MenuItem>
-								) : (
-									<MenuItem onClick={handleDeactivate}>Activate</MenuItem>
-								)} */}
-								<MenuItem onClick={handleUpdateProject}>{t('UPDATE_PROJECT_DETAILS')}</MenuItem>
-								<MenuItem onClick={handleArchiveProject}>{t('ARCHIVE')}</MenuItem>
-								<MenuItem onClick={handleDeleteProject}>{t('DELETE')}</MenuItem>
-							</Menu>
+								<button className="absolute right-0 pl-menu-custom"></button>
+							</Tippy>
 						</div>
 					)
 				}

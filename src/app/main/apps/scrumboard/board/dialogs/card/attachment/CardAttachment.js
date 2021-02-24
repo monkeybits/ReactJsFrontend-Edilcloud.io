@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React, { useState } from 'react';
+import TippyMenu from 'app/TippyMenu';
 
 function CardAttachment(props) {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -36,17 +37,23 @@ function CardAttachment(props) {
 						<Typography className="truncate w-full mb-12" color="textSecondary">
 							{props.item.time}
 						</Typography>
-						<Button
-							aria-owns={anchorEl ? 'actions-menu' : null}
-							aria-haspopup="true"
-							onClick={handleMenuOpen}
-							variant="outlined"
-							size="small"
+						<TippyMenu
+							icon={
+								<>
+									<Button
+										aria-owns={anchorEl ? 'actions-menu' : null}
+										aria-haspopup="true"
+										onClick={handleMenuOpen}
+										variant="outlined"
+										size="small"
+									>
+										Actions
+										<Icon className="text-20">arrow_drop_down</Icon>
+									</Button>
+								</>
+							}
+							outsideClick
 						>
-							Actions
-							<Icon className="text-20">arrow_drop_down</Icon>
-						</Button>
-						<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
 							{props.card.idAttachmentCover !== props.item.id ? (
 								<MenuItem
 									onClick={() => {
@@ -74,7 +81,7 @@ function CardAttachment(props) {
 							>
 								Remove Attachment
 							</MenuItem>
-						</Menu>
+						</TippyMenu>
 					</div>
 				</div>
 			);
@@ -93,17 +100,23 @@ function CardAttachment(props) {
 						<Typography className="truncate w-full mb-12" color="textSecondary">
 							{props.item.time}
 						</Typography>
-						<Button
-							aria-owns={anchorEl ? 'actions-menu' : null}
-							aria-haspopup="true"
-							onClick={handleMenuOpen}
-							variant="outlined"
-							size="small"
+						<TippyMenu
+							icon={
+								<>
+									<Button
+										aria-owns={anchorEl ? 'actions-menu' : null}
+										aria-haspopup="true"
+										onClick={handleMenuOpen}
+										variant="outlined"
+										size="small"
+									>
+										Actions
+										<Icon className="text-20">arrow_drop_down</Icon>
+									</Button>
+								</>
+							}
+							outsideClick
 						>
-							Actions
-							<Icon className="text-20">arrow_drop_down</Icon>
-						</Button>
-						<Menu id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
 							<MenuItem
 								onClick={() => {
 									handleMenuClose();
@@ -112,7 +125,7 @@ function CardAttachment(props) {
 							>
 								Remove Attachment
 							</MenuItem>
-						</Menu>
+						</TippyMenu>
 					</div>
 				</div>
 			);

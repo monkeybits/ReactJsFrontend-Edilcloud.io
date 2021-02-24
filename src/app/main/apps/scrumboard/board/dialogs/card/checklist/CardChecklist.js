@@ -13,6 +13,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import CardAddChecklistItem from './CardAddChecklistItem';
 import CardChecklistItem from './CardChecklistItem';
 import CardChecklistName from './CardChecklistName';
+import TippyMenu from 'app/TippyMenu';
 
 function CardChecklist(props) {
 	const { onCheckListChange, checklist, index } = props;
@@ -71,16 +72,22 @@ function CardChecklist(props) {
 					<CardChecklistName name={form.name} onNameChange={handleNameChange} ref={checkListNameRef} />
 				</div>
 				<div className="">
-					<IconButton
-						aria-owns={anchorEl ? 'actions-menu' : null}
-						aria-haspopup="true"
-						onClick={handleMenuOpen}
-						variant="outlined"
-						size="small"
+					<TippyMenu
+						icon={
+							<>
+								<IconButton
+									aria-owns={anchorEl ? 'actions-menu' : null}
+									aria-haspopup="true"
+									onClick={handleMenuOpen}
+									variant="outlined"
+									size="small"
+								>
+									<Icon className="text-20">more_vert</Icon>
+								</IconButton>
+							</>
+						}
+						outsideClick
 					>
-						<Icon className="text-20">more_vert</Icon>
-					</IconButton>
-					<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
 						<MenuItem onClick={props.onRemoveCheckList}>
 							<ListItemIcon className="min-w-40">
 								<Icon>delete</Icon>
@@ -93,7 +100,7 @@ function CardChecklist(props) {
 							</ListItemIcon>
 							<ListItemText primary="Rename Checklist" />
 						</MenuItem>
-					</Menu>
+					</TippyMenu>
 				</div>
 			</div>
 
