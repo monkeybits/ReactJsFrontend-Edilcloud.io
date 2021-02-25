@@ -27,6 +27,73 @@ const useStyles = makeStyles(theme => ({
 export default function Guide() {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
+	const [quickStartList, setQuickStartList] = React.useState([
+		{
+			title: 'Add your collaborators',
+			content: 'Testing',
+			contentTitle: 'Welcome to EdilCloud',
+			contentDescription: 'Add your collaborators and let them access the company.',
+			link: '',
+			linkText: 'Add team page',
+			image: '',
+			video: '',
+			iconSelection: 'team'
+		},
+		{
+			title: 'Creat a project',
+			content: 'Testing',
+			contentTitle: '',
+			contentDescription: 'You can create a project and assign task to other companies, or assign them to your company only',
+			link: '',
+			linkText: 'See Academy Project Course',
+			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
+			video: '',
+			iconSelection: ''
+		},
+		{
+			title: 'Creat a task',
+			content: 'Testing',
+			contentTitle: '',
+			contentDescription: '',
+			link: '',
+			linkText: 'Add team page',
+			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
+			video: '',
+			iconSelection: ''
+		},
+		{
+			title: 'Discover Dashboard',
+			content: 'Testing',
+			contentTitle: '',
+			contentDescription: '',
+			link: '',
+			linkText: 'Add team page',
+			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
+			video: '',
+			iconSelection: ''
+		},
+		{
+			title: 'Download app for smartphone',
+			content: 'Testing',
+			contentTitle: '',
+			contentDescription: '',
+			link: '',
+			linkText: 'Add team page',
+			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
+			video: '',
+			iconSelection: ''
+		},
+		{
+			title: 'Creat Knowledge Base',
+			content: 'Testing',
+			contentTitle: '',
+			contentDescription: '',
+			link: '',
+			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
+			video: '',
+			iconSelection: ''
+		},
+	]);
 
 	const handleClick = () => {
 		setOpen(!open);
@@ -43,8 +110,9 @@ export default function Guide() {
 			}
 			className={classes.root}
 		>
-			{[...new Array(6)].map((d, i) => (
-				<GuideListItem {...{ ...d, index: i }} />
+			
+			{quickStartList.map((d, i) => (
+				<GuideListItem {...{ data: d, index: i }} />
 			))}
 		</List>
 	);
