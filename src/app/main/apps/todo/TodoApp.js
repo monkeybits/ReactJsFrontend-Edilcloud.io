@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from './store/actions';
+import * as ConatctActions from '../contacts/store/actions';
 import reducer from './store/reducers';
 import TodoHeader from './TodoHeader';
 import TodoList from './TodoList';
@@ -83,6 +84,7 @@ function TodoApp(props) {
 	useDeepCompareEffect(() => {
 		// this is a component did mount it will call when we have dispatcher ready to dispatch the event
 		dispatch(Actions.getTodos(routeParams, false, handleSetLoading));
+		dispatch(ConatctActions.getContacts());
 	}, [dispatch, routeParams]);
 	if (loading.loadingTodos) {
 		// when we are fetching data we will show below loading HTML
