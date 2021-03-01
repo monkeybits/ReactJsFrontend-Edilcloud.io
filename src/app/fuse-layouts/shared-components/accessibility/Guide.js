@@ -30,7 +30,9 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		width: '100%',
 		// maxWidth: 360,
-		backgroundColor: theme.palette.background.paper
+		backgroundColor: '#eff2f7',
+		padding: 0,
+		borderRadius: 10,
 	},
 	nested: {
 		paddingLeft: theme.spacing(4)
@@ -214,11 +216,6 @@ function Guide() {
 		<List
 			component="nav"
 			aria-labelledby="nested-list-subheader"
-			subheader={
-				<ListSubheader component="div" id="nested-list-subheader">
-					To quick start
-				</ListSubheader>
-			}
 			className={classes.root}
 		>
 			

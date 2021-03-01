@@ -51,7 +51,9 @@ import Guide from './Guide';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		width: 450
+		width: 450,
+		backgroundColor: '#eff2f7',
+		
 	},
 	top: {
 		color: '#192d3e',
@@ -77,7 +79,7 @@ function AccessibilityPanel(props) {
 			anchor="right"
 			onClose={ev => dispatch(Actions.toggleAccessibility())}
 		>
-			<FuseScrollbars>
+			<FuseScrollbars className="unset-position">
 				<div className="flex justify-between items-center">
 					{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
 					<Typography className="mx-16 text-16" color="inherit">
@@ -90,17 +92,17 @@ function AccessibilityPanel(props) {
 					</div>
 				</div>
 				<div className="flex flex-col">
-					<Card className="w-full">
-						<AppBar position="static" elevation={0}>
-							<Toolbar className="px-8">
-								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
+					<Card className="w-full rounded-none">
+						<AppBar position="inherit" elevation={0}>
+							<Toolbar className="px-8 pt-36 pb-56 text-center bg-blue-500">
+								<Typography variant="h5" color="inherit" className="flex-1 px-12">
 									Edilcloud Quickstart
 								</Typography>
 							</Toolbar>
 						</AppBar>
-						<CardContent className="p-0">
+						<div className="absolute custom-quickstart-wrap w-full">
 							<Guide />
-						</CardContent>
+						</div>
 					</Card>
 				</div>
 			</FuseScrollbars>

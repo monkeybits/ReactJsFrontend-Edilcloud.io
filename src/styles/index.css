@@ -75,11 +75,46 @@ a[role=button] {
     transform: translateX(-50%) translateY(-50%);
 }
 
+.tippy-content {
+    padding: 0 !important;
+}
+
+.bg-quick-start {
+    background-color: #eff2f7;
+}
+
+.unset-position {
+    position: unset !important;
+}
+
 [role="tooltip"] {
     z-index: 9999;
 }
 
+.custom-quickstart-wrap {
+    top: 139px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 36rem;
+}
+
+.heading-title span {
+    font-size: 1.7rem;
+}
+
+.link-text span {
+    font-size: 1.5rem;
+}
+
 /* Medium Devices, Desktops Only */
+@media only screen and (min-width: 577px) {
+    .custom-quickstart-wrap {
+        top: 139px;
+        right: 44px;
+        max-width: 36rem;
+    }
+}
+
 @media only screen and (min-width: 992px) {
     ::-webkit-scrollbar {
         width: 12px;
