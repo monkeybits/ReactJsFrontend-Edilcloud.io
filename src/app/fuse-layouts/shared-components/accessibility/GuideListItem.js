@@ -32,8 +32,9 @@ const useStyles = makeStyles(theme => ({
 		paddingLeft: theme.spacing(4)
 	},
 	rootCard: {
-		width: '80%',
-		margin: '0 auto 15px'
+		width: '100%',
+		margin: '0 auto 15px',
+		borderRadius: 10
 	},
 	rootCardContent: {
 		padding: '0 !important',
@@ -133,6 +134,7 @@ function GuideListItem(props) {
 								? "text-green-400" : "text-gray-400"}>check_circle</Icon>
 						</IconButton>
 						<ListItemText
+							className="heading-title"
 							primary={props.data.title}
 						/>
 						{open ? <ExpandLess /> : <ExpandMore />}

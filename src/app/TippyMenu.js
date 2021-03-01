@@ -9,9 +9,9 @@ import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css'
 import { Paper } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
-	paper: {
-		marginRight: theme.spacing(2)
-	}
+	// paper: {
+	// 	marginRight: theme.spacing(2)
+	// }
 }));
 function TippyMenu(props) {
 	const [instance, setInstance] = useState(null);

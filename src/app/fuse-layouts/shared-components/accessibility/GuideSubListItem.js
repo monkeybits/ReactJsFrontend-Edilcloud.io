@@ -143,17 +143,20 @@ function GuideSubListItem(props) {
 					</CardActionArea>
 				}
 			</ListItem>
-			<ListItem>
-				<ListItemText primary={props.data.contentDescription} />
-			</ListItem>
+			{
+				props.data.contentDescription &&
+				<ListItem>
+					<ListItemText primary={props.data.contentDescription} />
+				</ListItem>
+			}
 			{
 				props.isDataAvail ? (
 					<ListItem onClick={onLinkClick} button className={classes.link}>
-						<ListItemText primary={props.data.linkTextAll} />
+						<ListItemText className="link-text" primary={props.data.linkTextAll} />
 					</ListItem>
 				) : (
 					<ListItem onClick={onLinkClick} button className={classes.link}>
-						<ListItemText primary={props.data.linkText} />
+						<ListItemText className="link-text" primary={props.data.linkText} />
 					</ListItem>
 				)
 			}

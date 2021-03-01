@@ -22,12 +22,14 @@ function AccessibilityToggleButton(props) {
 	return (
 		<FuseAnimate animation="transition.expandIn" delay={300}>
 			<Fab
+				variant="extended"
 				color="primary"
 				aria-label="accessibility_new"
 				className={clsx(classes.addButton, 'custom-accessibility-btn')}
 				onClick={ev => dispatch(Actions.toggleAccessibility())}
 			>
-				<Icon>accessibility_new</Icon>
+				<span>Quickstart</span>
+				{/* <Icon>accessibility_new</Icon> */}
 			</Fab>
 		</FuseAnimate>
 	);
