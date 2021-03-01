@@ -68,32 +68,33 @@ function GuideSubListItem(props) {
 
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
 
-	// console.log('props............Data', props.todos)
-	// console.log('props............Data', props.todos[0])
-
-	console.log('props............Data', projects)
-
 	const onLinkClick = () => {
 		if(props.data.link !== '') {
 			history.push(props.data.link)
 		}
 		if(props.data.iconSelection === 'team') {
 			dispatch(Actions.toggleAccessibility())
-			setTimeout(() => {
-				dispatch(ContactActions.openNewContactDialog('Invite'));
-			}, 250)
+			if(!props.isDataAvail) {
+				setTimeout(() => {
+					dispatch(ContactActions.openNewContactDialog('Invite'));
+				}, 250)
+			}
 		}
 		if(props.data.iconSelection === 'project') {
 			dispatch(Actions.toggleAccessibility())
-			setTimeout(() => {
-				dispatch(NotesActions.openProjectDialog('new'))
-			}, 250)
+			if(!props.isDataAvail) {
+				setTimeout(() => {
+					dispatch(NotesActions.openProjectDialog('new'))
+				}, 250)
+			}
 		}
 		if(props.data.iconSelection === 'task') {
 			dispatch(Actions.toggleAccessibility())
-			setTimeout(() => {
-				dispatch(TodosActions.openNewTodoDialog())
-			}, 250)
+			if(!props.isDataAvail) {
+				setTimeout(() => {
+					dispatch(TodosActions.openNewTodoDialog())
+				}, 250)
+			}
 		}
 		if(props.data.iconSelection === 'post') {
 			dispatch(Actions.toggleAccessibility())
@@ -145,9 +146,18 @@ function GuideSubListItem(props) {
 			<ListItem>
 				<ListItemText primary={props.data.contentDescription} />
 			</ListItem>
-			<ListItem onClick={onLinkClick} button className={classes.link}>
-				<ListItemText primary={props.data.linkText} />
-			</ListItem>
+			{
+				props.isDataAvail ? (
+					<ListItem onClick={onLinkClick} button className={classes.link}>
+						<ListItemText primary={props.data.linkTextAll} />
+					</ListItem>
+				) : (
+					<ListItem onClick={onLinkClick} button className={classes.link}>
+						<ListItemText primary={props.data.linkText} />
+					</ListItem>
+				)
+			}
+			
 		</List>
 	);
 }

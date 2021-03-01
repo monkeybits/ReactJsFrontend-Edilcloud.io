@@ -21,6 +21,11 @@ import CardContent from '@material-ui/core/CardContent';
 import boardReducer from 'app/main/apps/scrumboard/store/reducers/board.reducer';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import {
+	GET_POST_FOR_TASK
+} from 'app/services/apiEndPoints';
 
 const useStyles = makeStyles(theme => ({
 	nested: {
@@ -44,6 +49,7 @@ function GuideListItem(props) {
 	const [isPost, setIsPost] = React.useState('');
 	const [isDownloadApp, setIsDownloadApp] = React.useState('');
 	const [openMenu, setOpenMenu] = React.useState('');
+	const [posts, setPosts] = React.useState([]);
 
 	const handleClick = () => {
 		setOpen(!open);
@@ -52,17 +58,33 @@ function GuideListItem(props) {
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts?.entities);
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
 	const todos = useSelector(({ todoAppNote }) => todoAppNote?.todos?.entities);
-	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data);
-	const taskContentDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
 	const accessibilityPanelAppState = useSelector(({ accessibilityPanel }) => accessibilityPanel.isDownloadApp);
 	let accessibilityPanelApp = localStorage.getItem('downloadApp');
 
-	// console.log('contacts', contacts)
-	// console.log('projects', projects)
-	// console.log('todos', todos)
-	// console.log('taskContentData', taskContentData)
-	console.log('taskContentDialog', taskContentDialog)
-	// console.log('isDownloadApp', accessibilityPanelApp)
+
+	useEffect(() => {
+		setPosts([]);
+		if (todos) {
+			getPosts();
+		}
+	}, [todos]);
+
+	const getPosts = () => {
+		if(todos && Object.keys(todos).length > 0) {
+			apiCall(
+				GET_POST_FOR_TASK(todos[0].id),
+				{},
+				res => {
+					setPosts(res.results);
+				},
+				err => {
+					console.log(err);
+				},
+				METHOD.GET,
+				getHeaderToken()
+			);
+		}
+	};
 	
 	useEffect(() => {
 		if(contacts && contacts.length > 0) {
@@ -77,7 +99,7 @@ function GuideListItem(props) {
 			setIsTask('task')
 		}
 
-		if(taskContentData !== null && "id" in taskContentData) {
+		if(posts && posts.length > 0) {
 			setIsPost('post')
 		}
 
@@ -85,7 +107,7 @@ function GuideListItem(props) {
 			setIsDownloadApp('downloadApp')
 		}
 
-	}, [contacts, projects, todos, accessibilityPanelApp, accessibilityPanelAppState, setOpenMenu, setIsDownloadApp]);
+	}, [contacts, projects, todos, posts, accessibilityPanelApp, accessibilityPanelAppState, setOpenMenu, setIsDownloadApp]);
 
 	useEffect(() => {
 		if(props.data.iconSelection === props.isMenuOpen) {
@@ -116,7 +138,14 @@ function GuideListItem(props) {
 						{open ? <ExpandLess /> : <ExpandMore />}
 					</ListItem>
 					<Collapse in={open} timeout="auto" unmountOnExit>
-						<GuideSubListItem data={props.data} todos={todos} />
+						<GuideSubListItem data={props.data} todos={todos} isDataAvail={
+							(props.data.iconSelection === isTeam 
+								|| props.data.iconSelection === isProject
+								|| props.data.iconSelection === isTask
+								|| props.data.iconSelection === isPost
+								|| props.data.iconSelection === isDownloadApp
+							) && props.data.iconSelection !== '' ? true : false
+						} />
 					</Collapse>
 				</CardContent>
 			</Card>
