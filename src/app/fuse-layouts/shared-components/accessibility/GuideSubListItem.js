@@ -5,9 +5,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 // import ListItemLink from '@material-ui/core/ListItemLink';
 import { useDispatch, useSelector } from 'react-redux';
+import withReducer from 'app/store/withReducer';
+import reducer from 'app/main/apps/notes/todo/store/reducers';
 import * as Actions from './store/actions';
-// import * as NotesActions from 'app/main/apps/notes/store/actions';
+import * as NotesActions from 'app/main/apps/notes/store/actions';
 import * as ContactActions from 'app/main/apps/contacts/store/actions';
+import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
+import * as TodoTaskActions from 'app/main/apps/todo/store/actions';
+import { useDeepCompareEffect } from '@fuse/hooks';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -35,16 +40,18 @@ const useStyles = makeStyles(theme => ({
 	},
 	playIcon: {
 		color: '#ffffff'
+	},
+	link: {
+		color: '#376AED'
 	}
 }));
 
-export default function GuideSubListItem(props) {
+function GuideSubListItem(props) {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const classes = useStyles();
 	const [controls, setControls] = React.useState(false);
 	const [playing, setPlaying] = React.useState(false);
-	console.log('props.data', props.data)
 
 	const handlePlay = () => {
 		setPlaying(true)
@@ -59,13 +66,48 @@ export default function GuideSubListItem(props) {
 		setPlaying(true)
 	}
 
+	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
+
+	// console.log('props............Data', props.todos)
+	// console.log('props............Data', props.todos[0])
+
+	console.log('props............Data', projects)
+
 	const onLinkClick = () => {
-		dispatch(Actions.toggleAccessibility())
-		history.push('/apps/contacts/all')
-		setTimeout(() => {
-			dispatch(ContactActions.openNewContactDialog('Invite'));
-			// dispatch(NotesActions.openProjectDialog('new'))
-		}, 250)
+		if(props.data.link !== '') {
+			history.push(props.data.link)
+		}
+		if(props.data.iconSelection === 'team') {
+			dispatch(Actions.toggleAccessibility())
+			setTimeout(() => {
+				dispatch(ContactActions.openNewContactDialog('Invite'));
+			}, 250)
+		}
+		if(props.data.iconSelection === 'project') {
+			dispatch(Actions.toggleAccessibility())
+			setTimeout(() => {
+				dispatch(NotesActions.openProjectDialog('new'))
+			}, 250)
+		}
+		if(props.data.iconSelection === 'task') {
+			dispatch(Actions.toggleAccessibility())
+			setTimeout(() => {
+				dispatch(TodosActions.openNewTodoDialog())
+			}, 250)
+		}
+		if(props.data.iconSelection === 'post') {
+			dispatch(Actions.toggleAccessibility())
+			if(projects && projects.length > 0) {
+				history.push('/apps/projects/' + projects[0].id)
+			}
+			setTimeout(() => {
+				dispatch(TodosActions.openTaskContent(props.todos[0]));
+			}, 500)
+		}
+		if(props.data.iconSelection === 'downloadApp') {
+			localStorage.setItem('downloadApp', 'true');
+			dispatch(Actions.downloadSmartPhoneApp())
+		}
 	}
 
 	return (
@@ -103,9 +145,11 @@ export default function GuideSubListItem(props) {
 			<ListItem>
 				<ListItemText primary={props.data.contentDescription} />
 			</ListItem>
-			<ListItem onClick={onLinkClick} button>
+			<ListItem onClick={onLinkClick} button className={classes.link}>
 				<ListItemText primary={props.data.linkText} />
 			</ListItem>
 		</List>
 	);
 }
+
+export default withReducer('todoAppNote', reducer)(GuideSubListItem)

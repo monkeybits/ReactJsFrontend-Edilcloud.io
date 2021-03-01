@@ -1,9 +1,16 @@
 export const TOGGLE_ACCESSIBILITY_PANEL = '[Accessibility] TOGGLE ACCESSIBILITY PANEL';
+export const DOWNLOAD_SMARTPHONE_APP_PANEL = '[Accessibility] DOWNLOAD SMARTPHONE APP PANEL';
 export const GET_ACCESSIBILITY_PANEL_DATA = '[Accessibility] GET DATA';
 
 export function toggleAccessibility() {
 	return {
 		type: TOGGLE_ACCESSIBILITY_PANEL
+	};
+}
+
+export function downloadSmartPhoneApp() {
+	return {
+		type: DOWNLOAD_SMARTPHONE_APP_PANEL
 	};
 }
 

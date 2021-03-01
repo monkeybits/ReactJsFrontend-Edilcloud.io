@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import withReducer from 'app/store/withReducer';
+import reducer from 'app/main/apps/notes/todo/store/reducers';
 import { useDispatch, useSelector } from 'react-redux';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -33,28 +35,65 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export default function GuideListItem(props) {
+function GuideListItem(props) {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [isTeam, setIsTeam] = React.useState('');
+	const [isProject, setIsProject] = React.useState('');
+	const [isTask, setIsTask] = React.useState('');
+	const [isPost, setIsPost] = React.useState('');
+	const [isDownloadApp, setIsDownloadApp] = React.useState('');
+	const [openMenu, setOpenMenu] = React.useState('');
 
 	const handleClick = () => {
 		setOpen(!open);
 	};
 
-	// console.log('props', props)
-	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts);
+	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts?.entities);
+	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
+	const todos = useSelector(({ todoAppNote }) => todoAppNote?.todos?.entities);
+	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data);
+	const taskContentDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
+	const accessibilityPanelAppState = useSelector(({ accessibilityPanel }) => accessibilityPanel.isDownloadApp);
+	let accessibilityPanelApp = localStorage.getItem('downloadApp');
 
-	console.log('contacts', contacts.entities.length)
-
+	// console.log('contacts', contacts)
+	// console.log('projects', projects)
+	// console.log('todos', todos)
+	// console.log('taskContentData', taskContentData)
+	console.log('taskContentDialog', taskContentDialog)
+	// console.log('isDownloadApp', accessibilityPanelApp)
+	
 	useEffect(() => {
-		if(contacts && contacts.entities.length > 0) {
+		if(contacts && contacts.length > 0) {
 			setIsTeam('team')
 		}
-	}, [contacts]);
 
-	// console.log('isTeam', isTeam)
-	// console.log('props.data.isTeam', props.data.iconSelection)
+		if(projects && projects.length > 0) { 
+			setIsProject('project')
+		}
+		
+		if(todos && Object.keys(todos).length > 0) {
+			setIsTask('task')
+		}
+
+		if(taskContentData !== null && "id" in taskContentData) {
+			setIsPost('post')
+		}
+
+		if(accessibilityPanelApp === 'true' || accessibilityPanelAppState) {
+			setIsDownloadApp('downloadApp')
+		}
+
+	}, [contacts, projects, todos, accessibilityPanelApp, accessibilityPanelAppState, setOpenMenu, setIsDownloadApp]);
+
+	useEffect(() => {
+		if(props.data.iconSelection === props.isMenuOpen) {
+			setOpen(true)
+		} else {
+			setOpen(false)
+		}
+	}, [props]);
 
 	return (
 		<>
@@ -62,20 +101,27 @@ export default function GuideListItem(props) {
 				<CardContent className={classes.rootCardContent}>
 					<ListItem button onClick={handleClick}>
 						<IconButton>
-							<Icon className={props.data.iconSelection === isTeam && props.data.iconSelection !== ''
+							<Icon className={(
+								props.data.iconSelection === isTeam 
+								|| props.data.iconSelection === isProject
+								|| props.data.iconSelection === isTask
+								|| props.data.iconSelection === isPost
+								|| props.data.iconSelection === isDownloadApp
+							) && props.data.iconSelection !== ''
 								? "text-green-400" : "text-gray-400"}>check_circle</Icon>
 						</IconButton>
 						<ListItemText
 							primary={props.data.title}
-							//  secondary={'Secondary text'}
 						/>
 						{open ? <ExpandLess /> : <ExpandMore />}
 					</ListItem>
 					<Collapse in={open} timeout="auto" unmountOnExit>
-						<GuideSubListItem data={props.data} />
+						<GuideSubListItem data={props.data} todos={todos} />
 					</Collapse>
 				</CardContent>
 			</Card>
 		</>
 	);
 }
+
+export default withReducer('todoAppNote', reducer)(GuideListItem);
