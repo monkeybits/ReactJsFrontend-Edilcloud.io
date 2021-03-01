@@ -66,6 +66,12 @@ function TodoList(props) {
 		handleDoFilter();
 	}, [activeFilterKey, company, usedKeys, todos]);
 
+	useEffect(() => {
+		if(taskContentDialog?.data?.id) {
+			setTodoId(taskContentDialog.data.id)
+		}
+	}, [taskContentDialog?.data]);
+
 	// useEffect(() => {
 	// 	// function scrolldiv() {
 	// 	// 	var elem = document.getElementById("ele");

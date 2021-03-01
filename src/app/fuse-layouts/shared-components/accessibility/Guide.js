@@ -20,6 +20,12 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import GuideListItem from './GuideListItem';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import {
+	GET_POST_FOR_TASK
+} from 'app/services/apiEndPoints';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: '100%',
@@ -36,6 +42,7 @@ function Guide() {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [isMenuOpen, setIsOpenMenu] = React.useState('');
+	const [posts, setPosts] = React.useState([]);
 	const [loading, setLoading] = useState({
 		loadingProjects: true,
 		loadingProjectRequest: true
@@ -50,15 +57,32 @@ function Guide() {
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts?.entities);
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
 	const todos = useSelector(({ todoAppNote }) => todoAppNote?.todos?.entities);
-	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data);
 	const accessibilityPanelAppState = useSelector(({ accessibilityPanel }) => accessibilityPanel.isDownloadApp);
 	let accessibilityPanelApp = localStorage.getItem('downloadApp');
 
-	// console.log('contacts', contacts)
-	// console.log('projects', projects)
-	// console.log('todos', todos)
-	// console.log('taskContentData', taskContentData)
-	// console.log('isDownloadApp', accessibilityPanelApp)
+	useEffect(() => {
+		setPosts([]);
+		if (todos) {
+			getPosts();
+		}
+	}, [todos]);
+
+	const getPosts = () => {
+		if(todos && Object.keys(todos).length > 0) {
+			apiCall(
+				GET_POST_FOR_TASK(todos[0].id),
+				{},
+				res => {
+					setPosts(res.results);
+				},
+				err => {
+					console.log(err);
+				},
+				METHOD.GET,
+				getHeaderToken()
+			);
+		}
+	};
 
 	useEffect(() => {
 		if(contacts && contacts.length > 0) {
@@ -73,7 +97,7 @@ function Guide() {
 			setIsOpenMenu('post')
 		}
 
-		if(taskContentData !== null && "id" in taskContentData) {
+		if(posts && posts.length > 0) {
 			setIsOpenMenu('downloadApp')
 		}
 
@@ -81,7 +105,7 @@ function Guide() {
 			setIsOpenMenu('discover')
 		}
 
-	}, [contacts, projects, todos, accessibilityPanelApp, accessibilityPanelAppState, setIsOpenMenu]);
+	}, [contacts, projects, todos, posts, accessibilityPanelApp, accessibilityPanelAppState, setIsOpenMenu]);
 
 	useDeepCompareEffect(() => {
 		dispatch(ConatctActions.getContacts());
@@ -93,16 +117,6 @@ function Guide() {
 			}
 			dispatch(TodosActions.getTodos(project_id, true));
 		}
-		// if(Object.keys(todos).length > 0) {
-		// 	let todo_id = 0
-		// 	console.log('todo_id????????????????????', Object.keys(todos).length)
-		// 	if(todos !== undefined && Object.keys(todos).length > 0) {
-		// 		console.log('todo_id????????????????????', Object.keys(todos).length)
-		// 		todo_id = todos[0].id
-		// 	}
-		// 	console.log('todo_id', todo_id)
-		// 	dispatch(TodosActions.openTaskContent({ id: todo_id }));
-		// }
 	}, [dispatch, projects]);
 
 	const [quickStartList, setQuickStartList] = React.useState([
