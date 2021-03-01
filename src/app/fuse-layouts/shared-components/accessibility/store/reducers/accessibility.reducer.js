@@ -3,7 +3,8 @@ import * as Actions from '../actions';
 const initialState = {
 	state: false,
 	notifications: [],
-	readNotifications: []
+	readNotifications: [],
+	isDownloadApp: false
 };
 
 const accessibilityPanel = (state = initialState, action) => {
@@ -18,6 +19,12 @@ const accessibilityPanel = (state = initialState, action) => {
 			return {
 				...state,
 				state: !state.state
+			};
+		}
+		case Actions.DOWNLOAD_SMARTPHONE_APP_PANEL: {
+			return {
+				...state,
+				isDownloadApp: true
 			};
 		}
 		default: {

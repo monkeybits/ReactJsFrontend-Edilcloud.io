@@ -1,7 +1,14 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDeepCompareEffect } from '@fuse/hooks';
+import withReducer from 'app/store/withReducer';
+import reducer from 'app/main/apps/notes/store/reducers';
+import * as ConatctActions from 'app/main/apps/contacts/store/actions';
+import * as NotesActions from 'app/main/apps/notes/store/actions';
+import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -24,17 +31,89 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export default function Guide() {
+function Guide() {
+	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
+	const [isMenuOpen, setIsOpenMenu] = React.useState('');
+	const [loading, setLoading] = useState({
+		loadingProjects: true,
+		loadingProjectRequest: true
+	});
+
+	const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+	}));
+
+	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts?.entities);
+	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
+	const todos = useSelector(({ todoAppNote }) => todoAppNote?.todos?.entities);
+	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data);
+	const accessibilityPanelAppState = useSelector(({ accessibilityPanel }) => accessibilityPanel.isDownloadApp);
+	let accessibilityPanelApp = localStorage.getItem('downloadApp');
+
+	// console.log('contacts', contacts)
+	// console.log('projects', projects)
+	// console.log('todos', todos)
+	// console.log('taskContentData', taskContentData)
+	// console.log('isDownloadApp', accessibilityPanelApp)
+
+	useEffect(() => {
+		if(contacts && contacts.length > 0) {
+			setIsOpenMenu('project')
+		}
+
+		if(projects && projects.length > 0) {
+			setIsOpenMenu('task')
+		}
+		
+		if(todos && Object.keys(todos).length > 0) {
+			setIsOpenMenu('post')
+		}
+
+		if(taskContentData !== null && "id" in taskContentData) {
+			setIsOpenMenu('downloadApp')
+		}
+
+		if(accessibilityPanelApp === 'true' || accessibilityPanelAppState) {
+			setIsOpenMenu('discover')
+		}
+
+	}, [contacts, projects, todos, accessibilityPanelApp, accessibilityPanelAppState, setIsOpenMenu]);
+
+	useDeepCompareEffect(() => {
+		dispatch(ConatctActions.getContacts());
+		dispatch(NotesActions.getProjects(handleSetLoading));
+		if(projects.length > 0) {
+			let project_id = 0
+			if(projects !== undefined && projects.length > 0) {
+				project_id = projects[0].id
+			}
+			dispatch(TodosActions.getTodos(project_id, true));
+		}
+		// if(Object.keys(todos).length > 0) {
+		// 	let todo_id = 0
+		// 	console.log('todo_id????????????????????', Object.keys(todos).length)
+		// 	if(todos !== undefined && Object.keys(todos).length > 0) {
+		// 		console.log('todo_id????????????????????', Object.keys(todos).length)
+		// 		todo_id = todos[0].id
+		// 	}
+		// 	console.log('todo_id', todo_id)
+		// 	dispatch(TodosActions.openTaskContent({ id: todo_id }));
+		// }
+	}, [dispatch, projects]);
+
 	const [quickStartList, setQuickStartList] = React.useState([
 		{
 			title: 'Add your collaborators',
 			content: 'Testing',
 			contentTitle: 'Welcome to EdilCloud',
 			contentDescription: 'Add your collaborators and let them access the company.',
-			link: '',
+			link: '/apps/contacts/all',
 			linkText: 'Add team page',
+			linkTextAll: 'View teams',
 			image: '',
 			video: '',
 			iconSelection: 'team'
@@ -44,22 +123,48 @@ export default function Guide() {
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription: 'You can create a project and assign task to other companies, or assign them to your company only',
-			link: '',
-			linkText: 'See Academy Project Course',
+			link: '/apps/projects',
+			linkText: 'Add project page',
+			linkTextAll: 'View projects',
 			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
 			video: '',
-			iconSelection: ''
+			iconSelection: 'project'
 		},
 		{
 			title: 'Creat a task',
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription: '',
-			link: '',
-			linkText: 'Add team page',
+			link: projects !== undefined && projects.length > 0 ? '/apps/projects/' + projects[0].id : '',
+			linkText: 'Add task page',
+			linkTextAll: 'View tasks',
 			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
 			video: '',
-			iconSelection: ''
+			iconSelection: 'task',
+		},
+		{
+			title: 'Creat a post',
+			content: 'Testing',
+			contentTitle: '',
+			contentDescription: '',
+			link: projects !== undefined && projects.length > 0 ? '/apps/projects/' + projects[0].id : '',
+			linkText: 'Add post page',
+			linkTextAll: 'View posts',
+			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
+			video: '',
+			iconSelection: 'post',
+		},
+		{
+			title: 'Download app for smartphone',
+			content: 'Testing',
+			contentTitle: '',
+			contentDescription: 'Download the app for your phone or tablet and use EdilCloud from the construction site field',
+			link: '',
+			linkText: 'Download App',
+			linkTextAll: '',
+			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
+			video: '',
+			iconSelection: 'downloadApp'
 		},
 		{
 			title: 'Discover Dashboard',
@@ -67,21 +172,11 @@ export default function Guide() {
 			contentTitle: '',
 			contentDescription: '',
 			link: '',
-			linkText: 'Add team page',
+			linkText: '',
+			linkTextAll: '',
 			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
 			video: '',
-			iconSelection: ''
-		},
-		{
-			title: 'Download app for smartphone',
-			content: 'Testing',
-			contentTitle: '',
-			contentDescription: '',
-			link: '',
-			linkText: 'Add team page',
-			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
-			video: '',
-			iconSelection: ''
+			iconSelection: 'discover'
 		},
 		{
 			title: 'Creat Knowledge Base',
@@ -89,16 +184,18 @@ export default function Guide() {
 			contentTitle: '',
 			contentDescription: '',
 			link: '',
+			linkText: '',
+			linkTextAll: '',
 			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
 			video: '',
-			iconSelection: ''
+			iconSelection: 'knowledge'
 		},
 	]);
 
 	const handleClick = () => {
 		setOpen(!open);
 	};
-
+	
 	return (
 		<List
 			component="nav"
@@ -112,8 +209,14 @@ export default function Guide() {
 		>
 			
 			{quickStartList.map((d, i) => (
-				<GuideListItem {...{ data: d, index: i }} />
+				<GuideListItem {...{ 
+					data: d,
+					index: i,
+					isMenuOpen: isMenuOpen
+				}} />
 			))}
 		</List>
 	);
 }
+
+export default withReducer('notesApp', reducer)(Guide);
