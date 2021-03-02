@@ -90,6 +90,9 @@ function GuideSubListItem(props) {
 		}
 		if(props.data.iconSelection === 'task') {
 			dispatch(Actions.toggleAccessibility())
+			if(projects && projects.length > 0) {
+				history.push('/apps/projects/' + projects[0].id)
+			}
 			if(!props.isDataAvail) {
 				setTimeout(() => {
 					dispatch(TodosActions.openNewTodoDialog())
@@ -118,13 +121,13 @@ function GuideSubListItem(props) {
 					? <CardActionArea>
 						<CardMedia
 							className={classes.media}
-							image="/material-ui-static/images/cards/contemplative-reptile.jpg"
+							image={props.data.image}
 							title="Contemplative Reptile"
 						/>
 					</CardActionArea>
 					: <CardActionArea className="relative">
 						<ReactPlayer
-							url='assets/videos/samplevideo.mp4'
+							url={props.data.video}
 							playing={playing}
 							onPlay={handlePlay}
 							onPause={handlePause}

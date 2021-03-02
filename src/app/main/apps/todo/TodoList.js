@@ -11,15 +11,25 @@ import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
 import List from '@material-ui/core/List';
+import { useDeepCompareEffect } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
-import { decodeDataFromToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TodoListItem from './TodoListItem';
 import TaskContentForm from './TaskContentForm';
 import EditActivityPostForm from './EditActivityPostForm';
+import * as ConatctActions from 'app/main/apps/contacts/store/actions';
+import * as NotesActions from 'app/main/apps/notes/store/actions';
+import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
+import * as AccessibilityActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import {
+	GET_POST_FOR_TASK
+} from 'app/services/apiEndPoints';
 
 function TodoList(props) {
+	const dispatch = useDispatch();
 	const todos = useSelector(({ todoApp }) => todoApp.todos.entities);// it will get all tasks
 	const searchText = useSelector(({ todoApp }) => todoApp.todos.searchText); // its search text in dashboard you'll see search option and you can search task by this
 	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);// to get the current order(sorting of list)
@@ -33,6 +43,72 @@ function TodoList(props) {
 	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	const [todoId, setTodoId] = useState(null);
+	const [posts, setPosts] = React.useState([]);
+
+	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts?.entities);
+	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
+	const todosNote = useSelector(({ todoAppNote }) => todoAppNote?.todos?.entities);
+	const accessibilityPanelAppState = useSelector(({ accessibilityPanel }) => accessibilityPanel.isDownloadApp);
+	let accessibilityPanelApp = localStorage.getItem('downloadApp');
+
+	useDeepCompareEffect(() => {
+		dispatch(ConatctActions.getContacts());
+		dispatch(NotesActions.getProjects());
+		if(projects.length > 0) {
+			let project_id = 0
+			if(projects !== undefined && projects.length > 0) {
+				project_id = projects[0].id
+			}
+			dispatch(TodosActions.getTodos(project_id, true));
+		}
+	}, [dispatch, projects]);
+
+	useEffect(() => {
+		setPosts([]);
+		if (todosNote) {
+			getPosts();
+		}
+	}, [todosNote]);
+
+	const getPosts = () => {
+		if(todosNote && Object.keys(todosNote).length > 0) {
+			apiCall(
+				GET_POST_FOR_TASK(todosNote[0].id),
+				{},
+				res => {
+					setPosts(res.results);
+				},
+				err => {
+					console.log(err);
+				},
+				METHOD.GET,
+				getHeaderToken()
+			);
+		}
+	};
+
+	useEffect(() => {
+		if(!contacts && contacts.length === 0) {
+			dispatch(AccessibilityActions.openAccessibility())
+		}
+
+		if(!projects && projects.length === 0) {
+			dispatch(AccessibilityActions.openAccessibility())
+		}
+		
+		if(!todos && Object.keys(todos).length === 0) {
+			dispatch(AccessibilityActions.openAccessibility())
+		}
+
+		if(!posts && posts.length === 0) {
+			dispatch(AccessibilityActions.openAccessibility())
+		}
+
+		if(accessibilityPanelApp !== 'true' && !accessibilityPanelAppState) {
+			dispatch(AccessibilityActions.openAccessibility())
+		}
+
+	}, [contacts, projects, todos, posts, accessibilityPanelApp, accessibilityPanelAppState]);
 	
 	/**
 	 * * we have 5-6 filter category but, by default we can select only one filter from each categaory but some category need to allow multiple select
