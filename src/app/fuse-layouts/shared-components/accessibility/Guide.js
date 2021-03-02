@@ -21,10 +21,11 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import GuideListItem from './GuideListItem';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import {
 	GET_POST_FOR_TASK
 } from 'app/services/apiEndPoints';
+import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -49,6 +50,9 @@ function Guide() {
 		loadingProjects: true,
 		loadingProjectRequest: true
 	});
+
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 
 	const handleSetLoading = data =>
 		setLoading(loading => ({
@@ -131,7 +135,7 @@ function Guide() {
 			linkText: 'Add team page',
 			linkTextAll: 'View teams',
 			image: '',
-			video: '',
+			video: 'assets/videos/samplevideo.mp4',
 			iconSelection: 'team'
 		},
 		{
@@ -142,8 +146,8 @@ function Guide() {
 			link: '/apps/projects',
 			linkText: 'Add project page',
 			linkTextAll: 'View projects',
-			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
-			video: '',
+			image: '',
+			video: 'assets/videos/samplevideo.mp4',
 			iconSelection: 'project'
 		},
 		{
@@ -154,8 +158,8 @@ function Guide() {
 			link: projects !== undefined && projects.length > 0 ? '/apps/projects/' + projects[0].id : '',
 			linkText: 'Add task page',
 			linkTextAll: 'View tasks',
-			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
-			video: '',
+			image: '',
+			video: 'assets/videos/samplevideo.mp4',
 			iconSelection: 'task',
 		},
 		{
@@ -166,8 +170,8 @@ function Guide() {
 			link: projects !== undefined && projects.length > 0 ? '/apps/projects/' + projects[0].id : '',
 			linkText: 'Add post page',
 			linkTextAll: 'View posts',
-			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
-			video: '',
+			image: '',
+			video: 'assets/videos/samplevideo.mp4',
 			iconSelection: 'post',
 		},
 		{
@@ -178,8 +182,8 @@ function Guide() {
 			link: '',
 			linkText: 'Download App',
 			linkTextAll: '',
-			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
-			video: '',
+			image: '',
+			video: 'assets/videos/samplevideo.mp4',
 			iconSelection: 'downloadApp'
 		},
 		{
@@ -190,8 +194,8 @@ function Guide() {
 			link: '',
 			linkText: '',
 			linkTextAll: '',
-			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
-			video: '',
+			image: '',
+			video: 'assets/videos/samplevideo.mp4',
 			iconSelection: 'discover'
 		},
 		{
@@ -202,8 +206,8 @@ function Guide() {
 			link: '',
 			linkText: '',
 			linkTextAll: '',
-			image: '/material-ui-static/images/cards/contemplative-reptile.jpg',
-			video: '',
+			image: '',
+			video: 'assets/videos/samplevideo.mp4',
 			iconSelection: 'knowledge'
 		},
 	]);
@@ -218,14 +222,25 @@ function Guide() {
 			aria-labelledby="nested-list-subheader"
 			className={classes.root}
 		>
-			
-			{quickStartList.map((d, i) => (
-				<GuideListItem {...{ 
-					data: d,
-					index: i,
-					isMenuOpen: isMenuOpen
-				}} />
-			))}
+			{
+				quickStartList.map((d, i) => {
+					if (d.iconSelection === 'team' || d.iconSelection === 'project' || d.iconSelection === 'task') {
+						if(getRole() != 'm' && getRole() != 'w') {
+							return <GuideListItem {...{ 
+								data: d,
+								index: i,
+								isMenuOpen: isMenuOpen
+							}} />
+						}
+					} else {
+						return <GuideListItem {...{ 
+							data: d,
+							index: i,
+							isMenuOpen: isMenuOpen
+						}} />
+					}
+				})
+			}
 		</List>
 	);
 }

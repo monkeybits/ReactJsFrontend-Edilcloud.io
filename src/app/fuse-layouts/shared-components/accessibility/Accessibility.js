@@ -80,18 +80,12 @@ function AccessibilityPanel(props) {
 			onClose={ev => dispatch(Actions.toggleAccessibility())}
 		>
 			<FuseScrollbars className="unset-position">
-				<div className="flex justify-between items-center">
-					{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
-					<Typography className="mx-16 text-16" color="inherit">
-						Accessibility
-					</Typography>
-					<div className="px-4">
-						<IconButton onClick={ev => dispatch(Actions.toggleAccessibility())} color="inherit">
+				<div className="flex flex-col">
+					<div className="px-4 absolute top-0 right-0 z-20">
+						<IconButton onClick={ev => dispatch(Actions.toggleAccessibility())} className="text-white">
 							<Icon>close</Icon>
 						</IconButton>
 					</div>
-				</div>
-				<div className="flex flex-col">
 					<Card className="w-full rounded-none">
 						<AppBar position="inherit" elevation={0}>
 							<Toolbar className="px-8 pt-36 pb-56 text-center bg-blue-500">

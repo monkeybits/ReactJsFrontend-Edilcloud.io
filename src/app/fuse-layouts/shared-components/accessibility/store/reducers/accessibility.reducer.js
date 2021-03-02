@@ -21,6 +21,12 @@ const accessibilityPanel = (state = initialState, action) => {
 				state: !state.state
 			};
 		}
+		case Actions.OPEN_ACCESSIBILITY_PANEL: {
+			return {
+				...state,
+				state: true
+			};
+		}
 		case Actions.DOWNLOAD_SMARTPHONE_APP_PANEL: {
 			return {
 				...state,
