@@ -1,22 +1,20 @@
-import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
+import {
+	AppBar,
+	Avatar,
+	Button,
+	Card,
+	CardActions,
+	CardContent,
+	CardHeader,
+	Icon,
+	IconButton,
+	Typography,
+	Collapse,
+	List,
+	Paper,
+	Input,
+
+} from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
@@ -30,29 +28,21 @@ import {
 } from 'app/services/apiEndPoints';
 import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
-import imageCompression from 'browser-image-compression';
-import * as Actions from './store/actions';
-import ImagesPreview from './ImagesPreview';
-import CommentListItem from './CommentListItem';
 import moment from 'moment';
-import SendIcon from '@material-ui/icons/Send';
 import PostedImages from './PostedImages';
-import { Box, CircularProgress, Collapse } from '@material-ui/core';
 import FuseUtils from '@fuse/utils';
 import { red } from '@material-ui/core/colors';
 import { toast } from 'react-toastify';
 import TippyMenu from 'app/TippyMenu';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
-import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import EditPostForm from './EditPostForm';
 import { useTranslation } from 'react-i18next';
+import CommentListItem from './CommentListItem';
+import ImagesPreview from './ImagesPreview';
+
 const uuidv1 = require('uuid/v1');
 
 export default function PostListItem({
@@ -73,7 +63,8 @@ export default function PostListItem({
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
-	const [open, setOpen] = React.useState(true);
+	const [open, setOpen] = React.useState(false);
+	const [commentOpen, setCommentOpen] = React.useState(false);
 	const [post, setPost] = React.useState({});
 	const [postComments, setPostComments] = useState([]);
 	const todoDialog = useSelector(state =>
@@ -334,17 +325,19 @@ export default function PostListItem({
 	if (!Object.entries(post).length) {
 		return null;
 	}
+	
+	console.log('post>>>>>>>>>>>>>>>>>>', post)
 	return (
 		<Card
 			id={`post${post.id}`}
 			ref={notificationPanel.notificationData?.notification?.object_id == post.id ? scrollRef : null}
 			key={post.id}
-			className="mb-32 overflow-hidden post-form post-card-clx"
+			className="mb-32 overflow-hidden post-card-clx"
 		>
 			<CardHeader
 				avatar={
 					post.author.first_name ? (
-						<Avatar aria-label="Recipe" src={post.author.photo}>
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-60 w-60">
 							{[...post.author.first_name][0]}{' '}
 						</Avatar>
 					) : null
@@ -434,9 +427,28 @@ export default function PostListItem({
 				}
 				title={
 					<span>
-						<Typography className="font-600 font-size-18 capitalize" color="primary" paragraph={false}>
-							{post.author.first_name} {post.author.last_name}
-						</Typography>
+						<div className="flex">
+							<Typography className="font-700 capitalize text-lg" color="primary" paragraph={false}>
+								{post.author.first_name} {post.author.last_name}
+							</Typography>
+							{
+								post.type === 'post' && <span>posted on your timeline</span>
+							}
+							{
+								post.type === 'something' && <span>shared something with you</span>
+							}
+							{
+								post.type === 'video' && <span>shared a video with you</span>
+							}
+							{
+								post.type === 'article' && <span>shared an article with you</span>
+							}
+							<span className="text-lg pl-6 font-600">Added a new video to</span>
+							<Typography className="font-700 capitalize text-lg pl-6" color="primary" paragraph={false}>
+								{post.task.name}
+							</Typography>
+						</div>
+						<div className="text-base font-600">{post.author.role} - {post.author.company.name}</div>
 						<div className="">
 							{showPrject && (
 								<>
@@ -465,16 +477,22 @@ export default function PostListItem({
 									</div>
 								</>
 							)}
-							<span className="mx-4">
-								{post.type === 'post' && 'posted on your timeline'}
-								{post.type === 'something' && 'shared something with you'}
-								{post.type === 'video' && 'shared a video with you'}
-								{post.type === 'article' && 'shared an article with you'}
-							</span>
 						</div>
 					</span>
 				}
-				subheader={moment.parseZone(post.published_date).format('llll')}
+				subheader={
+					<div className="flex items-center text-14 font-600">
+						<Icon className="font-600 text-18">
+							public
+						</Icon>
+						<span className="ml-4 mr-16">
+							{post.is_public ? 'Public ' : 'Private '}
+						</span>
+						<span>
+							{moment.parseZone(post.published_date).format('MMMM DD') + ' at ' + moment.parseZone(post.published_date).format('h:mm a')}
+						</span>
+					</div>
+				}
 			/>
 			{isEditPost ? (
 				<CardContent className="p-0">
@@ -483,11 +501,11 @@ export default function PostListItem({
 			) : (
 				<CardContent className="p-0">
 					{post.text && (
-						<Typography component="p" className="p-24 text-18 px-24">
+						<Typography component="p" className="mb-16 px-16 text-lg">
 							{post.text}
 						</Typography>
 					)}
-					<div className="posted-images">
+					<div>
 						<PostedImages images={post.media_set} showClick media={media} />
 					</div>
 					{/* {post.media && <img src={post.media} alt="post" />} */}
@@ -497,76 +515,144 @@ export default function PostListItem({
 			{getRole() != 'w' && !isTask && (
 				<CardActions disableSpacing className="bg-custom-primary px-12 py-4 flex justify-center">
 					{/* <Button size="small" className="text-white text-13" aria-label="Add to favorites">
-					<Icon className="text-white text-14">favorite</Icon>
-					<Typography className="normal-case text-white text-13 mx-4">Like</Typography>
-					<Typography className="normal-case text-13">({post.like})</Typography>
-				</Button> */}
+						<Icon className="text-white text-14">favorite</Icon>
+						<Typography className="normal-case text-white text-13 mx-4">Like</Typography>
+						<Typography className="normal-case text-13">({post.like})</Typography>
+					</Button> */}
 					<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
 						<Icon className="text-white text-14">share</Icon>
-						<Typography className="normal-case text-white text-16 mx-4">{t('SHARE')}</Typography>
-						{!!post.share && <Typography className="normal-case text-16">({post.share})</Typography>}
+						<Typography className="normal-case text-white text-13 mx-4">{t('SHARE')}</Typography>
+						{!!post.share && (
+        					<>
+								<Typography className="normal-case text-13">({post.share})</Typography>
+							</>
+						)}
 					</Button>
 				</CardActions>
 			)}
 
+			{/*----------------- Show Comments and likes ---------------*/}
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
-				{showComments() && (
-					<div className="">
+				<div className="flex items-center mb-12 cursor-pointer justify-between">
+					<div className="flex">
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-48 w-48 mr-8">
+							{[...post.author.first_name][0]}{' '}
+						</Avatar>
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-48 w-48 mr-8">
+							{[...post.author.first_name][0]}{' '}
+						</Avatar>
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-48 w-48 mr-8">
+							{[...post.author.first_name][0]}{' '}
+						</Avatar>
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-48 w-48 mr-8">
+							{[...post.author.first_name][0]}{' '}
+						</Avatar>
+					</div>
+					{showComments() && (
 						<div
-							className="flex items-center mb-12 cursor-pointer"
+							className="flex items-start mb-12 cursor-pointer hover:underline"
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
 								setOpen(!open);
+								setCommentOpen(!commentOpen);
 							}}
 						>
-							<Typography className="text-13 font-600">
-								{commentsLength()} {t('COMMENTS')}
-							</Typography>
-							<Icon className="text-16 font-600 mx-4" color="action">
-								{open ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}
-							</Icon>
+							<span className="text-base font-600">
+								{ commentsLength() > 0 ? commentsLength() === 1 ? commentsLength() + ' comment' : commentsLength() + ' comments' : ''}
+							</span>
 						</div>
-						<Collapse in={open} timeout="auto" unmountOnExit>
-							<List className="pt-0">
-								{postComments.map((comment, index) => (
-									<CommentListItem
-										tempAuthor={tempAuthor}
-										key={index}
-										post={post}
-										comment={comment}
-										afterDeleteComment={() => deleteCommentByIndex(index)}
-										needToGetComments={getComments}
-									/>
-								))}
-								{Object.values(offlinePostComments).map((comment, index) => (
-									<CommentListItem
-										isOffline
-										tempAuthor={tempAuthor}
-										key={comment.unique_code}
-										callRetryCommentSuccess={callRetryCommentSuccess}
-										post={post}
-										comment={{ ...comment, author: tempAuthor }}
-									/>
-								))}
-							</List>
-						</Collapse>
-					</div>
+					)}
+				</div>
+
+				<div className="flex justify-around social-border">
+					<IconButton
+						aria-label="more"
+						aria-controls="long-menu"
+						aria-haspopup="true"
+						// onClick={handleClick}
+						edge={false}
+						size="small"
+						className="justify-center w-1/3 font-600 text-base p-8 my-4 posts-social-icon"
+					>
+						<Icon fontSize="medium" className="mr-4">
+							thumb_up_rounded
+						</Icon>
+						<span>Like</span>
+					</IconButton>
+					<IconButton
+						aria-label="more"
+						aria-controls="long-menu"
+						aria-haspopup="true"
+						onClick={() => {
+							setCommentOpen(true)
+						}}
+						edge={false}
+						size="small"
+						className="justify-center w-1/3 font-600 text-base p-8 my-4 posts-social-icon"
+					>
+						<Icon fontSize="medium" className="mr-4">
+							chat_bubble
+						</Icon>
+						<span>Comment</span>
+					</IconButton>
+					<IconButton
+						aria-label="more"
+						aria-controls="long-menu"
+						aria-haspopup="true"
+						onClick={() => {
+							setCommentOpen(true)
+						}}
+						edge={false}
+						size="small"
+						className="justify-center w-1/3 font-600 text-base p-8 my-4 posts-social-icon"
+					>
+						<Icon fontSize="medium" className="mr-4">
+							share
+						</Icon>
+						<span>Share</span>
+					</IconButton>
+				</div>
+
+				{showComments() && (		
+					<Collapse in={open} timeout="auto" unmountOnExit className="mt-10">
+						<List className="pt-0">
+							{postComments.map((comment, index) => (
+								<CommentListItem
+									tempAuthor={tempAuthor}
+									key={index}
+									post={post}
+									comment={comment}
+									afterDeleteComment={() => deleteCommentByIndex(index)}
+									needToGetComments={getComments}
+								/>
+							))}
+							{Object.values(offlinePostComments).map((comment, index) => (
+								<CommentListItem
+									isOffline
+									tempAuthor={tempAuthor}
+									key={comment.unique_code}
+									callRetryCommentSuccess={callRetryCommentSuccess}
+									post={post}
+									comment={{ ...comment, author: tempAuthor }}
+								/>
+							))}
+						</List>
+					</Collapse>
 				)}
 
-				{(!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
-					<div className="flex flex-auto">
+				{ (open || commentOpen) &&
+					(!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
+					<div className="flex flex-auto mt-10">
 						<Avatar className="mr-10" src="assets/images/avatars/profile.jpg" />
 						<div className="flex-1">
 							<Paper elevation={0} className="w-full relative post-icons">
 								<Input
-									className="p-8 w-full border-1"
+									className="pl-12 pr-80 py-8 w-full border-1 comment-area"
 									id={String(post.id)}
-									classes={{ root: 'text-13' }}
+									classes={{ root: 'text-base' }}
 									placeholder={t('ADD_COMMENT')}
 									multiline
-									rows="2"
-									margin="none"
 									disableUnderline
 									onChange={e => setText(e.target.value)}
 								/>
@@ -592,22 +678,8 @@ export default function PostListItem({
 								>
 									<Icon>send</Icon>
 								</IconButton>
-								{/* <Button
-								disabled={!text.length}
-								onClick={handlePostComment}
-								className="normal-case"
-								variant="contained"
-								color="primary"
-								size="small"
-							>
-								Post Comment
-							</Button> */}
 							</Paper>
 							{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
-							{/* <div className="card-footer flex items-center relative">
-							<div className="flex-1 items-center post-icons">
-							</div>
-						</div> */}
 						</div>
 					</div>
 				)}

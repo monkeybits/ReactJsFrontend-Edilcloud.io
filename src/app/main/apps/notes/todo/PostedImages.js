@@ -70,7 +70,7 @@ export default function PostedImages(props) {
 		setActiveStep(step);
 	};
 	return (
-		<div className={clsx(classes.root, 'd-block mx-auto o-contain')}>
+		<div className={clsx(classes.root, 'd-block mx-auto')}>
 			<AutoPlaySwipeableViews
 				axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
 				index={activeStep}
@@ -89,7 +89,7 @@ export default function PostedImages(props) {
 								{/* // props.images[activeStep]?.type == 'image' || true ? ( */}
 								{props.images[activeStep]?.type?.split('/')[0] == 'image' ? (
 									<img
-										className={classes.img}
+										className="object-cover h-288 w-full"
 										src={props.images[activeStep].media_url}
 										onClick={() => openImage(index)}
 									/>
