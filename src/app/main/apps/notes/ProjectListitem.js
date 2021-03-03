@@ -283,9 +283,7 @@ export default function ProjectListitem(props) {
 							</Tooltip>
 						))}
 					{/* <img src={d.photo ? d.photo : '/assets/images/avatars/profile.jpg'} /> */}
-					<a href="javascript:;" className="more-pic">
-						<MoreHorizIcon />
-					</a>
+					
 				</div>
 			</TabPanel>
 			<TabPanel value={value} index={1} className="tab_panel">
@@ -426,7 +424,9 @@ export default function ProjectListitem(props) {
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton> */}
-				<Button>
+				<Button
+				
+				className="MuiButtonBase-root text-white bg-green MuiButton-root MuiButton-contained mr-8 MuiButton-containedSizeSmall MuiButton-sizeSmall">
 					<DownloadPdf
 						className="MuiButtonBase-root MuiButton-root "
 						label={t('DOWNLOAD_REPORT')}
@@ -434,18 +434,7 @@ export default function ProjectListitem(props) {
 						pid={id}
 					/>
 				</Button>
-				<IconButton
-					className={clsx(classes.expand, 'py-0', {
-						[classes.expandOpen]: expanded
-					})}
-					// onClick={handleExpandClick}
-					aria-expanded={expanded}
-					aria-label="show more"
-				>
-					<Switch disabled={getRole() == 'w' || getRole() == 'm'} name="checkedA" inputProps={{ 'aria-label': 'secondary checkbox' }} />
-					<NotificationsNoneOutlinedIcon />
-					{/* {activeNotification ? <NotificationsIcon color="secondary" /> : <NotificationsNoneOutlinedIcon />} */}
-				</IconButton>
+			
 			</CardActions>
 		</Card>
 	);

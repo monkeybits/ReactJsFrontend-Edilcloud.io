@@ -87,8 +87,9 @@ class FacebookLoginComponent extends React.Component {
 					appId="1093743794410189"
 					// autoLoad={true}
 					fields="name,email,picture"
-					scope="public_profile,user_friends,user_actions.books"
+					scope="public_profile"
 					callback={this.responseFacebook}
+					disableMobileRedirect={true}
 					onFailure={err => console.log(err)}
 					icon={<img src="/assets/images/social-icons/facebook.png" className="h-20" alt="Facebook" />}
 					textButton="Facebook"

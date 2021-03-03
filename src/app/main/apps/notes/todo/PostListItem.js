@@ -371,7 +371,8 @@ export default function PostListItem({
 								}
 							</>
 						)}
-						<IconButton
+						<Button
+							variant="outlined"
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
@@ -380,11 +381,13 @@ export default function PostListItem({
 							className="text-default p-8"
 						>
 							{post.alert ? (
-								<Icon style={{ color: red[500] }}>new_releases</Icon>
+								<Icon className="mr-10" style={{ color: red[500] }}>new_releases</Icon> 
 							) : (
-								<Icon>new_releases</Icon>
+								<Icon className="mr-10">new_releases</Icon>
+							
 							)}
-						</IconButton>
+						allerta
+						</Button>
 						{tempAuthor.id == post.author.id && (
 							<div className="inline">
 								<TippyMenu

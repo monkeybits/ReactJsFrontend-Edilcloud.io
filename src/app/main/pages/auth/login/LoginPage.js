@@ -99,7 +99,7 @@ function LoginPage() {
 					'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
 				)}
 			>
-				<img className="w-200 " src="assets/images/logos/fuse.svg" />
+				<img className="w-200 " src="assets/images/logos/fuse.svg"/>
 				<div className="flex flex-col items-center justify-center w-full max-w-425">
 					<FuseAnimate animation="transition.expandIn">
 						<Card className="w-full">
@@ -154,6 +154,7 @@ function LoginPage() {
 								</div>
 
 								<JWTLoginTab />
+								
 
 								<div className="flex items-center justify-center w-full pt-28">
 									<span className="text-custom font-600 mr-6"> {t('DONT_HAVE_AN_ACCOUNT_ASK')}</span>

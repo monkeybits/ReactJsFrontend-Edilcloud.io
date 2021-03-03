@@ -81,11 +81,7 @@ function FuseNavVerticalItem(props) {
 			component={item.isOutsideLink ? 'a' : NavLinkAdapter}
 			href={
 				item.isOutsideLink
-					? `${
-							process.env.NODE_ENV !== 'production'
-								? process.env.REACT_APP_BASE_URL_LOCAL
-								: process.env.REACT_APP_BASE_URL
-					  }/api/frontend/payments/customer-portal?customer_id=${company?.customer}`
+					? `https://back-test.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`
 					: 'javascript:;'
 			}
 			// target="_blank"

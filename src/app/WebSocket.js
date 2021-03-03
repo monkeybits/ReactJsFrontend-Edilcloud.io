@@ -8,8 +8,6 @@ import * as companyChatActions from './main/apps/chat/store/actions';
 import * as chatPanelActions from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
 import * as ProjectChatActions from './main/apps/notes/chat/store/actions';
 import { decodeDataFromToken } from './services/serviceUtils';
-import LetterAvatars from './main/documentation/material-ui-components/components/avatars/LetterAvatars';
-import { toast } from 'react-toastify';
 // import * as chatPanelActions from '../';src/app/fuse-layouts/shared-components/chatPanel/store/actions/chat.actions.js
 // import moduleName from '../../../'
 
