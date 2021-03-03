@@ -331,7 +331,7 @@ function CreatePostForm({ isTask, taskId }) {
 			<div className="flex flex-col flex-1 ml-8">
 				{getRole() != 'w' && ( // when You have permission to upload post
 					<div>
-						<Card className="w-full overflow-hidden post-form mb-20 post-card-clx">
+						<Card className="w-full overflow-hidden mb-20 post-card-clx">
 							<Input
 								id="addPost"
 								className="p-16 w-full write-post"

@@ -1,22 +1,24 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import {
+	AppBar,
+	Avatar,
+	Button,
+	Card,
+	CardActions,
+	CardContent,
+	CardHeader,
+	Divider,
+	Icon,
+	IconButton,
+	Input,
+	List,
+	ListItem,
+	ListItemText,
+	ListItemIcon,
+	Paper,
+	Toolbar,
+	Typography
+} from '@material-ui/core';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -47,6 +49,7 @@ import Menu from '@material-ui/core/Menu';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
+import TippyMenu from 'app/TippyMenu';
 const uuidv1 = require('uuid/v1');
 
 export default function CommentListItem({
@@ -105,6 +108,7 @@ export default function CommentListItem({
 	}, [comment.replies_set]);
 	const options = [
 		{
+			icon: 'edit',
 			name: 'EDIT',
 			handler: () => {
 				setEditText(comment.text);
@@ -113,6 +117,7 @@ export default function CommentListItem({
 			}
 		},
 		{
+			icon: 'delete',
 			name: 'DELETE',
 			handler: e => {
 				handleDeleteComment();
@@ -322,15 +327,16 @@ export default function CommentListItem({
 	const userInfo = decodeDataFromToken();
 	const getUserId = () => userInfo?.extra?.profile.id;
 	const getRole = () => userInfo?.extra?.profile.role;
+
 	return (
 		<div
 			key={comment.id}
 			ref={notificationPanel.notificationData?.notification?.object_id == comment.id ? scrollRef : null}
 		>
 			<ListItem className="px-0 items-start">
-				{/* <Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12">
+				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12 h-48 w-48">
 					{comment.author.first_name}
-				</Avatar> */}
+				</Avatar>
 				{isEditing ? (
 					<div className="flex-1 mx-4">
 						<Paper elevation={0} className="w-full relative post-icons">
@@ -353,49 +359,47 @@ export default function CommentListItem({
 							className="p-10 py-8 m-0 comment-p bg-post-section bg-white rounded w-full"
 							primary={
 								<div className="flex comment-section">
-									<Typography color="initial" paragraph={false}>
+									<span className="text-15 font-700">
 										{`${comment.author.first_name} ${comment.author.last_name}`}
-									</Typography>
+									</span>
 								</div>
 							}
-							secondary={comment.text}
+							secondary={
+								<div>
+									<p className="text-base text-black">{comment.text}</p>
+								</div>
+							}
 						/>
 						<div className="posted-images comment-post-img">
 							{/* <PostedImages images={comment.media_set} hideNavigation /> */}
 						</div>
 						{tempAuthor.id == comment.author.id && (
 							<div className="actions-dropdown resize-action-btn absolute top-0 right-0">
-								<IconButton
-									aria-label="more"
-									aria-controls="long-menu"
-									aria-haspopup="true"
-									onClick={handleClick}
-									className="p-10"
-								>
-									<MoreVertIcon />
-								</IconButton>
-								<Menu
-									id="long-menu"
-									anchorEl={anchorEl}
-									keepMounted
-									open={openMenu}
-									onClose={handleClose}
-									className="actions-dropdown"
-									PaperProps={{
-										style: {
-											width: '20ch'
-										}
-									}}
+								<TippyMenu
+									icon={
+										<>
+											<IconButton
+												aria-label="more"
+												aria-controls="long-menu"
+												aria-haspopup="true"
+												onClick={handleClick}
+												className="p-10"
+											>
+												<MoreVertIcon />
+											</IconButton>
+										</>
+									}
+									outsideClick
 								>
 									{options.map(option => (
 										<MenuItem key={option.name} onClick={option.handler}>
 											<ListItemIcon>
-												<PriorityHighIcon fontSize="small" />
+												<Icon>{option.icon}</Icon>
 											</ListItemIcon>
 											<Typography variant="inherit"> {t(option.name)}</Typography>
 										</MenuItem>
 									))}
-								</Menu>
+								</TippyMenu>
 							</div>
 						)}
 					</div>
@@ -430,7 +434,7 @@ export default function CommentListItem({
 				</div>
 			)} */}
 			{!isOffline && isEditing && getRole() != 'w' ? (
-				<div className="flex flex-wrap items-center ml-52">
+				<div className="flex flex-wrap items-center ml-60">
 					<Button className="mx-2" variant="contained" onClick={() => setIsEditing(false)} size="small">
 						<Typography className="normal-case mx-4">{t('CANCEL')}</Typography>
 					</Button>
@@ -446,7 +450,7 @@ export default function CommentListItem({
 					</Button>
 				</div>
 			) : (
-				<div className="flex flex-wrap items-center ml-44">
+				<div className="flex flex-wrap items-center ml-60">
 					{/* <Button size="small" aria-label="Add to favorites">
 						<Icon className="text-13" color="action">
 							favorite
@@ -505,7 +509,7 @@ export default function CommentListItem({
 
 					<div
 						className={`flex items-center ml-auto cursor-pointer ${
-							!!repliesLength() ? ' underline text-blue-500' : ''
+							!!repliesLength() ? ' text-blue-500' : ''
 						}`}
 						onClick={ev => {
 							ev.preventDefault();
@@ -513,7 +517,7 @@ export default function CommentListItem({
 							setOpen(!open);
 						}}
 					>
-						<Typography className="font-600 text-13">
+						<Typography className="underline font-600 text-13">
 							{repliesLength()} {t('REPLIES')}
 						</Typography>
 						<Icon className="font-600 text-16 ml-2" color="action">
@@ -524,7 +528,7 @@ export default function CommentListItem({
 			)}
 			{showReplies() && (
 				<Collapse in={open} timeout="auto" unmountOnExit>
-					<div className="ml-52">
+					<div className="ml-60">
 						<List className="clearfix">
 							{replyComments.map((reply, index) => (
 								<ReplyListItem
@@ -583,17 +587,15 @@ export default function CommentListItem({
 				</Collapse>
 			)}
 			{isReplying && (
-				<div className="flex-1 ml-52 my-6">
+				<div className="flex-1 ml-60 my-6">
 					<Paper elevation={0} className="w-full relative post-icons">
 						<Input
-							className="p-8 w-full border-1"
+							className="pl-12 pr-80 py-8 w-full border-1 comment-area"
 							id={String(comment.id)}
-							classes={{ root: 'text-13' }}
+							classes={{ root: 'text-base' }}
 							placeholder={t('ADD_COMMENT')}
 							value={text}
 							multiline
-							rows="2"
-							margin="none"
 							disableUnderline
 							onChange={e => setText(e.target.value)}
 						/>

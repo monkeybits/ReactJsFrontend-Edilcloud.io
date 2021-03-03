@@ -549,7 +549,7 @@ textarea.MuiOutlinedInput-input {
     height: auto;
 }
 .post-form .custom-textarea, .post-form .w-full {
-    border-radius: 8px;
+    /* border-radius: 8px; */
 }
 .post-form .custom-textarea textarea, .post-form .w-full textarea {
     padding-right: 80px;
@@ -586,8 +586,8 @@ textarea.MuiOutlinedInput-input {
     right: 20px;
 }
 .post-card-clx .MuiCardHeader-content .MuiCardHeader-subheader {
-    font-size: 1.3rem;
-    font-weight: 700;
+    font-size: 1.4rem;
+    /* font-weight: 700; */
     margin-top: 2px;
 }
 /* .konvajs-content {
@@ -648,15 +648,25 @@ textarea.MuiOutlinedInput-input {
     width: 100%;
 }
 .write-post-img-full .d-block.mx-auto img  {
-    height: 100%;
+    /* height: 100%;
     width: 100%;
-    max-width: 100%;
+    max-width: 100%; */
 }
 .custom-fileinput input {
     overflow: hidden;
 }
 .custom-fuse-page-right-sidebar {
     overflow-y: auto;
+}
+.social-border {
+    border-top: 1px solid #ced0d4;
+    border-bottom: 1px solid #ced0d4;
+}
+.posts-social-icon {
+    border-radius: 6%;
+}
+.comment-area textarea {
+    padding: 6px 0;
 }
 /* ********************************************************************************************
     Konva JS

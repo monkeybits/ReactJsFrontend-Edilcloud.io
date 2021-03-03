@@ -64,7 +64,7 @@ export default function ImagesPreview(props) {
 		img.src = url;
 	};
 	return (
-		<div className={clsx(classes.root, 'd-block mx-auto o-contain')}>
+		<div className={clsx(classes.root, 'd-block mx-auto')}>
 			<DrawImage
 				imgSrc={props.images[activeStep].imgPath}
 				open={openDrawer}
@@ -74,8 +74,23 @@ export default function ImagesPreview(props) {
 			{/* <Paper square elevation={0} className={classes.header}>
 				<Typography>{tutorialSteps[activeStep].label}</Typography>
 			</Paper> */}
+			{!props.hideModify && (
+				<div className="flex justify-end items-end">
+					<Button
+						size="small"
+						variant="contained"
+						color="primary"
+						className="mb-16 mr-12"
+						onClick={() => {
+							getMeta(props.images[activeStep].imgPath);
+						}}
+					>
+						Modify
+					</Button>
+				</div>
+			)}
 			{props.images[activeStep].fileType == 'image' ? (
-				<img className={classes.img} src={props.images[activeStep].imgPath} />
+				<img className="object-cover h-288 w-full" src={props.images[activeStep].imgPath} />
 			) : props.images[activeStep].fileType == 'video' ? (
 				<VideoListItem width="100%" height="100%" video_url={props.images[activeStep].imgPath} />
 			) : (
@@ -88,31 +103,28 @@ export default function ImagesPreview(props) {
 				activeStep={activeStep}
 				className="my-10"
 				nextButton={
-					<Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-						Next
-						{theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-					</Button>
+					<div>
+						{
+							activeStep !== (maxSteps - 1) &&
+							<Button size="small" onClick={handleNext}>
+								Next
+								{theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+							</Button>
+						}
+					</div>
 				}
 				backButton={
-					<Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-						{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-						Back
-					</Button>
+					<div>
+						{
+							activeStep !== 0 &&
+							<Button size="small" onClick={handleBack}>
+								{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+								Back
+							</Button>
+						}
+					</div>
 				}
 			/>
-			{!props.hideModify && (
-				<Button
-					size="small"
-					variant="contained"
-					color="primary"
-					className="mb-16 block mx-auto"
-					onClick={() => {
-						getMeta(props.images[activeStep].imgPath);
-					}}
-				>
-					Modify
-				</Button>
-			)}
 		</div>
 	);
 }

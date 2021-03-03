@@ -38,8 +38,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SendIcon from '@material-ui/icons/Send';
 import Menu from '@material-ui/core/Menu';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import TippyMenu from 'app/TippyMenu';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
+
 export default function ReplyListItem({
 	post,
 	comment,
@@ -60,6 +62,7 @@ export default function ReplyListItem({
 	const [isEditing, setIsEditing] = useState(false);
 	const options = [
 		{
+			icon: 'edit',
 			name: 'EDIT',
 			handler: () => {
 				setEditText(comment.text);
@@ -68,6 +71,7 @@ export default function ReplyListItem({
 			}
 		},
 		{
+			icon: 'delete',
 			name: 'DELETE',
 			handler: e => {
 				handleDeleteComment();
@@ -171,6 +175,9 @@ export default function ReplyListItem({
 	const userInfo = decodeDataFromToken();
 	const getUserId = () => userInfo?.extra?.profile.id;
 	const getRole = () => userInfo?.extra?.profile.role;
+	
+	console.log('comment>>>>>>>>>>>>>>>>>>>>>>>>>>>', comment)
+
 	return (
 		<div
 			key={comment.id}
@@ -184,8 +191,8 @@ export default function ReplyListItem({
 					<div className="flex-1 w-full">
 						<Paper elevation={0} className="w-full relative post-icons">
 							<Input
-								className="p-8 w-full border-1"
-								classes={{ root: 'text-13' }}
+								className="pl-12 pr-80 py-8 w-full border-1 comment-area"
+								classes={{ root: 'text-base' }}
 								placeholder={t('ADD_COMMENT')}
 								value={editText}
 								multiline
@@ -202,39 +209,37 @@ export default function ReplyListItem({
 							className="p-10 py-8 m-0 comment-p bg-post-section bg-white rounded w-full"
 							primary={
 								<div className="flex comment-section">
-									<Typography color="initial" paragraph={false}>
+									<span className="text-15 font-700">
 										{`${comment.author.first_name} ${comment.author.last_name}`}
-									</Typography>
+									</span>
 								</div>
 							}
-							secondary={comment.text}
+							secondary={
+								<div>
+									<p className="text-base text-black">{comment.text}</p>
+								</div>
+							}
 						/>
 						<div className="posted-images comment-post-img">
 							<PostedImages images={comment.media_set} hideNavigation />
 						</div>
 						{tempAuthor.id == comment.author.id && (
 							<div className="actions-dropdown resize-action-btn absolute top-0 right-0 mt-8">
-								<IconButton
-									aria-label="more"
-									aria-controls="long-menu"
-									aria-haspopup="true"
-									onClick={handleClick}
-									className="p-10"
-								>
-									<MoreVertIcon />
-								</IconButton>
-								<Menu
-									id="long-menu"
-									anchorEl={anchorEl}
-									keepMounted
-									open={openMenu}
-									onClose={handleClose}
-									className="actions-dropdown"
-									PaperProps={{
-										style: {
-											width: '20ch'
-										}
-									}}
+								<TippyMenu
+									icon={
+										<>
+											<IconButton
+												aria-label="more"
+												aria-controls="long-menu"
+												aria-haspopup="true"
+												onClick={handleClick}
+												className="p-10"
+											>
+												<MoreVertIcon />
+											</IconButton>
+										</>
+									}
+									outsideClick
 								>
 									{options.map(option => (
 										<MenuItem
@@ -243,12 +248,12 @@ export default function ReplyListItem({
 											onClick={option.handler}
 										>
 											<ListItemIcon>
-												<PriorityHighIcon fontSize="small" />
+												<Icon>{option.icon}</Icon>
 											</ListItemIcon>
 											<Typography variant="inherit"> {t(option.name)}</Typography>
 										</MenuItem>
 									))}
-								</Menu>
+								</TippyMenu>
 							</div>
 						)}
 					</div>
