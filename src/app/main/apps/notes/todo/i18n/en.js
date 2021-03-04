@@ -50,6 +50,7 @@ const locale = {
 	CANCEL: 'Cancel',
 	POST: 'Post',
 	SHARE: 'Share',
+	ALERT: 'Alert',
 	COMMENTS: 'Comments',
 	RETRY: 'Retry',
 	REPLY: 'Reply',

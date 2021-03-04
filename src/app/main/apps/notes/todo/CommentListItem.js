@@ -54,6 +54,8 @@ const uuidv1 = require('uuid/v1');
 
 export default function CommentListItem({
 	post,
+	setCommentOpen,
+	commentBoxOpen,
 	comment,
 	isOffline,
 	callRetryCommentSuccess,
@@ -65,6 +67,7 @@ export default function CommentListItem({
 	const { t } = useTranslation(nameSpace);
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
+	const replyRefs = useRef(null);
 	const [open, setOpen] = React.useState(false);
 	const [images, setImages] = useState(null);
 	const [text, setText] = useState('');
@@ -460,12 +463,17 @@ export default function CommentListItem({
 					<Button
 						disabled={getRole() == 'w'}
 						onClick={() => {
+							setCommentOpen(!commentBoxOpen)
 							if (getRole() != 'w') {
 								setIsReplying(prev => !prev);
 								setText('@' + `${comment.author.first_name} ${comment.author.last_name}`);
 								setTimeout(() => {
 									if (!isReplying) {
-										document.getElementById(String(comment.id)).focus();
+										let character = '@' + `${comment.author.first_name} ${comment.author.last_name}`
+										let element = document.getElementById(String(comment.id));
+										element.selectionStart = character.length
+										element.selectionEnd = character.length
+										element.focus();
 									}
 								}, 100);
 							}
@@ -515,6 +523,7 @@ export default function CommentListItem({
 							ev.preventDefault();
 							ev.stopPropagation();
 							setOpen(!open);
+							setCommentOpen(false)
 						}}
 					>
 						<Typography className="underline font-600 text-13">
@@ -546,9 +555,13 @@ export default function CommentListItem({
 											setText('');
 										} else {
 											setIsReplying(true);
+											setCommentOpen(false)
 											setText('@' + `${reply.author.first_name} ${reply.author.last_name}`);
 											setTimeout(() => {
+												let character = '@' + `${reply.author.first_name} ${reply.author.last_name}`
 												let element = document.getElementById(String(comment.id));
+												element.selectionStart = character.length
+												element.selectionEnd = character.length
 												element.focus();
 											}, 100);
 										}
@@ -573,9 +586,13 @@ export default function CommentListItem({
 											setText('');
 										} else {
 											setIsReplying(true);
+											setCommentOpen(false)
 											setText('@' + `${reply.author.first_name} ${reply.author.last_name}`);
 											setTimeout(() => {
+												let character = '@' + `${reply.author.first_name} ${reply.author.last_name}`
 												let element = document.getElementById(String(comment.id));
+												element.selectionStart = character.length
+												element.selectionEnd = character.length
 												element.focus();
 											}, 100);
 										}
@@ -590,6 +607,7 @@ export default function CommentListItem({
 				<div className="flex-1 ml-60 my-6">
 					<Paper elevation={0} className="w-full relative post-icons">
 						<Input
+							ref={replyRefs}
 							className="pl-12 pr-80 py-8 w-full border-1 comment-area"
 							id={String(comment.id)}
 							classes={{ root: 'text-base' }}

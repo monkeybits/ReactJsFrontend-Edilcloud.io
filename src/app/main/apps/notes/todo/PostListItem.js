@@ -13,7 +13,6 @@ import {
 	List,
 	Paper,
 	Input,
-
 } from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -65,6 +64,7 @@ export default function PostListItem({
 	const [images, setImages] = useState(null);
 	const [open, setOpen] = React.useState(false);
 	const [commentOpen, setCommentOpen] = React.useState(false);
+	const [commentBoxOpen, setCommentBoxOpen] = React.useState(true);
 	const [post, setPost] = React.useState({});
 	const [postComments, setPostComments] = useState([]);
 	const todoDialog = useSelector(state =>
@@ -74,6 +74,8 @@ export default function PostListItem({
 	const [isRetryingPost, setIsRetryingPost] = useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [isEditPost, setIsEditPost] = useState(false);
+	const [loadMorePostIds, setLoadMorePostIds] = useState([]);
+	const [loadMorePost, setLoadMorePost] = useState(false);
 	const options = [
 		{
 			icon: 'edit',
@@ -325,6 +327,16 @@ export default function PostListItem({
 	if (!Object.entries(post).length) {
 		return null;
 	}
+
+	const loadMorePostFunc = (id) => {
+		const newLoadMorePostIds = [
+			...loadMorePostIds,
+			id
+		]
+		setLoadMorePost(true)
+		setLoadMorePostIds(newLoadMorePostIds)
+		console.log('newLoadMorePostIds>>>>>>>>>>>>>>>', newLoadMorePostIds)
+	}
 	
 	console.log('post>>>>>>>>>>>>>>>>>>', post)
 	return (
@@ -371,7 +383,7 @@ export default function PostListItem({
 								}
 							</>
 						)}
-						<IconButton
+						{/* <IconButton
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
@@ -384,7 +396,7 @@ export default function PostListItem({
 							) : (
 								<Icon>new_releases</Icon>
 							)}
-						</IconButton>
+						</IconButton> */}
 						{tempAuthor.id == post.author.id && (
 							<div className="inline">
 								<TippyMenu
@@ -402,6 +414,24 @@ export default function PostListItem({
 									}
 									outsideClick
 								>
+									<MenuItem
+										key={t('ALERT')}
+										// selected={option.name === 'Pyxis'}
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											handleAlertPost();
+										}}
+									>
+										<ListItemIcon>
+											{post.alert ? (
+												<Icon style={{ color: red[500] }}>new_releases</Icon>
+											) : (
+												<Icon>new_releases</Icon>
+											)}
+										</ListItemIcon>
+										<Typography variant="inherit">{t('ALERT')}</Typography>
+									</MenuItem>
 									{options.map(option => (
 										<MenuItem
 											key={option.name}
@@ -425,7 +455,7 @@ export default function PostListItem({
 				title={
 					<span>
 						<div className="flex">
-							<Typography className="font-700 capitalize text-lg" color="primary" paragraph={false}>
+							<Typography className="font-700 capitalize sm:text-14 lg:text-lg" color="primary" paragraph={false}>
 								{post.author.first_name} {post.author.last_name}
 							</Typography>
 							{
@@ -440,12 +470,12 @@ export default function PostListItem({
 							{
 								post.type === 'article' && <span>shared an article with you</span>
 							}
-							<span className="text-lg pl-6 font-600">Added a new video to</span>
-							<Typography className="font-700 capitalize text-lg pl-6" color="primary" paragraph={false}>
+							<span className="sm:text-14 lg:text-lg pl-6 font-600">Added a new video to</span>
+							<Typography className="font-700 capitalize sm:text-14 lg:text-lg pl-6" color="primary" paragraph={false}>
 								{post.task.name}
 							</Typography>
 						</div>
-						<div className="text-base font-600">{post.author.role} - {post.author.company.name}</div>
+						<div className="sm:text-15 lg:text-base font-600">{post.author.role} - {post.author.company.name}</div>
 						<div className="">
 							{showPrject && (
 								<>
@@ -532,22 +562,22 @@ export default function PostListItem({
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
 				<div className="flex items-center mb-12 cursor-pointer justify-between">
 					<div className="flex">
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-48 w-48 mr-8">
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
 							{[...post.author.first_name][0]}{' '}
 						</Avatar>
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-48 w-48 mr-8">
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
 							{[...post.author.first_name][0]}{' '}
 						</Avatar>
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-48 w-48 mr-8">
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
 							{[...post.author.first_name][0]}{' '}
 						</Avatar>
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-48 w-48 mr-8">
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
 							{[...post.author.first_name][0]}{' '}
 						</Avatar>
 					</div>
 					{showComments() && (
 						<div
-							className="flex items-start mb-12 cursor-pointer hover:underline"
+							className="flex items-start mb-12 cursor-pointer"
 							onClick={ev => {
 								ev.preventDefault();
 								ev.stopPropagation();
@@ -555,14 +585,17 @@ export default function PostListItem({
 								setCommentOpen(!commentOpen);
 							}}
 						>
-							<span className="text-base font-600">
+							<Icon fontSize="medium" className="mr-4">
+								comment
+							</Icon>
+							<span className="text-base font-600 hover:underline">
 								{ commentsLength() > 0 ? commentsLength() === 1 ? commentsLength() + ' comment' : commentsLength() + ' comments' : ''}
 							</span>
 						</div>
 					)}
 				</div>
 
-				<div className="flex justify-around social-border">
+				<div className="flex justify-around social-border my-8">
 					<IconButton
 						aria-label="more"
 						aria-controls="long-menu"
@@ -570,12 +603,28 @@ export default function PostListItem({
 						// onClick={handleClick}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 font-600 text-base p-8 my-4 posts-social-icon"
+						className="justify-center w-1/3 font-600 text-14 lg:text-base p-8 my-4 posts-social-icon"
 					>
 						<Icon fontSize="medium" className="mr-4">
-							thumb_up_rounded
+							report_problem
 						</Icon>
-						<span>Like</span>
+						<span>{t('REPORT_PROBLEM')}</span>
+					</IconButton>
+					<IconButton
+						aria-label="more"
+						aria-controls="long-menu"
+						aria-haspopup="true"
+						// onClick={() => {
+						// 	setCommentOpen(true)
+						// }}
+						edge={false}
+						size="small"
+						className="justify-center w-1/3 font-600 text-14 lg:text-base p-8 my-4 posts-social-icon"
+					>
+						<Icon fontSize="medium" className="mr-4">
+							notifications_active
+						</Icon>
+						<span>{t('SEND_NOTIFICATION')}</span>
 					</IconButton>
 					<IconButton
 						aria-label="more"
@@ -586,44 +635,49 @@ export default function PostListItem({
 						}}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 font-600 text-base p-8 my-4 posts-social-icon"
+						className="justify-center w-1/3 font-600 text-14 lg:text-base p-8 my-4 posts-social-icon"
 					>
 						<Icon fontSize="medium" className="mr-4">
-							chat_bubble
+							visibility
 						</Icon>
-						<span>Comment</span>
-					</IconButton>
-					<IconButton
-						aria-label="more"
-						aria-controls="long-menu"
-						aria-haspopup="true"
-						onClick={() => {
-							setCommentOpen(true)
-						}}
-						edge={false}
-						size="small"
-						className="justify-center w-1/3 font-600 text-base p-8 my-4 posts-social-icon"
-					>
-						<Icon fontSize="medium" className="mr-4">
-							share
-						</Icon>
-						<span>Share</span>
+						<span>{t('STATUS_PUBLIC')}</span>
 					</IconButton>
 				</div>
 
 				{showComments() && (		
 					<Collapse in={open} timeout="auto" unmountOnExit className="mt-10">
 						<List className="pt-0">
-							{postComments.map((comment, index) => (
-								<CommentListItem
-									tempAuthor={tempAuthor}
-									key={index}
-									post={post}
-									comment={comment}
-									afterDeleteComment={() => deleteCommentByIndex(index)}
-									needToGetComments={getComments}
-								/>
-							))}
+							{
+								postComments.map((comment, index) => {
+									if(loadMorePostIds.includes(post.id) && loadMorePost) {
+										{/* if(index <=2 ) { */}
+											return <CommentListItem
+												tempAuthor={tempAuthor}
+												key={index}
+												post={post}
+												setCommentOpen={setCommentBoxOpen}
+												commentBoxOpen={commentBoxOpen}
+												comment={comment}
+												afterDeleteComment={() => deleteCommentByIndex(index)}
+												needToGetComments={getComments}
+											/>
+										{/* } */}
+									} else {
+										if(index <=2 ) {
+											return <CommentListItem
+												tempAuthor={tempAuthor}
+												key={index}
+												post={post}
+												setCommentOpen={setCommentBoxOpen}
+												commentBoxOpen={commentBoxOpen}
+												comment={comment}
+												afterDeleteComment={() => deleteCommentByIndex(index)}
+												needToGetComments={getComments}
+											/>
+										}
+									}
+								})
+							}
 							{Object.values(offlinePostComments).map((comment, index) => (
 								<CommentListItem
 									isOffline
@@ -631,14 +685,29 @@ export default function PostListItem({
 									key={comment.unique_code}
 									callRetryCommentSuccess={callRetryCommentSuccess}
 									post={post}
+									setCommentOpen={setCommentBoxOpen}
+									commentBoxOpen={commentBoxOpen}
 									comment={{ ...comment, author: tempAuthor }}
 								/>
 							))}
 						</List>
+						{
+							(!loadMorePostIds.includes(post.id) &&
+							postComments.length > 3) &&
+								<IconButton
+									className="text-16 my-8 posts-social-icon"
+									onClick={() => {
+										loadMorePostFunc(post.id)
+									}}
+									// aria-label="Add photo"
+								>
+									<span className="font-700 mr-4">{postComments.length - 3}</span><span className="text-gray-500">Load more</span>
+								</IconButton>
+						}
 					</Collapse>
 				)}
 
-				{ (open || commentOpen) &&
+				{ (open && commentBoxOpen) &&
 					(!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
 					<div className="flex flex-auto mt-10">
 						<Avatar className="mr-10" src="assets/images/avatars/profile.jpg" />

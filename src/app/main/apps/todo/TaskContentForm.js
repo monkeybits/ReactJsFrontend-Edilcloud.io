@@ -534,7 +534,7 @@ function TaskContentForm(props) {
 												<span className="flex items-center">
 													<Icon
 														className="list-item-icon mx-6 text-20"
-														style={{ color: company.profile !== undefined ? company.profile?.company?.color_project : '' }}
+														style={{ color: company !== undefined ? company.profile?.company?.color_project : '' }}
 														color="action"
 													>
 														label

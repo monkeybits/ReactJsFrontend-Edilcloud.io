@@ -411,7 +411,7 @@ function TodoListItem(props) {
 
 					<div className="flex items-center flex-wrap items-center justify-center my-12">
 						{props.todo.progress == 100 ? (
-							<div className={clsx('flex items-center px-8 py-4 mx-4 rounded bg-green text-white')}>
+							<div className={clsx('flex items-center px-8 py-4 mx-4 rounded bg-green-500 text-white')}>
 								<Icon className="text-16 mt-4">check_circle</Icon>{' '}
 								<span className="mx-4">Completed</span>
 							</div>
@@ -439,7 +439,7 @@ function TodoListItem(props) {
 								<>
 									<div
 										className={clsx(
-											'flex items-center px-8 py-4 bg-green rounded text-white font-size-12'
+											'flex items-center px-8 py-4 bg-green-500 rounded text-white font-size-12'
 										)}
 									>
 										{/* <Icon className="text-16">access_time</Icon> */}
