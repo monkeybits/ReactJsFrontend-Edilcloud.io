@@ -178,6 +178,8 @@ export default function ReplyListItem({
 	
 	console.log('comment>>>>>>>>>>>>>>>>>>>>>>>>>>>', comment)
 
+	const index = comment.text.indexOf( ' ', comment.text.indexOf( ' ' ) + 1 );
+	var replyAuthor = comment.text.substring(0, index);
 	return (
 		<div
 			key={comment.id}
@@ -215,8 +217,8 @@ export default function ReplyListItem({
 								</div>
 							}
 							secondary={
-								<div>
-									<p className="text-base text-black">{comment.text}</p>
+								<div className="text-base text-black">
+									<span className="font-700 mr-2">{replyAuthor}</span><span>{comment.text.replace(replyAuthor, '')}</span>
 								</div>
 							}
 						/>
