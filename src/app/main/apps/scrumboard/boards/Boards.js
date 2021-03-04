@@ -309,7 +309,7 @@ function Boards(props) {
 											{board.name}{' '}
 										</Typography>
 										<span className={`trial intrial text-center mt-4 mx-2`}>
-											{board.trial_used ? 'Plan' : 'in Trial'}
+											{board.subscription.status}
 										</span>
 									</Link>
 								</div>

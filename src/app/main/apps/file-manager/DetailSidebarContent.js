@@ -108,6 +108,7 @@ function DetailSidebarContent({ setProgress }) {
 	}
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
 	const checkData = data => (data ? data : '-');
+
 	const onDownload = () => {
 		if (selectedItem) {
 			setProgress(0);

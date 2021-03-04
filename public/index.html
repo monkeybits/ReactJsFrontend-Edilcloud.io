@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html style="zoom:82%">
 	<head>
-		<meta charset="utf-8" />
+		<meta charset="utf-8"/>
 		<meta name="description" content="Edilcloud.io - Coordina i cantieri edili in cloud" />
 		<meta name="keywords" content="" />
 		<meta name="robots" content="noindex,nofollow" />
@@ -20,8 +20,22 @@
 		<link href="%PUBLIC_URL%/assets/fonts/material-outline-icons/styles.css" rel="stylesheet" />
 		<link href="%PUBLIC_URL%/assets/fonts/meteocons/style.css" rel="stylesheet" />
 
-		<noscript id="jss-insertion-point"></noscript>
-		<!--
+        <noscript id="jss-insertion-point"></noscript>
+
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script>
+			window.OneSignal = window.OneSignal || [];
+			OneSignal.push(function() {
+				OneSignal.init({
+					appId: "0fbdf0cf-d9f5-4363-809f-4735b1bba268",
+                    autoRegister: false,
+                    notifyButton: {
+                        enable: true,
+                    },
+				});
+			});
+        </script>
+        <!--
           Notice the use of %PUBLIC_URL% in the tags above.
           It will be replaced with the URL of the `public` folder during the build.
           Only files inside the `public` folder can be referenced from the HTML.
@@ -198,7 +212,7 @@
 		</style>
 		<!-- / FUSE Splash Screen CSS -->
 	</head>
-	<body style="zoom: 80%;">
+	<body>
 		<noscript>
 			You need to enable JavaScript to run this app.
 		</noscript>

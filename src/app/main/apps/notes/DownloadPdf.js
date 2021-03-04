@@ -62,7 +62,7 @@ const DownloadPdf = ({ id, label, pid }) => {
   */}
 			<div id="myMm" style={{ height: '1mm' }} />
 
-			<Button
+			<div
 				size="small"
 				ClassName="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
 				onClick={() => {
@@ -84,7 +84,7 @@ const DownloadPdf = ({ id, label, pid }) => {
 				}}
 			>
 				{label} {loading && <CircularProgress size={20} color="white" className="ml-20" />}
-			</Button>
+			</div>
 		</div>
 	);
 };

@@ -396,12 +396,29 @@ function TodoListItem(props) {
 							{props.todo.assigned_company?.name}
 						</Typography>
 					)}
-					<Icon>notifications_active</Icon>
+					<Button 
+					
+								style={{
+									color: theme.palette.getContrastText(props.todo.assigned_company?.color_project || '#D3D3D3') //)
+								}}
+								onClick={ev => {
+									ev.preventDefault();
+									ev.stopPropagation();
+									if (props.todo.assigned_company) {
+										dispatch(Actions.openAddActivityTodoDialog(props.todo));
+									}
+								}}
+								
+							>
+								<Icon
+								style={{
+									color: theme.palette.getContrastText(props.todo.assigned_company?.color_project || '#D3D3D3') //)
+								}} className="mr-10">add_circle_outline</Icon>
+								Sottofase
+							</Button>
 				</div>
 				<CardContent className="flex flex-col flex-auto ">
-					<Typography className="text-center text-16 font-400 items-center justify-center ht-auto">
-						{projectDetail?.name}
-					</Typography>
+				
 					<Typography
 						className="text-center text-18 font-700 items-center justify-center ht-auto mt-8"
 						color="inherit"
@@ -512,20 +529,7 @@ function TodoListItem(props) {
 											}}
 										>
 											Add
-										</Button> */}
-							<Button
-								onClick={ev => {
-									ev.preventDefault();
-									ev.stopPropagation();
-									if (props.todo.assigned_company) {
-										dispatch(Actions.openAddActivityTodoDialog(props.todo));
-									}
-								}}
-								variant="outlined"
-							>
-								<Icon>playlist_add</Icon>
-								Add
-							</Button>
+							
 							{/* </div> */}
 						</div>
 					)}

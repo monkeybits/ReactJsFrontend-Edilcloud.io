@@ -212,6 +212,9 @@
     .custom-modal-close .MuiDialog-container {
         align-items: inherit !important;
     }
+    .custom-modal-new .MuiDialog-container {
+        align-items: inherit !important;
+    }
     .timeline-modal .MuiDialog-scrollPaper {
         align-items: inherit !important;
     }
