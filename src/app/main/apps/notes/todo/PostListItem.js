@@ -465,7 +465,7 @@ export default function PostListItem({
 								{post.type === 'article' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared an article with you </span>}
 								<span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> added a new video to </span>
 								<span className="font-700 capitalize text-15 lg:text-lg pl-2 sm:pl-6">
-									{post.task.name}
+									{'task' in post ? post.task.name : ''}
 								</span>
 							</p>
 						</div>

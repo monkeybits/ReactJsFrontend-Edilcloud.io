@@ -671,6 +671,9 @@ textarea.MuiOutlinedInput-input {
 .comment-area textarea {
     padding: 6px 0;
 }
+.react-swipeable-view-container div {
+    width: 100% !important;
+}
 /* ********************************************************************************************
     Konva JS
 *********************************************************************************************** */
