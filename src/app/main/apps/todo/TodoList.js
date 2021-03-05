@@ -10,21 +10,20 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import List from '@material-ui/core/List';
-import { useDeepCompareEffect } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDeepCompareEffect } from '@fuse/hooks';
 import * as ConatctActions from 'app/main/apps/contacts/store/actions';
 import * as NotesActions from 'app/main/apps/notes/store/actions';
 import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
 import * as AccessibilityActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
-import EditActivityPostForm from './EditActivityPostForm';
-import TaskContentForm from './TaskContentForm';
 import TodoListItem from './TodoListItem';
+import TaskContentForm from './TaskContentForm';
+import EditActivityPostForm from './EditActivityPostForm';
 
 function TodoList(props) {
 	const dispatch = useDispatch();
@@ -42,16 +41,28 @@ function TodoList(props) {
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	const [todoId, setTodoId] = useState(null);
 	const [posts, setPosts] = React.useState([]);
+	const [loading, setLoading] = useState({
+		loadingProjects: true,
+		loadingProjectRequest: true
+	});
+
+	const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+		}));
 
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts?.entities);
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
 	const todosNote = useSelector(({ todoAppNote }) => todoAppNote?.todos?.entities);
 	const accessibilityPanelAppState = useSelector(({ accessibilityPanel }) => accessibilityPanel.isDownloadApp);
+	const isOpenQuickStart = useSelector(({ accessibilityPanel }) => accessibilityPanel.openMenu);
+	// const count = useSelector(({ accessibilityPanel }) => accessibilityPanel.count);
 	const accessibilityPanelApp = localStorage.getItem('downloadApp');
 
 	useDeepCompareEffect(() => {
 		dispatch(ConatctActions.getContacts());
-		dispatch(NotesActions.getProjects());
+		dispatch(NotesActions.getProjects(handleSetLoading));
 		if (projects.length > 0) {
 			let project_id = 0;
 			if (projects !== undefined && projects.length > 0) {
@@ -86,26 +97,45 @@ function TodoList(props) {
 	};
 
 	useEffect(() => {
-		if (!contacts && contacts.length === 0) {
-			dispatch(AccessibilityActions.openAccessibility());
+		if (contacts && contacts.length > 0) {
+			dispatch(AccessibilityActions.setOpenMenu('project'));
+			dispatch(AccessibilityActions.setIsTeam('team'));
 		}
+	}, [contacts]);
 
-		if (!projects && projects.length === 0) {
-			dispatch(AccessibilityActions.openAccessibility());
+	useEffect(() => {
+		if (projects && projects.length > 0) {
+			dispatch(AccessibilityActions.setOpenMenu('task'));
+			dispatch(AccessibilityActions.setIsProject('project'));
 		}
+	}, [projects]);
 
-		if (!todos && Object.keys(todos).length === 0) {
-			dispatch(AccessibilityActions.openAccessibility());
+	useEffect(() => {
+		if (todosNote && Object.keys(todosNote).length > 0) {
+			dispatch(AccessibilityActions.setOpenMenu('post'));
+			dispatch(AccessibilityActions.setIsTask('task'));
 		}
+	}, [todosNote]);
+	useEffect(() => {
+		if (posts && posts.length > 0) {
+			dispatch(AccessibilityActions.setOpenMenu('downloadApp'));
+			dispatch(AccessibilityActions.setIsPost('post'));
+		}
+	}, [posts]);
+	useEffect(() => {
+		if (accessibilityPanelApp === 'true' || accessibilityPanelAppState) {
+			dispatch(AccessibilityActions.setOpenMenu('discover'));
+			dispatch(AccessibilityActions.setIsDownloadApp('downloadApp'));
+		}
+	}, [accessibilityPanelApp, accessibilityPanelAppState]);
 
-		if (!posts && posts.length === 0) {
-			dispatch(AccessibilityActions.openAccessibility());
+	useEffect(() => {
+		if (isOpenQuickStart) {
+			setTimeout(() => {
+				dispatch(AccessibilityActions.openAccessibility());
+			}, 6000);
 		}
-
-		if (accessibilityPanelApp !== 'true' && !accessibilityPanelAppState) {
-			dispatch(AccessibilityActions.openAccessibility());
-		}
-	}, [contacts, projects, todos, posts, accessibilityPanelApp, accessibilityPanelAppState]);
+	}, [isOpenQuickStart]);
 
 	/**
 	 * * we have 5-6 filter category but, by default we can select only one filter from each categaory but some category need to allow multiple select

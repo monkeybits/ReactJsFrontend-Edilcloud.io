@@ -346,13 +346,13 @@ export default function PostListItem({
 			<CardHeader
 				avatar={
 					post.author.first_name ? (
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-60 w-60">
+						<Avatar aria-label="Recipe" src={post.author.photo} className="sm:h-60 sm:w-60 h-48 w-48">
 							{[...post.author.first_name][0]}{' '}
 						</Avatar>
 					) : null
 				}
 				action={
-					<div className="px-8 flex">
+					<div className="sm:px-8 flex">
 						{isOffline && !currnetPost.successAfterRetry && (
 							<>
 								{
@@ -403,7 +403,7 @@ export default function PostListItem({
 												aria-label="more"
 												aria-controls="long-menu"
 												aria-haspopup="true"
-												className="p-8"
+												className="sm:p-8 py-8 px-0"
 											>
 												<MoreVertIcon />
 											</IconButton>
@@ -411,24 +411,6 @@ export default function PostListItem({
 									}
 									outsideClick
 								>
-									<MenuItem
-										key={t('ALERT')}
-										// selected={option.name === 'Pyxis'}
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											handleAlertPost();
-										}}
-									>
-										<ListItemIcon>
-											{post.alert ? (
-												<Icon style={{ color: red[500] }}>new_releases</Icon>
-											) : (
-												<Icon>new_releases</Icon>
-											)}
-										</ListItemIcon>
-										<Typography variant="inherit">{t('ALERT')}</Typography>
-									</MenuItem>
 									{options.map(option => (
 										<MenuItem
 											key={option.name}
@@ -451,7 +433,7 @@ export default function PostListItem({
 				}
 				title={
 					<span>
-						<div className="flex">
+						{/* <div className="flex">
 							<Typography
 								className="font-700 capitalize sm:text-14 lg:text-lg"
 								color="primary"
@@ -463,7 +445,7 @@ export default function PostListItem({
 							{post.type === 'something' && <span>shared something with you</span>}
 							{post.type === 'video' && <span>shared a video with you</span>}
 							{post.type === 'article' && <span>shared an article with you</span>}
-							<span className="sm:text-14 lg:text-lg pl-6 font-600">Added a new video to</span>
+							<span className="sm:text-14 lg:text-lg pl-6 font-600">added a new video to</span>
 							<Typography
 								className="font-700 capitalize sm:text-14 lg:text-lg pl-6"
 								color="primary"
@@ -471,11 +453,26 @@ export default function PostListItem({
 							>
 								{post.task.name}
 							</Typography>
+						</div> */}
+						<div className="flex flex-wrap">
+							<p>
+								<span className="font-700 capitalize text-15 lg:text-lg">
+									{post.author.first_name} {post.author.last_name}
+								</span>
+								{post.type === 'post' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> posted on your timeline </span>}
+								{post.type === 'something' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared something with you </span>}
+								{post.type === 'video' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared a video with you </span>}
+								{post.type === 'article' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared an article with you </span>}
+								<span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> added a new video to </span>
+								<span className="font-700 capitalize text-15 lg:text-lg pl-2 sm:pl-6">
+									{post.task.name}
+								</span>
+							</p>
 						</div>
-						<div className="sm:text-15 lg:text-base font-600">
-							{post.author.role} - {post.author.company.name}
+						<div className="text-13 sm:text-15 lg:text-base font-600">
+							{post.author.role}{ 'company' in post.author ? ' - ' + post.author.company.name : '' }
 						</div>
-						<div className="">
+						{/* <div className="">
 							{showPrject && (
 								<>
 									<div className="mr-4 flex">
@@ -489,8 +486,6 @@ export default function PostListItem({
 											{post.project.name}
 										</Typography>
 									</div>
-									{/* )} */}
-									{/* {showTask && (<> */}
 									<div className="mx-4">
 										<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
 											{post.task.name}
@@ -503,13 +498,13 @@ export default function PostListItem({
 									</div>
 								</>
 							)}
-						</div>
+						</div> */}
 					</span>
 				}
 				subheader={
 					<div className="flex items-center text-14 font-600">
 						<Icon className="font-600 text-18">public</Icon>
-						<span className="ml-4 mr-16">{post.is_public ? 'Public ' : 'Private '}</span>
+						<span className="ml-4 sm:mr-16 mr-4">{post.is_public ? 'Public ' : 'Private '}</span>
 						<span>
 							{`${moment.parseZone(post.published_date).format('MMMM DD')} at ${moment
 								.parseZone(post.published_date)
@@ -557,11 +552,8 @@ export default function PostListItem({
 
 			{/* ----------------- Show Comments and likes ---------------*/}
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
-				<div className="flex items-center mb-12 cursor-pointer justify-between">
+				<div className="flex flex-wrap items-center mb-12 cursor-pointer justify-between">
 					<div className="flex">
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
-							{[...post.author.first_name][0]}{' '}
-						</Avatar>
 						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
 							{[...post.author.first_name][0]}{' '}
 						</Avatar>
@@ -582,7 +574,7 @@ export default function PostListItem({
 								setCommentOpen(!commentOpen);
 							}}
 						>
-							<Icon fontSize="medium" className="mr-4">
+							<Icon fontSize="small" className="mr-4">
 								comment
 							</Icon>
 							<span className="text-base font-600 hover:underline">
@@ -601,15 +593,21 @@ export default function PostListItem({
 						aria-label="more"
 						aria-controls="long-menu"
 						aria-haspopup="true"
-						// onClick={handleClick}
+						onClick={ev => {
+							ev.preventDefault();
+							ev.stopPropagation();
+							handleAlertPost();
+						}}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 font-600 text-14 lg:text-base p-8 my-4 posts-social-icon"
+						className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
 					>
-						<Icon fontSize="medium" className="mr-4">
-							report_problem
-						</Icon>
-						<span>{t('REPORT_PROBLEM')}</span>
+						{post.alert ? (
+							<Icon fontSize="small" className="mr-4" style={{ color: red[500] }}>new_releases</Icon>
+						) : (
+							<Icon fontSize="small" className="mr-4">new_releases</Icon>
+						)}
+						<span>{t('ALERT')}</span>
 					</IconButton>
 					<IconButton
 						aria-label="more"
@@ -620,9 +618,9 @@ export default function PostListItem({
 						// }}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 font-600 text-14 lg:text-base p-8 my-4 posts-social-icon"
+						className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
 					>
-						<Icon fontSize="medium" className="mr-4">
+						<Icon fontSize="small" className="mr-4">
 							notifications_active
 						</Icon>
 						<span>{t('SEND_NOTIFICATION')}</span>
@@ -636,9 +634,9 @@ export default function PostListItem({
 						}}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 font-600 text-14 lg:text-base p-8 my-4 posts-social-icon"
+						className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
 					>
-						<Icon fontSize="medium" className="mr-4">
+						<Icon fontSize="small" className="mr-4">
 							visibility
 						</Icon>
 						<span>{t('STATUS_PUBLIC')}</span>

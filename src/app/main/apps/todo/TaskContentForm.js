@@ -366,6 +366,9 @@ function TaskContentForm(props) {
 		// );
 	};
 
+	console.log('company>>>>>>>>>>>>>>>>>>>', company)
+	console.log('company>>>>>>>>>>>>>>>>>>>', companies)
+
 	return (
 		<div className="w-full custom-task-content">
 			<div className="custom-tab-header flex relative">
@@ -527,22 +530,19 @@ function TaskContentForm(props) {
 										value={company}
 										options={companies.map(company => ({
 											data: company,
-											value: company.profile?.company?.name,
+											value: company.company,
 											label: (
 												<span className="flex items-center">
 													<Icon
 														className="list-item-icon mx-6 text-20"
 														style={{
-															color:
-																company !== undefined
-																	? company.profile?.company?.color_project
-																	: ''
+															color: company.color
 														}}
 														color="action"
 													>
 														label
 													</Icon>{' '}
-													{company.profile.company.name}
+													{company.company}
 												</span>
 											)
 										}))}

@@ -4,7 +4,14 @@ const initialState = {
 	state: false,
 	notifications: [],
 	readNotifications: [],
-	isDownloadApp: false
+	isDownloadApp: false,
+	openMenu: '',
+	isTeam: '',
+	isProject: '',
+	isTask: '',
+	isPost: '',
+	isDownload: '',
+	count: 0
 };
 
 const accessibilityPanel = (state = initialState, action) => {
@@ -25,6 +32,47 @@ const accessibilityPanel = (state = initialState, action) => {
 			return {
 				...state,
 				state: true
+			};
+		}
+		case Actions.IS_TEAM: {
+			return {
+				...state,
+				isTeam: action.payload,
+				count: 1
+			};
+		}
+		case Actions.IS_PROJECT: {
+			return {
+				...state,
+				isProject: action.payload,
+				count: 2
+			};
+		}
+		case Actions.IS_TASK: {
+			return {
+				...state,
+				isTask: action.payload,
+				count: 3
+			};
+		}
+		case Actions.IS_POST: {
+			return {
+				...state,
+				isPost: action.payload,
+				count: 4
+			};
+		}
+		case Actions.IS_DOWNLOAD_APP: {
+			return {
+				...state,
+				isDownload: action.payload,
+				count: 5
+			};
+		}
+		case Actions.SET_MENU_OPEN_PANEL: {
+			return {
+				...state,
+				openMenu: action.payload
 			};
 		}
 		case Actions.DOWNLOAD_SMARTPHONE_APP_PANEL: {

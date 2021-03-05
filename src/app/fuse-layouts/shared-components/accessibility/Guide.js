@@ -1,27 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import { useDispatch, useSelector } from 'react-redux';
-import { useDeepCompareEffect } from '@fuse/hooks';
 import withReducer from 'app/store/withReducer';
 import reducer from 'app/main/apps/notes/store/reducers';
-import * as ConatctActions from 'app/main/apps/contacts/store/actions';
-import * as NotesActions from 'app/main/apps/notes/store/actions';
-import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 import GuideListItem from './GuideListItem';
 import * as Actions from './store/actions';
 
@@ -38,89 +21,15 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function Guide() {
+function Guide(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
-	const [isMenuOpen, setIsOpenMenu] = React.useState('');
-	const [posts, setPosts] = React.useState([]);
-	const [loading, setLoading] = useState({
-		loadingProjects: true,
-		loadingProjectRequest: true
-	});
 
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 
-	const handleSetLoading = data =>
-		setLoading(loading => ({
-			...loading,
-			...data
-		}));
-
-	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts?.entities);
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
-	const todos = useSelector(({ todoAppNote }) => todoAppNote?.todos?.entities);
-	const accessibilityPanelAppState = useSelector(({ accessibilityPanel }) => accessibilityPanel.isDownloadApp);
-	const accessibilityPanelApp = localStorage.getItem('downloadApp');
-
-	useEffect(() => {
-		setPosts([]);
-		if (todos) {
-			getPosts();
-		}
-	}, [todos]);
-
-	const getPosts = () => {
-		if (todos && Object.keys(todos).length > 0) {
-			apiCall(
-				GET_POST_FOR_TASK(todos[0].id),
-				{},
-				res => {
-					setPosts(res.results);
-				},
-				err => {
-					console.log(err);
-				},
-				METHOD.GET,
-				getHeaderToken()
-			);
-		}
-	};
-
-	useEffect(() => {
-		if (contacts && contacts.length > 0) {
-			setIsOpenMenu('project');
-		}
-
-		if (projects && projects.length > 0) {
-			setIsOpenMenu('task');
-		}
-
-		if (todos && Object.keys(todos).length > 0) {
-			setIsOpenMenu('post');
-		}
-
-		if (posts && posts.length > 0) {
-			setIsOpenMenu('downloadApp');
-		}
-
-		if (accessibilityPanelApp === 'true' || accessibilityPanelAppState) {
-			setIsOpenMenu('discover');
-		}
-	}, [contacts, projects, todos, posts, accessibilityPanelApp, accessibilityPanelAppState, setIsOpenMenu]);
-
-	useDeepCompareEffect(() => {
-		dispatch(ConatctActions.getContacts());
-		dispatch(NotesActions.getProjects(handleSetLoading));
-		if (projects.length > 0) {
-			let project_id = 0;
-			if (projects !== undefined && projects.length > 0) {
-				project_id = projects[0].id;
-			}
-			dispatch(TodosActions.getTodos(project_id, true));
-		}
-	}, [dispatch, projects]);
 
 	const [quickStartList, setQuickStartList] = React.useState([
 		{
@@ -211,10 +120,6 @@ function Guide() {
 		}
 	]);
 
-	const handleClick = () => {
-		setOpen(!open);
-	};
-
 	return (
 		<List component="nav" aria-labelledby="nested-list-subheader" className={classes.root}>
 			{quickStartList.map((d, i) => {
@@ -224,8 +129,7 @@ function Guide() {
 							<GuideListItem
 								{...{
 									data: d,
-									index: i,
-									isMenuOpen
+									index: i
 								}}
 							/>
 						);
@@ -235,8 +139,7 @@ function Guide() {
 						<GuideListItem
 							{...{
 								data: d,
-								index: i,
-								isMenuOpen
+								index: i
 							}}
 						/>
 					);

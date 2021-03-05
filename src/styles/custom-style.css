@@ -662,8 +662,8 @@ textarea.MuiOutlinedInput-input {
     overflow-y: auto;
 }
 .social-border {
-    border-top: 1px solid #ced0d4;
-    border-bottom: 1px solid #ced0d4;
+    border-top: 1px solid #dedee0;
+    border-bottom: 1px solid #dedee0;
 }
 .posts-social-icon {
     border-radius: 6%;

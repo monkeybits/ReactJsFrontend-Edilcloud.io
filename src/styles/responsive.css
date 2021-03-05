@@ -182,7 +182,7 @@
         height: 40px;
     }
     .MuiInputBase-input {
-        height: 1em !important;
+        /* height: 1em !important; */
     }
     .timeline-modal .right-m-12 {
         right: 0px;

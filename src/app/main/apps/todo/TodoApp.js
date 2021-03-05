@@ -7,15 +7,12 @@ Main files to make changes are
 * 1. src/app/main/apps/todo/TodoListItem.js  -> used for task item
 * 2. src/app/main/apps/todo/TodoActivityListItem.js  -> every task may have activity if you want to make change on activity.
 */
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import Fab from '@material-ui/core/Fab';
-import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
-import { Icon, LinearProgress, makeStyles, Typography } from '@material-ui/core';
+import { LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import AccessibilityToggleButton from 'app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton';
 import { useTranslation } from 'react-i18next';
 import FusePageSimple from '@fuse/core/FusePageSimple';
@@ -25,8 +22,6 @@ import reducer from './store/reducers';
 import TodoHeader from './TodoHeader';
 import TodoList from './TodoList';
 import TodoSidebarContent from './TodoSidebarContent';
-import TodoSidebarHeader from './TodoSidebarHeader';
-import TodoToolbar from './TodoToolbar';
 import CreatePostDialog from './CreatePostDialog';
 import TaskContentDialog from './TaskContentDialog';
 import TodoDialog from './TodoDialog';
