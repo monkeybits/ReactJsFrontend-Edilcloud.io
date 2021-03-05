@@ -133,7 +133,7 @@ function TodoList(props) {
 		if (isOpenQuickStart) {
 			setTimeout(() => {
 				dispatch(AccessibilityActions.openAccessibility());
-			}, 6000);
+			}, 7000);
 		}
 	}, [isOpenQuickStart]);
 
