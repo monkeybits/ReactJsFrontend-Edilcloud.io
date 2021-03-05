@@ -24,7 +24,6 @@ import {
 	faFileWord
 } from '@fortawesome/free-regular-svg-icons';
 import clsx from 'clsx';
-import * as Actions from './store/actions';
 import { Icon, ListItemIcon, Menu, MenuItem, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -45,6 +44,8 @@ import {
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
@@ -132,7 +133,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 			handleClickEvent: (ev, n) => {
 				handleOpenData(ev, n);
 			},
-			hasPermission: true //getRole() == 'o' || getRole() == 'd'
+			hasPermission: true // getRole() == 'o' || getRole() == 'd'
 		},
 
 		{
@@ -153,11 +154,11 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 		} else {
 			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 		}
-		let selectedItem = allFiles[findIndex];
+		const selectedItem = allFiles[findIndex];
 		if (selectedItem) {
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
-			let apiurl =
+			const apiurl =
 				selectedItem.type == 'photo'
 					? DOWNLOAD_PHOTO(selectedItem.mainId)
 					: selectedItem.type == 'video'
@@ -167,8 +168,10 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				apiurl,
 				{},
 				({ headers, data }) => {
-					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					const image = btoa(
+						new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+					);
+					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 					console.log({ file });
 					if (window) {
 						console.log('listenning to flutterInAppWebViewPlatformReady');
@@ -208,7 +211,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 					...getHeaderToken(),
 					responseType: 'arraybuffer',
 					onDownloadProgress: progressEvent => {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						setProgress(percentCompleted);
 					}
 				},
@@ -242,7 +245,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 	return (
 		<div className={classes.root}>
 			<GridList cellHeight={180} className={classes.gridList}>
-				{!!tileData?.length ? (
+				{tileData?.length ? (
 					tileData.map(tile => (
 						<GridListTile key={tile.img} onClick={e => handleOpenData(e, tile)}>
 							{tile.type == 'video' ? (
@@ -362,7 +365,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				) : (
 					<div>
 						<div className="flex flex-1 items-center justify-center h-full">
-							<img className="w-400" src="assets/images/errors/nofiles.png"></img>
+							<img className="w-400" src="assets/images/errors/nofiles.png" />
 						</div>
 						<div className="flex flex-1 items-center justify-center h-full">
 							<Typography color="textSecondary" variant="h5">

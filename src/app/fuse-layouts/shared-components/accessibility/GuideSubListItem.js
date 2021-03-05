@@ -7,7 +7,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { useDispatch, useSelector } from 'react-redux';
 import withReducer from 'app/store/withReducer';
 import reducer from 'app/main/apps/notes/todo/store/reducers';
-import * as Actions from './store/actions';
 import * as NotesActions from 'app/main/apps/notes/store/actions';
 import * as ContactActions from 'app/main/apps/contacts/store/actions';
 import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
@@ -20,11 +19,12 @@ import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
 import WorkIcon from '@material-ui/icons/Work';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
-import GuideCard from './GuideCard';
 import ReactPlayer from 'react-player';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from 'react-router-dom';
+import GuideCard from './GuideCard';
+import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -54,78 +54,75 @@ function GuideSubListItem(props) {
 	const [playing, setPlaying] = React.useState(false);
 
 	const handlePlay = () => {
-		setPlaying(true)
-	}
+		setPlaying(true);
+	};
 
 	const handlePause = () => {
-		setPlaying(false)
-	}
+		setPlaying(false);
+	};
 
 	const handlePlayIcon = () => {
-		setControls(true)
-		setPlaying(true)
-	}
+		setControls(true);
+		setPlaying(true);
+	};
 
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
 
 	const onLinkClick = () => {
-		if(props.data.link !== '') {
-			history.push(props.data.link)
+		if (props.data.link !== '') {
+			history.push(props.data.link);
 		}
-		if(props.data.iconSelection === 'team') {
-			dispatch(Actions.toggleAccessibility())
-			if(!props.isDataAvail) {
+		if (props.data.iconSelection === 'team') {
+			dispatch(Actions.toggleAccessibility());
+			if (!props.isDataAvail) {
 				setTimeout(() => {
 					dispatch(ContactActions.openNewContactDialog('Invite'));
-				}, 250)
+				}, 250);
 			}
 		}
-		if(props.data.iconSelection === 'project') {
-			dispatch(Actions.toggleAccessibility())
-			if(!props.isDataAvail) {
+		if (props.data.iconSelection === 'project') {
+			dispatch(Actions.toggleAccessibility());
+			if (!props.isDataAvail) {
 				setTimeout(() => {
-					dispatch(NotesActions.openProjectDialog('new'))
-				}, 250)
+					dispatch(NotesActions.openProjectDialog('new'));
+				}, 250);
 			}
 		}
-		if(props.data.iconSelection === 'task') {
-			dispatch(Actions.toggleAccessibility())
-			if(projects && projects.length > 0) {
-				history.push('/apps/projects/' + projects[0].id)
+		if (props.data.iconSelection === 'task') {
+			dispatch(Actions.toggleAccessibility());
+			if (projects && projects.length > 0) {
+				history.push(`/apps/projects/${projects[0].id}`);
 			}
-			if(!props.isDataAvail) {
+			if (!props.isDataAvail) {
 				setTimeout(() => {
-					dispatch(TodosActions.openNewTodoDialog())
-				}, 250)
+					dispatch(TodosActions.openNewTodoDialog());
+				}, 250);
 			}
 		}
-		if(props.data.iconSelection === 'post') {
-			dispatch(Actions.toggleAccessibility())
-			if(projects && projects.length > 0) {
-				history.push('/apps/projects/' + projects[0].id)
+		if (props.data.iconSelection === 'post') {
+			dispatch(Actions.toggleAccessibility());
+			if (projects && projects.length > 0) {
+				history.push(`/apps/projects/${projects[0].id}`);
 			}
 			setTimeout(() => {
 				dispatch(TodosActions.openTaskContent(props.todos[0]));
-			}, 500)
+			}, 500);
 		}
-		if(props.data.iconSelection === 'downloadApp') {
+		if (props.data.iconSelection === 'downloadApp') {
 			localStorage.setItem('downloadApp', 'true');
-			dispatch(Actions.downloadSmartPhoneApp())
+			dispatch(Actions.downloadSmartPhoneApp());
 		}
-	}
+	};
 
 	return (
 		<List className={classes.root}>
 			<ListItem>
-				{props.data.image
-					? <CardActionArea>
-						<CardMedia
-							className={classes.media}
-							image={props.data.image}
-							title="Contemplative Reptile"
-						/>
+				{props.data.image ? (
+					<CardActionArea>
+						<CardMedia className={classes.media} image={props.data.image} title="Contemplative Reptile" />
 					</CardActionArea>
-					: <CardActionArea className="relative">
+				) : (
+					<CardActionArea className="relative">
 						<ReactPlayer
 							url={props.data.video}
 							playing={playing}
@@ -135,37 +132,32 @@ function GuideSubListItem(props) {
 							width="100%"
 							height="100%"
 						/>
-						{
-							!playing &&
-								<div className="absolute top-2/4 left-2/4 play-icon-wrap">
-									<IconButton className={classes.playBtn} color="inherit" onClick={handlePlayIcon}>
-										<Icon className={classes.playIcon}>play_arrow</Icon>
-									</IconButton>
-								</div>
-						}
+						{!playing && (
+							<div className="absolute top-2/4 left-2/4 play-icon-wrap">
+								<IconButton className={classes.playBtn} color="inherit" onClick={handlePlayIcon}>
+									<Icon className={classes.playIcon}>play_arrow</Icon>
+								</IconButton>
+							</div>
+						)}
 					</CardActionArea>
-				}
+				)}
 			</ListItem>
-			{
-				props.data.contentDescription &&
+			{props.data.contentDescription && (
 				<ListItem>
 					<ListItemText primary={props.data.contentDescription} />
 				</ListItem>
-			}
-			{
-				props.isDataAvail ? (
-					<ListItem onClick={onLinkClick} button className={classes.link}>
-						<ListItemText className="link-text" primary={props.data.linkTextAll} />
-					</ListItem>
-				) : (
-					<ListItem onClick={onLinkClick} button className={classes.link}>
-						<ListItemText className="link-text" primary={props.data.linkText} />
-					</ListItem>
-				)
-			}
-			
+			)}
+			{props.isDataAvail ? (
+				<ListItem onClick={onLinkClick} button className={classes.link}>
+					<ListItemText className="link-text" primary={props.data.linkTextAll} />
+				</ListItem>
+			) : (
+				<ListItem onClick={onLinkClick} button className={classes.link}>
+					<ListItemText className="link-text" primary={props.data.linkText} />
+				</ListItem>
+			)}
 		</List>
 	);
 }
 
-export default withReducer('todoAppNote', reducer)(GuideSubListItem)
+export default withReducer('todoAppNote', reducer)(GuideSubListItem);

@@ -44,7 +44,7 @@ const locale = {
 	ACTIVATE_MSG: 'Are you sure want to deactivate ?',
 	DELETE_CONTACT_ASK: 'Are you sure want to delete ?',
 	VIEW_CONTACT: 'View Contact',
-	VIEW:'View'
+	VIEW: 'View'
 };
 
 export default locale;

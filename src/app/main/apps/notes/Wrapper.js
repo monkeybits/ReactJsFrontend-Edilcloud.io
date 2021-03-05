@@ -1,7 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-
 const useStyles = makeStyles(theme => ({
 	root: {
 		position: 'relative',
@@ -71,11 +70,11 @@ export default function Wrapper(props) {
 	const classes = useStyles(props);
 	return (
 		// <div className="pdf-container ">
-			<div className={classes.wrapper}>
-				<div className={classes.contentWrapper}>
-					<div className={classes.content}>{props.children}</div>
-				</div>
+		<div className={classes.wrapper}>
+			<div className={classes.contentWrapper}>
+				<div className={classes.content}>{props.children}</div>
 			</div>
+		</div>
 		// </div>
 	);
 }

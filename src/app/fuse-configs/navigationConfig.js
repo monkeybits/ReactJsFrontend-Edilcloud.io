@@ -145,7 +145,7 @@ const navigationConfig = [
 		children: [
 			{
 				checkRole: true,
-				roles:['d','o'],
+				roles: ['d', 'o'],
 				id: '',
 				title: 'Plan',
 				translate: 'PLAN',

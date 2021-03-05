@@ -33,7 +33,7 @@ const locale = {
 	MOVE_TO: 'Sposta in',
 	MOVE_FILE: 'Muovi File',
 	MOVE: 'Muovi',
-	PAGE: 'Pagina', //EX: PAGE 1 OF 2
+	PAGE: 'Pagina', // EX: PAGE 1 OF 2
 	OF: 'di',
 	PROCESSING_UPLOADING_FILE: 'Sto processando il file',
 	RENAME: 'Rinominare'

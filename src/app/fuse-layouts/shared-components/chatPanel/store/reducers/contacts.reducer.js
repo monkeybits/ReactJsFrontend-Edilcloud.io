@@ -20,9 +20,8 @@ const getUpdatedEntities = (entities, msg) => {
 				],
 				last_message_created: new Date()
 			};
-		} else {
-			return entity;
 		}
+		return entity;
 	});
 };
 const resetTheMessageCount = (entities, id) => {
@@ -37,9 +36,8 @@ const resetTheMessageCount = (entities, id) => {
 					}
 				]
 			};
-		} else {
-			return entity;
 		}
+		return entity;
 	});
 };
 const sortByDate = arr => {

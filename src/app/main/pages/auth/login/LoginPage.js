@@ -27,6 +27,7 @@ import * as MainActions from 'app/store/actions';
 import TippyMenu from 'app/TippyMenu';
 import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`,
@@ -99,7 +100,7 @@ function LoginPage() {
 					'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
 				)}
 			>
-				<img className="w-200 " src="assets/images/logos/fuse.svg"/>
+				<img className="w-200 " src="assets/images/logos/fuse.svg" />
 				<div className="flex flex-col items-center justify-center w-full max-w-425">
 					<FuseAnimate animation="transition.expandIn">
 						<Card className="w-full">
@@ -154,7 +155,6 @@ function LoginPage() {
 								</div>
 
 								<JWTLoginTab />
-								
 
 								<div className="flex items-center justify-center w-full pt-28">
 									<span className="text-custom font-600 mr-6"> {t('DONT_HAVE_AN_ACCOUNT_ASK')}</span>
@@ -171,7 +171,13 @@ function LoginPage() {
 								icon={
 									<>
 										{/* <InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel> */}
-										<InputLabel id="demo-simple-select-label">{currentLng.title} <span className="arrow-icon"> <KeyboardArrowDownIcon /> </span> </InputLabel>
+										<InputLabel id="demo-simple-select-label">
+											{currentLng.title}{' '}
+											<span className="arrow-icon">
+												{' '}
+												<KeyboardArrowDownIcon />{' '}
+											</span>{' '}
+										</InputLabel>
 									</>
 								}
 								// ref={menuRef}
@@ -179,7 +185,7 @@ function LoginPage() {
 							>
 								{languages.map(lng => (
 									<MenuItem key={lng.id} onClick={() => handleLanguageChange(lng)}>
-										<ListItemText primary={lng.title} /> 
+										<ListItemText primary={lng.title} />
 									</MenuItem>
 								))}
 							</TippyMenu>

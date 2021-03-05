@@ -10,6 +10,7 @@ import jwtDecode from 'jwt-decode';
 import { decodeDataFromToken, getHeaderToken, getTokenOnly } from 'app/services/serviceUtils';
 import { GET_COMPANY_PROFILE } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
+
 export const SET_USER_DATA = '[USER] SET DATA';
 export const SET_USER_COMPANY_DATA = '[USER] SET COMPANY DATA';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
@@ -133,9 +134,9 @@ export function createUserSettingsFirebase(authUser) {
  * Set User Data
  */
 export function setUserData(user) {
-	let token = getTokenOnly();
-	let decode = token && jwtDecode(token);
-	let userData = {
+	const token = getTokenOnly();
+	const decode = token && jwtDecode(token);
+	const userData = {
 		...authUserData,
 		role: decode ? 'user' : []
 	};

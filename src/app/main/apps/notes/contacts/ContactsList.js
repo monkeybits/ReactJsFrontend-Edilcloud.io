@@ -7,16 +7,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
-import ContactsTable from './ContactsTable';
-import * as Actions from './store/actions';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER, DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import DeleteConfirmDialog from '../../file-manager/DeleteConfirmDialog';
 import './contact-cards.css';
 import Grid from '@material-ui/core/Grid';
-import ContactCard from './ContactCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import { Divider } from '@material-ui/core';
@@ -34,8 +30,13 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import MoreOption from './MoreOption';
 import { useTranslation } from 'react-i18next';
+import MoreOption from './MoreOption';
+import ContactCard from './ContactCard';
+import * as Actions from './store/actions';
+import ContactsTable from './ContactsTable';
+import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
+
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
 		order === 'ASC'
@@ -90,7 +91,7 @@ function ContactsList(props) {
 		event.stopPropagation();
 		setAnchorEl(false);
 	};
-	let openMenu = Boolean(anchorEl);
+	const openMenu = Boolean(anchorEl);
 	const columns = React.useMemo(
 		() => [
 			{
@@ -190,9 +191,8 @@ function ContactsList(props) {
 			const x = arr.find(item => (item.id && current.id ? item.id === current.id : false));
 			if (!x) {
 				return arr.concat([current]);
-			} else {
-				return arr;
 			}
+			return arr;
 		}, []);
 	const setContacts = filterKey => {
 		function getFilteredArray(entities, _searchText) {
@@ -249,7 +249,7 @@ function ContactsList(props) {
 				results = sortByProperty(getFilteredArrayByKey(contacts, 'role', 'Worker'), 'name');
 				setFilteredData(results);
 				break;
-			case 'company' + filterKeyName:
+			case `company${filterKeyName}`:
 				results = sortByProperty(getFilteredCompanyArrayByKey(contacts), 'name');
 				setFilteredData(results);
 				break;
@@ -269,7 +269,7 @@ function ContactsList(props) {
 
 	const onDeactivate = () => {
 		const { id, email } = userData;
-		let url = DELETE_MEMBER_FROM_PROJECT(id);
+		const url = DELETE_MEMBER_FROM_PROJECT(id);
 		apiCall(
 			url,
 			{},
@@ -349,7 +349,7 @@ function ContactsList(props) {
 				<div className="flex flex-1 items-center justify-center h-full">
 					<div>
 						<div className="flex flex-1 mb-20px items-center justify-center ">
-							<img width="600px" src="/assets/images/errors/nocontacts.png"></img>
+							<img width="600px" src="/assets/images/errors/nocontacts.png" />
 						</div>
 						<div className="flex flex-1 mt-30 items-center justify-center ">
 							<Typography color="textSecondary" variant="h5">
@@ -383,7 +383,7 @@ function ContactsList(props) {
 						<Grid container spacing={12} className="team-grid">
 							{filteredData.map((data, index) => {
 								return (
-									//company.id == data.profile?.company?.id ?
+									// company.id == data.profile?.company?.id ?
 									<ContactCard
 										editPermission={
 											(getRole() == 'o' || getRole() == 'd') &&

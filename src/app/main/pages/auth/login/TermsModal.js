@@ -31,7 +31,7 @@ export default function TermsModal({ open, setOpen, title }) {
 				aria-describedby="scroll-dialog-description"
 			>
 				<DialogTitle id="scroll-dialog-title">{title}</DialogTitle>
-				<DialogContent dividers={true}>
+				<DialogContent dividers>
 					<DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
 						{[...new Array(10)]
 							.map(

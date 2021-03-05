@@ -1,6 +1,5 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import SettingListItem from './SettingListItem';
 import _ from '@lodash';
 import Typography from '@material-ui/core/Typography';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
@@ -18,6 +17,7 @@ import Divider from '@material-ui/core/Divider';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { UPDATE_SETTINGS_PREFERENCES } from 'app/services/apiEndPoints';
 import { toast } from 'react-toastify';
+import SettingListItem from './SettingListItem';
 import * as Actions from './store/actions';
 
 function TodoList(props) {

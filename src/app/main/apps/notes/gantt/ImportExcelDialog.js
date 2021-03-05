@@ -64,7 +64,7 @@ export default function ImportExcelDialog({ open, setOpen, setTarget, target, on
 				</DialogTitle>
 				<DialogContent dividers>
 					<Typography gutterBottom>Download Demo File</Typography>
-					<a class="xlsx-sample" href="/assets/files/DemoProject.xlsx" target="_blank">
+					<a className="xlsx-sample" href="/assets/files/DemoProject.xlsx" target="_blank">
 						<FontAwesomeIcon icon={faDownload} style={{ fontSize: '1.5rem' }} />
 						DemoProject.xlsx
 					</a>

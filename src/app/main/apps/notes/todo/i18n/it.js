@@ -28,7 +28,7 @@ const locale = {
 	TASK_TITLE: 'Titolo fase di lavoro',
 	SELECT_PROFILE: 'Scegli profili',
 	SELECT_COMPANY: 'Assegna ad azienda',
-	DESCRIPTION: "Descrizione",
+	DESCRIPTION: 'Descrizione',
 	NOTES: 'Note',
 	SORT: 'Ordina',
 	ORDER_BY: 'Ordina per',
@@ -51,8 +51,8 @@ const locale = {
 	POST: 'Documenta il lavoro',
 	SHARE: 'Condividi nella fase di lavoro',
 	REPORT_PROBLEM: 'Segnala problema',
-	SEND_NOTIFICATION: 'Invia Notifica',
-	STATUS_PUBLIC: 'Stato: Pubblico',
+	SEND_NOTIFICATION: 'Notifica',
+	STATUS_PUBLIC: 'Pubblico',
 	ALERT: 'Allerta',
 	COMMENTS: 'Commenti',
 	RETRY: 'Riprova',
@@ -62,7 +62,7 @@ const locale = {
 	LIKE: 'Mi piace',
 	ADD_COMMENT: 'Aggiungi un commento',
 	EDIT: 'Modifica',
-	DELETE: 'Cancella',
+	DELETE: 'Cancella'
 };
 
 export default locale;

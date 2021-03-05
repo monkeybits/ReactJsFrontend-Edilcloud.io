@@ -1,6 +1,5 @@
 import { closeMobileChatsSidebar } from 'app/main/apps/chat/store/actions/sidebars.actions';
 import axios from 'axios';
-import { setselectedContactId } from './contacts.actions';
 import {
 	GET_MESSAGES_API,
 	SEND_MESSAGE_API,
@@ -10,6 +9,7 @@ import {
 } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getChatToken } from 'app/services/serviceUtils';
+import { setselectedContactId } from './contacts.actions';
 
 export const GET_CHAT = '[CHAT PANEL] GET CHAT';
 export const ADD_USER_DATA = '[CHAT PANEL] ADD_USER_DATA';
@@ -55,7 +55,7 @@ export function getChat(contact) {
 				}
 				dispatch({
 					type: GET_CHAT,
-					chat: chat
+					chat
 				});
 				dispatch(loadingChat(false));
 			},
@@ -95,25 +95,25 @@ export function sendMessage(messageText, setMessageText, user, images, setImages
 		}
 		console.log({ images });
 		const userInfo = decodeDataFromToken();
-		let values = {
+		const values = {
 			body: messageText,
 			unique_code
 		};
-		var formData = new FormData();
-		for (let key in values) {
+		const formData = new FormData();
+		for (const key in values) {
 			formData.append(key, values[key]);
 		}
 		if (images) {
 			const acceptedFiles = images.map(d => d.file);
 			let i = 0;
 			for (const file of acceptedFiles) {
-				formData.append('files[' + i + ']', file, file.name);
+				formData.append(`files[${i}]`, file, file.name);
 				i += 1;
 			}
 		}
 
 		const { id, first_name, last_name, photo, is_shared, is_in_showroom } = getUser();
-		let msg = {
+		const msg = {
 			body: messageText,
 			files,
 			sender: {
@@ -142,8 +142,8 @@ export function sendMessage(messageText, setMessageText, user, images, setImages
 			chat => {},
 			err => {
 				const findUnique_code = element => element?.unique_code == unique_code;
-				let chats = getChats();
-				let index = chats.findIndex(findUnique_code);
+				const chats = getChats();
+				const index = chats.findIndex(findUnique_code);
 				if (chats[index]) {
 					chats[index] = {
 						...chats[index],
@@ -165,7 +165,7 @@ export function sendMessage(messageText, setMessageText, user, images, setImages
 }
 export function retryToSendMessage(chatItem) {
 	return (dispatch, getState) => {
-		const formData = chatItem.formData;
+		const { formData } = chatItem;
 		const userInfo = decodeDataFromToken();
 		apiCall(
 			chatItem.user.type == 'company'

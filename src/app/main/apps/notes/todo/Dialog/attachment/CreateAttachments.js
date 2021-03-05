@@ -6,10 +6,10 @@ import { ADD_ATTCHMENTS_TO_TASK } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { decodeDataFromToken, getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
-import CardAttachment from './CardAttachment';
 import ImagesPreview from 'app/main/apps/notes/todo/ImagesPreview';
 import ImagePreviewDialog from 'app/ImagePreviewDialog';
 import { useTranslation } from 'react-i18next';
+import CardAttachment from './CardAttachment';
 
 function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) {
 	const { t } = useTranslation(nameSpace);
@@ -28,10 +28,10 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 		inputFile.current.click();
 	}
 	const addPhoto = async e => {
-		const files = e.currentTarget.files;
+		const { files } = e.currentTarget;
 		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/')[0];
+		for (let i = 0; i < files.length; i++) {
+			const fileType = files[i].type?.split('/')[0];
 			file = [
 				...file,
 				{
@@ -44,13 +44,13 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 		}
 	};
 	const handleUpload = e => {
-		var formData = new FormData();
+		const formData = new FormData();
 		setProgress(0);
 		if (images) {
 			const acceptedFiles = images.map(d => d.file);
 			let i = 0;
 			for (const file of acceptedFiles) {
-				formData.append('files[' + i + ']', file, file.name);
+				formData.append(`files[${i}]`, file, file.name);
 				i += 1;
 			}
 		}
@@ -69,8 +69,8 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 			METHOD.POST,
 			{
 				...getHeaderToken(),
-				onUploadProgress: function (progressEvent) {
-					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+				onUploadProgress(progressEvent) {
+					const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 					setProgress(percentCompleted);
 				}
 			}

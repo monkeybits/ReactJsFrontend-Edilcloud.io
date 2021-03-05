@@ -23,7 +23,7 @@ const locale = {
 	TODO: 'FASI',
 	FILES: 'FILES ',
 	GANTT: 'GANTT',
-	SAVE: 'Salva',
+	SAVE: 'Salva'
 };
 
 export default locale;

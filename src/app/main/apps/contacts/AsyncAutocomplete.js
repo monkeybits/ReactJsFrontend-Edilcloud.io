@@ -34,7 +34,7 @@ export default class AsyncAutocomplete extends React.Component {
 	 * @return {Nothing} The state is updated but no value is returned
 	 */
 	retrieveDataAsynchronously(searchText) {
-		let _this = this;
+		const _this = this;
 
 		apiCall(
 			SEARCH_USER(String(searchText)),

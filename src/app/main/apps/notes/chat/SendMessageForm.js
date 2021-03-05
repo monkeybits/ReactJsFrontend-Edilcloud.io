@@ -5,13 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import * as Actions from './store/actions';
 import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { useParams } from 'react-router';
-import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
 import { useTranslation } from 'react-i18next';
-
+import SendMessageFilePreview from './SendMessageFilePreview';
+import * as Actions from './store/actions';
 
 const useStyles = makeStyles(() => ({
 	messageRow: {
@@ -104,7 +103,6 @@ export default function SendMessageForm(props) {
 	const inputRef = useRef(null);
 	const audioRef = useRef(null);
 
-
 	const classes = useStyles(props);
 	const [messageText, setMessageText] = useState('');
 	const routeParams = useParams();
@@ -125,17 +123,17 @@ export default function SendMessageForm(props) {
 		dispatch(Actions.sendMessage(messageText, setMessageText, routeParams.id, images, setImages));
 	}
 	const addPhoto = async e => {
-		const files = e.currentTarget.files;
+		const { files } = e.currentTarget;
 		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/');
+		for (let i = 0; i < files.length; i++) {
+			const fileType = files[i].type?.split('/');
 			file = [
 				...file,
 				{
 					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
 					fileType: fileType[0],
-					extension: '.' + fileType[1],
+					extension: `.${fileType[1]}`,
 					type: fileType.join('/')
 				}
 			];
@@ -143,15 +141,15 @@ export default function SendMessageForm(props) {
 		}
 	};
 	const addAudio = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
+		const fileType = file.type?.split('/');
+		let fileList = images || [];
 
 		fileList = [
 			{
-				file: file,
+				file,
 				imgPath: URL.createObjectURL(file),
 				fileType: fileType[0],
-				extension: '.' + fileType[1],
+				extension: `.${fileType[1]}`,
 				type: fileType.join('/')
 			},
 			...fileList
@@ -159,15 +157,15 @@ export default function SendMessageForm(props) {
 		setImages(fileList);
 	};
 	const sendAudioDirectToChat = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
+		const fileType = file.type?.split('/');
+		let fileList = images || [];
 
 		fileList = [
 			{
-				file: file,
+				file,
 				imgPath: URL.createObjectURL(file),
 				fileType: fileType[0],
-				extension: '.' + fileType[1],
+				extension: `.${fileType[1]}`,
 				type: fileType.join('/')
 			},
 			...fileList

@@ -1,4 +1,5 @@
 import Konva from 'konva';
+
 export const addLine = (stage, layer, mode = 'brush') => {
 	let isPaint = false;
 	let lastLine;
@@ -32,7 +33,7 @@ export const addLine = (stage, layer, mode = 'brush') => {
 			x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
 			y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale
 		};
-		let newPoints = lastLine.points().concat([mousePointTo.x, mousePointTo.y]);
+		const newPoints = lastLine.points().concat([mousePointTo.x, mousePointTo.y]);
 		lastLine.points(newPoints);
 		layer.batchDraw();
 	});

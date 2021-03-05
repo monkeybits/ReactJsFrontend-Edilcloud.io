@@ -7,7 +7,6 @@ import TextField from '@material-ui/core/TextField';
 import moment from 'moment/moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
 import DatePicker from 'react-datepicker';
@@ -17,6 +16,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { Autocomplete } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 
 const defaultFormState = {
 	id: '',
@@ -90,8 +90,8 @@ export default function EditActivityForm(props) {
 	};
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
-	const getName = profile => profile.first_name + ' ' + profile.last_name;
-	const getUsername = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
+	const getName = profile => `${profile.first_name} ${profile.last_name}`;
+	const getUsername = profile => `${profile.profile.first_name} ${profile.profile.last_name}`;
 	const getIsDisabled = () => todoDialog.data.task.assigned_company.id != companyDetail.id || getRole() == 'w';
 	return (
 		<div className="sm:pl-10">
@@ -187,8 +187,8 @@ export default function EditActivityForm(props) {
 			{/* <div className="mt-8 mb-16"> */}
 			<FormControl className="mt-8 mb-16" variant="outlined" required fullWidth>
 				<Select disabled={getIsDisabled()} native value={progress} onChange={e => setProgress(e.target.value)}>
-					<option value={'to-do'}>{t('TO_DO_STATE')}</option>
-					<option value={'completed'}>{t('COMPLETED_STATE')}</option>
+					<option value="to-do">{t('TO_DO_STATE')}</option>
+					<option value="completed">{t('COMPLETED_STATE')}</option>
 				</Select>
 			</FormControl>
 			{/* <Autocomplete

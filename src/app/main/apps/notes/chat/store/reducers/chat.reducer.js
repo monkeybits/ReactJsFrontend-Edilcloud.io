@@ -12,11 +12,10 @@ const getAllFilesOfChat = chats => {
 				files: []
 			}
 		);
-	} else {
-		return {
-			files: []
-		};
 	}
+	return {
+		files: []
+	};
 };
 const chat = (state = initialState, action) => {
 	switch (action.type) {

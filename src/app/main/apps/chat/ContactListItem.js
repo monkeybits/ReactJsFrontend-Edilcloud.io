@@ -48,8 +48,8 @@ function ContactListItem(props) {
 				}}
 				primary={props.contact.name}
 				secondary={
-					!!props.contact.position
-						? props.contact.position + '@' + props.contact.company?.name
+					props.contact.position
+						? `${props.contact.position}@${props.contact.company?.name}`
 						: props.contact.company?.name
 				}
 			/>

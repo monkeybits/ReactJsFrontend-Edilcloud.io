@@ -5,8 +5,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 
 function TodoToolbar(props) {
 	const dispatch = useDispatch();

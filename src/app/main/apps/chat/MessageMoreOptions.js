@@ -20,7 +20,7 @@ export default function SimpleMenu(props) {
 		setAnchorEl(null);
 	};
 	const handleDelete = () => {
-        dispatch(props.deleteMessage(props.item.id))
+		dispatch(props.deleteMessage(props.item.id));
 		handleClose();
 	};
 	return (
@@ -28,7 +28,12 @@ export default function SimpleMenu(props) {
 			<TippyMenu
 				icon={
 					<>
-						<IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleClick}>
+						<IconButton
+							aria-label="more"
+							aria-controls="long-menu"
+							aria-haspopup="true"
+							onClick={handleClick}
+						>
 							<MoreVertIcon />
 						</IconButton>
 					</>

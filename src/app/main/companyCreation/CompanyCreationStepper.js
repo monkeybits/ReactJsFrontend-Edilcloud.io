@@ -10,13 +10,15 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
-import axios from '../../services/axiosConfig';
-import { USER_MAIN_PROFILE } from 'app/services/apiEndPoints';
-import CompanyDetails from './CompanyDetails';
-import CompanyCategory from './CompanyCategory';
-import FileUpload from '../mainProfile/FileUpload';
+import {
+	USER_MAIN_PROFILE,
+	TYPOLOGY_LIST,
+	TYPOLOGY_LIST_BY_CODE,
+	USER_ADD_COMPANY,
+	USER_EDIT_COMPANY
+} from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { TYPOLOGY_LIST, TYPOLOGY_LIST_BY_CODE, USER_ADD_COMPANY, USER_EDIT_COMPANY } from 'app/services/apiEndPoints';
+
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import clsx from 'clsx';
 import FuseAnimate from '@fuse/core/FuseAnimate';
@@ -27,6 +29,10 @@ import * as Actions from 'app/main/apps/chat/store/actions';
 import { Box, CircularProgress } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useTranslation } from 'react-i18next';
+import FileUpload from '../mainProfile/FileUpload';
+import CompanyCategory from './CompanyCategory';
+import CompanyDetails from './CompanyDetails';
+import axios from '../../services/axiosConfig';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -107,7 +113,7 @@ function CompanyCreationStepper({ user, history }) {
 			TYPOLOGY_LIST,
 			{},
 			res => {
-				let typologyListRes = res;
+				const typologyListRes = res;
 				if (Array.isArray(res)) {
 					let list = [];
 					typologyListRes.map((typology, index) => {
@@ -127,7 +133,7 @@ function CompanyCreationStepper({ user, history }) {
 									setOptionList([...list]);
 								}
 								typologyListRes[index] = { ...typologyListRes[index], subCategory: subCategoryRes };
-								let subCategory = [];
+								const subCategory = [];
 								setTypologyList(typologyListRes);
 							},
 							listErr => console.log({ listErr }),
@@ -181,8 +187,8 @@ function CompanyCreationStepper({ user, history }) {
 		setActiveStep(0);
 	};
 	const handleSubmit = async () => {
-		var formData = new FormData();
-		let values = {
+		const formData = new FormData();
+		const values = {
 			name: form.name,
 			slug: form.name.split(' ').join('_'),
 			description: form.desc,
@@ -192,18 +198,18 @@ function CompanyCreationStepper({ user, history }) {
 			phone: form.phone,
 			logo: file && file.fileData ? await getCompressFile(file.fileData) : undefined
 		};
-		let token = localStorage.getItem('jwt_access_token');
-		for (let key in values) {
+		const token = localStorage.getItem('jwt_access_token');
+		for (const key in values) {
 			if (values[key]) formData.append(key, values[key]);
 		}
-		let request = isEdit
+		const request = isEdit
 			? axios.put(USER_EDIT_COMPANY(company.id), formData, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 						Authorization: `JWT ${token}`
 					},
-					onUploadProgress: function (progressEvent) {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					onUploadProgress(progressEvent) {
+						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						setProgress(percentCompleted);
 					}
 			  })
@@ -212,8 +218,8 @@ function CompanyCreationStepper({ user, history }) {
 						'Content-Type': 'multipart/form-data',
 						Authorization: `JWT ${token}`
 					},
-					onUploadProgress: function (progressEvent) {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					onUploadProgress(progressEvent) {
+						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						setProgress(percentCompleted);
 					}
 			  });
@@ -232,11 +238,11 @@ function CompanyCreationStepper({ user, history }) {
 				setProgress(0);
 				const { name, url, email, vat_number, phone } = err.response.data;
 				setError({
-					name: name ? name : [],
-					url: url ? url : [],
-					email: email ? email : [],
-					vat_number: vat_number ? vat_number : [],
-					phone: phone ? phone : []
+					name: name || [],
+					url: url || [],
+					email: email || [],
+					vat_number: vat_number || [],
+					phone: phone || []
 				});
 				setActiveStep(0);
 			});

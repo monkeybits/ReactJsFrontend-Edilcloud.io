@@ -17,7 +17,6 @@ import React, { useCallback, useEffect } from 'react';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -29,6 +28,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { SYSTEM_ROLES } from 'app/constants';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 
 const defaultFormState = {
 	first_name: '',
@@ -85,7 +85,7 @@ function ViewContactDialog(props) {
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		let allData = {
+		const allData = {
 			...form,
 			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
 			language: value == 'English' ? 'en' : 'it'
@@ -94,7 +94,7 @@ function ViewContactDialog(props) {
 			dispatch(Actions.addContact({ ...allData, id: undefined }));
 		} else {
 			const { first_name, last_name, email, id } = allData;
-			let newformData = {
+			const newformData = {
 				first_name,
 				last_name,
 				email,
@@ -130,7 +130,7 @@ function ViewContactDialog(props) {
 			<AppBar position="static" elevation={1}>
 				<Toolbar className="flex w-full border-0">
 					<Typography variant="subtitle1" color="inherit">
-					{t('VIEW_CONTACT')}
+						{t('VIEW_CONTACT')}
 					</Typography>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
@@ -199,7 +199,7 @@ function ViewContactDialog(props) {
 					</div>
 				</DialogContent>
 			</form>
-			</Dialog>
+		</Dialog>
 	);
 }
 

@@ -45,8 +45,8 @@ function ResetPasswordPage({ match: { params }, history }) {
 			{
 				new_password1: password,
 				new_password2: password,
-				uid: uid,
-				token: token
+				uid,
+				token
 			},
 			res => {
 				resetForm();

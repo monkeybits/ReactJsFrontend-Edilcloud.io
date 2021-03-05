@@ -6,8 +6,9 @@ import { green } from '@material-ui/core/colors';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
-import 'tippy.js/themes/light-border.css'
+import 'tippy.js/themes/light-border.css';
 import { Paper } from '@material-ui/core';
+
 const useStyles = makeStyles(theme => ({
 	// paper: {
 	// 	marginRight: theme.spacing(2)

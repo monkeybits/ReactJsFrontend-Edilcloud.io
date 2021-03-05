@@ -2,6 +2,8 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams, useRouteMatch } from 'react-router';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import LabelsDialog from '../dialogs/labels/LabelsDialog';
 import NoteDialog from '../dialogs/note/NoteDialog';
 import NewNote from '../NewNote';
@@ -11,12 +13,10 @@ import NotesSidebarContent from '../NotesSidebarContent';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
 import ProjectContent from './ProjectContent';
-import { useParams, useRouteMatch } from 'react-router';
 import ProjectInfo from './ProjectInfo';
 import CreatePostDialog from '../todo/CreatePostDialog';
 import TodoDialog from '../todo/TodoDialog';
 import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
-import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();
@@ -24,12 +24,12 @@ function ProjectDetails(props) {
 	const [openDialog, setOpenDialog] = React.useState(false);
 	const pageLayout = useRef(null);
 	const params = useParams();
-	let havePaddingTabs = [0];
+	const havePaddingTabs = [0];
 
 	useEffect(() => {
 		if (params.id) {
 			if (params.dataId) {
-				let key = params.tab == 'task' ? 'task_id' : 'activity_id';
+				const key = params.tab == 'task' ? 'task_id' : 'activity_id';
 				dispatch(
 					notificationActions.addNotificationData({
 						notification: {
@@ -57,7 +57,7 @@ function ProjectDetails(props) {
 			}
 			dispatch(Actions.getProjectDetail(params.id));
 
-			let tab = params.tab;
+			const { tab } = params;
 			if (tab == 'chat') {
 				setValue(1);
 			} else if (tab == 'task' || tab == 'activity') {

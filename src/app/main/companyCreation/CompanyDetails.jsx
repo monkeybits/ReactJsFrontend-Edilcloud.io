@@ -31,7 +31,7 @@ const GreenRadio = withStyles({
 	checked: {}
 })(props => <Radio color="default" {...props} />);
 function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
-	let handleChange = handleChangeAfterRemoveError;
+	const handleChange = handleChangeAfterRemoveError;
 	const classes = useStyles();
 	const handleRadioChange = event => {};
 	const { t } = useTranslation('company_create');
@@ -42,7 +42,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 				error={error.name.length}
 				helperText={!!error.name.length && error.name[0]}
 				className="mb-8"
-				label={t("COMPANY_NAME")}
+				label={t('COMPANY_NAME')}
 				autoFocus
 				type="text"
 				name="name"
@@ -54,7 +54,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 			/>
 			<TextField
 				className="mb-8"
-				label={t("DESCRIPTION")}
+				label={t('DESCRIPTION')}
 				autoFocus
 				type="text"
 				name="desc"
@@ -66,7 +66,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 			/>
 			<TextField
 				className="mb-8"
-				label={t("COMPANY_EMAIL")}
+				label={t('COMPANY_EMAIL')}
 				type="email"
 				name="email"
 				value={form.email}
@@ -77,7 +77,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 			/>
 			<TextField
 				className="mb-8"
-				label={t("VAT_NUMBER")}
+				label={t('VAT_NUMBER')}
 				type="text"
 				name="vat_number"
 				value={form.vat_number}
@@ -88,7 +88,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 			/>
 			<TextField
 				className="mb-8"
-				label={t("WEBSITE_URL")}
+				label={t('WEBSITE_URL')}
 				type="text"
 				name="url"
 				value={form.url}
@@ -99,7 +99,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 			/>
 			<TextField
 				className="mb-8"
-				label={t("TELEPHONE_NUMBER")}
+				label={t('TELEPHONE_NUMBER')}
 				type="text"
 				name="phone"
 				value={form.phone}

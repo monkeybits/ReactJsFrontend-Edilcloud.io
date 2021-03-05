@@ -28,7 +28,7 @@ const locale = {
 	TASK_TITLE: 'Task Title',
 	SELECT_PROFILE: 'Select Profile',
 	SELECT_COMPANY: 'Select Company',
-	DESCRIPTION: "Description",
+	DESCRIPTION: 'Description',
 	NOTES: 'Notes',
 	SORT: 'sort',
 	ORDER_BY: 'Order by',
@@ -59,7 +59,7 @@ const locale = {
 	LIKE: 'Like',
 	ADD_COMMENT: 'Add a comment..',
 	EDIT: 'Edit',
-	DELETE: 'Delete',
+	DELETE: 'Delete'
 };
 
 export default locale;

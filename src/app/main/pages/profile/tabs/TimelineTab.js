@@ -229,8 +229,6 @@ function TimelineTab() {
 					))}
 				</FuseAnimateGroup>
 			</div>
-
-			
 		</div>
 	);
 }

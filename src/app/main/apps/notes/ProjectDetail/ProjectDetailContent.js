@@ -21,7 +21,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import ContactsApp from '../contacts/ContactsApp';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Dialog from '@material-ui/core/Dialog';
@@ -33,6 +32,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Divider from '@material-ui/core/Divider';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
+import ContactsApp from '../contacts/ContactsApp';
 
 export default function ProjectDetailContent({ projectDetail }) {
 	const {
@@ -108,13 +108,13 @@ export default function ProjectDetailContent({ projectDetail }) {
 									<Typography className="font-bold">Occupation</Typography>
 								</Grid>
 								<Grid item xs={8} sm={9} className="mb-10">
-									<Typography>{'work.occupation'}</Typography>
+									<Typography>work.occupation</Typography>
 								</Grid>
 								<Grid item xs={4} sm={3} className="mb-10">
 									<Typography className="font-bold">Skills</Typography>
 								</Grid>
 								<Grid item xs={8} sm={9} className="mb-10">
-									<Typography>{'work.skills'}</Typography>
+									<Typography>work.skills</Typography>
 								</Grid>
 								<Grid item xs={4} sm={3}>
 									<Typography className="font-bold">Jobs</Typography>
@@ -122,12 +122,12 @@ export default function ProjectDetailContent({ projectDetail }) {
 								<Grid item xs={8} sm={9}>
 									<table className="">
 										<tbody>
-											<tr key={'job.company'}>
+											<tr key="job.company">
 												<td>
-													<Typography>{'job.company'}</Typography>
+													<Typography>job.company</Typography>
 												</td>
 												<td className="pl-16">
-													<Typography>{'job.date'}</Typography>
+													<Typography>job.date</Typography>
 												</td>
 											</tr>
 										</tbody>
@@ -148,7 +148,7 @@ export default function ProjectDetailContent({ projectDetail }) {
 									<Typography className="font-bold">Address</Typography>
 								</Grid>
 								<Grid item xs={8} sm={9} className="mb-10">
-									<Typography>{'contact.address'}</Typography>
+									<Typography>contact.address</Typography>
 								</Grid>
 								<Grid item xs={4} sm={3} className="mb-10">
 									<Typography className="font-bold">Tel.</Typography>

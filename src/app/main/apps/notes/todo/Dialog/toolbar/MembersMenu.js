@@ -5,10 +5,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import React, { useEffect, useState } from 'react';
-import ToolbarMenu from './ToolbarMenu';
 import PersonIcon from '@material-ui/icons/Person';
 import { Button } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import ToolbarMenu from './ToolbarMenu';
 
 function MembersMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -35,7 +35,7 @@ function MembersMenu(props) {
 	const handleChange = (event, index) => {
 		event.preventDefault();
 		event.stopPropagation();
-		let tempMembers = members;
+		const tempMembers = members;
 		tempMembers[index] = {
 			...tempMembers[index],
 			is_exists: event.target.checked
@@ -66,13 +66,14 @@ function MembersMenu(props) {
 			<ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
 				<div className="">
 					{/* <Button onClick={handleSelectAll}>Select All </Button> */}
-					<FormControlLabel className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+					<FormControlLabel
+						className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
 						control={
-						<Checkbox
-							// checked={state.checkedB}
-							onClick={handleSelectAll}
-							name="checkedB"
-						/>
+							<Checkbox
+								// checked={state.checkedB}
+								onClick={handleSelectAll}
+								name="checkedB"
+							/>
 						}
 						label="Select All"
 					/>

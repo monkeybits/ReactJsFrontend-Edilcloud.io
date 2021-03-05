@@ -30,7 +30,6 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment/moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import * as ProjectTodoActions from 'app/main/apps/notes/todo/store/actions';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
@@ -40,6 +39,7 @@ import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints'
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
+import * as Actions from './store/actions';
 
 const defaultFormState = {
 	id: '',
@@ -278,7 +278,7 @@ function TodoDialog(props) {
 				setProfiles(profiles);
 				setProfileData(
 					profiles
-						.filter(profile => profile.role == 'Owner' || profile.role == 'Delegate') //.filter(profile => profile.role != 'Worker')
+						.filter(profile => profile.role == 'Owner' || profile.role == 'Delegate') // .filter(profile => profile.role != 'Worker')
 						.map(profile => ({
 							data: profile,
 							value: getName(profile),
@@ -291,7 +291,7 @@ function TodoDialog(props) {
 			getHeaderToken()
 		);
 	};
-	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
+	const getName = profile => `${profile.profile.first_name} ${profile.profile.last_name}`;
 	return (
 		<Dialog {...todoDialog.props} onClose={closeTodoDialog} fullWidth maxWidth="sm" className="custom-modal-new">
 			<AppBar position="static" elevation={1}>

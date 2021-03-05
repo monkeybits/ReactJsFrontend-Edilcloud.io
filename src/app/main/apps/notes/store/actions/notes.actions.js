@@ -27,7 +27,7 @@ export function getProjects(handleSetLoading = () => '') {
 			PROJECT_LIST,
 			{},
 			results => {
-				const company = getState().chatApp.company;
+				const { company } = getState().chatApp;
 				if (Array.isArray(results)) {
 					dispatch({
 						type: GET_PROJECTS,

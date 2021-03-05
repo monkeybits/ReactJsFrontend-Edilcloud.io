@@ -21,6 +21,7 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
 import clsx from 'clsx';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		transform: 'translateZ(0px)',
@@ -72,7 +73,7 @@ export default function FloatingButtonUpload(props) {
 	};
 
 	return (
-		<div className={clsx(classes.root, 'speeddial-btn' )}>
+		<div className={clsx(classes.root, 'speeddial-btn')}>
 			<div className={classes.exampleWrapper}>
 				<SpeedDial
 					ariaLabel="SpeedDial example"
@@ -89,8 +90,8 @@ export default function FloatingButtonUpload(props) {
 							className={classes.fab}
 							key={action.name}
 							icon={action.icon}
-                            tooltipTitle={action.name}
-                            tooltipOpen
+							tooltipTitle={action.name}
+							tooltipOpen
 							onClick={() => {
 								props.callAction(action.name);
 								handleClose();

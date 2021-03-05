@@ -10,7 +10,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link, useRouteMatch } from 'react-router-dom';
-import NoteListItem from './NoteListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -31,7 +30,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import Icon from '@material-ui/core/Icon';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import moment from 'moment';
-import { Menu, MenuItem, Switch } from '@material-ui/core';
+import { Menu, MenuItem, Switch, Box, Paper } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { DISABLE_PROJECT, ENABLE_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
@@ -39,12 +38,11 @@ import * as ProjectChatActions from 'app/main/apps/notes/chat/store/actions';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PropTypes from 'prop-types';
-import { Box } from '@material-ui/core';
+
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Divider from '@material-ui/core/Divider';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
-import DownloadPdf from './DownloadPdf';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
@@ -52,10 +50,13 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import { useTranslation } from 'react-i18next';
 import Tippy from '@tippyjs/react';
+import DownloadPdf from './DownloadPdf';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
-import 'tippy.js/themes/light-border.css'
-import { Paper } from '@material-ui/core';
+import 'tippy.js/themes/light-border.css';
+
+import NoteListItem from './NoteListItem';
+
 const useStyles = makeStyles(theme => ({
 	paper: {
 		marginRight: theme.spacing(2)
@@ -115,7 +116,7 @@ export default function ProjectListitem(props) {
 	}, [mainId, hasNotifcationOnThisItem]);
 
 	useEffect(() => {
-		let notification = notificationPanel.notificationData?.notification;
+		const notification = notificationPanel.notificationData?.notification;
 		if (notificationPanel.viewing && hasRender && scrollRef.current) {
 			dispatch(notificationActions.removeFrmViewNotification());
 			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
@@ -201,8 +202,8 @@ export default function ProjectListitem(props) {
 	}));
 
 	const onClickOutside = () => {
-		setVisible(false)
-	}
+		setVisible(false);
+	};
 
 	return (
 		<Card
@@ -219,17 +220,19 @@ export default function ProjectListitem(props) {
 							</IconButton> */}
 							<Tippy
 								theme="light"
-								content={<Paper className={classes.paper}>
-									<MenuItem onClick={handleUpdateProject}>{t('UPDATE_PROJECT_DETAILS')}</MenuItem>
-									<MenuItem onClick={handleArchiveProject}>{t('ARCHIVE')}</MenuItem>
-									<MenuItem onClick={handleDeleteProject}>{t('DELETE')}</MenuItem>
-								</Paper>}
+								content={
+									<Paper className={classes.paper}>
+										<MenuItem onClick={handleUpdateProject}>{t('UPDATE_PROJECT_DETAILS')}</MenuItem>
+										<MenuItem onClick={handleArchiveProject}>{t('ARCHIVE')}</MenuItem>
+										<MenuItem onClick={handleDeleteProject}>{t('DELETE')}</MenuItem>
+									</Paper>
+								}
 								visible={visible}
 								placement="bottom-end"
 								onClickOutside={onClickOutside}
 								className="project-list-menu"
 							>
-								<button className="absolute right-0 pl-menu-custom"></button>
+								<button className="absolute right-0 pl-menu-custom" />
 							</Tippy>
 						</div>
 					)
@@ -283,7 +286,6 @@ export default function ProjectListitem(props) {
 							</Tooltip>
 						))}
 					{/* <img src={d.photo ? d.photo : '/assets/images/avatars/profile.jpg'} /> */}
-					
 				</div>
 			</TabPanel>
 			<TabPanel value={value} index={1} className="tab_panel">
@@ -424,9 +426,7 @@ export default function ProjectListitem(props) {
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton> */}
-				<Button
-				
-				className="MuiButtonBase-root text-white bg-green MuiButton-root MuiButton-contained mr-8 MuiButton-containedSizeSmall MuiButton-sizeSmall">
+				<Button className="MuiButtonBase-root text-white bg-green MuiButton-root MuiButton-contained mr-8 MuiButton-containedSizeSmall MuiButton-sizeSmall">
 					<DownloadPdf
 						className="MuiButtonBase-root MuiButton-root "
 						label={t('DOWNLOAD_REPORT')}
@@ -434,7 +434,6 @@ export default function ProjectListitem(props) {
 						pid={id}
 					/>
 				</Button>
-			
 			</CardActions>
 		</Card>
 	);

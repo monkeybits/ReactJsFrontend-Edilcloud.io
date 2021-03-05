@@ -1,8 +1,8 @@
 import React from 'react';
 import { authRoles } from 'app/auth';
+import i18next from 'i18next';
 import en from './i18n/en';
 import it from './i18n/it';
-import i18next from 'i18next';
 
 i18next.addResourceBundle('en', 'login', en);
 i18next.addResourceBundle('it', 'login', it);

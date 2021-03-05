@@ -36,10 +36,10 @@ function CardAttachment(props) {
 		setAnchorEl(null);
 	}
 	const handleDownload = () => {
-		const item = props.item;
-		let type = () => (item.type ? item.type.split('/')[0] : '');
+		const { item } = props;
+		const type = () => (item.type ? item.type.split('/')[0] : '');
 
-		let apiurl =
+		const apiurl =
 			type() == 'image'
 				? DOWNLOAD_PHOTO(item.id)
 				: type() == 'video'
@@ -49,8 +49,8 @@ function CardAttachment(props) {
 			apiurl,
 			{},
 			({ headers, data }) => {
-				let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-				var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+				const image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+				const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 				console.log({ file });
 				if (window) {
 					console.log('listenning to flutterInAppWebViewPlatformReady');
@@ -86,7 +86,7 @@ function CardAttachment(props) {
 				...getHeaderToken(),
 				responseType: 'arraybuffer',
 				onDownloadProgress: progressEvent => {
-					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 					dispatch(Actions.setUploadPercentage(percentCompleted));
 				}
 			},
@@ -172,7 +172,7 @@ function CardAttachment(props) {
 			</div>
 		</div>
 	);
-	let type = () => (props.item.type ? props.item.type.split('/')[0] : '');
+	const type = () => (props.item.type ? props.item.type.split('/')[0] : '');
 	switch (type()) {
 		case 'image': {
 			return itemImage();

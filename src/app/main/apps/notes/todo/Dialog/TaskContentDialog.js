@@ -1,11 +1,11 @@
 import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
-import * as Actions from '../store/actions';
 import clsx from 'clsx';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import TaskContentForm from './TaskContentForm';
 import { useParams } from 'react-router';
+import TaskContentForm from './TaskContentForm';
+import * as Actions from '../store/actions';
 
 const useStyles = makeStyles(theme => ({
 	paper: {

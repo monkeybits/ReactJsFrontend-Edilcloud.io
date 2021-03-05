@@ -6,12 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import ProjectInfo from './ProjectInfo';
 import React, { useState } from 'react';
-import ContactsApp from '../contacts/ContactsApp';
-import ChatApp from '../chat/ChatApp';
-import TodoApp from '../todo/TodoApp';
-import FileManagerApp from '../file-manager/FileManagerApp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import * as Actions from 'app/main/apps/notes/contacts/store/actions';
@@ -23,13 +18,19 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import Gantt from '../gantt/index';
-import Toolbar from '../gantt/Toolbar';
 import { Icon } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import ProjectHeader from './ProjectHeader';
 import { useTranslation } from 'react-i18next';
 import * as TodoActions from 'app/main/apps/notes/todo/store/actions';
+import ProjectHeader from './ProjectHeader';
+import Toolbar from '../gantt/Toolbar';
+import Gantt from '../gantt/index';
+import FileManagerApp from '../file-manager/FileManagerApp';
+import TodoApp from '../todo/TodoApp';
+import ChatApp from '../chat/ChatApp';
+import ContactsApp from '../contacts/ContactsApp';
+import ProjectInfo from './ProjectInfo';
+
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 

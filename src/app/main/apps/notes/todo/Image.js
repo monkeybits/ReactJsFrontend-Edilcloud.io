@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Image, Transformer } from 'react-konva';
 import useImage from 'use-image';
+
 const Img = ({ shapeProps, isSelected, onSelect, onChange, imageUrl, getMyRef, saveImageWidthHeight, imageProps }) => {
 	const shapeRef = React.useRef();
 	const trRef = React.useRef();
@@ -20,7 +21,7 @@ const Img = ({ shapeProps, isSelected, onSelect, onChange, imageUrl, getMyRef, s
 		}
 	}, [shapeRef.current]);
 	return (
-		<React.Fragment>
+		<>
 			<Image
 				width={image && image.width}
 				height={image && image.height}
@@ -28,10 +29,10 @@ const Img = ({ shapeProps, isSelected, onSelect, onChange, imageUrl, getMyRef, s
 				onDblClick={onSelect}
 				image={image}
 				ref={shapeRef}
-				keepRatio={true}
+				keepRatio
 			/>
 			{isSelected && <Transformer ref={trRef} />}
-		</React.Fragment>
+		</>
 	);
 };
 export default Img;

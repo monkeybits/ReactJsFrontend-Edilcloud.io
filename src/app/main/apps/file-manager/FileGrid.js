@@ -18,7 +18,6 @@ import TableRow from '@material-ui/core/TableRow';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 import { Grid, Typography } from '@material-ui/core';
@@ -44,7 +43,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FileGridItem from './FileGridItem';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
 import FolderSharedOutlinedIcon from '@material-ui/icons/FolderSharedOutlined';
 import FolderSpecialOutlinedIcon from '@material-ui/icons/FolderSpecialOutlined';
@@ -67,6 +65,9 @@ import {
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import TippyMenu from 'app/TippyMenu';
 import { useTranslation } from 'react-i18next';
+import FileGridItem from './FileGridItem';
+import * as Actions from './store/actions';
+
 const useStyles = makeStyles({
 	typeIcon: {
 		'&.folder:before': {
@@ -109,7 +110,7 @@ function FileGrid(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const classesListItems = useStylesList();
-	const checkData = data => (data ? data : '-');
+	const checkData = data => data || '-';
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
 	const getCssColor = fileType =>
 		fileType == 'pdf'
@@ -146,7 +147,7 @@ function FileGrid(props) {
 		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
 			setCurrentFiles(rootFiles);
 		} else if (Array.isArray(files)) {
-			let tempFiles = files.filter(d => d.folder == currentFolderPath.id);
+			const tempFiles = files.filter(d => d.folder == currentFolderPath.id);
 			setCurrentFiles(tempFiles);
 		} else {
 			setCurrentFiles([]);
@@ -183,7 +184,7 @@ function FileGrid(props) {
 		}
 
 		if (searchText && searchText.length) {
-			let results = getFilteredArray(allFiles, searchText);
+			const results = getFilteredArray(allFiles, searchText);
 			dispatch(Actions.setAllFiles(results));
 		} else {
 			setAllFilesInit();
@@ -212,13 +213,13 @@ function FileGrid(props) {
 	// }, [currentFolderPath]);
 	const handleDelete = tile => {
 		// e.stopPropagation();
-		let findIndex = 0;
-		let selectedItem = tile; // allFiles[findIndex];
+		const findIndex = 0;
+		const selectedItem = tile; // allFiles[findIndex];
 
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
 		const fileType = selectedItem.type;
-		const mainId = selectedItem.mainId;
+		const { mainId } = selectedItem;
 		const url =
 			fileType == 'folder'
 				? FOLDER_DELETE(selectedItem.mainId)
@@ -366,7 +367,7 @@ function FileGrid(props) {
 			{currentFolderPath == '' && !files?.length && !currentFolders.length && (
 				<div>
 					<div className="flex flex-1 items-center justify-center h-full">
-						<img className="w-400" src="assets/images/errors/nofiles.png"></img>
+						<img className="w-400" src="assets/images/errors/nofiles.png" />
 					</div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<Typography color="textSecondary" variant="h5">

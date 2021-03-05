@@ -6,10 +6,10 @@ import TextField from '@material-ui/core/TextField';
 import clsx from 'clsx';
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
-import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
+import * as Actions from './store/actions';
+import SendMessageFilePreview from './SendMessageFilePreview';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -162,17 +162,17 @@ export default function SendMessageForm() {
 		dispatch(Actions.sendMessage(messageText, setMessageText, user, images, setImages));
 	};
 	const addPhoto = async e => {
-		const files = e.currentTarget.files;
+		const { files } = e.currentTarget;
 		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/');
+		for (let i = 0; i < files.length; i++) {
+			const fileType = files[i].type?.split('/');
 			file = [
 				...file,
 				{
 					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
 					fileType: fileType[0],
-					extension: '.' + fileType[1],
+					extension: `.${fileType[1]}`,
 					type: fileType.join('/')
 				}
 			];
@@ -180,15 +180,15 @@ export default function SendMessageForm() {
 		}
 	};
 	const addAudio = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
+		const fileType = file.type?.split('/');
+		let fileList = images || [];
 
 		fileList = [
 			{
-				file: file,
+				file,
 				imgPath: URL.createObjectURL(file),
 				fileType: fileType[0],
-				extension: '.' + fileType[1],
+				extension: `.${fileType[1]}`,
 				type: fileType.join('/')
 			},
 			...fileList
@@ -196,15 +196,15 @@ export default function SendMessageForm() {
 		setImages(fileList);
 	};
 	const sendAudioDirectToChat = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
+		const fileType = file.type?.split('/');
+		let fileList = images || [];
 
 		fileList = [
 			{
-				file: file,
+				file,
 				imgPath: URL.createObjectURL(file),
 				fileType: fileType[0],
-				extension: '.' + fileType[1],
+				extension: `.${fileType[1]}`,
 				type: fileType.join('/')
 			},
 			...fileList

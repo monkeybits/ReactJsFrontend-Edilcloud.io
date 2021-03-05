@@ -15,8 +15,6 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
-import TodoChip from './TodoChip';
 import {
 	Collapse,
 	ListItemIcon,
@@ -36,7 +34,6 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import TodoActivityListItem from './TodoActivityListItem';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -49,6 +46,9 @@ import PlaylistAddOutlinedIcon from '@material-ui/icons/PlaylistAddOutlined';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import TodoActivityListItem from './TodoActivityListItem';
+import TodoChip from './TodoChip';
+import * as Actions from './store/actions';
 import TaskContentForm from './TaskContentForm';
 import EditActivityPostForm from './EditActivityPostForm';
 
@@ -238,21 +238,22 @@ function TodoListItem(props) {
 					</Typography>
 
 					<Button
-								style={{
-									color: theme.palette.getContrastText(props.todo.assigned_company?.color_project || '#D3D3D3') //)
-								}}
-								onClick={ev => {
-									ev.preventDefault();
-									ev.stopPropagation();
-									if (props.todo.assigned_company) {
-										dispatch(Actions.openAddActivityTodoDialog(props.todo));
-									}
-								}}
-								
-							>
-								<Icon className="mr-10">add_circle_outline</Icon>
-								SOTTOFASE
-							</Button>
+						style={{
+							color: theme.palette.getContrastText(
+								props.todo.assigned_company?.color_project || '#D3D3D3'
+							) // )
+						}}
+						onClick={ev => {
+							ev.preventDefault();
+							ev.stopPropagation();
+							if (props.todo.assigned_company) {
+								dispatch(Actions.openAddActivityTodoDialog(props.todo));
+							}
+						}}
+					>
+						<Icon className="mr-10">add_circle_outline</Icon>
+						SOTTOFASE
+					</Button>
 				</div>
 				<CardContent className="flex flex-col flex-auto ">
 					<Typography className="text-center text-16 font-400 items-center justify-center ht-auto">
@@ -368,7 +369,7 @@ function TodoListItem(props) {
 										>
 											Add
 										</Button> */}
-							
+
 							{/* </div> */}
 						</div>
 					)}

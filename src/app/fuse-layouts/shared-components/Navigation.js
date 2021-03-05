@@ -10,7 +10,7 @@ function Navigation(props) {
 	useEffect(() => {
 		dispatch(Actions.companyInfo());
 	}, [dispatch]);
-	
+
 	return (
 		<FuseNavigation
 			className={clsx('navigation', props.className)}

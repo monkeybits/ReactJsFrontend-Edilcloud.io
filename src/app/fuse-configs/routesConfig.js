@@ -35,7 +35,7 @@ const routeConfigs = [
 	CompanyCreationConfig,
 	EditProfileConfig
 ];
-let path = localStorage.getItem('redirect_path');
+const path = localStorage.getItem('redirect_path');
 const routes = [
 	// if you want to make whole app auth protected by default change defaultAuth for example:
 	// ...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin','staff','user']),
@@ -44,10 +44,10 @@ const routes = [
 	{
 		path: '/',
 		exact: true,
-		component: () => <Redirect to={getMainProfileId() ? '/apps/todo/all' : '/apps/companies'} />  // when user have main profile it will redirect default on  /apps/todo/all  else have to redirect on /apps/companies
-	},																									// if user login but not selected company then company page else todo page
+		component: () => <Redirect to={getMainProfileId() ? '/apps/todo/all' : '/apps/companies'} /> // when user have main profile it will redirect default on  /apps/todo/all  else have to redirect on /apps/companies
+	}, // if user login but not selected company then company page else todo page
 	{
-		path: '/index.html',// * in live website it will look for index.html but we don't have such path so will redirect it to below path besaed on coditions 
+		path: '/index.html', // * in live website it will look for index.html but we don't have such path so will redirect it to below path besaed on coditions
 		exact: true,
 		component: () => <Redirect to={getMainProfileId() ? '/apps/todo/all' : '/apps/companies'} />
 	},

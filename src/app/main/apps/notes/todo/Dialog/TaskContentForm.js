@@ -17,20 +17,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import LabelModel from 'app/main/apps/scrumboard/model/LabelModel';
-import * as Actions from '../store/actions';
 import moment from 'moment';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CardActivity from './activity/CardActivity';
-import CreateAttachments from './attachment/CreateAttachments';
-import CardChecklist from './checklist/CardChecklist';
-import CardComment from './comment/CardComment';
-import CheckListMenu from './toolbar/CheckListMenu';
-import DueMenu from './toolbar/DueMenu';
-import LabelsMenu from './toolbar/LabelsMenu';
-import MembersMenu from './toolbar/MembersMenu';
-import OptionsMenu from './toolbar/OptionsMenu';
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, makeStyles, Slider, withStyles, CircularProgress } from '@material-ui/core';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -38,16 +28,26 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import { Slider, withStyles, CircularProgress } from '@material-ui/core';
+
 import DatePicker from 'react-datepicker';
 import { useParams } from 'react-router';
-import CreatePostForm from '../CreatePostForm';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
-import ShowUpload from '../ShowUpload';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
+import ShowUpload from '../ShowUpload';
+import CreatePostForm from '../CreatePostForm';
+import OptionsMenu from './toolbar/OptionsMenu';
+import MembersMenu from './toolbar/MembersMenu';
+import LabelsMenu from './toolbar/LabelsMenu';
+import DueMenu from './toolbar/DueMenu';
+import CheckListMenu from './toolbar/CheckListMenu';
+import CardComment from './comment/CardComment';
+import CardChecklist from './checklist/CardChecklist';
+import CreateAttachments from './attachment/CreateAttachments';
+import CardActivity from './activity/CardActivity';
+import * as Actions from '../store/actions';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -195,10 +195,10 @@ function TaskContentForm(props) {
 		endDate: undefined
 	});
 	const [value, setValue] = React.useState(0);
-	const getName = profile => profile.first_name + ' ' + profile.last_name;
+	const getName = profile => `${profile.first_name} ${profile.last_name}`;
 	useEffect(() => {
 		if (companies && companies.length && taskContentData) {
-			let company = [...companies]
+			const company = [...companies]
 				.filter(company => company.profile?.company?.id == taskContentData?.assigned_company?.id)
 				.map(company => ({
 					data: company,
@@ -222,7 +222,7 @@ function TaskContentForm(props) {
 			console.log({ taskContentData, date_start: taskContentData.date_start });
 			if (taskContentData.isGantt) {
 				if (taskContentData.parent == 1) {
-					//parrent 1 means its activty
+					// parrent 1 means its activty
 					setTaskDate({
 						startDate: new Date(taskContentData.datetime_start),
 						endDate: new Date(taskContentData.datetime_end)
@@ -419,7 +419,7 @@ function TaskContentForm(props) {
 			</div>
 			<DialogContent id="dialog-content" className="p-0">
 				<TabPanel value={value} index={0} class="write-post-img-full custom-create-post-padding">
-					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
+					<CreatePostForm taskId={taskContentData?.id} isTask />
 				</TabPanel>
 				<TabPanel value={value} index={1}>
 					<div className="sm:mx-12">

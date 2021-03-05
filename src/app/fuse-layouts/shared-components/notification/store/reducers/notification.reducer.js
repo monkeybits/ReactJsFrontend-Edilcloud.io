@@ -30,7 +30,7 @@ const quickPanel = (state = initialState, action) => {
 			};
 		}
 		case Actions.DELETE_NOTOFICATION_PANEL_DATA_BY_INDEX: {
-			let key = action.hasRead ? 'readNotifications' : 'notifications';
+			const key = action.hasRead ? 'readNotifications' : 'notifications';
 			return {
 				...state,
 				[key]: state[key].filter((d, i) => i != action.payload)

@@ -1,6 +1,6 @@
 import _ from '@lodash';
-import * as Actions from '../actions';
 import FuseUtils from '@fuse/utils';
+import * as Actions from '../actions';
 
 const initialState = () => ({
 	entities: [],
@@ -14,9 +14,8 @@ const mergeArray = (oldArr = [], newArr = []) =>
 		const x = arr.find(item => item.name === current.name);
 		if (!x) {
 			return arr.concat([current]);
-		} else {
-			return arr;
 		}
+		return arr;
 	}, []);
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -39,19 +38,18 @@ const mergeArrayByComapny = arr =>
 		const x = arr.find(item => (item.id && current.id ? item.id === current.id : false));
 		if (!x) {
 			return arr.concat([current]);
-		} else {
-			return arr;
 		}
+		return arr;
 	}, []);
 const getAllCompanies = (arr = []) => arr.map(item => item.company).filter(i => i && i);
 const labelsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_PROJECTS: {
-			const company = action.company;
+			const { company } = action;
 			let entities = sortByProperty(mergeArray(state.entities, action.payload), 'name');
 			if (Array.isArray(entities) && !!entities.length && company) {
-				let myCompanyProjects = entities.filter(d => d.company.id == company.id);
-				let notMyCompanyProjects = entities.filter(d => d.company.id != company.id);
+				const myCompanyProjects = entities.filter(d => d.company.id == company.id);
+				const notMyCompanyProjects = entities.filter(d => d.company.id != company.id);
 				entities = [...myCompanyProjects, ...notMyCompanyProjects];
 				// console.log({ entities, company, myCompanyProjects, notMyCompanyProjects }); // myCompanyProjects, notMyCompanyProjects
 			}
@@ -80,8 +78,8 @@ const labelsReducer = (state = initialState(), action) => {
 			};
 		}
 		case Actions.TOGGLE_PROJECT_STATUS: {
-			let index = action.index;
-			let results = state.entities;
+			const { index } = action;
+			const results = state.entities;
 			results[index] = { ...results[index], status: !results[index].status };
 			return {
 				...state,

@@ -27,24 +27,24 @@ class Auth extends Component {
 				waitAuthCheck: false
 			});
 			return localStorage.clear();
-		} else {
-			return Promise.all([
-				// Comment the lines which you do not use
-				// this.firebaseCheck(),
-				// this.auth0Check(),
-
-				this.jwtCheck()
-			])
-				.then(() => {
-					this.setState({ waitAuthCheck: false });
-					this.getUser();
-					this.getCompanyProfileData();
-				})
-				.catch(() => {
-					this.setState({ waitAuthCheck: false });
-				});
 		}
+		return Promise.all([
+			// Comment the lines which you do not use
+			// this.firebaseCheck(),
+			// this.auth0Check(),
+
+			this.jwtCheck()
+		])
+			.then(() => {
+				this.setState({ waitAuthCheck: false });
+				this.getUser();
+				this.getCompanyProfileData();
+			})
+			.catch(() => {
+				this.setState({ waitAuthCheck: false });
+			});
 	}
+
 	getUser = () => {
 		const mainProfileId = getMainProfileId();
 		apiCall(
@@ -56,9 +56,11 @@ class Auth extends Component {
 			getHeaderToken()
 		);
 	};
+
 	getCompanyProfileData = () => {
 		this.props.getCompanyProfile(getTokenOnly());
 	};
+
 	jwtCheck = () =>
 		new Promise((resolve, reject) => {
 			jwtService.on('onAutoLogin', () => {

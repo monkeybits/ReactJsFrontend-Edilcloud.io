@@ -96,9 +96,6 @@ const authDB = {
 	]
 };
 
-
-
-
 mock.onPost('/api/auth/user/update').reply(config => {
 	const data = JSON.parse(config.data);
 	const { user } = data;

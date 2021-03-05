@@ -2,15 +2,15 @@
 
 import React, { createContext } from 'react';
 import io from 'socket.io-client';
-import { WS_BASE_PROJECT_REPORT_DEV, WS_BASE_PROJECT_REPORT_LOCAL } from './config';
 import { useDispatch, useSelector } from 'react-redux';
-import * as companyChatActions from './main/apps/chat/store/actions';
 import * as chatPanelActions from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
+import { toast } from 'react-toastify';
+import FileSaver from 'file-saver';
+import { WS_BASE_PROJECT_REPORT_DEV, WS_BASE_PROJECT_REPORT_LOCAL } from './config';
+import * as companyChatActions from './main/apps/chat/store/actions';
 import * as ProjectChatActions from './main/apps/notes/chat/store/actions';
 import { decodeDataFromToken } from './services/serviceUtils';
 import LetterAvatars from './main/documentation/material-ui-components/components/avatars/LetterAvatars';
-import { toast } from 'react-toastify';
-import FileSaver from 'file-saver';
 // import * as chatPanelActions from '../';src/app/fuse-layouts/shared-components/chatPanel/store/actions/chat.actions.js
 // import moduleName from '../../../'
 
@@ -32,10 +32,10 @@ export default ({ children }) => {
 	function download_file(fileURL, fileName) {
 		// for non-IE
 		if (!window.ActiveXObject) {
-			var save = document.createElement('a');
+			const save = document.createElement('a');
 			save.href = fileURL;
 			save.target = '_blank';
-			var filename = fileURL.substring(fileURL.lastIndexOf('/') + 1);
+			const filename = fileURL.substring(fileURL.lastIndexOf('/') + 1);
 			save.download = fileName || filename;
 			if (
 				navigator.userAgent.toLowerCase().match(/(ipad|iphone|safari)/) &&
@@ -44,7 +44,7 @@ export default ({ children }) => {
 				document.location = save.href;
 				// window event not working here
 			} else {
-				var evt = new MouseEvent('click', {
+				const evt = new MouseEvent('click', {
 					view: window,
 					bubbles: true,
 					cancelable: false
@@ -56,7 +56,7 @@ export default ({ children }) => {
 
 		// for IE < 11
 		else if (!!window.ActiveXObject && document.execCommand) {
-			var _window = window.open(fileURL, '_blank');
+			const _window = window.open(fileURL, '_blank');
 			_window.document.close();
 			_window.document.execCommand('SaveAs', true, fileName || fileURL);
 			_window.close();
@@ -64,7 +64,7 @@ export default ({ children }) => {
 	}
 	const passMessage = msg => {
 		// const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-		let name =
+		const name =
 			msg.message.name && msg.message.extension ? `${msg.message.name}.${msg.message.extension}` : 'file.pdf';
 		FileSaver.saveAs(msg.message.url, name);
 	};
@@ -75,7 +75,7 @@ export default ({ children }) => {
 			const userInfo = decodeDataFromToken();
 			const getUserId = () => userInfo?.extra?.profile.id;
 			console.log({ socketData: data, id: getUserId() });
-			if (data.message.message['dest']?.['id'] === parseInt(getUserId())) {
+			if (data.message.message.dest?.['id'] === parseInt(getUserId())) {
 				if (window.DownloadFiles) {
 					window.DownloadFiles.postMessage(data.message.message.url);
 					console.log('Download report url sent');

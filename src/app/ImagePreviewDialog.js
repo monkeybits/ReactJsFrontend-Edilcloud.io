@@ -21,11 +21,11 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import VideoListItem from 'app/VideoPlayer/VideoListItem';
 import FileSaver from 'file-saver';
+import * as ICONS from 'app/main/apps/constants';
+import { useTranslation } from 'react-i18next';
 import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from './services/apiEndPoints';
 import { apiCall, METHOD } from './services/baseUrl';
 import { getHeaderToken } from './services/serviceUtils';
-import * as ICONS from 'app/main/apps/constants';
-import { useTranslation } from 'react-i18next';
 
 const styles = theme => ({
 	root: {
@@ -89,9 +89,9 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 	}
 	const handleDownload = () => {
 		const item = imagesArray[step];
-		let type = () => (item.type ? item.type.split('/')[0] : '');
+		const type = () => (item.type ? item.type.split('/')[0] : '');
 
-		let apiurl =
+		const apiurl =
 			type() == 'image'
 				? DOWNLOAD_PHOTO(item.id)
 				: type() == 'video'
@@ -101,8 +101,8 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 			apiurl,
 			{},
 			({ headers, data }) => {
-				let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-				var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+				const image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+				const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 				console.log({ file });
 				if (window) {
 					console.log('listenning to flutterInAppWebViewPlatformReady');
@@ -138,7 +138,7 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 				...getHeaderToken(),
 				responseType: 'arraybuffer',
 				onDownloadProgress: progressEvent => {
-					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 					// setProgress(percentCompleted);
 				}
 			},
@@ -146,7 +146,7 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 		);
 	};
 	const getPreviewByType = item => {
-		let type = () => (item.type ? item.type.split('/')[0] : '');
+		const type = () => (item.type ? item.type.split('/')[0] : '');
 		switch (type()) {
 			case 'image': {
 				return <img src={item.media_url} />;

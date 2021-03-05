@@ -60,7 +60,7 @@ const locale = {
 	LIKE: 'Like',
 	ADD_COMMENT: 'Add a comment..',
 	EDIT: 'Edit',
-	DELETE: 'Delete',
+	DELETE: 'Delete'
 };
 
 export default locale;

@@ -6,10 +6,10 @@ import Paper from '@material-ui/core/Paper';
 import { ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import Typography from '@material-ui/core/Typography';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Button from '@material-ui/core/Button';
+import * as Actions from './store/actions';
 
 function TodoHeader(props) {
 	const dispatch = useDispatch();

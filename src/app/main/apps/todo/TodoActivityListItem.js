@@ -6,7 +6,7 @@ TODO: This file is created for activity list item
 */
 import _ from '@lodash';
 import Checkbox from '@material-ui/core/Checkbox';
-import { amber, red } from '@material-ui/core/colors';
+import { amber, red, green } from '@material-ui/core/colors';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
@@ -35,7 +35,7 @@ import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
 import ToolbarMenu from '../notes/todo/Dialog/toolbar/ToolbarMenu';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { toast } from 'react-toastify';
-import { green } from '@material-ui/core/colors';
+
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
@@ -101,7 +101,7 @@ function TodoActivityListItem(props) {
 	const dispatch = useDispatch();
 	const labels = useSelector(({ todoApp }) => todoApp.labels); // to get the labels
 	const [open, setOpen] = React.useState(false);
-	const [completed, setCompleted] = React.useState(props.todo.status == 'to-do' ? false : true); // to set task compalted or not
+	const [completed, setCompleted] = React.useState(props.todo.status != 'to-do'); // to set task compalted or not
 	const [taskDetail, setTaskDetail] = useState([]);
 	const routeParams = useParams();
 	const classes = useStyles(props);
@@ -128,14 +128,14 @@ function TodoActivityListItem(props) {
 	}, [props.todo?.status]);
 	useEffect(() => {
 		if (Array.isArray(props.todo.workers_in_activity)) {
-			let workers_in_activity = _.enhance(props.todo.workers_in_activity, { is_exists: true });
+			const workers_in_activity = _.enhance(props.todo.workers_in_activity, { is_exists: true });
 
 			setMembers(workers_in_activity);
 		}
 	}, [props.todo.workers_in_activity]);
 	useEffect(() => {
 		if (Array.isArray(props.todo.can_assign_in_activity)) {
-			let can_assign_in_activity = _.enhance(props.todo.can_assign_in_activity, { is_exists: false });
+			const can_assign_in_activity = _.enhance(props.todo.can_assign_in_activity, { is_exists: false });
 			setCanAssign(can_assign_in_activity);
 		}
 	}, [props.todo.can_assign_in_activity]);
@@ -160,7 +160,7 @@ function TodoActivityListItem(props) {
 		}
 	};
 	const editTodoActivty = status => {
-		let values = {
+		const values = {
 			title: props.todo.title,
 			description: props.todo.description,
 			datetime_start: props.todo.datetime_start,
@@ -185,13 +185,13 @@ function TodoActivityListItem(props) {
 	};
 	const editWorkers = (workers, isCanAssign) => {
 		let ids = [];
-		let data = isCanAssign ? members : canAssign;
+		const data = isCanAssign ? members : canAssign;
 		if (Array.isArray(workers)) {
 			ids = [...workers, ...data].filter(w => w.is_exists);
 		}
 
 		console.log({ ids });
-		let values = {
+		const values = {
 			id: props.todo.id,
 			title: props.todo.title,
 			description: props.todo.description,
@@ -256,7 +256,7 @@ function TodoActivityListItem(props) {
 			GET_STAFF_LIST,
 			{},
 			res => {
-				let inviteMembers = res.results.filter(m => m.role == 'Worker');
+				const inviteMembers = res.results.filter(m => m.role == 'Worker');
 				console.log(inviteMembers);
 				setInviteMembers(inviteMembers);
 			},
@@ -269,8 +269,8 @@ function TodoActivityListItem(props) {
 	};
 	const addMemberToProject = (event, index) => {
 		event.preventDefault();
-		let invited = [...inviteMembers];
-		let member = invited[index];
+		const invited = [...inviteMembers];
+		const member = invited[index];
 		invited[index] = {
 			...member,
 			is_exists: true
@@ -376,7 +376,7 @@ function TodoActivityListItem(props) {
 									className="custom-tippy"
 									placement="bottom"
 									animation="fade"
-									arrow={true}
+									arrow
 									theme="light-border"
 									trigger="click"
 									// Need to ensure it can be tabbed to directly after with no clipping issues
@@ -421,7 +421,7 @@ function TodoActivityListItem(props) {
 																		name={member.first_name}
 																		checked={!!member.is_exists}
 																		onChange={e => {
-																			let tempMembers = [...members];
+																			const tempMembers = [...members];
 																			tempMembers[index] = {
 																				...tempMembers[index],
 																				is_exists: e.target.checked
@@ -460,7 +460,7 @@ function TodoActivityListItem(props) {
 																		name={member.first_name}
 																		checked={!!member.is_exists}
 																		onChange={e => {
-																			let tempMembers = [...canAssign];
+																			const tempMembers = [...canAssign];
 																			tempMembers[index] = {
 																				...tempMembers[index],
 																				is_exists: e.target.checked

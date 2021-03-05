@@ -15,8 +15,6 @@ import withReducer from 'app/store/withReducer';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions/index';
-import reducer from './store/reducers';
 import TimelineTab from 'app/main/pages/profile/tabs/TimelineTab';
 
 import Accordion from '@material-ui/core/Accordion';
@@ -36,6 +34,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
+import reducer from './store/reducers';
+import * as Actions from './store/actions/index';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -123,7 +123,7 @@ function QuickPanel(props) {
 			ALERTED_POSTS_TASKS,
 			{},
 			results => {
-				let items = results.map(d => ({ ...d, type: 'tasks' }));
+				const items = results.map(d => ({ ...d, type: 'tasks' }));
 				setListTask(items);
 			},
 			err => console.log(err),
@@ -136,7 +136,7 @@ function QuickPanel(props) {
 			ALERTED_POSTS_ACTIVITY,
 			{},
 			results => {
-				let items = results.map(d => ({ ...d, type: 'activity' }));
+				const items = results.map(d => ({ ...d, type: 'activity' }));
 				setListActivity(items);
 			},
 			err => console.log(err),
@@ -183,13 +183,7 @@ function QuickPanel(props) {
 				</Toolbar>
 				<div className={classesTabs.root}>
 					<AppBar position="static">
-						<Tabs
-							fullWidth={true}
-							value={value}
-							onChange={handleChange}
-							centered
-							aria-label="simple tabs example"
-						>
+						<Tabs fullWidth value={value} onChange={handleChange} centered aria-label="simple tabs example">
 							<Tab label="Tasks" {...a11yProps(0)} />
 							<Tab label="Activities" {...a11yProps(1)} />
 						</Tabs>

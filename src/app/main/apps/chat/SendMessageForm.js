@@ -10,14 +10,15 @@ import clsx from 'clsx';
 import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
+import AudioRecord from 'app/AudioRecord';
+import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
-import AudioRecord from 'app/AudioRecord';
 import MessageMoreOptions from './MessageMoreOptions';
 import RetryToSendMessage from './RetryToSendMessage';
-import { useTranslation } from 'react-i18next';
+
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
@@ -129,17 +130,17 @@ export default function SendMessageForm(props) {
 		}
 	}
 	const addPhoto = async e => {
-		const files = e.currentTarget.files;
+		const { files } = e.currentTarget;
 		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/');
+		for (let i = 0; i < files.length; i++) {
+			const fileType = files[i].type?.split('/');
 			file = [
 				...file,
 				{
 					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
 					fileType: fileType[0],
-					extension: '.' + fileType[1],
+					extension: `.${fileType[1]}`,
 					type: fileType.join('/')
 				}
 			];
@@ -147,15 +148,15 @@ export default function SendMessageForm(props) {
 		}
 	};
 	const addAudio = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
+		const fileType = file.type?.split('/');
+		let fileList = images || [];
 
 		fileList = [
 			{
-				file: file,
+				file,
 				imgPath: URL.createObjectURL(file),
 				fileType: fileType[0],
-				extension: '.' + fileType[1],
+				extension: `.${fileType[1]}`,
 				type: fileType.join('/')
 			},
 			...fileList
@@ -163,15 +164,15 @@ export default function SendMessageForm(props) {
 		setImages(fileList);
 	};
 	const sendAudioDirectToChat = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
+		const fileType = file.type?.split('/');
+		let fileList = images || [];
 
 		fileList = [
 			{
-				file: file,
+				file,
 				imgPath: URL.createObjectURL(file),
 				fileType: fileType[0],
-				extension: '.' + fileType[1],
+				extension: `.${fileType[1]}`,
 				type: fileType.join('/')
 			},
 			...fileList

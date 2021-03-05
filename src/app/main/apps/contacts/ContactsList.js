@@ -13,16 +13,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
-import ContactsTable from './ContactsTable';
-import * as Actions from './store/actions';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
 import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import './contact-cards.css';
 import Grid from '@material-ui/core/Grid';
-import ContactCard from './ContactCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import { TramOutlined } from '@material-ui/icons';
@@ -35,8 +31,12 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MoreOption from './MoreOption';
 import { useTranslation } from 'react-i18next';
+import MoreOption from './MoreOption';
+import ContactCard from './ContactCard';
+import * as Actions from './store/actions';
+import ContactsTable from './ContactsTable';
+import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -226,9 +226,8 @@ function ContactsList(props) {
 			const x = arr.find(item => (item.id && current.id ? item.id === current.id : false));
 			if (!x) {
 				return arr.concat([current]);
-			} else {
-				return arr;
 			}
+			return arr;
 		}, []);
 
 	const setContacts = filterKey => {
@@ -249,7 +248,7 @@ function ContactsList(props) {
 		switch (filterKey) {
 			case 'all':
 				results = removeDuplicates(sortByProperty(getFilteredArray(contacts, searchText), 'name'));
-				let deactivatedUsers = removeDuplicates(
+				const deactivatedUsers = removeDuplicates(
 					sortByProperty(getFilteredArray(deactivated, searchText), 'name')
 				);
 				setFilteredData([...results, ...deactivatedUsers]);
@@ -302,7 +301,7 @@ function ContactsList(props) {
 
 	const onDeactivate = () => {
 		const { id, email, status } = userData;
-		let url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
+		const url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
 		apiCall(
 			url,
 			{},
@@ -383,7 +382,7 @@ function ContactsList(props) {
 				<div className="flex flex-1 items-center justify-center h-full">
 					<div>
 						<div className="flex flex-1 mb-20px items-center justify-center ">
-							<img width="600px" src="/assets/images/errors/nocontacts.png"></img>
+							<img width="600px" src="/assets/images/errors/nocontacts.png" />
 						</div>
 						<div className="flex flex-1 mt-30 items-center justify-center ">
 							<Typography color="textSecondary" variant="h5">

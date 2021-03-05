@@ -21,15 +21,15 @@ import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
 import FacebookLoginComponent from '../login/FacebookLoginComponent';
 import GoogleLoginComponent from '../login/GoogleLoginComponent';
-import { Divider } from '@material-ui/core';
+import { Divider, ListItemIcon, ListItemText } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { ListItemIcon, ListItemText } from '@material-ui/core';
+
 import { useDispatch } from 'react-redux';
 import * as MainActions from 'app/store/actions';
 import TippyMenu from 'app/TippyMenu';
 import 'tippy.js/themes/light-border.css';
-import TermsModal from '../login/TermsModal';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import TermsModal from '../login/TermsModal';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -158,7 +158,9 @@ function RegisterPage() {
 								<JWTRegisterTab />
 
 								<div className="flex items-center justify-center w-full pt-24">
-									<span className="text-custom font-600 mr-6">{t('ALREADY_HAVE_AN_ACCOUNT_ASK')}</span>
+									<span className="text-custom font-600 mr-6">
+										{t('ALREADY_HAVE_AN_ACCOUNT_ASK')}
+									</span>
 									<Link className="text-primary font-600 inline" to="/pages/auth/login">
 										{t('SIGN_IN_BUTTON')}
 									</Link>
@@ -173,7 +175,13 @@ function RegisterPage() {
 									<>
 										{/* <InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel> */}
 
-										<InputLabel id="demo-simple-select-label">{currentLng.title} <span className="arrow-icon"> <KeyboardArrowDownIcon /> </span> </InputLabel>
+										<InputLabel id="demo-simple-select-label">
+											{currentLng.title}{' '}
+											<span className="arrow-icon">
+												{' '}
+												<KeyboardArrowDownIcon />{' '}
+											</span>{' '}
+										</InputLabel>
 									</>
 								}
 								// ref={menuRef}

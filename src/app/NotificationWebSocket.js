@@ -2,12 +2,12 @@
 
 import React, { createContext } from 'react';
 import io from 'socket.io-client';
-import { WS_BASE_NOTIFICATION_DEV, WS_BASE_NOTIFICATION_LOCAL } from './config';
 import { useDispatch, useSelector } from 'react-redux';
 import * as notificationPanelActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import { toast } from 'react-toastify';
+import { WS_BASE_NOTIFICATION_DEV, WS_BASE_NOTIFICATION_LOCAL } from './config';
 import { decodeDataFromToken } from './services/serviceUtils';
 import LetterAvatars from './main/documentation/material-ui-components/components/avatars/LetterAvatars';
-import { toast } from 'react-toastify';
 // import * as chatPanelActions from '../';src/app/fuse-layouts/shared-components/chatPanel/store/actions/chat.actions.js
 // import moduleName from '../../../'
 
@@ -29,7 +29,7 @@ export default ({ children }) => {
 		dispatch((dispatch, getState) => {
 			console.log({ notificationPanelState: getState().notificationPanel?.state, message });
 			// if (getState().notificationPanel?.state) {
-				dispatch(notificationPanelActions.pushNotificationData({ notification: message }));
+			dispatch(notificationPanelActions.pushNotificationData({ notification: message }));
 			// }
 		});
 	};
@@ -39,8 +39,8 @@ export default ({ children }) => {
 			const data = JSON.parse(e.data);
 			const userInfo = decodeDataFromToken();
 			const getUserId = () => userInfo?.extra?.profile.id;
-			console.log({ socketData: data, id: data.message.message['dest']?.['id'] === parseInt(getUserId()) });
-			if (data.message.message['dest']?.['id'] === parseInt(getUserId())) {
+			console.log({ socketData: data, id: data.message.message.dest?.['id'] === parseInt(getUserId()) });
+			if (data.message.message.dest?.['id'] === parseInt(getUserId())) {
 				dispatch(notificationPanelActions.incrementNotificationCount());
 				passMessage(data.message);
 				// global.notificationSocket.send(

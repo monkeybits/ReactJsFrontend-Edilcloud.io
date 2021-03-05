@@ -4,7 +4,6 @@ import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import Icon from '@material-ui/core/Icon';
 import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -15,11 +14,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import FuseUtils from '@fuse/utils';
-import MoreOption from './MoreOption';
-import DeleteConfirmDialog from '../../file-manager/DeleteConfirmDialog';
 import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
+import DeleteConfirmDialog from '../../file-manager/DeleteConfirmDialog';
+import MoreOption from './MoreOption';
+import * as Actions from './store/actions';
 
 export default function ContactCard(props) {
 	const {
@@ -71,14 +71,14 @@ export default function ContactCard(props) {
 	}, [id, hasNotifcationOnThisItem]);
 
 	useEffect(() => {
-		let notification = notificationPanel.notificationData?.notification;
+		const notification = notificationPanel.notificationData?.notification;
 		if (notificationPanel.viewing && notification?.content_type == 'team' && hasRender && scrollRef.current) {
 			dispatch(notificationActions.removeFrmViewNotification());
 			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
 		}
 	}, [notificationPanel.viewing, scrollRef, hasRender]);
 	const getPhoto = fileData => {
-		let reader = new FileReader();
+		const reader = new FileReader();
 
 		reader.onloadend = () => {
 			setFile({
@@ -91,7 +91,7 @@ export default function ContactCard(props) {
 		reader.readAsDataURL(fileData);
 	};
 	const handleSubmit = async (afterSubmit, permissionData, file) => {
-		let newformData = {
+		const newformData = {
 			id,
 			name,
 			lastName,
@@ -124,7 +124,7 @@ export default function ContactCard(props) {
 	};
 	const onDeactivate = () => {
 		const { id, email } = userData;
-		let url = DELETE_MEMBER_FROM_PROJECT(id);
+		const url = DELETE_MEMBER_FROM_PROJECT(id);
 		apiCall(
 			url,
 			{},
@@ -159,21 +159,21 @@ export default function ContactCard(props) {
 			/>
 			<div
 				ref={notificationPanel.notificationData?.notification?.object_id == id ? scrollRef : null}
-				class="card-container flex flex-col px-10 text-13"
+				className="card-container flex flex-col px-10 text-13"
 			>
-				<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
+				<span className={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				{/* {editPermission && ( */}
-					<div className="team-action">
-						<MoreOption
-							canHaveDeleteOption={editPermission}
-							deleteHandler={ev => {
-								ev.stopPropagation();
-								setUserData(props);
-								openDeleteContactDialog();
-							}}
-							onView={onCardClick}
-						/>
-					</div>
+				<div className="team-action">
+					<MoreOption
+						canHaveDeleteOption={editPermission}
+						deleteHandler={ev => {
+							ev.stopPropagation();
+							setUserData(props);
+							openDeleteContactDialog();
+						}}
+						onView={onCardClick}
+					/>
+				</div>
 				{/* )} */}
 				<input
 					type="file"
@@ -186,11 +186,11 @@ export default function ContactCard(props) {
 					}}
 					style={{ display: 'none' }}
 				/>
-				<img class="round" src={image ? image : avatar} alt="user" />
+				<img className="round" src={image || avatar} alt="user" />
 				<h4 className="font-weight-600 mb-8">{`${name} ${lastName}`}</h4>
 				{/* <h6>{address}</h6> */}
 				<p className="font-500 text-muted mb-8">
-					{position ? position : 'N/A'} - {role}
+					{position || 'N/A'} - {role}
 				</p>
 				{/* <h3 className="font-weight-600 mb-8">
 					Job Title

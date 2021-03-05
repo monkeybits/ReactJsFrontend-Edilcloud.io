@@ -9,13 +9,12 @@ export const getCompressFile = async fileToCompress => {
 			useWebWorker: true
 		});
 		return new File([compressedFile], compressedFile.name);
-	} else {
-		return undefined;
 	}
+	return undefined;
 };
 
 export const getHeaderToken = () => {
-	let token = localStorage.getItem('jwt_access_token');
+	const token = localStorage.getItem('jwt_access_token');
 	return {
 		headers: {
 			Authorization: `JWT ${token}`
@@ -23,7 +22,7 @@ export const getHeaderToken = () => {
 	};
 };
 export const getChatToken = key => {
-	let token = localStorage.getItem(key);
+	const token = localStorage.getItem(key);
 	return {
 		headers: {
 			Authorization: `JWT ${token}`

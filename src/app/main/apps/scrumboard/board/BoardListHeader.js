@@ -11,8 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from '../store/actions';
 import TippyMenu from 'app/TippyMenu';
+import * as Actions from '../store/actions';
 
 function BoardListHeader(props) {
 	const dispatch = useDispatch();

@@ -8,11 +8,8 @@ import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import BasicInfo from './BasicInfo';
-import ProfileUpload from './FileUpload';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { withRouter, useHistory } from 'react-router-dom';
-import axios from '../../services/axiosConfig';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import { EDIT_PROFILE } from 'app/services/apiEndPoints';
@@ -23,6 +20,9 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import * as userActions from 'app/auth/store/actions';
 import { useTranslation } from 'react-i18next';
+import axios from '../../services/axiosConfig';
+import ProfileUpload from './FileUpload';
+import BasicInfo from './BasicInfo';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -97,15 +97,15 @@ function VerticalLinearStepper({ user, history }) {
 		setActiveStep(0);
 	};
 	const handleSubmit = async () => {
-		var formData = new FormData();
-		let values = {
+		const formData = new FormData();
+		const values = {
 			first_name: form.fname,
 			last_name: form.lname,
 			language: value == 'English' ? 'en' : 'it',
 			photo: file && file.fileData ? await getCompressFile(file.fileData) : undefined
 		};
-		let token = localStorage.getItem('jwt_access_token');
-		for (let key in values) {
+		const token = localStorage.getItem('jwt_access_token');
+		for (const key in values) {
 			if (values[key]) formData.append(key, values[key]);
 		}
 		axios
@@ -120,8 +120,8 @@ function VerticalLinearStepper({ user, history }) {
 				console.log({
 					data
 				});
-				let nextPath = history.location.state?.nextPath;
-				history.push(nextPath ? nextPath : '/apps/todo/all');
+				const nextPath = history.location.state?.nextPath;
+				history.push(nextPath || '/apps/todo/all');
 			})
 			.catch(err => {
 				console.log(err);

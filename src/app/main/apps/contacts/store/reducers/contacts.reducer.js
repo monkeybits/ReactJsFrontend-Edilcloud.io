@@ -26,9 +26,8 @@ const mergeArray = (oldArr = [], newArr = []) =>
 		const x = arr.find(item => (item.id && current.id ? item.id === current.id : false));
 		if (!x) {
 			return arr.concat([current]);
-		} else {
-			return arr;
 		}
+		return arr;
 	}, []);
 const removeByEmail = (arr = [], email) => (arr.length ? arr.filter((d, i) => d.email != email) : []);
 const addTypeInArray = (arr = [], status) => (arr.length ? arr.map((d, i) => ({ ...d, status })) : []);

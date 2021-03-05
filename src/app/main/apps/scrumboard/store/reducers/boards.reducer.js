@@ -21,9 +21,8 @@ const mergeArray = (oldArr = [], newArr = []) =>
 		const x = arr.find(item => item.name === current.name);
 		if (!x) {
 			return arr.concat([current]);
-		} else {
-			return arr;
 		}
+		return arr;
 	}, []);
 const boardsReducer = (state = initialState, action) => {
 	switch (action.type) {

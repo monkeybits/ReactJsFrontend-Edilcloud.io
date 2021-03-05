@@ -2,7 +2,7 @@ import _ from '@lodash';
 import * as Actions from '../actions';
 
 const initialState = () => ({
-	rootFiles:[],
+	rootFiles: [],
 	allFiles: [],
 	photos: [],
 	videos: [],
@@ -22,14 +22,12 @@ const initialState = () => ({
 });
 
 function formatBytes(a, b = 2) {
-	if (0 === a) return '0 Bytes';
-	const c = 0 > b ? 0 : b,
-		d = Math.floor(Math.log(a) / Math.log(1024));
-	return (
-		parseFloat((a / Math.pow(1024, d)).toFixed(c)) +
-		' ' +
+	if (a === 0) return '0 Bytes';
+	const c = b < 0 ? 0 : b;
+	const d = Math.floor(Math.log(a) / Math.log(1024));
+	return `${parseFloat((a / Math.pow(1024, d)).toFixed(c))} ${
 		['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][d]
-	);
+	}`;
 }
 
 const addTypeInArray = (arr = [], type) => arr.map((d, i) => ({ ...d, mainId: d.id, type, size: formatBytes(d.size) }));
@@ -38,9 +36,8 @@ const mergeArray = (oldArr = [], newArr = []) =>
 		const x = arr.find(item => item.mainId === current.mainId && item.type === current.type);
 		if (!x) {
 			return arr.concat([current]);
-		} else {
-			return arr;
 		}
+		return arr;
 	}, []);
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -83,7 +80,8 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) =>
 				results: state.documents.results.filter(f => !f.folder_relative_path.includes(deleteId))
 			}
 		};
-	} else if (fileType == 'photo') {
+	}
+	if (fileType == 'photo') {
 		return {
 			...state,
 			allFiles: chnageIds(
@@ -95,7 +93,8 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) =>
 			photos: { ...state.photos, results: state.photos.results.filter(f => f.id != deleteId) },
 			files: state.files.filter(f => f.mainId != deleteId)
 		};
-	} else if (fileType == 'video') {
+	}
+	if (fileType == 'video') {
 		return {
 			...state,
 			allFiles: chnageIds(
@@ -107,19 +106,18 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) =>
 			videos: { ...state.videos, results: state.videos.results.filter(f => f.id != deleteId) },
 			files: state.files.filter(f => f.mainId != deleteId)
 		};
-	} else {
-		return {
-			...state,
-			allFiles: chnageIds(
-				sortByProperty(
-					state.allFiles.filter(f => f.id != indexId),
-					'title'
-				)
-			),
-			documents: { ...state.documents, results: state.documents.results.filter(f => f.id != deleteId) },
-			files: state.files.filter(f => f.mainId != deleteId)
-		};
 	}
+	return {
+		...state,
+		allFiles: chnageIds(
+			sortByProperty(
+				state.allFiles.filter(f => f.id != indexId),
+				'title'
+			)
+		),
+		documents: { ...state.documents, results: state.documents.results.filter(f => f.id != deleteId) },
+		files: state.files.filter(f => f.mainId != deleteId)
+	};
 };
 const checkTypeAndReturn = (arr = [], type) => arr.filter(ar => ar.type != type);
 const filesReducer = (state = initialState(), action) => {
@@ -136,7 +134,10 @@ const filesReducer = (state = initialState(), action) => {
 				photos: action.payload,
 				rootFiles: chnageIds(
 					sortByProperty(
-						mergeArray(checkTypeAndReturn(state.rootFiles, 'photo'), addTypeInArray(action.payload, 'photo')),
+						mergeArray(
+							checkTypeAndReturn(state.rootFiles, 'photo'),
+							addTypeInArray(action.payload, 'photo')
+						),
 						'title'
 					)
 				)
@@ -148,7 +149,10 @@ const filesReducer = (state = initialState(), action) => {
 				videos: action.payload,
 				rootFiles: chnageIds(
 					sortByProperty(
-						mergeArray(checkTypeAndReturn(state.rootFiles, 'video'), addTypeInArray(action.payload, 'video')),
+						mergeArray(
+							checkTypeAndReturn(state.rootFiles, 'video'),
+							addTypeInArray(action.payload, 'video')
+						),
 						'title'
 					)
 				)
@@ -175,7 +179,7 @@ const filesReducer = (state = initialState(), action) => {
 				allFolderPaths: action.payload
 			};
 		case Actions.GET_FOLDERS:
-			let cFolderPath = state.folderPath;
+			const cFolderPath = state.folderPath;
 			return {
 				...state,
 				isUploadingFiles: false,
@@ -247,7 +251,7 @@ const filesReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				folderPath: [...action.payload],
-				photos: pathData?.media ? pathData.media.photo : [], //pathData.media.photo,
+				photos: pathData?.media ? pathData.media.photo : [], // pathData.media.photo,
 				files: pathData?.media
 					? chnageIds(
 							sortByProperty(
@@ -268,19 +272,19 @@ const filesReducer = (state = initialState(), action) => {
 								]),
 								'title'
 							)
-					  ), //pathData.media.photo,
+					  ), // pathData.media.photo,
 				folders: pathData?.folders
 					? addTypeInArray(pathData.folders, 'folder')
 					: addTypeInArray(state.rootFolders, 'folder')
 			};
 		case Actions.POP_FOLDER_PATH:
-			let folderPath = state.folderPath;
+			const { folderPath } = state;
 			folderPath.pop();
 			const pathDataAfterPop = folderPath[folderPath.length - 1];
 			return {
 				...state,
 				folderPath,
-				photos: pathDataAfterPop?.media ? pathDataAfterPop.media.photo : [], //pathDataAfterPop.media.photo,
+				photos: pathDataAfterPop?.media ? pathDataAfterPop.media.photo : [], // pathDataAfterPop.media.photo,
 				files: pathDataAfterPop?.media
 					? chnageIds(
 							sortByProperty(
@@ -301,7 +305,7 @@ const filesReducer = (state = initialState(), action) => {
 								]),
 								'title'
 							)
-					  ), //pathDataAfterPop.media.photo,
+					  ), // pathDataAfterPop.media.photo,
 				folders: pathDataAfterPop?.folders
 					? addTypeInArray(pathDataAfterPop.folders, 'folder')
 					: addTypeInArray(state.rootFolders, 'folder')

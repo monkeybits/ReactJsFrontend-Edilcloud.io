@@ -21,7 +21,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import ContactsApp from '../contacts/ContactsApp';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Dialog from '@material-ui/core/Dialog';
@@ -33,6 +32,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Divider from '@material-ui/core/Divider';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
+import ContactsApp from '../contacts/ContactsApp';
 import ProjectDetailContent from './ProjectDetailContent';
 
 export default function ProjectInfo({ openDialog, closeDialog }) {

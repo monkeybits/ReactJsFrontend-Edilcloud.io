@@ -16,10 +16,10 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import * as Actions from './store/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
 	listItem: {
@@ -103,7 +103,11 @@ function ContactsSidebarContent(props) {
 							onClick={() => dispatch(Actions.filterByKey('deactivated'))}
 							className={getListItemClassName('deactivated')}
 						>
-							<ListItemText className="truncate" primary={t('DEACTIVATED_TEAM_MEMBERS')} disableTypography />
+							<ListItemText
+								className="truncate"
+								primary={t('DEACTIVATED_TEAM_MEMBERS')}
+								disableTypography
+							/>
 						</ListItem>
 						<Divider />
 						<ListItem

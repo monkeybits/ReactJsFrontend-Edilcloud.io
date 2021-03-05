@@ -14,6 +14,8 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
+import { LinearProgress, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import ContactDialog from './ContactDialog';
 import ViewContactDialog from './ViewContactDialog';
 import ContactsHeader from './ContactsHeader';
@@ -22,8 +24,7 @@ import ContactsSidebarContent from './ContactsSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import TeamFloationButton from './TeamFloationButton';
-import { LinearProgress, Typography } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
+
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',

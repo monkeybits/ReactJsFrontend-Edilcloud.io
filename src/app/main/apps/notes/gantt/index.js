@@ -1,25 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeepCompareEffect } from '@fuse/hooks';
-import Gantt from './Gantt';
-import * as Actions from '../todo/store/actions';
 import { useParams } from 'react-router';
-import CreatePostDialog from '../todo/CreatePostDialog';
-import TodoDialog from '../todo/TodoDialog';
-import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
-import useScript from './useScript';
 import { Backdrop, Fab, Icon, makeStyles, Typography } from '@material-ui/core';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import clsx from 'clsx';
-import CreateTasks from './CreateTasks';
-import ImportExcelDialog from './ImportExcelDialog';
 import { ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
 import axios from 'app/services/axiosConfig';
 import { toast } from 'react-toastify';
 import { gantt } from 'dhtmlx-gantt';
 import moment from 'moment';
 import { useMediaQuery } from 'react-responsive';
+import ImportExcelDialog from './ImportExcelDialog';
+import CreateTasks from './CreateTasks';
+import useScript from './useScript';
+import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
+import TodoDialog from '../todo/TodoDialog';
+import CreatePostDialog from '../todo/CreatePostDialog';
+import * as Actions from '../todo/store/actions';
+import Gantt from './Gantt';
 
 const useStyles = makeStyles(theme => ({
 	backdrop: {
@@ -32,7 +32,7 @@ function GanttWrapper(props) {
 	const classes = useStyles();
 	const [target, setTarget] = React.useState(null);
 	const [open, setOpen] = React.useState(false);
-	let ganttRef = null;
+	const ganttRef = null;
 	const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 	const isDesktopOrLaptop = useMediaQuery({
 		query: '(min-device-width: 1224px)'
@@ -49,7 +49,7 @@ function GanttWrapper(props) {
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
-	let orientation = 'portrait';
+	const orientation = 'portrait';
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getTodos(routeParams.id, true));
 		return () => {
@@ -74,7 +74,7 @@ function GanttWrapper(props) {
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 	const handleUploadListOfTasks = list => {
-		let token = localStorage.getItem('jwt_access_token');
+		const token = localStorage.getItem('jwt_access_token');
 		axios
 			.post(ADD_TASK_TO_PROJECT(routeParams.id), list, {
 				headers: {
@@ -87,7 +87,7 @@ function GanttWrapper(props) {
 			.catch(err => console.log(err));
 	};
 	const importExcel = data => {
-		let file = data ? data : target;
+		const file = data || target;
 		if (file) {
 			setOpen(false);
 			gantt.importFromExcel({
@@ -96,10 +96,10 @@ function GanttWrapper(props) {
 				callback: project => {
 					if (project) {
 						try {
-							var header = [];
-							var headerControls = [];
-							var body = [];
-							let listOfData = project.map(item => ({
+							const header = [];
+							const headerControls = [];
+							const body = [];
+							const listOfData = project.map(item => ({
 								name: item['Task name'],
 								progress: item['Completed percentage'],
 								date_start: item['Start time']
@@ -108,13 +108,13 @@ function GanttWrapper(props) {
 								date_end: item['End time'] ? moment(item['End time']).format('YYYY-MM-DD') : undefined
 							}));
 							project.forEach(function (task) {
-								var cols = [];
+								let cols = [];
 								if (!header.length) {
-									for (var i in task) {
+									for (const i in task) {
 										header.push(i);
 									}
 									header.forEach(function (col, index) {
-										cols.push('<th>' + col + '</th>');
+										cols.push(`<th>${col}</th>`);
 										// headerControls.push(
 										// 	"<td><select data-column-mapping='" +
 										// 		col +
@@ -123,23 +123,22 @@ function GanttWrapper(props) {
 										// 		'</select>'
 										// );
 									});
-									body.push('<tr>' + cols.join('') + '</tr>');
-									body.push('<tr>' + headerControls.join('') + '</tr>');
+									body.push(`<tr>${cols.join('')}</tr>`);
+									body.push(`<tr>${headerControls.join('')}</tr>`);
 								}
 								cols = [];
 								header.forEach(function (col) {
-									cols.push('<td>' + task[col] + '</td>');
+									cols.push(`<td>${task[col]}</td>`);
 								});
-								body.push('<tr>' + cols.join('') + '</tr>');
+								body.push(`<tr>${cols.join('')}</tr>`);
 							});
 
-							var div = gantt.modalbox({
+							const div = gantt.modalbox({
 								title: 'Assign columns',
 								type: 'excel-form',
-								text:
-									'<div class="table-responsive"> <table class="table m-0">' +
-									body.join('') +
-									'</table> </div>',
+								text: `<div class="table-responsive"> <table class="table m-0">${body.join(
+									''
+								)}</table> </div>`,
 								buttons: [
 									{ label: 'Save', css: 'link_save_btn', value: 'save' },
 									{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
@@ -161,7 +160,7 @@ function GanttWrapper(props) {
 											// loadTable(mapping, project);
 											break;
 										case 'cancel':
-											//Cancel
+											// Cancel
 											break;
 									}
 								}

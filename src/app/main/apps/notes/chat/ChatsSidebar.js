@@ -16,10 +16,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import ContactListItem from './ContactListItem';
 import StatusIcon from './StatusIcon';
 import * as Actions from './store/actions';
-import { useTranslation } from 'react-i18next';
 
 const statusArr = [
 	{

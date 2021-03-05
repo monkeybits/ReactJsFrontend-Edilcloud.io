@@ -20,6 +20,10 @@ import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useEffect, useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router';
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import { LinearProgress } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import Chat from './Chat';
 import ChatsSidebar from './ChatsSidebar';
 import ContactSidebar from './ContactSidebar';
@@ -27,11 +31,7 @@ import StatusIcon from './StatusIcon';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import UserSidebar from './UserSidebar';
-import { withRouter } from 'react-router';
 import { GET_CHAT } from './store/actions';
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import { LinearProgress } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 350;
 const headerHeight = 200;
@@ -152,9 +152,8 @@ function ChatApp(props) {
 			return () => {
 				// clearInterval(callMessageList);
 			};
-		} else {
-			props.history.push('/apps/todo/all');
 		}
+		props.history.push('/apps/todo/all');
 	}, [dispatch, company]);
 	useEffect(() => {
 		return () => {
@@ -203,7 +202,9 @@ function ChatApp(props) {
 						</Button> */}
 				</div>
 
-				<div className={clsx(classes.contentCardWrapper, 'container h-full p-0 inner-height chat-inner-height')}>
+				<div
+					className={clsx(classes.contentCardWrapper, 'container h-full p-0 inner-height chat-inner-height')}
+				>
 					<div className={clsx(classes.contentCard, 'chat-bg')}>
 						<Hidden mdUp>
 							<Drawer
@@ -265,59 +266,57 @@ function ChatApp(props) {
 						</Drawer>
 
 						<main className={clsx(classes.contentWrapper, 'z-10 muliple-images-overflow-x chat-bg')}>
-							{
-								<>
-									<AppBar className="w-full border-0" position="static" elevation={1}>
-										<Toolbar className="bg-dark min-h-72 px-16">
-											<IconButton
-												color="inherit"
-												aria-label="Open drawer"
-												onClick={() => dispatch(Actions.openMobileChatsSidebar())}
-												className="flex md:hidden"
-											>
-												<Icon>chat</Icon>
-											</IconButton>
-											<div
-												className="flex items-center cursor-pointer chat-content-header"
-												// onClick={() => dispatch(Actions.openContactSidebar())}
-												// onKeyDown={() => dispatch(Actions.openContactSidebar())}
-												role="button"
-												tabIndex={0}
-											>
-												<div className="relative mx-8">
-													{/* <div className="absolute right-0 bottom-0 -m-4 z-10">
+							<>
+								<AppBar className="w-full border-0" position="static" elevation={1}>
+									<Toolbar className="bg-dark min-h-72 px-16">
+										<IconButton
+											color="inherit"
+											aria-label="Open drawer"
+											onClick={() => dispatch(Actions.openMobileChatsSidebar())}
+											className="flex md:hidden"
+										>
+											<Icon>chat</Icon>
+										</IconButton>
+										<div
+											className="flex items-center cursor-pointer chat-content-header"
+											// onClick={() => dispatch(Actions.openContactSidebar())}
+											// onKeyDown={() => dispatch(Actions.openContactSidebar())}
+											role="button"
+											tabIndex={0}
+										>
+											<div className="relative mx-8">
+												{/* <div className="absolute right-0 bottom-0 -m-4 z-10">
 													<StatusIcon status={selectedContact.status} />
 												</div> */}
 
-													<Avatar
-														src={
-															company.logo
-																? company.logo
-																: 'assets/images/avatars/profile.jpg'
-														}
-														alt={company.name}
-														className="w-48 h-48"
-													>
-														Group Chat
-													</Avatar>
-												</div>
-												<div>
-													<Typography color="inherit" className="px-8 mb-4">
-														{company.name}
-													</Typography>
-													<Typography color="inherit" className="text-14 text-muted px-8">
-														{t('MAIN_PROFILE')}
-													</Typography>
-												</div>
+												<Avatar
+													src={
+														company.logo
+															? company.logo
+															: 'assets/images/avatars/profile.jpg'
+													}
+													alt={company.name}
+													className="w-48 h-48"
+												>
+													Group Chat
+												</Avatar>
 											</div>
-										</Toolbar>
-									</AppBar>
+											<div>
+												<Typography color="inherit" className="px-8 mb-4">
+													{company.name}
+												</Typography>
+												<Typography color="inherit" className="text-14 text-muted px-8">
+													{t('MAIN_PROFILE')}
+												</Typography>
+											</div>
+										</div>
+									</Toolbar>
+								</AppBar>
 
-									<div className={classes.content}>
-										<Chat className="flex flex-1 z-10 muliple-images-overflow-x chat-bg" />
-									</div>
-								</>
-							}
+								<div className={classes.content}>
+									<Chat className="flex flex-1 z-10 muliple-images-overflow-x chat-bg" />
+								</div>
+							</>
 						</main>
 
 						<Drawer

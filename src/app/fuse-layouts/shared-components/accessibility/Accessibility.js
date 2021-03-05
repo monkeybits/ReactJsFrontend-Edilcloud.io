@@ -15,8 +15,6 @@ import withReducer from 'app/store/withReducer';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
-import reducer from './store/reducers';
 import TimelineTab from 'app/main/pages/profile/tabs/TimelineTab';
 
 import Accordion from '@material-ui/core/Accordion';
@@ -47,13 +45,14 @@ import axios from 'axios';
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
+import reducer from './store/reducers';
+import * as Actions from './store/actions';
 import Guide from './Guide';
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: 450,
-		backgroundColor: '#eff2f7',
-		
+		backgroundColor: '#eff2f7'
 	},
 	top: {
 		color: '#192d3e',

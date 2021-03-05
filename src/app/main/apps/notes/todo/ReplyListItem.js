@@ -23,11 +23,7 @@ import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST, DELETE_COMMENT, EDIT_COMMENT 
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
-import * as Actions from './store/actions';
-import ImagesPreview from './ImagesPreview';
-import PostList from './PostList';
 import moment from 'moment';
-import PostedImages from './PostedImages';
 import { Box, CircularProgress, Collapse } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
@@ -41,6 +37,10 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import TippyMenu from 'app/TippyMenu';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
+import PostedImages from './PostedImages';
+import PostList from './PostList';
+import ImagesPreview from './ImagesPreview';
+import * as Actions from './store/actions';
 
 export default function ReplyListItem({
 	post,
@@ -94,7 +94,7 @@ export default function ReplyListItem({
 	}, [comment]);
 
 	useEffect(() => {
-		let notification = notificationPanel.notificationData?.notification;
+		const notification = notificationPanel.notificationData?.notification;
 		if (
 			notificationPanel.viewing &&
 			notification?.content_type == 'comment' &&
@@ -140,11 +140,11 @@ export default function ReplyListItem({
 		);
 	};
 	const editComment = () => {
-		var formData = new FormData();
-		let values = {
+		const formData = new FormData();
+		const values = {
 			text: editText
 		};
-		for (let key in values) {
+		for (const key in values) {
 			formData.append(key, values[key]);
 		}
 		apiCall(
@@ -175,11 +175,11 @@ export default function ReplyListItem({
 	const userInfo = decodeDataFromToken();
 	const getUserId = () => userInfo?.extra?.profile.id;
 	const getRole = () => userInfo?.extra?.profile.role;
-	
-	console.log('comment>>>>>>>>>>>>>>>>>>>>>>>>>>>', comment)
 
-	const index = comment.text.indexOf( ' ', comment.text.indexOf( ' ' ) + 1 );
-	var replyAuthor = comment.text.substring(0, index);
+	console.log('comment>>>>>>>>>>>>>>>>>>>>>>>>>>>', comment);
+
+	const index = comment.text.indexOf(' ', comment.text.indexOf(' ') + 1);
+	const replyAuthor = comment.text.substring(0, index);
 	return (
 		<div
 			key={comment.id}
@@ -218,7 +218,8 @@ export default function ReplyListItem({
 							}
 							secondary={
 								<div className="text-base text-black">
-									<span className="font-700 mr-2">{replyAuthor}</span><span>{comment.text.replace(replyAuthor, '')}</span>
+									<span className="font-700 mr-2">{replyAuthor}</span>
+									<span>{comment.text.replace(replyAuthor, '')}</span>
 								</div>
 							}
 						/>
@@ -335,7 +336,7 @@ export default function ReplyListItem({
 					{/* <Icon className="text-14 mx-8 cursor-pointer">flag</Icon> */}
 					<Typography className="mx-6 text-13" variant="caption">
 						{
-							moment.parseZone(comment.created_date).fromNow() //format('LL')
+							moment.parseZone(comment.created_date).fromNow() // format('LL')
 						}
 					</Typography>
 				</div>

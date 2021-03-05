@@ -5,9 +5,9 @@ const foldersReducer = (state = {}, action) => {
 		case Actions.GET_SETTINGS:
 			return { ...state, ...action.payload };
 		case Actions.UPDATE_SETTINGS: {
-			let data = { ...state };
-			let key = action.payload.isEmail ? 'email' : 'bell';
-			let index = action.payload.index;
+			const data = { ...state };
+			const key = action.payload.isEmail ? 'email' : 'bell';
+			const { index } = action.payload;
 			data.notification[key] = {
 				...data.notification[key],
 				status: true
@@ -19,8 +19,8 @@ const foldersReducer = (state = {}, action) => {
 			return data;
 		}
 		case Actions.UPDATE_FULL_ARRAY_SETTINGS: {
-			let data = { ...state };
-			let key = action.payload.isEmail ? 'email' : 'bell';
+			const data = { ...state };
+			const key = action.payload.isEmail ? 'email' : 'bell';
 			data.notification[key] = {
 				...data.notification[key],
 				status: true

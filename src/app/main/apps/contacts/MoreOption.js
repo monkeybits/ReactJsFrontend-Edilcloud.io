@@ -16,6 +16,7 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import TippyMenu from 'app/TippyMenu';
 import { useTranslation } from 'react-i18next';
+
 export default function MoreOption(props) {
 	const { t } = useTranslation('contacts');
 	const [anchorEl, setAnchorEl] = React.useState(false);

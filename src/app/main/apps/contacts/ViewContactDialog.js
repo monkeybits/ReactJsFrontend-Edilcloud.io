@@ -23,18 +23,18 @@ import React, { useCallback, useEffect } from 'react';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import FormLabel from '@material-ui/core/FormLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { SYSTEM_ROLES } from '../../../constants';
 import Checkbox from '@material-ui/core/Checkbox';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { useTranslation } from 'react-i18next';
+import { SYSTEM_ROLES } from '../../../constants';
+import * as Actions from './store/actions';
 
 const defaultFormState = {
 	first_name: '',
@@ -91,7 +91,7 @@ function ViewContactDialog(props) {
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		let allData = {
+		const allData = {
 			...form,
 			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
 			language: value == 'English' ? 'en' : 'it'
@@ -100,7 +100,7 @@ function ViewContactDialog(props) {
 			dispatch(Actions.addContact({ ...allData, id: undefined }));
 		} else {
 			const { first_name, last_name, email, id } = allData;
-			let newformData = {
+			const newformData = {
 				first_name,
 				last_name,
 				email,

@@ -8,7 +8,6 @@ import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import ReadPDF from './ReadPDF';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faFilePdf,
@@ -37,14 +36,15 @@ import {
 	FOLDER_DELETE
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import * as Actions from './store/actions';
 import FileSaver from 'file-saver';
-import DeleteConfirmDialog from './DeleteConfirmDialog';
 import Menu from '@material-ui/core/Menu';
-import FileViewDialog from './FileViewDialog';
 import * as ICONS from 'app/main/apps/constants';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
+import FileViewDialog from './FileViewDialog';
+import DeleteConfirmDialog from './DeleteConfirmDialog';
+import * as Actions from './store/actions';
+import ReadPDF from './ReadPDF';
 
 const useStyles = makeStyles({
 	table: {
@@ -94,7 +94,7 @@ function DetailSidebarContent({ setProgress }) {
 		return null;
 	}
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
-	const checkData = data => (data ? data : '-');
+	const checkData = data => data || '-';
 	const getCssColor = fileType =>
 		fileType == 'pdf'
 			? { color: 'red' }
@@ -111,7 +111,7 @@ function DetailSidebarContent({ setProgress }) {
 		if (selectedItem) {
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
-			let apiurl =
+			const apiurl =
 				selectedItem.type == 'photo'
 					? DOWNLOAD_PHOTO(selectedItem.mainId)
 					: selectedItem.type == 'video'
@@ -121,7 +121,7 @@ function DetailSidebarContent({ setProgress }) {
 				apiurl,
 				{},
 				({ headers, data }) => {
-					var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
+					const file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
 					if (window) {
 						console.log('listenning to flutterInAppWebViewPlatformReady');
 						console.log(window.flutter_inappwebview);
@@ -160,7 +160,7 @@ function DetailSidebarContent({ setProgress }) {
 					...getHeaderToken(),
 					responseType: 'blob',
 					onDownloadProgress: progressEvent => {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						setProgress(percentCompleted);
 					}
 				},
@@ -174,7 +174,7 @@ function DetailSidebarContent({ setProgress }) {
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
 		const fileType = selectedItem.type;
-		const mainId = selectedItem.mainId;
+		const { mainId } = selectedItem;
 		const url =
 			fileType == 'folder'
 				? FOLDER_DELETE(selectedItem.mainId || selectedItem.id)

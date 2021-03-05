@@ -11,7 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 import clsx from 'clsx';
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 import { Typography } from '@material-ui/core';
@@ -58,6 +57,8 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
+import * as Actions from './store/actions';
+
 const useStyles = makeStyles({
 	typeIcon: {
 		'&.folder:before': {
@@ -89,7 +90,7 @@ function FileList(props) {
 
 	// const [allFiles, setAllFiles] = useState([]);
 	const classes = useStyles();
-	const checkData = data => (data ? data : '-');
+	const checkData = data => data || '-';
 	// const handleClick = event => {
 	// 	event.stopPropagation();
 	// 	setAnchorEl(event.currentTarget);
@@ -111,7 +112,7 @@ function FileList(props) {
 
 	const setAllFilesInit = () => {
 		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
-			let rootfolders = folders || [];
+			const rootfolders = folders || [];
 			dispatch(Actions.setAllFiles([...rootfolders, ...rootFiles]));
 		} else {
 			dispatch(Actions.setAllFiles([...folders, ...files.filter(d => d.folder == currentFolderPath.mainId)]));
@@ -191,7 +192,7 @@ function FileList(props) {
 		}
 
 		if (searchText && searchText.length) {
-			let results = getFilteredArray(allFiles, searchText);
+			const results = getFilteredArray(allFiles, searchText);
 			dispatch(Actions.setAllFiles(results));
 		} else {
 			setAllFilesInit();
@@ -221,13 +222,13 @@ function FileList(props) {
 		setAllFilesInit();
 	}, [currentFolderPath]);
 	const handleDelete = tile => {
-		let findIndex = 0;
-		let selectedItem = tile; // allFiles[findIndex];
+		const findIndex = 0;
+		const selectedItem = tile; // allFiles[findIndex];
 
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
 		const fileType = selectedItem.type;
-		const mainId = selectedItem.mainId;
+		const { mainId } = selectedItem;
 		const url =
 			fileType == 'folder'
 				? FOLDER_DELETE(selectedItem.mainId || selectedItem.id)
@@ -270,11 +271,11 @@ function FileList(props) {
 		} else {
 			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 		}
-		let selectedItem = allFiles[findIndex];
+		const selectedItem = allFiles[findIndex];
 		if (selectedItem) {
 			props.setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
-			let apiurl =
+			const apiurl =
 				selectedItem.type == 'photo'
 					? DOWNLOAD_PHOTO(selectedItem.mainId)
 					: selectedItem.type == 'video'
@@ -284,8 +285,10 @@ function FileList(props) {
 				apiurl,
 				{},
 				({ headers, data }) => {
-					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					const image = btoa(
+						new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+					);
+					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 					if (window) {
 						console.log('listenning to flutterInAppWebViewPlatformReady');
 						console.log(window.flutter_inappwebview);
@@ -325,7 +328,7 @@ function FileList(props) {
 					...getHeaderToken(),
 					responseType: 'arraybuffer',
 					onDownloadProgress: progressEvent => {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						props.setProgress(percentCompleted);
 					}
 				},
@@ -337,7 +340,7 @@ function FileList(props) {
 		return (
 			<div>
 				<div className="flex flex-1 items-center justify-center h-full">
-					<img className="w-400" src="assets/images/errors/nofiles.png"></img>
+					<img className="w-400" src="assets/images/errors/nofiles.png" />
 				</div>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
@@ -380,13 +383,13 @@ function FileList(props) {
 										<Icon>more_horiz</Icon>
 									</IconButton>
 								</TableCell>
-								<TableCell></TableCell>
-								<TableCell className="hidden sm:table-cell"></TableCell>
-								<TableCell className="hidden sm:table-cell"></TableCell>
-								<TableCell className="hidden sm:table-cell"></TableCell>
-								<TableCell className="hidden sm:table-cell"></TableCell>
-								<TableCell></TableCell>
-								<TableCell></TableCell>
+								<TableCell />
+								<TableCell className="hidden sm:table-cell" />
+								<TableCell className="hidden sm:table-cell" />
+								<TableCell className="hidden sm:table-cell" />
+								<TableCell className="hidden sm:table-cell" />
+								<TableCell />
+								<TableCell />
 								<TableCell>{t('ACTIONS')}</TableCell>
 							</TableRow>
 						)}
@@ -572,7 +575,7 @@ function FileList(props) {
 			{currentFolderPath == '' && !Object.entries(allFiles).length && (
 				<div>
 					<div className="flex flex-1 items-center justify-center h-full">
-						<img className="w-400" src="assets/images/errors/nofiles.png"></img>
+						<img className="w-400" src="assets/images/errors/nofiles.png" />
 					</div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<Typography color="textSecondary" variant="h5">

@@ -11,11 +11,11 @@ import NotificationToggleButton from 'app/fuse-layouts/shared-components/notific
 import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
 import clsx from 'clsx';
 import { Icon, IconButton } from '@material-ui/core';
 import NotificationWebSocket from 'app/NotificationWebSocket';
 import { useLocation } from 'react-router';
+import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
 
 const useStyles = makeStyles(theme => ({
 	separator: {

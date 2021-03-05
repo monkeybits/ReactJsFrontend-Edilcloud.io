@@ -11,7 +11,7 @@ const locale = {
 	LANGUAGE: 'Language - it',
 	EDIT_YOUR_PROFILE: 'Edit your profile - it',
 	BASIC_INFORMATION: 'Basic Information - it',
-	UPLOAD_PROFILE_PICTURE: 'Upload Profile Picture - it',
+	UPLOAD_PROFILE_PICTURE: 'Upload Profile Picture - it'
 };
 
 export default locale;

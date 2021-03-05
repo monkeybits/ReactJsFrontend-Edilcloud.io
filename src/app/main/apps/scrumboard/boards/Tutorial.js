@@ -1,8 +1,8 @@
 import React from 'react';
-import FullscreenModal from './FullscreenModal';
-import Steps from './Steps';
 import CompanyCreationStepper from 'app/main/companyCreation/CompanyCreationStepper';
 import ContactDialogContent from 'app/main/apps/contacts/ContactDialogContent';
+import FullscreenModal from './FullscreenModal';
+import Steps from './Steps';
 // import ContactsApp from '../../contacts/ContactsApp';
 
 function getStepContent(step, elementProps) {

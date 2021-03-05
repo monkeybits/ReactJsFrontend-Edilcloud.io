@@ -12,7 +12,7 @@ import {
 	Collapse,
 	List,
 	Paper,
-	Input,
+	Input
 } from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -28,7 +28,6 @@ import {
 import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
-import PostedImages from './PostedImages';
 import FuseUtils from '@fuse/utils';
 import { red } from '@material-ui/core/colors';
 import { toast } from 'react-toastify';
@@ -37,8 +36,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
-import EditPostForm from './EditPostForm';
 import { useTranslation } from 'react-i18next';
+import EditPostForm from './EditPostForm';
+import PostedImages from './PostedImages';
 import CommentListItem from './CommentListItem';
 import ImagesPreview from './ImagesPreview';
 
@@ -123,7 +123,7 @@ export default function PostListItem({
 		}
 	}, [post.comment_set]);
 	useEffect(() => {
-		let notification = notificationPanel.notificationData?.notification;
+		const notification = notificationPanel.notificationData?.notification;
 		if (notificationPanel.viewing && notification?.content_type == 'post' && hasRender && scrollRef.current) {
 			dispatch(notificationActions.removeFrmViewNotification());
 			scrollRef.current.scrollIntoView(false);
@@ -160,9 +160,9 @@ export default function PostListItem({
 			}));
 		}
 
-		var formData = new FormData();
+		const formData = new FormData();
 		formData.append('parent', '');
-		let values = {
+		const values = {
 			text,
 			unique_code
 		};
@@ -170,23 +170,23 @@ export default function PostListItem({
 			const acceptedFiles = images.map(d => d.file);
 			let i = 0;
 			for (const file of acceptedFiles) {
-				formData.append('media[' + i + ']', file, file.name);
+				formData.append(`media[${i}]`, file, file.name);
 				i += 1;
 			}
 		}
-		for (let key in values) {
+		for (const key in values) {
 			formData.append(key, values[key]);
 		}
 		const tempComment = {
 			author: tempAuthor,
 			replies_set: [],
 			media_set,
-			text: text,
+			text,
 			unique_code,
 			parent: null,
 			formData
 		};
-		let tempofflinePostComments = { ...offlinePostComments, [unique_code]: tempComment };
+		const tempofflinePostComments = { ...offlinePostComments, [unique_code]: tempComment };
 		setofflinePostComments(tempofflinePostComments);
 		apiCall(
 			ADD_COMMENT_TO_POST(post.id),
@@ -248,17 +248,17 @@ export default function PostListItem({
 		);
 	};
 	const addPhoto = async e => {
-		const files = e.currentTarget.files;
+		const { files } = e.currentTarget;
 		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/');
+		for (let i = 0; i < files.length; i++) {
+			const fileType = files[i].type?.split('/');
 			file = [
 				...file,
 				{
 					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
 					fileType: fileType[0],
-					extension: '.' + fileType[1],
+					extension: `.${fileType[1]}`,
 					type: fileType.join('/')
 				}
 			];
@@ -308,7 +308,7 @@ export default function PostListItem({
 	const showComments = () => Object.values(offlinePostComments).length || (postComments && postComments.length > 0);
 	const commentsLength = () => Object.values(offlinePostComments).length + postComments.length;
 	const callRetryCommentSuccess = unique_code => {
-		let tempofflinePostComments = { ...offlinePostComments };
+		const tempofflinePostComments = { ...offlinePostComments };
 		delete tempofflinePostComments[unique_code];
 		setofflinePostComments(tempofflinePostComments);
 		getComments();
@@ -328,17 +328,14 @@ export default function PostListItem({
 		return null;
 	}
 
-	const loadMorePostFunc = (id) => {
-		const newLoadMorePostIds = [
-			...loadMorePostIds,
-			id
-		]
-		setLoadMorePost(true)
-		setLoadMorePostIds(newLoadMorePostIds)
-		console.log('newLoadMorePostIds>>>>>>>>>>>>>>>', newLoadMorePostIds)
-	}
-	
-	console.log('post>>>>>>>>>>>>>>>>>>', post)
+	const loadMorePostFunc = id => {
+		const newLoadMorePostIds = [...loadMorePostIds, id];
+		setLoadMorePost(true);
+		setLoadMorePostIds(newLoadMorePostIds);
+		console.log('newLoadMorePostIds>>>>>>>>>>>>>>>', newLoadMorePostIds);
+	};
+
+	console.log('post>>>>>>>>>>>>>>>>>>', post);
 	return (
 		<Card
 			id={`post${post.id}`}
@@ -349,13 +346,13 @@ export default function PostListItem({
 			<CardHeader
 				avatar={
 					post.author.first_name ? (
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-60 w-60">
+						<Avatar aria-label="Recipe" src={post.author.photo} className="sm:h-60 sm:w-60 h-48 w-48">
 							{[...post.author.first_name][0]}{' '}
 						</Avatar>
 					) : null
 				}
 				action={
-					<div className="px-8 flex">
+					<div className="sm:px-8 flex">
 						{isOffline && !currnetPost.successAfterRetry && (
 							<>
 								{
@@ -406,7 +403,7 @@ export default function PostListItem({
 												aria-label="more"
 												aria-controls="long-menu"
 												aria-haspopup="true"
-												className="p-8"
+												className="sm:p-8 py-8 px-0"
 											>
 												<MoreVertIcon />
 											</IconButton>
@@ -414,24 +411,6 @@ export default function PostListItem({
 									}
 									outsideClick
 								>
-									<MenuItem
-										key={t('ALERT')}
-										// selected={option.name === 'Pyxis'}
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											handleAlertPost();
-										}}
-									>
-										<ListItemIcon>
-											{post.alert ? (
-												<Icon style={{ color: red[500] }}>new_releases</Icon>
-											) : (
-												<Icon>new_releases</Icon>
-											)}
-										</ListItemIcon>
-										<Typography variant="inherit">{t('ALERT')}</Typography>
-									</MenuItem>
 									{options.map(option => (
 										<MenuItem
 											key={option.name}
@@ -454,29 +433,46 @@ export default function PostListItem({
 				}
 				title={
 					<span>
-						<div className="flex">
-							<Typography className="font-700 capitalize sm:text-14 lg:text-lg" color="primary" paragraph={false}>
+						{/* <div className="flex">
+							<Typography
+								className="font-700 capitalize sm:text-14 lg:text-lg"
+								color="primary"
+								paragraph={false}
+							>
 								{post.author.first_name} {post.author.last_name}
 							</Typography>
-							{
-								post.type === 'post' && <span>posted on your timeline</span>
-							}
-							{
-								post.type === 'something' && <span>shared something with you</span>
-							}
-							{
-								post.type === 'video' && <span>shared a video with you</span>
-							}
-							{
-								post.type === 'article' && <span>shared an article with you</span>
-							}
-							<span className="sm:text-14 lg:text-lg pl-6 font-600">Added a new video to</span>
-							<Typography className="font-700 capitalize sm:text-14 lg:text-lg pl-6" color="primary" paragraph={false}>
+							{post.type === 'post' && <span>posted on your timeline</span>}
+							{post.type === 'something' && <span>shared something with you</span>}
+							{post.type === 'video' && <span>shared a video with you</span>}
+							{post.type === 'article' && <span>shared an article with you</span>}
+							<span className="sm:text-14 lg:text-lg pl-6 font-600">added a new video to</span>
+							<Typography
+								className="font-700 capitalize sm:text-14 lg:text-lg pl-6"
+								color="primary"
+								paragraph={false}
+							>
 								{post.task.name}
 							</Typography>
+						</div> */}
+						<div className="flex flex-wrap">
+							<p>
+								<span className="font-700 capitalize text-15 lg:text-lg">
+									{post.author.first_name} {post.author.last_name}
+								</span>
+								{post.type === 'post' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> posted on your timeline </span>}
+								{post.type === 'something' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared something with you </span>}
+								{post.type === 'video' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared a video with you </span>}
+								{post.type === 'article' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared an article with you </span>}
+								<span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> added a new video to </span>
+								<span className="font-700 capitalize text-15 lg:text-lg pl-2 sm:pl-6">
+									{post.task.name}
+								</span>
+							</p>
 						</div>
-						<div className="sm:text-15 lg:text-base font-600">{post.author.role} - {post.author.company.name}</div>
-						<div className="">
+						<div className="text-13 sm:text-15 lg:text-base font-600">
+							{post.author.role}{ 'company' in post.author ? ' - ' + post.author.company.name : '' }
+						</div>
+						{/* <div className="">
 							{showPrject && (
 								<>
 									<div className="mr-4 flex">
@@ -490,8 +486,6 @@ export default function PostListItem({
 											{post.project.name}
 										</Typography>
 									</div>
-									{/* )} */}
-									{/* {showTask && (<> */}
 									<div className="mx-4">
 										<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
 											{post.task.name}
@@ -504,19 +498,17 @@ export default function PostListItem({
 									</div>
 								</>
 							)}
-						</div>
+						</div> */}
 					</span>
 				}
 				subheader={
 					<div className="flex items-center text-14 font-600">
-						<Icon className="font-600 text-18">
-							public
-						</Icon>
-						<span className="ml-4 mr-16">
-							{post.is_public ? 'Public ' : 'Private '}
-						</span>
+						<Icon className="font-600 text-18">public</Icon>
+						<span className="ml-4 sm:mr-16 mr-4">{post.is_public ? 'Public ' : 'Private '}</span>
 						<span>
-							{moment.parseZone(post.published_date).format('MMMM DD') + ' at ' + moment.parseZone(post.published_date).format('h:mm a')}
+							{`${moment.parseZone(post.published_date).format('MMMM DD')} at ${moment
+								.parseZone(post.published_date)
+								.format('h:mm a')}`}
 						</span>
 					</div>
 				}
@@ -550,7 +542,7 @@ export default function PostListItem({
 						<Icon className="text-white text-14">share</Icon>
 						<Typography className="normal-case text-white text-13 mx-4">{t('SHARE')}</Typography>
 						{!!post.share && (
-        					<>
+							<>
 								<Typography className="normal-case text-13">({post.share})</Typography>
 							</>
 						)}
@@ -558,13 +550,10 @@ export default function PostListItem({
 				</CardActions>
 			)}
 
-			{/*----------------- Show Comments and likes ---------------*/}
+			{/* ----------------- Show Comments and likes ---------------*/}
 			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
-				<div className="flex items-center mb-12 cursor-pointer justify-between">
+				<div className="flex flex-wrap items-center mb-12 cursor-pointer justify-between">
 					<div className="flex">
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
-							{[...post.author.first_name][0]}{' '}
-						</Avatar>
 						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
 							{[...post.author.first_name][0]}{' '}
 						</Avatar>
@@ -585,11 +574,15 @@ export default function PostListItem({
 								setCommentOpen(!commentOpen);
 							}}
 						>
-							<Icon fontSize="medium" className="mr-4">
+							<Icon fontSize="small" className="mr-4">
 								comment
 							</Icon>
 							<span className="text-base font-600 hover:underline">
-								{ commentsLength() > 0 ? commentsLength() === 1 ? commentsLength() + ' comment' : commentsLength() + ' comments' : ''}
+								{commentsLength() > 0
+									? commentsLength() === 1
+										? `${commentsLength()} comment`
+										: `${commentsLength()} comments`
+									: ''}
 							</span>
 						</div>
 					)}
@@ -600,15 +593,21 @@ export default function PostListItem({
 						aria-label="more"
 						aria-controls="long-menu"
 						aria-haspopup="true"
-						// onClick={handleClick}
+						onClick={ev => {
+							ev.preventDefault();
+							ev.stopPropagation();
+							handleAlertPost();
+						}}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 font-600 text-14 lg:text-base p-8 my-4 posts-social-icon"
+						className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
 					>
-						<Icon fontSize="medium" className="mr-4">
-							report_problem
-						</Icon>
-						<span>{t('REPORT_PROBLEM')}</span>
+						{post.alert ? (
+							<Icon fontSize="small" className="mr-4" style={{ color: red[500] }}>new_releases</Icon>
+						) : (
+							<Icon fontSize="small" className="mr-4">new_releases</Icon>
+						)}
+						<span>{t('ALERT')}</span>
 					</IconButton>
 					<IconButton
 						aria-label="more"
@@ -619,9 +618,9 @@ export default function PostListItem({
 						// }}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 font-600 text-14 lg:text-base p-8 my-4 posts-social-icon"
+						className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
 					>
-						<Icon fontSize="medium" className="mr-4">
+						<Icon fontSize="small" className="mr-4">
 							notifications_active
 						</Icon>
 						<span>{t('SEND_NOTIFICATION')}</span>
@@ -631,53 +630,58 @@ export default function PostListItem({
 						aria-controls="long-menu"
 						aria-haspopup="true"
 						onClick={() => {
-							setCommentOpen(true)
+							setCommentOpen(true);
 						}}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 font-600 text-14 lg:text-base p-8 my-4 posts-social-icon"
+						className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
 					>
-						<Icon fontSize="medium" className="mr-4">
+						<Icon fontSize="small" className="mr-4">
 							visibility
 						</Icon>
 						<span>{t('STATUS_PUBLIC')}</span>
 					</IconButton>
 				</div>
 
-				{showComments() && (		
+				{showComments() && (
 					<Collapse in={open} timeout="auto" unmountOnExit className="mt-10">
 						<List className="pt-0">
-							{
-								postComments.map((comment, index) => {
-									if(loadMorePostIds.includes(post.id) && loadMorePost) {
-										{/* if(index <=2 ) { */}
-											return <CommentListItem
-												tempAuthor={tempAuthor}
-												key={index}
-												post={post}
-												setCommentOpen={setCommentBoxOpen}
-												commentBoxOpen={commentBoxOpen}
-												comment={comment}
-												afterDeleteComment={() => deleteCommentByIndex(index)}
-												needToGetComments={getComments}
-											/>
-										{/* } */}
-									} else {
-										if(index <=2 ) {
-											return <CommentListItem
-												tempAuthor={tempAuthor}
-												key={index}
-												post={post}
-												setCommentOpen={setCommentBoxOpen}
-												commentBoxOpen={commentBoxOpen}
-												comment={comment}
-												afterDeleteComment={() => deleteCommentByIndex(index)}
-												needToGetComments={getComments}
-											/>
-										}
+							{postComments.map((comment, index) => {
+								if (loadMorePostIds.includes(post.id) && loadMorePost) {
+									{
+										/* if(index <=2 ) { */
 									}
-								})
-							}
+									return (
+										<CommentListItem
+											tempAuthor={tempAuthor}
+											key={index}
+											post={post}
+											setCommentOpen={setCommentBoxOpen}
+											commentBoxOpen={commentBoxOpen}
+											comment={comment}
+											afterDeleteComment={() => deleteCommentByIndex(index)}
+											needToGetComments={getComments}
+										/>
+									);
+									{
+										/* } */
+									}
+								}
+								if (index <= 2) {
+									return (
+										<CommentListItem
+											tempAuthor={tempAuthor}
+											key={index}
+											post={post}
+											setCommentOpen={setCommentBoxOpen}
+											commentBoxOpen={commentBoxOpen}
+											comment={comment}
+											afterDeleteComment={() => deleteCommentByIndex(index)}
+											needToGetComments={getComments}
+										/>
+									);
+								}
+							})}
 							{Object.values(offlinePostComments).map((comment, index) => (
 								<CommentListItem
 									isOffline
@@ -691,24 +695,22 @@ export default function PostListItem({
 								/>
 							))}
 						</List>
-						{
-							(!loadMorePostIds.includes(post.id) &&
-							postComments.length > 3) &&
-								<IconButton
-									className="text-16 my-8 posts-social-icon"
-									onClick={() => {
-										loadMorePostFunc(post.id)
-									}}
-									// aria-label="Add photo"
-								>
-									<span className="font-700 mr-4">{postComments.length - 3}</span><span className="text-gray-500">Load more</span>
-								</IconButton>
-						}
+						{!loadMorePostIds.includes(post.id) && postComments.length > 3 && (
+							<IconButton
+								className="text-16 my-8 posts-social-icon"
+								onClick={() => {
+									loadMorePostFunc(post.id);
+								}}
+								// aria-label="Add photo"
+							>
+								<span className="font-700 mr-4">{postComments.length - 3}</span>
+								<span className="text-gray-500">Load more</span>
+							</IconButton>
+						)}
 					</Collapse>
 				)}
 
-				{ (open && commentBoxOpen) &&
-					(!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
+				{open && commentBoxOpen && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
 					<div className="flex flex-auto mt-10">
 						<Avatar className="mr-10" src="assets/images/avatars/profile.jpg" />
 						<div className="flex-1">

@@ -45,9 +45,8 @@ const useStyles = makeStyles(theme => ({
 function TodoSidebarContent(props) {
 	const dispatch = useDispatch();
 
-
 	const classes = useStyles(props);
-	
+
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className="flex-auto border-l-1 border-solid">

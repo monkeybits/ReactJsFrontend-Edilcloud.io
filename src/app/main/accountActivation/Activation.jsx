@@ -8,12 +8,12 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import { CircularProgress } from '@material-ui/core';
-import { apiCall, METHOD } from '../../services/baseUrl';
 import { USER_ACTIVATION } from 'app/services/apiEndPoints';
 import { Link, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
+import { apiCall, METHOD } from '../../services/baseUrl';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -53,7 +53,12 @@ function Activation(props) {
 	const history = useHistory();
 
 	return (
-		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white')}>
+		<div
+			className={clsx(
+				classes.root,
+				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
+			)}
+		>
 			<div className="flex flex-col items-center justify-center w-full max-w-425">
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full">
@@ -69,32 +74,34 @@ function Activation(props) {
 									</Typography>
 
 									<Typography className="text-muted text-center font-600 mb-16 w-full">
-										{success ? success : 'Please Wait...'}
+										{success || 'Please Wait...'}
 									</Typography>
 								</>
-							 )}
+							)}
 							{error ? (
-									<>
-										<div className="mt-24">
-											<CancelIcon className="text-red text-48" />
-										</div>
-										<Typography variant="h5" className="text-center font-600 mt-20 mb-28">
-											{error}
-										</Typography>
-										<div className="flex items-center justify-center w-full">
-											<Button
-												type="button"
-												variant="contained"
-												size="large"
-												color="primary"
-												className="w-full mx-auto mt-0 uppercase"
-												aria-label="Go Back To Login"
-												onClick={() => { history.push('/pages/auth/login'); }}
-											>
-												Go back to login
-											</Button>
-										</div>
-									</>
+								<>
+									<div className="mt-24">
+										<CancelIcon className="text-red text-48" />
+									</div>
+									<Typography variant="h5" className="text-center font-600 mt-20 mb-28">
+										{error}
+									</Typography>
+									<div className="flex items-center justify-center w-full">
+										<Button
+											type="button"
+											variant="contained"
+											size="large"
+											color="primary"
+											className="w-full mx-auto mt-0 uppercase"
+											aria-label="Go Back To Login"
+											onClick={() => {
+												history.push('/pages/auth/login');
+											}}
+										>
+											Go back to login
+										</Button>
+									</div>
+								</>
 							) : isActivated ? (
 								<div className="flex items-center justify-center w-full pt-20">
 									<Button
@@ -104,7 +111,9 @@ function Activation(props) {
 										color="primary"
 										className="w-full mx-auto mt-0 uppercase"
 										aria-label="Go Back To Login"
-										onClick={() => { history.push('/pages/auth/login'); }}
+										onClick={() => {
+											history.push('/pages/auth/login');
+										}}
 									>
 										Go back to login
 									</Button>

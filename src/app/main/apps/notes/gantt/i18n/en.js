@@ -12,7 +12,7 @@ const locale = {
 	TASK_NAME: 'Task name',
 	START_DATE: 'Start Date',
 	END_DATE: 'End Date',
-	COMPANY: 'Company',
+	COMPANY: 'Company'
 };
 
 export default locale;

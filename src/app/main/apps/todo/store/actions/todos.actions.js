@@ -9,6 +9,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+
 export const GET_TODOS = '[TODO APP] GET TODOS';
 export const UPDATE_TODOS = '[TODO APP] UPDATE TODOS';
 export const TOGGLE_STARRED = '[TODO APP] TOGGLE STARRED';
@@ -115,7 +116,7 @@ export function editActivity(todo, pid, setLoading, isGantt) {
 	// });
 	return dispatch => {
 		console.log(todo, todo.profile);
-		let values = {
+		const values = {
 			title: todo.title,
 			description: todo.notes,
 			datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
@@ -236,7 +237,7 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 		todo
 	});
 	return dispatch => {
-		let values =
+		const values =
 			todoDialogType == 'new'
 				? {
 						name: todo.name,

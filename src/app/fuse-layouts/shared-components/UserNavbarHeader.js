@@ -59,12 +59,12 @@ function UserNavbarHeader(props) {
 		>
 			{user && (
 				<Typography className="username text-16 whitespace-no-wrap" color="inherit">
-					{user.first_name + ' ' + user.last_name}
+					{`${user.first_name} ${user.last_name}`}
 				</Typography>
 			)}
 			{!!user?.position && (
 				<Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
-					{/* {company?.position} @*/}
+					{/* {company?.position} @ */}
 					{user?.position}
 				</Typography>
 			)}
@@ -76,7 +76,7 @@ function UserNavbarHeader(props) {
 				alt="user photo"
 				src={company?.logo ? company?.logo : '/assets/images/avatars/profile.jpg'}
 			/>
-			<span class={`trial intrial`}>{company.trial_used ? 'Plan' : 'in Trial'}</span>
+			<span className="trial intrial">{company.trial_used ? 'Plan' : 'in Trial'}</span>
 		</AppBar>
 	);
 }

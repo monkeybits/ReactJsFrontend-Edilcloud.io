@@ -11,8 +11,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
 	listItem: {
@@ -132,7 +132,7 @@ function TodoSidebarContent(props) {
 
 						{peopleFilter.length > 0 &&
 							peopleFilter.map(filter => {
-								let name = `${filter.first_name} ${filter.last_name}`;
+								const name = `${filter.first_name} ${filter.last_name}`;
 								return (
 									<ListItem
 										button

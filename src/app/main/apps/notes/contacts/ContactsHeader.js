@@ -8,9 +8,9 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import Button from '@material-ui/core/Button';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 
 function ContactsHeader(props) {
 	const { t } = useTranslation('contacts_project');

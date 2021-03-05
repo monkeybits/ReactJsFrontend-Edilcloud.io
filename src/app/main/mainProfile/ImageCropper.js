@@ -52,19 +52,21 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 export default class ImageCropper extends React.Component {
 	handleCrop = () => {
-		let fileName = new Date().getTime() + '.png';
+		const fileName = `${new Date().getTime()}.png`;
 		this.cropper.getCroppedCanvas().toBlob(a => {
 			this.blobToFile(a, fileName);
 		});
 	};
+
 	blobToFile(theBlob, fileName) {
-		//A Blob() is almost a File() - it's just missing the two properties below which we will add
+		// A Blob() is almost a File() - it's just missing the two properties below which we will add
 		theBlob.lastModifiedDate = new Date();
 		theBlob.name = fileName;
 		this.props.onCrop(theBlob);
 		this.props.onHide();
 		return theBlob;
 	}
+
 	render() {
 		return (
 			<Dialog onClose={this.props.onHide} aria-labelledby="customized-dialog-title" open={this.props.viewCroper}>
