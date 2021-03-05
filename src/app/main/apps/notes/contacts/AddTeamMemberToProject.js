@@ -25,10 +25,10 @@ import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import * as ContactActions from './store/actions';
 import { useRouteMatch } from 'react-router';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import * as ContactActions from './store/actions';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -116,7 +116,7 @@ function AddTeamMemberToProject(props) {
 					i === member.length - 1,
 					(err, showError) => {
 						if (err) {
-							name += getItemValue(item.data) + ', ';
+							name += `${getItemValue(item.data)}, `;
 						}
 						if (showError) {
 							toast.error(`error occured during add ${name}`);
@@ -135,7 +135,7 @@ function AddTeamMemberToProject(props) {
 		checkedB: true
 	});
 	function retrieveDataAsynchronously(searchText) {
-		let url =
+		const url =
 			contactDialog.name === 'External'
 				? STAFF_LIST(String(searchText), match.params.id)
 				: COMPANY_STAFF_LIST(String(company.name), match.params.id);
@@ -156,7 +156,7 @@ function AddTeamMemberToProject(props) {
 			getHeaderToken()
 		);
 	}
-	const getString = strArg => (strArg ? strArg : '');
+	const getString = strArg => strArg || '';
 	const filterByValue = (arr = [], key, value) => arr.filter(item => item?.company?.[key] != value);
 	return (
 		<Dialog
@@ -197,7 +197,9 @@ function AddTeamMemberToProject(props) {
 							}}
 							isMulti
 							value={member}
-							placeholder={contactDialog.name === 'External' ? t('EXTERNAL_MEMBER'): t('INTERNAL_MEMBER')}
+							placeholder={
+								contactDialog.name === 'External' ? t('EXTERNAL_MEMBER') : t('INTERNAL_MEMBER')
+							}
 							textFieldProps={{
 								onChange: e => retrieveDataAsynchronously(e.target.value),
 								variant: 'outlined'

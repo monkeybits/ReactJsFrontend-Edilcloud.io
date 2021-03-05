@@ -7,6 +7,18 @@ import Icon from '@material-ui/core/Icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
+import { LinearProgress, makeStyles, Typography } from '@material-ui/core';
+import FusePageSimple from '@fuse/core/FusePageSimple';
+import clsx from 'clsx';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { GET_TASK_BY_ID, GET_ACTIVITY_BY_ID, ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
+import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
+import { useTranslation } from 'react-i18next';
+import axios from 'app/services/axiosConfig';
+import { gantt } from 'dhtmlx-gantt';
+import moment from 'moment';
+import { toast } from 'react-toastify';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import TodoDialog from './TodoDialog';
@@ -17,22 +29,11 @@ import TodoSidebarHeader from './TodoSidebarHeader';
 import TodoToolbar from './TodoToolbar';
 import CreatePostDialog from './CreatePostDialog';
 import { GET_TODOS } from './store/actions';
-import { LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import TaskContentDialog from './Dialog/TaskContentDialog';
-import FusePageSimple from '@fuse/core/FusePageSimple';
-import clsx from 'clsx';
-import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
-import { apiCall, METHOD } from 'app/services/baseUrl';
-import { GET_TASK_BY_ID, GET_ACTIVITY_BY_ID, ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
-import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import ShowUpload from './ShowUpload';
-import { useTranslation } from 'react-i18next';
 import CreateTasks from '../gantt/CreateTasks';
-import axios from 'app/services/axiosConfig';
-import { gantt } from 'dhtmlx-gantt';
-import moment from 'moment';
-import { toast } from 'react-toastify';
 import ImportExcelDialog from '../gantt/ImportExcelDialog';
+
 const useStyles = makeStyles({
 	addButton: {
 		position: 'fixed',
@@ -84,16 +85,16 @@ function TodoApp(props) {
 			routeParams.pid ||
 			routeParams.cid
 		) {
-			let notification = notificationPanel.notificationData?.notification;
+			const notification = notificationPanel.notificationData?.notification;
 			if (
 				notification?.content_type === 'post' ||
 				notification?.content_type === 'comment' ||
 				routeParams.pid ||
 				routeParams.cid
 			) {
-				let task_id = notification?.body.task_id || routeParams.dataId;
+				const task_id = notification?.body.task_id || routeParams.dataId;
 				if (notification?.body.hasOwnProperty('activity_id') || routeParams.aid) {
-					let activity_id = notification?.body.activity_id || routeParams.dataId;
+					const activity_id = notification?.body.activity_id || routeParams.dataId;
 					dispatch(Actions.openTimelineDialog({ todo: { id: activity_id }, task: {} }));
 					apiCall(
 						GET_ACTIVITY_BY_ID(activity_id),
@@ -135,7 +136,7 @@ function TodoApp(props) {
 	}, [notificationPanel.viewing]);
 	useEffect(() => {
 		if (notificationPanel.notificationData?.notification || routeParams.pid || routeParams.cid) {
-			let notification = notificationPanel.notificationData?.notification;
+			const notification = notificationPanel.notificationData?.notification;
 			if (
 				notification?.project_id == routeParams.id &&
 				(notification?.content_type === 'activity' || notification?.content_type === 'task')
@@ -154,7 +155,7 @@ function TodoApp(props) {
 		};
 	}, [dispatch, routeParams]);
 	const handleUploadListOfTasks = list => {
-		let token = localStorage.getItem('jwt_access_token');
+		const token = localStorage.getItem('jwt_access_token');
 		axios
 			.post(ADD_TASK_TO_PROJECT(routeParams.id), list, {
 				headers: {
@@ -167,7 +168,7 @@ function TodoApp(props) {
 			.catch(err => console.log(err));
 	};
 	const importExcel = data => {
-		let file = data ? data : target;
+		const file = data || target;
 		if (file) {
 			setOpen(false);
 			gantt.importFromExcel({
@@ -176,10 +177,10 @@ function TodoApp(props) {
 				callback: project => {
 					if (project) {
 						try {
-							var header = [];
-							var headerControls = [];
-							var body = [];
-							let listOfData = project.map(item => ({
+							const header = [];
+							const headerControls = [];
+							const body = [];
+							const listOfData = project.map(item => ({
 								name: item['Task name'],
 								progress: item['Completed percentage'],
 								date_start: item['Start time']
@@ -188,13 +189,13 @@ function TodoApp(props) {
 								date_end: item['End time'] ? moment(item['End time']).format('YYYY-MM-DD') : undefined
 							}));
 							project.forEach(function (task) {
-								var cols = [];
+								let cols = [];
 								if (!header.length) {
-									for (var i in task) {
+									for (const i in task) {
 										header.push(i);
 									}
 									header.forEach(function (col, index) {
-										cols.push('<th>' + col + '</th>');
+										cols.push(`<th>${col}</th>`);
 										// headerControls.push(
 										// 	"<td><select data-column-mapping='" +
 										// 		col +
@@ -203,23 +204,22 @@ function TodoApp(props) {
 										// 		'</select>'
 										// );
 									});
-									body.push('<tr>' + cols.join('') + '</tr>');
-									body.push('<tr>' + headerControls.join('') + '</tr>');
+									body.push(`<tr>${cols.join('')}</tr>`);
+									body.push(`<tr>${headerControls.join('')}</tr>`);
 								}
 								cols = [];
 								header.forEach(function (col) {
-									cols.push('<td>' + task[col] + '</td>');
+									cols.push(`<td>${task[col]}</td>`);
 								});
-								body.push('<tr>' + cols.join('') + '</tr>');
+								body.push(`<tr>${cols.join('')}</tr>`);
 							});
 
-							var div = gantt.modalbox({
+							const div = gantt.modalbox({
 								title: 'Assign columns',
 								type: 'excel-form',
-								text:
-									'<div class="table-responsive"> <table class="table m-0">' +
-									body.join('') +
-									'</table> </div>',
+								text: `<div class="table-responsive"> <table class="table m-0">${body.join(
+									''
+								)}</table> </div>`,
 								buttons: [
 									{ label: 'Save', css: 'link_save_btn', value: 'save' },
 									{ label: 'Cancel', css: 'link_cancel_btn', value: 'cancel' }
@@ -241,7 +241,7 @@ function TodoApp(props) {
 											// loadTable(mapping, project);
 											break;
 										case 'cancel':
-											//Cancel
+											// Cancel
 											break;
 									}
 								}

@@ -23,20 +23,17 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import FormLabel from '@material-ui/core/FormLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { SYSTEM_ROLES } from '../../../constants';
 import Checkbox from '@material-ui/core/Checkbox';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import Switch from '@material-ui/core/Switch';
-import AsyncAutocomplete from './AsyncAutocomplete';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { SEARCH_USER_BY_EMAIL } from 'app/services/apiEndPoints';
@@ -44,6 +41,9 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from 'react-i18next';
+import AsyncAutocomplete from './AsyncAutocomplete';
+import { SYSTEM_ROLES } from '../../../constants';
+import * as Actions from './store/actions';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -98,7 +98,7 @@ function ContactDialog(props) {
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 	const getPhoto = fileData => {
-		let reader = new FileReader();
+		const reader = new FileReader();
 
 		reader.onloadend = () => {
 			setFile({
@@ -179,32 +179,31 @@ function ContactDialog(props) {
 	function canBeSubmitted() {
 		if (isExisting || contactDialog.type !== 'new') {
 			return form.first_name?.length > 0 && form.last_name?.length > 0 && form.email?.length > 3 && role && value;
-		} else {
-			if (form.email) {
-				apiCall(
-					SEARCH_USER_BY_EMAIL(String(form.email)),
-					{},
-					res => {
-						if (res && res.length) {
-							setCanTryWithExisting(false);
-						} else {
-							setCanTryWithExisting(true);
-						}
-					},
-					err => {},
-					METHOD.GET,
-					getHeaderToken()
-				);
-			}
-			return (
-				canTryWithExisting &&
-				form.first_name?.length > 0 &&
-				form.last_name?.length > 0 &&
-				form.email?.length > 3 &&
-				role &&
-				value
+		}
+		if (form.email) {
+			apiCall(
+				SEARCH_USER_BY_EMAIL(String(form.email)),
+				{},
+				res => {
+					if (res && res.length) {
+						setCanTryWithExisting(false);
+					} else {
+						setCanTryWithExisting(true);
+					}
+				},
+				err => {},
+				METHOD.GET,
+				getHeaderToken()
 			);
 		}
+		return (
+			canTryWithExisting &&
+			form.first_name?.length > 0 &&
+			form.last_name?.length > 0 &&
+			form.email?.length > 3 &&
+			role &&
+			value
+		);
 	}
 
 	const handleSubmit = async event => {
@@ -213,13 +212,13 @@ function ContactDialog(props) {
 		// 'language', 'position', 'user', 'phone',
 		// 'fax', 'mobile', 'note', 'role', 'photo'
 		event.preventDefault();
-		let allData = {
+		const allData = {
 			...form,
 			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
 			language: value == 'English' ? 'en' : 'it'
 		};
 		const { first_name, last_name, email, id, company, position, phone } = allData;
-		let newformData = {
+		const newformData = {
 			id,
 			first_name,
 			last_name,

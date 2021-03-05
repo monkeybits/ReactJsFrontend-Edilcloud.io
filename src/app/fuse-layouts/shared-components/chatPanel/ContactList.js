@@ -8,9 +8,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import clsx from 'clsx';
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {

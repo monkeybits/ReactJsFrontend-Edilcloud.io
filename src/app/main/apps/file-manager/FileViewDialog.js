@@ -14,13 +14,10 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import FileViewer from './FileViewer';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Icon } from '@material-ui/core';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import ReadPDF from './ReadPDF';
 import clsx from 'clsx';
-import * as Actions from './store/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faFilePdf,
@@ -37,6 +34,10 @@ import FileSaver from 'file-saver';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import VideoListItem from 'app/VideoPlayer/VideoListItem';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
+import ReadPDF from './ReadPDF';
+import FileViewer from './FileViewer';
+
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -91,17 +92,17 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 	const [selectedItem, setSelectedItem] = useState(null);
 	useEffect(() => {
 		console.log({ currentIndex });
-		let fileData = Allfiles[currentIndex];
+		const fileData = Allfiles[currentIndex];
 		setSelectedItem(fileData);
 	}, [currentIndex]);
 	useEffect(() => {
 		if (Array.isArray(Allfiles) && item) {
-			let tile = item;
+			const tile = item;
 			const findIndex = Allfiles.findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 			console.log({ findIndex, Allfiles });
 			if (findIndex >= 0) {
 				setcurrentIndex(findIndex);
-				let fileData = Allfiles[findIndex];
+				const fileData = Allfiles[findIndex];
 				setSelectedItem(fileData);
 			}
 		}
@@ -120,7 +121,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 		if (selectedItem) {
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
-			let apiurl =
+			const apiurl =
 				selectedItem.type == 'photo'
 					? DOWNLOAD_PHOTO(selectedItem.mainId)
 					: selectedItem.type == 'video'
@@ -130,8 +131,10 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 				apiurl,
 				{},
 				({ headers, data }) => {
-					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					const image = btoa(
+						new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+					);
+					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 					console.log({ file });
 					if (window) {
 						console.log('listenning to flutterInAppWebViewPlatformReady');
@@ -173,7 +176,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 					...getHeaderToken(),
 					responseType: 'arraybuffer',
 					onDownloadProgress: progressEvent => {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						setProgress(percentCompleted);
 					}
 				},

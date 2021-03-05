@@ -10,16 +10,16 @@ import clsx from 'clsx';
 import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
+import AudioRecord from 'app/AudioRecord';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import FuseUtils from '@fuse/utils';
+import * as Actions from './store/actions';
 import ViewFile from './ViewFile';
 import SendMessageFilePreview from './SendMessageFilePreview';
-import AudioRecord from 'app/AudioRecord';
 import MessageMoreOptions from './MessageMoreOptions';
 import RetryToSendMessage from './RetryToSendMessage';
 import SendMessageForm from './SendMessageForm';
-import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
-import FuseUtils from '@fuse/utils';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -126,7 +126,7 @@ function Chat(props) {
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const scrollRef = useRef(null);
 	useEffect(() => {
-		if (!!chat?.chats?.length) {
+		if (chat?.chats?.length) {
 			setTimeout(() => {
 				setHasRender(true);
 			}, 600);
@@ -203,7 +203,7 @@ function Chat(props) {
 												style={{ color: color?.[0]?.contactNameColor }}
 												className="subtitle1 mb-6"
 											>
-												{contact.first_name + ' ' + contact.last_name}
+												{`${contact.first_name} ${contact.last_name}`}
 												{!!contact.position && (
 													<Typography className="font-size-12 ">
 														{contact.position} - {contact.company?.name}

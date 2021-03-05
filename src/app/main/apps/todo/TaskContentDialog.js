@@ -6,10 +6,10 @@ Todo: This File is created for create timeline posts and view timeline of task
 */
 import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
-import * as Actions from './store/actions';
 import clsx from 'clsx';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import * as Actions from './store/actions';
 import TaskContentForm from './TaskContentForm';
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +31,7 @@ function TaskContentDialog(props) {
 	return (
 		<Dialog
 			classes={{
-				root:'custom-lg-hidden',
+				root: 'custom-lg-hidden'
 			}}
 			onClose={ev => dispatch(Actions.closeTaskContent())}
 			open={taskContentDialog.props.open}

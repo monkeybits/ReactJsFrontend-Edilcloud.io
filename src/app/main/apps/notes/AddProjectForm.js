@@ -24,7 +24,6 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import { withStyles, TextField, Avatar, Box, LinearProgress, CircularProgress } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
-import UploadProjectImage from './UploadProjectImage';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from 'app/main/apps/notes/store/actions';
@@ -35,6 +34,7 @@ import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import { useTranslation } from 'react-i18next';
+import UploadProjectImage from './UploadProjectImage';
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -86,7 +86,7 @@ function AddProjectForm() {
 	useEffect(() => {
 		if (projectApp.dialogType == 'edit') {
 			setProjectDetail(projectApp.projectDetail);
-			let projectCordinate = projectApp.projectDetail.referent
+			const projectCordinate = projectApp.projectDetail.referent
 				? [
 						{
 							data: projectApp.projectDetail.referent,
@@ -156,8 +156,8 @@ function AddProjectForm() {
 			note,
 			address
 		};
-		var formData = new FormData();
-		for (let key in values) {
+		const formData = new FormData();
+		for (const key in values) {
 			if (values[key]) formData.append(key, values[key]);
 		}
 		apiCall(
@@ -275,7 +275,7 @@ function AddProjectForm() {
 							variant="fixed"
 							options={filteredData.map(member => ({
 								data: member,
-								value: member.first_name + ' ' + member.last_name,
+								value: `${member.first_name} ${member.last_name}`,
 								label: (
 									<span className="flex items-center">
 										<Avatar className="w-32 h-32" src={member.photo} />

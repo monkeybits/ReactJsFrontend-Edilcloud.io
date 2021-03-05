@@ -96,12 +96,12 @@ export function getApprovedContacts(routeParams, handleSetLoading = () => '') {
 							...d,
 							name: first_name,
 							lastName: last_name,
-							avatar: photo ? photo : 'assets/images/avatars/profile.jpg',
+							avatar: photo || 'assets/images/avatars/profile.jpg',
 							nickname: first_name,
 							company: company?.name,
 							jobTitle: position,
-							email: email,
-							phone: phone,
+							email,
+							phone,
 							address: ''
 						};
 					});
@@ -143,12 +143,12 @@ export function getWaitingContacts(routeParams, handleSetLoading) {
 							...d,
 							name: first_name,
 							lastName: last_name,
-							avatar: photo ? photo : 'assets/images/avatars/profile.jpg',
+							avatar: photo || 'assets/images/avatars/profile.jpg',
 							nickname: first_name,
 							company: company?.name,
 							jobTitle: position,
-							email: email,
-							phone: phone,
+							email,
+							phone,
 							address: ''
 						};
 					});
@@ -191,12 +191,12 @@ export function getRefusedContacts(routeParams, handleSetLoading) {
 							...d,
 							name: first_name,
 							lastName: last_name,
-							avatar: photo ? photo : 'assets/images/avatars/profile.jpg',
+							avatar: photo || 'assets/images/avatars/profile.jpg',
 							nickname: first_name,
 							company: company?.name,
 							jobTitle: position,
-							email: email,
-							phone: phone,
+							email,
+							phone,
 							address: ''
 						};
 					});
@@ -232,12 +232,12 @@ export function getDeactivatedContacts(routeParams) {
 							...d,
 							name: first_name,
 							lastName: last_name,
-							avatar: photo ? photo : 'assets/images/avatars/profile.jpg',
+							avatar: photo || 'assets/images/avatars/profile.jpg',
 							nickname: first_name,
 							company: company?.name,
 							jobTitle: position,
-							email: email,
-							phone: phone,
+							email,
+							phone,
 							address: ''
 						};
 					});
@@ -324,7 +324,7 @@ export function addMemberToProject(
 			res => {
 				if (needToGetContacts) {
 					dispatch(getContacts(pid, handleSetLoading));
-					if (!!name.length) {
+					if (name.length) {
 						showError(false, true);
 					}
 				}
@@ -345,8 +345,8 @@ export function addMemberToProject(
 export function addContact(values, isExisting) {
 	return (dispatch, getState) => {
 		const { routeParams } = getState().contactsApp.contacts;
-		var formData = new FormData();
-		for (let key in values) {
+		const formData = new FormData();
+		for (const key in values) {
 			if (values[key] || key == 'can_access_chat' || key == 'can_access_files') {
 				formData.append(key, values[key]);
 			}
@@ -367,8 +367,8 @@ export function addContact(values, isExisting) {
 export function updateContact(values, id) {
 	return (dispatch, getState) => {
 		const { routeParams } = getState().contactsApp.contacts;
-		var formData = new FormData();
-		for (let key in values) {
+		const formData = new FormData();
+		for (const key in values) {
 			if (values[key] || key == 'can_access_chat' || key == 'can_access_files') formData.append(key, values[key]);
 		}
 		apiCall(

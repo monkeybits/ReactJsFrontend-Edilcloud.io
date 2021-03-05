@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 const getOnLineStatus = () =>
-    typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean' ? navigator.onLine : true;
-    
+	typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean' ? navigator.onLine : true;
+
 export default function InternetStatus() {
 	const [status, setStatus] = React.useState(getOnLineStatus());
 	const [toastId, setToastId] = React.useState(null);

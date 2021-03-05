@@ -30,7 +30,10 @@ const ChatPanelToggleButton = props => {
 	const dispatch = useDispatch();
 	const classes = useStyles(props);
 	return (
-		<IconButton className="w-64 h-64 text-white rounded-none bg-custom-primary" onClick={ev => dispatch(Actions.toggleChatPanel())}>
+		<IconButton
+			className="w-64 h-64 text-white rounded-none bg-custom-primary"
+			onClick={ev => dispatch(Actions.toggleChatPanel())}
+		>
 			{!!props.totalCount && <div className={classes.unreadBadge}>{props.totalCount}</div>}
 			{props.children}
 		</IconButton>

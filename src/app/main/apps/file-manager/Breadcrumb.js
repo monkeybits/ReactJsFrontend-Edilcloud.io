@@ -9,8 +9,8 @@ import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import * as Actions from './store/actions';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 
 function Breadcrumb({ className, selected }) {
 	const dispatch = useDispatch();

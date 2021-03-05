@@ -28,7 +28,7 @@ const locale = {
 	TASK_TITLE: 'Titolo fase di lavoro',
 	SELECT_PROFILE: 'Scegli profili',
 	SELECT_COMPANY: 'Assegna ad azienda',
-	DESCRIPTION: "Descrizione",
+	DESCRIPTION: 'Descrizione',
 	NOTES: 'Note',
 	SORT: 'Ordina',
 	ORDER_BY: 'Ordina per',
@@ -62,7 +62,7 @@ const locale = {
 	LIKE: 'Mi piace',
 	ADD_COMMENT: 'Aggiungi un commento',
 	EDIT: 'Modifica',
-	DELETE: 'Cancella',
+	DELETE: 'Cancella'
 };
 
 export default locale;

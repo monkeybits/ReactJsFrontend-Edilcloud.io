@@ -4,13 +4,13 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
+import FusePageSimple from '@fuse/core/FusePageSimple';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import TodoHeader from './TodoHeader';
 import TodoSidebarContent from './TodoSidebarContent';
 import TodoSidebarHeader from './TodoSidebarHeader';
 import UserStorageChart from './UserStorageChart';
-import FusePageSimple from '@fuse/core/FusePageSimple';
 
 function Storage() {
 	const dispatch = useDispatch();

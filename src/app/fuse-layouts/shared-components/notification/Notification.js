@@ -171,17 +171,17 @@ function NotificationPanel(props) {
 			onClose={ev => dispatch(Actions.toggleNotification())}
 		>
 			<FuseScrollbars>
-					{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
-					<Toolbar className="px-4 flex justify-between items-center">
-						<Typography className="mx-16 text-16" color="inherit">
-							Notifications
-						</Typography>
-						<div className="px-4">
-							<IconButton onClick={ev => dispatch(Actions.toggleNotification())} color="inherit">
-								<Icon>close</Icon>
-							</IconButton>
-						</div>
-					</Toolbar>
+				{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
+				<Toolbar className="px-4 flex justify-between items-center">
+					<Typography className="mx-16 text-16" color="inherit">
+						Notifications
+					</Typography>
+					<div className="px-4">
+						<IconButton onClick={ev => dispatch(Actions.toggleNotification())} color="inherit">
+							<Icon>close</Icon>
+						</IconButton>
+					</div>
+				</Toolbar>
 				<div className="flex flex-col">
 					<Card className="w-full">
 						<AppBar position="static" elevation={0}>

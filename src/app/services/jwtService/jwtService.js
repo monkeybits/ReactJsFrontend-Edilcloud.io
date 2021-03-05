@@ -1,8 +1,8 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
-import axios from '../axiosConfig';
 import jwtDecode from 'jwt-decode';
-import { USER_LOGIN, USER_TOKEN_VERIFY, USER_REGISTRATION } from '../apiEndPoints';
 import { authUserData } from 'app/auth/store/actions';
+import axios from '../axiosConfig';
+import { USER_LOGIN, USER_TOKEN_VERIFY, USER_REGISTRATION } from '../apiEndPoints';
 import { saveToken } from '../serviceUtils';
 /* eslint-disable camelcase */
 

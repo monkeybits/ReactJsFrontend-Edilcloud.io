@@ -7,12 +7,10 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import FileViewer from './FileViewer';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Button } from '@material-ui/core';
-import ReadPDF from './ReadPDF';
 import {
 	faFilePdf,
 	faFile,
@@ -22,13 +20,16 @@ import {
 	faFileImage,
 	faFileWord
 } from '@fortawesome/free-regular-svg-icons';
-import * as Actions from './store/actions';
 import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import FileSaver from 'file-saver';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import VideoListItem from 'app/VideoPlayer/VideoListItem';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
+import ReadPDF from './ReadPDF';
+import FileViewer from './FileViewer';
+
 const styles = theme => ({
 	root: {
 		margin: 0,
@@ -75,24 +76,26 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 	const files = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const folderPath = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.folderPath);
 	const currentFolderPath = folderPath[folderPath.length - 1];
-	const Allfiles = useSelector(({ fileManagerAppProject }) => currentFolderPath == '' ? fileManagerAppProject.files?.rootFiles : fileManagerAppProject.files?.files);
+	const Allfiles = useSelector(({ fileManagerAppProject }) =>
+		currentFolderPath == '' ? fileManagerAppProject.files?.rootFiles : fileManagerAppProject.files?.files
+	);
 	const item = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
 	const [currentIndex, setcurrentIndex] = useState(null);
 	const [selectedItem, setSelectedItem] = useState(null);
 
 	useEffect(() => {
 		console.log({ currentIndex });
-		let fileData = Allfiles[currentIndex];
+		const fileData = Allfiles[currentIndex];
 		setSelectedItem(fileData);
 	}, [currentIndex]);
 	useEffect(() => {
 		if (Array.isArray(Allfiles) && item) {
-			let tile = item;
+			const tile = item;
 			const findIndex = Allfiles.findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 			console.log({ findIndex, Allfiles });
 			if (findIndex >= 0) {
 				setcurrentIndex(findIndex);
-				let fileData = Allfiles[findIndex];
+				const fileData = Allfiles[findIndex];
 				setSelectedItem(fileData);
 			}
 		}
@@ -111,7 +114,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 		if (selectedItem) {
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
-			let apiurl =
+			const apiurl =
 				selectedItem.type == 'photo'
 					? DOWNLOAD_PHOTO(selectedItem.mainId)
 					: selectedItem.type == 'video'
@@ -121,8 +124,10 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 				apiurl,
 				{},
 				({ headers, data }) => {
-					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					const image = btoa(
+						new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+					);
+					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 					console.log({ file });
 					if (window) {
 						console.log('listenning to flutterInAppWebViewPlatformReady');
@@ -164,7 +169,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 					...getHeaderToken(),
 					responseType: 'arraybuffer',
 					onDownloadProgress: progressEvent => {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						setProgress(percentCompleted);
 					}
 				},

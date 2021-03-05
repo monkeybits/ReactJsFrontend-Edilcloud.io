@@ -2,10 +2,10 @@
 
 import React, { createContext } from 'react';
 import io from 'socket.io-client';
-import { WS_BASE_LOCAL, WS_BASE_DEV } from './config';
 import { useDispatch, useSelector } from 'react-redux';
-import * as companyChatActions from './main/apps/chat/store/actions';
 import * as chatPanelActions from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
+import { WS_BASE_LOCAL, WS_BASE_DEV } from './config';
+import * as companyChatActions from './main/apps/chat/store/actions';
 import * as ProjectChatActions from './main/apps/notes/chat/store/actions';
 import { decodeDataFromToken } from './services/serviceUtils';
 // import * as chatPanelActions from '../';src/app/fuse-layouts/shared-components/chatPanel/store/actions/chat.actions.js
@@ -34,7 +34,7 @@ export default ({ children }) => {
 				// chat panel
 				const getChats = () => getState().chatPanel.chat?.chats;
 				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-				let chats = getChats();
+				const chats = getChats();
 				const index = chats.findIndex(findUnique_code);
 
 				if (chats && chats[index]) {
@@ -48,7 +48,7 @@ export default ({ children }) => {
 					dispatch(chatPanelActions.updateChatLog(msg));
 				}
 			}
-			if (msg.message['sender']?.['id'] != getUserId()) {
+			if (msg.message.sender?.['id'] != getUserId()) {
 				if (msg.message.talk.content_type_name == 'project') {
 					// project chat sidebar update count
 					dispatch(chatPanelActions.updateContactCount(msg));
@@ -64,7 +64,7 @@ export default ({ children }) => {
 			) {
 				const getChats = () => getState().chatAppProject.chat.chats;
 				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-				let chats = getChats();
+				const chats = getChats();
 				const index = chats.findIndex(findUnique_code);
 
 				if (chats[index]) {
@@ -80,9 +80,9 @@ export default ({ children }) => {
 			} else if (msg.message.talk.content_type_name == 'company') {
 				const getChats = () => getState().chatApp.chat?.chats;
 				const findUnique_code = element => element?.unique_code == msg.message.unique_code;
-				let chats = getChats();
+				const chats = getChats();
 				if (chats) {
-					let index = chats.findIndex(findUnique_code);
+					const index = chats.findIndex(findUnique_code);
 					console.log({
 						chats,
 						index
@@ -109,7 +109,7 @@ export default ({ children }) => {
 			const userInfo = decodeDataFromToken();
 			const getUserId = () => userInfo?.extra?.profile.id;
 			console.log({ socketData: data, id: getUserId() });
-			if (data.message.message['dest']?.['id'] === parseInt(getUserId())) {
+			if (data.message.message.dest?.['id'] === parseInt(getUserId())) {
 				passMessage(data.message);
 				global.socket.send(
 					JSON.stringify({

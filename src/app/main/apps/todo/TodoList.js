@@ -16,26 +16,24 @@ import Typography from '@material-ui/core/Typography';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import TodoListItem from './TodoListItem';
-import TaskContentForm from './TaskContentForm';
-import EditActivityPostForm from './EditActivityPostForm';
 import * as ConatctActions from 'app/main/apps/contacts/store/actions';
 import * as NotesActions from 'app/main/apps/notes/store/actions';
 import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
 import * as AccessibilityActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import {
-	GET_POST_FOR_TASK
-} from 'app/services/apiEndPoints';
+import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
+import EditActivityPostForm from './EditActivityPostForm';
+import TaskContentForm from './TaskContentForm';
+import TodoListItem from './TodoListItem';
 
 function TodoList(props) {
 	const dispatch = useDispatch();
-	const todos = useSelector(({ todoApp }) => todoApp.todos.entities);// it will get all tasks
+	const todos = useSelector(({ todoApp }) => todoApp.todos.entities); // it will get all tasks
 	const searchText = useSelector(({ todoApp }) => todoApp.todos.searchText); // its search text in dashboard you'll see search option and you can search task by this
-	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);// to get the current order(sorting of list)
+	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy); // to get the current order(sorting of list)
 	const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
-	const [filteredData, setFilteredData] = useState([]);// applied filter data list will be saved here
-	const filters = useSelector(({ todoApp }) => todoApp.filters);// get filters categories 
+	const [filteredData, setFilteredData] = useState([]); // applied filter data list will be saved here
+	const filters = useSelector(({ todoApp }) => todoApp.filters); // get filters categories
 	const activeFilter = useSelector(({ todoApp }) => todoApp.filters.activeFilter);
 	const activeFilterKey = useSelector(({ todoApp }) => todoApp.filters.activeFilterKey);
 	const usedKeys = useSelector(({ todoApp }) => todoApp.filters.usedKeys);
@@ -49,15 +47,15 @@ function TodoList(props) {
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
 	const todosNote = useSelector(({ todoAppNote }) => todoAppNote?.todos?.entities);
 	const accessibilityPanelAppState = useSelector(({ accessibilityPanel }) => accessibilityPanel.isDownloadApp);
-	let accessibilityPanelApp = localStorage.getItem('downloadApp');
+	const accessibilityPanelApp = localStorage.getItem('downloadApp');
 
 	useDeepCompareEffect(() => {
 		dispatch(ConatctActions.getContacts());
 		dispatch(NotesActions.getProjects());
-		if(projects.length > 0) {
-			let project_id = 0
-			if(projects !== undefined && projects.length > 0) {
-				project_id = projects[0].id
+		if (projects.length > 0) {
+			let project_id = 0;
+			if (projects !== undefined && projects.length > 0) {
+				project_id = projects[0].id;
 			}
 			dispatch(TodosActions.getTodos(project_id, true));
 		}
@@ -71,7 +69,7 @@ function TodoList(props) {
 	}, [todosNote]);
 
 	const getPosts = () => {
-		if(todosNote && Object.keys(todosNote).length > 0) {
+		if (todosNote && Object.keys(todosNote).length > 0) {
 			apiCall(
 				GET_POST_FOR_TASK(todosNote[0].id),
 				{},
@@ -88,28 +86,27 @@ function TodoList(props) {
 	};
 
 	useEffect(() => {
-		if(!contacts && contacts.length === 0) {
-			dispatch(AccessibilityActions.openAccessibility())
+		if (!contacts && contacts.length === 0) {
+			dispatch(AccessibilityActions.openAccessibility());
 		}
 
-		if(!projects && projects.length === 0) {
-			dispatch(AccessibilityActions.openAccessibility())
-		}
-		
-		if(!todos && Object.keys(todos).length === 0) {
-			dispatch(AccessibilityActions.openAccessibility())
+		if (!projects && projects.length === 0) {
+			dispatch(AccessibilityActions.openAccessibility());
 		}
 
-		if(!posts && posts.length === 0) {
-			dispatch(AccessibilityActions.openAccessibility())
+		if (!todos && Object.keys(todos).length === 0) {
+			dispatch(AccessibilityActions.openAccessibility());
 		}
 
-		if(accessibilityPanelApp !== 'true' && !accessibilityPanelAppState) {
-			dispatch(AccessibilityActions.openAccessibility())
+		if (!posts && posts.length === 0) {
+			dispatch(AccessibilityActions.openAccessibility());
 		}
 
+		if (accessibilityPanelApp !== 'true' && !accessibilityPanelAppState) {
+			dispatch(AccessibilityActions.openAccessibility());
+		}
 	}, [contacts, projects, todos, posts, accessibilityPanelApp, accessibilityPanelAppState]);
-	
+
 	/**
 	 * * we have 5-6 filter category but, by default we can select only one filter from each categaory but some category need to allow multiple select
 	 * ! we need to allow to select multiple project for projects, multiple people for activity, multiple company for tasks
@@ -129,7 +126,7 @@ function TodoList(props) {
 
 		if (todos && company) {
 			new Promise((resolve, reject) => {
-				let data = _.orderBy(
+				const data = _.orderBy(
 					getFilteredArray(todos, searchText),
 					[orderBy],
 					[orderDescending ? 'desc' : 'asc']
@@ -147,7 +144,8 @@ function TodoList(props) {
 	useEffect(() => {
 		handleDoFilter();
 	}, [activeFilterKey, company, usedKeys, todos]);
-	const handleDoFilter = () => { // this function is called to apply a filter, whenever user apply new filter this function will be called
+	const handleDoFilter = () => {
+		// this function is called to apply a filter, whenever user apply new filter this function will be called
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
 			if (_searchText.length === 0) {
@@ -155,14 +153,14 @@ function TodoList(props) {
 			}
 			return FuseUtils.filterArrayByString(arr, _searchText);
 		}
-		if (company && todos) { 
+		if (company && todos) {
 			let list = _.orderBy(getFilteredArray(todos, searchText), [orderBy], [orderDescending ? 'desc' : 'asc']);
 			if (usedKeys && usedKeys.length) {
 				for (const key in usedKeys) {
 					if (usedKeys.hasOwnProperty(key)) {
 						const element = usedKeys[key];
 						if (canSelectMultiple.includes(element)) {
-							let selectedFilters = filters[element].map(d => {
+							const selectedFilters = filters[element].map(d => {
 								if (d.isActive) {
 									return element == 'peopleFilter' ? d.id : d.name;
 								}
@@ -178,7 +176,7 @@ function TodoList(props) {
 					}
 				}
 				setFilteredData(list);
-				let listDiv = document.getElementById('list-content');
+				const listDiv = document.getElementById('list-content');
 				if (listDiv) {
 					listDiv.scrollTop = 0;
 				}
@@ -262,9 +260,9 @@ function TodoList(props) {
 				var result = [];
 				if (activeFilterKey === 'TODAY') {
 					result = list.reduce((unique, o) => {
-						let startDate = new Date(o.date_start);
-						let endDate = new Date(o.date_end);
-						let date = new Date();
+						const startDate = new Date(o.date_start);
+						const endDate = new Date(o.date_end);
+						const date = new Date();
 						let activities = [];
 						if (o.assigned_company && o.assigned_company.id == company.id) {
 							activities = todayFilterForActivity(o.activities);
@@ -279,11 +277,11 @@ function TodoList(props) {
 					}, []);
 				} else if (activeFilterKey === 'NEXT_WEEK') {
 					result = list.reduce((unique, o) => {
-						let startDate = new Date(o.date_start);
-						let endDate = new Date(o.date_end);
-						let fromDate = new Date();
-						let toDate = new Date();
-						var pastDate = toDate.getDate() + 7;
+						const startDate = new Date(o.date_start);
+						const endDate = new Date(o.date_end);
+						const fromDate = new Date();
+						const toDate = new Date();
+						const pastDate = toDate.getDate() + 7;
 						toDate.setDate(pastDate);
 						let activities = [];
 						if (o.assigned_company && o.assigned_company.id == company.id) {
@@ -299,8 +297,8 @@ function TodoList(props) {
 					}, []);
 				} else if (activeFilterKey === 'IN_LATE') {
 					result = list.reduce((unique, o) => {
-						let endDate = new Date(o.date_end);
-						let date = new Date();
+						const endDate = new Date(o.date_end);
+						const date = new Date();
 						let activities = [];
 						if (o.assigned_company && o.assigned_company.id == company.id) {
 							activities = inLateFilterForActivity(o.activities);
@@ -330,8 +328,8 @@ function TodoList(props) {
 		}
 	};
 	const filterByPeopleForActivity = (arr = [], id) => {
-		let result = arr.reduce((unique, o) => {
-			let workers = Array.isArray(id)
+		const result = arr.reduce((unique, o) => {
+			const workers = Array.isArray(id)
 				? o.workers.filter(d => id.includes(d.id))
 				: o.workers.filter(d => d.id == id);
 			if (workers.length) {
@@ -342,7 +340,7 @@ function TodoList(props) {
 		return result;
 	};
 	const completedFilterForActivity = (arr = []) => {
-		let result = arr.reduce((unique, o) => {
+		const result = arr.reduce((unique, o) => {
 			if (o.status != 'to-do') {
 				unique.push(o);
 			}
@@ -351,7 +349,7 @@ function TodoList(props) {
 		return result;
 	};
 	const checkAlert = (arr = []) => {
-		let result = arr.reduce((unique, o) => {
+		const result = arr.reduce((unique, o) => {
 			if (o.alert) {
 				unique.push(o);
 			}
@@ -360,10 +358,10 @@ function TodoList(props) {
 		return result;
 	};
 	const todayFilterForActivity = (arr = []) => {
-		let result = arr.reduce((unique, o) => {
-			let startDate = new Date(o.datetime_start);
-			let endDate = new Date(o.datetime_end);
-			let date = new Date();
+		const result = arr.reduce((unique, o) => {
+			const startDate = new Date(o.datetime_start);
+			const endDate = new Date(o.datetime_end);
+			const date = new Date();
 			if (endDate.getTime() >= date.getTime() && startDate.getTime() <= date.getTime()) {
 				unique.push(o);
 			}
@@ -372,9 +370,9 @@ function TodoList(props) {
 		return result;
 	};
 	const inLateFilterForActivity = (arr = []) => {
-		let result = arr.reduce((unique, o) => {
-			let endDate = new Date(o.datetime_end);
-			let date = new Date();
+		const result = arr.reduce((unique, o) => {
+			const endDate = new Date(o.datetime_end);
+			const date = new Date();
 			if (date.getTime() >= endDate.getTime() && o.status == 'to-do') {
 				unique.push(o);
 			}
@@ -383,12 +381,12 @@ function TodoList(props) {
 		return result;
 	};
 	const todayFilterToNextWeekForActivity = (arr = []) => {
-		let result = arr.reduce((unique, o) => {
-			let startDate = new Date(o.datetime_start);
-			let endDate = new Date(o.datetime_end);
-			let fromDate = new Date();
-			let toDate = new Date();
-			var pastDate = toDate.getDate() + 7;
+		const result = arr.reduce((unique, o) => {
+			const startDate = new Date(o.datetime_start);
+			const endDate = new Date(o.datetime_end);
+			const fromDate = new Date();
+			const toDate = new Date();
+			const pastDate = toDate.getDate() + 7;
 			toDate.setDate(pastDate);
 			if (startDate.getTime() <= toDate.getTime() && endDate.getTime() >= fromDate.getTime()) {
 				unique.push(o);
@@ -401,12 +399,13 @@ function TodoList(props) {
 		return null;
 	}
 
-	if (filteredData.length === 0) { // if there are no tasks to show below HTML code wiil be display
+	if (filteredData.length === 0) {
+		// if there are no tasks to show below HTML code wiil be display
 		return (
 			<FuseAnimate delay={100}>
 				<div>
 					<div className="flex flex-1 items-center justify-center h-full">
-						<img className="w-400" src="assets/images/errors/nogantt.png"></img>
+						<img className="w-400" src="assets/images/errors/nogantt.png" />
 					</div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<Typography color="textSecondary" variant="h5">
@@ -439,12 +438,12 @@ function TodoList(props) {
 					</div>
 				</div>
 				<div className="lg:w-2/3 content-ht dashboard custom-modal-open flex-fill">
-						{taskContentDialog.props.open && todoId == taskContentDialog.data.id && (
-							<TaskContentForm />  // if we click on tasks this component will be displayed
-						)}
-						{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
-							<EditActivityPostForm />  // if we click on activity this component will be displayed
-						)}
+					{taskContentDialog.props.open && todoId == taskContentDialog.data.id && (
+						<TaskContentForm /> // if we click on tasks this component will be displayed
+					)}
+					{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
+						<EditActivityPostForm /> // if we click on activity this component will be displayed
+					)}
 				</div>
 			</div>
 		</FuseAnimateGroup>

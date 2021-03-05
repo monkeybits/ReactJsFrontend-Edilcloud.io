@@ -174,8 +174,8 @@ export function folderDetail(cid, handleSetLoading = () => '') {
 		loadingFolders: true
 	});
 	return (dispatch, getState) => {
-		const folderPath = getState().fileManagerAppProject.files.folderPath;
-		let pathdata = folderPath[folderPath.length - 1];
+		const { folderPath } = getState().fileManagerAppProject.files;
+		const pathdata = folderPath[folderPath.length - 1];
 		if (pathdata) {
 			apiCall(
 				GET_FOLDERS_DETAIL(pathdata.id),

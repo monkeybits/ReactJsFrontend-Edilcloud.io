@@ -7,12 +7,13 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import clsx from 'clsx';
-import DrawImage from './DrawImage';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import VideoListItem from 'app/VideoPlayer/VideoListItem';
 import ImagePreviewDialog from 'app/ImagePreviewDialog';
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews); //SwipeableViews;
+import DrawImage from './DrawImage';
+
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews); // SwipeableViews;
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: '70%',
@@ -44,11 +45,11 @@ export default function PostedImages(props) {
 		height: 400,
 		width: 400
 	});
-	const media = props.media;
+	const { media } = props;
 	const [open, setOpen] = useState(false);
 	const [activtStep, setActivtStep] = useState(0);
 	const openImage = index => {
-		let selected = media.filter(file => file.id === props.images[index].id)[0];
+		const selected = media.filter(file => file.id === props.images[index].id)[0];
 		// console.log(files[index], media.files, selected);
 		if (selected) {
 			setOpen(true);
@@ -134,7 +135,7 @@ export default function PostedImages(props) {
 					imagesArray={props.media}
 					activtStep={activtStep}
 					closeViewFile={() => setOpen(false)}
-					nameSpace='todo_project'
+					nameSpace="todo_project"
 				/>
 			)}
 		</div>

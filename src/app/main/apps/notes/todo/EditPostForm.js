@@ -30,15 +30,17 @@ import {
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
-import * as Actions from './store/actions';
-import ImagesPreview from './ImagesPreview';
-import PostList from './PostList';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { CircularProgress } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import PostList from './PostList';
+import ImagesPreview from './ImagesPreview';
+import * as Actions from './store/actions';
+
 const uuidv1 = require('uuid/v1');
+
 const getAllFilesOfTimeline = timeline => {
 	if (Array.isArray(timeline) && timeline.length) {
 		console.log({ timeline });
@@ -50,11 +52,10 @@ const getAllFilesOfTimeline = timeline => {
 				media_set: []
 			}
 		);
-	} else {
-		return {
-			media_set: []
-		};
 	}
+	return {
+		media_set: []
+	};
 };
 function EditPostForm(props) {
 	const { isTask, taskId, postId, setIsEditPost, currnetPost, setPost } = props;
@@ -73,8 +74,8 @@ function EditPostForm(props) {
 
 	const [media, setMedia] = useState({ files: [] });
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
-	let notification = notificationPanel.notificationData?.notification;
-	let scrollRef = document.getElementById(`post${notification?.object_id}`);
+	const notification = notificationPanel.notificationData?.notification;
+	const scrollRef = document.getElementById(`post${notification?.object_id}`);
 	const [file, setFile] = useState({
 		fileData: undefined,
 		imagePreviewUrl: undefined
@@ -146,7 +147,7 @@ function EditPostForm(props) {
 	};
 
 	const addPhoto = async e => {
-		const files = e.currentTarget.files;
+		const { files } = e.currentTarget;
 		const fileToCompress = e.currentTarget.files[0];
 		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 		console.log(`File Index 0`, fileToCompress); // smaller than maxSizeMB
@@ -170,8 +171,8 @@ function EditPostForm(props) {
 		}
 
 		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/');
+		for (let i = 0; i < files.length; i++) {
+			const fileType = files[i].type?.split('/');
 			console.log({ fileType });
 			file = [
 				...file,
@@ -179,7 +180,7 @@ function EditPostForm(props) {
 					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
 					fileType: fileType[0],
-					extension: '.' + fileType[1],
+					extension: `.${fileType[1]}`,
 					type: fileType.join('/')
 				}
 			];
@@ -206,7 +207,7 @@ function EditPostForm(props) {
 		setImages(images);
 	};
 	const callRetryAfterSuccess = (unique_code, res) => {
-		let tempPosts = { ...offilePosts };
+		const tempPosts = { ...offilePosts };
 		tempPosts[unique_code] = {
 			...tempPosts[unique_code],
 			...res,
@@ -269,7 +270,7 @@ function EditPostForm(props) {
 									color="primary"
 									size="large"
 									aria-label="post"
-									//disabled={!text.length}
+									// disabled={!text.length}
 								>
 									{t('SAVE')}{' '}
 									{loading && <CircularProgress size={20} color="secondary" className="ml-20" />}
@@ -279,7 +280,7 @@ function EditPostForm(props) {
 									color="secondary"
 									size="large"
 									aria-label="post"
-									//disabled={!text.length}
+									// disabled={!text.length}
 								>
 									{t('CANCEL')}
 								</Button>

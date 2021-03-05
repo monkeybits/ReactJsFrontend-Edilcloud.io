@@ -1,7 +1,7 @@
 import history from '@history';
 import axios from 'axios';
-import BoardModel from '../../model/BoardModel';
 import { RESET_FILES } from 'app/main/apps/file-manager/store/actions';
+import BoardModel from '../../model/BoardModel';
 
 export const GET_BOARDS = '[SCRUMBOARD APP] GET BOARDS';
 export const RESET_BOARDS = '[SCRUMBOARD APP] RESET BOARDS';
@@ -35,16 +35,16 @@ export function newBoard(board) {
 	// 	board: board || new BoardModel()
 	// });
 
-	return dispatch =>{
+	return dispatch => {
 		// request.then(response => {
-			// const _board = response.data;
-			history.push({
-				pathname: `/create-company`
-			});
-			// return dispatch({
-			// 	type: NEW_BOARD,
-			// 	board: _board
-			// });
+		// const _board = response.data;
+		history.push({
+			pathname: `/create-company`
+		});
+		// return dispatch({
+		// 	type: NEW_BOARD,
+		// 	board: _board
 		// });
-	}
+		// });
+	};
 }

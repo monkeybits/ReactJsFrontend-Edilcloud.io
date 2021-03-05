@@ -1,10 +1,11 @@
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import * as Actions from '../actions';
-const initialState = () => {
-	let genrealFilterJsonData = localStorage.getItem('genrealFilterJsonData');
-	let timeFilterJsonData = localStorage.getItem('timeFilterJsonData');
 
-	let genrealFilter = [
+const initialState = () => {
+	const genrealFilterJsonData = localStorage.getItem('genrealFilterJsonData');
+	const timeFilterJsonData = localStorage.getItem('timeFilterJsonData');
+
+	const genrealFilter = [
 		{
 			name: 'MINE',
 			isActive: false
@@ -18,7 +19,7 @@ const initialState = () => {
 			isActive: false
 		}
 	];
-	let timeFilter = [
+	const timeFilter = [
 		{
 			name: 'TODAY',
 			isActive: false
@@ -36,10 +37,10 @@ const initialState = () => {
 			isActive: false
 		}
 	];
-	var nextWeek = new Date();
+	const nextWeek = new Date();
 
-	//Change it so that it is 7 days in the feature.
-	var pastDate = nextWeek.getDate() + 7;
+	// Change it so that it is 7 days in the feature.
+	const pastDate = nextWeek.getDate() + 7;
 	nextWeek.setDate(pastDate);
 	return {
 		projectFilter: [],
@@ -48,13 +49,13 @@ const initialState = () => {
 		activeFilter: 'genrealFilter',
 		activeFilterKey: 'MINE',
 		usedKeys: [],
-		genrealFilter: genrealFilter, // genrealFilterJsonData ? JSON.parse(genrealFilterJsonData) : genrealFilter,
-		timeFilter: timeFilter // timeFilterJsonData ? JSON.parse(timeFilterJsonData) : timeFilter
+		genrealFilter, // genrealFilterJsonData ? JSON.parse(genrealFilterJsonData) : genrealFilter,
+		timeFilter // timeFilterJsonData ? JSON.parse(timeFilterJsonData) : timeFilter
 	};
 };
 const addIsActiveToDefault = (arr = []) => arr.map(d => (d = { ...d, isActive: false }));
 const projectNames = arr => {
-	var result = arr.reduce((unique, o) => {
+	const result = arr.reduce((unique, o) => {
 		if (!unique.some(obj => obj.name === o.project.name)) {
 			unique.push({
 				...o.project
@@ -65,7 +66,7 @@ const projectNames = arr => {
 	return result;
 };
 const companyFilterNames = arr => {
-	var result = arr.reduce((unique, o) => {
+	const result = arr.reduce((unique, o) => {
 		if (o.assigned_company && !unique.some(obj => obj.id === o.assigned_company.id)) {
 			unique.push({
 				...o.assigned_company
@@ -77,7 +78,7 @@ const companyFilterNames = arr => {
 };
 const peopleFilterNames = arr => {
 	const userInfo = decodeDataFromToken();
-	var result = arr.reduce(function (flat, toFlatten) {
+	const result = arr.reduce(function (flat, toFlatten) {
 		let activityPeople = [];
 		if (
 			toFlatten.assigned_company &&
@@ -94,7 +95,7 @@ const peopleFilterNames = arr => {
 	return addIsActiveToDefault(uniqueById(result));
 };
 const uniqueById = arr => {
-	let result = arr.reduce((unique, o) => {
+	const result = arr.reduce((unique, o) => {
 		if (!unique.some(obj => obj.id === o.id)) {
 			unique.push(o);
 		}
@@ -124,18 +125,16 @@ const filtersReducer = (state = initialState(), action) => {
 			tempUsedKeys = tempUsedKeys.filter(item => item != action.payload.activeFilter);
 			const chnagedState = state[action.payload.activeFilter].map(d => {
 				if (d.name == action.payload.activeFilterKey || d.id == action.payload.activeFilterKey) {
-					let isActive = !d.isActive;
+					const isActive = !d.isActive;
 					return { ...d, isActive };
-				} else {
-					if (!canSelectMultiple.includes(action.payload.activeFilter)) {
-						return { ...d, isActive: false };
-					} else {
-						return d;
-					}
 				}
+				if (!canSelectMultiple.includes(action.payload.activeFilter)) {
+					return { ...d, isActive: false };
+				}
+				return d;
 			});
-			let allActivited = chnagedState.filter(d => d.isActive);
-			console.log({ allActivited: allActivited });
+			const allActivited = chnagedState.filter(d => d.isActive);
+			console.log({ allActivited });
 			if (allActivited?.length) {
 				tempUsedKeys.push(action.payload.activeFilter);
 			}

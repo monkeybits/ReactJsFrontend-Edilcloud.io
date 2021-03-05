@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
@@ -19,12 +19,10 @@ import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
-import GuideListItem from './GuideListItem';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-import {
-	GET_POST_FOR_TASK
-} from 'app/services/apiEndPoints';
+import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
+import GuideListItem from './GuideListItem';
 import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
@@ -33,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 		// maxWidth: 360,
 		backgroundColor: '#eff2f7',
 		padding: 0,
-		borderRadius: 10,
+		borderRadius: 10
 	},
 	nested: {
 		paddingLeft: theme.spacing(4)
@@ -58,13 +56,13 @@ function Guide() {
 		setLoading(loading => ({
 			...loading,
 			...data
-	}));
+		}));
 
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts?.entities);
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
 	const todos = useSelector(({ todoAppNote }) => todoAppNote?.todos?.entities);
 	const accessibilityPanelAppState = useSelector(({ accessibilityPanel }) => accessibilityPanel.isDownloadApp);
-	let accessibilityPanelApp = localStorage.getItem('downloadApp');
+	const accessibilityPanelApp = localStorage.getItem('downloadApp');
 
 	useEffect(() => {
 		setPosts([]);
@@ -74,7 +72,7 @@ function Guide() {
 	}, [todos]);
 
 	const getPosts = () => {
-		if(todos && Object.keys(todos).length > 0) {
+		if (todos && Object.keys(todos).length > 0) {
 			apiCall(
 				GET_POST_FOR_TASK(todos[0].id),
 				{},
@@ -91,35 +89,34 @@ function Guide() {
 	};
 
 	useEffect(() => {
-		if(contacts && contacts.length > 0) {
-			setIsOpenMenu('project')
+		if (contacts && contacts.length > 0) {
+			setIsOpenMenu('project');
 		}
 
-		if(projects && projects.length > 0) {
-			setIsOpenMenu('task')
-		}
-		
-		if(todos && Object.keys(todos).length > 0) {
-			setIsOpenMenu('post')
+		if (projects && projects.length > 0) {
+			setIsOpenMenu('task');
 		}
 
-		if(posts && posts.length > 0) {
-			setIsOpenMenu('downloadApp')
+		if (todos && Object.keys(todos).length > 0) {
+			setIsOpenMenu('post');
 		}
 
-		if(accessibilityPanelApp === 'true' || accessibilityPanelAppState) {
-			setIsOpenMenu('discover')
+		if (posts && posts.length > 0) {
+			setIsOpenMenu('downloadApp');
 		}
 
+		if (accessibilityPanelApp === 'true' || accessibilityPanelAppState) {
+			setIsOpenMenu('discover');
+		}
 	}, [contacts, projects, todos, posts, accessibilityPanelApp, accessibilityPanelAppState, setIsOpenMenu]);
 
 	useDeepCompareEffect(() => {
 		dispatch(ConatctActions.getContacts());
 		dispatch(NotesActions.getProjects(handleSetLoading));
-		if(projects.length > 0) {
-			let project_id = 0
-			if(projects !== undefined && projects.length > 0) {
-				project_id = projects[0].id
+		if (projects.length > 0) {
+			let project_id = 0;
+			if (projects !== undefined && projects.length > 0) {
+				project_id = projects[0].id;
 			}
 			dispatch(TodosActions.getTodos(project_id, true));
 		}
@@ -142,7 +139,8 @@ function Guide() {
 			title: 'Creat a project',
 			content: 'Testing',
 			contentTitle: '',
-			contentDescription: 'You can create a project and assign task to other companies, or assign them to your company only',
+			contentDescription:
+				'You can create a project and assign task to other companies, or assign them to your company only',
 			link: '/apps/projects',
 			linkText: 'Add project page',
 			linkTextAll: 'View projects',
@@ -155,30 +153,31 @@ function Guide() {
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription: '',
-			link: projects !== undefined && projects.length > 0 ? '/apps/projects/' + projects[0].id : '',
+			link: projects !== undefined && projects.length > 0 ? `/apps/projects/${projects[0].id}` : '',
 			linkText: 'Add task page',
 			linkTextAll: 'View tasks',
 			image: '',
 			video: 'assets/videos/samplevideo.mp4',
-			iconSelection: 'task',
+			iconSelection: 'task'
 		},
 		{
 			title: 'Creat a post',
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription: '',
-			link: projects !== undefined && projects.length > 0 ? '/apps/projects/' + projects[0].id : '',
+			link: projects !== undefined && projects.length > 0 ? `/apps/projects/${projects[0].id}` : '',
 			linkText: 'Add post page',
 			linkTextAll: 'View posts',
 			image: '',
 			video: 'assets/videos/samplevideo.mp4',
-			iconSelection: 'post',
+			iconSelection: 'post'
 		},
 		{
 			title: 'Download app for smartphone',
 			content: 'Testing',
 			contentTitle: '',
-			contentDescription: 'Download the app for your phone or tablet and use EdilCloud from the construction site field',
+			contentDescription:
+				'Download the app for your phone or tablet and use EdilCloud from the construction site field',
 			link: '',
 			linkText: 'Download App',
 			linkTextAll: '',
@@ -209,38 +208,40 @@ function Guide() {
 			image: '',
 			video: 'assets/videos/samplevideo.mp4',
 			iconSelection: 'knowledge'
-		},
+		}
 	]);
 
 	const handleClick = () => {
 		setOpen(!open);
 	};
-	
+
 	return (
-		<List
-			component="nav"
-			aria-labelledby="nested-list-subheader"
-			className={classes.root}
-		>
-			{
-				quickStartList.map((d, i) => {
-					if (d.iconSelection === 'team' || d.iconSelection === 'project' || d.iconSelection === 'task') {
-						if(getRole() != 'm' && getRole() != 'w') {
-							return <GuideListItem {...{ 
+		<List component="nav" aria-labelledby="nested-list-subheader" className={classes.root}>
+			{quickStartList.map((d, i) => {
+				if (d.iconSelection === 'team' || d.iconSelection === 'project' || d.iconSelection === 'task') {
+					if (getRole() != 'm' && getRole() != 'w') {
+						return (
+							<GuideListItem
+								{...{
+									data: d,
+									index: i,
+									isMenuOpen
+								}}
+							/>
+						);
+					}
+				} else {
+					return (
+						<GuideListItem
+							{...{
 								data: d,
 								index: i,
-								isMenuOpen: isMenuOpen
-							}} />
-						}
-					} else {
-						return <GuideListItem {...{ 
-							data: d,
-							index: i,
-							isMenuOpen: isMenuOpen
-						}} />
-					}
-				})
-			}
+								isMenuOpen
+							}}
+						/>
+					);
+				}
+			})}
 		</List>
 	);
 }

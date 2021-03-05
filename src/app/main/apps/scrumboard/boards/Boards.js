@@ -16,8 +16,6 @@ import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as Actions from '../store/actions';
-import reducer from '../store/reducers';
 import {
 	APPROVE_LIST,
 	REFRESH_TOKEN,
@@ -34,9 +32,7 @@ import {
 	saveMainProfileId,
 	decodeDataFromToken
 } from 'app/services/serviceUtils';
-import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import * as authActions from 'app/auth/store/actions';
-import ReuestsDrawer from './ReuestsDrawer';
 import Badge from '@material-ui/core/Badge';
 import { Avatar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -45,7 +41,12 @@ import * as FuseActions from 'app/store/actions';
 import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 import { useTranslation } from 'react-i18next';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import ReuestsDrawer from './ReuestsDrawer';
+import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
+import reducer from '../store/reducers';
+import * as Actions from '../store/actions';
 import Tutorial from './Tutorial';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		background: theme.palette.primary.main,
@@ -102,7 +103,7 @@ function Boards(props) {
 			{},
 			results => {
 				if (Array.isArray(results)) {
-					let filterdBoards = results.filter(d => d.company && d.status);
+					const filterdBoards = results.filter(d => d.company && d.status);
 					dispatch({
 						type: GET_BOARDS,
 						payload: filterdBoards.map(
@@ -125,7 +126,7 @@ function Boards(props) {
 			{},
 			({ results }) => {
 				if (Array.isArray(results)) {
-					let filterdBoards = results.filter(d => d.company && d.status);
+					const filterdBoards = results.filter(d => d.company && d.status);
 					dispatch({
 						type: GET_BOARDS,
 						payload: filterdBoards.map(
@@ -145,7 +146,7 @@ function Boards(props) {
 	 */
 	const redirectAfterGetNewToken = company_profile_id => {
 		const myCustomUniqueUserId = company_profile_id;
-		console.log('LOGGED IN WITH PROFILE ID: ' + myCustomUniqueUserId.toString());
+		console.log(`LOGGED IN WITH PROFILE ID: ${myCustomUniqueUserId.toString()}`);
 
 		if (window.flutter_inappwebview?.callHandler) {
 			console.log('listenning to flutterInAppWebViewPlatformReady');
@@ -241,7 +242,7 @@ function Boards(props) {
 											e.preventDefault();
 											e.stopPropagation();
 											setRequest(board);
-											if (!!board.isApproved) {
+											if (board.isApproved) {
 												setIsLoading(true);
 												// dispatch(
 												// 	FuseActions.setDefaultSettings(
@@ -308,7 +309,7 @@ function Boards(props) {
 										>
 											{board.name}{' '}
 										</Typography>
-										<span className={`trial intrial text-center mt-4 mx-2`}>
+										<span className="trial intrial text-center mt-4 mx-2">
 											{board.subscription.status}
 										</span>
 									</Link>

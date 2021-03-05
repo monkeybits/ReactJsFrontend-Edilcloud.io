@@ -7,7 +7,6 @@ TODO: This File is Move file or folder to folder
 import IconButton from '@material-ui/core/IconButton';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { Button, TextField } from '@material-ui/core';
 import {
 	MOVE_PHOTO_FILE,
@@ -32,6 +31,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 
 const DialogContent = withStyles(theme => ({
 	root: {
@@ -57,7 +57,7 @@ function MoveFileDialog() {
 	const moveFileDialog = useSelector(({ fileManagerApp }) => fileManagerApp.files.moveFileDialog);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files);
 	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
-	const currentFolderPath = ''; //files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
+	const currentFolderPath = ''; // files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
 	const [title, setTitle] = useState(undefined);
 	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const [error, seterror] = useState({
@@ -84,10 +84,10 @@ function MoveFileDialog() {
 	}
 
 	const handleMoveFile = () => {
-		let fileType = moveFileDialog.data.type;
-		let fileId = moveFileDialog.data.mainId;
-		let relative_path = moveFileDialog.data.folder_relative_path;
-		let apiUrl =
+		const fileType = moveFileDialog.data.type;
+		const fileId = moveFileDialog.data.mainId;
+		const relative_path = moveFileDialog.data.folder_relative_path;
+		const apiUrl =
 			fileType == 'folder'
 				? FOLDER_EDIT(fileId)
 				: fileType == 'photo'
@@ -110,18 +110,16 @@ function MoveFileDialog() {
 					title
 				};
 			}
+		} else if (fileType == 'folder') {
+			values = {
+				name: title,
+				parent: path.id ? path.id : null
+			};
 		} else {
-			if (fileType == 'folder') {
-				values = {
-					name: title,
-					parent: path.id ? path.id : null
-				};
-			} else {
-				values = {
-					title,
-					folder: path.id ? path.id : null
-				};
-			}
+			values = {
+				title,
+				folder: path.id ? path.id : null
+			};
 		}
 		// var formData = new FormData();
 		// for (let key in values) {

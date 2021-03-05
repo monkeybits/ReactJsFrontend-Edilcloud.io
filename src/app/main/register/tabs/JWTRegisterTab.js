@@ -91,12 +91,12 @@ function JWTRegisterTab({ history }) {
 					name="first_name"
 					label={t('FIRST_NAME')}
 					// validations={{
-					// 	minLength: 
+					// 	minLength:
 					// }}
 					// validationErrors={{
 					// 	minLength: 'Min character length is 6'
 					// }}
-					//InputProps={{
+					// InputProps={{
 					//	endAdornment: (
 					//		<InputAdornment position="end">
 					//			<Icon className="text-20" color="action">
@@ -104,7 +104,7 @@ function JWTRegisterTab({ history }) {
 					//			</Icon>
 					//		</InputAdornment>
 					//	)
-					//}}
+					// }}
 					variant="outlined"
 					required
 				/>
@@ -120,7 +120,7 @@ function JWTRegisterTab({ history }) {
 					// validationErrors={{
 					// 	minLength: 'Min character length is 4'
 					// }}
-					//InputProps={{
+					// InputProps={{
 					//	endAdornment: (
 					//		<InputAdornment position="end">
 					//			<Icon className="text-20" color="action">
@@ -128,7 +128,7 @@ function JWTRegisterTab({ history }) {
 					//			</Icon>
 					//		</InputAdornment>
 					//	)
-					//}}
+					// }}
 					variant="outlined"
 					required
 				/>

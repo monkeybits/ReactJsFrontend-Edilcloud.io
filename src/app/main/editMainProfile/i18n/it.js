@@ -10,7 +10,7 @@ const locale = {
 	LANGUAGE: 'Lingua',
 	EDIT_YOUR_PROFILE: 'Modifica profilo',
 	BASIC_INFORMATION: 'Informazioni di base',
-	UPLOAD_PROFILE_PICTURE: 'Carica una foto profilo',
+	UPLOAD_PROFILE_PICTURE: 'Carica una foto profilo'
 };
 
 export default locale;

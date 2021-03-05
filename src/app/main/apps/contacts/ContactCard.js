@@ -10,13 +10,13 @@ import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import { decodeDataFromToken, getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import Icon from '@material-ui/core/Icon';
-import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
-import MoreOption from './MoreOption';
 import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
+import MoreOption from './MoreOption';
+import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
+import * as Actions from './store/actions';
 
 export default function ContactCard(props) {
 	const { t } = useTranslation('contacts');
@@ -54,7 +54,7 @@ export default function ContactCard(props) {
 		imagePreviewUrl: undefined
 	});
 	const getPhoto = fileData => {
-		let reader = new FileReader();
+		const reader = new FileReader();
 
 		reader.onloadend = () => {
 			setFile({
@@ -67,7 +67,7 @@ export default function ContactCard(props) {
 		reader.readAsDataURL(fileData);
 	};
 	const handleSubmit = async (afterSubmit, permissionData, file) => {
-		let newformData = {
+		const newformData = {
 			id,
 			first_name,
 			last_name,
@@ -90,7 +90,7 @@ export default function ContactCard(props) {
 	}
 	const onDeactivate = () => {
 		const { id, email, status } = userData;
-		let url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
+		const url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
 		apiCall(
 			url,
 			{},
@@ -124,8 +124,8 @@ export default function ContactCard(props) {
 				onYes={onDeactivate}
 				onNo={colseDeleteContactDialog}
 			/>
-			<div class="card-container flex flex-col px-10 text-13">
-				<span class={`pro ${String(status).toLowerCase()}`}>{status}</span>
+			<div className="card-container flex flex-col px-10 text-13">
+				<span className={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				{console.log({ userInfo: decodeDataFromToken(), user: props.user?.id })}
 				{!!editPermission && (
 					<div className="team-action">
@@ -156,8 +156,8 @@ export default function ContactCard(props) {
 					style={{ display: 'none' }}
 				/>
 				<img
-					class="round"
-					src={image ? image : avatar}
+					className="round"
+					src={image || avatar}
 					onClick={editPermission && handleOpenFileClick}
 					alt="user"
 				/>
@@ -166,7 +166,7 @@ export default function ContactCard(props) {
 				</h4>
 				{/* <h6>{address}</h6> */}
 				<p className="font-500 text-muted mb-8">
-					{position ? position : 'N/A'} - {role}
+					{position || 'N/A'} - {role}
 				</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
 				<a className="font-700 text-muted mb-8" href={`mailto:${email}`}>

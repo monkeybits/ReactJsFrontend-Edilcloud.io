@@ -17,7 +17,10 @@ import {
 	ListItemIcon,
 	Paper,
 	Toolbar,
-	Typography
+	Typography,
+	Box,
+	CircularProgress,
+	Collapse
 } from '@material-ui/core';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
@@ -32,13 +35,9 @@ import {
 import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
-import * as Actions from './store/actions';
-import ImagesPreview from './ImagesPreview';
-import ReplyListItem from './ReplyListItem';
 import moment from 'moment';
-import PostedImages from './PostedImages';
 import FuseUtils from '@fuse/utils';
-import { Box, CircularProgress, Collapse } from '@material-ui/core';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -50,6 +49,11 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
 import TippyMenu from 'app/TippyMenu';
+import PostedImages from './PostedImages';
+import ReplyListItem from './ReplyListItem';
+import ImagesPreview from './ImagesPreview';
+import * as Actions from './store/actions';
+
 const uuidv1 = require('uuid/v1');
 
 export default function CommentListItem({
@@ -130,7 +134,7 @@ export default function CommentListItem({
 	];
 
 	useEffect(() => {
-		let notification = notificationPanel.notificationData?.notification;
+		const notification = notificationPanel.notificationData?.notification;
 		if (notificationPanel.viewing && notification?.content_type == 'comment' && hasRender && scrollRef.current) {
 			dispatch(notificationActions.removeFrmViewNotification());
 			scrollRef.current.scrollIntoView(false);
@@ -157,9 +161,9 @@ export default function CommentListItem({
 			}));
 		}
 
-		var formData = new FormData();
+		const formData = new FormData();
 		formData.append('parent', '');
-		let values = {
+		const values = {
 			text,
 			parent: comment.id,
 			unique_code
@@ -168,23 +172,23 @@ export default function CommentListItem({
 			const acceptedFiles = images.map(d => d.file);
 			let i = 0;
 			for (const file of acceptedFiles) {
-				formData.append('media[' + i + ']', file, file.name);
+				formData.append(`media[${i}]`, file, file.name);
 				i += 1;
 			}
 		}
-		for (let key in values) {
+		for (const key in values) {
 			formData.append(key, values[key]);
 		}
 		const tempReply = {
 			author: tempAuthor,
 			replies_set: [],
 			media_set,
-			text: text,
+			text,
 			unique_code,
 			parent: null,
 			formData
 		};
-		let tempofflineCommentReplies = { ...offlineCommentReplies, [unique_code]: tempReply };
+		const tempofflineCommentReplies = { ...offlineCommentReplies, [unique_code]: tempReply };
 		setofflineCommentReplies(tempofflineCommentReplies);
 
 		apiCall(
@@ -233,17 +237,17 @@ export default function CommentListItem({
 		);
 	};
 	const addPhoto = async e => {
-		const files = e.currentTarget.files;
+		const { files } = e.currentTarget;
 		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/');
+		for (let i = 0; i < files.length; i++) {
+			const fileType = files[i].type?.split('/');
 			file = [
 				...file,
 				{
 					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
 					fileType: fileType[0],
-					extension: '.' + fileType[1],
+					extension: `.${fileType[1]}`,
 					type: fileType.join('/')
 				}
 			];
@@ -286,11 +290,11 @@ export default function CommentListItem({
 		);
 	};
 	const editComment = () => {
-		var formData = new FormData();
-		let values = {
+		const formData = new FormData();
+		const values = {
 			text: editText
 		};
-		for (let key in values) {
+		for (const key in values) {
 			formData.append(key, values[key]);
 		}
 		apiCall(
@@ -309,7 +313,7 @@ export default function CommentListItem({
 	const repliesLength = () => Object.values(offlineCommentReplies).length + replyComments.length;
 	const deleteCommentByIndex = index => setReplyComments(prevComments => prevComments.filter((d, i) => i != index));
 	const callRetryReplySuccess = unique_code => {
-		let tempofflineCommentReplies = { ...offlineCommentReplies };
+		const tempofflineCommentReplies = { ...offlineCommentReplies };
 		delete tempofflineCommentReplies[unique_code];
 		setofflineCommentReplies(tempofflineCommentReplies);
 		setIsReplying(false);
@@ -463,16 +467,17 @@ export default function CommentListItem({
 					<Button
 						disabled={getRole() == 'w'}
 						onClick={() => {
-							setCommentOpen(!commentBoxOpen)
+							setCommentOpen(!commentBoxOpen);
 							if (getRole() != 'w') {
 								setIsReplying(prev => !prev);
 								setText('@' + `${comment.author.first_name} ${comment.author.last_name}`);
 								setTimeout(() => {
 									if (!isReplying) {
-										let character = '@' + `${comment.author.first_name} ${comment.author.last_name}`
-										let element = document.getElementById(String(comment.id));
-										element.selectionStart = character.length
-										element.selectionEnd = character.length
+										const character =
+											'@' + `${comment.author.first_name} ${comment.author.last_name}`;
+										const element = document.getElementById(String(comment.id));
+										element.selectionStart = character.length;
+										element.selectionEnd = character.length;
 										element.focus();
 									}
 								}, 100);
@@ -517,13 +522,13 @@ export default function CommentListItem({
 
 					<div
 						className={`flex items-center ml-auto cursor-pointer ${
-							!!repliesLength() ? ' text-blue-500' : ''
+							repliesLength() ? ' text-blue-500' : ''
 						}`}
 						onClick={ev => {
 							ev.preventDefault();
 							ev.stopPropagation();
 							setOpen(!open);
-							setCommentOpen(false)
+							setCommentOpen(false);
 						}}
 					>
 						<Typography className="underline font-600 text-13">
@@ -555,13 +560,14 @@ export default function CommentListItem({
 											setText('');
 										} else {
 											setIsReplying(true);
-											setCommentOpen(false)
+											setCommentOpen(false);
 											setText('@' + `${reply.author.first_name} ${reply.author.last_name}`);
 											setTimeout(() => {
-												let character = '@' + `${reply.author.first_name} ${reply.author.last_name}`
-												let element = document.getElementById(String(comment.id));
-												element.selectionStart = character.length
-												element.selectionEnd = character.length
+												const character =
+													'@' + `${reply.author.first_name} ${reply.author.last_name}`;
+												const element = document.getElementById(String(comment.id));
+												element.selectionStart = character.length;
+												element.selectionEnd = character.length;
 												element.focus();
 											}, 100);
 										}
@@ -586,13 +592,14 @@ export default function CommentListItem({
 											setText('');
 										} else {
 											setIsReplying(true);
-											setCommentOpen(false)
+											setCommentOpen(false);
 											setText('@' + `${reply.author.first_name} ${reply.author.last_name}`);
 											setTimeout(() => {
-												let character = '@' + `${reply.author.first_name} ${reply.author.last_name}`
-												let element = document.getElementById(String(comment.id));
-												element.selectionStart = character.length
-												element.selectionEnd = character.length
+												const character =
+													'@' + `${reply.author.first_name} ${reply.author.last_name}`;
+												const element = document.getElementById(String(comment.id));
+												element.selectionStart = character.length;
+												element.selectionEnd = character.length;
 												element.focus();
 											}, 100);
 										}

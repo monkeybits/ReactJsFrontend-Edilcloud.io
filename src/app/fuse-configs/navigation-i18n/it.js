@@ -19,7 +19,7 @@ const locale = {
 	EDILCLOUD_ACADEMY: 'Accademia EdilCloud',
 	HELP_CENTER: 'Centro Aiuto',
 	GENERAL_SETTINGS: 'Impostazioni Generali',
-	STORAGE:'Memoria',
+	STORAGE: 'Memoria',
 	NOTIFICATIONS: 'NOTIFICHE',
 	PLAN: 'PIANI PAGAMENTO',
 	LOGOUT: 'LOGOUT',

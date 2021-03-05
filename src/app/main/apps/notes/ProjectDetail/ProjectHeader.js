@@ -23,7 +23,7 @@ export default function ProjectHeader(props) {
 					{projectDetail.address}
 				</Typography>
 			</div>
-		</div>*/
+		</div> */
 		<div className="flex w-full">
 			<div className="flex w-full items-center justify-between p-20 border-b-1">
 				<div>

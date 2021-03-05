@@ -9,8 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
-import TodoChip from './TodoChip';
 import {
 	Collapse,
 	ListItemIcon,
@@ -33,7 +31,6 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import TodoActivityListItem from './TodoActivityListItem';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -44,12 +41,15 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import Button from '@material-ui/core/Button';
 import PlaylistAddOutlinedIcon from '@material-ui/icons/PlaylistAddOutlined';
 import { useParams } from 'react-router';
-import PostList from './PostList';
-import ToolbarMenu from './Dialog/toolbar/ToolbarMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import Popper from '@material-ui/core/Popper';
 import { useTranslation } from 'react-i18next';
+import ToolbarMenu from './Dialog/toolbar/ToolbarMenu';
+import PostList from './PostList';
+import TodoActivityListItem from './TodoActivityListItem';
+import TodoChip from './TodoChip';
+import * as Actions from './store/actions';
 import EditActivityPostForm from './EditActivityPostForm';
 import TaskContentForm from './Dialog/TaskContentForm';
 
@@ -159,7 +159,7 @@ function TodoListItem(props) {
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
-	const [open, setOpen] = React.useState(props.isPdf ? true : false);
+	const [open, setOpen] = React.useState(!!props.isPdf);
 	const [showProgress, setShowProgress] = React.useState(false);
 	const [id, setId] = React.useState(null);
 	const [taskDetail, setTaskDetail] = useState([]);
@@ -195,7 +195,7 @@ function TodoListItem(props) {
 	}, [props.todo, hasNotifcationOnThisItem]);
 
 	useEffect(() => {
-		let notification = notificationPanel.notificationData?.notification;
+		const notification = notificationPanel.notificationData?.notification;
 		if (notificationPanel.viewing && notification?.content_type == 'task' && hasRender && scrollRef.current) {
 			dispatch(notificationActions.removeFrmViewNotification());
 			scrollRef.current.scrollIntoView(false);
@@ -298,13 +298,11 @@ function TodoListItem(props) {
 					id,
 					company: [
 						{
-							data: company
-								? company
-								: {
-										profile: {
-											company: company ? company : props.todo.assigned_company
-										}
-								  }
+							data: company || {
+								profile: {
+									company: company || props.todo.assigned_company
+								}
+							}
 						}
 					],
 					startDate: props.todo.date_start,
@@ -341,7 +339,7 @@ function TodoListItem(props) {
 					className="flex flex-shrink-0 items-center justify-between px-24 h-64 rounded-t"
 					style={{
 						background: props.todo.assigned_company?.color_project || '#D3D3D3', // blue[500],
-						color: theme.palette.getContrastText(props.todo.assigned_company?.color_project || '#D3D3D3') //)
+						color: theme.palette.getContrastText(props.todo.assigned_company?.color_project || '#D3D3D3') // )
 					}}
 				>
 					{!props.todo.assigned_company &&
@@ -396,29 +394,34 @@ function TodoListItem(props) {
 							{props.todo.assigned_company?.name}
 						</Typography>
 					)}
-					<Button 
-					
-								style={{
-									color: theme.palette.getContrastText(props.todo.assigned_company?.color_project || '#D3D3D3') //)
-								}}
-								onClick={ev => {
-									ev.preventDefault();
-									ev.stopPropagation();
-									if (props.todo.assigned_company) {
-										dispatch(Actions.openAddActivityTodoDialog(props.todo));
-									}
-								}}
-								
-							>
-								<Icon
-								style={{
-									color: theme.palette.getContrastText(props.todo.assigned_company?.color_project || '#D3D3D3') //)
-								}} className="mr-10">add_circle_outline</Icon>
-								Sottofase
-							</Button>
+					<Button
+						style={{
+							color: theme.palette.getContrastText(
+								props.todo.assigned_company?.color_project || '#D3D3D3'
+							) // )
+						}}
+						onClick={ev => {
+							ev.preventDefault();
+							ev.stopPropagation();
+							if (props.todo.assigned_company) {
+								dispatch(Actions.openAddActivityTodoDialog(props.todo));
+							}
+						}}
+					>
+						<Icon
+							style={{
+								color: theme.palette.getContrastText(
+									props.todo.assigned_company?.color_project || '#D3D3D3'
+								) // )
+							}}
+							className="mr-10"
+						>
+							add_circle_outline
+						</Icon>
+						Sottofase
+					</Button>
 				</div>
 				<CardContent className="flex flex-col flex-auto ">
-				
 					<Typography
 						className="text-center text-18 font-700 items-center justify-center ht-auto mt-8"
 						color="inherit"

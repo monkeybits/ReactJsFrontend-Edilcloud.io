@@ -191,23 +191,29 @@ function ForgotPasswordPage({ history }) {
 				</FuseAnimate>
 				<div className="flex items-center justify-between mt-8 w-full text-default font-600 px-32">
 					<FormControl className={clsx(classes.formControl, 'custom-select-remove-border')}>
-							<TippyMenu
-								icon={
-									<>
-										{/* <InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel> */}
-										<InputLabel id="demo-simple-select-label">{currentLng.title} <span className="arrow-icon"> <KeyboardArrowDownIcon /> </span> </InputLabel>
-									</>
-								}
-								// ref={menuRef}
-								outsideClick
-							>
-								{languages.map(lng => (
-									<MenuItem key={lng.id} onClick={() => handleLanguageChange(lng)}>
-										<ListItemText primary={lng.title} /> 
-									</MenuItem>
-								))}
-							</TippyMenu>
-							{/* <Select
+						<TippyMenu
+							icon={
+								<>
+									{/* <InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel> */}
+									<InputLabel id="demo-simple-select-label">
+										{currentLng.title}{' '}
+										<span className="arrow-icon">
+											{' '}
+											<KeyboardArrowDownIcon />{' '}
+										</span>{' '}
+									</InputLabel>
+								</>
+							}
+							// ref={menuRef}
+							outsideClick
+						>
+							{languages.map(lng => (
+								<MenuItem key={lng.id} onClick={() => handleLanguageChange(lng)}>
+									<ListItemText primary={lng.title} />
+								</MenuItem>
+							))}
+						</TippyMenu>
+						{/* <Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
 								// value={age}
@@ -219,7 +225,7 @@ function ForgotPasswordPage({ history }) {
 									</MenuItem>
 								))}
 							</Select> */}
-						</FormControl>
+					</FormControl>
 					{/* <FormControl className={clsx(classes.formControl, 'custom-select-remove-border')}>
 						<InputLabel id="demo-simple-select-label">English (United States)</InputLabel>
 						<Select

@@ -6,12 +6,12 @@ const locale = {
 	PASSWORD: 'Password',
 	FORGOT_PASSWORD: 'Hai dimenticato la password?',
 	SIGN_IN_BUTTON: 'Entra',
-	DONT_HAVE_AN_ACCOUNT_ASK: "Non hai un account?",
+	DONT_HAVE_AN_ACCOUNT_ASK: 'Non hai un account?',
 	SIGN_UP: 'Registrati',
 	HELP: 'Aiuto',
 	PRIVACY: 'Privacy',
 	TERMS: 'Termini',
-	LANGUAGE: 'Lingua',
+	LANGUAGE: 'Lingua'
 };
 
 export default locale;

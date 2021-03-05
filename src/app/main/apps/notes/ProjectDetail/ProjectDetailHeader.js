@@ -53,7 +53,9 @@ function ProjectDetailHeader(props) {
 							{projectDetail.name}
 						</Typography>
 					</FuseAnimate>
-					<Button color="secondary" onClick={() => props.onOpen()}>open detail</Button>
+					<Button color="secondary" onClick={() => props.onOpen()}>
+						open detail
+					</Button>
 				</div>
 			</div>
 		</div>

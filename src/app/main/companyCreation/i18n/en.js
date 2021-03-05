@@ -13,7 +13,7 @@ const locale = {
 	COMPANY_LOGO: 'Company Logo',
 	STEP_COMPLETE_MESSAGE: "All steps completed - you're finished",
 	FINISH: 'Finish',
-	REMOVE: 'Remove',
+	REMOVE: 'Remove'
 };
 
 export default locale;

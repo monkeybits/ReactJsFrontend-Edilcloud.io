@@ -12,6 +12,7 @@ export default class FileViewerComponent extends Component {
 	onError(e) {
 		console.log(e, 'error in file-viewer');
 	}
+
 	render() {
 		const { type, file } = this.props;
 		return (

@@ -85,12 +85,12 @@ export function getApprovedContacts(handleSetLoading = () => '') {
 							...d,
 							name: first_name,
 							lastName: last_name,
-							avatar: photo ? photo : 'assets/images/avatars/profile.jpg',
+							avatar: photo || 'assets/images/avatars/profile.jpg',
 							nickname: first_name,
 							company: company?.name,
 							jobTitle: position,
-							email: email,
-							phone: phone,
+							email,
+							phone,
 							address: ''
 						};
 					});
@@ -131,12 +131,12 @@ export function getWaitingContacts(handleSetLoading = () => '') {
 							...d,
 							name: first_name,
 							lastName: last_name,
-							avatar: photo ? photo : 'assets/images/avatars/profile.jpg',
+							avatar: photo || 'assets/images/avatars/profile.jpg',
 							nickname: first_name,
 							company: company?.name,
 							jobTitle: position,
-							email: email,
-							phone: phone,
+							email,
+							phone,
 							address: ''
 						};
 					});
@@ -177,12 +177,12 @@ export function getRefusedContacts(handleSetLoading = () => '') {
 							...d,
 							name: first_name,
 							lastName: last_name,
-							avatar: photo ? photo : 'assets/images/avatars/profile.jpg',
+							avatar: photo || 'assets/images/avatars/profile.jpg',
 							nickname: first_name,
 							company: company?.name,
 							jobTitle: position,
-							email: email,
-							phone: phone,
+							email,
+							phone,
 							address: ''
 						};
 					});
@@ -223,12 +223,12 @@ export function getDeactivatedContacts(handleSetLoading = () => '') {
 							...d,
 							name: first_name,
 							lastName: last_name,
-							avatar: photo ? photo : 'assets/images/avatars/profile.jpg',
+							avatar: photo || 'assets/images/avatars/profile.jpg',
 							nickname: first_name,
 							company: company?.name,
 							jobTitle: position,
-							email: email,
-							phone: phone,
+							email,
+							phone,
 							address: ''
 						};
 					});
@@ -295,8 +295,8 @@ export function closeViewContactDialog() {
 }
 export function addContact(values, isExisting, handleSetLoading = () => '') {
 	return (dispatch, getState) => {
-		var formData = new FormData();
-		for (let key in values) {
+		const formData = new FormData();
+		for (const key in values) {
 			if (values[key] || key == 'can_access_chat' || key == 'can_access_files') {
 				formData.append(key, values[key]);
 			}
@@ -318,8 +318,8 @@ export function addContact(values, isExisting, handleSetLoading = () => '') {
 
 export function updateContact(values, id, hideContectCalls, handleSetLoading = () => '', status) {
 	return (dispatch, getState) => {
-		var formData = new FormData();
-		for (let key in values) {
+		const formData = new FormData();
+		for (const key in values) {
 			if (values[key] || key == 'can_access_chat' || key == 'can_access_files') formData.append(key, values[key]);
 		}
 		apiCall(

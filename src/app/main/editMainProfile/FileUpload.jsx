@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import { Input, Button } from '@material-ui/core';
-import ImageCropper from './ImageCropper';
 import { useTranslation } from 'react-i18next';
+import ImageCropper from './ImageCropper';
 
 export default function FileUpload({ setFile, file, remove, nameSpace = 'edit_mainProfile' }) {
 	const { t } = useTranslation(nameSpace);
@@ -11,14 +11,14 @@ export default function FileUpload({ setFile, file, remove, nameSpace = 'edit_ma
 	const [viewCroper, setViewCroper] = useState(false);
 	const getPhoto = fileData => {
 		// e.preventDefault();
-		let reader = new FileReader();
+		const reader = new FileReader();
 		// setFile({
 		// 	...file,
 		// 	file: fileData
 		// });
 		reader.onloadend = () => {
 			setFile({
-				fileData: fileData,
+				fileData,
 				imagePreviewUrl: reader.result
 			});
 		};

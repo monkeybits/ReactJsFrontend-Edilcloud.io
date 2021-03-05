@@ -31,7 +31,6 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment/moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
 import DatePicker from 'react-datepicker';
@@ -39,14 +38,16 @@ import { Box, Slider, withStyles } from '@material-ui/core';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
-import CreatePostForm from './CreatePostForm';
 import CloseIcon from '@material-ui/icons/Close';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import EditActivityForm from './EditActivityForm';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShowUpload from '../notes/todo/ShowUpload';
 import { useTranslation } from 'react-i18next';
+import EditActivityForm from './EditActivityForm';
+import ShowUpload from '../notes/todo/ShowUpload';
+import CreatePostForm from './CreatePostForm';
+import * as Actions from './store/actions';
+
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -223,7 +224,7 @@ function EditActivityPostForm(props) {
 			getHeaderToken()
 		);
 	};
-	const getName = profile => profile.profile.first_name + ' ' + profile.profile.last_name;
+	const getName = profile => `${profile.profile.first_name} ${profile.profile.last_name}`;
 	return (
 		<div className="w-full custom-task-content">
 			<div className="custom-tab-header flex justify-start relative">

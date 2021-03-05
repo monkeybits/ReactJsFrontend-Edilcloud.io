@@ -7,9 +7,9 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import clsx from 'clsx';
-import DrawImage from './DrawImage';
 import VideoListItem from 'app/VideoPlayer/VideoListItem';
 import * as ICONS from 'app/main/apps/constants';
+import DrawImage from './DrawImage';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -51,13 +51,13 @@ export default function ImagesPreview(props) {
 		setActiveStep(prevActiveStep => prevActiveStep - 1);
 	};
 	const getMeta = url => {
-		var img = new Image();
+		const img = new Image();
 		img.onload = function () {
-			let height = this.height;
-			let width = this.width;
+			const { height } = this;
+			const { width } = this;
 			setImagePropert({
-				height: height,
-				width: width
+				height,
+				width
 			});
 			setOpenDrawer(true);
 		};
@@ -104,24 +104,22 @@ export default function ImagesPreview(props) {
 				className="my-10"
 				nextButton={
 					<div>
-						{
-							activeStep !== (maxSteps - 1) &&
+						{activeStep !== maxSteps - 1 && (
 							<Button size="small" onClick={handleNext}>
 								Next
 								{theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
 							</Button>
-						}
+						)}
 					</div>
 				}
 				backButton={
 					<div>
-						{
-							activeStep !== 0 &&
+						{activeStep !== 0 && (
 							<Button size="small" onClick={handleBack}>
 								{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
 								Back
 							</Button>
-						}
+						)}
 					</div>
 				}
 			/>

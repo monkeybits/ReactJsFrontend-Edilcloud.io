@@ -8,7 +8,7 @@ export default function ViewFile({ files }) {
 	const [open, setOpen] = useState(false);
 	const [activtStep, setActivtStep] = useState(0);
 	const openImage = index => {
-		let selected = media.files.filter(file => file.id === files[index].id)[0];
+		const selected = media.files.filter(file => file.id === files[index].id)[0];
 		console.log(files[index], media.files, selected);
 		if (selected) {
 			setOpen(true);
@@ -37,7 +37,7 @@ export default function ViewFile({ files }) {
 				imagesArray={media.files}
 				activtStep={activtStep}
 				closeViewFile={() => setOpen(false)}
-				nameSpace='chat_projects'
+				nameSpace="chat_projects"
 			/>
 		</div>
 	);

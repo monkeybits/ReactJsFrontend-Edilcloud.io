@@ -23,9 +23,9 @@ import { ADD_POST_TO_ACTIVITY, GET_POST_TO_ACTIVITY } from 'app/services/apiEndP
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
+import moment from 'moment';
 import * as Actions from './store/actions';
 import PostListItem from './PostListItem';
-import moment from 'moment';
 
 function PostList({
 	posts,

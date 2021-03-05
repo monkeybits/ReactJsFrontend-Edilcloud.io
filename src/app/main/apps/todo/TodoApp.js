@@ -15,6 +15,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
+import { Icon, LinearProgress, makeStyles, Typography } from '@material-ui/core';
+import AccessibilityToggleButton from 'app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton';
+import { useTranslation } from 'react-i18next';
+import FusePageSimple from '@fuse/core/FusePageSimple';
 import * as Actions from './store/actions';
 import * as ConatctActions from '../contacts/store/actions';
 import reducer from './store/reducers';
@@ -27,10 +31,6 @@ import CreatePostDialog from './CreatePostDialog';
 import TaskContentDialog from './TaskContentDialog';
 import TodoDialog from './TodoDialog';
 import ShowUpload from './ShowUpload';
-import { Icon, LinearProgress, makeStyles, Typography } from '@material-ui/core';
-import AccessibilityToggleButton from 'app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton';
-import { useTranslation } from 'react-i18next';
-import FusePageSimple from '@fuse/core/FusePageSimple';
 
 const useStyles = makeStyles({
 	addButton: {

@@ -12,14 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Breadcrumb from './Breadcrumb';
-import DetailSidebarContent from './DetailSidebarContent';
-import DetailSidebarHeader from './DetailSidebarHeader';
-import FileList from './FileList';
-import MainSidebarContent from './MainSidebarContent';
-import MainSidebarHeader from './MainSidebarHeader';
-import * as Actions from './store/actions';
-import reducer from './store/reducers';
 import { makeStyles, Button, TextField, CircularProgress, LinearProgress } from '@material-ui/core';
 import { ADD_PHOTO, ADD_FOLDER, ADD_VIDEO, ADD_DOCUMENT } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
@@ -41,17 +33,25 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
-import LinearProgressWithLabel from './LinearProgressWithLabel';
-import TransitionAlerts from './TransitionAlerts.js';
-import FloatingButtonUpload from './FloatingButtonUpload';
 import imageCompression from 'browser-image-compression';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
-import MoveFileDialog from './MoveFileDialog';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
-import FileGrid from './FileGrid';
 import { useTranslation } from 'react-i18next';
+import FileGrid from './FileGrid';
+import MoveFileDialog from './MoveFileDialog';
+import FloatingButtonUpload from './FloatingButtonUpload';
+import TransitionAlerts from './TransitionAlerts.js';
+import LinearProgressWithLabel from './LinearProgressWithLabel';
+import reducer from './store/reducers';
+import * as Actions from './store/actions';
+import MainSidebarHeader from './MainSidebarHeader';
+import MainSidebarContent from './MainSidebarContent';
+import FileList from './FileList';
+import DetailSidebarHeader from './DetailSidebarHeader';
+import DetailSidebarContent from './DetailSidebarContent';
+import Breadcrumb from './Breadcrumb';
 
 const styles = theme => ({
 	root: {
@@ -99,7 +99,7 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 function FileManagerApp(props) {
-	//filesfolderPath
+	// filesfolderPath
 	const { t } = useTranslation('filemanager');
 	const dispatch = useDispatch();
 	const allFolderPaths = useSelector(({ fileManagerApp }) => fileManagerApp.files.allFolderPaths);
@@ -125,7 +125,7 @@ function FileManagerApp(props) {
 	const [title, setTitle] = useState(undefined);
 	const [description, setDescription] = useState(undefined);
 	const [open, setOpen] = React.useState(false);
-	const currentFolderPath = ''; //files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
+	const currentFolderPath = ''; // files.folders?.filter(folder => folder.path == folderPath[folderPath.length - 1]);
 	const inputName = useRef();
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
@@ -169,15 +169,15 @@ function FileManagerApp(props) {
 	}, [folderPath, isOpenDrawer]);
 	const addFile = event => {
 		resetError();
-		var files = event.target.files;
-		for (var i = 0; i < files.length; i++) {
+		const { files } = event.target;
+		for (let i = 0; i < files.length; i++) {
 			console.log(files[i]);
 			if (!title) {
-				let fileName = files[i].name.split('.');
+				const fileName = files[i].name.split('.');
 				fileName.pop();
 				setTitle(fileName.join(' '));
 			}
-			let fileType = files[i].type?.split('/')[0];
+			const fileType = files[i].type?.split('/')[0];
 			setFile({
 				file: files[i],
 				fileType
@@ -210,8 +210,8 @@ function FileManagerApp(props) {
 			if (!fileType && radioBtnValue == 'file') return;
 			handleClose();
 			let formData = new FormData();
-			let datakey = fileType == 'image' ? 'photo' : fileType == 'video' ? 'video' : 'document';
-			let values =
+			const datakey = fileType == 'image' ? 'photo' : fileType == 'video' ? 'video' : 'document';
+			const values =
 				radioBtnValue == 'folder'
 					? {
 							name: title,
@@ -227,11 +227,11 @@ function FileManagerApp(props) {
 			if (radioBtnValue == 'folder') {
 				formData = values;
 			} else {
-				for (let key in values) {
+				for (const key in values) {
 					if (values[key]) formData.append(key, values[key]);
 				}
 			}
-			let apiUrl =
+			const apiUrl =
 				radioBtnValue == 'folder'
 					? ADD_FOLDER(company.id)
 					: fileType == 'image'
@@ -251,15 +251,13 @@ function FileManagerApp(props) {
 					console.log({ folderPath11: folderPath });
 					if (folderPath.length > 1) {
 						dispatch(Actions.folderDetail(cid, handleSetLoading));
-					} else {
-						if (radioBtnValue != 'folder') {
-							if (fileType == 'image') {
-								dispatch(Actions.getPhotos(cid, handleSetLoading));
-							} else if (fileType == 'video') {
-								dispatch(Actions.getVideos(cid, handleSetLoading));
-							} else {
-								dispatch(Actions.getDocuments(cid, handleSetLoading));
-							}
+					} else if (radioBtnValue != 'folder') {
+						if (fileType == 'image') {
+							dispatch(Actions.getPhotos(cid, handleSetLoading));
+						} else if (fileType == 'video') {
+							dispatch(Actions.getVideos(cid, handleSetLoading));
+						} else {
+							dispatch(Actions.getDocuments(cid, handleSetLoading));
 						}
 					}
 					dispatch(Actions.foldersPaths(cid, handleSetLoading));
@@ -280,8 +278,8 @@ function FileManagerApp(props) {
 				METHOD.POST,
 				{
 					...getHeaderToken(),
-					onUploadProgress: function (progressEvent) {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					onUploadProgress(progressEvent) {
+						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						setProgress(percentCompleted);
 					}
 				}

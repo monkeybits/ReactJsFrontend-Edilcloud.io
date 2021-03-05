@@ -10,17 +10,18 @@ import clsx from 'clsx';
 import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { useParams } from 'react-router';
-import ViewFile from './ViewFile';
-import SendMessageFilePreview from './SendMessageFilePreview';
 import AudioRecord from 'app/AudioRecord';
-import RetryToSendMessage from './RetryToSendMessage';
-import SendMessageForm from './SendMessageForm';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import FuseUtils from '@fuse/utils';
 import MessageMoreOptions from 'app/main/apps/chat/MessageMoreOptions';
+import ViewFile from './ViewFile';
+import SendMessageFilePreview from './SendMessageFilePreview';
+import RetryToSendMessage from './RetryToSendMessage';
+import SendMessageForm from './SendMessageForm';
+import * as Actions from './store/actions';
+
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
@@ -129,7 +130,7 @@ function Chat(props) {
 	const scrollRef = useRef(null);
 	const getRole = () => userInfo?.extra?.profile.role;
 	useEffect(() => {
-		if (!!chat?.chats?.length) {
+		if (chat?.chats?.length) {
 			setTimeout(() => {
 				setHasRender(true);
 			}, 600);
@@ -184,17 +185,17 @@ function Chat(props) {
 		dispatch(Actions.sendMessage(messageText, setMessageText, routeParams.id, images, setImages));
 	}
 	const addPhoto = async e => {
-		const files = e.currentTarget.files;
+		const { files } = e.currentTarget;
 		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/');
+		for (let i = 0; i < files.length; i++) {
+			const fileType = files[i].type?.split('/');
 			file = [
 				...file,
 				{
 					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
 					imgPath: URL.createObjectURL(files[i]),
 					fileType: fileType[0],
-					extension: '.' + fileType[1],
+					extension: `.${fileType[1]}`,
 					type: fileType.join('/')
 				}
 			];
@@ -202,15 +203,15 @@ function Chat(props) {
 		}
 	};
 	const addAudio = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
+		const fileType = file.type?.split('/');
+		let fileList = images || [];
 
 		fileList = [
 			{
-				file: file,
+				file,
 				imgPath: URL.createObjectURL(file),
 				fileType: fileType[0],
-				extension: '.' + fileType[1],
+				extension: `.${fileType[1]}`,
 				type: fileType.join('/')
 			},
 			...fileList
@@ -218,15 +219,15 @@ function Chat(props) {
 		setImages(fileList);
 	};
 	const sendAudioDirectToChat = file => {
-		let fileType = file.type?.split('/');
-		let fileList = images ? images : [];
+		const fileType = file.type?.split('/');
+		let fileList = images || [];
 
 		fileList = [
 			{
-				file: file,
+				file,
 				imgPath: URL.createObjectURL(file),
 				fileType: fileType[0],
-				extension: '.' + fileType[1],
+				extension: `.${fileType[1]}`,
 				type: fileType.join('/')
 			},
 			...fileList
@@ -275,7 +276,7 @@ function Chat(props) {
 												style={{ color: contact.company?.color_project }}
 												className="font-bold mb-6"
 											>
-												{contact.first_name + ' ' + contact.last_name}
+												{`${contact.first_name} ${contact.last_name}`}
 												{!!contact.position && (
 													<Typography className="font-size-12 ">
 														{contact.position} - {contact.company?.name}

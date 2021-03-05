@@ -23,12 +23,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import LabelModel from 'app/main/apps/scrumboard/model/LabelModel';
-import * as Actions from './store/actions';
 import moment from 'moment';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateAttachments from 'app/main/apps/notes/todo/Dialog/attachment/CreateAttachments';
-import { Badge, Button, makeStyles } from '@material-ui/core';
+import { Badge, Button, makeStyles, Slider, withStyles, CircularProgress } from '@material-ui/core';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -36,21 +35,22 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import { Slider, withStyles, CircularProgress } from '@material-ui/core';
+
 import DatePicker from 'react-datepicker';
 import { useParams } from 'react-router';
-import CreatePostForm from './CreatePostForm';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { useTranslation } from 'react-i18next';
-import ShowUpload from '../notes/todo/ShowUpload';
 import CloseIcon from '@material-ui/icons/Close';
+import ShowUpload from '../notes/todo/ShowUpload';
+import CreatePostForm from './CreatePostForm';
+import * as Actions from './store/actions';
 
 function TabPanel(props) {
 	/**
 	 * Tab panel is used for show tab
-*/
+	 */
 	const { children, value, index, ...other } = props;
 
 	return (
@@ -202,10 +202,10 @@ function TaskContentForm(props) {
 		endDate: undefined
 	});
 	const [value, setValue] = React.useState(0);
-	const getName = profile => profile.first_name + ' ' + profile.last_name;
+	const getName = profile => `${profile.first_name} ${profile.last_name}`;
 	useEffect(() => {
 		if (companies && companies.length && taskContentData) {
-			let company = [...companies]
+			const company = [...companies]
 				.filter(company => company.profile?.company?.id == taskContentData?.assigned_company?.id)
 				.map(company => ({
 					data: company,
@@ -229,7 +229,7 @@ function TaskContentForm(props) {
 			console.log({ taskContentData, date_start: taskContentData.date_start });
 			if (taskContentData.isGantt) {
 				if (taskContentData.parent == 1) {
-					//parrent 1 means its activty
+					// parrent 1 means its activty
 					setTaskDate({
 						startDate: new Date(taskContentData.datetime_start),
 						endDate: new Date(taskContentData.datetime_end)
@@ -349,7 +349,7 @@ function TaskContentForm(props) {
 		taskContentData?.assigned_company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
 	console.log({
 		getIsDisabled: getIsDisabled(),
-		projectDetail: projectDetail,
+		projectDetail,
 		companyDetail: companyDetail.id,
 		getRole: getRole()
 	});
@@ -410,14 +410,12 @@ function TaskContentForm(props) {
 						{' '}
 						{t('TASK')}: {taskContentData?.name}{' '}
 					</div>
-					
-					
 				</div>
 			</div>
 
 			<DialogContent id="dialog-content" className="p-0">
 				<TabPanel value={value} index={0} class="write-post-img-full">
-					<CreatePostForm taskId={taskContentData?.id} isTask={true} />
+					<CreatePostForm taskId={taskContentData?.id} isTask />
 				</TabPanel>
 				<TabPanel value={value} index={1}>
 					<div className="sm:mx-12">
@@ -534,7 +532,12 @@ function TaskContentForm(props) {
 												<span className="flex items-center">
 													<Icon
 														className="list-item-icon mx-6 text-20"
-														style={{ color: company !== undefined ? company.profile?.company?.color_project : '' }}
+														style={{
+															color:
+																company !== undefined
+																	? company.profile?.company?.color_project
+																	: ''
+														}}
 														color="action"
 													>
 														label

@@ -1,11 +1,11 @@
 import firebaseService from 'app/services/firebaseService';
 import jwtService from 'app/services/jwtService';
 import * as Actions from 'app/store/actions';
-import * as UserActions from './user.actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { APPROVE_LIST, GET_MAIN_PROFILE, REFRESH_TOKEN, REQUEST_LIST } from 'app/services/apiEndPoints';
 import { getHeaderToken, getTokenOnly, saveMainProfileId, saveToken } from 'app/services/serviceUtils';
 import * as authActions from 'app/auth/store/actions';
+import * as UserActions from './user.actions';
 
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -35,8 +35,8 @@ export const onLogin = user => dispatch =>
 		{},
 		results => {
 			if (Array.isArray(results)) {
-				let boards = results.filter(d => d.is_main);
-				let companies = results.filter(d => d.company);
+				const boards = results.filter(d => d.is_main);
+				const companies = results.filter(d => d.company);
 				if (boards.length) {
 					if (companies?.length == 1) {
 						apiCall(
@@ -44,7 +44,7 @@ export const onLogin = user => dispatch =>
 							{},
 							({ results }) => {
 								if (Array.isArray(results)) {
-									let filterdBoards = results.filter(d => d.company && d.status);
+									const filterdBoards = results.filter(d => d.company && d.status);
 									if (filterdBoards?.length > 0) {
 										dispatch(
 											UserActions.setUserData({
@@ -70,13 +70,12 @@ export const onLogin = user => dispatch =>
 					return dispatch({
 						type: LOGIN_SUCCESS
 					});
-				} else {
-					dispatch(UserActions.setUserData({ ...user, redirectUrl: '/main-profile' }));
-
-					return dispatch({
-						type: LOGIN_SUCCESS
-					});
 				}
+				dispatch(UserActions.setUserData({ ...user, redirectUrl: '/main-profile' }));
+
+				return dispatch({
+					type: LOGIN_SUCCESS
+				});
 			}
 		},
 		err => console.log(err),

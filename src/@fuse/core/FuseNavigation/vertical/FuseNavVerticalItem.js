@@ -12,9 +12,9 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import FuseNavBadge from '../FuseNavBadge';
 import { USER_CHATS_PATHS, FILE_MANAHER_PATHS } from 'app/constants';
 import * as authActions from 'app/auth/store/actions';
+import FuseNavBadge from '../FuseNavBadge';
 
 const useStyles = makeStyles(theme => ({
 	item: props => ({

@@ -7,14 +7,14 @@ import Typography from '@material-ui/core/Typography';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import TodoListItem from './TodoListItem';
 import Hidden from '@material-ui/core/Hidden';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
-import * as Actions from './store/actions';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import * as Actions from './store/actions';
+import TodoListItem from './TodoListItem';
 import EditActivityPostForm from './EditActivityPostForm';
 import TaskContentForm from './Dialog/TaskContentForm';
 
@@ -50,7 +50,7 @@ function TodoList(props) {
 
 		if (todos && company) {
 			new Promise((resolve, reject) => {
-				let data = _.orderBy(
+				const data = _.orderBy(
 					getFilteredArray(todos, searchText),
 					[orderBy],
 					[orderDescending ? 'desc' : 'asc']
@@ -67,8 +67,8 @@ function TodoList(props) {
 	}, [activeFilterKey, company, usedKeys, todos]);
 
 	useEffect(() => {
-		if(taskContentDialog?.data?.id) {
-			setTodoId(taskContentDialog.data.id)
+		if (taskContentDialog?.data?.id) {
+			setTodoId(taskContentDialog.data.id);
 		}
 	}, [taskContentDialog?.data]);
 
@@ -107,7 +107,7 @@ function TodoList(props) {
 					if (usedKeys.hasOwnProperty(key)) {
 						const element = usedKeys[key];
 						if (canSelectMultiple.includes(element)) {
-							let selectedFilters = filters[element].map(d => {
+							const selectedFilters = filters[element].map(d => {
 								if (d.isActive) {
 									return element == 'peopleFilter' ? d.id : d.name;
 								}
@@ -208,9 +208,9 @@ function TodoList(props) {
 				var result = [];
 				if (activeFilterKey === 'TODAY') {
 					result = list.reduce((unique, o) => {
-						let startDate = new Date(o.date_start);
-						let endDate = new Date(o.date_end);
-						let date = new Date();
+						const startDate = new Date(o.date_start);
+						const endDate = new Date(o.date_end);
+						const date = new Date();
 						let activities = [];
 						if (o.assigned_company && o.assigned_company.id == company.id) {
 							activities = todayFilterForActivity(o.activities);
@@ -225,11 +225,11 @@ function TodoList(props) {
 					}, []);
 				} else if (activeFilterKey === 'NEXT_WEEK') {
 					result = list.reduce((unique, o) => {
-						let startDate = new Date(o.date_start);
-						let endDate = new Date(o.date_end);
-						let fromDate = new Date();
-						let toDate = new Date();
-						var pastDate = toDate.getDate() + 7;
+						const startDate = new Date(o.date_start);
+						const endDate = new Date(o.date_end);
+						const fromDate = new Date();
+						const toDate = new Date();
+						const pastDate = toDate.getDate() + 7;
 						toDate.setDate(pastDate);
 						let activities = [];
 						if (o.assigned_company && o.assigned_company.id == company.id) {
@@ -245,8 +245,8 @@ function TodoList(props) {
 					}, []);
 				} else if (activeFilterKey === 'IN_LATE') {
 					result = list.reduce((unique, o) => {
-						let endDate = new Date(o.date_end);
-						let date = new Date();
+						const endDate = new Date(o.date_end);
+						const date = new Date();
 						let activities = [];
 						if (o.assigned_company && o.assigned_company.id == company.id) {
 							activities = inLateFilterForActivity(o.activities);
@@ -275,8 +275,8 @@ function TodoList(props) {
 		}
 	};
 	const filterByPeopleForActivity = (arr = [], id) => {
-		let result = arr.reduce((unique, o) => {
-			let workers = Array.isArray(id)
+		const result = arr.reduce((unique, o) => {
+			const workers = Array.isArray(id)
 				? o.workers.filter(d => id.includes(d.id))
 				: o.workers.filter(d => d.id == id);
 			if (workers.length) {
@@ -287,7 +287,7 @@ function TodoList(props) {
 		return result;
 	};
 	const completedFilterForActivity = (arr = []) => {
-		let result = arr.reduce((unique, o) => {
+		const result = arr.reduce((unique, o) => {
 			if (o.status != 'to-do') {
 				unique.push(o);
 			}
@@ -296,7 +296,7 @@ function TodoList(props) {
 		return result;
 	};
 	const checkAlert = (arr = []) => {
-		let result = arr.reduce((unique, o) => {
+		const result = arr.reduce((unique, o) => {
 			if (o.alert) {
 				unique.push(o);
 			}
@@ -305,10 +305,10 @@ function TodoList(props) {
 		return result;
 	};
 	const todayFilterForActivity = (arr = []) => {
-		let result = arr.reduce((unique, o) => {
-			let startDate = new Date(o.datetime_start);
-			let endDate = new Date(o.datetime_end);
-			let date = new Date();
+		const result = arr.reduce((unique, o) => {
+			const startDate = new Date(o.datetime_start);
+			const endDate = new Date(o.datetime_end);
+			const date = new Date();
 			if (endDate.getTime() >= date.getTime() && startDate.getTime() <= date.getTime()) {
 				unique.push(o);
 			}
@@ -317,9 +317,9 @@ function TodoList(props) {
 		return result;
 	};
 	const inLateFilterForActivity = (arr = []) => {
-		let result = arr.reduce((unique, o) => {
-			let endDate = new Date(o.datetime_end);
-			let date = new Date();
+		const result = arr.reduce((unique, o) => {
+			const endDate = new Date(o.datetime_end);
+			const date = new Date();
 			if (date.getTime() >= endDate.getTime() && o.status == 'to-do') {
 				unique.push(o);
 			}
@@ -328,12 +328,12 @@ function TodoList(props) {
 		return result;
 	};
 	const todayFilterToNextWeekForActivity = (arr = []) => {
-		let result = arr.reduce((unique, o) => {
-			let startDate = new Date(o.datetime_start);
-			let endDate = new Date(o.datetime_end);
-			let fromDate = new Date();
-			let toDate = new Date();
-			var pastDate = toDate.getDate() + 7;
+		const result = arr.reduce((unique, o) => {
+			const startDate = new Date(o.datetime_start);
+			const endDate = new Date(o.datetime_end);
+			const fromDate = new Date();
+			const toDate = new Date();
+			const pastDate = toDate.getDate() + 7;
 			toDate.setDate(pastDate);
 			if (startDate.getTime() <= toDate.getTime() && endDate.getTime() >= fromDate.getTime()) {
 				unique.push(o);
@@ -386,7 +386,7 @@ function TodoList(props) {
 					<FuseAnimate delay={100}>
 						<div>
 							<div className="flex flex-1 items-center justify-center h-full">
-								<img className="w-400" src="assets/images/errors/nogantt.png"></img>
+								<img className="w-400" src="assets/images/errors/nogantt.png" />
 							</div>
 							<div className="flex flex-1 items-center justify-center h-full">
 								<Typography color="textSecondary" variant="h5">

@@ -18,11 +18,11 @@ import {
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
+import { useParams } from 'react-router-dom';
+import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
 import FileViewDialog from './FileViewDialog';
-import { useParams } from 'react-router-dom';
-import CloseIcon from '@material-ui/icons/Close';
 
 function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const dispatch = useDispatch();
@@ -42,7 +42,7 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const handleDelete = () => {
 		const pid = routeParams.id;
 		const fileType = selectedItem.type;
-		const mainId = selectedItem.mainId;
+		const { mainId } = selectedItem;
 		const url =
 			fileType == 'folder'
 				? FOLDER_DELETE(selectedItem.mainId || selectedItem.id)

@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button, LinearProgress } from '@material-ui/core';
 import { API_GOOGLE_AUTH_LOGIN, API_GOOGLE_AUTH_REGISTER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import React from 'react';
@@ -8,17 +8,19 @@ import * as authActions from 'app/auth/store/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
-import { LinearProgress } from '@material-ui/core';
+
 import { toast } from 'react-toastify';
 import { REGISTER_SUCCESS } from 'app/auth/store/actions';
+
 class GoogleLoginComponent extends React.Component {
 	state = {
 		loading: false
 	};
+
 	responseGoogle = response => {
 		const access_token = response.accessToken;
 		const photo = response.profileObj.imageUrl;
-		const email = response.profileObj.email;
+		const { email } = response.profileObj;
 		const provider = 'google-oauth2';
 		this.startLoading();
 		console.log({
@@ -36,33 +38,32 @@ class GoogleLoginComponent extends React.Component {
 			},
 			res => {
 				const { token } = res;
-				const { history,dispatch } = this.props;
+				const { history, dispatch } = this.props;
 				if (this.props.isRegister) {
 					history.push('/pages/auth/mail-confirm', { email });
 					return dispatch({
 						type: REGISTER_SUCCESS,
 						payload: res
 					});
-				} else {
-					new Promise((resolve, reject) => {
-						if (res) {
-							jwtService.setSession(token);
-							resolve(res);
-						} else {
-							reject(res);
-						}
-					})
-						.then(res => {
-							this.props.onLogin(res);
-							setTimeout(() => {
-								this.removeLoading();
-							}, 2000);
-						})
-						.catch(err => {
-							this.removeLoading();
-							console.log(err);
-						});
 				}
+				new Promise((resolve, reject) => {
+					if (res) {
+						jwtService.setSession(token);
+						resolve(res);
+					} else {
+						reject(res);
+					}
+				})
+					.then(res => {
+						this.props.onLogin(res);
+						setTimeout(() => {
+							this.removeLoading();
+						}, 2000);
+					})
+					.catch(err => {
+						this.removeLoading();
+						console.log(err);
+					});
 			},
 			err => {
 				this.removeLoading();
@@ -73,14 +74,17 @@ class GoogleLoginComponent extends React.Component {
 		);
 		console.log(response);
 	};
+
 	startLoading = () =>
 		this.setState({
 			loading: true
 		});
+
 	removeLoading = () =>
 		this.setState({
 			loading: false
 		});
+
 	render() {
 		return (
 			<>
@@ -101,7 +105,7 @@ class GoogleLoginComponent extends React.Component {
 					)}
 					onSuccess={this.responseGoogle}
 					onFailure={this.responseGoogle}
-					cookiePolicy={'single_host_origin'}
+					cookiePolicy="single_host_origin"
 				/>
 				{this.state.loading && <LinearProgress className="m-4" color="secondary" />}
 			</>

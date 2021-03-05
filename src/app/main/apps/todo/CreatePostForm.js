@@ -35,7 +35,6 @@ import {
 import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
-import * as Actions from './store/actions';
 import ImagesPreview from 'app/main/apps/notes/todo/ImagesPreview';
 import PostList from 'app/main/apps/notes/todo/PostList';
 import moment from 'moment';
@@ -43,6 +42,8 @@ import FuseUtils from '@fuse/utils';
 import Dropzone from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import { LinearProgress } from '@material-ui/core';
+import * as Actions from './store/actions';
+
 const uuidv1 = require('uuid/v1');
 
 /**
@@ -59,11 +60,10 @@ const getAllFilesOfTimeline = timeline => {
 				media_set: []
 			}
 		);
-	} else {
-		return {
-			media_set: []
-		};
 	}
+	return {
+		media_set: []
+	};
 };
 function CreatePostForm({ isTask, taskId }) {
 	const { t } = useTranslation('dashboard');
@@ -142,9 +142,9 @@ function CreatePostForm({ isTask, taskId }) {
 	 * below function will is defined to upload/create post on task or activity
 	 */
 	const createPost = async () => {
-		var formData = new FormData();
+		const formData = new FormData();
 		const unique_code = uuidv1();
-		let values = {
+		const values = {
 			text,
 			unique_code
 		};
@@ -161,11 +161,11 @@ function CreatePostForm({ isTask, taskId }) {
 			const acceptedFiles = images.map(d => d.file);
 			let i = 0;
 			for (const file of acceptedFiles) {
-				formData.append('media[' + i + ']', file, file.name);
+				formData.append(`media[${i}]`, file, file.name);
 				i += 1;
 			}
 		}
-		for (let key in values) {
+		for (const key in values) {
 			if (values[key]) formData.append(key, values[key]);
 		}
 
@@ -177,7 +177,7 @@ function CreatePostForm({ isTask, taskId }) {
 			unique_code
 		};
 		console.log('media_set', JSON.stringify(media_set));
-		let tempOfflinePosts = { ...offilePosts, [unique_code]: tempPost };
+		const tempOfflinePosts = { ...offilePosts, [unique_code]: tempPost };
 		setOffilePosts(tempOfflinePosts);
 		dispatch(Actions.setUpload(true));
 		apiCall(
@@ -206,8 +206,8 @@ function CreatePostForm({ isTask, taskId }) {
 			METHOD.POST,
 			{
 				...getHeaderToken(),
-				onUploadProgress: function (progressEvent) {
-					var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+				onUploadProgress(progressEvent) {
+					const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 					dispatch(Actions.setUploadPercentage(percentCompleted));
 				}
 			}
@@ -265,8 +265,8 @@ function CreatePostForm({ isTask, taskId }) {
 		}
 
 		let file = [];
-		for (var i = 0; i < files.length; i++) {
-			let fileType = files[i].type?.split('/');
+		for (let i = 0; i < files.length; i++) {
+			const fileType = files[i].type?.split('/');
 			console.log('file', JSON.stringify(files[i]));
 			console.log('fileType', JSON.stringify(fileType));
 			console.log('local url', JSON.stringify(URL.createObjectURL(files[i])));
@@ -276,7 +276,7 @@ function CreatePostForm({ isTask, taskId }) {
 					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i], // if file is image then we need to reduce the size of image by calling the getCompressFile function
 					imgPath: URL.createObjectURL(files[i]),
 					fileType: fileType[0],
-					extension: '.' + fileType[1],
+					extension: `.${fileType[1]}`,
 					type: fileType.join('/')
 				}
 			];
@@ -312,7 +312,7 @@ function CreatePostForm({ isTask, taskId }) {
 	 * below function is used for retry upload the post when it API filed to upload the post
 	 */
 	const callRetryAfterSuccess = (unique_code, res) => {
-		let tempPosts = { ...offilePosts };
+		const tempPosts = { ...offilePosts };
 		tempPosts[unique_code] = {
 			...tempPosts[unique_code],
 			...res,

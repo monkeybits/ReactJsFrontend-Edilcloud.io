@@ -10,10 +10,10 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import React, { useCallback, useRef, useState } from 'react';
+import TippyMenu from 'app/TippyMenu';
 import CardAddChecklistItem from './CardAddChecklistItem';
 import CardChecklistItem from './CardChecklistItem';
 import CardChecklistName from './CardChecklistName';
-import TippyMenu from 'app/TippyMenu';
 
 function CardChecklist(props) {
 	const { onCheckListChange, checklist, index } = props;

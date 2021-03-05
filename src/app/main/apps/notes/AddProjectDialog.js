@@ -12,11 +12,11 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import AddProjectForm from './AddProjectForm';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import { Box, LinearProgress } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import AddProjectForm from './AddProjectForm';
 
 const styles = theme => ({
 	root: {

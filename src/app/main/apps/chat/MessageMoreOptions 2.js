@@ -17,7 +17,7 @@ export default function SimpleMenu(props) {
 		setAnchorEl(null);
 	};
 	const handleDelete = () => {
-        dispatch(props.deleteMessage(props.item.id))
+		dispatch(props.deleteMessage(props.item.id));
 		handleClose();
 	};
 	return (

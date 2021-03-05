@@ -11,7 +11,7 @@ const locale = {
 	UPLOAD_PHOTO: 'Carica foto',
 	COMPANY_CATEGORIES: 'Categorie di lavoro',
 	COMPANY_LOGO: 'Logo aziendale',
-	STEP_COMPLETE_MESSAGE: "Tutti gli step sono completati - attendi il caricamento",
+	STEP_COMPLETE_MESSAGE: 'Tutti gli step sono completati - attendi il caricamento',
 	FINISH: 'Concludi',
 	REMOVE: 'Rimuovi'
 };

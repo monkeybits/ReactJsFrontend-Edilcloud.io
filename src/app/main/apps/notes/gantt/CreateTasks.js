@@ -16,6 +16,7 @@ import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutli
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
 import clsx from 'clsx';
 import { Icon } from '@material-ui/core';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		transform: 'translateZ(0px)',
@@ -85,7 +86,7 @@ export default function CreateTasks(props) {
 							icon={action.icon}
 							tooltipTitle={action.name}
 							tooltipOpen
-							onClick={(ev) => {
+							onClick={ev => {
 								action.handler(ev);
 								handleClose();
 							}}

@@ -23,10 +23,10 @@ import {
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
+import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
 import FileViewDialog from './FileViewDialog';
-import CloseIcon from '@material-ui/icons/Close';
 
 function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const dispatch = useDispatch();
@@ -46,7 +46,7 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
 		const fileType = selectedItem.type;
-		const mainId = selectedItem.mainId;
+		const { mainId } = selectedItem;
 		const url =
 			fileType == 'folder'
 				? FOLDER_DELETE(selectedItem.mainId)

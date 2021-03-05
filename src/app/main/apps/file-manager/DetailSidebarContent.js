@@ -107,13 +107,13 @@ function DetailSidebarContent({ setProgress }) {
 		return null;
 	}
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
-	const checkData = data => (data ? data : '-');
+	const checkData = data => data || '-';
 
 	const onDownload = () => {
 		if (selectedItem) {
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
-			let apiurl =
+			const apiurl =
 				selectedItem.type == 'photo'
 					? DOWNLOAD_PHOTO(selectedItem.mainId)
 					: selectedItem.type == 'video'
@@ -123,8 +123,10 @@ function DetailSidebarContent({ setProgress }) {
 				apiurl,
 				{},
 				({ headers, data }) => {
-					let image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-					var file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
+					const image = btoa(
+						new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+					);
+					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 					console.log({ file });
 					if (window) {
 						console.log('listenning to flutterInAppWebViewPlatformReady');
@@ -166,7 +168,7 @@ function DetailSidebarContent({ setProgress }) {
 					...getHeaderToken(),
 					responseType: 'arraybuffer',
 					onDownloadProgress: progressEvent => {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						setProgress(percentCompleted);
 					}
 				},
@@ -180,7 +182,7 @@ function DetailSidebarContent({ setProgress }) {
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
 		const fileType = selectedItem.type;
-		const mainId = selectedItem.mainId;
+		const { mainId } = selectedItem;
 		const url =
 			fileType == 'folder'
 				? FOLDER_DELETE(selectedItem.mainId)

@@ -11,7 +11,6 @@ import React, { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import NoteListItem from './NoteListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -31,14 +30,15 @@ import Grid from '@material-ui/core/Grid';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Icon from '@material-ui/core/Icon';
 import * as Actions from 'app/main/apps/notes/store/actions';
-import ProjectListitem from './ProjectListitem';
-import ReuestsDrawer from '../scrumboard/boards/ReuestsDrawer';
 import { Badge } from '@material-ui/core';
 import { ACCEPT_PROJECT_INVITATION, REJECT_PROJECT_INVITATION } from 'app/services/apiEndPoints';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import { useTranslation } from 'react-i18next';
+import ReuestsDrawer from '../scrumboard/boards/ReuestsDrawer';
+import ProjectListitem from './ProjectListitem';
+import NoteListItem from './NoteListItem';
 
 const useStyles = makeStyles(theme => ({
 	// root: {
@@ -139,28 +139,29 @@ function NoteList(props) {
 			return (
 				<div className="flex flex-1 flex-col items-center justify-center">
 					<Typography className="text-20 mb-16" color="textSecondary">
-					{t('LOADING_PROJECTS')}...
+						{t('LOADING_PROJECTS')}...
 					</Typography>
 					<LinearProgress className="w-xs" color="secondary" />
 				</div>
 			);
-		} else if (projects && projects.length == 0) {
+		}
+		if (projects && projects.length == 0) {
 			return (
 				<div>
 					<div className="flex flex-1 mb-20px items-center justify-center ">
 						<img
 							width="600px"
 							src="https://www.edilcloud.io/wp-content/uploads/2021/01/Risorsa-4fsad-1.png"
-						></img>
+						/>
 					</div>
 					<div className="flex flex-1 mt-30 items-center justify-center ">
 						<Typography color="textSecondary" variant="h5">
-						{t('NO_PROJECTS_HEADER')}
+							{t('NO_PROJECTS_HEADER')}
 						</Typography>
 					</div>
 					<div className="flex flex-1 mt-20 items-center justify-center ">
 						<Typography color="textSecondary" variant="h6">
-						{t('CREATE_PROJECT_ADVICE_MESSAGE')}
+							{t('CREATE_PROJECT_ADVICE_MESSAGE')}
 						</Typography>
 					</div>
 				</div>

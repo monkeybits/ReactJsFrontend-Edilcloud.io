@@ -10,10 +10,12 @@ import { withRouter } from 'react-router';
 import { LinearProgress } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { REGISTER_SUCCESS } from 'app/auth/store/actions';
+
 class FacebookLoginComponent extends React.Component {
 	state = {
 		loading: false
 	};
+
 	responseFacebook = response => {
 		const access_token = response.accessToken;
 		const photo = response.picture.data.url;
@@ -34,33 +36,32 @@ class FacebookLoginComponent extends React.Component {
 			},
 			res => {
 				const { token } = res;
-				const { history ,dispatch} = this.props;
+				const { history, dispatch } = this.props;
 				if (this.props.isRegister) {
 					history.push('/pages/auth/mail-confirm', { email: '' });
 					return dispatch({
 						type: REGISTER_SUCCESS,
 						payload: res
 					});
-				} else {
-					new Promise((resolve, reject) => {
-						if (res) {
-							jwtService.setSession(token);
-							resolve(res);
-						} else {
-							reject(res);
-						}
-					})
-						.then(res => {
-							this.props.onLogin(res);
-							setTimeout(() => {
-								this.removeLoading();
-							}, 2000);
-						})
-						.catch(err => {
-							this.removeLoading();
-							console.log(err);
-						});
 				}
+				new Promise((resolve, reject) => {
+					if (res) {
+						jwtService.setSession(token);
+						resolve(res);
+					} else {
+						reject(res);
+					}
+				})
+					.then(res => {
+						this.props.onLogin(res);
+						setTimeout(() => {
+							this.removeLoading();
+						}, 2000);
+					})
+					.catch(err => {
+						this.removeLoading();
+						console.log(err);
+					});
 			},
 			err => {
 				this.removeLoading();
@@ -71,14 +72,17 @@ class FacebookLoginComponent extends React.Component {
 		);
 		console.log(response);
 	};
+
 	startLoading = () =>
 		this.setState({
 			loading: true
 		});
+
 	removeLoading = () =>
 		this.setState({
 			loading: false
 		});
+
 	render() {
 		return (
 			<>
@@ -89,7 +93,7 @@ class FacebookLoginComponent extends React.Component {
 					fields="name,email,picture"
 					scope="public_profile"
 					callback={this.responseFacebook}
-					disableMobileRedirect={true}
+					disableMobileRedirect
 					onFailure={err => console.log(err)}
 					icon={<img src="/assets/images/social-icons/facebook.png" className="h-20" alt="Facebook" />}
 					textButton="Facebook"

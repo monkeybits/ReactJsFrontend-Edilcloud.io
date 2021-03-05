@@ -9,10 +9,10 @@ import moment from 'moment/moment';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
+import { useTranslation } from 'react-i18next';
 import ViewFile from './ViewFile';
 import RetryToSendMessage from './RetryToSendMessage';
 import SendMessageForm from './SendMessageForm';
-import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -216,7 +216,7 @@ function Chat(props) {
 															style={{ color: color?.[0]?.contactNameColor }}
 															className="font-size-15 font-bold mb-6"
 														>
-															{contact.first_name + ' ' + contact.last_name}
+															{`${contact.first_name} ${contact.last_name}`}
 															<Typography className="font-size-12 ">
 																Project Manager - Impresa Edile Lucchini
 															</Typography>

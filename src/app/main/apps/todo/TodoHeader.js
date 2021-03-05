@@ -20,14 +20,12 @@ function TodoHeader(props) {
 					className="flex items-center w-full h-48 ltr:pl-4 lg:ltr:pl-16 rtl:pr-4 lg:rtl:pr-16 rounded-8 shadow-none"
 					elevation={1}
 				>
-					
-						<IconButton
-							onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
-							aria-label="open left sidebar"
-						>
-							<Icon>filter_list</Icon>
-						</IconButton>
-					
+					<IconButton
+						onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
+						aria-label="open left sidebar"
+					>
+						<Icon>filter_list</Icon>
+					</IconButton>
 
 					<Icon color="action">search</Icon>
 

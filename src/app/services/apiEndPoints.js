@@ -42,17 +42,24 @@ export const ADD_DOCUMENT = cid => `/api/frontend/document/document/company/${ci
 export const ADD_DOCUMENT_PROJECT = pid => `/api/frontend/document/document/project/${pid}/add/`;
 export const ADD_FOLDER = cid => `/api/frontend/media/folder/company/${cid}/add/`;
 export const ADD_FOLDER_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/add/`;
-export const PHOTO_LIST = cid => `/api/frontend/profile/company/company_photo_list/private/?companyId=${cid}&filter__folder__isnull=true&no_page=no_page`;
-export const PHOTO_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/photo_list/?filter__folder__isnull=true&no_page=no_page`;
-export const DOCUMENT_LIST = cid => `/api/frontend/profile/company/company_document_list/private/?companyId=${cid}&filter__folder__isnull=true&no_page=no_page`;
-export const DOCUMENT_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/document_list/?filter__folder__isnull=true&no_page=no_page`;
-export const VIDEO_LIST = cid => `/api/frontend/profile/company/company_video_list/private/?companyId=${cid}&filter__folder__isnull=true&no_page=no_page`;
-export const VIDEO_LIST_PROJECT = pid => `/api/frontend/project/project/${pid}/video_list/?filter__folder__isnull=true&no_page=no_page`;
+export const PHOTO_LIST = cid =>
+	`/api/frontend/profile/company/company_photo_list/private/?companyId=${cid}&filter__folder__isnull=true&no_page=no_page`;
+export const PHOTO_LIST_PROJECT = pid =>
+	`/api/frontend/project/project/${pid}/photo_list/?filter__folder__isnull=true&no_page=no_page`;
+export const DOCUMENT_LIST = cid =>
+	`/api/frontend/profile/company/company_document_list/private/?companyId=${cid}&filter__folder__isnull=true&no_page=no_page`;
+export const DOCUMENT_LIST_PROJECT = pid =>
+	`/api/frontend/project/project/${pid}/document_list/?filter__folder__isnull=true&no_page=no_page`;
+export const VIDEO_LIST = cid =>
+	`/api/frontend/profile/company/company_video_list/private/?companyId=${cid}&filter__folder__isnull=true&no_page=no_page`;
+export const VIDEO_LIST_PROJECT = pid =>
+	`/api/frontend/project/project/${pid}/video_list/?filter__folder__isnull=true&no_page=no_page`;
 export const FOLDER_STRUCTURE_LIST = cid => `/api/frontend/media/folder/company/${cid}/structure_list/?no_page=no_page`;
 export const GET_FOLDERS_DETAIL = fid => `/api/frontend/media/folder/${fid}/detail/`;
 export const FOLDER_LIST = cid => `/api/frontend/media/folder/company/${cid}/list/?no_page=no_page`;
 export const FOLDER_LIST_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/list/?no_page=no_page`;
-export const FOLDER_STRUCTURE_LIST_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/structure_list/?no_page=no_page`;
+export const FOLDER_STRUCTURE_LIST_PROJECT = pid =>
+	`/api/frontend/media/folder/project/${pid}/structure_list/?no_page=no_page`;
 export const DOWNLOAD_PHOTO = did => `/api/frontend/media/photo/download/${did}/`;
 export const DOWNLOAD_VIDEO = did => `/api/frontend/media/video/download/${did}/`;
 export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/download/${did}/`;
@@ -60,11 +67,11 @@ export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/downloa
 export const PHOTO_DELETE = pid => `/api/frontend/media/photo/delete/${pid}/`;
 export const VIDEO_DELETE = vid => `/api/frontend/media/video/delete/${vid}/ `;
 export const DOCUMENT_DELETE = did => `/api/frontend/document/document/delete/${did}/ `;
-export const FOLDER_DELETE = (fid) => `/api/frontend/media/folder/${fid}/delete/`; //`/api/frontend/media/folder/company/${cid}/delete/?name=${path}`;
-export const FOLDER_EDIT = (fid) => `/api/frontend/media/folder/${fid}/edit/`;
-export const PHOTO_EDIT = (photoId) => `/api/frontend/media/photo/edit/${photoId}/`;
-export const VIDEO_EDIT = (videoId) => `/api/frontend/media/video/edit/${videoId}/`;
-export const DOCUMENT_EDIT = (documentId) => `/api/frontend/document/document/edit/${documentId}/`;
+export const FOLDER_DELETE = fid => `/api/frontend/media/folder/${fid}/delete/`; // `/api/frontend/media/folder/company/${cid}/delete/?name=${path}`;
+export const FOLDER_EDIT = fid => `/api/frontend/media/folder/${fid}/edit/`;
+export const PHOTO_EDIT = photoId => `/api/frontend/media/photo/edit/${photoId}/`;
+export const VIDEO_EDIT = videoId => `/api/frontend/media/video/edit/${videoId}/`;
+export const DOCUMENT_EDIT = documentId => `/api/frontend/document/document/edit/${documentId}/`;
 export const FOLDER_DELETE_PROJECT = (pid, path) => `/api/frontend/media/folder/project/${pid}/delete/?name=${path}`;
 export const SEARCH_USER = searchString =>
 	`/api/frontend/profile/profiles/active_list/?filter__first_name__icontains=${searchString}&filter__last_name__icontains=${searchString}&filter__company__name__icontains=${searchString}&filter__email__exact=${searchString}&no_page=no_page`;
@@ -133,7 +140,7 @@ export const ADD_ATTCHMENTS_TO_TASK = tid => `/api/frontend/project/task/${tid}/
 export const EDIT_POST = pid => `/api/frontend/project/post/${pid}/edit/`;
 export const GET_GANTT_TASK_LIST = pid => `/api/frontend/project/gantt/project/${pid}/task_list/?no_page=no_page`;
 export const GET_ALL_PROJECT_TASKS = `/api/frontend/dashboard/projects/?no_page=no_page`;
-export const EXPORT_DATA = pid => `/api/frontend/project/project/${pid}/export/?type=zip`; //api/frontend/project/project/id/export/?type=zip
+export const EXPORT_DATA = pid => `/api/frontend/project/project/${pid}/export/?type=zip`; // api/frontend/project/project/id/export/?type=zip
 export const GET_ALL_NOTIFICATIONS = (list, page) =>
 	`/api/frontend/notify/notification/recipient/${list}/?page=${page}`;
 export const GET_ALL_PAGES_NOTIFICATIONS = list =>

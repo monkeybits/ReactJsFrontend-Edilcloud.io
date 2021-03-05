@@ -9,14 +9,14 @@ import CloseIcon from '@material-ui/icons/Close';
 import React, { useState, useRef, useEffect } from 'react';
 
 import { Stage, Layer } from 'react-konva';
-import Rectangle from './Rectangle';
 import DialogActions from '@material-ui/core/DialogActions';
-import { addLine } from './line';
-import { addTextNode } from './textNode';
-import Image from './Image';
 import { Button, ButtonGroup, Modal } from '@material-ui/core';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
+import Rectangle from './Rectangle';
+import { addLine } from './line';
+import { addTextNode } from './textNode';
+import Image from './Image';
 
 const uuidv1 = require('uuid/v1');
 
@@ -31,7 +31,7 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 	const [shapes, setShapes] = useState([]);
 	const [, updateState] = React.useState();
 	let stageEl = React.createRef();
-	let layerEl = React.createRef();
+	const layerEl = React.createRef();
 	const fileUploadEl = React.createRef();
 	let imageRef = React.useRef();
 	const [imageProps, setImageProps] = useState({
@@ -130,8 +130,8 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 		fileUploadEl.current.click();
 	};
 	const fileChange = ev => {
-		let file = ev.target.files[0];
-		let reader = new FileReader();
+		const file = ev.target.files[0];
+		const reader = new FileReader();
 		reader.addEventListener(
 			'load',
 			() => {
@@ -218,13 +218,13 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 		forceUpdate();
 
 		setTimeout(() => {
-			var dataURL = stageEl.getStage().toDataURL({ pixelRatio: 3 });
+			const dataURL = stageEl.getStage().toDataURL({ pixelRatio: 3 });
 			downloadURI(dataURL, 'stage.png');
 			onClose();
 		}, 100);
 	};
 	const downloadURI = (uri, name) => {
-		var link = document.createElement('a');
+		const link = document.createElement('a');
 		link.download = name;
 		link.href = uri;
 		document.body.appendChild(link);
@@ -346,8 +346,8 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 				</DialogContent>
 				<DialogActions className="p-16 px-20">
 					<Button
-					variant="contained"
-					color="primary"
+						variant="contained"
+						color="primary"
 						onClick={() => {
 							// setImageProps({
 							// 	width,

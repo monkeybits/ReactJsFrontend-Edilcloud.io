@@ -20,7 +20,7 @@ export default function TransitionAlerts({ open, setOpen, text }) {
 	const classes = useStyles();
 
 	return (
-		<div className={clsx(classes.root,"mt-8")}>
+		<div className={clsx(classes.root, 'mt-8')}>
 			<Collapse in={open}>
 				<Alert
 					variant="outlined"

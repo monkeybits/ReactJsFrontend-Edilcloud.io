@@ -5,9 +5,7 @@ import './Gantt.css';
 import './dhtmlxgantt.css';
 import connect from 'react-redux/es/connect/connect';
 import moment from 'moment';
-import * as Actions from '../todo/store/actions';
 import { bindActionCreators } from 'redux';
-import { fileDragAndDrop } from './common/dhx_file_dnd';
 import { withRouter } from 'react-router';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT, EDIT_ACTIVITY_TO_TASK } from 'app/services/apiEndPoints';
@@ -32,9 +30,11 @@ import {
 	faArrowAltCircleRight
 } from '@fortawesome/free-regular-svg-icons';
 import { faDownload, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
-import FullscreenAsk from './FullscreenAsk';
 import { withTranslation } from 'react-i18next';
 import i18next from 'i18next';
+import FullscreenAsk from './FullscreenAsk';
+import { fileDragAndDrop } from './common/dhx_file_dnd';
+import * as Actions from '../todo/store/actions';
 
 // data: [
 // 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
@@ -42,7 +42,7 @@ import i18next from 'i18next';
 // ],
 // links: [{ id: 1, source: 1, target: 2, type: '0' }]
 function ganttInitZoom() {
-	var zoomConfig = {
+	const zoomConfig = {
 		startDate: new Date(),
 		maxColumnWidth: 92,
 		minColumnWidth: 20,
@@ -101,18 +101,18 @@ function ganttInitZoom() {
 	gantt.ext.zoom.setLevel('day2');
 }
 function to_snake_case(name) {
-	return (name + '').toLowerCase().replace(/ /, '_');
+	return `${name}`.toLowerCase().replace(/ /, '_');
 }
 
 function loadTable(mapping, data) {
-	var ganttDataset = {
+	const ganttDataset = {
 		data: [],
 		links: []
 	};
 
 	data.forEach(function (item) {
-		var copy = {};
-		for (var i in item) {
+		const copy = {};
+		for (const i in item) {
 			if (mapping[i]) {
 				copy[mapping[i]] = item[i];
 			} else {
@@ -121,9 +121,9 @@ function loadTable(mapping, data) {
 
 			copy.open = true;
 			if (copy.wbs) {
-				var wbs = copy.wbs + '';
+				const wbs = `${copy.wbs}`;
 				copy.id = wbs;
-				var parts = wbs.split('.');
+				const parts = wbs.split('.');
 				parts.pop();
 				copy.parent = parts.join('.');
 			}
@@ -138,14 +138,12 @@ function loadTable(mapping, data) {
 function getOptions(selectedIndex) {
 	return ['wbs', 'text', 'start_date', 'duration', 'end_date', 'id', 'parent']
 		.map(function (name, index) {
-			return (
-				"<option value='" + name + "' " + (selectedIndex == index ? 'selected' : '') + '>' + name + '</option>'
-			);
+			return `<option value='${name}' ${selectedIndex == index ? 'selected' : ''}>${name}</option>`;
 		})
 		.join('');
 }
 function shiftTask(task_id, direction) {
-	var task = gantt.getTask(task_id);
+	const task = gantt.getTask(task_id);
 
 	task.start_date = gantt.date.add(task.start_date, direction, 'day');
 	task.end_date = gantt.calculateEndDate(task.start_date, task.duration);
@@ -218,7 +216,7 @@ class Gantt extends Component {
 			// 	scale_height: 60
 			// },
 
-			var toggle = document.getElementById('fullScreen');
+			const toggle = document.getElementById('fullScreen');
 
 			toggle.onclick = function () {
 				if (!gantt.getState().fullscreen) {
@@ -268,8 +266,9 @@ class Gantt extends Component {
 			});
 		});
 	}
+
 	editTodo = (todo, pid) => {
-		let values = {
+		const values = {
 			name: todo.name,
 			note: todo.description,
 			progress: todo.progress,
@@ -292,8 +291,9 @@ class Gantt extends Component {
 			getHeaderToken()
 		);
 	};
+
 	editTodoActivty = todo => {
-		let values = {
+		const values = {
 			title: todo.name,
 			description: todo.description,
 			datetime_start: moment(todo.date_start).format('YYYY-MM-DD'),
@@ -312,6 +312,7 @@ class Gantt extends Component {
 			getHeaderToken()
 		);
 	};
+
 	shouldComponentUpdate(nextProps, nextState) {
 		const { todos, company, projectDetail } = nextProps;
 		if (this.state.language != nextProps.i18n.language) {
@@ -319,28 +320,35 @@ class Gantt extends Component {
 				language: nextProps.i18n.language
 			});
 			return true;
-		} else if (
+		}
+		if (
 			(company && projectDetail.company && JSON.stringify(company) != JSON.stringify(this.props.company)) ||
 			JSON.stringify(projectDetail.company) != JSON.stringify(this.props.projectDetail.company)
 		) {
 			this.templatePermissions(projectDetail, company);
 			return true;
-		} else if (this.props.todos.isLoadingTodos != nextProps.todos.isLoadingTodos) {
+		}
+		if (this.props.todos.isLoadingTodos != nextProps.todos.isLoadingTodos) {
 			return true;
-		} else if (
+		}
+		if (
 			this.props.todos?.entities &&
 			todos?.entities &&
 			JSON.stringify(todos.entities) !== JSON.stringify(this.props.todos.entities)
 		) {
 			this.ganttInit(todos);
 			return false;
-		} else if (this.state.toggleLeft != nextState.toggleLeft) {
+		}
+		if (this.state.toggleLeft != nextState.toggleLeft) {
 			return true;
-		} else if (this.state.open != nextState.open) {
+		}
+		if (this.state.open != nextState.open) {
 			return true;
-		} else if (!nextState.tasks?.data?.length) {
+		}
+		if (!nextState.tasks?.data?.length) {
 			return true;
-		} else if (nextProps.orientation == 'portrait') {
+		}
+		if (nextProps.orientation == 'portrait') {
 			if (this.state.open) {
 				this.setState({
 					open: false
@@ -351,7 +359,8 @@ class Gantt extends Component {
 				gantt.collapse();
 			});
 			return false;
-		} else if (
+		}
+		if (
 			nextProps.orientation == 'landscape' &&
 			nextProps.value == 4 &&
 			!gantt.getState().fullscreen &&
@@ -363,7 +372,8 @@ class Gantt extends Component {
 			});
 			// gantt.collapse();
 			return false;
-		} else if (nextProps.value == 4) {
+		}
+		if (nextProps.value == 4) {
 			gantt.render();
 			return false;
 		}
@@ -382,7 +392,7 @@ class Gantt extends Component {
 		// gantt.config.start_date = new Date([2018]);
 		// gantt.config.end_date = new Date([2022]);
 
-		let tasks = {
+		const tasks = {
 			data: Object.values(todos.entities).map((data, i) => {
 				return data.parent == 0
 					? {
@@ -390,11 +400,11 @@ class Gantt extends Component {
 								id: data.id,
 								text: data.name,
 								start_date: data.date_start,
-								end_date: data.date_end, //new Date(data.date_end.split('-'), 23, 59, 59, 100), //new Date(2018, 11, 24, 23, 59, 59, 100), //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
+								end_date: data.date_end, // new Date(data.date_end.split('-'), 23, 59, 59, 100), //new Date(2018, 11, 24, 23, 59, 59, 100), //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								progress: data.progress / 100,
 								company: data?.assigned_company?.name,
 								parent: 0,
-								color: data?.assigned_company?.color_project, //hexToRgbA(data?.assigned_company?.color_project),
+								color: data?.assigned_company?.color_project, // hexToRgbA(data?.assigned_company?.color_project),
 								mainId: data.id
 							},
 							data
@@ -404,7 +414,7 @@ class Gantt extends Component {
 								id: Math.floor(Math.random() * 9999),
 								text: data.title,
 								start_date: data.datetime_start,
-								end_date: data.datetime_end, //new Date(data.datetime_end.split('-'), 23, 59, 59, 100), //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
+								end_date: data.datetime_end, // new Date(data.datetime_end.split('-'), 23, 59, 59, 100), //end_date: moment(data.date_end).add(1, 'days').format('YYYY-MM-DD'),
 								progress: data.status == 'completed' ? 1 : 0,
 								company: data?.assigned_company?.name,
 								mainId: data.id,
@@ -483,11 +493,10 @@ class Gantt extends Component {
 		gantt.parse(tasks);
 		gantt.templates.grid_date_format = function (date, column) {
 			if (column === 'end_date') {
-				let newDate = new Date(date.setHours(23, 59, 59, 100));
+				const newDate = new Date(date.setHours(23, 59, 59, 100));
 				return moment(newDate).format('YYYY-MM-DD');
-			} else {
-				return moment(date).format('YYYY-MM-DD');
 			}
+			return moment(date).format('YYYY-MM-DD');
 		};
 		// gantt.attachEvent('onTaskDrag', function (id, mode, task, original) {
 		// 	//any custom logic here
@@ -506,9 +515,9 @@ class Gantt extends Component {
 			gantt.detachEvent(gantt._onTaskClickHandler);
 		}
 		gantt._onTaskClickHandler = gantt.attachEvent('onTaskClick', (id, e) => {
-			//any custom logic here
+			// any custom logic here
 			setTimeout(() => {
-				let task = gantt.getTask(id);
+				const task = gantt.getTask(id);
 				if (task.$open) {
 					this.setState(prev => ({
 						openTasks: [...prev.openTasks, task.id]
@@ -534,12 +543,12 @@ class Gantt extends Component {
 			this.openTasksOnInit();
 		}
 		gantt.showLightbox = id => {
-			let savedTask = gantt.getTask(id);
+			const savedTask = gantt.getTask(id);
 			console.log({ id, savedTask });
 			if (gantt.isTaskExists(id)) {
 				if (savedTask.$new == true) {
 					if (savedTask.$level == 1) {
-						let captureData = gantt.getTask(savedTask.parent);
+						const captureData = gantt.getTask(savedTask.parent);
 						// let captureData = this.state.tasks.data.filter(task => task.id == savedTask.parent);
 						// captureData = captureData && captureData.length ? captureData[0] : undefined;
 						this.props.openAddActivityTodoDialog({ ...captureData.data, isGantt: true });
@@ -549,7 +558,7 @@ class Gantt extends Component {
 					delete savedTask.$new;
 					gantt.deleteTask(id);
 				} else {
-					let captureData = savedTask; //this.state.tasks.data.filter(task => task.id == id);
+					const captureData = savedTask; // this.state.tasks.data.filter(task => task.id == id);
 					// captureData = captureData && captureData.length ? captureData[0] : undefined;
 
 					if (captureData.data.parent) {
@@ -558,15 +567,13 @@ class Gantt extends Component {
 							task: gantt.getTask(captureData.parent).data,
 							isGantt: true
 						});
-					} else {
-						const userInfo = decodeDataFromToken();
-						const getRole = () => userInfo?.extra?.profile.role;
-						if (getRole() == 'o' || getRole() == 'd') {
-							return this.props.openTaskContent({ ...captureData.data, isGantt: true });
-						} else {
-							return null;
-						}
 					}
+					const userInfo = decodeDataFromToken();
+					const getRole = () => userInfo?.extra?.profile.role;
+					if (getRole() == 'o' || getRole() == 'd') {
+						return this.props.openTaskContent({ ...captureData.data, isGantt: true });
+					}
+					return null;
 				}
 			}
 		};
@@ -585,6 +592,7 @@ class Gantt extends Component {
 			loading: false
 		});
 	};
+
 	templatePermissions = (projectDetail, company) => {
 		const userInfo = decodeDataFromToken();
 		const getRole = () => userInfo?.extra?.profile.role;
@@ -635,33 +643,36 @@ class Gantt extends Component {
 			};
 		}
 	};
+
 	createMarker = tasks => {
 		if (tasks.data?.length) {
-			var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
-			var markerId = gantt.addMarker({
+			const dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+			const markerId = gantt.addMarker({
 				start_date: new Date(),
 				css: 'today',
 				text: 'Now',
 				title: dateToStr(new Date())
 			});
 			gantt.getMarker(markerId);
-			let startDates = tasks.data.map(a => a.start_date && new Date(a.start_date.split('-')));
-			let min = new Date(Math.min.apply(null, startDates));
+			const startDates = tasks.data.map(a => a.start_date && new Date(a.start_date.split('-')));
+			const min = new Date(Math.min.apply(null, startDates));
 			// min.setDate(min.getDate() + 1);
 			{
-				let markerId = gantt.addMarker({
+				const markerId = gantt.addMarker({
 					start_date: min,
 					css: 'status_line',
 					text: 'Start project',
-					title: 'Start project: ' //+ dateToStr(new Date(min))
+					title: 'Start project: ' // + dateToStr(new Date(min))
 				});
 				gantt.getMarker(markerId);
 			}
 		}
 	};
+
 	componentDidUpdate() {
 		gantt.render();
 	}
+
 	setZoom(value) {
 		switch (value) {
 			case 'Hours' || 1:
@@ -704,16 +715,16 @@ class Gantt extends Component {
 				break;
 		}
 	}
+
 	onTaskSelectHandler = () => {
 		// gantt.attachEvent('onTaskSelected', id => {
-		//any custom logic here
+		// any custom logic here
 		const userInfo = decodeDataFromToken();
 		const getRole = () => userInfo?.extra?.profile.role;
 		gantt.batchUpdate(() => {
 			gantt.eachSelectedTask(task_id => {
-				let task = gantt.getTask(task_id);
+				const task = gantt.getTask(task_id);
 				if (task.$level == 1) {
-					return;
 				} else if (
 					this.props.company.id != this.props.projectDetail.company?.id &&
 					(getRole() == 'o' || getRole() == 'd')
@@ -724,6 +735,7 @@ class Gantt extends Component {
 		});
 		// });
 	};
+
 	unSelectAllTask = () => {
 		gantt.batchUpdate(function () {
 			gantt.eachSelectedTask(function (task_id) {
@@ -753,6 +765,7 @@ class Gantt extends Component {
 		});
 		gantt.render();
 	};
+
 	openTasksOnInit = () => {
 		gantt.eachTask(task => {
 			if (this.state.openTasks.includes(task.id)) {
@@ -761,22 +774,26 @@ class Gantt extends Component {
 		});
 		gantt.render();
 	};
+
 	zoomIn = () => {
 		gantt.ext.zoom.zoomIn();
 		gantt.render();
 	};
+
 	zoomOut = () => {
 		gantt.ext.zoom.zoomOut();
 		gantt.render();
 	};
+
 	setZoomDefaultLevel = () => {
 		gantt.ext.zoom.setLevel('month1');
 	};
+
 	exportPNG = () => {
-		let startDates = this.state.tasks.data.map(a => a.start_date && new Date(a.start_date.split('-')));
-		let endDates = this.state.tasks.data.map(a => a.end_date && new Date(a.end_date.split('-')));
-		let min = new Date(Math.min.apply(null, startDates));
-		let max = new Date(Math.min.apply(null, endDates));
+		const startDates = this.state.tasks.data.map(a => a.start_date && new Date(a.start_date.split('-')));
+		const endDates = this.state.tasks.data.map(a => a.end_date && new Date(a.end_date.split('-')));
+		const min = new Date(Math.min.apply(null, startDates));
+		const max = new Date(Math.min.apply(null, endDates));
 		console.log({
 			startDatesFormat: moment(min).format('DD-MM-YYYY'),
 			endDatesFormat: moment(max).format('DD-MM-YYYY'),
@@ -795,6 +812,7 @@ class Gantt extends Component {
 			raw: true
 		});
 	};
+
 	exportPDF = () => {
 		gantt.exportToPDF({
 			name: 'mygantt.pdf',
@@ -806,25 +824,30 @@ class Gantt extends Component {
 			raw: true
 		});
 	};
+
 	exportMSProject = () => {
 		gantt.exportToMSProject({
 			skip_circular_links: false,
 			server: 'https://export.dhtmlx.com/gantt'
 		});
 	};
+
 	exportExcel = () => {
 		gantt.exportToExcel();
 	};
+
 	moveForward = () => {
 		gantt.eachSelectedTask(function (task_id) {
 			shiftTask(task_id, 1);
 		});
 	};
+
 	moveBackward = () => {
 		gantt.eachSelectedTask(function (task_id) {
 			shiftTask(task_id, -1);
 		});
 	};
+
 	toggleLeftPanel = () => {
 		if (!this.state.loading) {
 			this.setState(
@@ -836,12 +859,14 @@ class Gantt extends Component {
 			);
 		}
 	};
+
 	addDragEvent = () => {
 		gantt.config.autoscroll = true;
 		gantt.config.autoscroll_speed = 50;
 	};
+
 	ganttCallback = (actionCall, permissionsCall = this.onTaskSelectHandler) => {
-		let myFirstPromise = new Promise((resolve, reject) => {
+		const myFirstPromise = new Promise((resolve, reject) => {
 			// We call resolve(...) when what we were doing asynchronously was successful, and reject(...) when it failed.
 			// In this example, we use setTimeout(...) to simulate async code.
 			// In reality, you will probably be using something like XHR or an HTML5 API.
@@ -855,6 +880,7 @@ class Gantt extends Component {
 			actionCall();
 		});
 	};
+
 	render() {
 		const { t } = this.props;
 		// this.setZoom(zoom);
@@ -884,7 +910,7 @@ class Gantt extends Component {
 					</Button>
 				</div> */}
 
-				<div class="demo-main-container">
+				<div className="demo-main-container">
 					{this.props.todos?.isLoadingTodos && <LinearProgress color="secondary" />}
 					<FullscreenAsk
 						open={this.state.open}
@@ -898,8 +924,8 @@ class Gantt extends Component {
 						}}
 						onNeverAsk={open => localStorage.setItem('askFullscreen', false)}
 					/>
-					<div class="header gantt-demo-header">
-						<ul class="gantt-controls">
+					<div className="header gantt-demo-header">
+						<ul className="gantt-controls">
 							{/* <li class="gantt-menu-item" onClick={this.toggleLeftPanel}>
 								<a data-action="collapseAll">
 									{this.state.toggleLeft ? (
@@ -911,45 +937,45 @@ class Gantt extends Component {
 									<span class="header-text"> Toggle left </span>
 								</a>
 							</li> */}
-							<li class="gantt-menu-item" onClick={this.closeAll}>
+							<li className="gantt-menu-item" onClick={this.closeAll}>
 								<a data-action="collapseAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_collapse_all_24.png" />
-									<span class="header-text">{t('COLLAPSE')}</span>
+									<span className="header-text">{t('COLLAPSE')}</span>
 								</a>
 							</li>
-							<li class="gantt-menu-item gantt-menu-item-last" onClick={this.openAll}>
+							<li className="gantt-menu-item gantt-menu-item-last" onClick={this.openAll}>
 								<a data-action="expandAll">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_expand_all_24.png" />
-									<span class="header-text">{t('EXPAND')}</span>
+									<span className="header-text">{t('EXPAND')}</span>
 								</a>
 							</li>
 							{permissionByRole && (
-								<li class="gantt-menu-item" onClick={() => this.ganttCallback(this.moveBackward)}>
+								<li className="gantt-menu-item" onClick={() => this.ganttCallback(this.moveBackward)}>
 									<a data-action="toggleCriticalPath">
 										<FontAwesomeIcon icon={faArrowAltCircleLeft} style={{ fontSize: '1.5rem' }} />
 
-										<span class="header-text">{t('MOVE_BACKWARD')}</span>
+										<span className="header-text">{t('MOVE_BACKWARD')}</span>
 									</a>
 								</li>
 							)}
 							{permissionByRole && (
-								<li class="gantt-menu-item" onClick={() => this.ganttCallback(this.moveForward)}>
+								<li className="gantt-menu-item" onClick={() => this.ganttCallback(this.moveForward)}>
 									<a data-action="toggleAutoScheduling">
 										<FontAwesomeIcon icon={faArrowAltCircleRight} style={{ fontSize: '1.5rem' }} />
-										<span class="header-text">{t('MOVE_FORWORD')}</span>
+										<span className="header-text">{t('MOVE_FORWORD')}</span>
 									</a>
 								</li>
 							)}
 
 							{isUserHavePermssionsFromAdmin && (
-								<li class="gantt-menu-item">
+								<li className="gantt-menu-item">
 									<a>
 										<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
-										<span class="header-text">{t('IMPORT')}</span>
+										<span className="header-text">{t('IMPORT')}</span>
 									</a>
-									<ul class="gantt-controls">
+									<ul className="gantt-controls">
 										<li
-											class="gantt-menu-item"
+											className="gantt-menu-item"
 											onClick={() => {
 												document.getElementById('excelFile').click();
 											}}
@@ -967,9 +993,9 @@ class Gantt extends Component {
 												Excel
 											</a>
 										</li>
-										<li class="gantt-menu-item">
+										<li className="gantt-menu-item">
 											<a
-												class="xlsx-sample"
+												className="xlsx-sample"
 												href="/assets/files/DemoProject.xlsx"
 												target="_blank"
 											>
@@ -980,31 +1006,31 @@ class Gantt extends Component {
 									</ul>
 								</li>
 							)}
-							<li class="gantt-menu-item">
+							<li className="gantt-menu-item">
 								<a>
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_export_24.png" />
-									<span class="header-text">{t('EXPORT')}</span>
+									<span className="header-text">{t('EXPORT')}</span>
 								</a>
-								<ul class="gantt-controls w-125">
-									<li class="gantt-menu-item" onClick={this.exportPDF}>
+								<ul className="gantt-controls w-125">
+									<li className="gantt-menu-item" onClick={this.exportPDF}>
 										<a data-action="toPDF">
 											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
 											PDF
 										</a>
 									</li>
-									<li class="gantt-menu-item" onClick={this.exportPNG}>
+									<li className="gantt-menu-item" onClick={this.exportPNG}>
 										<a data-action="toPNG">
 											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
 											PNG
 										</a>
 									</li>
-									<li class="gantt-menu-item" onClick={this.exportExcel}>
+									<li className="gantt-menu-item" onClick={this.exportExcel}>
 										<a data-action="toExcel">
 											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
 											Excel
 										</a>
 									</li>
-									<li class="gantt-menu-item" onClick={this.exportMSProject}>
+									<li className="gantt-menu-item" onClick={this.exportMSProject}>
 										<a data-action="toMSProject">
 											<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_file_24.png" />
 											MS Project
@@ -1013,26 +1039,26 @@ class Gantt extends Component {
 								</ul>
 							</li>
 
-							<li class="gantt-menu-item gantt-menu-item-last" onClick={this.setZoomDefaultLevel}>
+							<li className="gantt-menu-item gantt-menu-item-last" onClick={this.setZoomDefaultLevel}>
 								<a data-action="zoomToFit">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_to_fit_24.png" />
-									<span class="header-text">{t('ZOOM_TO_FIT')}</span>
+									<span className="header-text">{t('ZOOM_TO_FIT')}</span>
 								</a>
 							</li>
-							<li class="gantt-menu-item" onClick={this.zoomOut}>
+							<li className="gantt-menu-item" onClick={this.zoomOut}>
 								<a data-action="zoomOut">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_out.png" />
-									<span class="header-text">{t('ZOOM_OUT')}</span>
+									<span className="header-text">{t('ZOOM_OUT')}</span>
 								</a>
 							</li>
-							<li class="gantt-menu-item" onClick={this.zoomIn}>
+							<li className="gantt-menu-item" onClick={this.zoomIn}>
 								<a data-action="zoomIn">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_zoom_in.png" />
-									<span class="header-text">{t('ZOOM_IN')}</span>
+									<span className="header-text">{t('ZOOM_IN')}</span>
 								</a>
 							</li>
 							<li
-								class="gantt-menu-item"
+								className="gantt-menu-item"
 								id="fullScreen"
 								ref={ref => (this.fullscreenRef = ref)}
 								// onClick={() => {
@@ -1041,7 +1067,7 @@ class Gantt extends Component {
 							>
 								<a data-action="fullscreen">
 									<img src="https://dhtmlx.com/docs/products/dhtmlxGantt/demo/imgs/ic_fullscreen_24.png" />
-									<span class="header-text">{t('FULLSCREEN')}</span>
+									<span className="header-text">{t('FULLSCREEN')}</span>
 								</a>
 							</li>
 						</ul>
@@ -1052,7 +1078,7 @@ class Gantt extends Component {
 						}}
 						style={{ width: '100%', height: '100%' }}
 						className="gantt-min-height"
-					></div>
+					/>
 				</div>
 			</div>
 		);

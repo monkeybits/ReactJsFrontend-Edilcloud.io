@@ -15,7 +15,7 @@ function CreatePostDialog() {
 	const dispatch = useDispatch();
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 
-	// this Method will be used to close the post dialog 
+	// this Method will be used to close the post dialog
 	function closeTodoDialog() {
 		return dispatch(Actions.closeTimelineDialog());
 	}

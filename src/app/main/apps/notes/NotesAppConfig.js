@@ -18,6 +18,7 @@ import gantt_en from './gantt/i18n/en';
 import gantt_it from './gantt/i18n/it';
 import todo_en from './todo/i18n/en';
 import todo_it from './todo/i18n/it';
+
 i18next.addResourceBundle('en', 'projects', en);
 i18next.addResourceBundle('it', 'projects', it);
 i18next.addResourceBundle('en', 'todo_project', todo_en);

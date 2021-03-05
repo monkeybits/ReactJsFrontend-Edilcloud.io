@@ -12,6 +12,7 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { changeFilters } from './filters.actions';
+
 export const GET_TODOS = '[TODO APP] GET TODOS (PROJECT)';
 export const RESET_ALL_FILTERS = '[TODO APP] RESET ALL FILTERS (PROJECT)';
 export const UPDATE_TODOS = '[TODO APP] UPDATE TODOS (PROJECT)';
@@ -240,7 +241,7 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 	// 	todo
 	// });
 	return dispatch => {
-		let values =
+		const values =
 			todoDialogType == 'new'
 				? {
 						name: todo.title,
@@ -294,7 +295,7 @@ export function editActivity(todo, pid, setLoading, isGantt) {
 	// });
 	return dispatch => {
 		console.log(todo, todo.profile);
-		let values = {
+		const values = {
 			title: todo.title,
 			description: todo.notes,
 			datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
@@ -329,7 +330,7 @@ export function editActivityFromGantt(todo, pid, closeTodoDialog, isGantt, setLo
 	// });
 	return dispatch => {
 		console.log({ todo });
-		let values = {
+		const values = {
 			title: todo.name,
 			description: todo.description,
 			datetime_start: moment(todo.startDate).format('YYYY-MM-DD'),
@@ -365,7 +366,7 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 		todo
 	});
 	return dispatch => {
-		let values =
+		const values =
 			todoDialogType == 'new'
 				? {
 						name: todo.name,
