@@ -115,16 +115,24 @@ export default function PostedImages(props) {
 					activeStep={activeStep}
 					className="my-10"
 					nextButton={
-						<Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-							Next
-							{theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-						</Button>
+						<div>
+							{activeStep !== maxSteps - 1 && (
+								<Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+									Next
+									{theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+								</Button>
+							)}
+						</div>
 					}
 					backButton={
-						<Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-							{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-							Back
-						</Button>
+						<div>
+							{activeStep !== 0 && (
+								<Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+									{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+									Back
+								</Button>
+							)}
+						</div>
 					}
 				/>
 			)}

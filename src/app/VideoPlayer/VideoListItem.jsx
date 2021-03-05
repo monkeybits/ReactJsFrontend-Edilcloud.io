@@ -59,7 +59,7 @@ class VideoListItem extends Component {
 				<ReactPlayer
 					ref={this.ref}
 					url={video_url}
-					style={{ width: '640px', height: '360px', left: '0px', top: '0px' }}
+					style={{ width: '100%', height: '360px', left: '0px', top: '0px' }}
 					controls
 					onDuration={this.onDuration}
 					onPlay={this.onPlay}
