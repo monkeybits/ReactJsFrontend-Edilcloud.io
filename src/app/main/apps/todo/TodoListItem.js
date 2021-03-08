@@ -216,7 +216,7 @@ function TodoListItem(props) {
 		<div className="mb-20">
 			<Card
 				elevation={1}
-				className="flex flex-col overflow-inherit mb-20"
+				className="flex flex-col overflow-inherit mb-6"
 				onClick={() => {
 					// if (getRole() == 'o' || getRole() == 'd') {
 					dispatch(Actions.closeTimelineDialog());

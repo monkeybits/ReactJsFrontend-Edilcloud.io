@@ -401,7 +401,7 @@ function TaskContentForm(props) {
 					</div>
 				)}
 			</div>
-			<div className="mt-24 mx-24 sm:mx-32 todo-bg-footer p-12 px-20 rounded">
+			<div className="my-24 todo-bg-footer p-12 px-20 rounded">
 				{taskContentData?.project && (
 					<Typography variant="h6" color="inherit" className="font-size-18 font-weight-700">
 						<div>
@@ -418,10 +418,10 @@ function TaskContentForm(props) {
 				</div>
 			</div>
 			<DialogContent id="dialog-content" className="p-0">
-				<TabPanel value={value} index={0} class="write-post-img-full custom-create-post-padding">
+				<TabPanel value={value} index={0} class="write-post-img-full">
 					<CreatePostForm taskId={taskContentData?.id} isTask />
 				</TabPanel>
-				<TabPanel value={value} index={1}>
+				<TabPanel value={value} index={1} className="bg-white">
 					<div className="sm:mx-12">
 						<CreateAttachments taskId={taskContentData?.id} attachments={taskContentData?.media_set} />
 					</div>
@@ -453,7 +453,7 @@ function TaskContentForm(props) {
 			 */}
 				</TabPanel>
 
-				<TabPanel value={value} index={2}>
+				<TabPanel value={value} index={2} className="bg-white">
 					<div className="sm:mx-12">
 						{getIsDisabled() && (
 							<div className="flex items-center mb-24">

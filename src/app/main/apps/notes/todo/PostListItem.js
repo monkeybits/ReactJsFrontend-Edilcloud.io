@@ -341,7 +341,7 @@ export default function PostListItem({
 			id={`post${post.id}`}
 			ref={notificationPanel.notificationData?.notification?.object_id == post.id ? scrollRef : null}
 			key={post.id}
-			className="mb-32 overflow-hidden post-card-clx"
+			className="mb-12 overflow-hidden post-card-clx"
 		>
 			<CardHeader
 				avatar={
@@ -551,7 +551,7 @@ export default function PostListItem({
 			)}
 
 			{/* ----------------- Show Comments and likes ---------------*/}
-			<AppBar className="card-footer flex flex-column p-16" position="static" color="default" elevation={0}>
+			<AppBar className="card-footer flex flex-column p-16 bg-white" position="static" color="default" elevation={0}>
 				<div className="flex flex-wrap items-center mb-12 cursor-pointer justify-between">
 					<div className="flex">
 						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
@@ -703,8 +703,7 @@ export default function PostListItem({
 								}}
 								// aria-label="Add photo"
 							>
-								<span className="font-700 mr-4">{postComments.length - 3}</span>
-								<span className="text-gray-500">Load more</span>
+								<span className="font-700 mr-4 hover:underline">{`View ${postComments.length - 3} more ${postComments.length - 3 > 1 ? 'comments' : 'comment'}`}</span>
 							</IconButton>
 						)}
 					</Collapse>
@@ -714,9 +713,9 @@ export default function PostListItem({
 					<div className="flex flex-auto mt-10">
 						<Avatar className="mr-10" src="assets/images/avatars/profile.jpg" />
 						<div className="flex-1">
-							<Paper elevation={0} className="w-full relative post-icons">
+							<Paper elevation={0} className="w-full relative post-icons rounded-32">
 								<Input
-									className="pl-12 pr-80 py-8 w-full border-1 comment-area"
+									className="pl-12 pr-80 py-8 w-full comment-area"
 									id={String(post.id)}
 									classes={{ root: 'text-base' }}
 									placeholder={t('ADD_COMMENT')}

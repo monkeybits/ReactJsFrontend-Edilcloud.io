@@ -255,7 +255,7 @@ function EditActivityPostForm(props) {
 					</div>
 				)}
 			</div>
-			<div className="mt-24 mx-24 sm:mx-32 todo-bg-footer p-12 px-20 rounded">
+			<div className="my-24 todo-bg-footer p-12 px-20 rounded">
 				{todoDialog.data?.task?.project && (
 					<Typography variant="h6" color="inherit" className="font-size-18 font-weight-700">
 						<div>{todoDialog.data?.task?.project.name}</div>
@@ -274,11 +274,11 @@ function EditActivityPostForm(props) {
 			 * 2. 	<EditActivityForm />
 			 * To edit activity
 			 */}
-			<DialogContent id="dialog-content" classes={{ root: 'p-0 web-pad' }}>
-				<TabPanel value={value} index={0}>
+			<DialogContent id="dialog-content" classes={{ root: 'p-0' }}>
+				<TabPanel value={value} index={0} className="activity-pad">
 					<CreatePostForm />
 				</TabPanel>
-				<TabPanel value={value} index={1}>
+				<TabPanel value={value} index={1} className="bg-white">
 					<EditActivityForm />
 				</TabPanel>
 			</DialogContent>
