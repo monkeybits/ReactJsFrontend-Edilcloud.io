@@ -222,7 +222,7 @@ function EditPostForm(props) {
 	}
 	return (
 		<div className="md:flex max-w-2xl">
-			<div className="flex flex-col flex-1 ml-8">
+			<div className="flex flex-col flex-1">
 				<div>
 					<Card className="w-full overflow-hidden post-form mb-20 post-card-clx">
 						<Input

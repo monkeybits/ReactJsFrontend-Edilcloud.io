@@ -69,7 +69,7 @@
 }
 @media only screen and (min-width: 768px) {
     .custom-task-content {
-        background-color: #fff;
+        /* background-color: #fff; */
     }
     .custom-task-content .right-m-12 {
         right: 0px;
@@ -83,11 +83,11 @@
     }
     
     .tabs-content .custom-create-post-padding .MuiBox-root {
-        padding: 24px 24px 0px 24px !important;
+        /* padding: 24px 24px 0px 24px !important; */
     }
-    .write-post-img-full > .MuiBox-root {
+    /* .write-post-img-full > .MuiBox-root {
         padding: 24px 24px 0px 24px !important;
-    }
+    } */
     
 }
 @media only screen and (max-width: 1199px) and (min-width: 768px) {
@@ -103,9 +103,9 @@
         height: 120px;
         width: 120px;
     }
-    .MuiInputBase-input {
+    /* .MuiInputBase-input {
         height: 0.8em;
-    }
+    } */
     .custom-autocomplete > div {
         display: block !important;
     }
@@ -123,9 +123,9 @@
     .MuiButton-containedSizeSmall {
         font-size: 1.2rem;
     }
-    .custom-dropdown .MuiInputBase-input {
+    /* .custom-dropdown .MuiInputBase-input {
         height: 3.5em !important;
-    }
+    } */
     .react-datepicker-wrapper input {
         padding: 15.5px 14px;
     }
@@ -188,7 +188,7 @@
         right: 0px;
     }
     .timeline-modal .custom-tab-header {
-        margin: 5px 20px 0px 20px;
+        /* margin: 5px 20px 0px 20px; */
     }
     .timeline-modal .flex.flex-col.flex-1.ml-8 {
         margin-left: 0px !important;

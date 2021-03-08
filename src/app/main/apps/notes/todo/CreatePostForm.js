@@ -322,7 +322,7 @@ function CreatePostForm({ isTask, taskId }) {
 	}
 	return (
 		<div className="md:flex max-w-2xl">
-			<div className="flex flex-col flex-1 ml-8">
+			<div className="flex flex-col flex-1">
 				{getRole() != 'w' && (
 					<div>
 						<Card className="w-full overflow-hidden post-form mb-20 post-card-clx">

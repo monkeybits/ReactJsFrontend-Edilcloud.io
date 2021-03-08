@@ -363,7 +363,7 @@ export default function CommentListItem({
 				) : (
 					<div className="w-full relative">
 						<ListItemText
-							className="p-10 py-8 m-0 comment-p bg-post-section bg-white rounded w-full"
+							className="p-10 py-8 m-0 comment-p bg-post-section rounded-16 w-full"
 							primary={
 								<div className="flex comment-section">
 									<span className="text-15 font-700">
@@ -612,7 +612,7 @@ export default function CommentListItem({
 			)}
 			{isReplying && (
 				<div className="flex-1 ml-60 my-6">
-					<Paper elevation={0} className="w-full relative post-icons">
+					<Paper elevation={0} className="w-full relative post-icons rounded-32">
 						<Input
 							ref={replyRefs}
 							className="pl-12 pr-80 py-8 w-full border-1 comment-area"

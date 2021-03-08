@@ -58,7 +58,8 @@ body {
     background-color: #376aed !important;
 }
 .todo-bg-footer {
-    background: rgb(236 236 238 / 0.30);
+    /* background: rgb(236 236 238 / 0.30); */
+    background: #fff;
 }
 [class*="border-"] {
     border-color: #ececec;
@@ -497,7 +498,7 @@ textarea.MuiOutlinedInput-input {
     justify-content: center;
 }
 .tabs-content .MuiBox-root {
-  padding: 0px !important;
+  /* padding: 0px !important; */
   height: 100%;
 }
 .tabs-content .MuiBox-root .MuiTypography-body1{
@@ -524,6 +525,9 @@ textarea.MuiOutlinedInput-input {
 }
 .custom-tab-header {
     box-shadow: 0 -1px 3px #00000029;
+}
+.activity-pad > div, .bg-post-section > div {
+    padding: 0;
 }
 .custom-tab-header button:not(.close-icon) {
     color: #5C616F;
@@ -577,7 +581,6 @@ textarea.MuiOutlinedInput-input {
 }
 .comment-p span ~ p {
     font-size: 15px;
-    margin-top: 5px;
 }
 .post-icons .image, .post-icons .send  {
     position: absolute;
@@ -633,10 +636,9 @@ textarea.MuiOutlinedInput-input {
 .image-center .d-block.mx-auto ~ .flex {
     margin-top: 20px;
 }
-/* .bg-post-section {
-    background-color: #4c4c4c;
-    border-radius: 15px;
-} */
+.bg-post-section {
+    background-color: #ebedf0;
+}
 /* .comment-post-img {
     margin-left: 56px;
 } */
@@ -663,7 +665,7 @@ textarea.MuiOutlinedInput-input {
 }
 .social-border {
     border-top: 1px solid #dedee0;
-    border-bottom: 1px solid #dedee0;
+    border-bottom: 1px solid #dedee0 !important;
 }
 .posts-social-icon {
     border-radius: 6%;
@@ -673,6 +675,12 @@ textarea.MuiOutlinedInput-input {
 }
 .react-swipeable-view-container div {
     width: 100% !important;
+}
+.write-post-img-full > div {
+    padding: 0 !important;
+}
+.custom-task-content {
+    background-color: #eff2f7;
 }
 /* ********************************************************************************************
     Konva JS
@@ -1583,8 +1591,12 @@ audio {
     right: -12px;
 }
 .custom-modal-new .MuiPaper-rounded {
-    border-radius: 8px;
+    /* border-radius: 8px; */
     box-shadow: none;
+    /* background-color: #F0F2F5; */
+}
+.custom-modal-new .post-icons {
+    background-color: #F0F2F5;
 }
 .custom-modal-new .fuse-chip-select__indicator-separator {
     background-color: transparent;
@@ -1594,10 +1606,10 @@ audio {
     margin: 0px;
 }
 .custom-modal-new.timeline-modal header {
-    background-color: #F5F5F5;
+    /* background-color: #F5F5F5; */
 }
 .timeline-modal .custom-tab-header {
-    margin: 15px 45px 0px 33px;
+    /* margin: 15px 45px 0px 33px; */
     border-bottom: 1px solid#ECECEE;
     width: auto;
     box-shadow: none;
