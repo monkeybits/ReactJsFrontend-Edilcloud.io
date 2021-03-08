@@ -323,7 +323,7 @@ function TodoListItem(props) {
 		<div className="mb-20">
 			<Card
 				elevation={1}
-				className="flex flex-col overflow-inherit mb-20"
+				className="flex flex-col overflow-inherit mb-6"
 				ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				// className={clsx(classes.card, 'w-full rounded-4 custom-task cursor-pointer border-1 shadow-none ')}
 				onClick={() => {
