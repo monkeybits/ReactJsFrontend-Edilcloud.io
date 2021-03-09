@@ -7,25 +7,26 @@ Main files to make changes are
 * 1. src/app/main/apps/todo/TodoListItem.js  -> used for task item
 * 2. src/app/main/apps/todo/TodoActivityListItem.js  -> every task may have activity if you want to make change on activity.
 */
+import loadable from '@loadable/component';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import { LinearProgress, makeStyles, Typography } from '@material-ui/core';
-import AccessibilityToggleButton from 'app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton';
 import { useTranslation } from 'react-i18next';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import * as Actions from './store/actions';
 import * as ConatctActions from '../contacts/store/actions';
 import reducer from './store/reducers';
-import TodoHeader from './TodoHeader';
-import TodoList from './TodoList';
-import TodoSidebarContent from './TodoSidebarContent';
-import CreatePostDialog from './CreatePostDialog';
-import TaskContentDialog from './TaskContentDialog';
-import TodoDialog from './TodoDialog';
-import ShowUpload from './ShowUpload';
+const TodoHeader = loadable(() => import('./TodoHeader'))
+const TodoList = loadable(() => import('./TodoList'))
+const TodoSidebarContent = loadable(() => import('./TodoSidebarContent'))
+const CreatePostDialog = loadable(() => import('./CreatePostDialog'))
+const TaskContentDialog = loadable(() => import('./TaskContentDialog'))
+const TodoDialog = loadable(() => import('./TodoDialog'))
+const ShowUpload = loadable(() => import('./ShowUpload'))
+const AccessibilityToggleButton = loadable(() => import('app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton'))
 
 const useStyles = makeStyles({
 	addButton: {

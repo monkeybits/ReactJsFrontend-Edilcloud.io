@@ -6,11 +6,12 @@ TODO: This file simpley get list from redux store and do filters
 ! Main function here to do the filters is handleDoFilter()
 after do the filters it will show all the tasks 
 */
+import loadable from '@loadable/component';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,9 +22,9 @@ import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
 import * as AccessibilityActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
-import TodoListItem from './TodoListItem';
-import TaskContentForm from './TaskContentForm';
-import EditActivityPostForm from './EditActivityPostForm';
+const TodoListItem = loadable(() => import('./TodoListItem'))
+const TaskContentForm = loadable(() => import('./TaskContentForm'))
+const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'))
 
 function TodoList(props) {
 	const dispatch = useDispatch();

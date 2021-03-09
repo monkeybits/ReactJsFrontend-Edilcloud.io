@@ -5,52 +5,34 @@
 Todo: This file is return each task item and list of activity which includes in task
 */
 import _ from '@lodash';
-import Checkbox from '@material-ui/core/Checkbox';
-import { amber, blue, red } from '@material-ui/core/colors';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
+import loadable from '@loadable/component';
+import { blue } from '@material-ui/core/colors';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	Collapse,
-	ListItemIcon,
-	ListItemText,
 	List,
 	Slider,
 	withStyles,
 	CardContent,
 	CardActions,
 	LinearProgress,
-	Divider
+	Divider,
+	Typography,
+	Icon,
+	Card,
+	Button
 } from '@material-ui/core';
-import StarBorder from '@material-ui/icons/StarBorder';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import Avatar from '@material-ui/core/Avatar';
-import Card from '@material-ui/core/Card';
-import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Box from '@material-ui/core/Box';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import Button from '@material-ui/core/Button';
-import PlaylistAddOutlinedIcon from '@material-ui/icons/PlaylistAddOutlined';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import TodoActivityListItem from './TodoActivityListItem';
-import TodoChip from './TodoChip';
 import * as Actions from './store/actions';
-import TaskContentForm from './TaskContentForm';
-import EditActivityPostForm from './EditActivityPostForm';
+const TodoActivityListItem = loadable(() => import('./TodoActivityListItem'))
 
 const useStyles = makeStyles(theme => ({
 	card: {
