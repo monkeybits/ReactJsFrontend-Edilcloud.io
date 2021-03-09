@@ -95,7 +95,7 @@ class FacebookLoginComponent extends React.Component {
 					callback={this.responseFacebook}
 					disableMobileRedirect
 					onFailure={err => console.log(err)}
-					icon={<img src="/assets/images/social-icons/facebook.png" className="h-20" alt="Facebook" />}
+					icon={<img src="/assets/images/social-icons/facebook.png" height="20" alt="Facebook" />}
 					textButton="Facebook"
 				/>
 				{this.state.loading && <LinearProgress className="m-4" color="secondary" />}
