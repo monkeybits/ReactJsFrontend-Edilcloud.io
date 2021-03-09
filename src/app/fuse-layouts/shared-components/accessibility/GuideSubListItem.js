@@ -1,30 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-// import ListItemLink from '@material-ui/core/ListItemLink';
+import { List, ListItem, ListItemText, CardActionArea, CardMedia, Icon, IconButton } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import withReducer from 'app/store/withReducer';
 import reducer from 'app/main/apps/notes/todo/store/reducers';
+import * as Actions from './store/actions';
 import * as NotesActions from 'app/main/apps/notes/store/actions';
 import * as ContactActions from 'app/main/apps/contacts/store/actions';
 import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
-import * as TodoTaskActions from 'app/main/apps/todo/store/actions';
-import { useDeepCompareEffect } from '@fuse/hooks';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
-import Avatar from '@material-ui/core/Avatar';
-import ImageIcon from '@material-ui/icons/Image';
-import WorkIcon from '@material-ui/icons/Work';
-import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import ReactPlayer from 'react-player';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from 'react-router-dom';
-import GuideCard from './GuideCard';
-import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {

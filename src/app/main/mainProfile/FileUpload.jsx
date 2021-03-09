@@ -1,7 +1,5 @@
 import React, { useRef, useState } from 'react';
-import Icon from '@material-ui/core/Icon';
-import Typography from '@material-ui/core/Typography';
-import { Input, Button } from '@material-ui/core';
+import { Icon, Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import ImageCropper from './ImageCropper';
 

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import Icon from '@material-ui/core/Icon';
-import Typography from '@material-ui/core/Typography';
-import { Input, Button } from '@material-ui/core';
+import loadable from '@loadable/component';
+import { Icon, Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import ImageCropper from './ImageCropper';
+const ImageCropper = loadable(() => import('./ImageCropper'))
 
 export default function FileUpload({ setFile, file, remove, nameSpace = 'edit_mainProfile' }) {
 	const { t } = useTranslation(nameSpace);

@@ -1,14 +1,10 @@
+import React, { useRef, useEffect, useState } from 'react';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+import { Avatar, Button, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
 import clsx from 'clsx';
-import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 

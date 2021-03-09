@@ -1,16 +1,9 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { TextFieldFormsy } from '@fuse/core/formsy';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Typography from '@material-ui/core/Typography';
+import { Button, IconButton, Icon, InputAdornment, CircularProgress, FormControl, FormHelperText } from '@material-ui/core';
 import * as authActions from 'app/auth/store/actions';
 import Formsy from 'formsy-react';
-import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormControl, FormHelperText, FormControlLabel, Checkbox } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';

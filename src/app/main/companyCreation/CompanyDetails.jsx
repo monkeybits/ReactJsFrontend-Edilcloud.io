@@ -1,17 +1,7 @@
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
-import TextField from '@material-ui/core/TextField';
-import clsx from 'clsx';
-import React from 'react';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import FormLabel from '@material-ui/core/FormLabel';
-
+import { TextField, Radio } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import { useTranslation } from 'react-i18next';
 

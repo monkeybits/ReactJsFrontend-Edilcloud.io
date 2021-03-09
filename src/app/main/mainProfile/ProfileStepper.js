@@ -1,27 +1,19 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import loadable from '@loadable/component';
 import { useForm } from '@fuse/hooks';
 import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Card, CardContent } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
+import { getCompressFile } from 'app/services/serviceUtils';
 import { USER_MAIN_PROFILE } from 'app/services/apiEndPoints';
 import clsx from 'clsx';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import { useTranslation } from 'react-i18next';
 import axios from '../../services/axiosConfig';
-import ProfileUpload from './FileUpload';
-import BasicInfo from './BasicInfo';
+const ProfileUpload = loadable(() => import('./FileUpload'))
+const BasicInfo = loadable(() => import('./BasicInfo'))
 
 const useStyles = makeStyles(theme => ({
 	root: {

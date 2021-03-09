@@ -1,20 +1,11 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { TextFieldFormsy } from '@fuse/core/formsy';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import { Button, Icon, InputAdornment, CircularProgress, FormControl, FormHelperText, IconButton } from '@material-ui/core';
 import * as authActions from 'app/auth/store/actions';
 import Formsy from 'formsy-react';
-import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { FormControl, FormHelperText } from '@material-ui/core';
 import { withRouter } from 'react-router';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
-
-import InputLabel from '@material-ui/core/InputLabel';
 import { useTranslation } from 'react-i18next';
 
 function JWTRegisterTab({ history }) {

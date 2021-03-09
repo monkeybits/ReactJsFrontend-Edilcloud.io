@@ -1,16 +1,11 @@
-import Button from '@material-ui/core/Button';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import Popover from '@material-ui/core/Popover';
-import { useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import * as Actions from 'app/store/actions';
 import React, { useState } from 'react';
+import loadable from '@loadable/component';
+import { Button, ListItemIcon, ListItemText, MenuItem, Typography } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
+import * as Actions from 'app/store/actions';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import TippyMenu from 'app/TippyMenu';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 const languages = [
 	{

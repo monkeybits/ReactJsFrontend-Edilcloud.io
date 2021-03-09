@@ -1,26 +1,19 @@
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import loadable from '@loadable/component';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppBar, Avatar, Icon, IconButton, Paper, Toolbar, Typography, LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import keycode from 'keycode';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import i18next from 'i18next';
-import { useTranslation } from 'react-i18next';
-import Chat from './Chat';
-import ContactList from './ContactList';
 import * as Actions from './store/actions';
+import { useTranslation } from 'react-i18next';
 import reducer from './store/reducers';
 import en from './i18n/en';
 import it from './i18n/it';
+const Chat = loadable(() => import('./Chat'))
+const ContactList = loadable(() => import('./ContactList'))
 
 i18next.addResourceBundle('en', 'chat_panel', en);
 i18next.addResourceBundle('it', 'chat_panel', it);

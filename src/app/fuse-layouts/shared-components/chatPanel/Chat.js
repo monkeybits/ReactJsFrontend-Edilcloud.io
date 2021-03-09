@@ -1,18 +1,16 @@
+import React, { useEffect, useMemo, useRef } from 'react';
+import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
-import Paper from '@material-ui/core/Paper';
+import { Avatar, Icon, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import moment from 'moment/moment';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
-import ViewFile from './ViewFile';
-import RetryToSendMessage from './RetryToSendMessage';
-import SendMessageForm from './SendMessageForm';
+const ViewFile = loadable(() => import('./ViewFile'))
+const RetryToSendMessage = loadable(() => import('./RetryToSendMessage'))
+const SendMessageForm = loadable(() => import('./SendMessageForm'))
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {

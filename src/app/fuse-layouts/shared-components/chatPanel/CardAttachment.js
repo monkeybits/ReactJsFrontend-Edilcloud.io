@@ -1,21 +1,13 @@
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { Button, Icon, MenuItem, Paper, Typography } from '@material-ui/core';
+import loadable from '@loadable/component';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-	faFilePdf,
 	faFile,
 	faFileExcel,
-	faFileVideo,
-	faFileAudio,
-	faFileImage,
-	faFileWord
+	faFileVideo
 } from '@fortawesome/free-regular-svg-icons';
-import TippyMenu from 'app/TippyMenu';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 function CardAttachment(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

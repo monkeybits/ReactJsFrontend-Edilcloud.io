@@ -1,12 +1,9 @@
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import clsx from 'clsx';
 import React, { useRef, useState } from 'react';
+import { Icon, IconButton, Paper, TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
+import { getCompressFile } from 'app/services/serviceUtils';
 import AudioRecord from 'app/AudioRecord';
 import * as Actions from './store/actions';
 import SendMessageFilePreview from './SendMessageFilePreview';

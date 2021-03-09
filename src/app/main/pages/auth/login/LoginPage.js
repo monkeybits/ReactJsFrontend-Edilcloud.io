@@ -1,32 +1,21 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Divider from '@material-ui/core/Divider';
+import loadable from '@loadable/component';
+import { Card, CardContent, Divider, Typography, Grid, InputLabel, MenuItem, FormControl, ListItemText } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import JWTLoginTab from 'app/main/login/tabs/JWTLoginTab';
-import Grid from '@material-ui/core/Grid';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import TermsModal from './TermsModal';
-import FacebookLoginComponent from './FacebookLoginComponent';
-import GoogleLoginComponent from './GoogleLoginComponent';
 import { useTranslation } from 'react-i18next';
-import { ListItemIcon, ListItemText } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import * as MainActions from 'app/store/actions';
-import TippyMenu from 'app/TippyMenu';
 import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
+const TermsModal = loadable(() => import('./TermsModal'))
+const JWTLoginTab = loadable(() => import('app/main/login/tabs/JWTLoginTab'))
+const FacebookLoginComponent = loadable(() => import('./FacebookLoginComponent'))
+const GoogleLoginComponent = loadable(() => import('./GoogleLoginComponent'))
 
 const useStyles = makeStyles(theme => ({
 	root: {

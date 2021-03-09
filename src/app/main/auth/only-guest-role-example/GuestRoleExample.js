@@ -1,7 +1,7 @@
 import FuseHighlight from '@fuse/core/FuseHighlight';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
 import React from 'react';
 
 const useStyles = makeStyles(theme => ({

@@ -1,13 +1,9 @@
+import React from 'react';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Divider from '@material-ui/core/Divider';
+import { Button, Card, CardContent, Divider, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React from 'react';
 
 const useStyles = makeStyles(theme => ({
 	header: {

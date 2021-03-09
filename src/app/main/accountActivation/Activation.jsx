@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Icon from '@material-ui/core/Icon';
+import { Card, CardContent, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import { CircularProgress } from '@material-ui/core';
 import { USER_ACTIVATION } from 'app/services/apiEndPoints';
-import { Link, useHistory } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { apiCall, METHOD } from '../../services/baseUrl';
