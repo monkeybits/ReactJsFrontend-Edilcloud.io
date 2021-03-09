@@ -99,7 +99,7 @@ class GoogleLoginComponent extends React.Component {
 							size="large"
 							className="border-1 normal-case w-full h-40"
 						>
-							<img src="assets/images/social-icons/google.png" className="h-20 mr-8" alt="Google" />
+							<img src="assets/images/social-icons/google.png" height="20" className="mr-8" alt="Google" />
 							Google
 						</Button>
 					)}
