@@ -4,43 +4,27 @@
 This is part of dashboard 
 TODO: This file is created for activity list item 
 */
+import loadable from '@loadable/component';
 import _ from '@lodash';
-import Checkbox from '@material-ui/core/Checkbox';
-import { amber, red, green } from '@material-ui/core/colors';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
+import { green } from '@material-ui/core/colors';
+import { Checkbox, Icon, ListItem, Typography, ListItemText, Avatar, Paper, Button, MenuItem, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import * as Actions from './store/actions';
-import TodoChip from './TodoChip';
-import { Collapse, ListItemIcon, ListItemText, List, Avatar, Paper } from '@material-ui/core';
-import StarBorder from '@material-ui/icons/StarBorder';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_ACTIVITY_TO_TASK, GET_ACTIVITY_OF_TASK, GET_STAFF_LIST } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import moment from 'moment';
-import MembersMenu from '../notes/todo/Dialog/toolbar/MembersMenu';
-import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@material-ui/core/Button';
-import WorkerProfiles from './WorkerProfiles';
 import { useParams } from 'react-router';
-import MenuItem from '@material-ui/core/MenuItem';
-import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
-import ToolbarMenu from '../notes/todo/Dialog/toolbar/ToolbarMenu';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { toast } from 'react-toastify';
-
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
-import { HIDE_MESSAGE } from 'app/store/actions';
 import { useTranslation } from 'react-i18next';
+const WorkerProfiles = loadable(() => import('./WorkerProfiles'))
+const TodoChip = loadable(() => import('./TodoChip'))
 
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
