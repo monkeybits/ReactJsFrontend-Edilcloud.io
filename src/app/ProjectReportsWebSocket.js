@@ -1,18 +1,9 @@
 // ProjectReportsWebSocket.js
-
 import React, { createContext } from 'react';
-import io from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
-import * as chatPanelActions from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
-import { toast } from 'react-toastify';
 import FileSaver from 'file-saver';
 import { WS_BASE_PROJECT_REPORT_DEV, WS_BASE_PROJECT_REPORT_LOCAL } from './config';
-import * as companyChatActions from './main/apps/chat/store/actions';
-import * as ProjectChatActions from './main/apps/notes/chat/store/actions';
 import { decodeDataFromToken } from './services/serviceUtils';
-import LetterAvatars from './main/documentation/material-ui-components/components/avatars/LetterAvatars';
-// import * as chatPanelActions from '../';src/app/fuse-layouts/shared-components/chatPanel/store/actions/chat.actions.js
-// import moduleName from '../../../'
 
 const WebSocketProjectReportContext = createContext(null);
 

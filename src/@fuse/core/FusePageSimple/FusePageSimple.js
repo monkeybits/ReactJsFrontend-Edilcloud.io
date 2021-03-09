@@ -1,13 +1,11 @@
+import React, { useRef } from 'react';
+import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
-import React, { useRef } from 'react';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import Typography from '@material-ui/core/Typography';
-import FusePageSimpleSidebar from './FusePageSimpleSidebar';
-import FusePageSimpleHeader from './FusePageSimpleHeader';
+const FusePageSimpleSidebar = loadable(() => import('./FusePageSimpleSidebar'))
+const FusePageSimpleHeader = loadable(() => import('./FusePageSimpleHeader'))
 
 const headerHeight = 120;
 const toolbarHeight = 64;

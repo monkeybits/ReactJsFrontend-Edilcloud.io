@@ -1,13 +1,11 @@
-import _ from '@lodash';
-import Icon from '@material-ui/core/Icon';
-import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
-import { green } from '@material-ui/core/colors';
+import _ from '@lodash';
+import { makeStyles } from '@material-ui/core/styles';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css';
-import { Paper } from '@material-ui/core';
+import { Paper, Icon } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
 	// paper: {

@@ -1,17 +1,17 @@
-import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
+import React, { Component } from 'react';
+import loadable from '@loadable/component';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { bindActionCreators } from 'redux';
+import * as Actions from 'app/store/actions';
 import * as userActions from 'app/auth/store/actions';
 import auth0Service from 'app/services/auth0Service';
 import firebaseService from 'app/services/firebaseService';
 import jwtService from 'app/services/jwtService';
-import * as Actions from 'app/store/actions';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router';
-import { getMainProfileId, getHeaderToken, decodeDataFromToken, getTokenOnly } from 'app/services/serviceUtils';
-import { GET_MAIN_PROFILE, GET_COMPANY_PROFILE } from 'app/services/apiEndPoints';
+import { getMainProfileId, getHeaderToken, getTokenOnly } from 'app/services/serviceUtils';
+import { GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-
+const FuseSplashScreen = loadable(() => import('@fuse/core/FuseSplashScreen'))
 class Auth extends Component {
 	state = {
 		waitAuthCheck: true

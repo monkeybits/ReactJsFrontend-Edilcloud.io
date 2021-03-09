@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
-import Duration from './VideoDuration';
-
 class VideoListItem extends Component {
 	constructor(props) {
 		super(props);

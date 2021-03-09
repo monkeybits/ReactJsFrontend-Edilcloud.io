@@ -1,15 +1,11 @@
 // WebSocket.js
-
 import React, { createContext } from 'react';
-import io from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import * as chatPanelActions from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
 import { WS_BASE_LOCAL, WS_BASE_DEV } from './config';
 import * as companyChatActions from './main/apps/chat/store/actions';
 import * as ProjectChatActions from './main/apps/notes/chat/store/actions';
 import { decodeDataFromToken } from './services/serviceUtils';
-// import * as chatPanelActions from '../';src/app/fuse-layouts/shared-components/chatPanel/store/actions/chat.actions.js
-// import moduleName from '../../../'
 
 const WebSocketContext = createContext(null);
 

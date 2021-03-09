@@ -1,15 +1,9 @@
 // WebSocket.js
-
 import React, { createContext } from 'react';
-import io from 'socket.io-client';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as notificationPanelActions from 'app/fuse-layouts/shared-components/notification/store/actions';
-import { toast } from 'react-toastify';
 import { WS_BASE_NOTIFICATION_DEV, WS_BASE_NOTIFICATION_LOCAL } from './config';
 import { decodeDataFromToken } from './services/serviceUtils';
-import LetterAvatars from './main/documentation/material-ui-components/components/avatars/LetterAvatars';
-// import * as chatPanelActions from '../';src/app/fuse-layouts/shared-components/chatPanel/store/actions/chat.actions.js
-// import moduleName from '../../../'
 
 const WebSocketNotificationContext = createContext(null);
 

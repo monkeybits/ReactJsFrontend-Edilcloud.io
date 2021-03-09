@@ -1,6 +1,7 @@
-import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import Navigation from 'app/fuse-layouts/shared-components/Navigation';
 import React from 'react';
+import loadable from '@loadable/component';
+import FuseScrollbars from '@fuse/core/FuseScrollbars';
+const Navigation = loadable(() => import('app/fuse-layouts/shared-components/Navigation'))
 
 function NavbarLayout3() {
 	return (

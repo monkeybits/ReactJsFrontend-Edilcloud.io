@@ -1,21 +1,17 @@
-import FuseSearch from '@fuse/core/FuseSearch';
-import FuseShortcuts from '@fuse/core/FuseShortcuts';
-import AppBar from '@material-ui/core/AppBar';
-import Hidden from '@material-ui/core/Hidden';
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import ChatPanelToggleButton from 'app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton';
-import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
-import QuickPanelToggleButton from 'app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton';
-import NotificationToggleButton from 'app/fuse-layouts/shared-components/notification/NotificationToggleButton';
-import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
 import React, { useEffect, useState } from 'react';
+import loadable from '@loadable/component';
+import { AppBar, Hidden, Toolbar, Icon } from '@material-ui/core';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
-import { Icon, IconButton } from '@material-ui/core';
-import NotificationWebSocket from 'app/NotificationWebSocket';
 import { useLocation } from 'react-router';
-import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
+const ChatPanelToggleButton = loadable(() => import('app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton'))
+const NavbarMobileToggleButton = loadable(() => import('app/fuse-layouts/shared-components/NavbarMobileToggleButton'))
+const QuickPanelToggleButton = loadable(() => import('app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton'))
+const NotificationToggleButton = loadable(() => import('app/fuse-layouts/shared-components/notification/NotificationToggleButton'))
+const UserMenu = loadable(() => import('app/fuse-layouts/shared-components/UserMenu'))
+const NotificationWebSocket = loadable(() => import('app/NotificationWebSocket'))
+const LanguageSwitcher = loadable(() => import('../../shared-components/LanguageSwitcher'))
 
 const useStyles = makeStyles(theme => ({
 	separator: {
