@@ -1,6 +1,4 @@
-import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import jwt from 'jsonwebtoken';
 import mock from '../mock';
 /* eslint-disable camelcase */
 

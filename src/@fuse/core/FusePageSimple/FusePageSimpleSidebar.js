@@ -1,8 +1,8 @@
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import clsx from 'clsx';
 import React, { useImperativeHandle, useState } from 'react';
-import FusePageSimpleSidebarContent from './FusePageSimpleSidebarContent';
+import loadable from '@loadable/component';
+import {Drawer, Hidden} from '@material-ui/core';
+import clsx from 'clsx';
+const FusePageSimpleSidebarContent = loadable(() => import('./FusePageSimpleSidebarContent'))
 
 function FusePageSimpleSidebar(props, ref) {
 	const [isOpen, setIsOpen] = useState(false);

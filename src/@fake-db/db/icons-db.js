@@ -1,5 +1,4 @@
 import mock from '../mock';
-// import _ from '@lodash';
 
 const iconsDB = [
 	{

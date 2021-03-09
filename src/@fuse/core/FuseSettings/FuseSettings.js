@@ -1,19 +1,13 @@
+import React from 'react';
 import FuseLayoutConfigs from '@fuse/layouts/FuseLayoutConfigs';
 import _ from '@lodash';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Select from '@material-ui/core/Select';
+import {FormControl, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, Select} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 import * as AuthActions from 'app/auth/store/actions';
 import * as Actions from 'app/store/actions';
 import clsx from 'clsx';
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({

@@ -1,19 +1,20 @@
+import React from 'react';
+import loadable from '@loadable/component';
 import FuseDialog from '@fuse/core/FuseDialog';
 import FuseMessage from '@fuse/core/FuseMessage';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import FuseSuspense from '@fuse/core/FuseSuspense';
 import { makeStyles } from '@material-ui/core/styles';
 import AppContext from 'app/AppContext';
-import SettingsPanel from 'app/fuse-layouts/shared-components/SettingsPanel';
 import clsx from 'clsx';
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
-import FooterLayout3 from './components/FooterLayout3';
-import LeftSideLayout3 from './components/LeftSideLayout3';
-import NavbarWrapperLayout3 from './components/NavbarWrapperLayout3';
 import RightSideLayout3 from './components/RightSideLayout3';
-import ToolbarLayout3 from './components/ToolbarLayout3';
+const FooterLayout3 = loadable(() => import('./components/FooterLayout3'))
+const LeftSideLayout3 = loadable(() => import('./components/LeftSideLayout3'))
+const NavbarWrapperLayout3 = loadable(() => import('./components/NavbarWrapperLayout3'))
+const ToolbarLayout3 = loadable(() => import('./components/ToolbarLayout3'))
+const SettingsPanel = loadable(() => import('app/fuse-layouts/shared-components/SettingsPanel'))
 
 const useStyles = makeStyles(theme => ({
 	root: {

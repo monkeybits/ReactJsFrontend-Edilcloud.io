@@ -1,5 +1,5 @@
 import { Icon, IconButton } from '@material-ui/core';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import moment from 'moment';
 
 const MicRecorder = require('mic-recorder-to-mp3');

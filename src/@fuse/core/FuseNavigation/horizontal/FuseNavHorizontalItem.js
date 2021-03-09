@@ -1,16 +1,15 @@
+import React, { useMemo } from 'react';
+import loadable from '@loadable/component';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import FuseUtils from '@fuse/utils';
-import Icon from '@material-ui/core/Icon';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import {Icon, ListItem, ListItemText} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import FuseNavBadge from '../FuseNavBadge';
+const FuseNavBadge = loadable(() => import('../FuseNavBadge'))
 
 const useStyles = makeStyles(theme => ({
 	root: {
