@@ -1,17 +1,14 @@
+import React, { useState } from 'react';
+import loadable from '@loadable/component';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { Card, CardContent, Tab, Tabs, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Auth0RegisterTab from './tabs/Auth0RegisterTab';
-import FirebaseRegisterTab from './tabs/FirebaseRegisterTab';
-import JWTRegisterTab from './tabs/JWTRegisterTab';
+const Auth0RegisterTab = loadable(() => import('./tabs/Auth0RegisterTab'))
+const FirebaseRegisterTab = loadable(() => import('./tabs/FirebaseRegisterTab'))
+const JWTRegisterTab = loadable(() => import('./tabs/JWTRegisterTab'))
 
 const useStyles = makeStyles(theme => ({
 	root: {

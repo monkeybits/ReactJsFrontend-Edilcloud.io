@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import loadable from '@loadable/component';
 import { makeStyles } from '@material-ui/core/styles';
-import ListItem from '@material-ui/core/ListItem';
+import { ListItem, ListItemText, Collapse, Card, CardContent, Icon, IconButton } from '@material-ui/core';
 import withReducer from 'app/store/withReducer';
 import reducer from 'app/main/apps/notes/todo/store/reducers';
 import { useSelector } from 'react-redux';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import GuideSubListItem from './GuideSubListItem';
+import { ExpandLess, ExpandMore } from '@material-ui/icons';
+const GuideSubListItem = loadable(() => import('./GuideSubListItem'))
 
 const useStyles = makeStyles(theme => ({
 	nested: {

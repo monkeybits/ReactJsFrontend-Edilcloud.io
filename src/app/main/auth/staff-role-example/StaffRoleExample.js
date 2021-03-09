@@ -1,11 +1,9 @@
+import React from 'react';
 import FuseHighlight from '@fuse/core/FuseHighlight';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+import { Button, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import * as authActions from 'app/auth/store/actions';
-import React from 'react';
 import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({

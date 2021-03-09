@@ -1,5 +1,5 @@
-import { Box, Button, CircularProgress } from '@material-ui/core';
 import React, { useState } from 'react';
+import { Box, Button, CircularProgress } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';

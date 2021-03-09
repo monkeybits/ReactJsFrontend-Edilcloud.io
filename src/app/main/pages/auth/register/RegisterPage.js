@@ -1,35 +1,21 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { useForm } from '@fuse/hooks';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import loadable from '@loadable/component';
+import { Card, CardContent, FormControl, Typography, InputLabel, MenuItem, Grid, Divider, ListItemText } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import JWTRegisterTab from 'app/main/register/tabs/JWTRegisterTab';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Select from '@material-ui/core/Select';
-import Grid from '@material-ui/core/Grid';
-import FacebookLoginComponent from '../login/FacebookLoginComponent';
-import GoogleLoginComponent from '../login/GoogleLoginComponent';
-import { Divider, ListItemIcon, ListItemText } from '@material-ui/core';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import { useTranslation } from 'react-i18next';
-
 import { useDispatch } from 'react-redux';
 import * as MainActions from 'app/store/actions';
-import TippyMenu from 'app/TippyMenu';
 import 'tippy.js/themes/light-border.css';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import TermsModal from '../login/TermsModal';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
+const TermsModal = loadable(() => import('../login/TermsModal'))
+const JWTRegisterTab = loadable(() => import('app/main/register/tabs/JWTRegisterTab'))
+const FacebookLoginComponent = loadable(() => import('../login/FacebookLoginComponent'))
+const GoogleLoginComponent = loadable(() => import('../login/GoogleLoginComponent'))
 
 const useStyles = makeStyles(theme => ({
 	root: {

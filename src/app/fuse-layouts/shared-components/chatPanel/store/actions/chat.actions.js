@@ -1,5 +1,3 @@
-import { closeMobileChatsSidebar } from 'app/main/apps/chat/store/actions/sidebars.actions';
-import axios from 'axios';
 import {
 	GET_MESSAGES_API,
 	SEND_MESSAGE_API,
@@ -8,8 +6,7 @@ import {
 	READ_ALL_MESSAGES
 } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken, decodeDataFromToken, getChatToken } from 'app/services/serviceUtils';
-import { setselectedContactId } from './contacts.actions';
+import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 
 export const GET_CHAT = '[CHAT PANEL] GET CHAT';
 export const ADD_USER_DATA = '[CHAT PANEL] ADD_USER_DATA';

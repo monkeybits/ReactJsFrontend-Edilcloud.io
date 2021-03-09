@@ -1,31 +1,20 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
+import loadable from '@loadable/component';
 import { useForm } from '@fuse/hooks';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { Button, Card, CardContent, TextField, Typography, InputLabel, MenuItem, FormControl, Icon, InputAdornment, ListItemText } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { FORGOT_PASSWORD } from 'app/services/apiEndPoints';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Icon from '@material-ui/core/Icon';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import * as MainActions from 'app/store/actions';
-import TippyMenu from 'app/TippyMenu';
 import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { ListItemText } from '@material-ui/core';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 const useStyles = makeStyles(theme => ({
 	root: {

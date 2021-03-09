@@ -1,15 +1,8 @@
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import React, { useState } from 'react';
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
+import { AppBar, Avatar, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
-import { SYSTEM_ROLES } from 'app/constants';
-import { apiCall, METHOD } from 'app/services/baseUrl';
-import { GET_COMPANY_PROFILE } from 'app/services/apiEndPoints';
-import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-import * as authActions from 'app/auth/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {

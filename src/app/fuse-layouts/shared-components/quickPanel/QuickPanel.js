@@ -1,41 +1,17 @@
-import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Icon from '@material-ui/core/Icon';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import { makeStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
-import Typography from '@material-ui/core/Typography';
-import withReducer from 'app/store/withReducer';
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import loadable from '@loadable/component';
+import FuseScrollbars from '@fuse/core/FuseScrollbars';
+import { Drawer, Icon, Typography, IconButton, AppBar, Tabs, Tab, Box, Toolbar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import withReducer from 'app/store/withReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import TimelineTab from 'app/main/pages/profile/tabs/TimelineTab';
-
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Checkbox } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { ALERTED_POSTS_TASKS, ALERTED_POSTS_ACTIVITY } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
-import PostList from 'app/main/apps/notes/todo/PostList';
-import clsx from 'clsx';
-import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
-import Toolbar from '@material-ui/core/Toolbar';
 import reducer from './store/reducers';
 import * as Actions from './store/actions/index';
+const PostList = loadable(() => import('app/main/apps/notes/todo/PostList'))
 
 const useStyles = makeStyles(theme => ({
 	root: {

@@ -1,19 +1,11 @@
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
+import React, { useState } from 'react';
+import loadable from '@loadable/component';
+import { Avatar, Button, Icon, ListItemIcon, ListItemText, MenuItem, Typography } from '@material-ui/core';
 import * as authActions from 'app/auth/store/actions';
-import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { getMainProfileId, getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-import { apiCall, METHOD } from 'app/services/baseUrl';
-import { GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
-import TippyMenu from 'app/TippyMenu';
+import { getMainProfileId, decodeDataFromToken } from 'app/services/serviceUtils';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 function UserMenu(props) {
 	const dispatch = useDispatch();

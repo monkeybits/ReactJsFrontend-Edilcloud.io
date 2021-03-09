@@ -8,7 +8,6 @@ import * as authActions from 'app/auth/store/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
-
 import { toast } from 'react-toastify';
 import { REGISTER_SUCCESS } from 'app/auth/store/actions';
 

@@ -1,8 +1,6 @@
+import React from 'react';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { Fab, makeStyles } from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import * as Actions from './store/actions';

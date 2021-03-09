@@ -1,6 +1,5 @@
-import axios from 'axios';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { CHAT_LIST, GET_STAFF_LIST, PROJECT_LIST } from 'app/services/apiEndPoints';
+import { PROJECT_LIST } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
 export const GET_CONTACTS = '[CHAT PANEL] GET CONTACTS';

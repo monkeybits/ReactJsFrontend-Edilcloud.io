@@ -1,9 +1,6 @@
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import Icon from '@material-ui/core/Icon';
-import Input from '@material-ui/core/Input';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import React from 'react';
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import { Icon, Input, Paper, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 function Error404Page() {

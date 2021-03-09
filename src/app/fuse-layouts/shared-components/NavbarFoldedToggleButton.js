@@ -1,8 +1,7 @@
-import _ from '@lodash';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import * as Actions from 'app/store/actions';
 import React from 'react';
+import _ from '@lodash';
+import { Icon, IconButton } from '@material-ui/core';
+import * as Actions from 'app/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 function NavbarFoldedToggleButton(props) {

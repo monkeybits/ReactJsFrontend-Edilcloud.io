@@ -1,38 +1,27 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from '@fuse/hooks';
+import loadable from '@loadable/component';
 import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Box, CircularProgress, Card, CardContent } from '@material-ui/core';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams, withRouter } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import {
-	USER_MAIN_PROFILE,
 	TYPOLOGY_LIST,
 	TYPOLOGY_LIST_BY_CODE,
 	USER_ADD_COMPANY,
 	USER_EDIT_COMPANY
 } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import clsx from 'clsx';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import * as Actions from 'app/main/apps/chat/store/actions';
-import { Box, CircularProgress } from '@material-ui/core';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import { useTranslation } from 'react-i18next';
-import FileUpload from '../mainProfile/FileUpload';
-import CompanyCategory from './CompanyCategory';
-import CompanyDetails from './CompanyDetails';
 import axios from '../../services/axiosConfig';
+const FileUpload = loadable(() => import('../mainProfile/FileUpload'))
+const CompanyCategory = loadable(() => import('./CompanyCategory'))
+const CompanyDetails = loadable(() => import('./CompanyDetails'))
 
 const useStyles = makeStyles(theme => ({
 	root: {
