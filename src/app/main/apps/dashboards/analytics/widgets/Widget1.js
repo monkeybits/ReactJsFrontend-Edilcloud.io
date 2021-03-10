@@ -1,8 +1,7 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import _ from '@lodash';
-import Button from '@material-ui/core/Button';
+import { Button, Typography } from '@material-ui/core';
 import { makeStyles, ThemeProvider, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';

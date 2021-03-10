@@ -6,37 +6,24 @@ TODO: listing of all contacts in contacts app
 */
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseUtils from '@fuse/utils';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
 import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import './contact-cards.css';
-import Grid from '@material-ui/core/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
-import { TramOutlined } from '@material-ui/icons';
-import Input from '@material-ui/core/Input';
-import Paper from '@material-ui/core/Paper';
-import Hidden from '@material-ui/core/Hidden';
+import { Typography, Avatar, IconButton, Icon, Input, Grid, Paper, Hidden } from '@material-ui/core';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
-import Pagination from '@material-ui/lab/Pagination';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
-import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { useTranslation } from 'react-i18next';
-import MoreOption from './MoreOption';
-import ContactCard from './ContactCard';
 import * as Actions from './store/actions';
-import ContactsTable from './ContactsTable';
-import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
+import { useTranslation } from 'react-i18next';
+import loadable from '@loadable/component';
+const MoreOption = loadable(() => import('./MoreOption'))
+const ContactCard = loadable(() => import('./ContactCard'))
+const ContactsTable = loadable(() => import('./ContactsTable'))
+const ContactsMultiSelectMenu = loadable(() => import('./ContactsMultiSelectMenu'))
+const DeleteConfirmDialog = loadable(() => import('../file-manager/DeleteConfirmDialog'))
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>

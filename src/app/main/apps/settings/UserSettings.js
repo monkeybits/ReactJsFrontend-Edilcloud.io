@@ -1,16 +1,13 @@
-import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
+import loadable from '@loadable/component';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { useDeepCompareEffect } from '@fuse/hooks';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-import TodoHeader from './TodoHeader';
-import TodoSidebarContent from './TodoSidebarContent';
-import TodoSidebarHeader from './TodoSidebarHeader';
-import TodoList from './TodoList';
+const TodoHeader = loadable(() => import('./TodoHeader'))
+const TodoSidebarContent = loadable(() => import('./TodoSidebarContent'))
+const TodoList = loadable(() => import('./TodoList'))
 
 function SettingApp() {
 	const dispatch = useDispatch();

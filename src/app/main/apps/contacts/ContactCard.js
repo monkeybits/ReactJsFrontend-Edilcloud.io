@@ -4,19 +4,19 @@
 *This file is created for ContactsApp
 TODO: contatcard is view of GRID
 */
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import { decodeDataFromToken, getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Icon from '@material-ui/core/Icon';
 import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
-import MoreOption from './MoreOption';
-import DeleteConfirmDialog from '../file-manager/DeleteConfirmDialog';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const DeleteConfirmDialog = loadable(() => import('../file-manager/DeleteConfirmDialog'))
+const MoreOption = loadable(() => import('./MoreOption'))
 
 export default function ContactCard(props) {
 	const { t } = useTranslation('contacts');

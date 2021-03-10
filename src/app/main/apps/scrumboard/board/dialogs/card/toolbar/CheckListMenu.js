@@ -1,11 +1,9 @@
 import { useForm } from '@fuse/hooks';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
+import { Button, IconButton, Icon, TextField } from '@material-ui/core';
 import ChecklistModel from 'app/main/apps/scrumboard/model/ChecklistModel';
 import React, { useEffect, useState } from 'react';
-import ToolbarMenu from './ToolbarMenu';
+import loadable from '@loadable/component';
+const ToolbarMenu = loadable(() => import('./ToolbarMenu'))
 
 function CheckListMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

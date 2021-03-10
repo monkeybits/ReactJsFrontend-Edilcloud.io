@@ -1,8 +1,6 @@
 import _ from '@lodash';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
+import { Button, Card, Typography } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 

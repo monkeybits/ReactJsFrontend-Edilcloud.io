@@ -1,5 +1,4 @@
 import FuseUtils from '@fuse/utils';
-
 class ListModel {
 	constructor(data) {
 		const list = data || {};

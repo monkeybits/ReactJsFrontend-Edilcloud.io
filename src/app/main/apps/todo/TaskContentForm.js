@@ -5,48 +5,23 @@ This is part of dashboard
 TODO: This file is created edit task / attchments / timeline
 */
 import PropTypes from 'prop-types';
+import loadable from '@loadable/component';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
-import { useDebounce, useForm, useUpdateEffect } from '@fuse/hooks';
+import { useForm } from '@fuse/hooks';
 import _ from '@lodash';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import List from '@material-ui/core/List';
-import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
-import Toolbar from '@material-ui/core/Toolbar';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
-import LabelModel from 'app/main/apps/scrumboard/model/LabelModel';
+import { DialogContent, Icon, IconButton, InputAdornment, Box, TextField, Typography, Button, makeStyles, Slider, withStyles, CircularProgress, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import moment from 'moment';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CreateAttachments from 'app/main/apps/notes/todo/Dialog/attachment/CreateAttachments';
-import { Badge, Button, makeStyles, Slider, withStyles, CircularProgress } from '@material-ui/core';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-
 import DatePicker from 'react-datepicker';
 import { useParams } from 'react-router';
-import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import { apiCall, METHOD } from 'app/services/baseUrl';
-import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
+import * as Actions from './store/actions';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
-import ShowUpload from '../notes/todo/ShowUpload';
-import CreatePostForm from './CreatePostForm';
-import * as Actions from './store/actions';
-
+const ShowUpload = loadable(() => import('../notes/todo/ShowUpload'))
+const CreatePostForm = loadable(() => import('./CreatePostForm'))
+const CreateAttachments = loadable(() => import('app/main/apps/notes/todo/Dialog/attachment/CreateAttachments'))
 function TabPanel(props) {
 	/**
 	 * Tab panel is used for show tab

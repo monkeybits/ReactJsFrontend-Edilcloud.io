@@ -1,12 +1,9 @@
 import React from 'react';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import { SwipeableDrawer, Button, CircularProgress } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import Button from '@material-ui/core/Button';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ACCEPT_INVITATION, REFUSE_INVITATION } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
-import { CircularProgress } from '@material-ui/core';
 
 function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSuccess, acceptAPI, rejectAPI }) {
 	const [isLoading, setIsLoading] = React.useState({

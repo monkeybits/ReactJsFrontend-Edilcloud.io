@@ -1,9 +1,9 @@
 import React from 'react';
-import CompanyCreationStepper from 'app/main/companyCreation/CompanyCreationStepper';
-import ContactDialogContent from 'app/main/apps/contacts/ContactDialogContent';
-import FullscreenModal from './FullscreenModal';
-import Steps from './Steps';
-// import ContactsApp from '../../contacts/ContactsApp';
+import loadable from '@loadable/component';
+const CompanyCreationStepper = loadable(() => import('app/main/companyCreation/CompanyCreationStepper'))
+const ContactDialogContent = loadable(() => import('app/main/apps/contacts/ContactDialogContent'))
+const FullscreenModal = loadable(() => import('./FullscreenModal'))
+const Steps = loadable(() => import('./Steps'))
 
 function getStepContent(step, elementProps) {
 	switch (step) {

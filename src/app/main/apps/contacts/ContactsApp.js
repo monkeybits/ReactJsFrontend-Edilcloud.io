@@ -6,8 +6,6 @@ TODO: ContactsApp is created for company teams
 */
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import Fab from '@material-ui/core/Fab';
-import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import React, { useRef, useState } from 'react';
@@ -16,14 +14,15 @@ import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import { LinearProgress, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import ContactDialog from './ContactDialog';
-import ViewContactDialog from './ViewContactDialog';
-import ContactsHeader from './ContactsHeader';
-import ContactsList from './ContactsList';
-import ContactsSidebarContent from './ContactsSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-import TeamFloationButton from './TeamFloationButton';
+import loadable from '@loadable/component';
+const TeamFloationButton = loadable(() => import('./TeamFloationButton'))
+const ContactDialog = loadable(() => import('./ContactDialog'))
+const ViewContactDialog = loadable(() => import('./ViewContactDialog'))
+const ContactsHeader = loadable(() => import('./ContactsHeader'))
+const ContactsList = loadable(() => import('./ContactsList'))
+const ContactsSidebarContent = loadable(() => import('./ContactsSidebarContent'))
 
 const useStyles = makeStyles({
 	addButton: {

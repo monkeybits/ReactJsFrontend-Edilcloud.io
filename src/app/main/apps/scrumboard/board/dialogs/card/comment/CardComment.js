@@ -1,8 +1,6 @@
 import { useForm } from '@fuse/hooks';
 import _ from '@lodash';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import { Avatar, Button, TextField } from '@material-ui/core';
 import CommentModel from 'app/main/apps/scrumboard/model/CommentModel';
 import React from 'react';
 

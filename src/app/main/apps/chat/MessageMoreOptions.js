@@ -1,11 +1,10 @@
 import React from 'react';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import { MenuItem, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { IconButton } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import TippyMenu from 'app/TippyMenu';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 export default function SimpleMenu(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);

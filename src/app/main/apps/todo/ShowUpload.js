@@ -5,14 +5,10 @@
 Todo: When user Upload post in activity or in task this uploader will be displayed so user can see that his post is updating on server.
 */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { LinearProgress, Typography, Box } from '@material-ui/core';
 import { useStyles } from '@material-ui/pickers/views/Calendar/SlideTransition';
 import { useTranslation } from 'react-i18next';
-
 function LinearProgressWithLabel(props) {
 	const { t } = useTranslation('dashboard');
 	const classes = useStyles1();

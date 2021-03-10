@@ -5,49 +5,24 @@
 Todo: This File is created for Edit activity show timeline of Activity
 */
 import PropTypes from 'prop-types';
+import loadable from '@loadable/component';
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
-import { amber, red } from '@material-ui/core/colors';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Divider from '@material-ui/core/Divider';
-import FormControl from '@material-ui/core/FormControl';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { DialogContent, IconButton, Typography, Box, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import moment from 'moment/moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
-import DatePicker from 'react-datepicker';
-import { Box, Slider, withStyles } from '@material-ui/core';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import { useTranslation } from 'react-i18next';
-import EditActivityForm from './EditActivityForm';
-import ShowUpload from '../notes/todo/ShowUpload';
-import CreatePostForm from './CreatePostForm';
 import * as Actions from './store/actions';
-
+const EditActivityForm = loadable(() => import('./EditActivityForm'))
+const ShowUpload = loadable(() => import('../notes/todo/ShowUpload'))
+const CreatePostForm = loadable(() => import('./CreatePostForm'))
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 

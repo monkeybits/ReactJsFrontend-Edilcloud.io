@@ -1,9 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
+import { Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import moment from 'moment';
 import React from 'react';

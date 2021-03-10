@@ -1,5 +1,4 @@
 import FuseUtils from '@fuse/utils';
-
 class CardModel {
 	constructor(data) {
 		const card = data || {};

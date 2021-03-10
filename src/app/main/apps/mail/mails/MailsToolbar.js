@@ -1,8 +1,4 @@
-import Checkbox from '@material-ui/core/Checkbox';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import { Checkbox, Icon, IconButton, Menu, MenuItem } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../store/actions/index';

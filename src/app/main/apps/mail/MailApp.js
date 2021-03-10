@@ -3,15 +3,16 @@ import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import MailDetails from './mail/MailDetails';
-import MailToolbar from './mail/MailToolbar';
-import MailAppHeader from './MailAppHeader';
-import MailAppSidebarContent from './MailAppSidebarContent';
-import MailAppSidebarHeader from './MailAppSidebarHeader';
-import MailList from './mails/MailList';
-import MailsToolbar from './mails/MailsToolbar';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
+import loadable from '@loadable/component';
+const MailDetails = loadable(() => import('./mail/MailDetails'))
+const MailToolbar = loadable(() => import('./mail/MailToolbar'))
+const MailAppHeader = loadable(() => import('./MailAppHeader'))
+const MailAppSidebarContent = loadable(() => import('./MailAppSidebarContent'))
+const MailAppSidebarHeader = loadable(() => import('./MailAppSidebarHeader'))
+const MailList = loadable(() => import('./mails/MailList'))
+const MailsToolbar = loadable(() => import('./mails/MailsToolbar'))
 
 function MailApp(props) {
 	const dispatch = useDispatch();

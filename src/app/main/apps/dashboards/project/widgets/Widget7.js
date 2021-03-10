@@ -1,12 +1,4 @@
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
-import Select from '@material-ui/core/Select';
-import Typography from '@material-ui/core/Typography';
+import { Icon, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Paper, Select, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 
 function Widget7(props) {

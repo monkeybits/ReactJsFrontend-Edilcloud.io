@@ -1,7 +1,4 @@
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { Icon, IconButton, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 
 function Widget2(props) {

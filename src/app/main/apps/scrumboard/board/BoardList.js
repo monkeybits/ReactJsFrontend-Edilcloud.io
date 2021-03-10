@@ -1,15 +1,13 @@
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import RootRef from '@material-ui/core/RootRef';
+import { Card, CardContent, CardActions, RootRef } from '@material-ui/core';
+import loadable from '@loadable/component';
 import { makeStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
 import React, { useRef } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import BoardAddCard from './BoardAddCard';
-import BoardCard from './BoardCard';
-import BoardListHeader from './BoardListHeader';
+const BoardAddCard = loadable(() => import('./BoardAddCard'))
+const BoardCard = loadable(() => import('./BoardCard'))
+const BoardListHeader = loadable(() => import('./BoardListHeader'))
 
 const useStyles = makeStyles(theme => ({
 	list: {

@@ -5,33 +5,10 @@
 TODO: view contact dialog 
 */
 import { useForm } from '@fuse/hooks';
-import FuseUtils from '@fuse/utils/FuseUtils';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { AppBar, Avatar, Dialog, DialogContent, Toolbar, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect } from 'react';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
-import FormLabel from '@material-ui/core/FormLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import { SYSTEM_ROLES } from '../../../constants';
 import * as Actions from './store/actions';
