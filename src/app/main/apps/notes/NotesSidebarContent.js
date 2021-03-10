@@ -1,12 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Paper from '@material-ui/core/Paper';
+import { Divider, Icon, List, ListItem, ListItemText, ListSubheader, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import clsx from 'clsx';

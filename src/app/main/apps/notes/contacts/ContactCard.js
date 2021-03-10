@@ -1,25 +1,18 @@
-import { Button, Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
-import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Icon from '@material-ui/core/Icon';
-import Menu from '@material-ui/core/Menu';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MenuItem from '@material-ui/core/MenuItem';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import FuseUtils from '@fuse/utils';
 import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
-import DeleteConfirmDialog from '../../file-manager/DeleteConfirmDialog';
-import MoreOption from './MoreOption';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const ImageCropper = loadable(() => import('app/main/mainProfile/ImageCropper'))
+const DeleteConfirmDialog = loadable(() => import('../../file-manager/DeleteConfirmDialog'))
+const MoreOption = loadable(() => import('./MoreOption'))
 
 export default function ContactCard(props) {
 	const {

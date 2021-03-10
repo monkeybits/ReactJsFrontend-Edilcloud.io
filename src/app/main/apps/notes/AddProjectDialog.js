@@ -6,17 +6,14 @@ TODO: This File is to show Dialog in add project form
 */
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
+import { Dialog, IconButton, Typography } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from 'app/main/apps/notes/store/actions';
-import { Box, LinearProgress } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import AddProjectForm from './AddProjectForm';
+import loadable from '@loadable/component';
+const AddProjectForm = loadable(() => import('./AddProjectForm'))
 
 const styles = theme => ({
 	root: {

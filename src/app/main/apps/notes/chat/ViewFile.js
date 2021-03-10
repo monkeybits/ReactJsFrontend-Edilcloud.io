@@ -1,7 +1,8 @@
 import ImagePreviewDialog from 'app/ImagePreviewDialog';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import CardAttachment from './CardAttachment';
+import loadable from '@loadable/component';
+const CardAttachment = loadable(() => import('./CardAttachment'))
 
 export default function ViewFile({ files }) {
 	const media = useSelector(({ chatAppProject }) => chatAppProject.chat?.media);

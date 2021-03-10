@@ -1,32 +1,20 @@
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
+import { AppBar, Drawer, Hidden, Icon, IconButton, Toolbar, Typography, LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter, useParams } from 'react-router';
-import { WebSocketContext } from 'app/WebSocket';
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import { LinearProgress } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import Chat from './Chat';
-import ChatsSidebar from './ChatsSidebar';
-import ContactSidebar from './ContactSidebar';
-import StatusIcon from './StatusIcon';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-import UserSidebar from './UserSidebar';
 import { GET_CHAT } from './store/actions';
+import loadable from '@loadable/component';
+const Chat = loadable(() => import('./Chat'))
+const ChatsSidebar = loadable(() => import('./ChatsSidebar'))
+const ContactSidebar = loadable(() => import('./ContactSidebar'))
+const UserSidebar = loadable(() => import('./UserSidebar'))
 
 const drawerWidth = 350;
 const headerHeight = 200;

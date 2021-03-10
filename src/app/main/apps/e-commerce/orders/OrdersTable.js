@@ -1,18 +1,14 @@
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import Checkbox from '@material-ui/core/Checkbox';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import { Checkbox, Table, TableBody, TableCell, TablePagination, TableRow } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import OrdersStatus from '../order/OrdersStatus';
 import * as Actions from '../store/actions';
-import OrdersTableHead from './OrdersTableHead';
+import loadable from '@loadable/component';
+const OrdersStatus = loadable(() => import('../order/OrdersStatus'))
+const OrdersTableHead = loadable(() => import('./OrdersTableHead'))
 
 function OrdersTable(props) {
 	const dispatch = useDispatch();

@@ -5,57 +5,27 @@
 TODO: Single item of project list
 */
 import FuseUtils from '@fuse/utils';
-import Typography from '@material-ui/core/Typography';
-import React, { useEffect, useRef, useState } from 'react';
-import Masonry from 'react-masonry-css';
+import { Typography, Card, CardHeader, CardActions, Avatar, IconButton, Icon, MenuItem, Box, Paper, Tabs, Tab, Divider, Button, Tooltip } from '@material-ui/core';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter, Link, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Grid from '@material-ui/core/Grid';
-import { fade } from '@material-ui/core/styles/colorManipulator';
-import Icon from '@material-ui/core/Icon';
 import * as Actions from 'app/main/apps/notes/store/actions';
-import moment from 'moment';
-import { Menu, MenuItem, Switch, Box, Paper } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { DISABLE_PROJECT, ENABLE_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-import * as ProjectChatActions from 'app/main/apps/notes/chat/store/actions';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import PropTypes from 'prop-types';
-
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import Divider from '@material-ui/core/Divider';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloudQueueIcon from '@material-ui/icons/CloudQueue';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
 import { useTranslation } from 'react-i18next';
 import Tippy from '@tippyjs/react';
-import DownloadPdf from './DownloadPdf';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css';
-
-import NoteListItem from './NoteListItem';
+import loadable from '@loadable/component';
+const DownloadPdf = loadable(() => import('./DownloadPdf'))
 
 const useStyles = makeStyles(theme => ({
 	paper: {
