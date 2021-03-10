@@ -1,7 +1,5 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Icon from '@material-ui/core/Icon';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
+import { Icon, MenuItem, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 
 const accounts = {

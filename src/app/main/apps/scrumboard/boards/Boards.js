@@ -5,12 +5,10 @@ TODO: Boards.js
 TODO: This file fetch request from other company and user compamies.
 */
 import _ from '@lodash';
+import loadable from '@loadable/component';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
@@ -29,23 +27,19 @@ import {
 	getHeaderToken,
 	getTokenOnly,
 	saveToken,
-	saveMainProfileId,
-	decodeDataFromToken
+	saveMainProfileId
 } from 'app/services/serviceUtils';
 import * as authActions from 'app/auth/store/actions';
-import Badge from '@material-ui/core/Badge';
-import { Avatar } from '@material-ui/core';
+import { Icon, Typography, Badge, Avatar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
-import * as FuseActions from 'app/store/actions';
-import WebSocketProvider, { WebSocketContext } from 'app/WebSocket';
 import { useTranslation } from 'react-i18next';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import ReuestsDrawer from './ReuestsDrawer';
 import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import reducer from '../store/reducers';
 import * as Actions from '../store/actions';
-import Tutorial from './Tutorial';
+const Tutorial = loadable(() => import('./Tutorial'))
 
 const useStyles = makeStyles(theme => ({
 	root: {

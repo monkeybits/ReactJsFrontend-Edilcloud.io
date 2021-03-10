@@ -4,47 +4,24 @@
 *This File is part of Company File manager
 TODO: its single item of grid
 */
-import FuseAnimate from '@fuse/core/FuseAnimate';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileVideo,
-	faFileAudio,
-	faFileImage,
-	faFileWord
-} from '@fortawesome/free-regular-svg-icons';
-import clsx from 'clsx';
-import { Icon, ListItemIcon, Menu, MenuItem, Typography } from '@material-ui/core';
+import { GridList, GridListTile, GridListTileBar, IconButton, Icon, ListItemIcon, MenuItem, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import PictureAsPdfOutlinedIcon from '@material-ui/icons/PictureAsPdfOutlined';
 import * as ICONS from 'app/main/apps/constants';
-import TippyMenu from 'app/TippyMenu';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
 	DOWNLOAD_PHOTO,
 	DOWNLOAD_VIDEO,
-	DOWNLOAD_DOCUMENT,
-	PHOTO_DELETE,
-	VIDEO_DELETE,
-	DOCUMENT_DELETE,
-	FOLDER_DELETE
+	DOWNLOAD_DOCUMENT
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 const useStyles = makeStyles(theme => ({
 	root: {

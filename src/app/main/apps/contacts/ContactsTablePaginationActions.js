@@ -6,9 +6,8 @@ TODO: Contact pagination numbers wiil be displayed here.
 */
 import React from 'react';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
-import IconButton from '@material-ui/core/IconButton';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import { IconButton } from '@material-ui/core';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import { useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';

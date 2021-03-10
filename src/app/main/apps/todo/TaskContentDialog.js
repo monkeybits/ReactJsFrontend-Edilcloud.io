@@ -4,13 +4,13 @@
 *This File is written for Dashboard
 Todo: This File is created for create timeline posts and view timeline of task
 */
-import Dialog from '@material-ui/core/Dialog';
+import { Dialog } from '@material-ui/core';
+import loadable from '@loadable/component';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-import TaskContentForm from './TaskContentForm';
+const TaskContentForm = loadable(() => import('./TaskContentForm'))
 
 const useStyles = makeStyles(theme => ({
 	paper: {

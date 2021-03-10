@@ -1,26 +1,15 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import FuseUtils from '@fuse/utils';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import List from '@material-ui/core/List';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { AppBar, Avatar, Icon, IconButton, Input, List, ListItemIcon, ListItemText, Menu, MenuItem, Paper, Toolbar, Typography } from '@material-ui/core';
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import TippyMenu from 'app/TippyMenu';
-import ContactListItem from './ContactListItem';
-import StatusIcon from './StatusIcon';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
+const ContactListItem = loadable(() => import('./ContactListItem'))
+const StatusIcon = loadable(() => import('./StatusIcon'))
 
 const statusArr = [
 	{

@@ -1,23 +1,13 @@
-import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
+import { Icon, IconButton, Paper, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
-import moment from 'moment/moment';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
-import AudioRecord from 'app/AudioRecord';
+import { getCompressFile } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-import ViewFile from './ViewFile';
-import SendMessageFilePreview from './SendMessageFilePreview';
-import MessageMoreOptions from './MessageMoreOptions';
-import RetryToSendMessage from './RetryToSendMessage';
+import loadable from '@loadable/component';
+const AudioRecord = loadable(() => import('app/AudioRecord'))
+const SendMessageFilePreview = loadable(() => import('./SendMessageFilePreview'))
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {

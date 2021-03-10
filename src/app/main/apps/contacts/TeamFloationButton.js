@@ -6,20 +6,7 @@ TODO: add contact or search contact of other company floating button
 */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
-import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
-import SaveIcon from '@material-ui/icons/Save';
-import PrintIcon from '@material-ui/icons/Print';
-import ShareIcon from '@material-ui/icons/Share';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
-import { faFile } from '@fortawesome/free-regular-svg-icons';
-import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
-import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
+import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab';
 import clsx from 'clsx';
 import { Icon } from '@material-ui/core';
 

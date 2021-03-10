@@ -1,5 +1,4 @@
 import FuseUtils from '@fuse/utils';
-
 class LabelModel {
 	constructor(data) {
 		const label = data || {};

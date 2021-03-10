@@ -1,10 +1,5 @@
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Toolbar from '@material-ui/core/Toolbar';
+import { AppBar, Button, Drawer, Hidden, Icon, IconButton, Toolbar } from '@material-ui/core';
+import loadable from '@loadable/component';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useRef, useState } from 'react';
@@ -14,11 +9,11 @@ import { Link, withRouter, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-import BoardAddList from './BoardAddList';
-import BoardList from './BoardList';
-import BoardTitle from './BoardTitle';
-import BoardCardDialog from './dialogs/card/BoardCardDialog';
-import BoardSettingsSidebar from './sidebars/settings/BoardSettingsSidebar';
+const BoardAddList = loadable(() => import('./BoardAddList'))
+const BoardList = loadable(() => import('./BoardList'))
+const BoardTitle = loadable(() => import('./BoardTitle'))
+const BoardCardDialog = loadable(() => import('./dialogs/card/BoardCardDialog'))
+const BoardSettingsSidebar = loadable(() => import('./sidebars/settings/BoardSettingsSidebar'))
 
 function Board(props) {
 	const dispatch = useDispatch();

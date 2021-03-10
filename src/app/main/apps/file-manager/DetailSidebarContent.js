@@ -5,31 +5,13 @@
 TODO: This file have details of files(filemanager uploaded files), check UI company file manager its displayed on right  side of file manager
 */
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Icon from '@material-ui/core/Icon';
+import { Icon, Typography, MenuList, MenuItem, ListItemIcon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import ReadPDF from './ReadPDF';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileVideo,
-	faFileAudio,
-	faFileImage,
-	faFileWord
-} from '@fortawesome/free-regular-svg-icons';
-import MenuList from '@material-ui/core/MenuList';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import {
@@ -44,16 +26,13 @@ import {
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import * as Actions from './store/actions';
 import FileSaver from 'file-saver';
-import DeleteConfirmDialog from './DeleteConfirmDialog';
-import FileViewDialog from './FileViewDialog';
 import * as ICONS from 'app/main/apps/constants';
-
-import Menu from '@material-ui/core/Menu';
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
-import { Paper } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import loadable from '@loadable/component';
+const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'))
+const FileViewDialog = loadable(() => import('./FileViewDialog'))
 
 const useStyles = makeStyles({
 	table: {

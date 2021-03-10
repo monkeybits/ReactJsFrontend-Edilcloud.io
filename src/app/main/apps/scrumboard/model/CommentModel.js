@@ -1,6 +1,5 @@
 import FuseUtils from '@fuse/utils';
 import moment from 'moment';
-
 class CommentModel {
 	constructor(data) {
 		const item = data || {};

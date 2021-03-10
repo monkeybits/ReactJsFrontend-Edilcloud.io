@@ -1,20 +1,8 @@
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import Typography from '@material-ui/core/Typography';
-import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import React, { useEffect, useState } from 'react';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import { Grid, Switch } from '@material-ui/core';
-import Divider from '@material-ui/core/Divider';
+import { ListItem, ListItemText, ListItemSecondaryAction, Switch, Divider } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { UPDATE_SETTINGS_PREFERENCES } from 'app/services/apiEndPoints';
 import * as Actions from './store/actions';

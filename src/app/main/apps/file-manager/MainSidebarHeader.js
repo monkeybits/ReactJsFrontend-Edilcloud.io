@@ -1,5 +1,4 @@
-import Icon from '@material-ui/core/Icon';
-import Typography from '@material-ui/core/Typography';
+import { Icon, Typography } from '@material-ui/core';
 import React from 'react';
 
 function MainSidebarHeader() {

@@ -1,16 +1,8 @@
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import { green } from '@material-ui/core/colors';
-import Fab from '@material-ui/core/Fab';
-import Hidden from '@material-ui/core/Hidden';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Stepper from '@material-ui/core/Stepper';
+import { Fab, Hidden, Icon, IconButton, Paper, Step, StepLabel, Stepper, Typography } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

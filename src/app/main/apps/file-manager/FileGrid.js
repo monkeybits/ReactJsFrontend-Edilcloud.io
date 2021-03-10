@@ -4,69 +4,28 @@
 *This File is part of Company File manager
 TODO: Grid is part of view we have 2 views grid and list
 */
-
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import Hidden from '@material-ui/core/Hidden';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
+import { Icon, IconButton, ListItem, ListItemIcon, ListItemText, MenuItem, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
-import { Grid, Typography } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileVideo,
-	faFileAudio,
-	faFileImage,
-	faFileWord
-} from '@fortawesome/free-regular-svg-icons';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import FolderIcon from '@material-ui/icons/Folder';
-import DeleteIcon from '@material-ui/icons/Delete';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
-import FolderSharedOutlinedIcon from '@material-ui/icons/FolderSharedOutlined';
-import FolderSpecialOutlinedIcon from '@material-ui/icons/FolderSpecialOutlined';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MenuList from '@material-ui/core/MenuList';
-import MenuItem from '@material-ui/core/MenuItem';
-import SendIcon from '@material-ui/icons/Send';
-import Menu from '@material-ui/core/Menu';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
-	DOWNLOAD_PHOTO,
-	DOWNLOAD_VIDEO,
-	DOWNLOAD_DOCUMENT,
 	PHOTO_DELETE,
 	VIDEO_DELETE,
 	DOCUMENT_DELETE,
 	FOLDER_DELETE
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import TippyMenu from 'app/TippyMenu';
 import { useTranslation } from 'react-i18next';
-import FileGridItem from './FileGridItem';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
+const FileGridItem = loadable(() => import('./FileGridItem'))
 
 const useStyles = makeStyles({
 	typeIcon: {

@@ -1,10 +1,6 @@
 import _ from '@lodash';
-import Avatar from '@material-ui/core/Avatar';
-import Card from '@material-ui/core/Card';
-import Icon from '@material-ui/core/Icon';
+import { Avatar, Card, Icon, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import moment from 'moment';
 import React from 'react';

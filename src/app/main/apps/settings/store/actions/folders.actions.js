@@ -1,7 +1,6 @@
 import { GET_SETTINGS_PREFERENCES } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
-import axios from 'axios';
 
 export const GET_SETTINGS = '[SETTINGS APP] GET SETTINGS';
 export const UPDATE_SETTINGS = '[SETTINGS APP] UPDATE SETTINGS';
