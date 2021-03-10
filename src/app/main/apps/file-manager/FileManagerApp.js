@@ -25,16 +25,25 @@ import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const FileList = loadable(() => import('./FileList'))
-const DetailSidebarHeader = loadable(() => import('./DetailSidebarHeader'))
-const DetailSidebarContent = loadable(() => import('./DetailSidebarContent'))
-const Breadcrumb = loadable(() => import('./Breadcrumb'))
-const FileGrid = loadable(() => import('./FileGrid'))
-const MoveFileDialog = loadable(() => import('./MoveFileDialog'))
-const FloatingButtonUpload = loadable(() => import('./FloatingButtonUpload'))
-const TransitionAlerts = loadable(() => import('./TransitionAlerts'))
-const LinearProgressWithLabel = loadable(() => import('./LinearProgressWithLabel'))
+// import loadable from '@loadable/component';
+import FileList from './FileList';
+import DetailSidebarHeader from './DetailSidebarHeader';
+import DetailSidebarContent from './DetailSidebarContent';
+import Breadcrumb from './Breadcrumb';
+import FileGrid from './FileGrid';
+import MoveFileDialog from './MoveFileDialog';
+import FloatingButtonUpload from './FloatingButtonUpload';
+import TransitionAlerts from './TransitionAlerts';
+import LinearProgressWithLabel from './LinearProgressWithLabel';
+// const FileList = loadable(() => import('./FileList'))
+// const DetailSidebarHeader = loadable(() => import('./DetailSidebarHeader'))
+// const DetailSidebarContent = loadable(() => import('./DetailSidebarContent'))
+// const Breadcrumb = loadable(() => import('./Breadcrumb'))
+// const FileGrid = loadable(() => import('./FileGrid'))
+// const MoveFileDialog = loadable(() => import('./MoveFileDialog'))
+// const FloatingButtonUpload = loadable(() => import('./FloatingButtonUpload'))
+// const TransitionAlerts = loadable(() => import('./TransitionAlerts'))
+// const LinearProgressWithLabel = loadable(() => import('./LinearProgressWithLabel'))
 
 const styles = theme => ({
 	root: {
