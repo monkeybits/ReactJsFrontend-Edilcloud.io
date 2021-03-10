@@ -1,7 +1,5 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import Fab from '@material-ui/core/Fab';
-import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import React, { useRef, useState } from 'react';
@@ -11,14 +9,14 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { LinearProgress, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import AddTeamMemberToProject from './AddTeamMemberToProject';
-import ViewContactDialog from './ViewContactDialog';
 import ContactsList from './ContactsList';
-import ContactsSidebarContent from './ContactsSidebarContent';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-import ContactsHeader from './ContactsHeader';
-import TeamFloationButton from './TeamFloationButton';
+import loadable from '@loadable/component';
+const ViewContactDialog = loadable(() => import('./ViewContactDialog'))
+const AddTeamMemberToProject = loadable(() => import('./AddTeamMemberToProject'))
+const ContactsSidebarContent = loadable(() => import('./ContactsSidebarContent'))
+const TeamFloationButton = loadable(() => import('./TeamFloationButton'))
 
 const useStyles = makeStyles({
 	addButton: {

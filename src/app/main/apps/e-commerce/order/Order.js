@@ -1,15 +1,8 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
+import loadable from '@loadable/component';
 import FusePageCarded from '@fuse/core/FusePageCarded';
-import Avatar from '@material-ui/core/Avatar';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Icon from '@material-ui/core/Icon';
+import { Avatar, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Icon, Tab, Tabs, Tooltip, Typography } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import withReducer from 'app/store/withReducer';
 import GoogleMap from 'google-map-react';
@@ -19,8 +12,8 @@ import { Link, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-import OrderInvoice from './OrderInvoice';
-import OrdersStatus from './OrdersStatus';
+const OrderInvoice = loadable(() => import('./OrderInvoice'))
+const OrdersStatus = loadable(() => import('./OrdersStatus'))
 
 function Marker(props) {
 	return (

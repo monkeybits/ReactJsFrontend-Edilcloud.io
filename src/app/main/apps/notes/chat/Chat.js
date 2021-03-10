@@ -1,26 +1,20 @@
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
+import { Avatar, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { useParams } from 'react-router';
-import AudioRecord from 'app/AudioRecord';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import FuseUtils from '@fuse/utils';
-import MessageMoreOptions from 'app/main/apps/chat/MessageMoreOptions';
-import ViewFile from './ViewFile';
-import SendMessageFilePreview from './SendMessageFilePreview';
-import RetryToSendMessage from './RetryToSendMessage';
-import SendMessageForm from './SendMessageForm';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const MessageMoreOptions = loadable(() => import('app/main/apps/chat/MessageMoreOptions'))
+const ViewFile = loadable(() => import('./ViewFile'))
+const RetryToSendMessage = loadable(() => import('./RetryToSendMessage'))
+const SendMessageForm = loadable(() => import('./SendMessageForm'))
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {

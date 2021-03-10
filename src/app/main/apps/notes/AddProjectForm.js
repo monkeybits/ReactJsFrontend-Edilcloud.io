@@ -5,36 +5,25 @@
 TODO: This File is created for showing add project form and on submit method we are creating new project and geting list of project
 */
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
-import Icon from '@material-ui/core/Icon';
 import {
-	CheckboxFormsy,
-	FuseChipSelectFormsy,
-	RadioGroupFormsy,
-	SelectFormsy,
 	TextFieldFormsy
 } from '@fuse/core/formsy';
-import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Radio from '@material-ui/core/Radio';
-import Typography from '@material-ui/core/Typography';
+import { Button, withStyles, Avatar, CircularProgress, Grid } from '@material-ui/core';
 import Formsy from 'formsy-react';
 import React, { useRef, useState, useEffect } from 'react';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import { withStyles, TextField, Avatar, Box, LinearProgress, CircularProgress } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import { useSelector, useDispatch } from 'react-redux';
-import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import { useParams } from 'react-router';
 import { SEARCH_PROJECT_CORDINATOR, ADD_PROJECT, EDIT_PROJECT_DETAIL } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import moment from 'moment';
-import Grid from '@material-ui/core/Grid';
 import { useTranslation } from 'react-i18next';
-import UploadProjectImage from './UploadProjectImage';
+import loadable from '@loadable/component';
+const UploadProjectImage = loadable(() => import('./UploadProjectImage'))
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>

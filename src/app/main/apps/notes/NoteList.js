@@ -6,39 +6,18 @@ TODO: All Projects listed here
 */
 
 import FuseUtils from '@fuse/utils';
-import Typography from '@material-ui/core/Typography';
+import { Typography, Avatar, Grid, Badge } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import Masonry from 'react-masonry-css';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Grid from '@material-ui/core/Grid';
-import { fade } from '@material-ui/core/styles/colorManipulator';
-import Icon from '@material-ui/core/Icon';
 import * as Actions from 'app/main/apps/notes/store/actions';
-import { Badge } from '@material-ui/core';
 import { ACCEPT_PROJECT_INVITATION, REJECT_PROJECT_INVITATION } from 'app/services/apiEndPoints';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
 import { useTranslation } from 'react-i18next';
-import ReuestsDrawer from '../scrumboard/boards/ReuestsDrawer';
-import ProjectListitem from './ProjectListitem';
-import NoteListItem from './NoteListItem';
+import loadable from '@loadable/component';
+const ReuestsDrawer = loadable(() => import('../scrumboard/boards/ReuestsDrawer'))
+const ProjectListitem = loadable(() => import('./ProjectListitem'))
 
 const useStyles = makeStyles(theme => ({
 	// root: {

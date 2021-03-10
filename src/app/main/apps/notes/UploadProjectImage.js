@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import Icon from '@material-ui/core/Icon';
-import Typography from '@material-ui/core/Typography';
-import { Input, Button } from '@material-ui/core';
-import ImageCropper from 'app/main/mainProfile/ImageCropper';
+import { Button } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { useTranslation } from 'react-i18next';
+import loadable from '@loadable/component';
+const ImageCropper = loadable(() => import('app/main/mainProfile/ImageCropper'))
 
 export default function UploadProjectImage({ setFile, file, remove }) {
 	const { t } = useTranslation('projects');

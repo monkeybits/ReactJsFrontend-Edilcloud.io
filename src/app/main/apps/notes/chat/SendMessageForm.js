@@ -1,16 +1,14 @@
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
+import { Icon, Paper, IconButton, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
+import { getCompressFile } from 'app/services/serviceUtils';
 import { useParams } from 'react-router';
 import AudioRecord from 'app/AudioRecord';
 import { useTranslation } from 'react-i18next';
-import SendMessageFilePreview from './SendMessageFilePreview';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const SendMessageFilePreview = loadable(() => import('./SendMessageFilePreview'))
 
 const useStyles = makeStyles(() => ({
 	messageRow: {

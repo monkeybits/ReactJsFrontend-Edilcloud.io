@@ -1,12 +1,9 @@
-import Avatar from '@material-ui/core/Avatar';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { Avatar, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import moment from 'moment';
 import React from 'react';
-import StatusIcon from './StatusIcon';
+import loadable from '@loadable/component';
+const StatusIcon = loadable(() => import('./StatusIcon'))
 
 const useStyles = makeStyles(theme => ({
 	contactListItem: {

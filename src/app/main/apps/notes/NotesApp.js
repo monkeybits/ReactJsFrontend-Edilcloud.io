@@ -9,8 +9,8 @@ import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Fab from '@material-ui/core/Fab';
-import { makeStyles, createGenerateClassName, jssPreset, StylesProvider } from '@material-ui/core/styles';
+import { Fab } from '@material-ui/core';
+import { makeStyles, createGenerateClassName, jssPreset } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
@@ -18,11 +18,12 @@ import { create } from 'jss';
 import jssExtend from 'jss-plugin-extend';
 import rtl from 'jss-rtl';
 import { useTranslation } from 'react-i18next';
-import AddProjectDialog from './AddProjectDialog';
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
-import NotesHeader from './NotesHeader';
-import NoteList from './NoteList';
+import loadable from '@loadable/component';
+const AddProjectDialog = loadable(() => import('./AddProjectDialog'))
+const NotesHeader = loadable(() => import('./NotesHeader'))
+const NoteList = loadable(() => import('./NoteList'))
 
 function NotesApp(props) {
 	const dispatch = useDispatch();
