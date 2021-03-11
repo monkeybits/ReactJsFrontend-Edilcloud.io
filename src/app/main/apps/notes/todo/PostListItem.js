@@ -335,7 +335,8 @@ export default function PostListItem({
 		console.log('newLoadMorePostIds>>>>>>>>>>>>>>>', newLoadMorePostIds);
 	};
 
-	console.log('post>>>>>>>>>>>>>>>>>>', post);
+	console.log('post>>>>>>>>>>>>>>>>>>', post.author.id);
+	console.log('post>>>>>>>>>>>>>>>>>>', tempAuthor.id);
 	return (
 		<Card
 			id={`post${post.id}`}
@@ -394,7 +395,7 @@ export default function PostListItem({
 								<Icon>new_releases</Icon>
 							)}
 						</IconButton> */}
-						{tempAuthor.id == post.author.id && (
+						{/* {tempAuthor.id == post.author.id && ( */}
 							<div className="inline">
 								<TippyMenu
 									icon={
@@ -425,7 +426,7 @@ export default function PostListItem({
 									))}
 								</TippyMenu>
 							</div>
-						)}
+						{/* )} */}
 						{/* <IconButton className="text-default p-8" aria-label="more">
 							<Icon>more_vert</Icon>
 						</IconButton> */}
@@ -554,15 +555,9 @@ export default function PostListItem({
 			<AppBar className="card-footer flex flex-column p-16 bg-white" position="static" color="default" elevation={0}>
 				<div className="flex flex-wrap items-center mb-12 cursor-pointer justify-between">
 					<div className="flex">
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
-							{[...post.author.first_name][0]}{' '}
-						</Avatar>
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
-							{[...post.author.first_name][0]}{' '}
-						</Avatar>
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8">
-							{[...post.author.first_name][0]}{' '}
-						</Avatar>
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
 					</div>
 					{showComments() && (
 						<div
