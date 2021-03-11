@@ -331,7 +331,7 @@ function CreatePostForm({ isTask, taskId }) {
 								color="default"
 								elevation={0}
 							>
-								<div className="add-photo-image">
+								<div className="add-photo-image flex">
 									<Dropzone onDrop={addPhoto}>
 										{({ getRootProps, getInputProps }) => (
 											<section>

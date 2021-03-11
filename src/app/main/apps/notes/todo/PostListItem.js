@@ -99,6 +99,7 @@ export default function PostListItem({
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 	const [hasRender, setHasRender] = React.useState(false);
+	const [loading, setLoading] = useState(false);
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
@@ -334,6 +335,28 @@ export default function PostListItem({
 		setLoadMorePostIds(newLoadMorePostIds);
 		console.log('newLoadMorePostIds>>>>>>>>>>>>>>>', newLoadMorePostIds);
 	};
+	
+	const onStatusChange = () => {
+		setLoading(true);
+		apiCall(
+			EDIT_POST(post.id),
+			{
+				...post,
+				is_public: !post.is_public
+			},
+			res => {
+				setPost(cp => ({ ...cp, ...res }));
+				// setIsEditPost(false);
+				setLoading(false);
+			},
+			err => {
+				setLoading(false);
+				console.log(err);
+			},
+			METHOD.PUT,
+			getHeaderToken()
+		);
+	};
 
 	console.log('post>>>>>>>>>>>>>>>>>>', post.author.id);
 	console.log('post>>>>>>>>>>>>>>>>>>', tempAuthor.id);
@@ -505,7 +528,7 @@ export default function PostListItem({
 				subheader={
 					<div className="flex items-center text-14 font-600">
 						<Icon className="font-600 text-18">public</Icon>
-						<span className="ml-4 sm:mr-16 mr-4">{post.is_public ? 'Public ' : 'Private '}</span>
+						<span className="ml-4 sm:mr-16 mr-4">{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span>
 						<span>
 							{`${moment.parseZone(post.published_date).format('MMMM DD')} at ${moment
 								.parseZone(post.published_date)
@@ -620,22 +643,22 @@ export default function PostListItem({
 						</Icon>
 						<span>{t('SEND_NOTIFICATION')}</span>
 					</IconButton>
-					<IconButton
-						aria-label="more"
-						aria-controls="long-menu"
-						aria-haspopup="true"
-						onClick={() => {
-							setCommentOpen(true);
-						}}
-						edge={false}
-						size="small"
-						className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
-					>
-						<Icon fontSize="small" className="mr-4">
-							visibility
-						</Icon>
-						<span>{t('STATUS_PUBLIC')}</span>
-					</IconButton>
+					{getRole() !== 'w' && (
+						<IconButton
+							aria-label="more"
+							aria-controls="long-menu"
+							aria-haspopup="true"
+							onClick={onStatusChange}
+							edge={false}
+							size="small"
+							className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
+						>
+							<Icon fontSize="small" className="mr-4">
+								visibility
+							</Icon>
+							<span>{ post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span>
+						</IconButton>
+					)}
 				</div>
 
 				{showComments() && (

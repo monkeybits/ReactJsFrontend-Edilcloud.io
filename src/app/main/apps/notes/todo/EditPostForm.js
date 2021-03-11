@@ -1,43 +1,21 @@
-import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
+import { AppBar, Button, Card, Icon, IconButton, Input, Typography, CircularProgress, MenuItem, ListItemIcon } from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
-	ADD_POST_TO_ACTIVITY,
 	GET_POST_TO_ACTIVITY,
 	GET_POST_FOR_TASK,
-	ADD_POST_TO_TASK,
 	GET_SHARED_POSTS_FOR_TASKS,
 	EDIT_POST
 } from 'app/services/apiEndPoints';
-import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
+import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
-import moment from 'moment';
 import FuseUtils from '@fuse/utils';
-import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
-import { CircularProgress } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import PostList from './PostList';
 import ImagesPreview from './ImagesPreview';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 const uuidv1 = require('uuid/v1');
 
@@ -71,6 +49,7 @@ function EditPostForm(props) {
 	const [images, setImages] = useState(null);
 	const [viewCroper, setViewCroper] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [postStatus, setPostStatus] = useState(false);
 
 	const [media, setMedia] = useState({ files: [] });
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
@@ -84,6 +63,31 @@ function EditPostForm(props) {
 	const todoDialog = useSelector(state =>
 		state.todoAppNote?.todos?.todoDialog ? state.todoAppNote.todos.todoDialog : state.todoApp.todos.todoDialog
 	);
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
+	const postStatusOptions = [
+		{
+			icon: 'public',
+			name: 'Public',
+			handler: () => {
+				setPostStatus(true);
+				// setTimeout(() => {
+				// 	editPost();
+				// }, 250)
+			}
+		},
+		{
+			icon: 'lock',
+			name: 'Private',
+			handler: e => {
+				setPostStatus(false);
+				// setTimeout(() => {
+				// 	editPost();
+				// }, 250)
+			}
+		}
+	];
+
 	useEffect(() => {
 		setText(props.currnetPost.text);
 	}, [props.currnetPost.text]);
@@ -130,7 +134,8 @@ function EditPostForm(props) {
 			EDIT_POST(currnetPost.id),
 			{
 				...currnetPost,
-				text
+				text,
+				is_public: postStatus
 			},
 			res => {
 				setPost(cp => ({ ...cp, ...res }));
@@ -220,6 +225,7 @@ function EditPostForm(props) {
 	if (!data) {
 		return null;
 	}
+	
 	return (
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1">
@@ -245,7 +251,7 @@ function EditPostForm(props) {
 							color="default"
 							elevation={0}
 						>
-							<div className="add-photo-image">
+							<div className="add-photo-image flex">
 								<IconButton
 									onClick={() => inputRef.current.click()}
 									aria-label="Add photo"
@@ -261,6 +267,36 @@ function EditPostForm(props) {
 									ref={inputRef}
 									onChange={addPhoto}
 								/>
+								{getRole() !== 'w' && (
+									<div className="inline">
+										<TippyMenu
+											icon={
+												<>
+													<IconButton
+														// onClick={() => inputRef.current.click()}
+														aria-label="Change status"
+													>
+														<Icon>visibility</Icon>
+													</IconButton>
+												</>
+											}
+											outsideClick
+										>
+											{postStatusOptions.map(option => (
+												<MenuItem
+													key={option.name}
+													selected={option.name === 'Pyxis'}
+													onClick={option.handler}
+												>
+													<ListItemIcon>
+														<Icon>{option.icon}</Icon>
+													</ListItemIcon>
+													<Typography variant="inherit"> {t(option.name)}</Typography>
+												</MenuItem>
+											))}
+										</TippyMenu>
+									</div>
+								)}
 							</div>
 							<div>
 								<Button
