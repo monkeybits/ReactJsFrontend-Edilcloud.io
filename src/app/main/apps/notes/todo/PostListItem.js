@@ -99,7 +99,6 @@ export default function PostListItem({
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 	const [hasRender, setHasRender] = React.useState(false);
-	const [loading, setLoading] = useState(false);
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
@@ -335,31 +334,8 @@ export default function PostListItem({
 		setLoadMorePostIds(newLoadMorePostIds);
 		console.log('newLoadMorePostIds>>>>>>>>>>>>>>>', newLoadMorePostIds);
 	};
-	
-	const onStatusChange = () => {
-		setLoading(true);
-		apiCall(
-			EDIT_POST(post.id),
-			{
-				...post,
-				is_public: !post.is_public
-			},
-			res => {
-				setPost(cp => ({ ...cp, ...res }));
-				// setIsEditPost(false);
-				setLoading(false);
-			},
-			err => {
-				setLoading(false);
-				console.log(err);
-			},
-			METHOD.PUT,
-			getHeaderToken()
-		);
-	};
 
-	console.log('post>>>>>>>>>>>>>>>>>>', post.author.id);
-	console.log('post>>>>>>>>>>>>>>>>>>', tempAuthor.id);
+	console.log('post>>>>>>>>>>>>>>>>>>', post);
 	return (
 		<Card
 			id={`post${post.id}`}
@@ -418,7 +394,7 @@ export default function PostListItem({
 								<Icon>new_releases</Icon>
 							)}
 						</IconButton> */}
-						{/* {tempAuthor.id == post.author.id && ( */}
+						{tempAuthor.id == post.author.id && (
 							<div className="inline">
 								<TippyMenu
 									icon={
@@ -449,7 +425,7 @@ export default function PostListItem({
 									))}
 								</TippyMenu>
 							</div>
-						{/* )} */}
+						)}
 						{/* <IconButton className="text-default p-8" aria-label="more">
 							<Icon>more_vert</Icon>
 						</IconButton> */}
@@ -528,7 +504,7 @@ export default function PostListItem({
 				subheader={
 					<div className="flex items-center text-14 font-600">
 						<Icon className="font-600 text-18">public</Icon>
-						<span className="ml-4 sm:mr-16 mr-4">{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span>
+						<span className="ml-4 sm:mr-16 mr-4">{post.is_public ? 'Public ' : 'Private '}</span>
 						<span>
 							{`${moment.parseZone(post.published_date).format('MMMM DD')} at ${moment
 								.parseZone(post.published_date)
@@ -578,9 +554,15 @@ export default function PostListItem({
 			<AppBar className="card-footer flex flex-column p-16 bg-white" position="static" color="default" elevation={0}>
 				<div className="flex flex-wrap items-center mb-12 cursor-pointer justify-between">
 					<div className="flex">
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-28 w-28 mr-8">
+							{[...post.author.first_name][0]}{' '}
+						</Avatar>
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-28 w-28 mr-8">
+							{[...post.author.first_name][0]}{' '}
+						</Avatar>
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-28 w-28 mr-8">
+							{[...post.author.first_name][0]}{' '}
+						</Avatar>
 					</div>
 					{showComments() && (
 						<div
@@ -618,7 +600,7 @@ export default function PostListItem({
 						}}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
+						className="justify-center w-1/3 text-18 font-500 my-8 p-6 posts-social-icon text-black"
 					>
 						{post.alert ? (
 							<Icon fontSize="small" className="mr-4" style={{ color: red[500] }}>new_releases</Icon>
@@ -636,29 +618,29 @@ export default function PostListItem({
 						// }}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
+						className="justify-center w-1/3 text-18 font-500 my-8 posts-social-icon text-black"
 					>
 						<Icon fontSize="small" className="mr-4">
 							notifications_active
 						</Icon>
 						<span>{t('SEND_NOTIFICATION')}</span>
 					</IconButton>
-					{getRole() !== 'w' && (
-						<IconButton
-							aria-label="more"
-							aria-controls="long-menu"
-							aria-haspopup="true"
-							onClick={onStatusChange}
-							edge={false}
-							size="small"
-							className="justify-center w-1/3 text-15 my-4 p-6 posts-social-icon text-black"
-						>
-							<Icon fontSize="small" className="mr-4">
-								visibility
-							</Icon>
-							<span>{ post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span>
-						</IconButton>
-					)}
+					<IconButton
+						aria-label="more"
+						aria-controls="long-menu"
+						aria-haspopup="true"
+						onClick={() => {
+							setCommentOpen(true);
+						}}
+						edge={false}
+						size="small"
+						className="justify-center w-1/3 text-18 font-500 my-8 posts-social-icon text-black"
+					>
+						<Icon fontSize="small" className="mr-4">
+							visibility
+						</Icon>
+						<span>{t('STATUS_PUBLIC')}</span>
+					</IconButton>
 				</div>
 
 				{showComments() && (
