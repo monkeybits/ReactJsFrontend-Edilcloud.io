@@ -1144,7 +1144,7 @@ const projectDashboardAppDB = {
 							{
 								id: 'budget_type',
 								value: 'Coding',
-								classes: 'bg-red text-white',
+								classes: 'bg-red-500 text-white',
 								icon: ''
 							},
 							{

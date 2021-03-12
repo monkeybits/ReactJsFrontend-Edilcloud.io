@@ -169,7 +169,7 @@ function NotificationPanel(props) {
 												<SwipeableListItem
 													threshold={0.3}
 													swipeLeft={{
-														content: <div className="bg-red">Delete</div>,
+														content: <div className="bg-red-500">Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -181,7 +181,7 @@ function NotificationPanel(props) {
 														}
 													}}
 													swipeRight={{
-														content: <div className="bg-red">Delete</div>,
+														content: <div className="bg-red-500">Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -265,7 +265,7 @@ function NotificationPanel(props) {
 												<SwipeableListItem
 													threshold={0.3}
 													swipeLeft={{
-														content: <div className="bg-red">Delete</div>,
+														content: <div className="bg-red-500">Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -277,7 +277,7 @@ function NotificationPanel(props) {
 														}
 													}}
 													swipeRight={{
-														content: <div className="bg-red">Delete</div>,
+														content: <div className="bg-red-500">Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(

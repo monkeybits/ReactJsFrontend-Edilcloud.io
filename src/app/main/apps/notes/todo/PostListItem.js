@@ -581,7 +581,7 @@ export default function PostListItem({
 						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
 						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
 					</div>
-					{showComments() && (
+					{/* {showComments() && ( */}
 						<div
 							className="flex items-start mb-12 cursor-pointer"
 							onClick={ev => {
@@ -599,10 +599,10 @@ export default function PostListItem({
 									? commentsLength() === 1
 										? `${commentsLength()} comment`
 										: `${commentsLength()} comments`
-									: ''}
+									: 'comment'}
 							</span>
 						</div>
-					)}
+					{/* )} */}
 				</div>
 
 				<div className="flex justify-around social-border my-8">
@@ -617,10 +617,11 @@ export default function PostListItem({
 						}}
 						edge={false}
 						size="small"
-						className="justify-center w-1/3 text-18 font-500 my-8 p-6 posts-social-icon text-black"
+						classes={{ root: post.alert ? 'text-white bg-red-500 hover:bg-red-500' : 'text-black' }}
+						className="justify-center w-1/3 text-18 font-500 my-8 p-6 posts-social-icon"
 					>
 						{post.alert ? (
-							<Icon fontSize="small" className="mr-4" style={{ color: red[500] }}>new_releases</Icon>
+							<Icon fontSize="small" className="mr-4">new_releases</Icon>
 						) : (
 							<Icon fontSize="small" className="mr-4">new_releases</Icon>
 						)}
@@ -653,7 +654,7 @@ export default function PostListItem({
 							className="justify-center w-1/3 text-18 font-500 my-8 posts-social-icon text-black"
 						>
 							<Icon fontSize="small" className="mr-4">
-								visibility
+								{post.is_public ? 'visibility' : 'visibility_off'}
 							</Icon>
 							<span>{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span>
 						</IconButton>
@@ -728,7 +729,7 @@ export default function PostListItem({
 
 				{open && commentBoxOpen && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
 					<div className="flex flex-auto mt-10">
-						<Avatar className="mr-10" src="assets/images/avatars/profile.jpg" />
+						<Avatar className="mr-10" src={post.author.photo} />
 						<div className="flex-1">
 							<Paper elevation={0} className="w-full relative post-icons rounded-32">
 								<Input

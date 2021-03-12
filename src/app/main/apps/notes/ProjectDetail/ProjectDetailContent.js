@@ -229,7 +229,7 @@ export default function ProjectDetailContent({ projectDetail }) {
 							</div>
 							<div className="flex items-center justify-between mb-16">
 								<Typography>Late</Typography>
-								<div className="bg-red text-white inline text-11 font-500 px-8 py-4 rounded-4">3</div>
+								<div className="bg-red-500 text-white inline text-11 font-500 px-8 py-4 rounded-4">3</div>
 							</div>
 							<div className="flex items-center justify-between">
 								<Typography>Upcoming</Typography>

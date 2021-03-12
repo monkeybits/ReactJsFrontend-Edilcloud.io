@@ -22,7 +22,8 @@ import {
 	Typography,
 	Icon,
 	Card,
-	Button
+	Button,
+	Avatar
 } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
@@ -194,6 +195,7 @@ function TodoListItem(props) {
 	};
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
 
+	console.log('??????????????Todo', props.todo)
 	return (
 		<div className="mb-20">
 			<Card
@@ -211,19 +213,23 @@ function TodoListItem(props) {
 				<div
 					className="flex flex-shrink-0 items-center justify-between px-24 h-64 rounded-t"
 					style={{
-						background: blue[500],
+						background: '#2C4240',
 						color: theme.palette.getContrastText(blue[500])
 					}}
 				>
-					<Typography className="font-medium truncate ht-auto" color="inherit">
-						{props.todo.assigned_company?.name}
-					</Typography>
+					<div className="flex items-center">
+						<Avatar className="mr-10" src={props.todo.assigned_company?.logo} />
+						<Typography className="font-medium truncate ht-auto" color="inherit">
+							{props.todo.assigned_company?.name}
+						</Typography>
+					</div>
 
 					<Button
 						style={{
-							color: theme.palette.getContrastText(
-								props.todo.assigned_company?.color_project || '#D3D3D3'
-							) // )
+							// color: theme.palette.getContrastText(
+							// 	props.todo.assigned_company?.color_project || '#D3D3D3'
+							// ) // )
+							color: '#ffffff'
 						}}
 						onClick={ev => {
 							ev.preventDefault();
@@ -238,15 +244,6 @@ function TodoListItem(props) {
 					</Button>
 				</div>
 				<CardContent className="flex flex-col flex-auto ">
-					<Typography className="text-center text-16 font-400 items-center justify-center ht-auto">
-						{projectDetail?.name}
-					</Typography>
-					<Typography
-						className="text-center text-20 font-700 items-center justify-center ht-auto mt-8"
-						color="inherit"
-					>
-						{props.todo.name}
-					</Typography>
 					<div className="flex items-center flex-wrap justify-center my-12">
 						{props.todo.progress == 100 ? (
 							<div className={clsx('flex items-center px-8 py-4 mx-4 rounded bg-green-500 text-white')}>
@@ -264,7 +261,7 @@ function TodoListItem(props) {
 									</div>
 									<div
 										className={clsx(
-											'flex items-center px-8 py-4 rounded bg-red text-white font-size-12 ml-12'
+											'flex items-center px-8 py-4 rounded bg-red-500 text-white font-size-12 ml-12'
 										)}
 									>
 										{/* <Icon className="text-16">access_time</Icon> */}
@@ -318,6 +315,15 @@ function TodoListItem(props) {
 							</>
 						)}
 					</div>
+					<Typography className="text-center text-16 font-400 items-center justify-center ht-auto">
+						{projectDetail?.name}
+					</Typography>
+					<Typography
+						className="text-center text-20 font-700 items-center justify-center ht-auto mt-8"
+						color="inherit"
+					>
+						{props.todo.name}
+					</Typography>
 					{props.todo.assigned_company?.id == company.id && getRole() != 'w' && (
 						<div className="flex items-center justify-center mt-8">
 							<div>

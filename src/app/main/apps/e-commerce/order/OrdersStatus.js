@@ -36,7 +36,7 @@ export const orderStatuses = [
 	{
 		id: 7,
 		name: 'Refunded',
-		color: 'bg-red text-white'
+		color: 'bg-red-500 text-white'
 	},
 	{
 		id: 8,
