@@ -84,8 +84,8 @@ function BoardCard(props) {
 											className={clsx(
 												'flex items-center px-8 py-4 mx-4 rounded-sm',
 												moment() > moment(card.due)
-													? 'bg-red text-white'
-													: 'bg-green text-white'
+													? 'bg-red-500 text-white'
+													: 'bg-green-500 text-white'
 											)}
 										>
 											<Icon className="text-16">access_time</Icon>
@@ -98,7 +98,7 @@ function BoardCard(props) {
 											className={clsx(
 												'flex items-center px-8 py-4 mx-4 rounded-sm',
 												checkItemsChecked === checkItems
-													? 'bg-green text-white'
+													? 'bg-green-500 text-white'
 													: 'bg-grey-700 text-white'
 											)}
 										>

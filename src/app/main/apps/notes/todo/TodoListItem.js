@@ -256,7 +256,7 @@ function TodoListItem(props) {
 									</div>
 									<div
 										className={clsx(
-											'flex items-center px-8 py-4 rounded bg-red text-white font-size-12 ml-12'
+											'flex items-center px-8 py-4 rounded bg-red-500 text-white font-size-12 ml-12'
 										)}
 									>
 										{/* <Icon className="text-16">access_time</Icon> */}

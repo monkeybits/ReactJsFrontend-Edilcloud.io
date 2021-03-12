@@ -272,7 +272,7 @@ export default function ProjectListitem(props) {
 				</div>
 				<div className="flex items-center justify-between mb-16">
 					<Typography variant="subtitle2">Late</Typography>
-					<div className="bg-red text-white inline text-11 font-500 px-8 py-4 rounded-4">3</div>
+					<div className="bg-red-500 text-white inline text-11 font-500 px-8 py-4 rounded-4">3</div>
 				</div>
 				<div className="flex items-center justify-between mb-16">
 					<Typography variant="subtitle2">Upcoming</Typography>
@@ -396,7 +396,7 @@ export default function ProjectListitem(props) {
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton> */}
-				<Button className="MuiButtonBase-root text-white bg-green MuiButton-root MuiButton-contained mr-8 MuiButton-containedSizeSmall MuiButton-sizeSmall">
+				<Button className="MuiButtonBase-root text-white bg-green-500 MuiButton-root MuiButton-contained mr-8 MuiButton-containedSizeSmall MuiButton-sizeSmall">
 					<DownloadPdf
 						className="MuiButtonBase-root MuiButton-root "
 						label={t('DOWNLOAD_REPORT')}

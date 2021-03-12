@@ -172,7 +172,7 @@ function ProductsTable(props) {
 											<i
 												className={clsx(
 													'inline-block w-8 h-8 rounded mx-8',
-													n.quantity <= 5 && 'bg-red',
+													n.quantity <= 5 && 'bg-red-500',
 													n.quantity > 5 && n.quantity <= 25 && 'bg-orange',
 													n.quantity > 25 && 'bg-green'
 												)}
