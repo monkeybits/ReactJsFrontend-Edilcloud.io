@@ -8,7 +8,7 @@ import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import _ from '@lodash';
 import { withStyles } from '@material-ui/core/styles';
-import { Dialog, IconButton, Icon, Typography, Avatar, Grid, Button, CircularProgress } from '@material-ui/core';
+import { Dialog, IconButton, Icon, Typography, Avatar, Grid, Button, CircularProgress, Checkbox } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import React, { useEffect, useState } from 'react';
@@ -59,45 +59,60 @@ const DialogContent = withStyles(theme => ({
 
 function PostNotificationDialog() {
 	const dispatch = useDispatch();
-	const [boards, setBoards] = useState([]);
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [selectedCompany, setSelectedCompany] = useState([]);
+	const [companyList, setCompanyList] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [checked, setChecked] = React.useState(false);
 
-	useEffect(() => {
-		getcompanyList();
-		if(selectedCompany.length > 0) {
+	const handleChange = (event, company) => {
+		let newCompanyList = []
+		let count = 0
+		companyList.map((item) => {
+			if(item.profile.company.id === company.profile.company.id && event.target.checked){
+				newCompanyList.push({...item, is_checked: true})
+			} else if (item.is_checked && item.profile.company.id !== company.profile.company.id) {
+				newCompanyList.push({...item, is_checked: true})
+			} else {
+				newCompanyList.push({...item, is_checked: false})
+			}
+		})
+		newCompanyList.map((item) => {
+			if(item.is_checked) {
+				count++
+			}
+		})
+		if(count > 0) {
 			setIsFormValid(true)
 		}
-	}, [selectedCompany]);
+		setCompanyList(newCompanyList)
+		// setChecked(event.target.checked);
+	};
 
+	const companies = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.companies);
 	const isNotificationDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.isNotificationDialog);
 	const notificationPost = useSelector(({ todoAppNote }) => todoAppNote.todos.notificationPost);
 
-	const getcompanyList = () => {
-		apiCall(
-			APPROVE_LIST,
-			{},
-			results => {
-				if (Array.isArray(results)) {
-					const filterdBoards = results.filter(d => d.company && d.status);
-					setBoards(filterdBoards)
-				}
-			},
-			err => console.log(err),
-			METHOD.GET,
-			getHeaderToken()
-		);
-	};
-	
+	useEffect(() => {
+		if (companies && companies.length > 0) {
+			let newCompanyList = []
+			companies.map((item) => {
+				newCompanyList.push({...item, is_checked: false})
+			})
+			setCompanyList(newCompanyList)
+		}
+	}, [companies]);
+
 	const handleClose = () => {
 		dispatch(Actions.closeNotificationDialog());
 	}
 
 	const handleSubmit = () => {
 		let companyIds = []
-		selectedCompany.map((company) => {
-			companyIds.push(company.data.id)
+		companyList.map((company) => {
+			if(company.is_checked){
+				companyIds.push(company.profile.company.id)
+			}
 		})
 		setLoading(true);
 		apiCall(
@@ -127,7 +142,7 @@ function PostNotificationDialog() {
             open={isNotificationDialog}
 			onClose={handleClose}
 			aria-labelledby="customized-dialog-title"
-			maxWidth="sm"
+			maxWidth="xs"
 			fullWidth="true"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={handleClose}>
@@ -135,36 +150,32 @@ function PostNotificationDialog() {
 			</DialogTitle>
 			<DialogContent dividers>
 				{
-					boards &&
-					boards.length > 0 &&
-					<FuseChipSelect
-						className="custom-dropdown mt-8 mb-48"
-						onChange={value => {
-							setSelectedCompany(value)
-						}}
-						isMulti
-						// value={projectCoordinators}
-						placeholder="test"
-						textFieldProps={{
-							// onChange: e => retrieveDataAsynchronously(e.target.value),
-							variant: 'outlined'
-						}}
-						variant="fixed"
-						options={boards.map(board => ({
-							data: board.company,
-							value: board.company.name,
-							label: (
-								<span className="flex items-center">
-									<Avatar className="w-32 h-32" src={board.company.logo} />
-									<span className="mx-8">
-										{board.company.name}
-									</span>
-								</span>
-							)
-						}))}
-						noOptionsMessage={() => 'Insert Company'}
-						// variant="outlined"
-					/>
+					companyList &&
+					companyList.length > 0 &&
+					<div className="mb-24">
+					{
+						companyList.map(company => {
+							return <div className="flex justify-between my-6">
+								<div className="flex items-center">
+									<Checkbox
+										checked={company.is_checked}
+										onChange={(event) => handleChange(event, company)}
+									/>
+									<Typography
+										variant="subtitle1"
+										className="todo-title"
+										// color={completed ? 'textSecondary' : 'inherit'} // in change of activity change styles
+									>
+										{company.profile.company.name}
+									</Typography>
+								</div>
+								<div>
+									<Avatar className="w-32 h-32" src={company.profile.company.logo} />
+								</div>
+							</div>
+						})
+					}
+					</div>
 				}
 				<Grid item xs={12}>
 					<div className="inline-block">

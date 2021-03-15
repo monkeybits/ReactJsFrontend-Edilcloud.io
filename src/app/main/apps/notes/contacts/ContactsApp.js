@@ -80,7 +80,7 @@ function ContactsApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			{(roleFromCompany == 'o' || roleFromCompany == 'd') && (
+			{/* {(roleFromCompany == 'o' || roleFromCompany == 'd') && (
 				<FuseAnimate animation="transition.expandIn" delay={300}>
 					<TeamFloationButton
 						color="secondary"
@@ -92,7 +92,7 @@ function ContactsApp(props) {
 						}}
 					/>
 				</FuseAnimate>
-			)}
+			)} */}
 			<AddTeamMemberToProject handleSetLoading={handleSetLoading} />
 			<ViewContactDialog />
 		</>

@@ -132,8 +132,8 @@ const IOSSlider = withStyles({
 function TodoListItem(props) {
 	const theme = useTheme();
 	const dispatch = useDispatch();
-	const labels = useSelector(({ todoApp }) => todoApp.labels);
-	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
+	// const labels = useSelector(({ todoApp }) => todoApp.labels);
+	const todoDialog = useSelector(({ todoApp }) => todoApp?.todos?.todoDialog);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projectDetail = props.todo.project;
 	const [open, setOpen] = React.useState(false);
@@ -145,10 +145,10 @@ function TodoListItem(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const classes = useStyles(props);
 	const routeParams = useParams();
-	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);
-	const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
+	// const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);
+	// const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
 	const { t } = useTranslation('dashboard');
-	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
+	// const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 
 	const handleClick = () => {
 		setOpen(!open);
@@ -160,24 +160,24 @@ function TodoListItem(props) {
 		/**
 		 * After Dialog Open
 		 */
-		if (todoDialog.type === 'activity' && todoDialog.props.open && todoDialog.data.id == props.todo.id) {
+		if (todoDialog !== undefined && todoDialog.type === 'activity' && todoDialog.props.open && todoDialog.data.id == props.todo.id) {
 			setId(todoDialog.data.id);
 		}
 
-		if (todoDialog.type === 'activity' && todoDialog.props.open == false && props.todo.id == id) {
+		if (todoDialog !== undefined && todoDialog.type === 'activity' && todoDialog.props.open == false && props.todo.id == id) {
 			getDetailOfTask();
 			setId(null);
 		}
-	}, [todoDialog.props.open]);
+	}, [todoDialog?.props?.open]);
 	useEffect(() => {
-		if (todoDialog.props.openTimelineDialog == true && todoDialog.data.task.id == props.todo.id) {
+		if (todoDialog !== undefined && todoDialog.props.openTimelineDialog == true && todoDialog.data.task.id == props.todo.id) {
 			setId(todoDialog.data.task.id);
 		}
-		if (todoDialog.props.openTimelineDialog == false && props.todo.id == id) {
+		if (todoDialog !== undefined && todoDialog.props.openTimelineDialog == false && props.todo.id == id) {
 			getDetailOfTask();
 			setId(null);
 		}
-	}, [todoDialog.props.openTimelineDialog]);
+	}, [todoDialog?.props?.openTimelineDialog]);
 	const getDetailOfTask = () => {
 		// if (open === false) {
 
