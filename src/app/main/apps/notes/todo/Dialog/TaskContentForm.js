@@ -379,10 +379,11 @@ function TaskContentForm(props) {
 						setValue(newValue);
 					}}
 					showLabels
+					className="w-full"
 				>
-					<BottomNavigationAction className="min-w-auto" label="Contents" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction className="min-w-auto" label="Drawings" {...a11yProps(1)} />
-					<BottomNavigationAction className="min-w-auto" label="Edit" {...a11yProps(2)} />
+					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Contents" wrapped {...a11yProps(0)} />
+					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Drawings" {...a11yProps(1)} />
+					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Edit" {...a11yProps(2)} />
 				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton

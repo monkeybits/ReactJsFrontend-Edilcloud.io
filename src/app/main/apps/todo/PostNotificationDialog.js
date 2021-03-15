@@ -89,7 +89,7 @@ function PostNotificationDialog() {
 		// setChecked(event.target.checked);
 	};
 
-	const companies = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.companies);
+	const companies = useSelector(({ contactsAppProject }) => contactsAppProject?.contacts?.companies);
 	const isNotificationDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.isNotificationDialog);
 	const notificationPost = useSelector(({ todoAppNote }) => todoAppNote.todos.notificationPost);
 
@@ -101,7 +101,7 @@ function PostNotificationDialog() {
 			})
 			setCompanyList(newCompanyList)
 		}
-	}, [companies]);
+	}, [companies, setCompanyList]);
 
 	const handleClose = () => {
 		dispatch(Actions.closeNotificationDialog());
