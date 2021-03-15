@@ -35,6 +35,7 @@ import TippyMenu from 'app/TippyMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import * as Actions from './store/actions';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
 import EditPostForm from './EditPostForm';
@@ -358,6 +359,10 @@ export default function PostListItem({
 		);
 	};
 
+	const onNotificationClick = () => {
+		dispatch(Actions.openNotificationDialog(post));
+	}
+
 	console.log('post>>>>>>>>>>>>>>>>>>', post);
 	return (
 		<Card
@@ -631,9 +636,7 @@ export default function PostListItem({
 						aria-label="more"
 						aria-controls="long-menu"
 						aria-haspopup="true"
-						// onClick={() => {
-						// 	setCommentOpen(true)
-						// }}
+						onClick={onNotificationClick}
 						edge={false}
 						size="small"
 						className="justify-center w-1/3 text-18 font-500 my-8 posts-social-icon text-black"
@@ -731,7 +734,7 @@ export default function PostListItem({
 					<div className="flex flex-auto mt-10">
 						<Avatar className="mr-10" src={post.author.photo} />
 						<div className="flex-1">
-							<Paper elevation={0} className="w-full relative post-icons rounded-32">
+							<Paper elevation={0} className="w-full relative post-icons rounded-32 comment-box">
 								<Input
 									className="pl-12 pr-80 py-8 w-full comment-area"
 									id={String(post.id)}
