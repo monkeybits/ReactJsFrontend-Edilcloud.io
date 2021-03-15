@@ -363,7 +363,6 @@ export default function PostListItem({
 		dispatch(Actions.openNotificationDialog(post));
 	}
 
-	console.log('post>>>>>>>>>>>>>>>>>>', post);
 	return (
 		<Card
 			id={`post${post.id}`}

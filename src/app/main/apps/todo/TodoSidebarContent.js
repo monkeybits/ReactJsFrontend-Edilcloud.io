@@ -79,7 +79,7 @@ function TodoSidebarContent(props) {
 					</Button>
 				</div> */}
 
-				<div className={classes.listWrapper}>
+				<div className="pl-48 pt-60">
 					{/*
 					// *The below old code was for UI, I just had to leave it here for you to see.
 					<List>
