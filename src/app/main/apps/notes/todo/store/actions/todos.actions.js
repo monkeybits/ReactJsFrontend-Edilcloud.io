@@ -40,6 +40,8 @@ export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER (PROJECT)';
 export const SET_UPLOAD = '[TODO APP] SET UPLOAD (PROJECT)';
 export const SET_UPLOAD_PERCENTAGE = '[TODO APP] SET UPLOAD PERCENTAGE (PROJECT)';
 export const SET_LOADING = '[TODO APP] SET LOADING (PROJECT)';
+export const OPEN_NOTIFICATION_DIALOG = '[TODO APP] OPEN NOTIFICATION DIALOG (PROJECT)';
+export const CLOSE_NOTIFICATION_DIALOG = '[TODO APP] CLOSE NOTIFICATION DIALOG (PROJECT)';
 
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
@@ -203,6 +205,20 @@ export function addTimelineData(todo) {
 		todo
 	};
 }
+
+export function openNotificationDialog(data) {
+	return {
+		type: OPEN_NOTIFICATION_DIALOG,
+		data
+	};
+}
+
+export function closeNotificationDialog() {
+	return {
+		type: CLOSE_NOTIFICATION_DIALOG
+	};
+}
+
 export function closeNewTodoDialog() {
 	return {
 		type: CLOSE_NEW_TODO_DIALOG

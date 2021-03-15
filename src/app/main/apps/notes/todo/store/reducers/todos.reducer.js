@@ -25,7 +25,9 @@ const initialState = {
 			open: false
 		},
 		data: null
-	}
+	},
+	isNotificationDialog: false,
+	notificationPost: {}
 };
 
 const todosReducer = (state = initialState, action) => {
@@ -68,6 +70,19 @@ const todosReducer = (state = initialState, action) => {
 					},
 					data: action.data
 				}
+			};
+		}
+		case Actions.OPEN_NOTIFICATION_DIALOG: {
+			return {
+				...state,
+				isNotificationDialog: true,
+				notificationPost: action.data
+			};
+		}
+		case Actions.CLOSE_NOTIFICATION_DIALOG: {
+			return {
+				...state,
+				isNotificationDialog: false
 			};
 		}
 		case Actions.ADD_TASK_CONTENT_DATA: {

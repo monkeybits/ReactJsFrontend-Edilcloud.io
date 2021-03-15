@@ -22,7 +22,8 @@ import {
 	Typography,
 	Icon,
 	Card,
-	Button
+	Button,
+	Avatar
 } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
@@ -215,9 +216,12 @@ function TodoListItem(props) {
 						color: theme.palette.getContrastText(blue[500])
 					}}
 				>
-					<Typography className="font-medium truncate ht-auto" color="inherit">
-						{props.todo.assigned_company?.name}
-					</Typography>
+					<div className="flex items-center">
+						<Avatar className="mr-10" src={props.todo.assigned_company?.logo} />
+						<Typography className="font-medium truncate ht-auto" color="inherit">
+							{props.todo.assigned_company?.name}
+						</Typography>
+					</div>
 
 					<Button
 						style={{

@@ -637,7 +637,7 @@ textarea.MuiOutlinedInput-input {
     margin-top: 20px;
 }
 .bg-post-section {
-    background-color: #ebedf0;
+    background-color: #eff2f7;
 }
 /* .comment-post-img {
     margin-left: 56px;
@@ -645,6 +645,9 @@ textarea.MuiOutlinedInput-input {
 .comment-post-img img {
     height: 160px;
     width: 160px;
+}
+.comment-box {
+    background-color: #eff2f7;
 }
 .post-form .write-post textarea {
     padding-right: 0px;

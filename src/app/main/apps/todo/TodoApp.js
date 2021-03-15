@@ -27,6 +27,7 @@ const TaskContentDialog = loadable(() => import('./TaskContentDialog'))
 const TodoDialog = loadable(() => import('./TodoDialog'))
 const ShowUpload = loadable(() => import('./ShowUpload'))
 const AccessibilityToggleButton = loadable(() => import('app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton'))
+const PostNotificationDialog = loadable(() => import('./PostNotificationDialog'))
 
 const useStyles = makeStyles({
 	addButton: {
@@ -164,6 +165,7 @@ function TodoApp(props) {
 			<CreatePostDialog />
 			<TaskContentDialog />
 			<AccessibilityToggleButton />
+			<PostNotificationDialog />
 		</>
 	);
 }

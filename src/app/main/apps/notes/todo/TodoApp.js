@@ -1,16 +1,11 @@
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
+import loadable from '@loadable/component';
 import React, { useEffect, useRef, useState } from 'react';
-import Fab from '@material-ui/core/Fab';
-import Icon from '@material-ui/core/Icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import { LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import clsx from 'clsx';
-import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_TASK_BY_ID, GET_ACTIVITY_BY_ID, ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
@@ -22,17 +17,14 @@ import { toast } from 'react-toastify';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import TodoDialog from './TodoDialog';
-import TodoHeader from './TodoHeader';
 import TodoList from './TodoList';
 import TodoSidebarContent from './TodoSidebarContent';
-import TodoSidebarHeader from './TodoSidebarHeader';
-import TodoToolbar from './TodoToolbar';
 import CreatePostDialog from './CreatePostDialog';
 import { GET_TODOS } from './store/actions';
 import TaskContentDialog from './Dialog/TaskContentDialog';
-import ShowUpload from './ShowUpload';
 import CreateTasks from '../gantt/CreateTasks';
 import ImportExcelDialog from '../gantt/ImportExcelDialog';
+const PostNotificationDialog = loadable(() => import('../../todo/PostNotificationDialog'))
 
 const useStyles = makeStyles({
 	addButton: {
@@ -315,6 +307,7 @@ function TodoApp(props) {
 			<CreatePostDialog />
 			<TodoDialog />
 			<TaskContentDialog />
+			<PostNotificationDialog />
 		</>
 	);
 }

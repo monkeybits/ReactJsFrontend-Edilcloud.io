@@ -12,6 +12,8 @@ const locale = {
 	PROJECT_FILTERS: 'FILTRI PROGETTO', // uppercase in UI
 	COMPANY_FILTERS: 'FILTRI AZIENDA', // uppercase in UI
 	PEOPLE_FILTERS: 'FITRI PERSONA', // uppercase in UI
+	COMPANY: 'företag',
+	COMPANY_AND_CREATER: 'företag och skapare',
 	START_DATE: 'Data di inizio',
 	END_DATE: 'Data di fine',
 	START: 'Inizio',

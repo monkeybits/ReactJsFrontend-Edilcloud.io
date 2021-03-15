@@ -195,7 +195,6 @@ function TodoListItem(props) {
 	};
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
 
-	console.log('??????????????Todo', props.todo)
 	return (
 		<div className="mb-20">
 			<Card
