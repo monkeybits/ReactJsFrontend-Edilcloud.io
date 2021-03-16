@@ -25,6 +25,7 @@ import TaskContentDialog from './Dialog/TaskContentDialog';
 import CreateTasks from '../gantt/CreateTasks';
 import ImportExcelDialog from '../gantt/ImportExcelDialog';
 const PostNotificationDialog = loadable(() => import('../../todo/PostNotificationDialog'))
+const StatusConfirmDialog = loadable(() => import('../../todo/StatusConfirmDialog'))
 
 const useStyles = makeStyles({
 	addButton: {
@@ -308,6 +309,7 @@ function TodoApp(props) {
 			<TodoDialog />
 			<TaskContentDialog />
 			<PostNotificationDialog />
+			<StatusConfirmDialog />
 		</>
 	);
 }

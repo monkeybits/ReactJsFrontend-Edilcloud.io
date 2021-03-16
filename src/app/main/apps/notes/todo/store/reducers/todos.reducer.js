@@ -27,7 +27,10 @@ const initialState = {
 		data: null
 	},
 	isNotificationDialog: false,
-	notificationPost: {}
+	notificationPost: {},
+	isStateConfirmDialog: false,
+	statusPost: {},
+	okStateConfirmDialog: false
 };
 
 const todosReducer = (state = initialState, action) => {
@@ -83,6 +86,26 @@ const todosReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isNotificationDialog: false
+			};
+		}
+		case Actions.OPEN_STATUS_CONFIRM_DIALOG: {
+			return {
+				...state,
+				isStateConfirmDialog: true,
+				statusPost: action.data
+			};
+		}
+		case Actions.CLOSE_STATUS_CONFIRM_DIALOG: {
+			return {
+				...state,
+				isStateConfirmDialog: false,
+				okStateConfirmDialog: false
+			};
+		}
+		case Actions.OK_STATUS_CONFIRM_DIALOG: {
+			return {
+				...state,
+				okStateConfirmDialog: true
 			};
 		}
 		case Actions.ADD_TASK_CONTENT_DATA: {

@@ -106,10 +106,12 @@ export default function PostListItem({
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const okStateConfirmDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.okStateConfirmDialog);
+	const statusPost = useSelector(({ todoAppNote }) => todoAppNote.todos.statusPost);
 	const scrollRef = useRef(null);
 
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == currnetPost.id;
-	console.log({ hasNotifcationOnThisItem });
+	
 	useEffect(() => {
 		setPost(currnetPost);
 		if (hasNotifcationOnThisItem) {
@@ -139,6 +141,35 @@ export default function PostListItem({
 			}, 5000);
 		}
 	}, [notificationPanel.viewing, scrollRef, hasRender]);
+
+	useEffect(() => {
+		if ('id' in statusPost && okStateConfirmDialog) {
+			console.log('okStateConfirmDialog', statusPost)
+			apiCall(
+				EDIT_POST(statusPost.id),
+				{
+					...statusPost,
+					is_public: !statusPost.is_public
+				},
+				res => {
+					console.log('statusPost', statusPost)
+					console.log('res', res)
+					if(statusPost.id === post.id) {
+						setPost(cp => ({ ...statusPost, is_public: res.is_public }));
+					}
+					dispatch(Actions.closeStatusConfirmDialog());
+					// setIsEditPost(false);
+					setLoading(false);
+				},
+				err => {
+					setLoading(false);
+					console.log(err);
+				},
+				METHOD.PUT,
+				getHeaderToken()
+			);
+		}
+	}, [statusPost, okStateConfirmDialog]);
 
 	const openMenu = Boolean(anchorEl);
 
@@ -342,25 +373,26 @@ export default function PostListItem({
 	};
 
 	const onStatusChange = () => {
-		setLoading(true);
-		apiCall(
-			EDIT_POST(post.id),
-			{
-				...post,
-				is_public: !post.is_public
-			},
-			res => {
-				setPost(cp => ({ ...cp, ...res }));
-				// setIsEditPost(false);
-				setLoading(false);
-			},
-			err => {
-				setLoading(false);
-				console.log(err);
-			},
-			METHOD.PUT,
-			getHeaderToken()
-		);
+		dispatch(Actions.openStatusConfirmDialog(post));
+		// setLoading(true);
+		// apiCall(
+		// 	EDIT_POST(post.id),
+		// 	{
+		// 		...post,
+		// 		is_public: !post.is_public
+		// 	},
+		// 	res => {
+		// 		setPost(cp => ({ ...cp, ...res }));
+		// 		// setIsEditPost(false);
+		// 		setLoading(false);
+		// 	},
+		// 	err => {
+		// 		setLoading(false);
+		// 		console.log(err);
+		// 	},
+		// 	METHOD.PUT,
+		// 	getHeaderToken()
+		// );
 	};
 
 	const onNotificationClick = () => {
