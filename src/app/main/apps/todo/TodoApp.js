@@ -19,6 +19,7 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
 import * as Actions from './store/actions';
 import * as ConatctActions from '../contacts/store/actions';
 import reducer from './store/reducers';
+const StatusConfirmDialog = loadable(() => import('./StatusConfirmDialog'))
 const TodoHeader = loadable(() => import('./TodoHeader'))
 const TodoList = loadable(() => import('./TodoList'))
 const TodoSidebarContent = loadable(() => import('./TodoSidebarContent'))
@@ -166,6 +167,7 @@ function TodoApp(props) {
 			<TaskContentDialog />
 			<AccessibilityToggleButton />
 			<PostNotificationDialog />
+			<StatusConfirmDialog />
 		</>
 	);
 }

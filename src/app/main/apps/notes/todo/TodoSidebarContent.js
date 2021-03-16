@@ -59,7 +59,7 @@ function TodoSidebarContent(props) {
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className="flex-auto md:ml-20 border-l-1 border-solid">
-				<div className={classes.listWrapper}>
+				<div className="pt-60 pl-44">
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
 							{t('GENERAL_FILTERS')}

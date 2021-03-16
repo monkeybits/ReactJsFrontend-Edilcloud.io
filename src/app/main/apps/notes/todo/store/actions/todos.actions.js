@@ -42,6 +42,9 @@ export const SET_UPLOAD_PERCENTAGE = '[TODO APP] SET UPLOAD PERCENTAGE (PROJECT)
 export const SET_LOADING = '[TODO APP] SET LOADING (PROJECT)';
 export const OPEN_NOTIFICATION_DIALOG = '[TODO APP] OPEN NOTIFICATION DIALOG (PROJECT)';
 export const CLOSE_NOTIFICATION_DIALOG = '[TODO APP] CLOSE NOTIFICATION DIALOG (PROJECT)';
+export const OPEN_STATUS_CONFIRM_DIALOG = '[TODO APP] OPEN STATUS CONFIRM DIALOG (PROJECT)';
+export const CLOSE_STATUS_CONFIRM_DIALOG = '[TODO APP] CLOSE STATUS CONFIRM DIALOG (PROJECT)';
+export const OK_STATUS_CONFIRM_DIALOG = '[TODO APP] OK STATUS CONFIRM DIALOG (PROJECT)';
 
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
@@ -216,6 +219,25 @@ export function openNotificationDialog(data) {
 export function closeNotificationDialog() {
 	return {
 		type: CLOSE_NOTIFICATION_DIALOG
+	};
+}
+
+export function openStatusConfirmDialog(data) {
+	return {
+		type: OPEN_STATUS_CONFIRM_DIALOG,
+		data
+	};
+}
+
+export function closeStatusConfirmDialog() {
+	return {
+		type: CLOSE_STATUS_CONFIRM_DIALOG
+	};
+}
+
+export function okStatusConfirmDialog() {
+	return {
+		type: OK_STATUS_CONFIRM_DIALOG
 	};
 }
 
