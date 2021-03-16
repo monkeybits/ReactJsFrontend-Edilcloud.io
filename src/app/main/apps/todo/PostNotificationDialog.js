@@ -60,10 +60,8 @@ const DialogContent = withStyles(theme => ({
 function PostNotificationDialog() {
 	const dispatch = useDispatch();
 	const [isFormValid, setIsFormValid] = useState(false);
-	const [selectedCompany, setSelectedCompany] = useState([]);
 	const [companyList, setCompanyList] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const [checked, setChecked] = React.useState(false);
 
 	const handleChange = (event, company) => {
 		let newCompanyList = []
@@ -89,7 +87,7 @@ function PostNotificationDialog() {
 		// setChecked(event.target.checked);
 	};
 
-	const companies = useSelector(({ contactsAppProject }) => contactsAppProject?.contacts?.companies);
+	const companies = useSelector(({ contactsApp }) => contactsApp?.contacts?.companies);
 	const isNotificationDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.isNotificationDialog);
 	const notificationPost = useSelector(({ todoAppNote }) => todoAppNote.todos.notificationPost);
 
@@ -97,7 +95,9 @@ function PostNotificationDialog() {
 		if (companies && companies.length > 0) {
 			let newCompanyList = []
 			companies.map((item) => {
-				newCompanyList.push({...item, is_checked: false})
+				if('profile' in item) {
+					newCompanyList.push({...item, is_checked: false})
+				}
 			})
 			setCompanyList(newCompanyList)
 		}

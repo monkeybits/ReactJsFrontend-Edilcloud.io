@@ -33,6 +33,9 @@ import moment from 'moment';
 import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
+import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
+import withReducer from 'app/store/withReducer';
+import reducer from 'app/main/apps/notes/contacts/store/reducers';
 const TodoActivityListItem = loadable(() => import('./TodoActivityListItem'))
 
 const useStyles = makeStyles(theme => ({
@@ -205,6 +208,7 @@ function TodoListItem(props) {
 					dispatch(Actions.closeTimelineDialog());
 					dispatch(Actions.openTaskContent(props.todo));
 					props.setTodoId(props.todo.id);
+					dispatch(ContactActions.getApprovedContacts(props.todo.project.id));
 					// }
 				}}
 			>
@@ -523,4 +527,4 @@ function TodoListItem(props) {
 	);
 }
 
-export default TodoListItem;
+export default withReducer('contactsApp', reducer)(TodoListItem);

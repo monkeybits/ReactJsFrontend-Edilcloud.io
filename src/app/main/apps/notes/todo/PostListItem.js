@@ -12,7 +12,8 @@ import {
 	Collapse,
 	List,
 	Paper,
-	Input
+	Input,
+	CircularProgress
 } from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -63,7 +64,7 @@ export default function PostListItem({
 	const inputRef = useRef(null);
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = React.useState(true);
 	const [commentOpen, setCommentOpen] = React.useState(false);
 	const [commentBoxOpen, setCommentBoxOpen] = React.useState(true);
 	const [post, setPost] = React.useState({});
@@ -101,6 +102,7 @@ export default function PostListItem({
 	const getRole = () => userInfo?.extra?.profile.role;
 	const [hasRender, setHasRender] = React.useState(false);
 	const [loading, setLoading] = useState(false);
+	const [alertLoading, setAlertLoading] = useState(false);
 	const [, updateState] = React.useState();
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
@@ -235,6 +237,7 @@ export default function PostListItem({
 		);
 	};
 	const handleAlertPost = () => {
+		setAlertLoading(true)
 		apiCall(
 			EDIT_POST(post.id),
 			{
@@ -243,6 +246,7 @@ export default function PostListItem({
 			},
 			res => {
 				setPost(currnetPost => ({ ...currnetPost, alert: res.alert }));
+				setAlertLoading(false)
 			},
 			err => console.log(err),
 			METHOD.PUT,
@@ -598,13 +602,13 @@ export default function PostListItem({
 							<Icon fontSize="small" className="mr-4">
 								comment
 							</Icon>
-							<span className="text-base font-600 hover:underline">
+							{/* <span className="text-base font-600 hover:underline">
 								{commentsLength() > 0
 									? commentsLength() === 1
 										? `${commentsLength()} comment`
 										: `${commentsLength()} comments`
 									: 'comment'}
-							</span>
+							</span> */}
 						</div>
 					{/* )} */}
 				</div>
@@ -630,6 +634,7 @@ export default function PostListItem({
 							<Icon fontSize="small" className="mr-4">new_releases</Icon>
 						)}
 						<span>{t('ALERT')}</span>
+						{alertLoading && <CircularProgress size={20} className="ml-10" color="black" />}
 					</IconButton>
 					<IconButton
 						aria-label="more"
