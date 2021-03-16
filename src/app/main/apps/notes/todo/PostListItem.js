@@ -535,7 +535,7 @@ export default function PostListItem({
 							</p>
 						</div>
 						<div className="text-13 sm:text-15 lg:text-base font-600">
-							{post.author.role}{ 'company' in post.author ? ' - ' + post.author.company.name : '' }
+							{post.author.position}{ 'company' in post.author ? ' - ' + post.author.company.name : '' }
 						</div>
 						{/* <div className="">
 							{showPrject && (
