@@ -212,7 +212,7 @@ function TodoListItem(props) {
 				<div
 					className="flex flex-shrink-0 items-center justify-between px-24 h-64 rounded-t"
 					style={{
-						background: blue[500],
+						background: props.todo.assigned_company?.color_project,
 						color: theme.palette.getContrastText(blue[500])
 					}}
 				>

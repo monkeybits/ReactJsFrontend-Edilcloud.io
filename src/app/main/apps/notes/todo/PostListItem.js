@@ -399,6 +399,8 @@ export default function PostListItem({
 		dispatch(Actions.openNotificationDialog(post));
 	}
 
+	console.log('post????????????', post)
+
 	return (
 		<Card
 			id={`post${post.id}`}
@@ -522,14 +524,14 @@ export default function PostListItem({
 								<span className="font-700 capitalize text-15 lg:text-lg">
 									{post.author.first_name} {post.author.last_name}
 								</span>
-								{post.type === 'post' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> posted on your timeline </span>}
+								{/* {post.type === 'post' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> posted on your timeline </span>}
 								{post.type === 'something' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared something with you </span>}
 								{post.type === 'video' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared a video with you </span>}
 								{post.type === 'article' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared an article with you </span>}
 								<span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> added a new video to </span>
 								<span className="font-700 capitalize text-15 lg:text-lg pl-2 sm:pl-6">
 									{'task' in post ? post.task.name : ''}
-								</span>
+								</span> */}
 							</p>
 						</div>
 						<div className="text-13 sm:text-15 lg:text-base font-600">
@@ -594,13 +596,13 @@ export default function PostListItem({
 				</CardContent>
 			)}
 
-			{getRole() != 'w' && !isTask && (
+			{/* {getRole() != 'w' && !isTask && (
 				<CardActions disableSpacing className="bg-custom-primary px-12 py-4 flex justify-center">
-					{/* <Button size="small" className="text-white text-13" aria-label="Add to favorites">
+					<Button size="small" className="text-white text-13" aria-label="Add to favorites">
 						<Icon className="text-white text-14">favorite</Icon>
 						<Typography className="normal-case text-white text-13 mx-4">Like</Typography>
 						<Typography className="normal-case text-13">({post.like})</Typography>
-					</Button> */}
+					</Button>
 					<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
 						<Icon className="text-white text-14">share</Icon>
 						<Typography className="normal-case text-white text-13 mx-4">{t('SHARE')}</Typography>
@@ -611,7 +613,7 @@ export default function PostListItem({
 						)}
 					</Button>
 				</CardActions>
-			)}
+			)} */}
 
 			{/* ----------------- Show Comments and likes ---------------*/}
 			<AppBar className="card-footer flex flex-column p-16 bg-white" position="static" color="default" elevation={0}>
