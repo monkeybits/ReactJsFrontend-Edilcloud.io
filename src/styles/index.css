@@ -133,7 +133,7 @@ a[role=button] {
     padding: 0 !important;
 }
 
-.bg-quick-start {
+.bg-quick-start, .bg-gray-custom {
     background-color: #eff2f7;
 }
 

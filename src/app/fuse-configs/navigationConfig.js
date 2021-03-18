@@ -112,6 +112,14 @@ const navigationConfig = [
 			},
 			{
 				id: '',
+				title: 'Billing',
+				translate: 'BILLING',
+				type: 'item',
+				icon: 'receipt',
+				url: '/apps/billing'
+			},
+			{
+				id: '',
 				title: 'Storage',
 				translate: 'STORAGE',
 				type: 'item',
