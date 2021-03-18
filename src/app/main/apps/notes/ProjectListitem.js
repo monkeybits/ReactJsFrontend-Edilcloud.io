@@ -6,7 +6,7 @@ TODO: Single item of project list
 */
 import FuseUtils from '@fuse/utils';
 import { Typography, Card, CardHeader, CardActions, Avatar, IconButton, Icon, MenuItem, Box, Paper, Tabs, Tab, Divider, Button, Tooltip } from '@material-ui/core';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -34,28 +34,33 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ProjectListitem(props) {
+	const [projectIndex, setProjectIndex] = useState(null)
 	const {
 		index,
-		// project: { id, name, description, logo, date_start, status, date_end, profiles },
+		project,
 		classes
 	} = props;
+
 	const { t } = useTranslation('projects');
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
-	const {
-		mainId,
-		id,
-		name,
-		description,
-		company,
-		logo,
-		date_start,
-		status,
-		date_end,
-		profiles,
-		isApproved,
-		talks,
-		address
-	} = projects[index];
+	if(projectIndex !== null) {
+		var {
+			mainId,
+			id,
+			name,
+			description,
+			company,
+			logo,
+			date_start,
+			status,
+			date_end,
+			profiles,
+			isApproved,
+			talks,
+			address
+		} = projects[projectIndex];
+	}
+
 	const [expanded, setExpanded] = React.useState(false);
 	const [activeNotification, setActiveNotification] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -75,6 +80,17 @@ export default function ProjectListitem(props) {
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const scrollRef = useRef(null);
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == id;
+
+	useEffect(() => {
+		if (project) {
+			projects.map((item, index) => {
+				if(item.name === project.name) {
+					setProjectIndex(index)
+				}
+			})
+		}
+	}, [project]);
+
 	useEffect(() => {
 		if (hasNotifcationOnThisItem) {
 			setTimeout(() => {

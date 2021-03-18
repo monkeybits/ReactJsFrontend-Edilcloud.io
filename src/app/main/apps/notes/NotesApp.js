@@ -9,7 +9,7 @@ import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { Fab } from '@material-ui/core';
+import { Fab, Paper, IconButton, Icon, Input } from '@material-ui/core';
 import { makeStyles, createGenerateClassName, jssPreset } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +24,7 @@ import loadable from '@loadable/component';
 const AddProjectDialog = loadable(() => import('./AddProjectDialog'))
 const NotesHeader = loadable(() => import('./NotesHeader'))
 const NoteList = loadable(() => import('./NoteList'))
+const NotesSidebarContent = loadable(() => import('./NotesSidebarContent'))
 
 function NotesApp(props) {
 	const dispatch = useDispatch();
@@ -85,16 +86,17 @@ function NotesApp(props) {
 					<div className="flex flex-col w-full items-center">
 						{/* <NewNote /> */}
 						{/* <Button onClick={handleDownload}>Download</Button> */}
-						<NoteList {...loading} handleSetLoading={handleSetLoading} />
+						<NoteList pageLayout={pageLayout} {...loading} handleSetLoading={handleSetLoading} />
 						<AddProjectDialog />
 						{/* <NoteDialog /> */}
 						{/* <LabelsDialog /> */}
 					</div>
 				}
-				// leftSidebarContent={<NotesSidebarContent />}
+				leftSidebarContent={<NotesSidebarContent />}
+				leftSidebarVariant
 				sidebarInner
 				ref={pageLayout}
-				// innerScroll
+				innerScroll
 			/>
 			{(getRole() == 'o' || getRole() == 'd') && (
 				<FuseAnimate animation="transition.expandIn" delay={300}>

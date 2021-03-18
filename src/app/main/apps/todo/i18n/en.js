@@ -5,6 +5,9 @@ const locale = {
 	ALERTED: 'Alerted',
 	TODAY: 'Today',
 	NEXT_WEEK: 'Next week',
+	ACTIVE: 'Active',
+	ARCHIVED: 'Archived',
+	DELETED: 'Deleted',
 	IN_LATE: 'In late',
 	COMPLETED: 'Completed',
 	GENERAL_FILTERS: 'GENERAL FILTERS', // uppercase in UI

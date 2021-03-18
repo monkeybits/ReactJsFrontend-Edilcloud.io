@@ -5,6 +5,9 @@ const locale = {
 	ALERTED: 'Problematiche',
 	TODAY: 'Oggi',
 	NEXT_WEEK: 'Prossima settimana',
+	ACTIVE: 'Aktiva',
+	ARCHIVED: 'Arkiverad',
+	DELETED: 'raderade',
 	IN_LATE: 'In ritardo',
 	COMPLETED: 'Completate',
 	GENERAL_FILTERS: 'FILTRI GENERICI', // uppercase in UI
