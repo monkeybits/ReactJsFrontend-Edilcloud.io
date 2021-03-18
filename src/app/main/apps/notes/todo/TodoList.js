@@ -1,22 +1,16 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
+import loadable from '@loadable/component';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
+import { Typography, Icon, IconButton, Input, Paper } from '@material-ui/core';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Hidden from '@material-ui/core/Hidden';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import Paper from '@material-ui/core/Paper';
-import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import * as Actions from './store/actions';
-import TodoListItem from './TodoListItem';
-import EditActivityPostForm from './EditActivityPostForm';
-import TaskContentForm from './Dialog/TaskContentForm';
+const TodoListItem = loadable(() => import('./TodoListItem'))
+const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'))
+const TaskContentForm = loadable(() => import('./Dialog/TaskContentForm'))
 
 function TodoList(props) {
 	const dispatch = useDispatch();

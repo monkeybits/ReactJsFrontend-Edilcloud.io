@@ -93,6 +93,12 @@ const labelsReducer = (state = initialState(), action) => {
 				dialogType: action.dialogType
 			};
 		}
+		case Actions.SET_SEARCH_TEXT: {
+			return {
+				...state,
+				searchText: action.searchText
+			};
+		}
 		case Actions.DIALOG_PROJECT_CLOSE: {
 			return {
 				...state,
