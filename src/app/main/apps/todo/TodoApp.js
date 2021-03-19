@@ -58,7 +58,6 @@ function TodoApp(props) {
 		loadingTodos: false
 	});
 	const handleSetLoading = data => {
-		// we will pass this funcion on component did mount to show user that we are fetching data
 		if (!data.loadingTodos) {
 			setTimeout(() => {
 				setLoading(loading => ({
@@ -73,17 +72,13 @@ function TodoApp(props) {
 			}));
 		}
 	};
-	useEffect(() => {
-		// dispatch(Actions.getFilters());
-		// dispatch(Actions.getFolders());
-		// dispatch(Actions.getLabels());
-	}, [dispatch]);
 
 	useDeepCompareEffect(() => {
 		// this is a component did mount it will call when we have dispatcher ready to dispatch the event
 		dispatch(Actions.getTodos(routeParams, false, handleSetLoading));
 		dispatch(ConatctActions.getContacts());
 	}, [dispatch, routeParams]);
+	
 	if (loading.loadingTodos) {
 		// when we are fetching data we will show below loading HTML
 		return (
@@ -103,22 +98,6 @@ function TodoApp(props) {
 					<ShowUpload progress={upload.uploadPercentage} />
 				</div>
 			)}
-			{/*
-			// *The below old code was for UI, I just had to leave it here for you to see.
-			
-			<FusePageCarded
-				classes={{
-					root: 'w-full remove-box-shadow',
-					header: 'items-center min-h-72 h-72 sm:h-136 sm:min-h-136'
-				}}
-				header={<TodoHeader pageLayout={pageLayout} />}
-				contentToolbar={<TodoToolbar />}
-				content={<TodoList handleSetLoading={handleSetLoading} />}
-				leftSidebarHeader={<TodoSidebarHeader />}
-				leftSidebarContent={<TodoSidebarContent />}
-				ref={pageLayout}
-				innerScroll
-			/> */}
 			<div className="flex w-full inner-scroll-min-ht">
 				<div className="flex w-full items-center justify-between p-20">
 					<div>
@@ -131,7 +110,7 @@ function TodoApp(props) {
 					</div>
 				</div>
 			</div>
-			<FusePageSimple // check fuse page simple to let undertand props and UI
+			<FusePageSimple
 				classes={{
 					contentWrapper: 'bg-azure h-full',
 					content: 'flex bg-azure flex-col h-full p-24 pb-0',

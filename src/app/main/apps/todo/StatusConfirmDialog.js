@@ -4,23 +4,14 @@
 *This File is written for Dashboard
 Todo: This File is created for Status Confirm in dialog
 */
-import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import _ from '@lodash';
 import { withStyles } from '@material-ui/core/styles';
-import { Dialog, IconButton, Icon, Typography, Avatar, Grid, Button, CircularProgress, Checkbox } from '@material-ui/core';
+import { Dialog, IconButton, Typography, Button } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	APPROVE_LIST,
-	EDIT_POST
-} from 'app/services/apiEndPoints';
-import { METHOD, apiCall } from 'app/services/baseUrl';
-import {
-	getHeaderToken
-} from 'app/services/serviceUtils';
 import * as Actions from '../notes/todo/store/actions';
 
 const styles = theme => ({

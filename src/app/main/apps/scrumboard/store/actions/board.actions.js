@@ -21,6 +21,8 @@ export const ADD_LIST = '[SCRUMBOARD APP] ADD LIST';
 export const ADD_LABEL = '[SCRUMBOARD APP] ADD LABEL';
 export const RENAME_LIST = '[SCRUMBOARD APP] RENAME LIST';
 export const REMOVE_LIST = '[SCRUMBOARD APP] REMOVE LIST';
+export const OPEN_UPGRADE_PLAN_DIALOG = '[SCRUMBOARD APP] OPEN UPGRADE PLAN DIALOG';
+export const CLOSE_UPGRADE_PLAN_DIALOG = '[SCRUMBOARD APP] CLOSE UPGRADE PLAN DIALOG';
 
 export function getBoard(params) {
 	const request = axios.get('/api/scrumboard-app/board', { params });
@@ -195,6 +197,18 @@ export function addLabel(label) {
 			type: ADD_LABEL,
 			payload: label
 		});
+	};
+}
+
+export function openUpgradePlanDialog() {
+	return {
+		type: OPEN_UPGRADE_PLAN_DIALOG
+	};
+}
+
+export function closeUpgradePlanDialog() {
+	return {
+		type: CLOSE_UPGRADE_PLAN_DIALOG
 	};
 }
 

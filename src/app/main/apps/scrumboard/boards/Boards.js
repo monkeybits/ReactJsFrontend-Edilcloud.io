@@ -40,6 +40,7 @@ import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import reducer from '../store/reducers';
 import * as Actions from '../store/actions';
 const Tutorial = loadable(() => import('./Tutorial'))
+const UpdatePlanDialog = loadable(() => import('./UpdatePlanDialog'))
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -213,6 +214,7 @@ function Boards(props) {
 			props.history.push('/edit-company');
 		}
 	};
+	console.log('boards???????', boards)
 	return isLoading ? (
 		<FuseSplashScreen />
 	) : isViewTutorial ? (
@@ -235,18 +237,25 @@ function Boards(props) {
 										onClick={e => {
 											e.preventDefault();
 											e.stopPropagation();
-											setRequest(board);
-											if (board.isApproved) {
-												setIsLoading(true);
-												// dispatch(
-												// 	FuseActions.setDefaultSettings(
-												// 		_.set({}, 'layout.config.toolbar.display', false)
-												// 	)
-												// );
-												redirectAfterGetNewToken(board.company_profile_id);
-											} else {
-												setIsShowRequests(true);
+											if(
+												board.subscription.status === 'trialing' || 
+												board.subscription.status === 'active'
+											) {
 												setRequest(board);
+												if (board.isApproved) {
+													setIsLoading(true);
+													// dispatch(
+													// 	FuseActions.setDefaultSettings(
+													// 		_.set({}, 'layout.config.toolbar.display', false)
+													// 	)
+													// );
+													redirectAfterGetNewToken(board.company_profile_id);
+												} else {
+													setIsShowRequests(true);
+													setRequest(board);
+												}
+											} else {
+												dispatch(Actions.openUpgradePlanDialog());
 											}
 										}}
 										className={clsx(
@@ -332,6 +341,7 @@ function Boards(props) {
 						</div>
 					</div>
 				</div>
+				<UpdatePlanDialog />
 			</div>
 			<ReuestsDrawer
 				afterSuccess={handleInvitation}

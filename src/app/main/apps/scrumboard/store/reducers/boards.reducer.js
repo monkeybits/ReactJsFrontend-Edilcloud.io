@@ -1,6 +1,7 @@
 import * as Actions from '../actions';
 
 const initialState = [];
+
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
 		order === 'ASC'
