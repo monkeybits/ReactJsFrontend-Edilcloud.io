@@ -81,6 +81,10 @@ function BillingContent(props) {
             if(res) {
                 setLoading(false)
                 toast.success('Successfully saved!');
+				
+				if(document.referrer.includes("apps/companies")) {
+					window.location = `https://back-test.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`;
+				}
             }
         })
         .catch((error) => {
