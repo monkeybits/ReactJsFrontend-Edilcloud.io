@@ -13,6 +13,7 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import * as ChatActions from '../../chat/store/actions';
 import {
 	APPROVE_LIST,
 	EDIT_POST
@@ -57,13 +58,47 @@ const DialogContent = withStyles(theme => ({
 	}
 }))(MuiDialogContent);
 
-function UpdatePlanDialog() {
+function UpdatePlanDialog(props) {
 	const dispatch = useDispatch();
 
     const isOpenUpgradePlan = useSelector(({ scrumboardApp }) => scrumboardApp.board.isOpenUpgradePlan);
-    
+    const company = useSelector(({ chatApp }) => chatApp?.company);
+    const [loading, setLoading] = useState({
+		loadingCompanyInfo: false,
+		loadingGetContacts: false,
+		loadingGetChat: false
+	});
+    const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+		}));
+
+    useEffect(() => {
+		dispatch(ChatActions.companyInfo(handleSetLoading));
+	}, [dispatch]);
+
     const handleClose = () => {
         dispatch(Actions.closeUpgradePlanDialog());
+    }
+
+    const onConfirmPayment = () => {
+        if(
+            company.name === '' &&
+            company.tax_code === '' && 
+            company.vat_number === '' &&
+            company.address === '' &&
+            company.province === '' &&
+            company.cap === '' &&
+            company.country === '' &&
+            company.pec === '' &&
+            company.billing_email === ''
+        ) {
+            props.history.push('/apps/billing');
+        } else {
+            window.location = `https://back-test.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`;
+            // props.history.push(`https://back-test.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`);
+        }
     }
 
 	return (
@@ -114,7 +149,7 @@ function UpdatePlanDialog() {
                         </div>
                         <div className="grid">
                             <Button
-                                onClick={handleClose}
+                                onClick={onConfirmPayment}
                                 variant="contained"
                                 className="justify-center d-inline-block mb-10 bg-blue-500 text-white normal-case rounded-32 w-200"
                             >

@@ -13,10 +13,10 @@ import ContactsList from './ContactsList';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import loadable from '@loadable/component';
+import TeamFloationButton from './TeamFloationButton';
 const ViewContactDialog = loadable(() => import('./ViewContactDialog'))
 const AddTeamMemberToProject = loadable(() => import('./AddTeamMemberToProject'))
 const ContactsSidebarContent = loadable(() => import('./ContactsSidebarContent'))
-const TeamFloationButton = loadable(() => import('./TeamFloationButton'))
 
 const useStyles = makeStyles({
 	addButton: {
@@ -80,7 +80,7 @@ function ContactsApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			{/* {(roleFromCompany == 'o' || roleFromCompany == 'd') && (
+			{(roleFromCompany == 'o' || roleFromCompany == 'd') && (
 				<FuseAnimate animation="transition.expandIn" delay={300}>
 					<TeamFloationButton
 						color="secondary"
@@ -92,7 +92,7 @@ function ContactsApp(props) {
 						}}
 					/>
 				</FuseAnimate>
-			)} */}
+			)}
 			<AddTeamMemberToProject handleSetLoading={handleSetLoading} />
 			<ViewContactDialog />
 		</>

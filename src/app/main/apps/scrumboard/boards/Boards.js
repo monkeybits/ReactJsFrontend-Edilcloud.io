@@ -92,6 +92,7 @@ function Boards(props) {
 	/**
 	 * get user companies
 	 */
+
 	const getcompanyList = () => {
 		apiCall(
 			APPROVE_LIST,
@@ -214,7 +215,7 @@ function Boards(props) {
 			props.history.push('/edit-company');
 		}
 	};
-	console.log('boards???????', boards)
+	
 	return isLoading ? (
 		<FuseSplashScreen />
 	) : isViewTutorial ? (
@@ -341,7 +342,7 @@ function Boards(props) {
 						</div>
 					</div>
 				</div>
-				<UpdatePlanDialog />
+				<UpdatePlanDialog {...props}/>
 			</div>
 			<ReuestsDrawer
 				afterSuccess={handleInvitation}
