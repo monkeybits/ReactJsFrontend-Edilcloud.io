@@ -154,10 +154,16 @@ function Boards(props) {
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		} else {
 			console.log('listenning to flutterInAppWebViewPlatformReady');
-			if (window.DownloadFiles?.postMessage) {
+			if (window.OneSignalSetUser?.postMessage) {
 				window.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
 			}
+			
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
+		}
+		try {
+			window.webkit.messageHandlers.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
+		} catch (e) {
+			console.log('error', e);
 		}
 		if (window.OneSignal)
 			window.OneSignal.push(function () {
