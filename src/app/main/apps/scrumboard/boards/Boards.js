@@ -161,7 +161,7 @@ function Boards(props) {
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		}
 		try {
-			window.webkit.messageHandlers.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
+			window.webkit.messageHandlers.OneSignalSetUser.postMessage(JSON.stringify({ "userid" : myCustomUniqueUserId}));
 		} catch (e) {
 			console.log('error', e);
 		}
