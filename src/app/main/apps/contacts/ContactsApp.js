@@ -12,6 +12,7 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { LinearProgress, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
@@ -50,11 +51,16 @@ function ContactsApp(props) {
 			...loading,
 			...data
 		}));
+	
+	const userInfo = decodeDataFromToken();
+	const roleFromCompany = userInfo?.extra?.profile?.role;
+	
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getContacts(handleSetLoading));
 		dispatch(Actions.getUserData());
 		return dispatch(Actions.resetContact());
 	}, [dispatch]);
+	
 	if (loading.loadingApprove || loading.loadingRefuse || loading.loadingWaiting || loading.loadingDeactivate) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center">
@@ -83,17 +89,19 @@ function ContactsApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			<FuseAnimate animation="transition.expandIn" delay={300}>
-				<TeamFloationButton
-					color="secondary"
-					className=" ltr:left-0 rtl:right-0 mx-16 z-999"
-					callAction={name => {
-						dispatch(Actions.openNewContactDialog(name));
-						// setIsOpenDrawer(true);
-						// return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
-					}}
-				/>
-			</FuseAnimate>
+			{(roleFromCompany == 'o' || roleFromCompany == 'd') && (
+				<FuseAnimate animation="transition.expandIn" delay={300}>
+					<TeamFloationButton
+						color="secondary"
+						className=" ltr:left-0 rtl:right-0 mx-16 z-999"
+						callAction={name => {
+							dispatch(Actions.openNewContactDialog(name));
+							// setIsOpenDrawer(true);
+							// return name == 'Folder' ? setRadioBtnValue('folder') : setRadioBtnValue('file');
+						}}
+					/>
+				</FuseAnimate>
+			)}
 			<ContactDialog handleSetLoading={handleSetLoading} />
 			<ViewContactDialog />
 		</>

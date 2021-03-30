@@ -201,10 +201,10 @@ class Gantt extends Component {
 			marker: true
 		});
 		gantt.config.multiselect = true;
-		document.addEventListener('fullscreenchange', exitHandler);
-		document.addEventListener('webkitfullscreenchange', exitHandler);
-		document.addEventListener('mozfullscreenchange', exitHandler);
-		document.addEventListener('MSFullscreenChange', exitHandler);
+		document.addEventListener('fullscreenchange', exitHandler, {passive: true});
+		document.addEventListener('webkitfullscreenchange', exitHandler, {passive: true});
+		document.addEventListener('mozfullscreenchange', exitHandler, {passive: true});
+		document.addEventListener('MSFullscreenChange', exitHandler, {passive: true});
 		gantt.config.show_errors = false;
 		gantt._onTemplatesReadyHandler = gantt.attachEvent('onTemplatesReady', function () {
 			// {

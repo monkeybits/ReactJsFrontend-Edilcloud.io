@@ -250,7 +250,7 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 			}
 			forceUpdate();
 		}
-	});
+	}, {passive: true});
 
 	return (
 		<>

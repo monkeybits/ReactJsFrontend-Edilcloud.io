@@ -328,7 +328,7 @@ function Chat(props) {
 				)}
 			</FuseScrollbars>
 
-			{getRole() != 'w' && <SendMessageForm />}
+			<SendMessageForm />
 		</div>
 	);
 }
