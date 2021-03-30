@@ -368,7 +368,7 @@ function ContactsList(props) {
 									// company.id == data.profile?.company?.id ?
 									<ContactCard
 										editPermission={
-											(getRole() == 'o' || getRole() == 'd') &&
+											(getRole() == 'o') &&
 											data.profile &&
 											userInfo.user_id != data.profile.id
 										}

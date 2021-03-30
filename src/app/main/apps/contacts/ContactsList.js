@@ -403,7 +403,7 @@ function ContactsList(props) {
 								<ContactCard
 									currentUser={user}
 									editPermission={
-										getRole() == 'o' || getRole() == 'd' || data.email == userInfo?.email
+										getRole() == 'o' || data.email == userInfo?.email
 									}
 									{...data}
 								/>
