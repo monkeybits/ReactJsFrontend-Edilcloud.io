@@ -167,7 +167,7 @@ function Boards(props) {
 		}
 		if (window.OneSignal)
 			window.OneSignal.push(function () {
-				window.OneSignal.setExternalUserId('');
+				window.OneSignal.setExternalUserId(myCustomUniqueUserId);
 			});
 		apiCall(
 			REFRESH_TOKEN(company_profile_id),
