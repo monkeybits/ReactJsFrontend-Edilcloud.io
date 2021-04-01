@@ -23,7 +23,7 @@ function FooterLayout1(props) {
 					</div>
 
 					<div>
-						<PoweredByLinks />
+						{/* <PoweredByLinks /> */}
 					</div>
 				</Toolbar>
 			</AppBar>
