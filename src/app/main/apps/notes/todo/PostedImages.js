@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import { MobileStepper, Button } from '@material-ui/core';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
 import clsx from 'clsx';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import VideoListItem from 'app/VideoPlayer/VideoListItem';
-import ImagePreviewDialog from 'app/ImagePreviewDialog';
-import DrawImage from './DrawImage';
+import loadable from '@loadable/component';
+const VideoListItem = loadable(() => import('app/VideoPlayer/VideoListItem'))
+const ImagePreviewDialog = loadable(() => import('app/ImagePreviewDialog'))
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews); // SwipeableViews;
 const useStyles = makeStyles(theme => ({

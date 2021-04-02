@@ -2,21 +2,15 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams, useRouteMatch } from 'react-router';
+import { useParams } from 'react-router';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
-import LabelsDialog from '../dialogs/labels/LabelsDialog';
-import NoteDialog from '../dialogs/note/NoteDialog';
-import NewNote from '../NewNote';
-import NoteList from '../NoteList';
-import ProjectDetailHeader from './ProjectDetailHeader';
-import NotesSidebarContent from '../NotesSidebarContent';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-import ProjectContent from './ProjectContent';
-import ProjectInfo from './ProjectInfo';
-import CreatePostDialog from '../todo/CreatePostDialog';
-import TodoDialog from '../todo/TodoDialog';
-import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
+import loadable from '@loadable/component';
+const StatusConfirmDialog = loadable(() => import('../../todo/StatusConfirmDialog'))
+const TodoDialog = loadable(() => import('../todo/TodoDialog'))
+const ProjectInfo = loadable(() => import('./ProjectInfo'))
+const ProjectContent = loadable(() => import('./ProjectContent'))
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();
@@ -92,6 +86,7 @@ function ProjectDetails(props) {
 			{/* <CreatePostDialog /> */}
 			<TodoDialog />
 			{/* <TaskContentDialog /> */}
+			<StatusConfirmDialog />
 		</>
 	);
 }

@@ -1,20 +1,15 @@
 import { useForm } from '@fuse/hooks';
-import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import FormControl from '@material-ui/core/FormControl';
-import Icon from '@material-ui/core/Icon';
-import TextField from '@material-ui/core/TextField';
+import { FormControl, Icon, TextField, Button, CircularProgress, Select } from '@material-ui/core';
 import moment from 'moment/moment';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
 import DatePicker from 'react-datepicker';
-import { Button, CircularProgress, Select, Slider, withStyles } from '@material-ui/core';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
-import { apiCall, METHOD } from 'app/services/baseUrl';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import { Autocomplete } from '@material-ui/lab';
+import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 

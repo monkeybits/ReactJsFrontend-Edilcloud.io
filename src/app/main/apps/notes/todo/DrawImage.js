@@ -1,22 +1,11 @@
 import _ from '@lodash';
-import AppBar from '@material-ui/core/AppBar';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import IconButton from '@material-ui/core/IconButton';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import React, { useState, useRef, useEffect } from 'react';
-
+import { AppBar, Dialog, DialogContent, IconButton, Toolbar, DialogActions, DialogTitle, Icon, Button, ButtonGroup } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
 import { Stage, Layer } from 'react-konva';
-import DialogActions from '@material-ui/core/DialogActions';
-import { Button, ButtonGroup, Modal } from '@material-ui/core';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Icon from '@material-ui/core/Icon';
-import Rectangle from './Rectangle';
+import loadable from '@loadable/component';
 import { addLine } from './line';
 import { addTextNode } from './textNode';
-import Image from './Image';
+const Image = loadable(() => import('./Image'))
 
 const uuidv1 = require('uuid/v1');
 
@@ -250,7 +239,7 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 			}
 			forceUpdate();
 		}
-	}, {passive: true});
+	});
 
 	return (
 		<>

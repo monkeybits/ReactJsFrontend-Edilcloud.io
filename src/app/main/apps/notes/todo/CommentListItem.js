@@ -1,13 +1,6 @@
-import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import {
-	AppBar,
 	Avatar,
 	Button,
-	Card,
-	CardActions,
-	CardContent,
-	CardHeader,
-	Divider,
 	Icon,
 	IconButton,
 	Input,
@@ -16,43 +9,32 @@ import {
 	ListItemText,
 	ListItemIcon,
 	Paper,
-	Toolbar,
 	Typography,
 	Box,
 	CircularProgress,
-	Collapse
+	Collapse,
+	MenuItem
 } from '@material-ui/core';
-import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
 	ADD_COMMENT_TO_POST,
-	GET_COMMENT_OF_POST,
 	DELETE_COMMENT,
 	GET_REPLIES_OF_COMMENT,
 	EDIT_COMMENT
 } from 'app/services/apiEndPoints';
 import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
-import imageCompression from 'browser-image-compression';
-import moment from 'moment';
 import FuseUtils from '@fuse/utils';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MenuList from '@material-ui/core/MenuList';
-import MenuItem from '@material-ui/core/MenuItem';
-import SendIcon from '@material-ui/icons/Send';
-import Menu from '@material-ui/core/Menu';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
-import TippyMenu from 'app/TippyMenu';
-import PostedImages from './PostedImages';
-import ReplyListItem from './ReplyListItem';
-import ImagesPreview from './ImagesPreview';
-import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
+const ReplyListItem = loadable(() => import('./ReplyListItem'))
+const ImagesPreview = loadable(() => import('./ImagesPreview'))
 
 const uuidv1 = require('uuid/v1');
 

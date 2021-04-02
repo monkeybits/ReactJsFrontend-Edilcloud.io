@@ -180,6 +180,7 @@ function TaskContentForm(props) {
 	const dispatch = useDispatch();
 	const upload = useSelector(({ todoAppNote }) => todoAppNote.todos.upload);
 	const taskContent = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
+	const openDrawingContent = useSelector(({ todoAppNote }) => todoAppNote.todos.openDrawingContent);
 	const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [profileData, setProfileData] = useState([]);
@@ -196,6 +197,7 @@ function TaskContentForm(props) {
 	});
 	const [value, setValue] = React.useState(0);
 	const getName = profile => `${profile.first_name} ${profile.last_name}`;
+	
 	useEffect(() => {
 		if (companies && companies.length && taskContentData) {
 			const company = [...companies]
@@ -252,6 +254,14 @@ function TaskContentForm(props) {
 			}
 		}
 	}, [companies, taskContentData]);
+
+	useEffect(() => {
+		if (openDrawingContent) {
+			setValue(1);
+			a11yProps(1)
+		}
+	}, [openDrawingContent]);
+
 	useEffect(() => {
 		setValue(0);
 	}, [taskContentData]);
@@ -370,19 +380,21 @@ function TaskContentForm(props) {
 		// 	getHeaderToken()
 		// );
 	};
+	
 	return (
 		<div className="w-full custom-task-content">
 			<div className="custom-tab-header bg-white flex relative">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {
+						console.log('newValue', newValue)
 						setValue(newValue);
 					}}
 					showLabels
 					className="w-full"
 				>
 					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Contents" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Drawings" {...a11yProps(1)} />
+					<BottomNavigationAction className="min-w-auto max-w-full font-bold hidden" label="Drawings" {...a11yProps(1)} />
 					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Edit" {...a11yProps(2)} />
 				</BottomNavigation>
 				<div className="absolute right-m-12">

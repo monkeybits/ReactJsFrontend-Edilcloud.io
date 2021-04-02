@@ -27,6 +27,7 @@ export const TOGGLE_ORDER_DESCENDING = '[TODO APP] TOGGLE ORDER DESCENDING';
 export const CHANGE_ORDER = '[TODO APP] CHANGE ORDER';
 export const OPEN_TASK_CONTENT_DIALOG = '[TODO APP] OPEN TASK CONTENT DIALOG';
 export const CLOSE_TASK_CONTENT_DIALOG = '[TODO APP] CLOSE TASK CONTENT DIALOG';
+export const OPEN_DRAWING_CONTENT_DIALOG = '[TODO APP] OPEN DRAWING CONTENT DIALOG';
 
 export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG';
 export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG';
@@ -188,6 +189,14 @@ export function openTaskContent(data) {
 		data
 	};
 }
+
+export function openDrawingContent(data) {
+	return {
+		type: OPEN_DRAWING_CONTENT_DIALOG,
+		data
+	};
+}
+
 export function openNewTodoDialog() {
 	return {
 		type: OPEN_NEW_TODO_DIALOG

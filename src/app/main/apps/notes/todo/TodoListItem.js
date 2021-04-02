@@ -23,7 +23,10 @@ import {
 	Icon,
 	Card,
 	Button,
-	Avatar
+	Avatar,
+	IconButton,
+	MenuItem,
+	ListItemText
 } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
@@ -34,6 +37,7 @@ import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 const TodoActivityListItem = loadable(() => import('./TodoActivityListItem'))
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -201,6 +205,7 @@ function TodoListItem(props) {
 				elevation={1}
 				className="flex flex-col overflow-inherit mb-6"
 				onClick={() => {
+					console.log('sdgggggggggggggg')
 					// if (getRole() == 'o' || getRole() == 'd') {
 					dispatch(Actions.closeTimelineDialog());
 					dispatch(Actions.openTaskContent(props.todo));
@@ -223,7 +228,61 @@ function TodoListItem(props) {
 						</Typography>
 					</div>
 
-					<Button
+					<div className="flex justify-between">
+						<IconButton
+							// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+							aria-haspopup="true"
+							onClick={(e) => {
+								// dispatch(Actions.openDrawingContent(props.todo));
+							}}
+							className="text-white opacity-60"
+						>
+							<Icon>attach_file</Icon>
+						</IconButton>
+
+						<TippyMenu
+							icon={
+								<>
+									<IconButton
+										// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+										aria-haspopup="true"
+										// onClick={handleMoreMenuClick}
+										className="text-white opacity-60"
+									>
+										<Icon>more_vert</Icon>
+									</IconButton>
+								</>
+							}
+							outsideClick
+						>
+							<MenuItem onClick={ev => {
+								ev.preventDefault();
+								ev.stopPropagation();
+								if (props.todo.assigned_company) {
+									dispatch(Actions.openAddActivityTodoDialog(props.todo));
+								}
+							}}>
+								<Button
+									// style={{
+									// 	color: theme.palette.getContrastText(
+									// 		props.todo.assigned_company?.color_project || '#D3D3D3'
+									// 	) // )
+									// }}
+									// onClick={ev => {
+									// 	ev.preventDefault();
+									// 	ev.stopPropagation();
+									// 	if (props.todo.assigned_company) {
+									// 		dispatch(Actions.openAddActivityTodoDialog(props.todo));
+									// 	}
+									// }}
+								>
+									<Icon className="mr-10">add_circle_outline</Icon>
+									SOTTOFASE
+								</Button>
+							</MenuItem>
+						</TippyMenu>
+					</div>
+					{/* <Button
 						style={{
 							color: theme.palette.getContrastText(
 								props.todo.assigned_company?.color_project || '#D3D3D3'
@@ -239,7 +298,7 @@ function TodoListItem(props) {
 					>
 						<Icon className="mr-10">add_circle_outline</Icon>
 						SOTTOFASE
-					</Button>
+					</Button> */}
 				</div>
 				<CardContent className="flex flex-col flex-auto ">
 					

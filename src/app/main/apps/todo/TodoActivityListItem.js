@@ -196,6 +196,8 @@ function TodoActivityListItem(props) {
 		);
 	};
 	const handleMenuOpen = event => {
+		event.stopPropagation(); 
+		event.preventDefault(); 
 		stopsEvents(event);
 		show();
 		// setState({
@@ -424,7 +426,7 @@ function TodoActivityListItem(props) {
 																			}
 																		}}
 																	/>
-																	<Avatar className="w-32 h-32" src={member.avatar} />
+																	<Avatar className="w-32 h-32" src={member.profile.photo} />
 																	<ListItemText className="mx-8">
 																		{member.profile.first_name}{' '}
 																		{member.profile.last_name}
@@ -463,7 +465,7 @@ function TodoActivityListItem(props) {
 																			}
 																		}}
 																	/>
-																	<Avatar className="w-32 h-32" src={member.avatar} />
+																	<Avatar className="w-32 h-32" src={member.profile.photo} />
 																	<ListItemText className="mx-8">
 																		{member.profile.first_name}{' '}
 																		{member.profile.last_name}
@@ -486,7 +488,7 @@ function TodoActivityListItem(props) {
 																	className="px-8"
 																	key={member.id}
 																>
-																	<Avatar className="w-32 h-32" src={member.avatar} />
+																	<Avatar className="w-32 h-32" src={member.profile.photo} />
 																	<ListItemText className="mx-8">
 																		{member.first_name} {member.last_name}
 																	</ListItemText>

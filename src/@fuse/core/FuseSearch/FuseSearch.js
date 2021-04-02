@@ -232,12 +232,12 @@ function FuseSearch(props) {
 
 	function showSearch() {
 		dispatch({ type: 'open' });
-		document.addEventListener('keydown', escFunction, {passive: true});
+		document.addEventListener('keydown', escFunction, false);
 	}
 
 	function hideSearch() {
 		dispatch({ type: 'close' });
-		document.removeEventListener('keydown', escFunction, {passive: true});
+		document.removeEventListener('keydown', escFunction, false);
 	}
 
 	function escFunction(event) {

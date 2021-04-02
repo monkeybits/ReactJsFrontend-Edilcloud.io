@@ -19,7 +19,7 @@ export const addLine = (stage, layer, mode = 'brush') => {
 			draggable: mode == 'brush'
 		});
 		layer.add(lastLine);
-	}, { passive: true });
+	});
 	stage.on('mouseup touchend', function () {
 		isPaint = false;
 	});

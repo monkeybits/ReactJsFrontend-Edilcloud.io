@@ -115,7 +115,7 @@ function ChatPanel(props) {
 
 	useEffect(() => {
 		if (state) {
-			document.addEventListener('keydown', handleDocumentKeyDown, {passive: true});
+			document.addEventListener('keydown', handleDocumentKeyDown);
 		} else {
 			document.removeEventListener('keydown', handleDocumentKeyDown);
 		}

@@ -30,7 +30,8 @@ const initialState = {
 	notificationPost: {},
 	isStateConfirmDialog: false,
 	statusPost: {},
-	okStateConfirmDialog: false
+	okStateConfirmDialog: false,
+	openDrawingContent: false
 };
 
 const todosReducer = (state = initialState, action) => {
@@ -66,6 +67,19 @@ const todosReducer = (state = initialState, action) => {
 		case Actions.OPEN_TASK_CONTENT_DIALOG: {
 			return {
 				...state,
+				// taskContentDialog: {
+				// 	// type: 'new',
+				// 	props: {
+				// 		// open: true
+				// 	},
+				// 	data: action.data
+				// }
+			};
+		}
+		case Actions.OPEN_DRAWING_CONTENT_DIALOG: {
+			return {
+				...state,
+				openDrawingContent: true,
 				taskContentDialog: {
 					type: 'new',
 					props: {

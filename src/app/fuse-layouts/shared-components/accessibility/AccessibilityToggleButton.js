@@ -23,7 +23,7 @@ function AccessibilityToggleButton(props) {
 				variant="extended"
 				color="primary"
 				aria-label="accessibility_new"
-				className={clsx(classes.addButton, 'custom-accessibility-btn')}
+				className={clsx(classes.addButton, 'custom-accessibility-btn mr-8 mb-8')}
 				onClick={ev => dispatch(Actions.toggleAccessibility())}
 			>
 				<span>Quickstart</span>

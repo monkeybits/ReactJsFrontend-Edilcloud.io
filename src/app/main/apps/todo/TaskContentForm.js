@@ -163,6 +163,7 @@ function TaskContentForm(props) {
 	const upload = useSelector(({ todoApp }) => todoApp.todos.upload);
 	const taskContent = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 	const taskContentData = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog?.data);
+	const openDrawingContent = useSelector(({ todoAppNote }) => todoAppNote.todos.openDrawingContent);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [profileData, setProfileData] = useState([]);
 	const [profiles, setProfiles] = useState([]);
@@ -178,6 +179,15 @@ function TaskContentForm(props) {
 	});
 	const [value, setValue] = React.useState(0);
 	const getName = profile => `${profile.first_name} ${profile.last_name}`;
+
+	useEffect(() => {
+		console.log('openDrawingContent?????????????????????????', openDrawingContent)
+		if (openDrawingContent) {
+			setValue(1);
+			a11yProps(1)
+		}
+	}, [openDrawingContent]);
+
 	useEffect(() => {
 		if (companies && companies.length && taskContentData) {
 			const company = [...companies]
@@ -356,7 +366,7 @@ function TaskContentForm(props) {
 					className="w-full"
 				>
 					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Contents" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Drawings" {...a11yProps(1)} />
+					{/* <BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Drawings" {...a11yProps(1)} /> */}
 					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Edit" {...a11yProps(2)} />
 				</BottomNavigation>
 				<div className="absolute right-m-12">
