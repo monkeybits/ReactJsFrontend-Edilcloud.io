@@ -28,7 +28,7 @@ function NotesSearch(props) {
 
 	function showSearch() {
 		setSearch(true);
-		document.addEventListener('keydown', escFunction, {passive: true});
+		document.addEventListener('keydown', escFunction, false);
 	}
 
 	function hideSearch() {

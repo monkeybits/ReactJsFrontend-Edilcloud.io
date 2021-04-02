@@ -1,11 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { LinearProgress, Typography, Box } from '@material-ui/core';
 import { useStyles } from '@material-ui/pickers/views/Calendar/SlideTransition';
-
 function LinearProgressWithLabel(props) {
 	const classes = useStyles1();
 	return (

@@ -21,7 +21,7 @@ function NewNote(props) {
 
 	function handleFormOpen() {
 		setFormOpen(true);
-		document.addEventListener('keydown', escFunction, {passive: true});
+		document.addEventListener('keydown', escFunction, false);
 	}
 
 	function handleFormClose() {

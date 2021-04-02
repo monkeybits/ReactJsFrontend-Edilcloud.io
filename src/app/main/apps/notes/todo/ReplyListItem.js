@@ -1,46 +1,18 @@
-import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
+import { Button, Icon, IconButton, Input, ListItem, ListItemText, MenuItem, Paper, Typography, Box, CircularProgress, ListItemIcon } from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ADD_COMMENT_TO_POST, GET_COMMENT_OF_POST, DELETE_COMMENT, EDIT_COMMENT } from 'app/services/apiEndPoints';
+import { ADD_COMMENT_TO_POST, DELETE_COMMENT, EDIT_COMMENT } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
-import imageCompression from 'browser-image-compression';
 import moment from 'moment';
-import { Box, CircularProgress, Collapse } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MenuList from '@material-ui/core/MenuList';
-import MenuItem from '@material-ui/core/MenuItem';
-import SendIcon from '@material-ui/icons/Send';
-import Menu from '@material-ui/core/Menu';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-import TippyMenu from 'app/TippyMenu';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
-import PostedImages from './PostedImages';
-import PostList from './PostList';
-import ImagesPreview from './ImagesPreview';
-import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const PostedImages = loadable(() => import('./PostedImages'))
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 export default function ReplyListItem({
 	post,

@@ -339,7 +339,6 @@ textarea.MuiOutlinedInput-input {
     Sidebar
 *********************************************************************************************** */
 
-
 /* ********************************************************************************************
     Card
 *********************************************************************************************** */
@@ -1823,6 +1822,11 @@ audio {
 #wrapped-tabpanel-3{
     height: calc(100% - 98px);
 }
+#right-sidebar-file.custom-fuse-page-right-sidebar .permanent.height-full-left {
+    height: 100% !important;
+    padding-top: 90px;
+}
+
 #right-sidebar-file.custom-fuse-page-right-sidebar .permanent{
     height: auto !important;
 }

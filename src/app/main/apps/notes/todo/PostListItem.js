@@ -13,7 +13,9 @@ import {
 	List,
 	Paper,
 	Input,
-	CircularProgress
+	CircularProgress,
+	MenuItem,
+	ListItemIcon
 } from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -30,19 +32,17 @@ import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/servic
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
-import { red } from '@material-ui/core/colors';
 import { toast } from 'react-toastify';
-import TippyMenu from 'app/TippyMenu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import * as Actions from './store/actions';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
-import EditPostForm from './EditPostForm';
-import PostedImages from './PostedImages';
-import CommentListItem from './CommentListItem';
-import ImagesPreview from './ImagesPreview';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
+const EditPostForm = loadable(() => import('./EditPostForm'))
+const PostedImages = loadable(() => import('./PostedImages'))
+const CommentListItem = loadable(() => import('./CommentListItem'))
+const ImagesPreview = loadable(() => import('./ImagesPreview'))
 
 const uuidv1 = require('uuid/v1');
 

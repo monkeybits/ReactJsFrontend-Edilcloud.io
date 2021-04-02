@@ -47,14 +47,16 @@ class Auth extends Component {
 
 	getUser = () => {
 		const mainProfileId = getMainProfileId();
-		apiCall(
-			GET_MAIN_PROFILE(mainProfileId),
-			{},
-			res => this.props.setUserData(res),
-			err => console.log({ err }),
-			METHOD.GET,
-			getHeaderToken()
-		);
+		if(mainProfileId !== null) {
+			apiCall(
+				GET_MAIN_PROFILE(mainProfileId),
+				{},
+				res => this.props.setUserData(res),
+				err => console.log({ err }),
+				METHOD.GET,
+				getHeaderToken()
+			);
+		}
 	};
 
 	getCompanyProfileData = () => {

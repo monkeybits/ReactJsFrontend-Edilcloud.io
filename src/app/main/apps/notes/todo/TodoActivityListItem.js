@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import WorkerProfiles from './WorkerProfiles';
 import * as Actions from './store/actions';
 // import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css';
 
 _.enhance = function (list, source) {
@@ -336,6 +337,7 @@ function TodoActivityListItem(props) {
 							/>
 							{props.task.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
 								<Tippy
+									theme="light"
 									className="custom-tippy"
 									allowHTML
 									placement="bottom-start"
@@ -392,7 +394,7 @@ function TodoActivityListItem(props) {
 																			}
 																		}}
 																	/>
-																	<Avatar className="w-32 h-32" src={member.avatar} />
+																	<Avatar className="w-32 h-32" src={member.profile.photo} />
 																	<ListItemText className="mx-8">
 																		{member.profile.first_name}{' '}
 																		{member.profile.last_name}
@@ -431,7 +433,7 @@ function TodoActivityListItem(props) {
 																			}
 																		}}
 																	/>
-																	<Avatar className="w-32 h-32" src={member.avatar} />
+																	<Avatar className="w-32 h-32" src={member.profile.photo} />
 																	<ListItemText className="mx-8">
 																		{member.profile.first_name}{' '}
 																		{member.profile.last_name}
@@ -454,7 +456,7 @@ function TodoActivityListItem(props) {
 																	className="px-8"
 																	key={member.id}
 																>
-																	<Avatar className="w-32 h-32" src={member.avatar} />
+																	<Avatar className="w-32 h-32" src={member.profile.photo} />
 																	<ListItemText className="mx-8">
 																		{member.first_name} {member.last_name}
 																	</ListItemText>

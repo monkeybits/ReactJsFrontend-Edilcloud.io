@@ -282,7 +282,7 @@ function TodoApp(props) {
 			<FusePageSimple
 				classes={{
 					contentWrapper: 'bg-azure h-full',
-					content: 'flex bg-azure flex-col h-full p-24 pb-0',
+					content: 'flex bg-azure flex-col h-full pb-0',
 					leftSidebar: 'mobile-h-full w-256 border-0',
 					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove',

@@ -24,7 +24,8 @@ const initialState = {
 			open: false
 		},
 		data: null
-	}
+	},
+	openDrawingContent: false
 };
 
 const todosReducer = (state = initialState, action) => {
@@ -66,6 +67,19 @@ const todosReducer = (state = initialState, action) => {
 					},
 					data: action.data
 				}
+			};
+		}
+		case Actions.OPEN_DRAWING_CONTENT_DIALOG: {
+			return {
+				...state,
+				openDrawingContent: true,
+				// taskContentDialog: {
+				// 	type: 'new',
+				// 	props: {
+				// 		open: true
+				// 	},
+				// 	data: action.data
+				// }
 			};
 		}
 		case Actions.CLOSE_TASK_CONTENT_DIALOG: {

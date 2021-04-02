@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import PostListItem from './PostListItem';
+import loadable from '@loadable/component';
+const PostListItem = loadable(() => import('./PostListItem'))
 
 function PostList({
 	posts,

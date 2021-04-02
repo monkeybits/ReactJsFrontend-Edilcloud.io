@@ -1,42 +1,21 @@
-import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
+import { AppBar, Button, Card, Icon, IconButton, Input, Typography, LinearProgress } from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
 	ADD_POST_TO_ACTIVITY,
 	GET_POST_TO_ACTIVITY,
 	GET_POST_FOR_TASK,
-	ADD_POST_TO_TASK,
-	GET_SHARED_POSTS_FOR_TASKS
+	ADD_POST_TO_TASK
 } from 'app/services/apiEndPoints';
 import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
-import moment from 'moment';
 import FuseUtils from '@fuse/utils';
-import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
-import { LinearProgress } from '@material-ui/core';
-import PostList from './PostList';
-import ImagesPreview from './ImagesPreview';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const PostList = loadable(() => import('./PostList'))
+const ImagesPreview = loadable(() => import('./ImagesPreview'))
 
 const uuidv1 = require('uuid/v1');
 
