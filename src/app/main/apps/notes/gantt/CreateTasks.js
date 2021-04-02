@@ -63,8 +63,8 @@ export default function CreateTasks(props) {
 	};
 
 	const actions = [
-		{ icon: <Icon>import_export</Icon>, name: 'Import excel', handler: props.importExcel },
-		{ icon: <Icon>add</Icon>, name: 'Create Task', handler: props.createTasks }
+		{ icon: <Icon>import_export</Icon>, name: 'Importa de excel', handler: props.importExcel },
+		{ icon: <Icon>add</Icon>, name: 'Crea una fase', handler: props.createTasks }
 	];
 	return (
 		<div className={clsx(classes.root, 'speeddial-btn')}>

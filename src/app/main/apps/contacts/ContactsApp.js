@@ -80,7 +80,7 @@ function ContactsApp(props) {
 					leftSidebar: 'mobile-h-full w-256 border-0 height-full-left',
 					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove',
-					wrapper: 'min-h-0 team-tab p-24'
+					wrapper: 'min-h-0 team-tab'
 				}}
 				header={<ContactsHeader pageLayout={pageLayout} />}
 				content={<ContactsList pageLayout={pageLayout} />}

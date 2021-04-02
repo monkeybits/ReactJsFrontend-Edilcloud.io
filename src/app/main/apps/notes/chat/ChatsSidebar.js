@@ -1,13 +1,15 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import FuseUtils from '@fuse/utils';
-import { AppBar, Icon, Input, List, Paper, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Avatar, Icon, IconButton, Input, List, ListItemIcon, ListItemText, Menu, MenuItem, Paper, Toolbar, Typography } from '@material-ui/core';
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 const ContactListItem = loadable(() => import('./ContactListItem'))
+const StatusIcon = loadable(() => import('./StatusIcon'))
 
 const statusArr = [
 	{
@@ -77,6 +79,71 @@ function ChatsSidebar(props) {
 	return (
 		<div className="flex flex-col flex-auto h-full">
 			<AppBar position="static" color="default" elevation={1} className="bg-white border-0">
+			<Toolbar className="flex justify-between items-center px-4 bg-dark min-h-72 chat-border-right">
+					{user && (
+						<div
+							className="relative w-48 h-48 p-0 mx-12 cursor-pointer chat-header-img"
+							onClick={() => dispatch(Actions.openUserSidebar())}
+							onKeyDown={() => dispatch(Actions.openUserSidebar())}
+							role="button"
+							tabIndex={0}
+						>
+							<Avatar src={user.avatar} alt={user.name} className="w-48 h-48">
+								{!user.avatar || user.avatar === '' ? user.name[0] : ''}
+							</Avatar>
+
+							<div
+								className="absolute right-0 bottom-0 -m-2 z-10 cursor-pointer"
+								aria-owns={statusMenuEl ? 'switch-menu' : null}
+								aria-haspopup="true"
+								onClick={handleStatusMenuClick}
+								onKeyDown={handleStatusMenuClick}
+								role="button"
+								tabIndex={0}
+							>
+								<StatusIcon status={user.status} />
+							</div>
+
+							<Menu
+								id="status-switch"
+								anchorEl={statusMenuEl}
+								open={Boolean(statusMenuEl)}
+								onClose={handleStatusClose}
+							>
+								{statusArr.map(status => (
+									<MenuItem onClick={ev => handleStatusSelect(ev, status.value)} key={status.value}>
+										<ListItemIcon className="min-w-40">
+											<StatusIcon status={status.value} />
+										</ListItemIcon>
+										<ListItemText primary={status.title} />
+									</MenuItem>
+								))}
+							</Menu>
+						</div>
+					)}
+
+					<div>
+						<TippyMenu
+							icon={
+								<>
+									<IconButton
+										aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+										aria-haspopup="true"
+										onClick={handleMoreMenuClick}
+										className="text-white opacity-60"
+									>
+										<Icon>more_vert</Icon>
+									</IconButton>
+								</>
+							}
+							outsideClick
+						>
+							<MenuItem onClick={handleMoreMenuClose}>Profile</MenuItem>
+							<MenuItem onClick={handleMoreMenuClose}>Logout</MenuItem>
+						</TippyMenu>
+					</div>
+				</Toolbar>
+		
 				{useMemo(
 					() => (
 						<Toolbar className="mt-8 px-16">
