@@ -203,7 +203,7 @@ function TodoListItem(props) {
 		<div className="mb-20">
 			<Card
 				elevation={1}
-				className="flex flex-col overflow-inherit mb-6"
+				className="flex flex-col bordergrey overflow-inherit mb-6"
 				onClick={() => {
 					console.log('sdgggggggggggggg')
 					// if (getRole() == 'o' || getRole() == 'd') {
@@ -306,7 +306,7 @@ function TodoListItem(props) {
 						{props.todo.progress == 100 ? (
 							<div className={clsx('flex items-center px-8 py-4 mx-4 rounded bg-green-500 text-white')}>
 								<Icon className="text-16 mt-4">check_circle</Icon>{' '}
-								<span className="mx-4">Completed</span>
+								<span className="mx-4">Completata</span>
 							</div>
 						) : moment().diff(moment(props.todo.date_start)) > 0 ? (
 							moment().diff(moment(props.todo.date_end)) > 0 ? (

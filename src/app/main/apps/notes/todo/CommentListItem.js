@@ -524,7 +524,7 @@ export default function CommentListItem({
 			)}
 			{showReplies() && (
 				<Collapse in={open} timeout="auto" unmountOnExit>
-					<div className="ml-60">
+					<div className="left-100">
 						<List className="clearfix">
 							{replyComments.map((reply, index) => (
 								<ReplyListItem
@@ -593,7 +593,7 @@ export default function CommentListItem({
 				</Collapse>
 			)}
 			{isReplying && (
-				<div className="flex-1 ml-60 my-6">
+				<div className="flex-1 left-100 my-6">
 					<Paper elevation={0} className="w-full relative post-icons rounded-32">
 						<Input
 							ref={replyRefs}

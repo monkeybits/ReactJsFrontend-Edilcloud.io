@@ -13,7 +13,7 @@ function TodoHeader(props) {
 		<ThemeProvider theme={mainTheme}>
 			<div className="flex flex-1 dashboard-todo-header">
 				<Paper
-					className="flex items-center w-full h-48 ltr:pl-4 lg:ltr:pl-16 rtl:pr-4 lg:rtl:pr-16 rounded-8 shadow-none"
+					className="flex items-center bordergrey w-full h-48 ltr:pl-4 lg:ltr:pl-16 rtl:pr-4 lg:rtl:pr-16 rounded-8 shadow-none"
 					elevation={1}
 				>
 					<IconButton

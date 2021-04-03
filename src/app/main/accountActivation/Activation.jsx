@@ -13,7 +13,7 @@ import { apiCall, METHOD } from '../../services/baseUrl';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`,
+		background: `#ffffff)`,
 		color: theme.palette.primary.contrastText
 	},
 	formControl: {

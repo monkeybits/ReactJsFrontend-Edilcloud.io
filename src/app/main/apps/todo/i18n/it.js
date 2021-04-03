@@ -58,7 +58,7 @@ const locale = {
 	REPORT_PROBLEM: 'Segnala problema',
 	SEND_NOTIFICATION: 'Notifica',
 	STATUS_PUBLIC: 'Pubblico',
-	STATUS_PRIVATE: 'Privada',
+	STATUS_PRIVATE: 'Privata',
 	ALERT: 'Allerta',
 	COMMENTS: 'Commenta',
 	RETRY: 'Riprova',

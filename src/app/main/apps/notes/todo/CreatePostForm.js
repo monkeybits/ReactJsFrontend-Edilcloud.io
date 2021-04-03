@@ -360,7 +360,7 @@ function CreatePostForm({ isTask, taskId }) {
 				{loading && (
 					<div className="flex flex-1 flex-col items-center justify-center">
 						<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
-							Loading Posts...
+							Sto caricando i posts
 						</Typography>
 						<LinearProgress className="w-xs" color="secondary" />
 					</div>

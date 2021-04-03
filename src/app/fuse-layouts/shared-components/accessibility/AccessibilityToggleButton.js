@@ -26,7 +26,7 @@ function AccessibilityToggleButton(props) {
 				className={clsx(classes.addButton, 'custom-accessibility-btn mr-8 mb-8')}
 				onClick={ev => dispatch(Actions.toggleAccessibility())}
 			>
-				<span>Quickstart</span>
+				<span>Vuoi un aiuto?</span>
 				{/* <Icon>accessibility_new</Icon> */}
 			</Fab>
 		</FuseAnimate>

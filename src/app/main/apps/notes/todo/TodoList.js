@@ -411,7 +411,7 @@ function TodoList(props) {
 								))}
 							</div>
 						</div>
-						<div className="lg:w-2/3 content-ht custom-modal-open flex-fill">
+						<div className="lg:w-2/3 content-ht custom-modal-open marginleft flex-fill">
 							{taskContentDialog.props.open && todoId == taskContentDialog.data.id && <TaskContentForm />}
 							{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
 								<EditActivityPostForm />

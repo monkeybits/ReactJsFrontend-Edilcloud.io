@@ -11,7 +11,7 @@ import Guide from './Guide';
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: 450,
-		backgroundColor: '#eff2f7'
+		backgroundColor: '#ffffff'
 	},
 	top: {
 		color: '#192d3e',

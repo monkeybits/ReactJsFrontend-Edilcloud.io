@@ -8,7 +8,7 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`
+		background: `#ffffff)`
 	},
 	divider: {
 		backgroundColor: theme.palette.getContrastText(theme.palette.primary.dark)

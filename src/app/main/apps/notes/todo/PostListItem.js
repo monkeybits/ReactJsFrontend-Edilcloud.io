@@ -585,7 +585,7 @@ export default function PostListItem({
 			) : (
 				<CardContent className="p-0">
 					{post.text && (
-						<Typography component="p" className="mb-16 px-16 text-lg">
+						<Typography component="p" className="my-16 px-16 text-lg">
 							{post.text}
 						</Typography>
 					)}
@@ -619,9 +619,9 @@ export default function PostListItem({
 			<AppBar className="card-footer flex flex-column p-16 bg-white" position="static" color="default" elevation={0}>
 				<div className="flex flex-wrap items-center mb-12 cursor-pointer justify-between">
 					<div className="flex">
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-44 w-44 mr-8" />
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-32 w-32 mr-8" />
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-32 w-32 mr-8" />
+						<Avatar aria-label="Recipe" src={post.author.photo} className="h-32 w-32 mr-8" />
 					</div>
 					{/* {showComments() && ( */}
 						<div
