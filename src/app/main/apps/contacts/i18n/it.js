@@ -1,5 +1,5 @@
 const locale = {
-	TEAM: 'Team Azendale',
+	TEAM: 'Team Aziendale',
 	NO_CONTACT_MESSAGE: 'Sembra che non ci siano profili',
 	ADD_CONTACT_ADVICE: 'Crea un profilo o invita qualcuno cliccano sul bottone verde +',
 	FILTERS: 'FILTRI',

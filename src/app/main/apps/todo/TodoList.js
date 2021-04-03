@@ -461,14 +461,14 @@ function TodoList(props) {
 			}}
 		>
 			<div className="flex">
-				<div className="lg:w-1/3 sidebar-ht dashboard">
+				<div className="lg:w-1/3 sidebar-ht border-right dashboard">
 					<div className="lg:mr-28 custom-margin cursor-pointer">
 						{filteredData.map((todo, index) => (
 							<TodoListItem setTodoId={setTodoId} {...props} todo={todo} key={todo.id} index={index} /> // all tasks will be display from this function
 						))}
 					</div>
 				</div>
-				<div className="lg:w-2/3 content-ht dashboard custom-modal-open flex-fill">
+				<div className="lg:w-2/3 content-ht dashboard left-30 custom-modal-open flex-fill">
 					{taskContentDialog.props.open && todoId == taskContentDialog.data.id && (
 						<TaskContentForm /> // if we click on tasks this component will be displayed
 					)}

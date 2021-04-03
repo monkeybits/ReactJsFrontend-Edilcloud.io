@@ -639,7 +639,13 @@ textarea.MuiOutlinedInput-input {
     background-color: #bbc7ef4d;
 }
 .left-100{
-    margin-left: 90px
+    margin-left: 90px;
+}
+.left-30{
+    margin-left: 30px;
+}
+.border-right{
+    border-right: 1px #12121214 solid;
 }
 /* .comment-post-img {
     margin-left: 56px;
