@@ -322,7 +322,7 @@ function Chat(props) {
 							</Icon>
 						</div>
 						<Typography className="px-16 pb-24 text-center" color="textSecondary">
-							Start a conversation by typing your message below.
+						Inizia una conversazione inserendo un messaggio
 						</Typography>
 					</div>
 				)}

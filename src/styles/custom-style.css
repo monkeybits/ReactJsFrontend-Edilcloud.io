@@ -103,6 +103,9 @@ body {
 a:not([role=button]) {
     color: #1E2129;
 }
+.white-important{
+    color: white i !important;
+}
 .w-125 {
     width: 125px;
 }
@@ -594,6 +597,7 @@ textarea.MuiOutlinedInput-input {
     font-size: 1.4rem;
     /* font-weight: 700; */
     margin-top: 2px;
+    color:white;
 }
 /* .konvajs-content {
     margin: 0 auto;
@@ -646,6 +650,11 @@ textarea.MuiOutlinedInput-input {
 }
 .border-right{
     border-right: 1px #12121214 solid;
+}
+
+.bg-dark-blue{
+
+    background-color: #0d0a27 !important;
 }
 /* .comment-post-img {
     margin-left: 56px;
@@ -1189,7 +1198,7 @@ audio {
 }
 .project_box .project_card .MuiCardHeader-root {
     position: relative;
-    padding-bottom: 5px;
+    
     background: rgb(184 184 184 / 19%);
 }
 .project_card .project_card_avatar {

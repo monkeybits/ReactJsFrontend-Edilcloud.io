@@ -196,7 +196,7 @@ export default function ProjectListitem(props) {
 			ref={notificationPanel.notificationData?.notification?.object_id == mainId ? scrollRef : null}
 			className="h-full flex flex-col project_card"
 		>
-			<CardHeader
+			<CardHeader className="bg-dark-blue"
 				action={
 					!!isApproved &&
 					(getRole() == 'o' || getRole() == 'd') && (
@@ -225,7 +225,7 @@ export default function ProjectListitem(props) {
 				}
 				title={
 					isApproved ? (
-						<Link className="font-size-17" to={`${match.path}/${id}`}>
+						<Link className="font-size-17 text-white" to={`${match.path}/${id}`}>
 							{name}
 						</Link>
 					) : (

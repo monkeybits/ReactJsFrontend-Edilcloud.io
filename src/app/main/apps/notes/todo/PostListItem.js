@@ -406,18 +406,18 @@ export default function PostListItem({
 			id={`post${post.id}`}
 			ref={notificationPanel.notificationData?.notification?.object_id == post.id ? scrollRef : null}
 			key={post.id}
-			className="mb-12 overflow-hidden post-card-clx"
+			className="mb-12 overflow-hidden  post-card-clx"
 		>
-			<CardHeader
+			<CardHeader className="bg-dark-blue"
 				avatar={
 					post.author.first_name ? (
-						<Avatar aria-label="Recipe" src={post.author.photo} className="sm:h-60 sm:w-60 h-48 w-48">
+						<Avatar aria-label="Recipe" src={post.author.photo} className="sm:h-60 sm:w-60  h-48 w-48">
 							{[...post.author.first_name][0]}{' '}
 						</Avatar>
 					) : null
 				}
 				action={
-					<div className="sm:px-8 flex">
+					<div className="sm:px-8 text-white flex">
 						{isOffline && !currnetPost.successAfterRetry && (
 							<>
 								{
@@ -468,7 +468,7 @@ export default function PostListItem({
 												aria-label="more"
 												aria-controls="long-menu"
 												aria-haspopup="true"
-												className="sm:p-8 py-8 px-0"
+												className="sm:p-8 text-white py-8 px-0"
 											>
 												<MoreVertIcon />
 											</IconButton>
@@ -521,7 +521,7 @@ export default function PostListItem({
 						</div> */}
 						<div className="flex flex-wrap">
 							<p>
-								<span className="font-700 capitalize text-15 lg:text-lg">
+								<span className="font-700 capitalize text-15 text-white lg:text-lg">
 									{post.author.first_name} {post.author.last_name}
 								</span>
 								{/* {post.type === 'post' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> posted on your timeline </span>}
@@ -534,7 +534,7 @@ export default function PostListItem({
 								</span> */}
 							</p>
 						</div>
-						<div className="text-13 sm:text-15 lg:text-base font-600">
+						<div className="text-13 sm:text-15 lg:text-base text-white font-600">
 							{post.author.position}{ 'company' in post.author ? ' - ' + post.author.company.name : '' }
 						</div>
 						{/* <div className="">
@@ -568,9 +568,9 @@ export default function PostListItem({
 				}
 				subheader={
 					<div className="flex items-center text-14 font-600">
-						<Icon className="font-600 text-18">public</Icon>
-						<span className="ml-4 sm:mr-16 mr-4">{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span>
-						<span>
+						<Icon className="font-600 text-white text-18">public</Icon>
+						<span className="ml-4 sm:mr-16 text-white mr-4">{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span>
+						<span className="text-white">
 							{`${moment.parseZone(post.published_date).format('MMMM DD')} at ${moment
 								.parseZone(post.published_date)
 								.format('h:mm a')}`}

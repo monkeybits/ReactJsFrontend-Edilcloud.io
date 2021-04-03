@@ -1,5 +1,5 @@
 const locale = {
-	ALL_PROJECTS: 'Tutti i progetti',
+	ALL_PROJECTS: 'Tutti i progetti di cantiere',
 	REMOVE: 'Rimuvi',
 	DOWNLOAD_REPORT: 'Report Progetto',
 	ABOUT: 'Informazioni',
@@ -14,7 +14,7 @@ const locale = {
 	PROJECT_NAME: 'Nome Progetto',
 	EDIT_PROJECT: 'Modifica Progetto',
 	ADD_PROJECT: 'Aggiungi Progetto',
-	NO_PROJECTS_HEADER: 'Sembra che non ci siano progetti quiSeems that there are no projects yet!-it',
+	NO_PROJECTS_HEADER: 'Sembra che non ci siano progetti qui',
 	CREATE_PROJECT_ADVICE_MESSAGE: 'Crea un progetto cliccando sul tasto +',
 	LOADING_PROJECTS: 'Sto Caricando i tuoi progetti di cantiere',
 	PROJECT_INFO: 'Info Cantiere',
