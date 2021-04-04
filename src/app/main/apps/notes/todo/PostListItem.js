@@ -406,7 +406,7 @@ export default function PostListItem({
 			id={`post${post.id}`}
 			ref={notificationPanel.notificationData?.notification?.object_id == post.id ? scrollRef : null}
 			key={post.id}
-			className="mb-12 overflow-hidden  post-card-clx"
+			className="mb-40 overflow-hidden  post-card-clx"
 		>
 			<CardHeader className="bg-dark-blue"
 				avatar={

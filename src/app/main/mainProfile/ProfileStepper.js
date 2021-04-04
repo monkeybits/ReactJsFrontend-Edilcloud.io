@@ -18,7 +18,7 @@ const BasicInfo = loadable(() => import('./BasicInfo'))
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: '100%',
-		background: `#ffffff)`,
+		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`,
 		color: theme.palette.primary.contrastText
 	},
 	button: {
@@ -111,7 +111,10 @@ function VerticalLinearStepper({ user, history }) {
 				classes.root,
 				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 md:p-40'
 			)}
+			
 		>
+			
+			<img width="200" src="assets/images/logos/fuse.svg" />
 			<div className="flex flex-col items-center justify-center w-full px-0">
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full max-w-512">

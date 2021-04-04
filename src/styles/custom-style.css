@@ -101,7 +101,7 @@ body {
     padding: 12px;
 }
 a:not([role=button]) {
-    color: #1E2129;
+    color: #ffffff;
 }
 .white-important{
     color: white i !important;
@@ -648,9 +648,12 @@ textarea.MuiOutlinedInput-input {
 .left-30{
     margin-left: 30px;
 }
-.border-right{
-    border-right: 1px #12121214 solid;
-}
+
+@media screen and (min-width: 768px) {
+    .border-right{
+        border-right: 1px #12121214 solid;
+    }
+    }
 
 .bg-dark-blue{
 
@@ -702,9 +705,12 @@ textarea.MuiOutlinedInput-input {
 .custom-task-content {
     background-color: #ffffff;
 }
-.bordergrey{
-    border: 1px #12121214 solid;
-}
+
+@media screen and (max-width: 768px) {
+    .bordergrey{
+        border: 1px #12121214 solid;
+    }
+    }
 
 .marginleft{
     border-left: 2rem;

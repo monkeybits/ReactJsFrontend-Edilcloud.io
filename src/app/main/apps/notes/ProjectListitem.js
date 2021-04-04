@@ -233,11 +233,15 @@ export default function ProjectListitem(props) {
 					)
 				}
 				// subheader={moment(date_start).format('MMM DD, YYYY')}
-				subheader={<>{address}</>}
+				subheader={
+					<Link className="font-size-14 text-white" to={`${match.path}/${id}`}>
+							{address}
+						</Link>
+				}
 				//
 				avatar={
 					<>
-						<div className="project_card_avatar">
+						<div className="project_card_avatar mt-20">
 							<Avatar aria-label="recipe" src={company?.logo} className={classes.avatar}>
 								{company?.name?.split('')[0]}
 							</Avatar>
@@ -405,22 +409,24 @@ export default function ProjectListitem(props) {
 					{description}
 				</Typography>
 			</CardContent> */}
-			<CardActions disableSpacing className="border-t-1 mt-auto">
+			
 				{/* <IconButton aria-label="add to favorites">
 					<FavoriteIcon />
 				</IconButton>
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton> */}
-				<Button className="MuiButtonBase-root text-white bg-green-500 MuiButton-root MuiButton-contained mr-8 MuiButton-containedSizeSmall MuiButton-sizeSmall">
+				<Button className="MuiButtonBase-root  MuiButton-root mr-8 ">
+				<CardActions disableSpacing className="border-t-1 mt-auto">
 					<DownloadPdf
 						className="MuiButtonBase-root MuiButton-root "
 						label={t('DOWNLOAD_REPORT')}
 						id={name}
 						pid={id}
 					/>
+					</CardActions>
 				</Button>
-			</CardActions>
+			
 		</Card>
 	);
 }
