@@ -241,7 +241,7 @@ export default function ProjectListitem(props) {
 				//
 				avatar={
 					<>
-						<div className="project_card_avatar mt-20">
+						<div className="project_card_avatar mt-20s">
 							<Avatar aria-label="recipe" src={company?.logo} className={classes.avatar}>
 								{company?.name?.split('')[0]}
 							</Avatar>

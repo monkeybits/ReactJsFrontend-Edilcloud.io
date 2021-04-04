@@ -61,7 +61,7 @@ export default function ImagesPreview(props) {
 		img.src = url;
 	};
 	return (
-		<div className={clsx(classes.root, 'd-block mx-auto')}>
+		<div className={clsx(classes.root, 'd-block mx-auto nomargin')}>
 			<DrawImage
 				imgSrc={props.images[activeStep].imgPath}
 				open={openDrawer}

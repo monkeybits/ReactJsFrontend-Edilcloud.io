@@ -100,6 +100,13 @@ body {
 .MuiTableCell-root {
     padding: 12px;
 }
+
+.nomargin{
+    margin: 0px !important;
+}
+.borderbottom {
+    border-bottom: 1px #12121214 solid;
+}
 a:not([role=button]) {
     color: #ffffff;
 }
@@ -706,8 +713,12 @@ textarea.MuiOutlinedInput-input {
     background-color: #ffffff;
 }
 
+.bordergrey {
+    border: 1px #12121214 solid;
+}
+
 @media screen and (max-width: 768px) {
-    .bordergrey{
+    .bordergrey2{
         border: 1px #12121214 solid;
     }
     }
@@ -818,14 +829,15 @@ textarea.MuiOutlinedInput-input {
     background-color: #ececec;
 }
 .badge-btn {
-    background-color: #376AED;
+    background-color: #16ed4b;
     color: #fff;
     padding: 2px 10px;
     font-size: 12px;
     text-transform: capitalize;
 }
 .badge-btn:hover {
-    background-color: #376AED;
+    background-color: #16ed4b;
+    ;
     color: #fff;
 }
 
@@ -867,7 +879,7 @@ textarea.MuiOutlinedInput-input {
     border-left: 3px solid transparent;
 }
 .chat-badge {
-    background-color: #376AED;
+    background-color: #24e83e;
 }
 .chat-header-bg-remove > div, .header-bg-remove > div  {
     background: #ffffff;
@@ -1816,13 +1828,14 @@ audio {
     min-height: 184px;
 }
 .soft-icon img{
-    width: 24px;
-    height: 28px;
+    width: 20%;
+    height: auto;
 }
 
 .soft-icon-title img{
-    height: 24px;
-    width: 18px;
+    height: 2%;
+    width: 2%;
+    visibility: hidden;
 }
 .file-grid .MuiGridListTileBar-title p{    
     width: 91%;

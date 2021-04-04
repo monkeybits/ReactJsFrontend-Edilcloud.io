@@ -67,7 +67,7 @@ export default function PostedImages(props) {
 		setActiveStep(step);
 	};
 	return (
-		<div className={clsx(classes.root, 'd-block mx-auto')}>
+		<div className={clsx(classes.root, 'd-block mx-auto nomargin')}>
 			<AutoPlaySwipeableViews
 				axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
 				index={activeStep}

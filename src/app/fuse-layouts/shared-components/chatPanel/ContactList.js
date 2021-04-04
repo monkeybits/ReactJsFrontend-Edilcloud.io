@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 		minWidth: 70,
 		flex: '0 0 auto',
 		justifyContent: 'start',
-		padding: '10px 15px',
+		padding: '20px 15px',
 		'&.active:after': {
 			position: 'absolute',
 			top: 8,

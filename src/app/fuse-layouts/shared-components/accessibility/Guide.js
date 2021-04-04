@@ -33,7 +33,7 @@ function Guide(props) {
 
 	const [quickStartList, setQuickStartList] = React.useState([
 		{
-			title: 'Add your collaborators',
+			title: 'Add Collaborators',
 			content: 'Testing',
 			contentTitle: 'Welcome to EdilCloud',
 			contentDescription: 'Add your collaborators and let them access the company.',
@@ -45,7 +45,7 @@ function Guide(props) {
 			iconSelection: 'team'
 		},
 		{
-			title: 'Creat a project',
+			title: 'Create a project',
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription:
@@ -58,7 +58,7 @@ function Guide(props) {
 			iconSelection: 'project'
 		},
 		{
-			title: 'Creat a task',
+			title: 'Create a task',
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription: '',
@@ -70,7 +70,7 @@ function Guide(props) {
 			iconSelection: 'task'
 		},
 		{
-			title: 'Creat a post',
+			title: 'Create a post',
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription: '',
@@ -78,7 +78,7 @@ function Guide(props) {
 			linkText: 'Add post page',
 			linkTextAll: 'View posts',
 			image: '',
-			video: 'assets/videos/samplevideo.mp4',
+			video: 'assets/videos/sample.mp4',
 			iconSelection: 'post'
 		},
 		{
@@ -91,7 +91,7 @@ function Guide(props) {
 			linkText: 'Download App',
 			linkTextAll: '',
 			image: '',
-			video: 'assets/videos/samplevideo.mp4',
+			video: 'assets/videos/sample.mp4',
 			iconSelection: 'downloadApp'
 		},
 		{
@@ -103,7 +103,7 @@ function Guide(props) {
 			linkText: '',
 			linkTextAll: '',
 			image: '',
-			video: 'assets/videos/samplevideo.mp4',
+			video: 'assets/videos/sample.mp4',
 			iconSelection: 'discover'
 		},
 		{
@@ -115,7 +115,7 @@ function Guide(props) {
 			linkText: '',
 			linkTextAll: '',
 			image: '',
-			video: 'assets/videos/samplevideo.mp4',
+			video: 'assets/videos/sample.mp4',
 			iconSelection: 'knowledge'
 		}
 	]);
