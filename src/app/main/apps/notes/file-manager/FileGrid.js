@@ -1,67 +1,63 @@
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import Hidden from '@material-ui/core/Hidden';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
+import { MenuItem, Icon, IconButton, ListItem, ListItemIcon, ListItemText, Grid, Typography, Dialog, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
-import { Grid, Typography } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileVideo,
-	faFileAudio,
-	faFileImage,
-	faFileWord
-} from '@fortawesome/free-regular-svg-icons';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import FolderIcon from '@material-ui/icons/Folder';
-import DeleteIcon from '@material-ui/icons/Delete';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
-import FolderSharedOutlinedIcon from '@material-ui/icons/FolderSharedOutlined';
-import FolderSpecialOutlinedIcon from '@material-ui/icons/FolderSpecialOutlined';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MenuList from '@material-ui/core/MenuList';
-import MenuItem from '@material-ui/core/MenuItem';
-import SendIcon from '@material-ui/icons/Send';
-import Menu from '@material-ui/core/Menu';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import TippyMenu from 'app/TippyMenu';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
-	DOWNLOAD_PHOTO,
-	DOWNLOAD_VIDEO,
-	DOWNLOAD_DOCUMENT,
 	PHOTO_DELETE,
 	VIDEO_DELETE,
 	DOCUMENT_DELETE,
-	FOLDER_DELETE,
-	FOLDER_DELETE_PROJECT
+	FOLDER_DELETE
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import FileGridItem from './FileGridItem';
 import * as Actions from './store/actions';
+import { withStyles } from '@material-ui/core/styles';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import CloseIcon from '@material-ui/icons/Close';
+import FileGridItem from './FileGridItem';
+
+const styles = theme => ({
+	root: {
+		margin: 0,
+		padding: theme.spacing(2)
+	},
+	closeButton: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+		color: theme.palette.grey[500]
+	}
+});
+
+const DialogTitle = withStyles(styles)(props => {
+	const { children, classes, onClose, ...other } = props;
+	return (
+		<MuiDialogTitle disableTypography className={classes.root} {...other}>
+            <Typography variant="h6">{children}</Typography>
+			{onClose ? (
+				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+					<CloseIcon />
+				</IconButton>
+			) : null}
+		</MuiDialogTitle>
+	);
+});
+
+const DialogContent = withStyles(theme => ({
+	root: {
+		padding: theme.spacing(2),
+		flexGrow: 1
+	}
+}))(MuiDialogContent);
 
 const useStyles = makeStyles({
 	typeIcon: {
@@ -99,6 +95,8 @@ function FileGrid(props) {
 	const searchText = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.searchText);
 	const [currentFolders, setCurrentFolders] = useState([]);
 	const [currentFiles, setCurrentFiles] = useState([]);
+	const [deleteConfirm, setDeleteConfirm] = useState(false);
+	const [tile, setTile] = useState('');
 	const classes = useStyles();
 	const classesListItems = useStylesList();
 	const checkData = data => data || '-';
@@ -205,8 +203,9 @@ function FileGrid(props) {
 			);
 		}
 	}, [currentFolderPath]);
-	const handleDelete = (tile, e) => {
-		// e.stopPropagation();
+
+	
+	const handleFolderDelete = () => {
 		const findIndex = 0;
 		const selectedItem = tile; // allFiles[findIndex];
 		const userInfo = decodeDataFromToken();
@@ -247,7 +246,15 @@ function FileGrid(props) {
 			METHOD.DELETE,
 			getHeaderToken()
 		);
+		setDeleteConfirm(false)
+	}
+
+	const handleDelete = tile => {
+		// e.stopPropagation();
+		setDeleteConfirm(true)
+		setTile(tile)
 	};
+
 	if (allFiles.length === 0 && searchText) {
 		return (
 			<div>
@@ -378,6 +385,44 @@ function FileGrid(props) {
 					</div>
 				</div>
 			)}
+			<Dialog
+				open={deleteConfirm}
+				// onClose={handleClose}
+				aria-labelledby="customized-dialog-title"
+				maxWidth="xs"
+				fullWidth="true"
+			>
+				<DialogTitle id="customized-dialog-title" onClose={() => {
+					setDeleteConfirm(false)
+				}}>Remove?</DialogTitle>
+				<DialogContent dividers>
+					<Typography className="text-lg">
+						Are you sure that you want to delete this?
+					</Typography>
+					<div>
+						<div className="flex mt-24 justify-end">
+							<Button
+								onClick={handleFolderDelete}
+								variant="contained"
+								className="justify-start d-inline-block mb-20 mr-10 bg-blue-500 text-white"
+							>
+								Yes
+								{/* {loading && <CircularProgress size={20} color="secondary" />} */}
+							</Button>
+							<Button
+								onClick={() => {
+									setDeleteConfirm(false)
+								}}
+								variant="contained"
+								className="justify-start d-inline-block mb-20 bg-gray-500 text-white"
+							>
+								No
+								{/* {loading && <CircularProgress size={20} color="secondary" />} */}
+							</Button>
+						</div>
+					</div>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }

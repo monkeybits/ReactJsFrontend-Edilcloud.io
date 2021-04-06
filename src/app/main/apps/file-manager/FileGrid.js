@@ -4,7 +4,7 @@
 *This File is part of Company File manager
 TODO: Grid is part of view we have 2 views grid and list
 */
-import { Icon, IconButton, ListItem, ListItemIcon, ListItemText, MenuItem, Grid, Typography } from '@material-ui/core';
+import { Dialog, Button, Icon, IconButton, ListItem, ListItemIcon, ListItemText, MenuItem, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
@@ -24,8 +24,46 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 import loadable from '@loadable/component';
+import { withStyles } from '@material-ui/core/styles';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import CloseIcon from '@material-ui/icons/Close';
 const TippyMenu = loadable(() => import('app/TippyMenu'))
 const FileGridItem = loadable(() => import('./FileGridItem'))
+
+const styles = theme => ({
+	root: {
+		margin: 0,
+		padding: theme.spacing(2)
+	},
+	closeButton: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+		color: theme.palette.grey[500]
+	}
+});
+
+const DialogTitle = withStyles(styles)(props => {
+	const { children, classes, onClose, ...other } = props;
+	return (
+		<MuiDialogTitle disableTypography className={classes.root} {...other}>
+            <Typography variant="h6">{children}</Typography>
+			{onClose ? (
+				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+					<CloseIcon />
+				</IconButton>
+			) : null}
+		</MuiDialogTitle>
+	);
+});
+
+const DialogContent = withStyles(theme => ({
+	root: {
+		padding: theme.spacing(2),
+		flexGrow: 1
+	}
+}))(MuiDialogContent);
 
 const useStyles = makeStyles({
 	typeIcon: {
@@ -63,6 +101,8 @@ function FileGrid(props) {
 	const searchText = useSelector(({ fileManagerApp }) => fileManagerApp.files.searchText);
 	const [currentFolders, setCurrentFolders] = useState([]);
 	const [currentFiles, setCurrentFiles] = useState([]);
+	const [deleteConfirm, setDeleteConfirm] = useState(false);
+	const [tile, setTile] = useState('');
 	const classes = useStyles();
 	const [, updateState] = React.useState();
 	const userInfo = decodeDataFromToken();
@@ -170,8 +210,8 @@ function FileGrid(props) {
 	// 		);
 	// 	}
 	// }, [currentFolderPath]);
-	const handleDelete = tile => {
-		// e.stopPropagation();
+
+	const handleFolderDelete = () => {
 		const findIndex = 0;
 		const selectedItem = tile; // allFiles[findIndex];
 
@@ -216,7 +256,15 @@ function FileGrid(props) {
 			METHOD.DELETE,
 			getHeaderToken()
 		);
+		setDeleteConfirm(false)
+	}
+
+	const handleDelete = tile => {
+		// e.stopPropagation();
+		setDeleteConfirm(true)
+		setTile(tile)
 	};
+	
 	if (allFiles.length === 0 && searchText) {
 		return (
 			<div className="flex flex-1 items-center justify-center h-full">
@@ -226,6 +274,7 @@ function FileGrid(props) {
 			</div>
 		);
 	}
+
 	return (
 		<div className="file-folder-grid px-24 mt-12">
 			{!!folders?.length && (
@@ -312,7 +361,7 @@ function FileGrid(props) {
 					</Grid>
 				</>
 			)}
-			{!!currentFiles.length && (
+			{!!currentFiles.length ? (
 				<>
 					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
 						{t('FILES')}
@@ -321,9 +370,7 @@ function FileGrid(props) {
 						<FileGridItem tileData={currentFiles} {...props} handleDelete={handleDelete} />
 					</Grid>
 				</>
-			)}
-			{console.log({ currentFolderPath, files: files?.length })}
-			{currentFolderPath == '' && !files?.length && !currentFolders.length && (
+			) : (
 				<div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<img className="w-400" src="assets/images/errors/nofiles.png" />
@@ -340,6 +387,44 @@ function FileGrid(props) {
 					</div>
 				</div>
 			)}
+			<Dialog
+				open={deleteConfirm}
+				// onClose={handleClose}
+				aria-labelledby="customized-dialog-title"
+				maxWidth="xs"
+				fullWidth="true"
+			>
+				<DialogTitle id="customized-dialog-title" onClose={() => {
+					setDeleteConfirm(false)
+				}}>Remove?</DialogTitle>
+				<DialogContent dividers>
+					<Typography className="text-lg">
+						Are you sure that you want to delete this?
+					</Typography>
+					<div>
+						<div className="flex mt-24 justify-end">
+							<Button
+								onClick={handleFolderDelete}
+								variant="contained"
+								className="justify-start d-inline-block mb-20 mr-10 bg-blue-500 text-white"
+							>
+								Yes
+								{/* {loading && <CircularProgress size={20} color="secondary" />} */}
+							</Button>
+							<Button
+								onClick={() => {
+									setDeleteConfirm(false)
+								}}
+								variant="contained"
+								className="justify-start d-inline-block mb-20 bg-gray-500 text-white"
+							>
+								No
+								{/* {loading && <CircularProgress size={20} color="secondary" />} */}
+							</Button>
+						</div>
+					</div>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }

@@ -14,7 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as ProjectTodoActions from 'app/main/apps/notes/todo/store/actions';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
-import DatePicker from 'react-datepicker';
+import {
+	KeyboardDatePicker
+  } from '@material-ui/pickers';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
@@ -485,25 +487,26 @@ function TodoDialog(props) {
 					</FormControl>
 					<div className="flex -mx-4">
 						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-							<label>Start Date</label>
-							<DatePicker
-								dateFormat="dd/MM/yyyy"
-								selected={taskDate.startDate}
-								// minDate={taskDate.startDate}
+							<KeyboardDatePicker
+								label="Start Date"
+								inputVariant="outlined"
+								format="DD/MM/yyyy"
+								value={taskDate.startDate}
 								onChange={startDate => {
 									setTaskDate({
 										...taskDate,
 										startDate
 									});
 								}}
+								className="mt-8 mb-16 w-full"
 							/>
-							<Icon className="icon">calendar_today</Icon>
 						</div>
 						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-							<label>End Date</label>
-							<DatePicker
-								dateFormat="dd/MM/yyyy"
-								selected={taskDate.endDate}
+							<KeyboardDatePicker
+								label="End Date"
+								inputVariant="outlined"
+								format="DD/MM/yyyy"
+								value={taskDate.endDate}
 								minDate={taskDate.startDate}
 								onChange={endDate => {
 									setTaskDate({
@@ -511,8 +514,8 @@ function TodoDialog(props) {
 										endDate
 									});
 								}}
+								className="mt-8 mb-16 w-full"
 							/>
-							<Icon className="icon">calendar_today</Icon>
 						</div>
 					</div>
 					<div className="w-full zoom-125">

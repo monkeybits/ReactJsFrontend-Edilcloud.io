@@ -1,52 +1,30 @@
 import PropTypes from 'prop-types';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
-import { useDebounce, useForm, useUpdateEffect } from '@fuse/hooks';
+import { useForm } from '@fuse/hooks';
 import _ from '@lodash';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import List from '@material-ui/core/List';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import Toolbar from '@material-ui/core/Toolbar';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import LabelModel from 'app/main/apps/scrumboard/model/LabelModel';
 import moment from 'moment';
+import {
+	KeyboardDatePicker
+  } from '@material-ui/pickers';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, makeStyles, Slider, withStyles, CircularProgress } from '@material-ui/core';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-
-import DatePicker from 'react-datepicker';
 import { useParams } from 'react-router';
-import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import { apiCall, METHOD } from 'app/services/baseUrl';
-import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
 import ShowUpload from '../ShowUpload';
 import CreatePostForm from '../CreatePostForm';
-import OptionsMenu from './toolbar/OptionsMenu';
-import MembersMenu from './toolbar/MembersMenu';
-import LabelsMenu from './toolbar/LabelsMenu';
-import DueMenu from './toolbar/DueMenu';
-import CheckListMenu from './toolbar/CheckListMenu';
-import CardComment from './comment/CardComment';
-import CardChecklist from './checklist/CardChecklist';
 import CreateAttachments from './attachment/CreateAttachments';
-import CardActivity from './activity/CardActivity';
 import * as Actions from '../store/actions';
 
 function TabPanel(props) {
@@ -577,36 +555,37 @@ function TaskContentForm(props) {
 						</div>
 						<div className="flex -mx-4">
 							<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-								<label>{t('START_DATE')}</label>
-								<DatePicker
-									disabled={getIsDisabled()}
-									dateFormat="dd/MM/yyyy"
-									selected={taskDate.startDate}
-									// minDate={taskDate.startDate}
+								<KeyboardDatePicker
+									label={t('START_DATE')}
+									inputVariant="outlined"
+									format="DD/MM/yyyy"
+									value={taskDate.startDate}
 									onChange={startDate => {
 										setTaskDate({
 											...taskDate,
 											startDate
 										});
 									}}
+									className="mt-8 mb-16 w-full"
+									disabled={getIsDisabled()}
 								/>
-								<Icon className="icon">calendar_today</Icon>
 							</div>
 							<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-								<label>{t('END_DATE')}</label>
-								<DatePicker
-									dateFormat="dd/MM/yyyy"
-									selected={taskDate.endDate}
-									disabled={getIsDisabled()}
-									minDate={taskDate.startDate}
+								<KeyboardDatePicker
+									label={t('END_DATE')}
+									inputVariant="outlined"
+									format="DD/MM/yyyy"
+									value={taskDate.endDate}
 									onChange={endDate => {
 										setTaskDate({
 											...taskDate,
 											endDate
 										});
 									}}
+									className="mt-8 mb-16 w-full"
+									disabled={getIsDisabled()}
+									minDate={taskDate.startDate}
 								/>
-								<Icon className="icon">calendar_today</Icon>
 							</div>
 						</div>
 						{taskContentData?.isGantt && taskContentData?.parent == 1 ? null : (
