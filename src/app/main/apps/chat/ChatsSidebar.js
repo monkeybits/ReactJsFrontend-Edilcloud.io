@@ -34,7 +34,10 @@ function ChatsSidebar(props) {
 	const dispatch = useDispatch();
 	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities).filter(contact => contact.can_access_chat);
 	const user = useSelector(({ chatApp }) => chatApp.user);
+	const userAuth = useSelector(({ auth }) => auth.user);
 	const { t } = useTranslation('chat');
+
+	const userData = userAuth?.data?.user;
 
 	const [searchText, setSearchText] = useState('');
 	const [statusMenuEl, setStatusMenuEl] = useState(null);
@@ -88,7 +91,7 @@ function ChatsSidebar(props) {
 							role="button"
 							tabIndex={0}
 						>
-							<Avatar src={user.avatar} alt={user.name} className="w-48 h-48">
+							<Avatar src={userData?.photo} alt={user.name} className="w-48 h-48">
 								{!user.avatar || user.avatar === '' ? user.name[0] : ''}
 							</Avatar>
 

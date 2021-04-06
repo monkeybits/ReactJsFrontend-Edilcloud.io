@@ -317,7 +317,7 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 				} else {
 					dispatch(getTodos(pid, isGantt));
 				}
-				dispatch(resetAllFilters());
+				// dispatch(resetAllFilters());
 				closeTodoDialog();
 			},
 			err => console.log(err),

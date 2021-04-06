@@ -40,6 +40,7 @@ const useStyles = makeStyles({
 });
 function TodoApp(props) {
 	const dispatch = useDispatch();
+	const [folded, setFolded] = useState(true)
 	const { t } = useTranslation('dashboard');
 	const classes = useStyles(props);
 	const history = useHistory();
@@ -48,11 +49,21 @@ function TodoApp(props) {
 	const upload = useSelector(({ todoApp }) => todoApp.todos.upload);
 	const user = useSelector(({ auth }) => auth.user.data.company);
 	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
+	const navbar = useSelector(({ fuse }) => fuse.navbar);
+
+	
+	useEffect(() => {
+		if(navbar.foldedOpen) {
+			setFolded(false)
+		}
+	}, [navbar]); 
+
 	useEffect(() => {
 		return () => {
 			dispatch(Actions.getTodos()); // * It will get the tasks and activities of tasks
 		};
 	}, [taskContentDialog.props.open]); // * when todo dialog states changes we need to call getTodos
+
 	const [loading, setLoading] = useState({
 		// when fetching tasks we need to show user a loading screen
 		loadingTodos: false
@@ -114,7 +125,7 @@ function TodoApp(props) {
 				classes={{
 					contentWrapper: 'bg-azure h-full',
 					content: 'flex bg-azure flex-col h-full p-24 pb-0',
-					leftSidebar: 'mobile-h-full w-256 border-0',
+					leftSidebar: `mobile-h-full w-256 border-0 ${navbar.foldedOpen || folded ? 'ml-19' : ''}`,
 					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove dashboard',
 					wrapper: 'min-h-0 team-tab'

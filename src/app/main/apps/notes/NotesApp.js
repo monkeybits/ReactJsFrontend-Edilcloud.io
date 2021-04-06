@@ -7,7 +7,7 @@ TODO: created for select project from project listing
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { Fab, Paper, IconButton, Icon, Input } from '@material-ui/core';
 import { makeStyles, createGenerateClassName, jssPreset } from '@material-ui/core/styles';
@@ -30,6 +30,14 @@ function NotesApp(props) {
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
 	const { t } = useTranslation('projects');
+	const [folded, setFolded] = useState(true)
+	const navbar = useSelector(({ fuse }) => fuse.navbar);
+	useEffect(() => {
+		if(navbar.foldedOpen) {
+			setFolded(false)
+		}
+	}, [navbar]);
+
 	const [loading, setLoading] = useState({
 		loadingProjects: true,
 		loadingProjectRequest: true
@@ -77,8 +85,8 @@ function NotesApp(props) {
 			<FusePageSimple
 				classes={{
 					contentWrapper: 'p-16 sm:p-24 md:px-32 pb-80 sm:pb-80',
-					content: 'flex min-h-full',
-					leftSidebar: 'w-256 border-0',
+					content: `flex min-h-full`,
+					leftSidebar: `w-256 border-0 ${navbar.foldedOpen || folded ? 'ml-19' : ''}`,
 					header: 'project_list p-16 sm:p-32 h-auto min-h-auto sm:pb-0'
 				}}
 				header={<NotesHeader pageLayout={pageLayout} />}

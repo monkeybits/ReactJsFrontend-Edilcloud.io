@@ -51,11 +51,13 @@ function TodoList(props) {
 				);
 				resolve(data);
 			}).then(data => {
+				console.log('activeFilter????????????????????1', activeFilterKey)
 				setFilteredData(setFilterByKey(activeFilter, data, activeFilterKey));
 				handleDoFilter();
 			});
 		}
 	}, [todos, searchText, orderBy, orderDescending]);
+
 	useEffect(() => {
 		handleDoFilter();
 	}, [activeFilterKey, company, usedKeys, todos]);
@@ -106,10 +108,12 @@ function TodoList(props) {
 									return element == 'peopleFilter' ? d.id : d.name;
 								}
 							});
+							console.log('activeFilter????????????????????2', activeFilterKey)
 							list = setFilterByKey(element, list, selectedFilters);
 						} else {
 							filters[element].map(d => {
 								if (d.isActive) {
+									console.log('activeFilter????????????????????3', activeFilterKey)
 									list = setFilterByKey(element, list, element == 'peopleFilter' ? d.id : d.name);
 								}
 							});
@@ -127,6 +131,7 @@ function TodoList(props) {
 			}, 3000);
 		}
 	};
+	
 	const setFilterByKey = (activeFilter, list, activeFilterKey) => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -135,6 +140,8 @@ function TodoList(props) {
 			}
 			return FuseUtils.filterArrayByString(arr, _searchText);
 		}
+		console.log('activeFilter????????????????????', activeFilter)
+		console.log('activeFilter????????????????????', activeFilterKey)
 		switch (activeFilter) {
 			case 'genrealFilter':
 				var result = [];
@@ -268,6 +275,7 @@ function TodoList(props) {
 				return _.orderBy(getFilteredArray(todos, searchText), [orderBy], [orderDescending ? 'desc' : 'asc']);
 		}
 	};
+	
 	const filterByPeopleForActivity = (arr = [], id) => {
 		const result = arr.reduce((unique, o) => {
 			const workers = Array.isArray(id)
@@ -280,6 +288,7 @@ function TodoList(props) {
 		}, []);
 		return result;
 	};
+	
 	const completedFilterForActivity = (arr = []) => {
 		const result = arr.reduce((unique, o) => {
 			if (o.status != 'to-do') {
@@ -289,6 +298,7 @@ function TodoList(props) {
 		}, []);
 		return result;
 	};
+	
 	const checkAlert = (arr = []) => {
 		const result = arr.reduce((unique, o) => {
 			if (o.alert) {
@@ -298,6 +308,7 @@ function TodoList(props) {
 		}, []);
 		return result;
 	};
+	
 	const todayFilterForActivity = (arr = []) => {
 		const result = arr.reduce((unique, o) => {
 			const startDate = new Date(o.datetime_start);
@@ -310,6 +321,7 @@ function TodoList(props) {
 		}, []);
 		return result;
 	};
+	
 	const inLateFilterForActivity = (arr = []) => {
 		const result = arr.reduce((unique, o) => {
 			const endDate = new Date(o.datetime_end);
@@ -321,6 +333,7 @@ function TodoList(props) {
 		}, []);
 		return result;
 	};
+	
 	const todayFilterToNextWeekForActivity = (arr = []) => {
 		const result = arr.reduce((unique, o) => {
 			const startDate = new Date(o.datetime_start);
@@ -336,11 +349,13 @@ function TodoList(props) {
 		}, []);
 		return result;
 	};
+	
 	if (!filteredData) {
 		return null;
 	}
 
 	console.log('filteredData??????????????????', filteredData)
+	
 	return (
 		// <List className="p-0">
 		<FuseAnimateGroup

@@ -13,7 +13,9 @@ import { DialogContent, Icon, IconButton, InputAdornment, Box, TextField, Typogr
 import moment from 'moment';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import DatePicker from 'react-datepicker';
+import {
+	KeyboardDatePicker
+  } from '@material-ui/pickers';
 import { useParams } from 'react-router';
 import * as Actions from './store/actions';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
@@ -551,36 +553,36 @@ function TaskContentForm(props) {
 						</div>
 						<div className="flex -mx-4">
 							<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-								<label>{t('START_DATE')}</label>
-								<DatePicker
-									disabled={getIsDisabled()}
-									dateFormat="dd/MM/yyyy"
-									selected={taskDate.startDate}
-									// minDate={taskDate.startDate}
+								<KeyboardDatePicker
+									label={t('START_DATE')}
+									inputVariant="outlined"
+									format="DD/MM/yyyy"
+									value={taskDate.startDate}
 									onChange={startDate => {
 										setTaskDate({
 											...taskDate,
 											startDate
 										});
 									}}
+									className="mt-8 mb-16 w-full"
 								/>
-								<Icon className="icon">calendar_today</Icon>
 							</div>
 							<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-								<label>{t('END_DATE')}</label>
-								<DatePicker
-									dateFormat="dd/MM/yyyy"
-									selected={taskDate.endDate}
-									disabled={getIsDisabled()}
-									minDate={taskDate.startDate}
+								<KeyboardDatePicker
+									label={t('END_DATE')}
+									inputVariant="outlined"
+									format="DD/MM/yyyy"
+									value={taskDate.endDate}
 									onChange={endDate => {
 										setTaskDate({
 											...taskDate,
 											endDate
 										});
 									}}
+									className="mt-8 mb-16 w-full"
+									disabled={getIsDisabled()}
+									minDate={taskDate.startDate}
 								/>
-								<Icon className="icon">calendar_today</Icon>
 							</div>
 						</div>
 						{taskContentData?.isGantt && taskContentData?.parent == 1 ? null : (

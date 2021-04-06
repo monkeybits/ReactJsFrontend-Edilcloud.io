@@ -13,7 +13,9 @@ import Formsy from 'formsy-react';
 import React, { useRef, useState, useEffect } from 'react';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import DatePicker from 'react-datepicker';
+import {
+	KeyboardDatePicker
+  } from '@material-ui/pickers';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import { useParams } from 'react-router';
@@ -279,37 +281,35 @@ function AddProjectForm() {
 						/>
 					</Grid>
 					<Grid item xs={12} md={6}>
-						{/* <div className="flex items-center mb-12">
-						<Typography className="font-600 text-16 ">Start Date</Typography>
-					</div> */}
-						<DatePicker
-							className="mb-12"
-							dateFormat="dd/MM/yyyy"
-							selected={projectDate.startDate}
-							minDate={projectDate.startDate}
+						<KeyboardDatePicker
+							label="Start Date"
+							inputVariant="outlined"
+							format="DD/MM/yyyy"
+							value={projectDate.startDate}
 							onChange={startDate => {
 								setProjectDate({
 									...projectDate,
 									startDate
 								});
 							}}
+							className="mt-8 mb-16 w-full"
+							minDate={projectDate.startDate}
 						/>
 					</Grid>
 					<Grid item xs={12} md={6}>
-						{/* <div className="flex items-center mb-12">
-						<Typography className="font-600 text-16">End Date</Typography>
-					</div> */}
-						<DatePicker
-							className="mb-12"
-							dateFormat="dd/MM/yyyy"
-							selected={projectDate.endDate}
-							minDate={projectDate.startDate}
+						<KeyboardDatePicker
+							label="End Date"
+							inputVariant="outlined"
+							format="DD/MM/yyyy"
+							value={projectDate.endDate}
 							onChange={endDate => {
 								setProjectDate({
 									...projectDate,
 									endDate
 								});
 							}}
+							className="mt-8 mb-16 w-full"
+							minDate={projectDate.startDate}
 						/>
 					</Grid>
 

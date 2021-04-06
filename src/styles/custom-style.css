@@ -922,13 +922,16 @@ textarea.MuiOutlinedInput-input {
     display: none;
 } */
 .team-tab .custom-fuse-page-right-sidebar .permanent  {
-      background-color: transparent;      
+      background-color: transparent;
 }
 .team-tab .custom-fuse-page-right-sidebar.permanent  {
     margin-left: -24px;
 }
 .team-tab .custom-fuse-page-right-sidebar.permanent .w-256 {
     width: 280px;
+}
+.team-tab .custom-fuse-page-right-sidebar.permanent .ml-19 {
+    margin-left: 19.6rem;
 }
 .team-page-filter .MuiListItem-root.active {
     color: #fff !important;

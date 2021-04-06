@@ -7,7 +7,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
-import DatePicker from 'react-datepicker';
+import {
+	KeyboardDatePicker
+  } from '@material-ui/pickers';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
@@ -464,34 +466,35 @@ function TodoDialog(props) {
 					</FormControl>
 					<div className="flex -mx-4">
 						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-							<label>{t('START_DATE')}</label>
-							<DatePicker
-								dateFormat="dd/MM/yyyy"
-								selected={taskDate.startDate}
-								// minDate={taskDate.startDate}
+							<KeyboardDatePicker
+								label={t('START_DATE')}
+								inputVariant="outlined"
+								format="DD/MM/yyyy"
+								value={taskDate.startDate}
 								onChange={startDate => {
 									setTaskDate({
 										...taskDate,
 										startDate
 									});
 								}}
+								className="mt-8 mb-16 w-full"
 							/>
-							<Icon className="icon">calendar_today</Icon>
 						</div>
 						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-							<label>{t('END_DATE')}</label>
-							<DatePicker
-								dateFormat="dd/MM/yyyy"
-								selected={taskDate.endDate}
-								minDate={taskDate.startDate}
+							<KeyboardDatePicker
+								label={t('END_DATE')}
+								inputVariant="outlined"
+								format="DD/MM/yyyy"
+								value={taskDate.endDate}
 								onChange={endDate => {
 									setTaskDate({
 										...taskDate,
 										endDate
 									});
 								}}
+								minDate={taskDate.startDate}
+								className="mt-8 mb-16 w-full"
 							/>
-							<Icon className="icon">calendar_today</Icon>
 						</div>
 					</div>
 					<div className="w-full zoom-125">

@@ -35,10 +35,13 @@ function ChatsSidebar(props) {
 	const dispatch = useDispatch();
 	const contacts = useSelector(({ chatAppProject }) => chatAppProject.contacts.entities);
 	const user = useSelector(({ chatAppProject }) => chatAppProject.user);
+	const userAuth = useSelector(({ auth }) => auth.user);
 
 	const [searchText, setSearchText] = useState('');
 	const [statusMenuEl, setStatusMenuEl] = useState(null);
 	const [moreMenuEl, setMoreMenuEl] = useState(null);
+
+	const userData = userAuth?.data?.user;
 
 	function handleMoreMenuClick(event) {
 		setMoreMenuEl(event.currentTarget);
@@ -76,6 +79,8 @@ function ChatsSidebar(props) {
 		setSearchText(event.target.value);
 	}
 
+	console.log('user?????????????????????', user)
+
 	return (
 		<div className="flex flex-col flex-auto h-full">
 			<AppBar position="static" color="default" elevation={1} className="bg-white border-0">
@@ -88,7 +93,7 @@ function ChatsSidebar(props) {
 							role="button"
 							tabIndex={0}
 						>
-							<Avatar src={user.avatar} alt={user.name} className="w-48 h-48">
+							<Avatar src={userData?.photo} alt={user.name} className="w-48 h-48">
 								{!user.avatar || user.avatar === '' ? user.name[0] : ''}
 							</Avatar>
 

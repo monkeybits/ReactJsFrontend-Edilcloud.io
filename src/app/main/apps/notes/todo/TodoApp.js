@@ -38,6 +38,7 @@ const useStyles = makeStyles({
 function TodoApp(props) {
 	const dispatch = useDispatch();
 	const { t } = useTranslation('todo_project');
+	const [folded, setFolded] = useState(true)
 	const classes = useStyles(props);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
@@ -52,6 +53,13 @@ function TodoApp(props) {
 	const [loading, setLoading] = useState({
 		loadingTodos: false
 	});
+	const navbar = useSelector(({ fuse }) => fuse.navbar);
+	useEffect(() => {
+		if(navbar.foldedOpen) {
+			setFolded(false)
+		}
+	}, [navbar]);
+
 	const handleSetLoading = data => {
 		if (!data.loadingTodos) {
 			setTimeout(() => {
@@ -283,7 +291,7 @@ function TodoApp(props) {
 				classes={{
 					contentWrapper: 'bg-azure h-full',
 					content: 'flex bg-azure flex-col h-full pb-0',
-					leftSidebar: 'mobile-h-full w-256 border-0',
+					leftSidebar: `mobile-h-full w-256 border-0 ${navbar.foldedOpen || folded ? 'ml-19' : ''}`,
 					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove',
 					wrapper: 'min-h-0 team-tab'
