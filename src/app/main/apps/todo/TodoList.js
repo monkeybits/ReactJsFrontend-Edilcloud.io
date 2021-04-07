@@ -24,6 +24,7 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
 const TodoListItem = loadable(() => import('./TodoListItem'))
 const TaskContentForm = loadable(() => import('./TaskContentForm'))
+const TaskAttachment = loadable(() => import('./TaskAttachment'))
 const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'))
 
 function TodoList(props) {
@@ -40,6 +41,7 @@ function TodoList(props) {
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
+	const openDrawingContent = useSelector(({ todoApp }) => todoApp.todos.openDrawingContent);
 	const [todoId, setTodoId] = useState(null);
 	const [posts, setPosts] = React.useState([]);
 	const [loading, setLoading] = useState({
@@ -117,26 +119,20 @@ function TodoList(props) {
 			dispatch(AccessibilityActions.setIsTask('task'));
 		}
 	}, [todosNote]);
+
 	useEffect(() => {
 		if (posts && posts.length > 0) {
 			dispatch(AccessibilityActions.setOpenMenu('downloadApp'));
 			dispatch(AccessibilityActions.setIsPost('post'));
 		}
 	}, [posts]);
+	
 	useEffect(() => {
 		if (accessibilityPanelApp === 'true' || accessibilityPanelAppState) {
 			dispatch(AccessibilityActions.setOpenMenu('discover'));
 			dispatch(AccessibilityActions.setIsDownloadApp('downloadApp'));
 		}
 	}, [accessibilityPanelApp, accessibilityPanelAppState]);
-
-	useEffect(() => {
-		if (isOpenQuickStart) {
-			setTimeout(() => {
-				// dispatch(AccessibilityActions.openAccessibility());
-			}, 10000);
-		}
-	}, [isOpenQuickStart]);
 
 	/**
 	 * * we have 5-6 filter category but, by default we can select only one filter from each categaory but some category need to allow multiple select
@@ -462,7 +458,7 @@ function TodoList(props) {
 		>
 			<div className="flex">
 				<div className="lg:w-1/3 sidebar-ht border-right dashboard">
-					<div className="lg:mr-28 custom-margin cursor-pointer">
+					<div className="lg:mr-28 custom-margin">
 						{filteredData.map((todo, index) => (
 							<TodoListItem setTodoId={setTodoId} {...props} todo={todo} key={todo.id} index={index} /> // all tasks will be display from this function
 						))}
@@ -471,6 +467,9 @@ function TodoList(props) {
 				<div className="lg:w-2/3 content-ht dashboard left-30 custom-modal-open flex-fill">
 					{taskContentDialog.props.open && todoId == taskContentDialog.data.id && (
 						<TaskContentForm /> // if we click on tasks this component will be displayed
+					)}
+					{openDrawingContent && (
+						<TaskAttachment /> // if we click on tasks this component will be displayed
 					)}
 					{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
 						<EditActivityPostForm /> // if we click on activity this component will be displayed

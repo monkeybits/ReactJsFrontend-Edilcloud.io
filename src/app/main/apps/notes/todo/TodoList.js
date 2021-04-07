@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 const TodoListItem = loadable(() => import('./TodoListItem'))
 const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'))
+const TaskAttachment = loadable(() => import('./TaskAttachment'))
 const TaskContentForm = loadable(() => import('./Dialog/TaskContentForm'))
 
 function TodoList(props) {
@@ -25,6 +26,7 @@ function TodoList(props) {
 	const activeFilter = useSelector(({ todoAppNote }) => todoAppNote.filters.activeFilter);
 	const activeFilterKey = useSelector(({ todoAppNote }) => todoAppNote.filters.activeFilterKey);
 	const usedKeys = useSelector(({ todoAppNote }) => todoAppNote.filters.usedKeys);
+	const openDrawingContent = useSelector(({ todoAppNote }) => todoAppNote.todos.openDrawingContent);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const canSelectMultiple = ['companyFilter', 'peopleFilter'];
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
@@ -51,7 +53,6 @@ function TodoList(props) {
 				);
 				resolve(data);
 			}).then(data => {
-				console.log('activeFilter????????????????????1', activeFilterKey)
 				setFilteredData(setFilterByKey(activeFilter, data, activeFilterKey));
 				handleDoFilter();
 			});
@@ -108,7 +109,6 @@ function TodoList(props) {
 									return element == 'peopleFilter' ? d.id : d.name;
 								}
 							});
-							console.log('activeFilter????????????????????2', activeFilterKey)
 							list = setFilterByKey(element, list, selectedFilters);
 						} else {
 							filters[element].map(d => {
@@ -140,8 +140,6 @@ function TodoList(props) {
 			}
 			return FuseUtils.filterArrayByString(arr, _searchText);
 		}
-		console.log('activeFilter????????????????????', activeFilter)
-		console.log('activeFilter????????????????????', activeFilterKey)
 		switch (activeFilter) {
 			case 'genrealFilter':
 				var result = [];
@@ -354,8 +352,6 @@ function TodoList(props) {
 		return null;
 	}
 
-	console.log('filteredData??????????????????', filteredData)
-	
 	return (
 		// <List className="p-0">
 		<FuseAnimateGroup
@@ -413,7 +409,7 @@ function TodoList(props) {
 				) : (
 					<div className="flex">
 						<div className="lg:w-1/3 sidebar-ht">
-							<div className="lg:mr-28 custom-margin cursor-pointer">
+							<div className="lg:mr-28 custom-margin">
 								{filteredData.map((todo, index) => (
 									<TodoListItem
 										setTodoId={setTodoId}
@@ -428,6 +424,9 @@ function TodoList(props) {
 						</div>
 						<div className="lg:w-2/3 content-ht custom-modal-open marginleft flex-fill">
 							{taskContentDialog.props.open && todoId == taskContentDialog.data.id && <TaskContentForm />}
+							{openDrawingContent && (
+								<TaskAttachment /> // if we click on tasks this component will be displayed
+							)}
 							{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
 								<EditActivityPostForm />
 							)}

@@ -73,13 +73,19 @@ const todosReducer = (state = initialState, action) => {
 			return {
 				...state,
 				openDrawingContent: true,
-				// taskContentDialog: {
-				// 	type: 'new',
-				// 	props: {
-				// 		open: true
-				// 	},
-				// 	data: action.data
-				// }
+				taskContentDialog: {
+					type: 'new',
+					props: {
+						open: false
+					},
+					data: action.data
+				}
+			};
+		}
+		case Actions.CLOSE_DRAWING_CONTENT_DIALOG: {
+			return {
+				...state,
+				openDrawingContent: false
 			};
 		}
 		case Actions.CLOSE_TASK_CONTENT_DIALOG: {

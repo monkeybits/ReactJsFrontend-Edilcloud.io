@@ -183,7 +183,6 @@ function TaskContentForm(props) {
 	const getName = profile => `${profile.first_name} ${profile.last_name}`;
 
 	useEffect(() => {
-		console.log('openDrawingContent?????????????????????????', openDrawingContent)
 		if (openDrawingContent) {
 			setValue(1);
 			a11yProps(1)
@@ -306,10 +305,13 @@ function TaskContentForm(props) {
 	function commentAdd(comment) {
 		// return setInForm('activities', [comment, ...cardForm.activities]);
 	}
+	
 	const handleTabChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
 	const isFormInvalid = () => cardForm.name && cardForm.name.length > 0 && taskDate.startDate && taskDate.endDate;
+	
 	const handleSubmit = () => {
 		setLoading(true);
 		dispatch(
@@ -332,6 +334,7 @@ function TaskContentForm(props) {
 			)
 		);
 	};
+	
 	const getIsDisabled = () =>
 		taskContentData?.assigned_company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
 	console.log({
@@ -352,9 +355,6 @@ function TaskContentForm(props) {
 		// 	getHeaderToken()
 		// );
 	};
-
-	console.log('company>>>>>>>>>>>>>>>>>>>', company)
-	console.log('company>>>>>>>>>>>>>>>>>>>', companies)
 
 	return (
 		<div className="w-full custom-task-content">
@@ -409,38 +409,6 @@ function TaskContentForm(props) {
 					<CreatePostForm taskId={taskContentData?.id} isTask />
 				</TabPanel>
 				<TabPanel value={value} index={1} className="bg-white">
-					<div className="sm:mx-12">
-						<CreateAttachments taskId={taskContentData?.id} attachments={taskContentData?.media_set} />
-					</div>
-					{/* <div className="mb-24">
-						<div className="flex items-center mt-16">
-							<Icon className="text-20" color="inherit">
-								list
-							</Icon>
-							<Typography className="font-600 text-16 mx-8">Activity</Typography>
-						</div>
-						<List className="">
-							{activities.map(item => (
-								<CardActivity item={item} key={item.id} members={members} />
-							))}
-						</List>
-					</div>
-				 */}
-					{/* <div className="mb-24">
-						<div className="flex items-center mt-16 mb-12">
-							<Icon className="text-20" color="inherit">
-								comment
-							</Icon>
-							<Typography className="font-600 text-16 mx-8">Comment</Typography>
-						</div>
-						<div>
-							<CardComment members={members} onCommentAdd={commentAdd} />
-						</div>
-					</div>
-			 */}
-				</TabPanel>
-
-				<TabPanel value={value} index={2} className="bg-white">
 					<div className="sm:mx-12">
 						{getIsDisabled() && (
 							<div className="flex items-center mb-24">

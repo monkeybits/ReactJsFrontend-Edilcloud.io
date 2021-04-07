@@ -67,13 +67,13 @@ const todosReducer = (state = initialState, action) => {
 		case Actions.OPEN_TASK_CONTENT_DIALOG: {
 			return {
 				...state,
-				// taskContentDialog: {
-				// 	// type: 'new',
-				// 	props: {
-				// 		// open: true
-				// 	},
-				// 	data: action.data
-				// }
+				taskContentDialog: {
+					type: 'new',
+					props: {
+						open: true
+					},
+					data: action.data
+				}
 			};
 		}
 		case Actions.OPEN_DRAWING_CONTENT_DIALOG: {
@@ -83,10 +83,16 @@ const todosReducer = (state = initialState, action) => {
 				taskContentDialog: {
 					type: 'new',
 					props: {
-						open: true
+						open: false
 					},
 					data: action.data
 				}
+			};
+		}
+		case Actions.CLOSE_DRAWING_CONTENT_DIALOG: {
+			return {
+				...state,
+				openDrawingContent: false
 			};
 		}
 		case Actions.OPEN_NOTIFICATION_DIALOG: {

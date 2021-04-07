@@ -46,6 +46,7 @@ export const OPEN_STATUS_CONFIRM_DIALOG = '[TODO APP] OPEN STATUS CONFIRM DIALOG
 export const CLOSE_STATUS_CONFIRM_DIALOG = '[TODO APP] CLOSE STATUS CONFIRM DIALOG (PROJECT)';
 export const OK_STATUS_CONFIRM_DIALOG = '[TODO APP] OK STATUS CONFIRM DIALOG (PROJECT)';
 export const OPEN_DRAWING_CONTENT_DIALOG = '[TODO APP] OPEN DRAWING CONTENT DIALOG (PROJECT)';
+export const CLOSE_DRAWING_CONTENT_DIALOG = '[TODO APP] CLOSE DRAWING CONTENT DIALOG (PROJECT)';
 
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
@@ -177,6 +178,12 @@ export function openDrawingContent(data) {
 	return {
 		type: OPEN_DRAWING_CONTENT_DIALOG,
 		data
+	};
+}
+
+export function closeDrawingContent() {
+	return {
+		type: CLOSE_DRAWING_CONTENT_DIALOG
 	};
 }
 

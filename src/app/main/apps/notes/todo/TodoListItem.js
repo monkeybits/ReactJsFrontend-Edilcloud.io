@@ -204,9 +204,11 @@ function TodoListItem(props) {
 			<Card
 				elevation={1}
 				className="flex flex-col bordergrey overflow-inherit mb-6"
-				onClick={() => {
-					console.log('sdgggggggggggggg')
+				onClick={(e) => {
+					dispatch(Actions.closeDrawingContent());
 					// if (getRole() == 'o' || getRole() == 'd') {
+					e.preventDefault();
+					e.stopPropagation();
 					dispatch(Actions.closeTimelineDialog());
 					dispatch(Actions.openTaskContent(props.todo));
 					props.setTodoId(props.todo.id);
@@ -233,7 +235,12 @@ function TodoListItem(props) {
 							// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
 							aria-haspopup="true"
 							onClick={(e) => {
-								// dispatch(Actions.openDrawingContent(props.todo));
+								e.preventDefault();
+								e.stopPropagation();
+								dispatch(Actions.openDrawingContent(props.todo));
+								dispatch(Actions.closeTimelineDialog());
+								// dispatch(Actions.openTaskContent(props.todo));
+								props.setTodoId(props.todo.id);
 							}}
 							className="text-white opacity-60"
 						>
