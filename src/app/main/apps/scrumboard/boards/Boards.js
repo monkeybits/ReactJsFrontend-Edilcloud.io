@@ -35,6 +35,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import { useTranslation } from 'react-i18next';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import * as AccessibilityActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import ReuestsDrawer from './ReuestsDrawer';
 import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import reducer from '../store/reducers';
@@ -181,6 +182,7 @@ function Boards(props) {
 				setIsLoading(false);
 				dispatch(Actions.resetFile());
 				dispatch(authActions.getCompanyProfile(res.token));
+				dispatch(AccessibilityActions.openAccessibility());
 				props.history.push('/apps/todo/all');
 			},
 			err => {
