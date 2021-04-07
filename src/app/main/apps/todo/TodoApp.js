@@ -51,6 +51,9 @@ function TodoApp(props) {
 	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 	const navbar = useSelector(({ fuse }) => fuse.navbar);
 
+	useEffect(() => {
+		dispatch(Actions.closeDrawingContent());
+	}, [dispatch]);
 	
 	useEffect(() => {
 		if(navbar.foldedOpen) {

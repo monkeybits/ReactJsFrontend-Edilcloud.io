@@ -75,11 +75,11 @@ function TodoApp(props) {
 			}));
 		}
 	};
-	// useEffect(() => {
-	// 	dispatch(Actions.getFilters());
-	// 	dispatch(Actions.getFolders());
-	// 	dispatch(Actions.getLabels());
-	// }, [dispatch]);
+
+	useEffect(() => {
+		dispatch(Actions.closeDrawingContent());
+	}, [dispatch]);
+
 	useEffect(() => {
 		if (
 			(notificationPanel.viewing && notificationPanel.notificationData?.notification) ||
