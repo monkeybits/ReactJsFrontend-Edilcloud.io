@@ -65,10 +65,10 @@ function StatusConfirmDialog() {
 			maxWidth="xs"
 			fullWidth="true"
 		>
-            <DialogTitle id="customized-dialog-title" onClose={handleClose}>Change status?</DialogTitle>
+            <DialogTitle id="customized-dialog-title" onClose={handleClose}>Vuoi cambiare stato?</DialogTitle>
 			<DialogContent dividers>
                 <Typography className="text-lg">
-                    Are you sure you want to change this status?
+                   Sei sicuro di voler cambiare stato a questo post? 
                     {/* {userData.status == 'Deactivated' ? t('DEACTIVATE_MSG') : t('ACTIVATE_MSG')} */}
                 </Typography>
                 <div>

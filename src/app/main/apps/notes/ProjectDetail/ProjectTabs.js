@@ -2,8 +2,6 @@
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import React, { useState } from 'react';
@@ -15,21 +13,17 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import withReducer from 'app/store/withReducer';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { Icon } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import { useTranslation } from 'react-i18next';
 import * as TodoActions from 'app/main/apps/notes/todo/store/actions';
 import ProjectHeader from './ProjectHeader';
-import Toolbar from '../gantt/Toolbar';
 import Gantt from '../gantt/index';
 import FileManagerApp from '../file-manager/FileManagerApp';
 import TodoApp from '../todo/TodoApp';
 import ChatApp from '../chat/ChatApp';
 import ContactsApp from '../contacts/ContactsApp';
 import ProjectInfo from './ProjectInfo';
+import { Height } from '@material-ui/icons';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -67,7 +61,8 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
 		minHeight: '100%',
-		backgroundColor: theme.palette.background.paper
+		backgroundColor: '#376AED',
+		height: 76,
 	}
 }));
 
@@ -146,7 +141,7 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 			</div>
 			{/* </div> */}
 			{/* </TabPanel> */}
-			<AppBar className="fixed custom-tab-header custom-tab-header-mobile right-0 bottom-0">
+			<AppBar className="fixed custom-tab-header lightblue-bg custom-tab-header-mobile right-0 bottom-0">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {
@@ -167,7 +162,7 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 					showLabels
 					className={classes.root}
 				>
-					<BottomNavigationAction label={t('TEAM')} icon={<Icon>people</Icon>} {...a11yProps(0)} />
+					<BottomNavigationAction className="text-white" label={t('TEAM')} icon={<Icon className="white">people</Icon>} {...a11yProps(0)} />
 					<BottomNavigationAction label={t('CHAT')} icon={<Icon>message</Icon>} {...a11yProps(1)} />
 					<BottomNavigationAction label={t('TODO')} icon={<Icon>check_box</Icon>} {...a11yProps(2)} />
 					<BottomNavigationAction label={t('FILES')} icon={<Icon>folder</Icon>} {...a11yProps(3)} />

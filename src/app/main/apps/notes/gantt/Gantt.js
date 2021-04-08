@@ -650,7 +650,7 @@ class Gantt extends Component {
 			const markerId = gantt.addMarker({
 				start_date: new Date(),
 				css: 'today',
-				text: 'Now',
+				text: 'Adesso',
 				title: dateToStr(new Date())
 			});
 			gantt.getMarker(markerId);
@@ -661,8 +661,8 @@ class Gantt extends Component {
 				const markerId = gantt.addMarker({
 					start_date: min,
 					css: 'status_line',
-					text: 'Start project',
-					title: 'Start project: ' // + dateToStr(new Date(min))
+					text: 'Inizio Progetto',
+					title: 'Inizio Progetto: ' // + dateToStr(new Date(min))
 				});
 				gantt.getMarker(markerId);
 			}

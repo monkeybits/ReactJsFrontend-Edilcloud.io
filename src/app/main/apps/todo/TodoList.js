@@ -434,14 +434,14 @@ function TodoList(props) {
 					<div className="flex flex-1 items-center justify-center h-full">
 						<img className="w-400" src="assets/images/errors/nogantt.png" />
 					</div>
-					<div className="flex flex-1 items-center justify-center h-full">
+					<div className="flex flex-1 items-center justify-center">
 						<Typography color="textSecondary" variant="h5">
-							Seems that there are no tasks yet!
+							Sembra che non ci sia task
 						</Typography>
 					</div>
-					<div className="flex flex-1 mt-20 items-center justify-center h-full">
+					<div className="flex flex-1 mt-20 items-center justify-center">
 						<Typography color="textSecondary" variant="h6">
-							Create a task clicking on green + button
+							Controlla i filtri attivi oppure crea un progetto dalla pagina lista progetti.
 						</Typography>
 					</div>
 				</div>

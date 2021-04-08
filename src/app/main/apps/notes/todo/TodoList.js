@@ -396,12 +396,12 @@ function TodoList(props) {
 							</div>
 							<div className="flex flex-1 items-center justify-center h-full">
 								<Typography color="textSecondary" variant="h5">
-									Seems that there are no tasks yet!
+									Sembra che non ci siano fasi di lavoro
 								</Typography>
 							</div>
 							<div className="flex flex-1 mt-20 items-center justify-center h-full">
 								<Typography color="textSecondary" variant="h6">
-									Create a task clicking on green + button
+									Clicca sul tasto verde per crearne una o importarle da excel
 								</Typography>
 							</div>
 						</div>

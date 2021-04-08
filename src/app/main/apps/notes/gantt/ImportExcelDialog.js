@@ -59,7 +59,7 @@ export default function ImportExcelDialog({ open, setOpen, setTarget, target, on
 	return (
 		<div>
 			<Dialog fullWidth maxWidth="sm" className="custom-modal-new" onClose={handleClose} open={open}>
-				<DialogTitle id="customized-dialog-title" onClose={handleClose}>
+				<DialogTitle className="bg-blue text-white" id="customized-dialog-title" onClose={handleClose}>
 					Import Excel
 				</DialogTitle>
 				<DialogContent dividers>

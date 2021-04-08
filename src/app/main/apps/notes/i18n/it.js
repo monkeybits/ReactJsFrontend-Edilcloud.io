@@ -21,8 +21,8 @@ const locale = {
 	TEAM: 'PERSONE',
 	CHAT: 'CHAT',
 	TODO: 'FASI',
-	FILES: 'FILES ',
-	GANTT: 'GANTT',
+	FILES: 'DOCS ',
+	GANTT: 'CRONO',
 	SAVE: 'Salva'
 };
 

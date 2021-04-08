@@ -202,7 +202,7 @@ function EditActivityPostForm(props) {
 	const getName = profile => `${profile.profile.first_name} ${profile.profile.last_name}`;
 	return (
 		<div className="w-full custom-task-content">
-			<div className="custom-tab-header flex justify-start relative">
+			<div className="custom-tab-header2 flex justify-start relative">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {

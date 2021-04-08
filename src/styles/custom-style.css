@@ -534,12 +534,13 @@ textarea.MuiOutlinedInput-input {
 }
 .custom-tab-header {
     box-shadow: 0 -1px 3px #00000029;
+    
 }
 .activity-pad > div, .bg-post-section > div {
     padding: 0;
 }
 .custom-tab-header button:not(.close-icon) {
-    color: #5C616F;
+    color: #ffffff;
     padding: 8px 12px 8px;
     border-bottom: 3px solid transparent;
 }
@@ -550,8 +551,8 @@ textarea.MuiOutlinedInput-input {
     margin-right: 8px;
 }
 .custom-tab-header button.Mui-selected {
-    color: #376aed;
-    border-bottom: 3px solid #376aed;
+    color: #ffffff;
+    border-bottom: 3px solid #ffffff;
 }
 .custom-tab-header .MuiBottomNavigationAction-label.Mui-selected {
     font-size: 1.4rem;
@@ -563,6 +564,9 @@ textarea.MuiOutlinedInput-input {
 .post-form textarea {
     min-height: 2em;
     height: auto;
+}
+.lightblue-bg{
+    background-color: #1976D2;
 }
 .post-form .custom-textarea, .post-form .w-full {
     /* border-radius: 8px; */

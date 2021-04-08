@@ -7,7 +7,7 @@ const initialState = () => {
 	const genrealFilter = [
 		{
 			name: 'MINE',
-			isActive: true
+			isActive: false
 		},
 		{
 			name: 'ALL',

@@ -361,7 +361,7 @@ function TaskContentForm(props) {
 	
 	return (
 		<div className="w-full custom-task-content">
-			<div className="custom-tab-header bg-white h-64 flex relative">
+			<div className="custom-tab-header2 bg-white h-64 flex relative">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {
