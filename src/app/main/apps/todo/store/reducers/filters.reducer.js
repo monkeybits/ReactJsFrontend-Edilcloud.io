@@ -8,7 +8,7 @@ const initialState = () => {
 	const genrealFilter = [
 		{
 			name: 'MINE',
-			isActive: false
+			isActive: true
 		},
 		{
 			name: 'ALL',
@@ -47,7 +47,7 @@ const initialState = () => {
 		companyFilter: [],
 		peopleFilter: [],
 		activeFilter: 'genrealFilter',
-		activeFilterKey: '',
+		activeFilterKey: 'MINE',
 		usedKeys: [],
 		genrealFilter, // genrealFilterJsonData ? JSON.parse(genrealFilterJsonData) : genrealFilter,
 		timeFilter // timeFilterJsonData ? JSON.parse(timeFilterJsonData) : timeFilter
