@@ -40,7 +40,8 @@ const useStyles = makeStyles({
 });
 function TodoApp(props) {
 	const dispatch = useDispatch();
-	const [folded, setFolded] = useState(true)
+	const [defaultMenu, setDefaultMenu] = useState(true)
+	const [foldedAndOpened, setFoldedAndOpened] = useState(false)
 	const { t } = useTranslation('dashboard');
 	const classes = useStyles(props);
 	const history = useHistory();
@@ -49,17 +50,36 @@ function TodoApp(props) {
 	const upload = useSelector(({ todoApp }) => todoApp.todos.upload);
 	const user = useSelector(({ auth }) => auth.user.data.company);
 	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
+	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
 	const navbar = useSelector(({ fuse }) => fuse.navbar);
+	const toggleSidebarMenu = useSelector(({ fuse }) => fuse.settings.toggleSidebarMenu);
+	const { folded } = config.navbar;
+
+	useEffect(() => {
+		if(toggleSidebarMenu) {
+			setDefaultMenu(false)
+		} else {
+			setDefaultMenu(true)
+		}
+	}, [toggleSidebarMenu]);
+
+	const foldedAndClosed = folded && !navbar.foldedOpen;
+	useEffect(() => {
+		const foldedAndOpened = folded && navbar.foldedOpen;
+		setTimeout(() => {
+			if(foldedAndOpened) {
+				setDefaultMenu(false)
+				setFoldedAndOpened(foldedAndOpened)
+			}
+		}, 200)
+		if(!foldedAndOpened) {
+			setFoldedAndOpened(foldedAndOpened)
+		}
+	}, [folded, navbar]);
 
 	useEffect(() => {
 		dispatch(Actions.closeDrawingContent());
 	}, [dispatch]);
-	
-	useEffect(() => {
-		if(navbar.foldedOpen) {
-			setFolded(false)
-		}
-	}, [navbar]); 
 
 	useEffect(() => {
 		return () => {
@@ -104,6 +124,7 @@ function TodoApp(props) {
 			</div>
 		);
 	}
+
 	return (
 		// after data loaded it will return tasks
 		<>
@@ -128,7 +149,7 @@ function TodoApp(props) {
 				classes={{
 					contentWrapper: 'bg-azure h-full',
 					content: 'flex bg-azure flex-col h-full p-24 pb-0',
-					leftSidebar: `mobile-h-full w-256 border-0 ${navbar.foldedOpen || folded ? 'ml-19' : ''}`,
+					leftSidebar: `mobile-h-full w-256 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`,
 					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove dashboard',
 					wrapper: 'min-h-0 team-tab'

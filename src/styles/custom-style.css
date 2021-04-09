@@ -934,7 +934,7 @@ textarea.MuiOutlinedInput-input {
 .team-tab .custom-fuse-page-right-sidebar.permanent .w-256 {
     width: 280px;
 }
-.team-tab .custom-fuse-page-right-sidebar.permanent .ml-19 {
+.ml-19 {
     margin-left: 19.6rem;
 }
 .team-page-filter .MuiListItem-root.active {

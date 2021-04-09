@@ -30,13 +30,34 @@ function NotesApp(props) {
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
 	const { t } = useTranslation('projects');
-	const [folded, setFolded] = useState(true)
+	const [defaultMenu, setDefaultMenu] = useState(true)
+	const [foldedAndOpened, setFoldedAndOpened] = useState(false)
+	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
 	const navbar = useSelector(({ fuse }) => fuse.navbar);
+	const toggleSidebarMenu = useSelector(({ fuse }) => fuse.settings.toggleSidebarMenu);
+	const { folded } = config.navbar;
+	
 	useEffect(() => {
-		if(navbar.foldedOpen) {
-			setFolded(false)
+		if(toggleSidebarMenu) {
+			setDefaultMenu(false)
+		} else {
+			setDefaultMenu(true)
 		}
-	}, [navbar]);
+	}, [toggleSidebarMenu]);
+
+	const foldedAndClosed = folded && !navbar.foldedOpen;
+	useEffect(() => {
+		const foldedAndOpened = folded && navbar.foldedOpen;
+		setTimeout(() => {
+			if(foldedAndOpened) {
+				setDefaultMenu(false)
+				setFoldedAndOpened(foldedAndOpened)
+			}
+		}, 200)
+		if(!foldedAndOpened) {
+			setFoldedAndOpened(foldedAndOpened)
+		}
+	}, [folded, navbar]);
 
 	const [loading, setLoading] = useState({
 		loadingProjects: true,
@@ -86,7 +107,7 @@ function NotesApp(props) {
 				classes={{
 					contentWrapper: 'p-16 sm:p-24 md:px-32 pb-80 sm:pb-80',
 					content: `flex min-h-full`,
-					leftSidebar: `w-256 border-0 ${navbar.foldedOpen || folded ? 'ml-19' : ''}`,
+					leftSidebar: `w-256 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`,
 					header: 'project_list p-16 sm:p-32 h-auto min-h-auto sm:pb-0'
 				}}
 				header={<NotesHeader pageLayout={pageLayout} />}
