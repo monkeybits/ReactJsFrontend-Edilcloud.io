@@ -1,3 +1,9 @@
+@media only screen and (min-width: 1280px) {
+    .ml-19 {
+        margin-left: 19.6rem;
+    }
+}
+
 @media only screen and (max-width: 1279px) {
     .custom-tab-header {
         width: calc(100% - 0px);

@@ -5,7 +5,7 @@ This is part of dashboard
 TODO: This file is used to show Filters and apply filters on tasks 
 */
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { Avatar, Icon, List, ListItem, ListItemText, ListSubheader } from '@material-ui/core';
+import { Avatar, Icon, List, ListItem, ListItemText, ListSubheader, AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React from 'react';
@@ -79,7 +79,7 @@ function TodoSidebarContent(props) {
 					</Button>
 				</div> */}
 
-				<div className="pl-48 pt-60">
+				<div className="lg:pl-48 pt-60">
 					{/*
 					// *The below old code was for UI, I just had to leave it here for you to see.
 					<List>
@@ -101,7 +101,27 @@ function TodoSidebarContent(props) {
 							))}
 					</List> */}
 
-					<List>
+					<List className="p-0">
+						<AppBar position="static" elevation={1}>
+							<Toolbar className="pl-12 pr-4">
+								<IconButton
+									color="inherit"
+								>
+									<Icon className="text-32">filter</Icon>
+								</IconButton>
+								<Typography className="mx-8 text-16" color="inherit">
+									Filters
+								</Typography>
+								<div className="flex px-4 ml-16">
+									<IconButton color="inherit" onClick={ev => {
+										// console.log(props.pageLayout)
+										// props.pageLayout.current.toggleLeftSidebar()
+									}}>
+										<Icon>close</Icon>
+									</IconButton>
+								</div>
+							</Toolbar>
+						</AppBar>
 						<ListSubheader className={classes.listSubheader} disableSticky>
 							{t('GENERAL_FILTERS')}
 						</ListSubheader>
