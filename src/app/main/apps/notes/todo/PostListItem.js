@@ -122,12 +122,14 @@ export default function PostListItem({
 			setHasRender(true);
 		}
 	}, [currnetPost]);
+	
 	useEffect(() => {
 		if (post.comment_set) {
 			setPostComments(post.comment_set);
 			return () => setPostComments([]);
 		}
 	}, [post.comment_set]);
+	
 	useEffect(() => {
 		const notification = notificationPanel.notificationData?.notification;
 		if (notificationPanel.viewing && notification?.content_type == 'post' && hasRender && scrollRef.current) {
@@ -144,7 +146,6 @@ export default function PostListItem({
 
 	useEffect(() => {
 		if ('id' in statusPost && okStateConfirmDialog) {
-			console.log('okStateConfirmDialog', statusPost)
 			apiCall(
 				EDIT_POST(statusPost.id),
 				{
@@ -406,7 +407,7 @@ export default function PostListItem({
 			id={`post${post.id}`}
 			ref={notificationPanel.notificationData?.notification?.object_id == post.id ? scrollRef : null}
 			key={post.id}
-			className="mb-40 overflow-hidden  post-card-clx"
+			className="mb-40 overflow-hidden post-card-clx"
 		>
 			<CardHeader className="bg-dark-blue"
 				avatar={
