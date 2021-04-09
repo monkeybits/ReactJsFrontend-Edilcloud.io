@@ -26,7 +26,7 @@ class Auth extends Component {
 		setTimeout(() => {
 			var splashScreen = document.getElementById('fuse-splash-screen');
 			splashScreen.style.display = 'none';
-		}, 50000)
+		}, 2000)
 	}
 
 	componentDidMount() {

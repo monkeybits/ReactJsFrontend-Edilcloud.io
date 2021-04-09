@@ -69,7 +69,7 @@ function LoginPage() {
 			setTimeout(() => {
 				var splashScreen = document.getElementById('fuse-splash-screen');
 				splashScreen.style.display = 'none';
-			}, 10000)
+			}, 2000)
 		}
 	}, [])
 
