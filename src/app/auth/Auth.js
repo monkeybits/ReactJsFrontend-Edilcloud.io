@@ -17,15 +17,30 @@ class Auth extends Component {
 		waitAuthCheck: true
 	};
 
+	hideLoader() {
+		setTimeout(() => {
+			this.setState({
+				waitAuthCheck: false
+			});
+		}, 1000)
+		setTimeout(() => {
+			var splashScreen = document.getElementById('fuse-splash-screen');
+			splashScreen.style.display = 'none';
+		}, 50000)
+	}
+
 	componentDidMount() {
 		const outsidePlatformPaths = ['user-account-activation', 'reset-password-confirm', 'register'];
 		const { location } = this.props;
 		const { pathname } = location;
 		const outsidePath = outsidePlatformPaths.filter(d => String(pathname).includes(d));
 		if (outsidePath.length) {
-			this.setState({
-				waitAuthCheck: false
-			});
+			this.hideLoader()
+			// setTimeout(() => {
+			// 	this.setState({
+			// 		waitAuthCheck: false
+			// 	});
+			// }, 1000)
 			return localStorage.clear();
 		}
 		return Promise.all([
@@ -36,12 +51,14 @@ class Auth extends Component {
 			this.jwtCheck()
 		])
 			.then(() => {
-				this.setState({ waitAuthCheck: false });
+				this.hideLoader()
+				// this.setState({ waitAuthCheck: false });
 				this.getUser();
 				this.getCompanyProfileData();
 			})
 			.catch(() => {
-				this.setState({ waitAuthCheck: false });
+				this.hideLoader()
+				// this.setState({ waitAuthCheck: false });
 			});
 	}
 

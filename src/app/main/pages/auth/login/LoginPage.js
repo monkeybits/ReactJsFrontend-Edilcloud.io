@@ -4,7 +4,7 @@ import { Card, CardContent, Divider, Typography, Grid, InputLabel, MenuItem, For
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -63,6 +63,15 @@ function LoginPage() {
 	// const userMenuClose = () => {
 	// 	setMenu(null);
 	// };
+
+	useEffect(() => {
+		return () => {
+			setTimeout(() => {
+				var splashScreen = document.getElementById('fuse-splash-screen');
+				splashScreen.style.display = 'none';
+			}, 10000)
+		}
+	}, [])
 
 	function handleLanguageChange(lng) {
 		const newLangDir = i18n.dir(lng.id);
