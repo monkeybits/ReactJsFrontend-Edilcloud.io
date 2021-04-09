@@ -23,7 +23,8 @@ const initialState = {
 	defaults: _.merge({}, initialSettings),
 	current: _.merge({}, initialSettings),
 	themes: initialThemes,
-	...getThemeOptions(initialThemes, initialSettings)
+	...getThemeOptions(initialThemes, initialSettings),
+	toggleSidebarMenu: false
 };
 
 const settings = (state = initialState, action) => {
@@ -43,6 +44,12 @@ const settings = (state = initialState, action) => {
 		}
 		case Actions.SET_INITIAL_SETTINGS: {
 			return _.merge({}, initialState);
+		}
+		case Actions.TOGGLE_SIDEBAR_MENU: {
+			return {
+				...state,
+				toggleSidebarMenu: !state.toggleSidebarMenu
+			};
 		}
 		case Actions.SET_DEFAULT_SETTINGS: {
 			const defaults = generateSettings(state.defaults, action.value);
