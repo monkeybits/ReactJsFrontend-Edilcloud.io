@@ -17,6 +17,9 @@ export const CREATE_NOTE = '[NOTES APP] CREATE NOTE';
 export const UPDATE_NOTE = '[NOTES APP] UPDATE NOTE';
 export const REMOVE_NOTE = '[NOTES APP] REMOVE NOTE';
 export const TOGGLE_VARIATE_DESC_SIZE = '[NOTES APP] TOGGLE VARIATE DESC SIZE';
+export const OPEN_CONFIRM_DELETE_DIALOG = '[NOTES APP] OPEN CONFIRM DELETE DIALOG';
+export const CLOSE_CONFIRM_DELETE_DIALOG = '[NOTES APP] CLOSE CONFIRM DELETE DIALOG';
+export const OK_CONFIRM_DELETE_DIALOG = '[NOTES APP] OK CONFIRM DELETE DIALOG';
 
 export function getProjects(handleSetLoading = () => '') {
 	handleSetLoading({
@@ -120,12 +123,32 @@ export function deleteProject(pid) {
 		);
 	};
 }
+
+export function openConfirmDeleteDialog() {
+	return {
+		type: OPEN_CONFIRM_DELETE_DIALOG
+	};
+}
+
+export function closeConfirmDeleteDialog() {
+	return {
+		type: CLOSE_CONFIRM_DELETE_DIALOG
+	};
+}
+
+export function okConfirmDeleteDialog() {
+	return {
+		type: OK_CONFIRM_DELETE_DIALOG
+	};
+}
+
 export function deleteFromStore(pid) {
 	return {
 		type: DELETE_PROJECT_ACTION,
 		pid
 	};
 }
+
 export function toggleProjectStatus(index) {
 	return {
 		type: TOGGLE_PROJECT_STATUS,

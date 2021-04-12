@@ -5,7 +5,9 @@ const initialState = {
 	entities: null,
 	searchText: '',
 	noteDialogId: null,
-	variateDescSize: true
+	variateDescSize: true,
+	openConfirmDeleteDialog: false,
+	okConfirmDeleteDialog: false
 };
 
 const notesReducer = (state = initialState, action) => {
@@ -38,6 +40,26 @@ const notesReducer = (state = initialState, action) => {
 			return {
 				...state,
 				noteDialogId: null
+			};
+		}
+		case Actions.OPEN_CONFIRM_DELETE_DIALOG: {
+			return {
+				...state,
+				openConfirmDeleteDialog: true
+			};
+		}
+		case Actions.CLOSE_CONFIRM_DELETE_DIALOG: {
+			return {
+				...state,
+				openConfirmDeleteDialog: false,
+				okConfirmDeleteDialog: false
+			};
+		}
+		case Actions.OK_CONFIRM_DELETE_DIALOG: {
+			return {
+				...state,
+				openConfirmDeleteDialog: false,
+				okConfirmDeleteDialog: true
 			};
 		}
 		case Actions.CREATE_NOTE: {

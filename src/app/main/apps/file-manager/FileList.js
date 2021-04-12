@@ -77,7 +77,7 @@ function FileList(props) {
 
 		{
 			name: 'DOWNLOAD',
-			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />,
+			icon: <Icon>cloud_download</Icon>,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
 				ev.stopPropagation();

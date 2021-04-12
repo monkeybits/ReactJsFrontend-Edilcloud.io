@@ -7,33 +7,40 @@ const initialState = () => {
 	const genrealFilter = [
 		{
 			name: 'MINE',
-			isActive: true
+			isActive: false,
+			icon: 'person'
 		},
 		{
 			name: 'ALL',
-			isActive: false
+			isActive: true,
+			icon: 'all_inbox'
 		},
 		{
 			name: 'ALERTED',
-			isActive: false
+			isActive: false,
+			icon: 'announcement'
 		}
 	];
 	const timeFilter = [
 		{
 			name: 'TODAY',
-			isActive: false
+			isActive: false,
+			icon: 'today'
 		},
 		{
 			name: 'NEXT_WEEK',
-			isActive: false
+			isActive: false,
+			icon: 'next_week'
 		},
 		{
 			name: 'IN_LATE',
-			isActive: false
+			isActive: false,
+			icon: 'av_timer'
 		},
 		{
 			name: 'COMPLETED',
-			isActive: false
+			isActive: false,
+			icon: 'done'
 		}
 	];
 	const nextWeek = new Date();
@@ -46,7 +53,7 @@ const initialState = () => {
 		companyFilter: [],
 		peopleFilter: [],
 		activeFilter: 'genrealFilter',
-		activeFilterKey: 'MINE',
+		activeFilterKey: 'ALL',
 		usedKeys: [],
 		genrealFilter, // genrealFilterJsonData ? JSON.parse(genrealFilterJsonData) : genrealFilter,
 		timeFilter // timeFilterJsonData ? JSON.parse(timeFilterJsonData) : timeFilter

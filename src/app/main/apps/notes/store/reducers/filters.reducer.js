@@ -7,33 +7,40 @@ const initialState = () => {
 	const genrealFilter = [
 		{
 			name: 'ACTIVE',
-			isActive: true
+			isActive: true,
+			icon: 'check_circle'
 		},
 		{
 			name: 'ARCHIVED',
-			isActive: false
+			isActive: false,
+			icon: 'archive'
 		},
 		{
 			name: 'DELETED',
-			isActive: false
+			isActive: false,
+			icon: 'delete'
 		}
 	];
 	const timeFilter = [
 		{
 			name: 'TODAY',
-			isActive: false
+			isActive: false,
+			icon: 'today'
 		},
 		{
 			name: 'NEXT_WEEK',
-			isActive: false
+			isActive: false,
+			icon: 'next_week'
 		},
 		{
 			name: 'IN_LATE',
-			isActive: false
+			isActive: false,
+			icon: 'av_timer'
 		},
 		{
 			name: 'COMPLETED',
-			isActive: false
+			isActive: false,
+			icon: 'done'
 		}
 	];
 	const nextWeek = new Date();
