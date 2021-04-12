@@ -217,6 +217,11 @@ function CreatePostForm({ isTask, taskId }) {
 	/**
 	 * below function is used to add media file before post it will store all files locallay on state called "fileData"
 	 */
+
+	const updateImage = (params) => {
+		console.log('params', params)
+	}
+
 	const addPhoto = async files => {
 		// const files = e.currentTarget.files;
 		const fileToCompress = files[0];
@@ -303,6 +308,16 @@ function CreatePostForm({ isTask, taskId }) {
 		forceUpdate();
 	};
 
+	const onAddPhoto = () => {
+		try {
+			if(window.webkit.messageHandlers) {
+				window.webkit.messageHandlers.UploadImage.postMessage("Start Image Loading")
+			}
+		} catch (e) {
+			console.log('error', e);
+		}
+	}
+
 	if (!data) {
 		return null;
 	}
@@ -337,7 +352,7 @@ function CreatePostForm({ isTask, taskId }) {
 											<section>
 												<div {...getRootProps()}>
 													<IconButton
-														// onClick={() => inputRef.current.click()}
+														onClick={onAddPhoto}
 														aria-label="Add photo"
 														className="p-8"
 													>
