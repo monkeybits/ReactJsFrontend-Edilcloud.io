@@ -126,7 +126,7 @@ function ForgotPasswordPage({ history }) {
 						<CardContent className="flex flex-col items-center justify-center p-20 sm:p-32">
 							<img width="200" src="assets/images/logos/fuse.svg" alt="logo" />
 							<Typography variant="h5" className="text-center font-600 mt-20 mb-28">
-								Recover Password
+								Recupera la tua Password
 							</Typography>
 							<form
 								name="recoverForm"
@@ -166,13 +166,13 @@ function ForgotPasswordPage({ history }) {
 									disabled={!isFormValid()}
 									type="submit"
 								>
-									Send Reset Link
+									Invia Mail
 								</Button>
 							</form>
 
 							<div className="flex flex-col items-center justify-center pt-24">
 								<Link className="text-primary font-600" to="/pages/auth/login">
-									Return to Sign In
+									Ritorna al login
 								</Link>
 							</div>
 						</CardContent>

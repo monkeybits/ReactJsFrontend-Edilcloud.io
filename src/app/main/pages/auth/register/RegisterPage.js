@@ -89,16 +89,16 @@ function RegisterPage() {
 					'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
 				)}
 			>
-				<img width="200" src="assets/images/logos/fuse.svg" alt="logo" />
+				<img width="250" src="assets/images/logos/fuse.svg" alt="logo" />
 				<div className="flex flex-col items-center justify-center w-full max-w-425">
 					<FuseAnimate animation="transition.expandIn">
 						<Card className="w-full">
 							<CardContent className="flex flex-col items-center justify-center p-20 sm:p-32">
 								<Typography variant="h6" className="text-center font-600 mt-20 mb-4">
-									{t('IMPROVE_CONSTRUCTIONS_COMMUNICATION')}
+									{t('APP_HEADING')}
 								</Typography>
-								<Typography variant="subtitle1" className="text-muted mb-40">
-									{t('JOIN_MESSAGE')}
+								<Typography variant="subtitle1" className="text-muted text-center mb-40">
+									{t('APP_SUBHEADER')}
 								</Typography>
 								<Grid container spacing={2}>
 									<Grid item xs={6}>

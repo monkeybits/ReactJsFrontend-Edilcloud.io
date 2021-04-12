@@ -59,18 +59,18 @@ function Activation(props) {
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full">
 						<CardContent className="flex flex-col items-center justify-center p-20 sm:p-32">
-							<img className="ht-100" src="assets/images/logos/fuse.svg" alt="logo" />
+							<img width="250" className="ht-100" src="assets/images/logos/fuse.svg" alt="logo" />
 							{!error && (
 								<>
 									<div className="mt-24">
 										<CheckCircleIcon className="text-green text-48" />
 									</div>
 									<Typography variant="h5" className="text-center font-weight-600 mb-16">
-										We {success ? 'Activated' : 'are Activating'} Your Profile!
+										Abbiamo {success ? 'Attivato' : 'are Activating'} Il tuo profilo
 									</Typography>
 
 									<Typography className="text-muted text-center font-600 mb-16 w-full">
-										{success || 'Please Wait...'}
+										{success || 'Attendi...'}
 									</Typography>
 								</>
 							)}
@@ -94,7 +94,7 @@ function Activation(props) {
 												history.push('/pages/auth/login');
 											}}
 										>
-											Go back to login
+											Torna al login
 										</Button>
 									</div>
 								</>

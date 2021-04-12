@@ -35,18 +35,18 @@ function MailConfirmPage() {
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full">
 						<CardContent className="flex flex-col items-center justify-center p-20 sm:p-32">
-							<img width="200" src="assets/images/logos/fuse.svg" alt="logo" />
+							<img width="250" src="assets/images/logos/fuse.svg" alt="logo" />
 
 							<Typography variant="h5" className="text-center font-600 mt-20 mb-24">
-								Confirm Your Email Address!
+								Complimenti! 
 							</Typography>
 
 							<Typography className="text-muted font-600 text-center mb-16 w-full">
-								A confirmation e-mail has been sent to <b>{history.location.state.email}</b>.
+								Una mail di conferma è stata inviata a <b>{history.location.state.email}</b>.
 							</Typography>
 
 							<Typography className="text-muted font-600 text-center w-full">
-								Check your inbox and click on the "Confirm my email" link to confirm your email address.
+							Controlla la tua casella mail e clicca sul link per attivare il tuo profilo
 							</Typography>
 
 							<div className="flex items-center justify-center w-full pt-24">
@@ -61,7 +61,7 @@ function MailConfirmPage() {
 										history.push('/pages/auth/login');
 									}}
 								>
-									Go back to login
+									Torna al login
 								</Button>
 							</div>
 						</CardContent>

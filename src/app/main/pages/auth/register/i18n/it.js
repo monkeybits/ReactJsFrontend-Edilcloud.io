@@ -19,7 +19,7 @@ const locale = {
 	LANGUAGE: 'Lingua',
 	IMPROVE_CONSTRUCTIONS_COMMUNICATION: 'Migliora la comunicazione delle costruzioni',
 	JOIN_MESSAGE: 'Unisciti a Edicloud, è per tutti!',
-	BY_SIGNUP_AGREE: 'Registrandomi accetto i termini e la privacy di EdilCloud',
+	BY_SIGNUP_AGREE: 'Registrandomi ad EdilCloud ne accetto ',
 	PRIVACY_POLICY: 'Privacy policy',
 	AND: 'e',
 	TERMS_OF_SERVICE: 'Termini del servizio'
