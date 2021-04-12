@@ -1,6 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import loadable from '@loadable/component';
-import { Card, CardContent, Divider, Typography, Grid, InputLabel, MenuItem, FormControl, ListItemText } from '@material-ui/core';
+import { Button, Card, CardContent, Divider, Typography, Grid, InputLabel, MenuItem, FormControl, ListItemText } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
@@ -11,11 +11,12 @@ import { useDispatch } from 'react-redux';
 import * as MainActions from 'app/store/actions';
 import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+const FacebookLoginComponent = loadable(() => import('./FacebookLoginComponent'))
+const GoogleLoginComponent = loadable(() => import('./GoogleLoginComponent'))
 const TippyMenu = loadable(() => import('app/TippyMenu'))
 const TermsModal = loadable(() => import('./TermsModal'))
 const JWTLoginTab = loadable(() => import('app/main/login/tabs/JWTLoginTab'))
-const FacebookLoginComponent = loadable(() => import('./FacebookLoginComponent'))
-const GoogleLoginComponent = loadable(() => import('./GoogleLoginComponent'))
+
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -98,7 +99,7 @@ function LoginPage() {
 					'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 sm:p-32 bg-white'
 				)}
 			>
-				<img width="200" src="assets/images/logos/fuse.svg" />
+				<img width="250" src="assets/images/logos/fuse.svg" />
 				<div className="flex flex-col items-center justify-center w-full max-w-425">
 					<FuseAnimate animation="transition.expandIn">
 						<Card className="w-full">
@@ -106,7 +107,7 @@ function LoginPage() {
 								<Typography variant="h6" className="text-center font-600 mt-20 mb-4">
 									{t('APP_HEADING')}
 								</Typography>
-								<Typography variant="subtitle1" className="text-muted mb-40">
+								<Typography variant="subtitle1" className="text-muted text-center mb-40">
 									{t('APP_SUBHEADER')}
 								</Typography>
 								<Grid container spacing={2}>
@@ -145,20 +146,35 @@ function LoginPage() {
 								</Grid>
 
 								<div className="my-28 flex items-center justify-center or-container">
-									<Divider className="w-full" />
+									<Divider className="w-32" />
 									<span className="mx-8 font-size-16 whitespace-no-wrap text-muted">
 										{t('OR_SIGN_IN_WITH_EMAIL')}
 									</span>
-									<Divider className="w-full" />
+									<Divider className="w-32" />
 								</div>
 
 								<JWTLoginTab />
 
-								<div className="flex items-center justify-center w-full pt-28">
+								
+
+								<div className="flex items-center justify-center w-full pt-16">
 									<span className="text-custom font-600 mr-6"> {t('DONT_HAVE_AN_ACCOUNT_ASK')}</span>
-									<Link className="text-primary font-600 inline" to="/pages/auth/register">
+								</div>
+								<div className="flex items-center  justify-center w-full ">
+									
+									<Button
+										type="submit"
+										variant="contained"
+										size="large"
+										className="w-full bg-dark-blue mx-auto mt-16 uppercase"
+										aria-label="Register"
+										value="legacy"
+										>
+											<Link className="text-white font-600 inline" to="/pages/auth/register">
 										{t('SIGN_UP')}
 									</Link>
+				
+									</Button>
 								</div>
 							</CardContent>
 						</Card>

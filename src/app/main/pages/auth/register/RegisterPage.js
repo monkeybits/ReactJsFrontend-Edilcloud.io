@@ -1,6 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import loadable from '@loadable/component';
-import { Card, CardContent, FormControl, Typography, InputLabel, MenuItem, Grid, Divider, ListItemText } from '@material-ui/core';
+import { Button, Card, CardContent, FormControl, Typography, InputLabel, MenuItem, Grid, Divider, ListItemText } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
@@ -135,11 +135,11 @@ function RegisterPage() {
 									</Grid>
 								</Grid>
 								<div className="my-28 flex items-center justify-center or-container">
-									<Divider className="w-full" />
+									<Divider className="w-32" />
 									<span className="mx-8 font-size-16 whitespace-no-wrap text-muted">
 										{t('OR_SIGN_UP')}
 									</span>
-									<Divider className="w-full" />
+									<Divider className="w-32" />
 								</div>
 								<JWTRegisterTab />
 
@@ -147,9 +147,22 @@ function RegisterPage() {
 									<span className="text-custom font-600 mr-6">
 										{t('ALREADY_HAVE_AN_ACCOUNT_ASK')}
 									</span>
-									<Link className="text-primary font-600 inline" to="/pages/auth/login">
-										{t('SIGN_IN_BUTTON')}
+									</div>
+								<div className="flex items-center  justify-center w-full ">
+									
+									<Button
+										type="submit"
+										variant="contained"
+										size="large"
+										className="w-full bg-dark-blue mx-auto mt-16 uppercase"
+										aria-label="Login"
+										value="legacy"
+										>
+											<Link className="text-white font-600 inline" to="/pages/auth/login">
+										{t('LOGIN')}
 									</Link>
+				
+									</Button>
 								</div>
 							</CardContent>
 						</Card>

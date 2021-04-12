@@ -8,7 +8,7 @@ const projectDashboardAppDB = {
 				DT: 'Today',
 				DTM: 'Tomorrow'
 			},
-			currentRange: 'DT',
+			currnge: 'DT',
 			data: {
 				label: 'DUE TASKS',
 				count: {

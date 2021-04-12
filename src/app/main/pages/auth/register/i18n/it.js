@@ -1,6 +1,6 @@
 const locale = {
-	APP_HEADING: 'App di condivisione per cantieri edili',
-	APP_SUBHEADER: "Il Cloud per l'edilizia, alla portata di tutti!",
+	APP_HEADING: 'Il cantiere edile in tempo reale',
+	APP_SUBHEADER: "Collabora con i tuoi dipendenti e con le altre aziende, tieni traccia di tutto.",
 	OR_SIGN_UP: 'Registrati con email',
 	USERNAME: 'Nome Utente',
 	PASSWORD: 'Password',
