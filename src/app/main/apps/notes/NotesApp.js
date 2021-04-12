@@ -25,6 +25,7 @@ const AddProjectDialog = loadable(() => import('./AddProjectDialog'))
 const NotesHeader = loadable(() => import('./NotesHeader'))
 const NoteList = loadable(() => import('./NoteList'))
 const NotesSidebarContent = loadable(() => import('./NotesSidebarContent'))
+const ConfirmDeleteDialog = loadable(() => import('./ConfirmDeleteDialog'))
 
 function NotesApp(props) {
 	const dispatch = useDispatch();
@@ -139,6 +140,7 @@ function NotesApp(props) {
 					</Fab>
 				</FuseAnimate>
 			)}
+			<ConfirmDeleteDialog />
 		</>
 	);
 }

@@ -264,7 +264,7 @@ function DetailSidebarContent({ setProgress }) {
 					<div className="px-10 py-12 border-b-1 border-t-1">
 						<MenuList className="flex items-center actions-dropdown p-0 small">
 							<MenuItem onClick={onDownload}>
-								<img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />
+								<Icon className="mr-8">cloud_download</Icon>
 
 								<Typography variant="inherit">{t('DOWNLOAD')}</Typography>
 							</MenuItem>

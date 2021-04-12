@@ -42,6 +42,11 @@ const useStyles = makeStyles(theme => ({
 	},
 	listSubheader: {
 		paddingLeft: 24
+	},
+	small: {
+		width: theme.spacing(3),
+		height: theme.spacing(3),
+		marginRight: 10
 	}
 }));
 
@@ -58,6 +63,7 @@ function NotesSidebarContent(props) {
 	 */
 	const changeFilter = (activeFilter, activeFilterKey) =>
 		dispatch(Actions.changeFilters({ activeFilter, activeFilterKey }));
+
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className="flex-auto border-l-1 border-solid">
@@ -138,9 +144,7 @@ function NotesSidebarContent(props) {
 									activeClassName="active"
 									key={filter.name}
 								>
-									<Icon className="list-item-icon" color="action">
-										{filter.icon}
-									</Icon>
+									<Avatar src={filter.logo} className={classes.small} />
 									<ListItemText primary={filter.name} disableTypography />
 								</ListItem>
 							))}

@@ -39,6 +39,11 @@ const useStyles = makeStyles(theme => ({
 	},
 	listSubheader: {
 		paddingLeft: 24
+	},
+	small: {
+		width: theme.spacing(3),
+		height: theme.spacing(3),
+		marginRight: 10
 	}
 }));
 
@@ -164,6 +169,7 @@ function TodoSidebarContent(props) {
 								</ListItem>
 							))}
 					</List>
+					
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
 							{t('PROJECT_FILTERS')}
@@ -197,9 +203,7 @@ function TodoSidebarContent(props) {
 									activeClassName="active"
 									key={filter.name}
 								>
-									<Icon className="list-item-icon" color="action">
-										{filter.icon}
-									</Icon>
+									<Avatar src={filter.logo} className={classes.small} />
 									<ListItemText primary={filter.name} disableTypography />
 								</ListItem>
 							))}

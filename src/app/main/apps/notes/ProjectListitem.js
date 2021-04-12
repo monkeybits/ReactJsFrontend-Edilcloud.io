@@ -43,6 +43,7 @@ export default function ProjectListitem(props) {
 
 	const { t } = useTranslation('projects');
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
+	const okConfirmDeleteDialog = useSelector(({ notesApp }) => notesApp.notes.okConfirmDeleteDialog);
 	if(projectIndex !== null) {
 		var {
 			mainId,
@@ -90,6 +91,14 @@ export default function ProjectListitem(props) {
 			})
 		}
 	}, [project]);
+	
+	useEffect(() => {
+		if (okConfirmDeleteDialog) {
+			handleClose();
+			dispatch(Actions.deleteProject(id));
+			console.log('okConfirmDeleteDialog??????????????????????', okConfirmDeleteDialog)
+		}
+	}, [okConfirmDeleteDialog]);
 
 	useEffect(() => {
 		if (hasNotifcationOnThisItem) {
@@ -141,8 +150,7 @@ export default function ProjectListitem(props) {
 		console.log('archive called');
 	};
 	const handleDeleteProject = () => {
-		handleClose();
-		dispatch(Actions.deleteProject(id));
+		dispatch(Actions.openConfirmDeleteDialog());
 	};
 	const [value, setValue] = React.useState(0);
 
