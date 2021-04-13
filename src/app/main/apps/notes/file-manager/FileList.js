@@ -1,47 +1,13 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Hidden from '@material-ui/core/Hidden';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
+import { Icon, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography, MenuItem, ListItemIcon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import clsx from 'clsx';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import FuseUtils from '@fuse/utils';
-import { Typography } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileVideo,
-	faFileAudio,
-	faFileImage,
-	faFileWord
-} from '@fortawesome/free-regular-svg-icons';
-import MenuList from '@material-ui/core/MenuList';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import SendIcon from '@material-ui/icons/Send';
-import Menu from '@material-ui/core/Menu';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined';
-import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
-import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
-import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
-import ColorLensOutlinedIcon from '@material-ui/icons/ColorLensOutlined';
 import * as ICONS from 'app/main/apps/constants';
-import TippyMenu from 'app/TippyMenu';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
 	DOWNLOAD_PHOTO,
@@ -50,14 +16,15 @@ import {
 	PHOTO_DELETE,
 	VIDEO_DELETE,
 	DOCUMENT_DELETE,
-	FOLDER_DELETE,
-	FOLDER_DELETE_PROJECT
+	FOLDER_DELETE
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 const useStyles = makeStyles({
 	typeIcon: {
@@ -128,10 +95,9 @@ function FileList(props) {
 				handleDelete(n);
 			}
 		},
-
 		{
 			name: 'DOWNLOAD',
-			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />,
+			icon: <Icon>cloud_download</Icon>,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
 				ev.stopPropagation();
@@ -272,7 +238,9 @@ function FileList(props) {
 			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 		}
 		const selectedItem = allFiles[findIndex];
+		console.log('tile??????????????????????????', selectedItem)
 		if (selectedItem) {
+			console.log('tile??????????????????????????', selectedItem)
 			props.setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
 			const apiurl =

@@ -1,29 +1,10 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Icon from '@material-ui/core/Icon';
+import { Icon, Typography, MenuList, MenuItem, ListItemIcon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileVideo,
-	faFileAudio,
-	faFileImage,
-	faFileWord
-} from '@fortawesome/free-regular-svg-icons';
-import MenuList from '@material-ui/core/MenuList';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import SendIcon from '@material-ui/icons/Send';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import {
@@ -37,14 +18,14 @@ import {
 } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
-import Menu from '@material-ui/core/Menu';
 import * as ICONS from 'app/main/apps/constants';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import FileViewDialog from './FileViewDialog';
-import DeleteConfirmDialog from './DeleteConfirmDialog';
 import * as Actions from './store/actions';
 import ReadPDF from './ReadPDF';
+import loadable from '@loadable/component';
+const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'))
+const FileViewDialog = loadable(() => import('./FileViewDialog'))
 
 const useStyles = makeStyles({
 	table: {
@@ -107,6 +88,7 @@ function DetailSidebarContent({ setProgress }) {
 			: fileType == 'xlsx'
 			? { color: 'green' }
 			: {};
+			
 	const onDownload = () => {
 		if (selectedItem) {
 			setProgress(0);
@@ -258,7 +240,7 @@ function DetailSidebarContent({ setProgress }) {
 					<div className="px-10 py-12 border-b-1">
 						<MenuList className="flex items-center actions-dropdown p-0 small">
 							<MenuItem onClick={onDownload}>
-								<img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />
+								<Icon className="mr-8">cloud_download</Icon>
 								<Typography variant="inherit">{t('DOWNLOAD')}</Typography>
 							</MenuItem>
 							<MenuItem onClick={openDeleteFileDialog}>

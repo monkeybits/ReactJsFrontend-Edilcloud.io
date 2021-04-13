@@ -122,7 +122,7 @@ function NotesApp(props) {
 						{/* <LabelsDialog /> */}
 					</div>
 				}
-				leftSidebarContent={<NotesSidebarContent />}
+				leftSidebarContent={<NotesSidebarContent pageLayout={pageLayout} />}
 				leftSidebarVariant
 				sidebarInner
 				ref={pageLayout}
