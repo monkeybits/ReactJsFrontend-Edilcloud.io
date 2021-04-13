@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { AppBar, Avatar, Typography } from '@material-ui/core';
+import { AppBar, Avatar, Typography, IconButton, Icon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 
@@ -64,11 +64,24 @@ function UserNavbarHeader(props) {
 			<Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
 				{company?.name}
 			</Typography>
-			<Avatar
-				className={clsx(classes.avatar, 'avatar')}
-				alt="user photo"
-				src={company?.logo ? company?.logo : '/assets/images/avatars/profile.jpg'}
-			/>
+			{
+				company?.logo ? (
+					<Avatar
+						className={clsx(classes.avatar, 'avatar')}
+						alt="user photo"
+						src={company.logo}
+					/>
+				) : (
+					<IconButton
+						key="close"
+						aria-label="Close"
+						color="inherit"
+						// onClick={() => dispatch(Actions.hideMessage())}
+					>
+						<Icon className="company-logo-icon">business</Icon>
+					</IconButton>
+				)
+			}
 			<span className="trial intrial">{company.trial_used ? 'Plan' : 'Periodo di Prova'}</span>
 		</AppBar>
 	);

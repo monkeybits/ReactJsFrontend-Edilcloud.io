@@ -80,10 +80,7 @@ function NotesSidebarContent(props) {
 									Filters
 								</Typography>
 								<div className="flex px-4 ml-16">
-									<IconButton color="inherit" onClick={ev => {
-										// console.log(props.pageLayout)
-										// props.pageLayout.current.toggleLeftSidebar()
-									}}>
+									<IconButton color="inherit" onClick={ev => props.pageLayout.current.toggleLeftSidebar()}>
 										<Icon>close</Icon>
 									</IconButton>
 								</div>

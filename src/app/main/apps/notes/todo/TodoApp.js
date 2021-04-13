@@ -319,7 +319,7 @@ function TodoApp(props) {
 				}}
 				// header={<TodoHeader pageLayout={pageLayout} />}
 				content={<TodoList pageLayout={pageLayout} {...props} />}
-				leftSidebarContent={<TodoSidebarContent />}
+				leftSidebarContent={<TodoSidebarContent pageLayout={pageLayout} />}
 				leftSidebarVariant
 				sidebarInner
 				ref={pageLayout}

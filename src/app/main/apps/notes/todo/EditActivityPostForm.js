@@ -194,9 +194,10 @@ function EditActivityPostForm(props) {
 						setValue(newValue);
 					}}
 					showLabels
+					className="w-full h-64"
 				>
-					<BottomNavigationAction label="Timeline" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction label="Activity" {...a11yProps(1)} />
+					<BottomNavigationAction label="Timeline" className="min-w-auto max-w-full font-bold" wrapped {...a11yProps(0)} />
+					<BottomNavigationAction label="Activity" className="min-w-auto max-w-full font-bold" {...a11yProps(1)} />
 				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton
@@ -227,7 +228,7 @@ function EditActivityPostForm(props) {
 				</div>
 			</div>
 			<DialogContent id="dialog-content" classes={{ root: 'p-0' }}>
-				<TabPanel value={value} index={0} className="activity-pad">
+				<TabPanel value={value} index={0} className="activity-pad write-post-img-full">
 					<CreatePostForm />
 				</TabPanel>
 				<TabPanel value={value} index={1} className="bg-white">

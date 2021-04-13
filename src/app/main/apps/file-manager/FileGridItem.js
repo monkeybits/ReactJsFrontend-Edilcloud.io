@@ -124,14 +124,15 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 			hasPermission: getRole() == 'o' || getRole() == 'd'
 		}
 	];
+	
 	const onDownload = tile => {
 		let findIndex = 0;
 		if (tile.type == 'folder') {
-			findIndex = [...allFiles].findIndex(element => element.path == tile.path);
+			findIndex = [...tileData].findIndex(element => element.path == tile.path);
 		} else {
-			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
+			findIndex = [...tileData].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 		}
-		const selectedItem = allFiles[findIndex];
+		const selectedItem = tileData[findIndex];
 		if (selectedItem) {
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));

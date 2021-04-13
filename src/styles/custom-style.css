@@ -1076,6 +1076,9 @@ audio {
 .ht-11 {
     height: 11rem;
 }
+.chat-custom-css {
+    font-size: 3.2rem !important;
+}
 @keyframes sound {
     0% {
         height: 6px;
@@ -1563,6 +1566,9 @@ audio {
 }
 .company-icon{
     font-size: 190px;
+}
+.company-logo-icon {
+    font-size: 80px;
 }
 .pro {
     color: #fff;

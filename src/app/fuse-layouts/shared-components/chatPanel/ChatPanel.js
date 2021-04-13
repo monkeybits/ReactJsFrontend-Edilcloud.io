@@ -179,7 +179,7 @@ function ChatPanel(props) {
 									onClick={ev => dispatch(Actions.openChatPanel())}
 								>
 									{!!totalCount && <div className={classes.unreadBadge}>{totalCount}</div>}
-									<Icon className="text-32">chat</Icon>
+									<Icon className="text-32 chat-custom-css">chat</Icon>
 								</IconButton>
 								{!user?.id && (
 									<Typography className="mx-8 text-16" color="inherit">

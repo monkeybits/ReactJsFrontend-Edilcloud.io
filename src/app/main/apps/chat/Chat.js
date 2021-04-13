@@ -253,7 +253,9 @@ function Chat(props) {
 					</div>
 				)}
 			</FuseScrollbars>
-			<SendMessageForm />
+			<div className="mb-40">
+				<SendMessageForm />
+			</div>
 		</div>
 	);
 }

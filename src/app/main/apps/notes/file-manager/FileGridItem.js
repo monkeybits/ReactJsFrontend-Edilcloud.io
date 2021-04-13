@@ -1,42 +1,21 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileVideo,
-	faFileAudio,
-	faFileImage,
-	faFileWord
-} from '@fortawesome/free-regular-svg-icons';
-import clsx from 'clsx';
-import { Icon, ListItemIcon, MenuItem, Typography } from '@material-ui/core';
+import { GridList, GridListTile, GridListTileBar, IconButton, Icon, ListItemIcon, MenuItem, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import PictureAsPdfOutlinedIcon from '@material-ui/icons/PictureAsPdfOutlined';
 import * as ICONS from 'app/main/apps/constants';
-import TippyMenu from 'app/TippyMenu';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
 	DOWNLOAD_PHOTO,
 	DOWNLOAD_VIDEO,
-	DOWNLOAD_DOCUMENT,
-	PHOTO_DELETE,
-	VIDEO_DELETE,
-	DOCUMENT_DELETE,
-	FOLDER_DELETE
+	DOWNLOAD_DOCUMENT
 } from 'app/services/apiEndPoints';
-import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -83,6 +62,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 		// let fileData = allFiles[findIndex];
 		dispatch(Actions.setSelectedItem(tile));
 	};
+	
 	const options = [
 		{
 			name: 'DELETE',
@@ -93,10 +73,9 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				handleDelete(n);
 			}
 		},
-
 		{
 			name: 'DOWNLOAD',
-			icon: <img className="icon mr-8" src={ICONS.DOWNLOAD_ICON_PATH} />,
+			icon: <Icon>cloud_download</Icon>,
 			handleClickEvent: (ev, n) => {
 				ev.preventDefault();
 				ev.stopPropagation();
@@ -132,11 +111,11 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 	const onDownload = tile => {
 		let findIndex = 0;
 		if (tile.type == 'folder') {
-			findIndex = [...allFiles].findIndex(element => element.path == tile.path);
+			findIndex = [...tileData].findIndex(element => element.path == tile.path);
 		} else {
-			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
+			findIndex = [...tileData].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 		}
-		const selectedItem = allFiles[findIndex];
+		const selectedItem = tileData[findIndex];
 		if (selectedItem) {
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
