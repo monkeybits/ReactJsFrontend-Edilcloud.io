@@ -44,6 +44,8 @@ export default function ProjectListitem(props) {
 	const { t } = useTranslation('projects');
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const okConfirmDeleteDialog = useSelector(({ notesApp }) => notesApp.notes.okConfirmDeleteDialog);
+	console.log('filteredData?????????????????', projectIndex)
+	console.log('filteredData?????????????????projects', projects)
 	if(projectIndex !== null) {
 		var {
 			mainId,
@@ -61,6 +63,8 @@ export default function ProjectListitem(props) {
 			address
 		} = projects[projectIndex];
 	}
+
+	console.log('filteredData?????????????????name', address)
 
 	const [expanded, setExpanded] = React.useState(false);
 	const [activeNotification, setActiveNotification] = React.useState(false);
@@ -96,7 +100,6 @@ export default function ProjectListitem(props) {
 		if (okConfirmDeleteDialog) {
 			handleClose();
 			dispatch(Actions.deleteProject(id));
-			console.log('okConfirmDeleteDialog??????????????????????', okConfirmDeleteDialog)
 		}
 	}, [okConfirmDeleteDialog]);
 
@@ -237,14 +240,22 @@ export default function ProjectListitem(props) {
 							{name}
 						</Link>
 					) : (
-						name
+						<div className="font-size-17 text-white">
+							{name}
+						</div>
 					)
 				}
 				// subheader={moment(date_start).format('MMM DD, YYYY')}
 				subheader={
-					<Link className="font-size-14 text-white" to={`${match.path}/${id}`}>
+					isApproved ? (
+						<Link className="font-size-14 text-white" to={`${match.path}/${id}`}>
 							{address}
 						</Link>
+					) : (
+						<div className="font-size-14 text-white">
+							{address}
+						</div>
+					)
 				}
 				//
 				avatar={
@@ -424,7 +435,7 @@ export default function ProjectListitem(props) {
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton> */}
-				<Button className="MuiButtonBase-root  MuiButton-root mr-8 ">
+				<Button className="MuiButtonBase-root MuiButton-root mr-8 ">
 				<CardActions disableSpacing className="border-t-1 mt-auto">
 					<DownloadPdf
 						className="MuiButtonBase-root MuiButton-root "

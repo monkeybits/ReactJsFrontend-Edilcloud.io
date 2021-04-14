@@ -311,7 +311,7 @@ function NoteList(props) {
 		return null;
 	}
 
-	console.log('filteredData', filteredData)
+	console.log('filteredData?????????????????', filteredData)
 	return (
 		<>
 			<div id="project-list" className="flex flex-wrap w-full">
@@ -357,7 +357,7 @@ function NoteList(props) {
 							</div>
 							<Grid container spacing={12} className="grid-space-remove">
 								{filteredData.length > 0 && filteredData.map((project, index) => {
-									if (data.id == project.company?.id)
+									if (data.id = project.company?.id)
 										return project.isApproved ? (
 											<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
 												<ProjectListitem
@@ -373,6 +373,7 @@ function NoteList(props) {
 													invisible={project.isApproved}
 													color="secondary"
 													className="h-full flex flex-col"
+													badgeContent="New"
 													onClick={e => {
 														e.stopPropagation();
 														e.preventDefault();
@@ -423,6 +424,7 @@ function NoteList(props) {
 												setIsShowRequests(true);
 												setRequest(project);
 											}}
+											badgeContent="New"
 										>
 											<ProjectListitem
 												key={index}
