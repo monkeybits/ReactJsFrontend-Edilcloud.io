@@ -218,7 +218,8 @@ function CreatePostForm({ isTask, taskId }) {
 	 * below function is used to add media file before post it will store all files locallay on state called "fileData"
 	 */
 
-	const updateImage = (string) => {
+	const updateImage = async (string) => {
+		let files = []
 		var extToMimes = {
 			'image/jpeg': '.jpg',
 			'image/png': '.png',
@@ -239,11 +240,13 @@ function CreatePostForm({ isTask, taskId }) {
 		};
 
 		// var string = 'data:image/png;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K';
-		var streetaddress= string.substr(0, string.indexOf(';'));
-		var mimeT = streetaddress.split(':')[1]; 
-		var fileToCompress = dataURLtoFile(string, randomName + extToMimes[mimeT]);
-		console.log('file???????????????????????', fileToCompress)
+		var dataWithMimeType = string.substr(0, string.indexOf(';'));
+		var mimeT = dataWithMimeType.split(':')[1]; 
+		var fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
+		console.log('file???????????????????????', fileObject)
+		files.push(fileObject)
 
+		const fileToCompress = files[0];
 		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 		console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
 		if (fileToCompress.type?.split('/')[0] == 'image') {
