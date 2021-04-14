@@ -218,11 +218,95 @@ function CreatePostForm({ isTask, taskId }) {
 	 * below function is used to add media file before post it will store all files locallay on state called "fileData"
 	 */
 
-	const updateImage = (params) => {
-		console.log('params', params)
+	const updateImage = async (string) => {
+		let files = []
+		var extToMimes = {
+			'image/jpeg': '.jpg',
+			'image/png': '.png',
+			'application/pdf': '.pdf',
+			'application/json': '.json',
+			'application/vnd.ms-excel': '.xls',
+			'text/csv': '.csv',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
+			'audio/mp4': '.mp4a',
+			'video/mp4': '.mp4',
+			'application/mp4': '.mp4',
+		}
+
+		let randomName = '';
+		for(let i = 0; i < 8; i++){
+			const random = Math.floor(Math.random() * 27);
+			randomName += String.fromCharCode(97 + random);
+		};
+
+		// var string = 'data:image/png;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K';
+		var dataWithMimeType = string.substr(0, string.indexOf(';'));
+		var mimeT = dataWithMimeType.split(':')[1]; 
+		var fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
+		console.log('file???????????????????????', fileObject)
+		files.push(fileObject)
+
+		const fileToCompress = files[0];
+		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+		console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
+		if (fileToCompress.type?.split('/')[0] == 'image') {
+			const compressedFile = await imageCompression(fileToCompress, {
+				maxSizeMB: 0.1,
+				maxWidthOrHeight: 1024,
+				useWebWorker: true
+			});
+			console.log(`with compressedFile(blob)`, JSON.stringify(compressedFile));
+			console.log(
+				`compressedFile into the file`,
+				JSON.stringify(new File([compressedFile], compressedFile.name))
+			);
+			console.log('compressedFile instanceof Blob', JSON.stringify(compressedFile instanceof Blob)); // true
+			console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+			setFile({
+				fileData: new File([compressedFile], compressedFile.name)
+			});
+		} else {
+			setFile({
+				fileData: fileToCompress
+			});
+		}
+
+		let file = [];
+		for (let i = 0; i < files.length; i++) {
+			const fileType = files[i].type?.split('/');
+			console.log('file', JSON.stringify(files[i]));
+			console.log('fileType', JSON.stringify(fileType));
+			console.log('local url', JSON.stringify(URL.createObjectURL(files[i])));
+			file = [
+				...file,
+				{
+					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i], // if file is image then we need to reduce the size of image by calling the getCompressFile function
+					imgPath: URL.createObjectURL(files[i]),
+					fileType: fileType[0],
+					extension: `.${fileType[1]}`,
+					type: fileType.join('/')
+				}
+			];
+			setImages(file);
+		}
+	}
+
+	const dataURLtoFile = (dataurl, filename) => {
+		var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), 
+            n = bstr.length, 
+            u8arr = new Uint8Array(n);
+            
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        
+        return new File([u8arr], filename, {type:mime});
 	}
 
 	const addPhoto = async files => {
+		console.log('files???????????????????', files)
 		// const files = e.currentTarget.files;
 		const fileToCompress = files[0];
 		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
