@@ -7,7 +7,7 @@ const initialState = () => {
 	const genrealFilter = [
 		{
 			name: 'ACTIVE',
-			isActive: true,
+			isActive: false,
 			icon: 'check_circle'
 		},
 		{

@@ -4,7 +4,7 @@
 *This file is created for ContactsApp
 TODO: contatcard is view of GRID
 */
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Button, Icon } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import { decodeDataFromToken, getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
@@ -169,12 +169,22 @@ export default function ContactCard(props) {
 					{position || 'N/A'} - {role}
 				</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
-				<a className="font-700 text-muted mb-8" href={`mailto:${email}`}>
+				<div className="flex justify-evenly mt-10">
+					<Button variant="contained">
+						<Icon size="small" className="mr-8">email</Icon>
+						Email
+					</Button>
+					<Button variant="contained">
+						<Icon size="small" className="mr-8">phone</Icon>
+						Phone
+					</Button>
+				</div>
+				{/* <a className="font-700 text-muted mb-8" href={`mailto:${email}`}>
 					{email}
-				</a>
-				<a className="font-700 text-muted mb-8" href={`tel:${phone}`}>
+				</a> */}
+				{/* <a className="font-700 text-muted mb-8" href={`tel:${phone}`}>
 					{phone}
-				</a>
+				</a> */}
 				{/* <div className="my-12 block mx-auto">
 					<Button
 						variant={permission.can_access_files ? 'contained' : 'outlined'}

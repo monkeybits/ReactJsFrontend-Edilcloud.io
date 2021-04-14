@@ -164,10 +164,10 @@ function QuickPanel(props) {
 							<Tab label="Activities" {...a11yProps(1)} />
 						</Tabs>
 					</AppBar>
-					<TabPanel value={value} index={0} className="bg-post-section">
+					<TabPanel value={value} index={0} className="bg-post-section write-post-img-full">
 						<PostList posts={listTask} showPrject />
 					</TabPanel>
-					<TabPanel value={value} index={1} className="bg-post-section">
+					<TabPanel value={value} index={1} className="bg-post-section write-post-img-full">
 						<PostList posts={listActivity} showPrject showTask />
 					</TabPanel>
 				</div>
