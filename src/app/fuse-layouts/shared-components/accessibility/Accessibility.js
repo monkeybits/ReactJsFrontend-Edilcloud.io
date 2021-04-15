@@ -48,9 +48,10 @@ function AccessibilityPanel(props) {
 						<AppBar position="inherit" elevation={0}>
 							<Toolbar className="px-8 pt-36 pb-56 text-center bg-blue-500">
 								<Typography variant="h5" color="inherit" className="flex-1 px-12">
-									Edilcloud Quickstart
-								</Typography>
+									Benvenuti in EdilCloud
+								</Typography>	
 							</Toolbar>
+								
 						</AppBar>
 						<div className="absolute custom-quickstart-wrap w-full">
 							<Guide />

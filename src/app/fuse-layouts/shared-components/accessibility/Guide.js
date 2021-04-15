@@ -33,44 +33,44 @@ function Guide(props) {
 
 	const [quickStartList, setQuickStartList] = React.useState([
 		{
-			title: 'Add Collaborators',
+			title: 'Aggiungi i Tuoi Collaboratori',
 			content: 'Testing',
-			contentTitle: 'Welcome to EdilCloud',
-			contentDescription: 'Add your collaborators and let them access the company.',
+			contentTitle: 'Benvenuti in EdilCLoud',
+			contentDescription: 'Inizia a creare il tuo team inviando una richiesta ai tuoi collaboratori, in questo modo tutti avrete accesso alle informazioni aziendali sulla base del ruolo scelto.',
 			link: '/apps/contacts/all',
-			linkText: 'Add team page',
-			linkTextAll: 'View teams',
+			linkText: 'Aggiungi un collaboratore',
+			linkTextAll: 'Vai a Team',
 			image: '',
-			video: 'assets/videos/samplevideo.mp4',
+			video: 'assets/videos/perp.m4v',
 			iconSelection: 'team'
 		},
 		{
-			title: 'Create a project',
+			title: 'Crea un nuovo progetto',
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription:
-				'You can create a project and assign task to other companies, or assign them to your company only',
+				'Il progetto è il modo che utilizzerai per tenere traccia dei tuoi cantieri, oppure per documentare i tuoi lavori alle aziende committenti.',
 			link: '/apps/projects',
 			linkText: 'Add project page',
-			linkTextAll: 'View projects',
+			linkTextAll: 'Vai alla pagina dei progetti',
 			image: '',
-			video: 'assets/videos/samplevideo.mp4',
+			video: 'assets/videos/sample.mp4',
 			iconSelection: 'project'
 		},
 		{
-			title: 'Create a task',
+			title: 'Crea una fase di lavoro',
 			content: 'Testing',
 			contentTitle: '',
-			contentDescription: '',
+			contentDescription: 'La fase di lavoro è un task completo che nei progetti viene assegnato alle aziende, è un contenitore per condividere contenuti.',
 			link: projects !== undefined && projects.length > 0 ? `/apps/projects/${projects[0].id}` : '',
 			linkText: 'Add task page',
-			linkTextAll: 'View tasks',
+			linkTextAll: 'Vai alla pagina fasi',
 			image: '',
-			video: 'assets/videos/samplevideo.mp4',
+			video: 'assets/videos/sample.mp4',
 			iconSelection: 'task'
 		},
 		{
-			title: 'Create a post',
+			title: 'Crea un post',
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription: '',
@@ -82,7 +82,7 @@ function Guide(props) {
 			iconSelection: 'post'
 		},
 		{
-			title: 'Download app for smartphone',
+			title: 'Scarica app per il tuo smartphone',
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription:
@@ -95,10 +95,10 @@ function Guide(props) {
 			iconSelection: 'downloadApp'
 		},
 		{
-			title: 'Discover Dashboard',
+			title: 'Scopri la dashboard',
 			content: 'Testing',
 			contentTitle: '',
-			contentDescription: '',
+			contentDescription: 'La Dashboard è il posto in cui troverai la maggior parte delle informazioni hn',
 			link: '',
 			linkText: '',
 			linkTextAll: '',
@@ -107,7 +107,7 @@ function Guide(props) {
 			iconSelection: 'discover'
 		},
 		{
-			title: 'Creat Knowledge Base',
+			title: ' Guarda la Guida di base',
 			content: 'Testing',
 			contentTitle: '',
 			contentDescription: '',
@@ -119,7 +119,6 @@ function Guide(props) {
 			iconSelection: 'knowledge'
 		}
 	]);
-
 	return (
 		<List component="nav" aria-labelledby="nested-list-subheader" className={classes.root}>
 			{quickStartList.map((d, i) => {

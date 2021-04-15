@@ -1,6 +1,6 @@
 const locale = {
-	COMPANIES_LIST: 'Companies List - it',
-	CREATE_NEW_COMPANY: 'CREATE NEW COMPANY - it'
+	COMPANIES_LIST: 'Lista Aziende',
+	CREATE_NEW_COMPANY: 'Crea la tua azienda'
 };
 
 export default locale;
