@@ -254,46 +254,52 @@ function CreatePostForm({ isTask, taskId }) {
 		const fileToCompress = files[0];
 		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 		console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
-		if (fileToCompress.type?.split('/')[0] == 'image') {
-			const compressedFile = await imageCompression(fileToCompress, {
-				maxSizeMB: 0.1,
-				maxWidthOrHeight: 1024,
-				useWebWorker: true
-			});
-			console.log(`with compressedFile(blob)`, JSON.stringify(compressedFile));
-			console.log(
-				`compressedFile into the file`,
-				JSON.stringify(new File([compressedFile], compressedFile.name))
-			);
-			console.log('compressedFile instanceof Blob', JSON.stringify(compressedFile instanceof Blob)); // true
-			console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
-			setFile({
-				fileData: new File([compressedFile], compressedFile.name)
-			});
-		} else {
-			setFile({
-				fileData: fileToCompress
-			});
+		try {
+			if (fileToCompress.type?.split('/')[0] == 'image') {
+				// const compressedFile = await imageCompression(fileToCompress, {
+				// 	maxSizeMB: 0.1,
+				// 	maxWidthOrHeight: 1024,
+				// 	useWebWorker: true
+				// });
+				const compressedFile = fileToCompress;
+				console.log(`with compressedFile(blob)`, JSON.stringify(compressedFile));
+				console.log(
+					`compressedFile into the file`,
+					JSON.stringify(new File([compressedFile], compressedFile.name))
+				);
+				console.log('compressedFile instanceof Blob', JSON.stringify(compressedFile instanceof Blob)); // true
+				console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+				setFile({
+					fileData: new File([compressedFile], compressedFile.name)
+				});
+			} else {
+				setFile({
+					fileData: fileToCompress
+				});
+			}
+
+			let file = [];
+			for (let i = 0; i < files.length; i++) {
+				const fileType = files[i].type?.split('/');
+				console.log('file', JSON.stringify(files[i]));
+				console.log('fileType', JSON.stringify(fileType));
+				console.log('local url', JSON.stringify(URL.createObjectURL(files[i])));
+				file = [
+					...file,
+					{
+						file: fileType[0] == 'image' ? files[i] : files[i], // if file is image then we need to reduce the size of image by calling the getCompressFile function
+						imgPath: URL.createObjectURL(files[i]),
+						fileType: fileType[0],
+						extension: `.${fileType[1]}`,
+						type: fileType.join('/')
+					}
+				];
+				setImages(file);
+			}
+		} catch(e) {
+			console.log('Error', e)
 		}
 
-		let file = [];
-		for (let i = 0; i < files.length; i++) {
-			const fileType = files[i].type?.split('/');
-			console.log('file', JSON.stringify(files[i]));
-			console.log('fileType', JSON.stringify(fileType));
-			console.log('local url', JSON.stringify(URL.createObjectURL(files[i])));
-			file = [
-				...file,
-				{
-					file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i], // if file is image then we need to reduce the size of image by calling the getCompressFile function
-					imgPath: URL.createObjectURL(files[i]),
-					fileType: fileType[0],
-					extension: `.${fileType[1]}`,
-					type: fileType.join('/')
-				}
-			];
-			setImages(file);
-		}
 	}
 
 	const dataURLtoFile = (dataurl, filename) => {
