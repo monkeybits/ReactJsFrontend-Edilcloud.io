@@ -21,9 +21,12 @@ import './styles/index.css';
 import * as serviceWorker from './serviceWorker';
 import './styles/custom-style.css';
 import './styles/responsive.css';
+import { ClearBrowserCacheBoundary } from 'react-clear-browser-cache';
 const App = loadable(() => import('app/App'))
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<ClearBrowserCacheBoundary auto fallback='Loading' duration={60000}>
+<App />
+</ClearBrowserCacheBoundary>, document.getElementById('root'));
 
 // //If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
