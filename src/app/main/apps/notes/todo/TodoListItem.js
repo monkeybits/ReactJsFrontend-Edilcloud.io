@@ -26,7 +26,11 @@ import {
 	Avatar,
 	IconButton,
 	MenuItem,
-	ListItemText
+	ListItemText,
+	CircularProgress,
+	Popover,
+	MenuList,
+	Paper
 } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
@@ -147,8 +151,21 @@ function TodoListItem(props) {
 	const [activityId, setactivityId] = useState(null);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
+	const [loading, setLoading] = useState(false);
+	const [anchorEl, setAnchorEl] = useState(null);
+	const anchorRef = React.useRef();
 	const classes = useStyles(props);
 	const routeParams = useParams();
+	const [state, setState] = React.useState({
+		open: false,
+		anchorOriginVertical: 'bottom',
+		anchorOriginHorizontal: 'left',
+		transformOriginVertical: 'top',
+		transformOriginHorizontal: 'left',
+		positionTop: 200, // Just so the popover can be spotted more easily
+		positionLeft: 400, // Same as above
+		anchorReference: 'anchorEl'
+	});
 	// const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);
 	// const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
 	const { t } = useTranslation('dashboard');
@@ -182,6 +199,10 @@ function TodoListItem(props) {
 			setId(null);
 		}
 	}, [todoDialog?.props?.openTimelineDialog]);
+	const stopsEvents = event => {
+		event.preventDefault();
+		event.stopPropagation();
+	};
 	const getDetailOfTask = () => {
 		// if (open === false) {
 
@@ -197,13 +218,73 @@ function TodoListItem(props) {
 		);
 		// }
 	};
+	const handleMenuOpen = event => {
+		stopsEvents(event);
+		// setAnchorEl(event.currentTarget);
+		setState({
+			...state,
+			open: true
+		});
+		// if (!members.length) {
+		// 	getCompanyApprovedContacts();
+		// }
+	};
+	const handleSubmit = (event, company) => {
+		setLoading(true);
+		stopsEvents(event);
+		setAnchorEl(null);
+		const { id, name, note, project } = props.todo;
+		dispatch(
+			Actions.editTodo(
+				{
+					name,
+					description: note,
+					id,
+					company: [
+						{
+							data: company
+								? company
+								: {
+										profile: {
+											company: company ? company : props.todo.assigned_company
+										}
+								  }
+						}
+					],
+					startDate: props.todo.date_start,
+					endDate: props.todo.date_end,
+					description: props.todo.note
+				},
+				project.id,
+				'new',
+				() => {
+					// dispatch(Actions.closeTaskContent());
+				},
+				false,
+				setLoading
+			)
+		);
+	};
+	const handleMenuClose = event => {
+		stopsEvents(event);
+		// setAnchorEl(null);
+		setState({
+			...state,
+			open: false
+		});
+		// if (!members.length) {
+		// 	props.getDetailOfTask();
+		// }
+	};
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
 
+	console.log('props.todo????????????????', props.todo)
 	return (
 		<div className="mb-20">
 			<Card
 				elevation={1}
 				className="flex flex-col bordergrey overflow-inherit mb-6"
+				// ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				onClick={(e) => {
 					dispatch(Actions.closeDrawingContent());
 					// if (getRole() == 'o' || getRole() == 'd') {
@@ -223,92 +304,120 @@ function TodoListItem(props) {
 						color: theme.palette.getContrastText(blue[500])
 					}}
 				>
-					<div className="flex items-center">
-						<Avatar className="mr-10" src={props.todo.assigned_company?.logo} />
+				{
+					props.todo.assigned_company !== null ? ( 
+						<>
+							<div className="flex items-center">
+								<Avatar className="mr-10" src={props.todo.assigned_company?.logo} />
+								<Typography className="font-medium truncate ht-auto" color="inherit">
+									{props.todo.assigned_company?.name}
+								</Typography>
+							</div>
+
+							<div className="flex justify-between">
+								<IconButton
+									// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+									aria-haspopup="true"
+									onClick={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										dispatch(Actions.openDrawingContent(props.todo));
+										dispatch(Actions.closeTimelineDialog());
+										// dispatch(Actions.openTaskContent(props.todo));
+										props.setTodoId(props.todo.id);
+									}}
+									className="text-white opacity-60"
+								>
+									<Icon>attach_file</Icon>
+								</IconButton>
+
+								<TippyMenu
+									icon={
+										<>
+											<IconButton
+												// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+												aria-haspopup="true"
+												// onClick={handleMoreMenuClick}
+												className="text-white opacity-60"
+											>
+												<Icon>more_vert</Icon>
+											</IconButton>
+										</>
+									}
+									outsideClick
+								>
+									<MenuItem onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										if (props.todo.assigned_company) {
+											dispatch(Actions.openAddActivityTodoDialog(props.todo));
+										}
+									}}>
+										<Button
+										>
+											<Icon className="mr-10">add_circle_outline</Icon>
+											SOTTOFASE
+										</Button>
+									</MenuItem>
+								</TippyMenu>
+							</div>
+						</>
+					) : (
+						(getRole() == 'd' || getRole() == 'o') ? (
+						<>
+							<div ref={anchorRef} onClick={handleMenuOpen}>
+								<IconButton>
+									<Icon> business</Icon>
+									<Typography className="ml-10">Assign to a company</Typography>
+								</IconButton>
+								{loading && <CircularProgress size={15} color="secondary" />}
+							</div>
+							<Popover
+								open={state.open}
+								anchorEl={anchorRef.current}
+								anchorReference={state.anchorReference}
+								anchorPosition={{ top: state.positionTop, left: state.positionLeft }}
+								onClose={handleMenuClose}
+								anchorOrigin={{
+									vertical: state.anchorOriginVertical,
+									horizontal: state.anchorOriginHorizontal
+								}}
+								transformOrigin={{
+									vertical: state.transformOriginVertical,
+									horizontal: state.transformOriginHorizontal
+								}}
+							>
+								<Paper className={classes.paper}>
+									<MenuList>
+										{props.companies?.length &&
+											props.companies.map((item, index) => {
+												return (
+													<MenuItem
+														onClick={e => handleSubmit(e, item)}
+														className="px-8"
+														key={item.id}
+													>
+														<Avatar
+															className="w-32 h-32"
+															src={item.profile?.company?.logo}
+														/>
+														<ListItemText className="mx-8">{item.company}</ListItemText>
+													</MenuItem>
+												);
+											})}
+									</MenuList>
+								</Paper>
+							</Popover>
+						</>
+					) : (
 						<Typography className="font-medium truncate ht-auto" color="inherit">
 							{props.todo.assigned_company?.name}
 						</Typography>
-					</div>
-
-					<div className="flex justify-between">
-						<IconButton
-							// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
-							aria-haspopup="true"
-							onClick={(e) => {
-								e.preventDefault();
-								e.stopPropagation();
-								dispatch(Actions.openDrawingContent(props.todo));
-								dispatch(Actions.closeTimelineDialog());
-								// dispatch(Actions.openTaskContent(props.todo));
-								props.setTodoId(props.todo.id);
-							}}
-							className="text-white opacity-60"
-						>
-							<Icon>attach_file</Icon>
-						</IconButton>
-
-						<TippyMenu
-							icon={
-								<>
-									<IconButton
-										// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
-										aria-haspopup="true"
-										// onClick={handleMoreMenuClick}
-										className="text-white opacity-60"
-									>
-										<Icon>more_vert</Icon>
-									</IconButton>
-								</>
-							}
-							outsideClick
-						>
-							<MenuItem onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								if (props.todo.assigned_company) {
-									dispatch(Actions.openAddActivityTodoDialog(props.todo));
-								}
-							}}>
-								<Button
-									// style={{
-									// 	color: theme.palette.getContrastText(
-									// 		props.todo.assigned_company?.color_project || '#D3D3D3'
-									// 	) // )
-									// }}
-									// onClick={ev => {
-									// 	ev.preventDefault();
-									// 	ev.stopPropagation();
-									// 	if (props.todo.assigned_company) {
-									// 		dispatch(Actions.openAddActivityTodoDialog(props.todo));
-									// 	}
-									// }}
-								>
-									<Icon className="mr-10">add_circle_outline</Icon>
-									SOTTOFASE
-								</Button>
-							</MenuItem>
-						</TippyMenu>
-					</div>
-					{/* <Button
-						style={{
-							color: theme.palette.getContrastText(
-								props.todo.assigned_company?.color_project || '#D3D3D3'
-							) // )
-						}}
-						onClick={ev => {
-							ev.preventDefault();
-							ev.stopPropagation();
-							if (props.todo.assigned_company) {
-								dispatch(Actions.openAddActivityTodoDialog(props.todo));
-							}
-						}}
-					>
-						<Icon className="mr-10">add_circle_outline</Icon>
-						SOTTOFASE
-					</Button> */}
+					)
+					)
+				}
 				</div>
 				<CardContent className="flex flex-col flex-auto ">
-					
 					<div className="flex items-center flex-wrap justify-center my-12">
 						{props.todo.progress == 100 ? (
 							<div className={clsx('flex items-center px-8 py-4 mx-4 rounded bg-green-500 text-white')}>

@@ -226,8 +226,6 @@ function Boards(props) {
 	
 	return isLoading ? (
 		<FuseSplashScreen />
-	) : isViewTutorial ? (
-		<Tutorial {...{ open: isViewTutorial, setOpen: setIsViewTutorial }} />
 	) : (
 		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">

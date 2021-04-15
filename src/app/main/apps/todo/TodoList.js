@@ -42,6 +42,7 @@ function TodoList(props) {
 	const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	const openDrawingContent = useSelector(({ todoApp }) => todoApp.todos.openDrawingContent);
+	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
 	const [todoId, setTodoId] = useState(null);
 	const [posts, setPosts] = React.useState([]);
 	const [loading, setLoading] = useState({
@@ -54,6 +55,8 @@ function TodoList(props) {
 			...loading,
 			...data
 		}));
+
+	console.log('companies????????????????????????', companies)
 
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts?.entities);
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
@@ -460,7 +463,7 @@ function TodoList(props) {
 				<div className="lg:w-1/3 sidebar-ht border-right dashboard">
 					<div className="lg:mr-28 custom-margin">
 						{filteredData.map((todo, index) => (
-							<TodoListItem setTodoId={setTodoId} {...props} todo={todo} key={todo.id} index={index} /> // all tasks will be display from this function
+							<TodoListItem setTodoId={setTodoId} {...props} todo={todo} key={todo.id} index={index} companies={companies} /> // all tasks will be display from this function
 						))}
 					</div>
 				</div>
