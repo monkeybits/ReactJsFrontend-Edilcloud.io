@@ -67,6 +67,11 @@ function CreatePostForm({ isTask, taskId }) {
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
+
+	useEffect(() => {
+		window.updateImage = updateImage
+	}, []);
+
 	useEffect(() => {
 		if (user) {
 			setTempAuthor({
