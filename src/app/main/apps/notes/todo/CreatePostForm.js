@@ -1,4 +1,4 @@
-import { AppBar, Button, Card, Icon, IconButton, Input, Typography, LinearProgress } from '@material-ui/core';
+import { InputLabel, MenuItem, ListItemIcon, AppBar, Button, Card, Icon, IconButton, Input, Typography, LinearProgress } from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
@@ -13,9 +13,11 @@ import imageCompression from 'browser-image-compression';
 import FuseUtils from '@fuse/utils';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import loadable from '@loadable/component';
 const PostList = loadable(() => import('./PostList'))
 const ImagesPreview = loadable(() => import('./ImagesPreview'))
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 const uuidv1 = require('uuid/v1');
 
@@ -47,6 +49,24 @@ function CreatePostForm({ isTask, taskId }) {
 	const [text, setText] = useState('');
 	const [images, setImages] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [postStatus, setPostStatus] = useState(true);
+	
+	const postStatusOptions = [
+		{
+			icon: 'public',
+			name: 'Public',
+			handler: () => {
+				setPostStatus(true);
+			}
+		},
+		{
+			icon: 'lock',
+			name: 'Private',
+			handler: e => {
+				setPostStatus(false);
+			}
+		}
+	];
 
 	const [media, setMedia] = useState({ files: [] });
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
@@ -113,7 +133,8 @@ function CreatePostForm({ isTask, taskId }) {
 		const unique_code = uuidv1();
 		const values = {
 			text,
-			unique_code
+			unique_code,
+			is_public: postStatus
 		};
 		let media_set = [];
 		if (images) {
@@ -324,7 +345,7 @@ function CreatePostForm({ isTask, taskId }) {
 								color="default"
 								elevation={0}
 							>
-								<div className="add-photo-image">
+								<div className="add-photo-image flex">
 									<IconButton
 										onClick={() => inputRef.current.click()}
 										aria-label="Add photo"
@@ -332,6 +353,35 @@ function CreatePostForm({ isTask, taskId }) {
 									>
 										<Icon>photo</Icon>
 									</IconButton>
+									<TippyMenu
+										icon={
+											<>
+												{/* <InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel> */}
+												<InputLabel id="demo-simple-select-label" className="p-8 border-2 mx-8">
+													{postStatus ? 'Public' : 'Private'}
+													<span className="arrow-icon">
+														{' '}
+														<KeyboardArrowDownIcon />{' '}
+													</span>{' '}
+												</InputLabel>
+											</>
+										}
+										// ref={menuRef}
+										outsideClick
+									>
+										{postStatusOptions.map(option => (
+											<MenuItem
+												key={option.name}
+												selected={option.name === 'Pyxis'}
+												onClick={option.handler}
+											>
+												<ListItemIcon>
+													<Icon>{option.icon}</Icon>
+												</ListItemIcon>
+												<Typography variant="inherit"> {t(option.name)}</Typography>
+											</MenuItem>
+										))}
+									</TippyMenu>
 									<input
 										hidden
 										multiple

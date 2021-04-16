@@ -121,17 +121,20 @@ function FileManagerApp(props) {
 	const inputName = useRef();
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
+
 	const [loading, setLoading] = useState({
 		loadingPhotos: false,
 		loadingVideos: false,
 		loadingDocuments: false,
 		loadingFolders: false
 	});
+
 	const handleSetLoading = data =>
 		setLoading(loading => ({
 			...loading,
 			...data
 		}));
+	
 	const [error, seterror] = useState({
 		fileError: '',
 		titleError: '',
@@ -139,6 +142,7 @@ function FileManagerApp(props) {
 		nameError: '',
 		apiError: ''
 	});
+	
 	const resetError = () =>
 		seterror({
 			fileError: '',
@@ -146,6 +150,7 @@ function FileManagerApp(props) {
 			descError: '',
 			nameError: ''
 		});
+	
 	useEffect(() => {
 		if (company.can_access_files) {
 			const userInfo = decodeDataFromToken();
@@ -155,10 +160,12 @@ function FileManagerApp(props) {
 			props.history.push('/apps/todo/all');
 		}
 	}, [dispatch]);
+	
 	useEffect(() => {
 		setFilePath(folderPath[folderPath.length - 1]);
 		setPath(folderPath[folderPath.length - 1]);
 	}, [folderPath, isOpenDrawer]);
+	
 	const addFile = event => {
 		resetError();
 		const { files } = event.target;
@@ -176,6 +183,7 @@ function FileManagerApp(props) {
 			});
 		}
 	};
+	
 	const resetOpenForm = () => {
 		setFile({
 			file: null,
@@ -333,32 +341,6 @@ function FileManagerApp(props) {
 										)}
 									</div>
 								</FuseAnimate>
-								{/* <IconButton
-								onClick={() => {
-									pageLayout.current.toggleLeftSidebar();
-								}}
-								aria-label="open left sidebar"
-								className="h-40"
-							>
-								<Icon>menu</Icon>
-							</IconButton> */}
-								{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-								<Paper className="flex p-4 items-center w-full h-40 px-8 py-4 bg-white search-white-box" elevation={1}>
-									<Icon className="text-20" color="action">search</Icon>
-
-									<Input
-										placeholder="Search for anything"
-										className="flex flex-1 px-12"
-										disableUnderline
-										fullWidth
-										value={searchText}
-										inputProps={{
-											'aria-label': 'Search'
-										}}
-										onChange={ev => dispatch(Actions.setSearchText(ev))}
-									/>
-								</Paper>
-							</FuseAnimate> */}
 								<div className="flex two-btn rounded h-40 ml-10">
 									<IconButton
 										onClick={() => setViewTable(false)}
@@ -372,20 +354,6 @@ function FileManagerApp(props) {
 								</div>
 							</div>
 							<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
-							{/* <div className="flex flex-1 items-end"> */}
-
-							{/* <FuseAnimate animation="transition.expandIn" delay={600}>
-								<Fab
-									onClick={() => setIsOpenDrawer(true)}
-									color="secondary"
-									aria-label="add"
-									className="absolute bottom-0 ltr:left-0 rtl:right-0 mx-16 -mb-28 z-999"
-								>
-									<Icon>add</Icon>
-								</Fab>
-							</FuseAnimate> */}
-
-							{/* </div> */}
 							{isUploadingFiles && (
 								<div className="linear-progress custom-color">
 									<LinearProgressWithLabel progress={progress} />
@@ -430,9 +398,6 @@ function FileManagerApp(props) {
 				maxWidth="xs"
 				fullWidth="true"
 			>
-				{/* <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-					Upload File
-				</DialogTitle> */}
 				<AppBar position="static" className="border-0" elevation={1}>
 					<Toolbar>
 						<div className="absolute right-0">
@@ -513,22 +478,6 @@ function FileManagerApp(props) {
 									helperText={error.titleError}
 								/>
 							</div>
-							{/* <div>
-								<TextField
-									error={!!error.descError}
-									name="desc"
-									label={t('DESCRIPTION')}
-									className="mt-8 mb-16 w-full"
-									multiline
-									rows={4}
-									variant="outlined"
-									onChange={({ target: { value } }) => {
-										resetError();
-										setDescription(value);
-									}}
-									helperText={error.descError}
-								/>
-							</div> */}
 							<div>
 								<TextField
 									accept="image/*, video/*"

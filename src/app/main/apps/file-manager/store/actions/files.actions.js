@@ -25,6 +25,8 @@ export const FILE_MOVE_OPEN_DIALOG = '[FILE MANAGER APP] FILE MOVE OPEN DIALOG';
 export const FILE_MOVE_CLOSE_DIALOG = '[FILE MANAGER APP] FILE MOVE CLOSE DIALOG';
 export const FILE_RENAME_OPEN_DIALOG = '[FILE MANAGER APP] FILE RENAME OPEN DIALOG';
 export const FILE_RENAME_CLOSE_DIALOG = '[FILE MANAGER APP] FILE RENAME CLOSE DIALOG';
+export const SET_FOLDER_PATH = '[FILE MANAGER APP] SET FOLDER PATH';
+
 export function openRenameFileDialog(payload) {
 	return {
 		type: FILE_RENAME_OPEN_DIALOG,
@@ -168,6 +170,12 @@ export function getFolders(cid, handleSetLoading = () => '') {
 		);
 	};
 }
+export function setFolderPath(path) {
+	return {
+		type: SET_FOLDER_PATH,
+		payload: path
+	};
+}
 export function folderDetail(cid, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingFolders: true
@@ -184,7 +192,7 @@ export function folderDetail(cid, handleSetLoading = () => '') {
 					handleSetLoading({
 						loadingFolders: false
 					});
-					console.log(folders);
+					console.log('files?????????????????6666666', folders);
 					dispatch({
 						type: UPDATE_SPECIFIC_FOLDERS,
 						payload: folders
@@ -211,7 +219,7 @@ export function foldersPaths(cid, handleSetLoading = () => '') {
 			FOLDER_STRUCTURE_LIST(cid),
 			{},
 			folders => {
-				console.log(folders);
+				console.log('folders???????????????5555555', folders)
 				handleSetLoading({
 					loadingFolders: false
 				});

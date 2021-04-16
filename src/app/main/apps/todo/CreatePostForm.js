@@ -4,7 +4,7 @@
 *This File is written for Dashboard
 Todo: This File is created for create timeline posts and view timeline 
 */
-import { AppBar, Button, Card, Icon, IconButton, Input, Typography, LinearProgress } from '@material-ui/core';
+import { MenuItem, ListItemIcon, AppBar, Button, Card, Icon, IconButton, Input, Typography, LinearProgress, InputLabel } from '@material-ui/core';
 import loadable from '@loadable/component';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -21,8 +21,10 @@ import FuseUtils from '@fuse/utils';
 import Dropzone from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 const ImagesPreview = loadable(() => import('app/main/apps/notes/todo/ImagesPreview'))
 const PostList = loadable(() => import('app/main/apps/notes/todo/PostList'))
+const TippyMenu = loadable(() => import('app/TippyMenu'))
 
 const uuidv1 = require('uuid/v1');
 
@@ -59,6 +61,25 @@ function CreatePostForm({ isTask, taskId }) {
 	const [images, setImages] = useState(null);
 	const [viewCroper, setViewCroper] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [postStatus, setPostStatus] = useState(true);
+
+	const postStatusOptions = [
+		{
+			icon: 'public',
+			name: 'Public',
+			handler: () => {
+				setPostStatus(true);
+			}
+		},
+		{
+			icon: 'lock',
+			name: 'Private',
+			handler: e => {
+				setPostStatus(false);
+			}
+		}
+	];
+
 	const [file, setFile] = useState({
 		fileData: undefined,
 		imagePreviewUrl: undefined
@@ -96,6 +117,7 @@ function CreatePostForm({ isTask, taskId }) {
 			getPosts();
 		}
 	}, [isTask, taskId]);
+
 	function closeTodoDialog() {
 		return todoDialog.type === 'edit'
 			? dispatch(Actions.closeActivityTodoDialog())
@@ -131,7 +153,8 @@ function CreatePostForm({ isTask, taskId }) {
 		const unique_code = uuidv1();
 		const values = {
 			text,
-			unique_code
+			unique_code,
+			is_public: postStatus
 		};
 		let media_set = [];
 		if (images) {
@@ -302,6 +325,22 @@ function CreatePostForm({ isTask, taskId }) {
 
 	}
 
+	// function dataURItoBlob(dataURI) {
+	// 	var byteString = atob(dataURI.split(',')[1]);
+
+	// 	var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+	// 	var ab = new ArrayBuffer(byteString.length);
+	// 	var ia = new Uint8Array(ab);
+	// 	for (var i = 0; i < byteString.length; i++) {
+	// 		ia[i] = byteString.charCodeAt(i);
+	// 	}
+
+	// 	var bb = new BlobBuilder();
+	// 	bb.append(ab);
+	// 	return bb.getBlob(mimeString);
+	// }
+
 	const dataURLtoFile = (dataurl, filename) => {
 		var arr = dataurl.split(','),
             mime = arr[0].match(/:(.*?);/)[1],
@@ -316,6 +355,22 @@ function CreatePostForm({ isTask, taskId }) {
         return new File([u8arr], filename, {type:mime});
 	}
 
+	// function dataURItoBlob(dataURI) {
+	// 	var byteString = atob(dataURI.split(',')[1]);
+	
+	// 	var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+	
+	// 	var ab = new ArrayBuffer(byteString.length);
+	// 	var ia = new Uint8Array(ab);
+	// 	for (var i = 0; i < byteString.length; i++) {
+	// 		ia[i] = byteString.charCodeAt(i);
+	// 	}
+	
+	// 	var bb = new BlobBuilder();
+	// 	bb.append(ab);
+	// 	return bb.getBlob(mimeString);
+	// }
+	
 	const addPhoto = async files => {
 		console.log('files???????????????????', files)
 		// const files = e.currentTarget.files;
@@ -416,6 +471,7 @@ function CreatePostForm({ isTask, taskId }) {
 	if (!data) {
 		return null;
 	}
+
 	return (
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1">
@@ -467,6 +523,35 @@ function CreatePostForm({ isTask, taskId }) {
 											</section>
 										)}
 									</Dropzone>
+									<TippyMenu
+										icon={
+											<>
+												{/* <InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel> */}
+												<InputLabel id="demo-simple-select-label" className="p-8 border-2 mx-8">
+													{postStatus ? 'Public' : 'Private'}
+													<span className="arrow-icon">
+														{' '}
+														<KeyboardArrowDownIcon />{' '}
+													</span>{' '}
+												</InputLabel>
+											</>
+										}
+										// ref={menuRef}
+										outsideClick
+									>
+										{postStatusOptions.map(option => (
+											<MenuItem
+												key={option.name}
+												selected={option.name === 'Pyxis'}
+												onClick={option.handler}
+											>
+												<ListItemIcon>
+													<Icon>{option.icon}</Icon>
+												</ListItemIcon>
+												<Typography variant="inherit"> {t(option.name)}</Typography>
+											</MenuItem>
+										))}
+									</TippyMenu>
 								</div>
 								<Button
 									onClick={createPost}
