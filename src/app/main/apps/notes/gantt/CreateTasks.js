@@ -45,18 +45,18 @@ const useStyles = makeStyles(theme => ({
 		'&:hover': {
 			backgroundColor: '#295da2'
 		}
-	}
+	},
 }));
 
-const tooltipStyles = makeStyles(theme => ({
-	tooltip: {
-		fontSize: 30
+const tooltipUseStyles = makeStyles((theme) => ({
+	staticTooltipLabel: {
+	  width : 140
 	}
 }));
 
 export default function CreateTasks(props) {
 	const classes = useStyles();
-	const tooltipClasses = tooltipStyles();
+	const tooltipClasses = tooltipUseStyles();
 	const [open, setOpen] = React.useState(false);
 
 	const handleClose = () => {
@@ -88,8 +88,8 @@ export default function CreateTasks(props) {
 				>
 					{actions.map(action => (
 						<SpeedDialAction
+							classes={tooltipClasses}
 							className={classes.fab}
-							TooltipClasses={tooltipClasses}
 							key={action.name}
 							icon={action.icon}
 							tooltipTitle={action.name}

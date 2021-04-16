@@ -1,12 +1,10 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import Fab from '@material-ui/core/Fab';
-import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles, Button, TextField, CircularProgress, LinearProgress } from '@material-ui/core';
+import { Button, TextField, LinearProgress } from '@material-ui/core';
 import {
 	ADD_PHOTO_PROJECT,
 	ADD_FOLDER_PROJECT,
@@ -16,7 +14,6 @@ import {
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { withRouter } from 'react-router';
-
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -25,21 +22,11 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import Paper from '@material-ui/core/Paper';
-import imageCompression from 'browser-image-compression';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
-import Pagination from '@material-ui/lab/Pagination';
-import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import { useTranslation } from 'react-i18next';
 import MoveFileDialog from './MoveFileDialog';
 import FloatingButtonUpload from './FloatingButtonUpload';
@@ -101,7 +88,6 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 function FileManagerApp(props) {
-	// filesfolderPath
 	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
 	const allFolderPaths = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files.allFolderPaths);
@@ -120,7 +106,6 @@ function FileManagerApp(props) {
 		fileType: null
 	});
 	const [viewTable, setViewTable] = useState(false);
-
 	const [radioBtnValue, setRadioBtnValue] = useState('folder');
 	const [progress, setProgress] = React.useState(0);
 	const [path, setPath] = useState('');
@@ -140,17 +125,20 @@ function FileManagerApp(props) {
 		nameError: '',
 		apiError: ''
 	});
+
 	const [loading, setLoading] = useState({
 		loadingPhotos: false,
 		loadingVideos: false,
 		loadingDocuments: false,
 		loadingFolders: false
 	});
+
 	const handleSetLoading = data =>
 		setLoading(loading => ({
 			...loading,
 			...data
 		}));
+	
 	const resetError = () =>
 		seterror({
 			fileError: '',
@@ -158,15 +146,18 @@ function FileManagerApp(props) {
 			descError: '',
 			nameError: ''
 		});
+	
 	useEffect(() => {
 		setFilePath(folderPath[folderPath.length - 1]);
 		setPath(folderPath[folderPath.length - 1]);
 	}, [folderPath, isOpenDrawer]);
+	
 	useEffect(() => {
 		if (routeParams) {
 			dispatch(Actions.getFiles(routeParams.id, handleSetLoading));
 		}
 	}, [dispatch, routeParams]);
+	
 	const addFile = event => {
 		resetError();
 		const { files } = event.target;
@@ -184,6 +175,7 @@ function FileManagerApp(props) {
 			});
 		}
 	};
+	
 	const resetOpenForm = () => {
 		setFile({
 			file: null,
@@ -199,6 +191,7 @@ function FileManagerApp(props) {
 			nameError: ''
 		});
 	};
+	
 	const handleUpload = async () => {
 		if (isUploading == false) {
 			setIsUploading(true);
@@ -287,16 +280,17 @@ function FileManagerApp(props) {
 			setTitle('');
 		}
 	};
+	
 	const handleClose = () => {
 		resetOpenForm();
 		setIsOpenDrawer(false);
 	};
-	const handleRadioChange = event => {
-		setRadioBtnValue(event.target.value);
-	};
+	
 	const canSubmit = () => (radioBtnValue == 'folder' ? title?.length : title?.length && fileData.file);
+	
 	const isLoadingFiles = () =>
 		loading.loadingVideos || loading.loadingPhotos || loading.loadingFolders || loading.loadingDocuments;
+	
 	const loadingComponent = (
 		<div className="flex flex-1 flex-col items-center justify-center h-full">
 			<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
@@ -305,7 +299,9 @@ function FileManagerApp(props) {
 			<LinearProgress className="w-xs" color="secondary" />
 		</div>
 	);
+	
 	if (isLoadingFiles()) return loadingComponent;
+	
 	return (
 		<>
 			<FusePageSimple
@@ -317,25 +313,6 @@ function FileManagerApp(props) {
 				}}
 				header={
 					<>
-						{/* <div className="flex w-full justify-between items-center">
-							<div className="mr-20">
-								<Typography variant="h5" className="mb-4">
-									File
-								</Typography>
-								<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-									<Typography variant="subtitle1" className="font-weight-700 mb-4">
-										{projectDetail.name}
-									</Typography>
-								</FuseAnimate>
-								<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
-									Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
-								</Typography>
-							</div>
-							<Button className="badge-btn" color="secondary">
-								Open Details
-							</Button>
-						</div> */}
-
 						<div className="flex flex-col flex-1 relative z-50 mt-10">
 							<div className="flex items-center justify-between left-icon-btn">
 								<FuseAnimate delay={200}>
@@ -348,31 +325,6 @@ function FileManagerApp(props) {
 										)}
 									</div>
 								</FuseAnimate>
-								{/* <IconButton
-								onClick={() => {
-									pageLayout.current.toggleLeftSidebar();
-								}}
-								aria-label="open left sidebar"
-							>
-								<Icon>menu</Icon>
-							</IconButton> */}
-								{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-								<Paper className="flex p-4 items-center w-full h-40 px-8 py-4 bg-white search-white-box" elevation={1}>
-									<Icon className="text-20" color="action">search</Icon>
-
-									<Input
-										placeholder="Search for anything"
-										className="flex flex-1 px-12"
-										disableUnderline
-										fullWidth
-										value={searchText}
-										inputProps={{
-											'aria-label': 'Search'
-										}}
-										onChange={ev => dispatch(Actions.setSearchText(ev))}
-									/>
-								</Paper>
-							</FuseAnimate> */}
 								<div className="flex two-btn rounded h-40 ml-10">
 									<IconButton
 										onClick={() => setViewTable(false)}
@@ -386,19 +338,6 @@ function FileManagerApp(props) {
 								</div>
 							</div>
 							<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
-							{/* <div className="flex flex-1 items-end"> */}
-							{/* <FuseAnimate animation="transition.expandIn" delay={600}>
-								<Fab
-									onClick={() => setIsOpenDrawer(true)}
-									color="secondary"
-									aria-label="add"
-									className="absolute bottom-0 ltr:left-0 rtl:right-0 mx-16 -mb-28 z-999"
-								>
-									<Icon>add</Icon>
-								</Fab>
-							</FuseAnimate> */}
-
-							{/* </div> */}
 							{isUploadingFiles && (
 								<div className="linear-progress custom-color">
 									<LinearProgressWithLabel progress={progress} />
@@ -435,7 +374,6 @@ function FileManagerApp(props) {
 				</FuseAnimate>
 			)}
 			<MoveFileDialog />
-
 			<Dialog
 				onClose={handleClose}
 				aria-labelledby="customized-dialog-title"
@@ -443,9 +381,6 @@ function FileManagerApp(props) {
 				maxWidth="xs"
 				fullWidth="true"
 			>
-				{/* <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-					Upload File
-				</DialogTitle> */}
 				<AppBar position="static" className="border-0" elevation={1}>
 					<Toolbar>
 						<div className="absolute right-0">
@@ -513,22 +448,6 @@ function FileManagerApp(props) {
 									helperText={error.titleError}
 								/>
 							</div>
-							{/* <div>
-								<TextField
-									error={!!error.descError}
-									name="desc"
-									label={t('DESCRIPTION')}
-									className="mt-8 mb-16 w-full"
-									multiline
-									rows={4}
-									variant="outlined"
-									onChange={({ target: { value } }) => {
-										resetError();
-										setDescription(value);
-									}}
-									helperText={error.descError}
-								/>
-							</div> */}
 							<div>
 								<TextField
 									error={!!error.fileError}

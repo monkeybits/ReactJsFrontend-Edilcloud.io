@@ -112,7 +112,6 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 			},
 			hasPermission: true // getRole() == 'o' || getRole() == 'd'
 		},
-
 		{
 			name: 'RENAME',
 			icon: <Icon>edit</Icon>,
