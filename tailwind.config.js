@@ -543,7 +543,7 @@ module.exports = {
 		},
 		fontFamily: {
 			sans: [
-				'Muli',
+				'Poppins',
 				'Roboto',
 				'-apple-system',
 				'BlinkMacSystemFont',

@@ -499,7 +499,7 @@ const changelogData = [
 		version: '1.2.0',
 		date: '2018-09-25',
 		newChanges: [
-			"The design is modernized with Google Material Design's new specs. + Icons replaced with outlined material icons, + Main Font Family changed to Muli",
+			"The design is modernized with Google Material Design's new specs. + Icons replaced with outlined material icons, + Main Font Family changed to Poppins",
 			'Scrumboard App added.',
 			'Material UI updated to v3.1.1',
 			'FuseChipSelect: "variant" attr added for to choose creatable or fixed multi selection.',

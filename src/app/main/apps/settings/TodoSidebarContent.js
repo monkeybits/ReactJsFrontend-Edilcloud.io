@@ -57,7 +57,16 @@ function TodoSidebarContent(props) {
 				<div className={classes.listWrapper}>
 					<List>
 						<ListSubheader className={classes.listSubheader} disableSticky>
-							GENERAL FILTERS
+							MAIN PROFILE
+						</ListSubheader>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							COMPANY
+						</ListSubheader>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							BILLINGS
+						</ListSubheader>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							STORAGE
 						</ListSubheader>
 					</List>
 				</div>

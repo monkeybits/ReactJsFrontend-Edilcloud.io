@@ -48,7 +48,7 @@ function UserNavbarHeader(props) {
 			position="static"
 			elevation={0}
 			classes={{ root: classes.root }}
-			className="user relative flex flex-col items-center justify-center pt-24 pb-24 mb-0 z-0"
+			className="user relative flex flex-col items-center sidebar-header-user justify-center pt-24 pb-24 mb-0 z-0"
 		>
 			{user && (
 				<Typography className="username text-16 whitespace-no-wrap" color="inherit">

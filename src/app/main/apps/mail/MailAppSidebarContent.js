@@ -38,12 +38,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function MailAppSidebarContent(props) {
-	const folders = useSelector(({ mailApp }) => mailApp.folders);
-	const labels = useSelector(({ mailApp }) => mailApp.labels);
-	const filters = useSelector(({ mailApp }) => mailApp.filters);
+	const folders = useSelector(({ todoApp }) => todoApp.folders);
+	const labels = useSelector(({ todoApp }) => todoApp.labels);
+	const filters = useSelector(({ todoApp }) => todoApp.filters);
 
 	const classes = useStyles();
-	const { t } = useTranslation('mailApp');
+	const { t } = useTranslation('todoApp');
 
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
@@ -52,78 +52,11 @@ function MailAppSidebarContent(props) {
 
 				<div>
 					<List>
-						<ListSubheader className={classes.listSubheader} disableSticky>
-							{t('FOLDERS')}
-						</ListSubheader>
-
-						{folders.length > 0 &&
-							folders.map(folder => (
-								<ListItem
-									button
-									component={NavLinkAdapter}
-									to={`/apps/mail/${folder.handle}`}
-									key={folder.id}
-									activeClassName="active"
-									className={classes.listItem}
-								>
-									<Icon className="list-item-icon" color="action">
-										{folder.icon}
-									</Icon>
-									<ListItemText
-										primary={folder.translate ? t(folder.translate) : folder.title}
-										disableTypography
-									/>
-								</ListItem>
-							))}
+						
+					
 					</List>
 
-					<List>
-						<ListSubheader className={classes.listSubheader} disableSticky>
-							{t('FILTERS')}
-						</ListSubheader>
-
-						{filters.length > 0 &&
-							filters.map(filter => (
-								<ListItem
-									button
-									component={NavLinkAdapter}
-									to={`/apps/mail/filter/${filter.handle}`}
-									activeClassName="active"
-									className={classes.listItem}
-									key={filter.id}
-								>
-									<Icon className="list-item-icon" color="action">
-										{filter.icon}
-									</Icon>
-									<ListItemText
-										primary={filter.translate ? t(filter.translate) : filter.title}
-										disableTypography
-									/>
-								</ListItem>
-							))}
-					</List>
-
-					<List>
-						<ListSubheader className={classes.listSubheader} disableSticky>
-							{t('LABELS')}
-						</ListSubheader>
-
-						{labels &&
-							labels.map(label => (
-								<ListItem
-									button
-									component={NavLinkAdapter}
-									to={`/apps/mail/label/${label.handle}`}
-									key={label.id}
-									className={classes.listItem}
-								>
-									<Icon className="list-item-icon" style={{ color: label.color }} color="action">
-										label
-									</Icon>
-									<ListItemText primary={label.title} disableTypography />
-								</ListItem>
-							))}
-					</List>
+				
 				</div>
 			</div>
 		</FuseAnimate>

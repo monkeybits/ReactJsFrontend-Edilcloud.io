@@ -316,35 +316,7 @@ function NoteList(props) {
 		<>
 			<div id="project-list" className="flex flex-wrap w-full">
 				<div className={classes.root}>
-					<div className="flex mb-20 w-full">
-						<Paper
-							className="flex items-center w-full h-48 sm:h-56 grey-border p-16 ltr:pl-4 lg:ltr:pl-16 rtl:pr-4 lg:rtl:pr-16 rounded-8"
-							elevation={1}
-						>
-							<IconButton
-								onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
-								aria-label="open left sidebar"
-							>
-								<Icon>filter_list</Icon>
-							</IconButton>
-
-							<Icon color="action">search</Icon>
-
-							<Input
-								type="text"
-								placeholder="Search"
-								className="px-16"
-								disableUnderline
-								fullWidth
-								name="searchText"
-								value={searchText}
-								inputProps={{
-									'aria-label': 'Search'
-								}}
-								onChange={ev => dispatch(Actions.setSearchText(ev))}
-							/>
-						</Paper>
-					</div>
+					
 					{companies.map((data, index) => (
 						<>
 							<div className="flex justify-start items-center pb-8 mb-16">

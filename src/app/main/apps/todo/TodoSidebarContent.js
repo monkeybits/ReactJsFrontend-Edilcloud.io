@@ -106,24 +106,22 @@ function TodoSidebarContent(props) {
 							))}
 					</List> */}
 
-					<List className="p-0">
+					
 						<AppBar position="static" elevation={1}>
-							<Toolbar className="pl-12 pr-4">
-								<IconButton
+							<Toolbar className="p-0">
+								<IconButton className="p-32"
 									color="inherit"
 								>
-									<Icon className="text-32">filter</Icon>
+									<Icon className="text-32">filter_list</Icon>
 								</IconButton>
-								<Typography className="mx-8 text-16" color="inherit">
-									Filters
+								<Typography className="mx-8 p-32 text-24" color="inherit">
+									Filtri
 								</Typography>
-								<div className="flex px-4 ml-16">
-									<IconButton color="inherit" onClick={ev => props.pageLayout.current.toggleLeftSidebar()}>
-										<Icon>close</Icon>
-									</IconButton>
-								</div>
+								
 							</Toolbar>
 						</AppBar>
+						<List>
+						<div className="p-32 ">
 						<ListSubheader className={classes.listSubheader} disableSticky>
 							{t('GENERAL_FILTERS')}
 						</ListSubheader>
@@ -143,9 +141,11 @@ function TodoSidebarContent(props) {
 									<ListItemText primary={t(filter.name)} disableTypography />
 								</ListItem>
 							))}
+							</div>
 					</List>
 
 					<List>
+						<div className="p-32 pt-0">
 						<ListSubheader className={classes.listSubheader} disableSticky>
 							{t('TIME_FILTERS')}
 						</ListSubheader>
@@ -165,9 +165,11 @@ function TodoSidebarContent(props) {
 									<ListItemText primary={t(filter.name)} disableTypography />
 								</ListItem>
 							))}
+							</div>
 					</List>
 					
 					<List>
+					<div className="p-32 pt-0">
 						<ListSubheader className={classes.listSubheader} disableSticky>
 							{t('PROJECT_FILTERS')}
 						</ListSubheader>
@@ -186,8 +188,10 @@ function TodoSidebarContent(props) {
 									<ListItemText primary={filter.name} disableTypography />
 								</ListItem>
 							))}
+							</div>
 					</List>
-					<List>
+					<List >
+					<div className="p-32 pt-0">
 						<ListSubheader className={classes.listSubheader} disableSticky>
 							{t('COMPANY_FILTERS')}
 						</ListSubheader>
@@ -204,8 +208,10 @@ function TodoSidebarContent(props) {
 									<ListItemText primary={filter.name} disableTypography />
 								</ListItem>
 							))}
+							</div>
 					</List>
-					<List>
+					<List >
+						<div className="p-32">
 						<ListSubheader className={classes.listSubheader} disableSticky>
 							{t('PEOPLE_FILTERS')}
 						</ListSubheader>
@@ -227,6 +233,7 @@ function TodoSidebarContent(props) {
 									</ListItem>
 								);
 							})}
+							</div>
 					</List>
 				</div>
 			</div>

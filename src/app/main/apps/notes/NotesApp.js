@@ -109,7 +109,7 @@ function NotesApp(props) {
 					contentWrapper: 'p-16 sm:p-24 md:px-32 pb-80 sm:pb-80',
 					content: `flex min-h-full`,
 					leftSidebar: `w-256 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`,
-					header: 'project_list p-16 sm:p-32 h-auto min-h-auto sm:pb-0'
+					header: 'project_list p-16 sm:p-32 h-auto bg-dark-blue min-h-auto sm:pb-32'
 				}}
 				header={<NotesHeader pageLayout={pageLayout} />}
 				content={

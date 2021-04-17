@@ -14,7 +14,7 @@ import 'react-app-polyfill/stable';
 import React from 'react';
 import loadable from '@loadable/component';
 import ReactDOM from 'react-dom';
-import 'typeface-muli';
+import 'typeface-poppins';
 import './i18n';
 import './react-chartjs-2-defaults';
 import './styles/index.css';

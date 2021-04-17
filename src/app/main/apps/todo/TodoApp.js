@@ -133,25 +133,13 @@ function TodoApp(props) {
 					<ShowUpload progress={upload.uploadPercentage} />
 				</div>
 			)}
-			<div className="flex w-full inner-scroll-min-ht">
-				<div className="flex w-full items-center justify-between p-20">
-					<div>
-						<div className="flex w-full items-center justify-between">
-							<Typography variant="h5">Dashboard</Typography>{' '}
-						</div>
-						<Typography variant="subtitle1" className="text-14 font-weight-600 ">
-							Tutti le fasi di lavoro da tutti i progetti
-						</Typography>
-					</div>
-				</div>
-			</div>
+			
 			<FusePageSimple
 				classes={{
 					contentWrapper: 'bg-azure h-full',
 					content: 'flex bg-azure flex-col h-full p-24 pb-0',
-					leftSidebar: `mobile-h-full w-256 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`,
-					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
-					customHeader: 'flex flex-auto flex-col container z-10 h-full chat-header-bg-remove dashboard',
+					leftSidebar: `mobile-h-full w-400 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`,
+			
 					wrapper: 'min-h-0 team-tab'
 				}}
 				header={<TodoHeader pageLayout={pageLayout} />}
@@ -162,6 +150,7 @@ function TodoApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
+		
 			{/**
 			 * ======================================================
 			 * 1. <TodoDialog />
