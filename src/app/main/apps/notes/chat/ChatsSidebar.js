@@ -84,7 +84,7 @@ function ChatsSidebar(props) {
 	return (
 		<div className="flex flex-col flex-auto h-full">
 			<AppBar position="static" color="default" elevation={1} className="bg-white border-0">
-			<Toolbar className="flex justify-between items-center px-4 bg-dark min-h-72 chat-border-right">
+			{/*		<Toolbar className="flex justify-between items-center px-4 bg-dark min-h-72 chat-border-right">
 					{user && (
 						<div
 							className="relative w-48 h-48 p-0 mx-12 cursor-pointer chat-header-img"
@@ -147,7 +147,7 @@ function ChatsSidebar(props) {
 							<MenuItem onClick={handleMoreMenuClose}>Logout</MenuItem>
 						</TippyMenu>
 					</div>
-				</Toolbar>
+						</Toolbar> */}
 		
 				{useMemo(
 					() => (

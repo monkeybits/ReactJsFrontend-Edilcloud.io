@@ -16,7 +16,6 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { Icon } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import * as TodoActions from 'app/main/apps/notes/todo/store/actions';
-import ProjectHeader from './ProjectHeader';
 import Gantt from '../gantt/index';
 import FileManagerApp from '../file-manager/FileManagerApp';
 import TodoApp from '../todo/TodoApp';
@@ -54,15 +53,17 @@ TabPanel.propTypes = {
 function a11yProps(index) {
 	return {
 		id: `wrapped-tab-${index}`,
-		'aria-controls': `wrapped-tabpanel-${index}`
+		'aria-controls': `wrapped-tabpanel-${index}`,
+		
 	};
 }
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
 		minHeight: '100%',
-		backgroundColor: '#376AED',
+		backgroundColor: '#1e2125',
 		height: 76,
+		
 	}
 }));
 
@@ -100,11 +101,10 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 	}, [dispatch, routeParams]);
 	return (
 		<div className={classes.root}>
-			<ProjectHeader onOpen={setOpenDialog} />
-			<TabPanel value={value} index={0} className="team-tab-content no-data-height-full">
+			<TabPanel value={value} index={0} className="team-tab-content p-0 no-data-height-full">
 				<ContactsApp {...{ value, setValue, setOpenDialog }} />
 			</TabPanel>
-			<TabPanel value={value} index={1} className="h-full chat-tab-content-height">
+			<TabPanel value={value} index={1} className="h-full no-data-height-full chat-tab-content-height">
 				<ChatApp {...{ value, setValue }} />
 			</TabPanel>
 			<TabPanel value={value} index={2} className="no-data-height-full">

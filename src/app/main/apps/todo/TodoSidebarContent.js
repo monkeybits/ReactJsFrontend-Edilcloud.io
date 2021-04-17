@@ -120,7 +120,7 @@ function TodoSidebarContent(props) {
 								
 							</Toolbar>
 						</AppBar>
-						<List>
+					<List>
 						<div className="p-32 ">
 						<ListSubheader className={classes.listSubheader} disableSticky>
 							{t('GENERAL_FILTERS')}

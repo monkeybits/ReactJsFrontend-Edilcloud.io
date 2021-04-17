@@ -1,7 +1,8 @@
-import { Icon, IconButton, Input, Paper, Typography } from '@material-ui/core'
+import { Button, Icon, IconButton, Input, Paper, Typography } from '@material-ui/core'
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 
@@ -34,11 +35,12 @@ function TodoHeader(props) {
 				<div className="flex flex-1 items-center justify-center px-12">
 					<ThemeProvider theme={mainTheme}>
 						<FuseAnimate animation="transition.slideDownIn" delay={300}>
-							<Paper className="flex items-center w-full px-8 py-4 rounded-8" elevation={1}>
+							<Paper className="flex items-center w-full max-w-512 px-8 py-4 rounded-8" elevation={1}>
 								<Icon color="action">search</Icon>
 	
 								<Input
-									placeholder="Search"
+									
+							placeholder="Cerca Fase di lavoro o attività"
 									className="flex flex-1 mx-8"
 									disableUnderline
 									fullWidth
@@ -50,8 +52,23 @@ function TodoHeader(props) {
 								/>
 							</Paper>
 						</FuseAnimate>
+
+
+					
 					</ThemeProvider>
 				</div>
+				<FuseAnimate animation="transition.slideRightIn" delay={300}>
+			<Button
+				component={Link}
+				to="/apps/e-commerce/products/new"
+				className="whitespace-no-wrap normal-case"
+				variant="contained"
+				color="secondary"
+			>
+				<span className="xs:hidden sm:flex">Aiuto</span>
+				<span className="flex sm:hidden">Aiuto</span>
+			</Button>
+		</FuseAnimate>
 			</div>
 			</div>
 			</div>

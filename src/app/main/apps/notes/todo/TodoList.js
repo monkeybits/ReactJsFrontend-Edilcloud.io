@@ -360,33 +360,7 @@ function TodoList(props) {
 			}}
 		>
 			<div>
-				<div className="flex flex-1 mb-20">
-					<Paper
-						className="flex items-center w-full h-48 sm:h-56 grey-border p-16 ltr:pl-4 lg:ltr:pl-16 rtl:pr-4 lg:rtl:pr-16 rounded-8"
-						elevation={1}
-					>
-						<IconButton
-							onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
-							aria-label="open left sidebar"
-						>
-							<Icon>filter_list</Icon>
-						</IconButton>
-
-						<Icon color="action">search</Icon>
-
-						<Input
-							placeholder="Search"
-							className="px-16"
-							disableUnderline
-							fullWidth
-							value={searchText}
-							inputProps={{
-								'aria-label': 'Search'
-							}}
-							onChange={ev => dispatch(Actions.setSearchText(ev))}
-						/>
-					</Paper>
-				</div>
+				
 
 				{filteredData.length === 0 ? (
 					<FuseAnimate delay={100}>
@@ -394,12 +368,12 @@ function TodoList(props) {
 							<div className="flex flex-1 items-center justify-center h-full">
 								<img className="w-400" src="assets/images/errors/nogantt.png" />
 							</div>
-							<div className="flex flex-1 items-center justify-center h-full">
+							<div className="flex flex-1 items-center justify-center">
 								<Typography color="textSecondary" variant="h5">
 									Sembra che non ci siano fasi di lavoro
 								</Typography>
 							</div>
-							<div className="flex flex-1 mt-20 items-center justify-center h-full">
+							<div className="flex flex-1 mt-20 items-center justify-center">
 								<Typography color="textSecondary" variant="h6">
 									Clicca sul tasto verde per crearne una o importarle da excel
 								</Typography>

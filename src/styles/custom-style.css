@@ -512,7 +512,7 @@ textarea.MuiOutlinedInput-input {
     justify-content: center;
 }
 .tabs-content .MuiBox-root {
-  /* padding: 0px !important; */
+  padding: 0px !important;
   height: 100%;
 }
 .tabs-content .MuiBox-root .MuiTypography-body1{
@@ -882,7 +882,7 @@ textarea.MuiOutlinedInput-input {
     border-right: 1px solid #466886;
 }
 .chat-form-bg {
-    background-color: #ffffff;
+    background-color: #1b2330;
 }
 .chat-border {
     border-left: 3px solid transparent;
@@ -1920,6 +1920,19 @@ audio {
 }
 .custom-activity {
   
+}
+
+.w-350 {
+    width: 35rem;
+}
+
+.b-right {
+border-right: 1px solid #eee;
+}
+
+.text-128 {
+
+    font-size: 128px;
 }
 
 .grey-border {

@@ -2,6 +2,9 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
+
+import { AppBar, Toolbar, IconButton, } from '@material-ui/core';
+
 import Icon from '@material-ui/core/Icon';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -28,14 +31,25 @@ const useStyles = makeStyles(theme => ({
 		'&.active': {
 			backgroundColor: theme.palette.secondary.main,
 			color: `${theme.palette.secondary.contrastText}!important`,
-			pointerEvents: 'none',
+			// pointerEvents: 'none',
 			'& .list-item-icon': {
 				color: 'inherit'
 			}
 		},
 		'& .list-item-icon': {
+			fontSize: 16,
+			width: 16,
+			height: 16,
 			marginRight: 16
 		}
+	},
+	listSubheader: {
+		paddingLeft: 24
+	},
+	small: {
+		width: theme.spacing(3),
+		height: theme.spacing(3),
+		marginRight: 10
 	}
 }));
 
@@ -53,19 +67,33 @@ function ContactsSidebarContent(props) {
 	const getListItemClassNameForCompany = (key, id) =>
 		key + id == filterKey ? clsx(classes.listItem, 'active') : classes.listItem;
 	return (
-		<div className="p-0 lg:ltr:pr-24 lg:ltr:pl-0 lg:rtl:pr-0 lg:rtl:pl-24">
-			<FuseAnimate animation="transition.slideLeftIn" delay={200}>
-				<div>
-					{/* <div className="p-24 flex items-center">
-						<Avatar alt={projectDetail.name} src={projectDetail.logo}>
-							{' '}
-							{projectDetail?.name?.split('')?.[0] ? projectDetail.name.split('')[0] : 'E'}
-						</Avatar>
-						<Typography className="mx-12">{projectDetail.name}</Typography>
-					</div> */}
-					{/* <Divider /> */}
-					<Typography className="ml-24 text-muted uppercase">Filters</Typography>
+		<FuseAnimate animation="transition.slideUpIn" delay={400}>
+			<div className="flex-auto border-l-1 border-solid">
+				<div className="lg:pl-48 pt-60">
+					<List className="p-0">
+						<AppBar position="static" elevation={1}>
+						<Toolbar className="p-0">
+								<IconButton className="p-32"
+									color="inherit"
+								>
+									<Icon className="text-32">filter_list</Icon>
+								</IconButton>
+								<Typography className="mx-8 p-32 text-24" color="inherit">
+									Filtri
+								</Typography>
+								
+							</Toolbar>
+						</AppBar>
+						
+
+						</List>
+						x
 					<List className="team-page-filter text-default">
+					<div className="p-32 pt-0 ">
+					<ListSubheader className={classes.listSubheader} disableSticky>
+							Filtri Generali
+						</ListSubheader>
+					
 						<ListItem
 							button
 							onClick={() => dispatch(Actions.filterByKey('all'))}
@@ -97,9 +125,13 @@ function ContactsSidebarContent(props) {
 						>
 							<ListItemText className="truncate" primary={t('REFUSED_TEAM_MEMBERS')} disableTypography />
 						</ListItem>
+						</div>
 					</List>
+					
+					
 					{!!companies?.length && (
 						<List>
+								<div className="p-32 pt-0 ">
 							<ListSubheader className={classes.listSubheader} disableSticky>
 								{t('COMAPNY')}
 							</ListSubheader>
@@ -126,11 +158,14 @@ function ContactsSidebarContent(props) {
 									/>
 								</ListItem>
 							))}
+							</div>
 						</List>
+						
 					)}
 				</div>
+				</div>
 			</FuseAnimate>
-		</div>
+		
 	);
 }
 

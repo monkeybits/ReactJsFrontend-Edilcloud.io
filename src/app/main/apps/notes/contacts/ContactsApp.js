@@ -2,7 +2,7 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
-import React, { useRef, useState } from 'react';
+import React, {useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
@@ -17,6 +17,8 @@ import TeamFloationButton from './TeamFloationButton';
 const ViewContactDialog = loadable(() => import('./ViewContactDialog'))
 const AddTeamMemberToProject = loadable(() => import('./AddTeamMemberToProject'))
 const ContactsSidebarContent = loadable(() => import('./ContactsSidebarContent'))
+const ContactsHeader = loadable(() => import('./ContactsHeader'))
+
 
 const useStyles = makeStyles({
 	addButton: {
@@ -30,11 +32,40 @@ const useStyles = makeStyles({
 function ContactsApp(props) {
 	const dispatch = useDispatch();
 	const { t } = useTranslation('contacts_project');
-
+	const [defaultMenu, setDefaultMenu] = useState(true)
+	const [foldedAndOpened, setFoldedAndOpened] = useState(false)
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
+	const toggleSidebarMenu = useSelector(({ fuse }) => fuse.settings.toggleSidebarMenu);
+	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
+	const navbar = useSelector(({ fuse }) => fuse.navbar);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
+	const { folded } = config.navbar;
+
+	useEffect(() => {
+		if(toggleSidebarMenu) {
+			setDefaultMenu(false)
+		} else {
+			setDefaultMenu(true)
+		}
+	}, [toggleSidebarMenu]);
+	
+	const foldedAndClosed = folded && !navbar.foldedOpen;
+	useEffect(() => {
+		const foldedAndOpened = folded && navbar.foldedOpen;
+		setTimeout(() => {
+			if(foldedAndOpened) {
+				setDefaultMenu(false)
+				setFoldedAndOpened(foldedAndOpened)
+			}
+		}, 200)
+		if(!foldedAndOpened) {
+			setFoldedAndOpened(foldedAndOpened)
+		}
+	}, [folded, navbar]);
+	
+	
 	const [loading, setLoading] = useState({
 		loadingApprove: false,
 		loadingRefuse: false,
@@ -67,15 +98,16 @@ function ContactsApp(props) {
 		<>
 			<FusePageSimple
 				classes={{
-					contentWrapper: 'h-full',
+					contentWrapper: 'h-full p-24',
 					content: 'flex flex-col h-full',
-					leftSidebar: 'mobile-h-full w-256 border-0',
-					// header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
+					leftSidebar: `mobile-h-full w-350 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`,
+					header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					wrapper: 'min-h-0 team-tab'
 				}}
-				// header={<ContactsHeader onOpen={props.setOpenDialog} pageLayout={pageLayout} />}
+				header={<ContactsHeader onOpen={props.setOpenDialog} pageLayout={pageLayout} />}
 				content={<ContactsList pageLayout={pageLayout} />}
-				leftSidebarContent={<ContactsSidebarContent />}
+				leftSidebarContent={<ContactsSidebarContent pageLayout={pageLayout} />}
+				leftSidebarVariant
 				sidebarInner
 				ref={pageLayout}
 				innerScroll

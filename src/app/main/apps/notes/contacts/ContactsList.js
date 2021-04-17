@@ -281,28 +281,7 @@ function ContactsList(props) {
 						</IconButton>
 					</Hidden>
 				</div>
-				<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-					<Paper
-						className="flex p-4 items-center w-full h-40 px-8 py-4 bg-white search-white-box"
-						elevation={1}
-					>
-						<Icon className="text-20" color="action">
-							search
-						</Icon>
-
-						<Input
-							placeholder={t('SEARCH_FOR_ANYTHING')}
-							className="flex flex-1 px-12"
-							disableUnderline
-							fullWidth
-							value={searchText}
-							inputProps={{
-								'aria-label': 'Search'
-							}}
-							onChange={ev => dispatch(Actions.setSearchText(ev))}
-						/>
-					</Paper>
-				</FuseAnimate>
+			
 
 				<div className="flex two-btn rounded h-40 ml-10">
 					<IconButton onClick={() => setViewTable(false)} className={!viewTable ? 'text-default' : ''}>

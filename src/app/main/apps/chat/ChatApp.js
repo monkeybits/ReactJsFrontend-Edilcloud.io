@@ -222,7 +222,7 @@ function ChatApp(props) {
 						</Hidden>
 						<Hidden smDown>
 							<Drawer
-								className="h-full z-20"
+								className="h-full z-20 b-right"
 								variant="permanent"
 								open
 								classes={{

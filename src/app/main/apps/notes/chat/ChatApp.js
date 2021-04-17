@@ -1,4 +1,6 @@
-import { AppBar, Drawer, Hidden, Icon, IconButton, Toolbar, Typography, LinearProgress } from '@material-ui/core';
+import { AppBar, Drawer, Button, Input, Paper, Hidden, Icon, IconButton, Toolbar, Typography, LinearProgress } from '@material-ui/core';
+
+import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import withReducer from 'app/store/withReducer';
@@ -10,6 +12,8 @@ import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import { GET_CHAT } from './store/actions';
+import { ThemeProvider } from '@material-ui/core/styles';
+import FuseAnimate from '@fuse/core/FuseAnimate';
 import loadable from '@loadable/component';
 const Chat = loadable(() => import('./Chat'))
 const ChatsSidebar = loadable(() => import('./ChatsSidebar'))
@@ -100,6 +104,8 @@ const useStyles = makeStyles(theme => ({
 function ChatApp(props) {
 	const { t } = useTranslation('chat_projects');
 	const dispatch = useDispatch();
+	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
+	const searchText = useSelector(({ chatAppProject }) => chatAppProject.searchText);
 	const chat = useSelector(({ chatAppProject }) => chatAppProject.chat);
 	const company = useSelector(({ chatAppProject }) => chatAppProject.company);
 	const contacts = useSelector(({ chatAppProject }) => chatAppProject.contacts.entities);
@@ -154,7 +160,74 @@ function ChatApp(props) {
 		);
 	}
 	return (
-		<div className={clsx(classes.root, 'flex-col h-full')}>
+		<div>
+		<ThemeProvider theme={mainTheme}>
+		<div className="flex flex-1 dashboard-todo-header w-full">
+		<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
+		<div>
+		<Typography className="sm:flex pt-4 pb-4 text-white mx-0 sm:mx-12" variant="h6">
+		{projectDetail.name}
+					</Typography>
+					<Typography className="sm:flex pb-8 text-white mx-0 sm:mx-12" variant="p">
+		{projectDetail.address}
+					</Typography>
+					</div>
+
+	<div className="flex flex-1 w-full items-center justify-between">
+		
+	<div className="flex items-center">
+		<FuseAnimate animation="transition.expandIn" delay={300}>
+		<div className="flex items-center">
+			<FuseAnimate animation="transition.expandIn" delay={300}>
+				<IconButton>
+			<Icon className="text-32 text-white">filter_list</Icon></IconButton>
+				 
+			</FuseAnimate>
+			
+		</div>
+				
+		</FuseAnimate>
+		
+	</div>
+
+	<div className="flex flex-1 items-center justify-center px-12">
+		<ThemeProvider theme={mainTheme}>
+			<FuseAnimate animation="transition.slideDownIn" delay={300}>
+				<Paper className="flex items-center w-full max-w-512 px-8 py-4 rounded-8" elevation={1}>
+					<Icon color="action">search</Icon>
+
+					<Input
+						placeholder="Cerca Progetti o aziende committenti"
+						className="flex flex-1 mx-8"
+						disableUnderline
+						fullWidth
+						value={searchText}
+						inputProps={{
+							'aria-label': 'Search'
+						}}
+						
+					/>
+				</Paper>
+			</FuseAnimate>
+		</ThemeProvider>
+	</div>
+
+	<FuseAnimate animation="transition.slideRightIn" delay={300}>
+		<Button
+			component={Link}
+			to="/apps/e-commerce/products/new"
+			className="whitespace-no-wrap normal-case"
+			variant="contained"
+			color="secondary"
+		>
+			<span className="flex">Nuovo</span>
+		</Button>
+	</FuseAnimate>
+</div>
+</div>
+</div>
+</ThemeProvider>
+	
 			{/* <div className={classes.topBg} /> */}
 
 			{/* <div className="flex w-full justify-between items-center mb-20">
@@ -174,11 +247,13 @@ function ChatApp(props) {
 					</Button>
 				</div> */}
 
+				<ThemeProvider theme={mainTheme}>
+			
 			<div className={clsx(classes.contentCardWrapper, 'container h-full p-0 inner-height')}>
 				<div className={clsx(classes.contentCard, 'chat-bg')}>
 					<Hidden mdUp>
 						<Drawer
-							className="h-full absolute z-20"
+							className="h-full absolute z-20 b-right"
 							variant="temporary"
 							anchor="left"
 							open={mobileChatsSidebarOpen}
@@ -202,7 +277,7 @@ function ChatApp(props) {
 					</Hidden>
 					<Hidden smDown>
 						<Drawer
-							className="h-full z-20"
+							className="h-full z-20 b-right"
 							variant="permanent"
 							open
 							classes={{
@@ -213,7 +288,7 @@ function ChatApp(props) {
 						</Drawer>
 					</Hidden>
 					<Drawer
-						className="h-full absolute z-30"
+						className="h-full absolute z-30 b-right"
 						variant="temporary"
 						anchor="left"
 						open={userSidebarOpen}
@@ -235,9 +310,9 @@ function ChatApp(props) {
 						<UserSidebar />
 					</Drawer>
 
-					<main className={clsx(classes.contentWrapper, 'z-10 Poppinsple-images-overflow-x chat-bg')}>
+					<main className={clsx(classes.contentWrapper, 'z-10 multiple-images-overflow-x chat-bg')}>
 						<>
-							<AppBar className="w-full border-0" position="static" elevation={1}>
+							{/*	<AppBar className="w-full border-0" position="static" elevation={1}>
 								<Toolbar className="bg-dark min-h-72 px-16">
 									<IconButton
 										color="inherit"
@@ -257,11 +332,11 @@ function ChatApp(props) {
 										<div className="relative mx-8">
 											{/* <div className="absolute right-0 bottom-0 -m-4 z-10">
 													<StatusIcon status={selectedContact.status} />
-												</div> */}
+												</div>
 										</div>
 									</div>
 								</Toolbar>
-							</AppBar>
+							</AppBar> */}
 
 							<div className={classes.content}>
 								<Chat className="flex flex-1 z-10 Poppinsple-images-overflow-x chat-bg" />
@@ -293,6 +368,7 @@ function ChatApp(props) {
 					</Drawer>
 				</div>
 			</div>
+		</ThemeProvider>
 		</div>
 	);
 }

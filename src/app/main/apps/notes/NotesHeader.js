@@ -27,24 +27,22 @@ function NotesHeader(props) {
 
 
 	return (
+		<ThemeProvider theme={mainTheme}>
+			<div className="flex flex-1 dashboard-todo-header w-full">
+			<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
+			<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
+							Progetti di cantiere
+						</Typography>
+
 		<div className="flex flex-1 w-full items-center justify-between">
 			
 		<div className="flex items-center">
 			<FuseAnimate animation="transition.expandIn" delay={300}>
 				<IconButton
-				 onClick={ev => props.pageLayout.current.toggleLeftSidebar()}><Icon className="text-32">filter-list</Icon></IconButton>
+				 onClick={ev => props.pageLayout.current.toggleLeftSidebar()}><Icon className="text-32 text-white">filter_list</Icon></IconButton>
 				 
 			</FuseAnimate>
-			<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-				<Typography className="hidden sm:flex mx-0 sm:mx-12" variant="h6">
-					Progetto Villa Patrizia
-				</Typography>
-			</FuseAnimate>
-			<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-				<Typography className="hidden sm:flex mx-0 sm:mx-12" variant="h6">
-					via dell'abbazia 25
-				</Typography>
-			</FuseAnimate>
+			
 		</div>
 
 		<div className="flex flex-1 items-center justify-center px-12">
@@ -77,11 +75,14 @@ function NotesHeader(props) {
 				variant="contained"
 				color="secondary"
 			>
-				<span className="hidden sm:flex">Add New Product</span>
-				<span className="flex sm:hidden">New</span>
+				<span className="xs:hidden sm:flex">Nuovo progetto</span>
+				<span className="flex sm:hidden">Nuobo</span>
 			</Button>
 		</FuseAnimate>
 	</div>
+	</div>
+	</div>
+</ThemeProvider>
 	);
 }
 
