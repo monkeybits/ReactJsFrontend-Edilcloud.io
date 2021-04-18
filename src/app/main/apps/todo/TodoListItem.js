@@ -299,7 +299,7 @@ function TodoListItem(props) {
 				<div
 					className="flex flex-shrink-0 items-center justify-between px-24 h-64 rounded-t"
 					style={{
-						background: '#0d0a27',
+						background: '#1b2330',
 						color: theme.palette.getContrastText(blue[500])
 					}}
 				>
@@ -491,7 +491,7 @@ function TodoListItem(props) {
 						{projectDetail?.name}
 					</Typography>
 					<Typography
-						className="text-center text-20 font-700 items-center justify-center ht-auto mt-8"
+						className="text-center text-18 font-600 items-center justify-center ht-auto mt-8"
 						color="inherit"
 					>
 						{props.todo.name}

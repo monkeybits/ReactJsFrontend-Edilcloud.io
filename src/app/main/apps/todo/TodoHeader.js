@@ -65,8 +65,7 @@ function TodoHeader(props) {
 				variant="contained"
 				color="secondary"
 			>
-				<span className="xs:hidden sm:flex">Aiuto</span>
-				<span className="flex sm:hidden">Aiuto</span>
+				<span className="xs:hidden sm:flex">Guida</span>
 			</Button>
 		</FuseAnimate>
 			</div>

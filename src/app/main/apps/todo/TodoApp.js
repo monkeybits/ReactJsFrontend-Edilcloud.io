@@ -148,7 +148,7 @@ function TodoApp(props) {
 				sidebarInner
 				leftSidebarVariant
 				ref={pageLayout}
-				innerScroll
+				
 			/>
 		
 			{/**

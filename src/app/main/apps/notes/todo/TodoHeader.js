@@ -18,7 +18,7 @@ function TodoHeader(props) {
 		<div className="flex flex-1 dashboard-todo-header w-full">
 		<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
 			<div>
-		<Typography className="sm:flex pt-4 pb-4 text-white mx-0 sm:mx-12" variant="h6">
+		<Typography className="sm:flex pt-4 text-white mx-0 sm:mx-12" variant="h6">
 		{projectDetail.name}
 					</Typography>
 					<Typography className="sm:flex pb-8 text-white mx-0 sm:mx-12" variant="p">

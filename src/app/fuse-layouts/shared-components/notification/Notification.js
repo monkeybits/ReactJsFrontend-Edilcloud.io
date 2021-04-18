@@ -137,7 +137,7 @@ function NotificationPanel(props) {
 		>
 			<FuseScrollbars>
 				{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
-				<Toolbar className="px-4 flex justify-between items-center">
+				<Toolbar className="px-4 flex justify-between notifications-header items-center">
 					<Typography className="mx-16 text-16" color="inherit">
 						Notifications
 					</Typography>
@@ -149,24 +149,17 @@ function NotificationPanel(props) {
 				</Toolbar>
 				<div className="flex flex-col">
 					<Card className="w-full">
-						<AppBar position="static" elevation={0}>
-							<Toolbar className="px-8">
-								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
-									Latest Activity
-								</Typography>
-								<Button color="inherit" size="small">
-									See All
-								</Button>
-							</Toolbar>
-						</AppBar>
+						
 						<CardContent className="p-0">
-							<SwipeableList>
+							<SwipeableList
+							className="borderbottom"> 
 								<List>
 									{notifications &&
 										notifications.map((activity, index) => {
 											const { notification } = activity;
 											return (
-												<SwipeableListItem
+												<SwipeableListItem 
+													className="borderbottom"
 													threshold={0.3}
 													swipeLeft={{
 														content: <div className="bg-red-500">Delete</div>,
@@ -198,7 +191,7 @@ function NotificationPanel(props) {
 												>
 													<ListItem
 														key={activity.id}
-														className="px-12 bg-blue-200 items-start"
+														className="px-12 bg-blue-200 borderbottom items-start"
 													>
 														<Avatar
 															className="mx-4 mt-10"
@@ -221,7 +214,7 @@ function NotificationPanel(props) {
 																	</div>
 																	<div className="flex">
 																		<Typography
-																			color="textSecondary"
+																			color="textPrimary"
 																			paragraph={false}
 																		>
 																			{notification.subject}
@@ -229,7 +222,8 @@ function NotificationPanel(props) {
 																	</div>
 																	{notification.body?.url && (
 																		<div className="flex">
-																			<Link
+																			<Link className="textPrimary"
+																			
 																				onClick={() => {
 																					dispatch(
 																						Actions.toggleNotification()

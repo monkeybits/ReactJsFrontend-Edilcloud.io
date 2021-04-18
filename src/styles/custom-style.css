@@ -60,6 +60,7 @@ body {
 .todo-bg-footer {
     /* background: rgb(236 236 238 / 0.30); */
     background: #fff;
+    color: #1b2330;
 }
 [class*="border-"] {
     border-color: #ececec;
@@ -826,7 +827,11 @@ textarea.MuiOutlinedInput-input {
     box-shadow: -1px 0 3px #00000029;
 }  
 .team-chat-sidebar header {
-    background-color: #376AED !important;
+    background-color: #1b2330 !important;
+}
+.notifications-header {
+    background-color: #1b2330 !important;
+    color: white !important;
 }
 .team-chat-body {
     background-color: #fff;
