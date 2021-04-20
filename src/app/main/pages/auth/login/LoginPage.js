@@ -55,7 +55,7 @@ function LoginPage() {
 		responseType: 'code',
 		responseMode: 'query',
 		nonce: '',
-		usePopup: false,
+		usePopup: true,
 		designProp: {
 		  height: 30,
 		  width: 140,
