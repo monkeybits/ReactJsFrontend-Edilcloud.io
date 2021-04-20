@@ -4,19 +4,19 @@ import { Button, Card, CardContent, Divider, Typography, Grid, InputLabel, MenuI
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import * as MainActions from 'app/store/actions';
 import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import AppleLogin from 'react-apple-login'
 const FacebookLoginComponent = loadable(() => import('./FacebookLoginComponent'))
 const GoogleLoginComponent = loadable(() => import('./GoogleLoginComponent'))
 const TippyMenu = loadable(() => import('app/TippyMenu'))
 const TermsModal = loadable(() => import('./TermsModal'))
 const JWTLoginTab = loadable(() => import('app/main/login/tabs/JWTLoginTab'))
-
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -47,6 +47,27 @@ const languages = [
 function LoginPage() {
 	const [open, setOpen] = React.useState(false);
 	const [title, setTitle] = React.useState('Terms');
+	const [settings, setSettings] = useState({
+		clientId: 'com.monkeybits.edilcloud.io',
+		redirectURI: 'https://test.edilcloud.io/pages/auth/login',
+		scope: '',
+		state: '',
+		responseType: 'code',
+		responseMode: 'query',
+		nonce: '',
+		usePopup: false,
+		designProp: {
+		  height: 30,
+		  width: 140,
+		  color: 'black',
+		  border: false,
+		  type: 'sign-in',
+		  border_radius: 15,
+		  scale: 1,
+		  locale: 'en_US',
+		}
+	});
+
 	const classes = useStyles();
 	const { t } = useTranslation('login');
 	const dispatch = useDispatch();
@@ -110,6 +131,7 @@ function LoginPage() {
 								<Typography variant="subtitle1" className="text-muted text-center mb-40">
 									{t('APP_SUBHEADER')}
 								</Typography>
+								<AppleLogin {...settings} />
 								<Grid container spacing={2}>
 									<Grid item xs={6}>
 										<FacebookLoginComponent />
