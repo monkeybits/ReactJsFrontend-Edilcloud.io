@@ -131,7 +131,9 @@ function LoginPage() {
 								<Typography variant="subtitle1" className="text-muted text-center mb-40">
 									{t('APP_SUBHEADER')}
 								</Typography>
-								<AppleLogin {...settings} />
+								<div className="flex">
+									<AppleLogin {...settings} />
+								</div>
 								<Grid container spacing={2}>
 									<Grid item xs={6}>
 										<FacebookLoginComponent />
