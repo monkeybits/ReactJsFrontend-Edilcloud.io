@@ -49,7 +49,7 @@ function LoginPage() {
 	const [title, setTitle] = React.useState('Terms');
 	const [settings, setSettings] = useState({
 		clientId: 'com.monkeybits.edilcloud.io',
-		redirectURI: 'https://test.edilcloud.io/pages/auth/login',
+		// redirectURI: '',
 		scope: '',
 		state: '',
 		responseType: 'code',
