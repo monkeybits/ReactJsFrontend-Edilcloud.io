@@ -170,10 +170,11 @@ export function getFolders(cid, handleSetLoading = () => '') {
 		);
 	};
 }
-export function setFolderPath(path) {
+export function setFolderPath(path, currentFiles) {
 	return {
 		type: SET_FOLDER_PATH,
-		payload: path
+		payload: path,
+		currentFiles
 	};
 }
 export function folderDetail(cid, handleSetLoading = () => '') {
@@ -188,11 +189,11 @@ export function folderDetail(cid, handleSetLoading = () => '') {
 				GET_FOLDERS_DETAIL(pathdata.mainId || pathdata.id),
 				{},
 				folders => {
-					console.log('GET_FOLDERS_DETAIL', folders);
+					console.log('files?????????????????????folders', folders);
+					console.log('files?????????????????????folderPath', folderPath);
 					handleSetLoading({
 						loadingFolders: false
 					});
-					console.log('files?????????????????6666666', folders);
 					dispatch({
 						type: UPDATE_SPECIFIC_FOLDERS,
 						payload: folders
@@ -219,7 +220,6 @@ export function foldersPaths(cid, handleSetLoading = () => '') {
 			FOLDER_STRUCTURE_LIST(cid),
 			{},
 			folders => {
-				console.log('folders???????????????5555555', folders)
 				handleSetLoading({
 					loadingFolders: false
 				});

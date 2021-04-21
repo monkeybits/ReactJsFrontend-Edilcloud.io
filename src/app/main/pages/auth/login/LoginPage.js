@@ -131,9 +131,6 @@ function LoginPage() {
 								<Typography variant="subtitle1" className="text-muted text-center mb-40">
 									{t('APP_SUBHEADER')}
 								</Typography>
-								<div className="flex">
-									<AppleLogin {...settings} />
-								</div>
 								<Grid container spacing={2}>
 									<Grid item xs={6}>
 										<FacebookLoginComponent />
@@ -168,6 +165,10 @@ function LoginPage() {
 										</Button> */}
 									</Grid>
 								</Grid>
+
+								<div className="flex mt-12 w-160 h-36">
+									<AppleLogin {...settings} />
+								</div>
 
 								<div className="my-28 flex items-center justify-center or-container">
 									<Divider className="w-32" />
