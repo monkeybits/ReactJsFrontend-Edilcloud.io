@@ -113,6 +113,7 @@ function FileManagerApp(props) {
 	const [progress, setProgress] = React.useState(0);
 	const [path, setPath] = useState('');
 	const [filePath, setFilePath] = useState('');
+	const [newFolderPath, setNewFolderPath] = useState([]);
 	const [viewTable, setViewTable] = useState(false);
 	const [title, setTitle] = useState(undefined);
 	const [description, setDescription] = useState(undefined);
@@ -164,6 +165,7 @@ function FileManagerApp(props) {
 	useEffect(() => {
 		setFilePath(folderPath[folderPath.length - 1]);
 		setPath(folderPath[folderPath.length - 1]);
+		setNewFolderPath(folderPath)
 	}, [folderPath, isOpenDrawer]);
 	
 	const addFile = event => {
@@ -333,9 +335,9 @@ function FileManagerApp(props) {
 							<div className="flex items-center justify-between left-icon-btn">
 								<FuseAnimate delay={200}>
 									<div>
-										{folderPath && (
+										{newFolderPath && (
 											<Breadcrumb
-												selected={folderPath}
+												selected={newFolderPath}
 												className="flex flex-1 filemanager-breadcumb font-700 text-24 text-default mt-6"
 											/>
 										)}

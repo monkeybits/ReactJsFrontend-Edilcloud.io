@@ -54,6 +54,29 @@ function sortByProperty(array, property, order = 'ASC') {
 			: 0
 	);
 }
+
+function searchFolder(nameKey, array){
+    for (var i=0; i < array.length; i++) {
+		if(typeof array[i] === 'object') {
+			if (array[i].id === nameKey) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+    }
+}
+
+function searchFolderById(nameKey, array){
+    for (var i=0; i < array.length; i++) {
+		if(typeof array[i] === 'object') {
+			if (array[i].folder === nameKey) {
+				return true;
+			}
+		}
+    }
+}
+
 const chnageIds = (arr = []) => arr.map((d, i) => ({ ...d, id: i }));
 const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) => {
 	if (fileType == 'folder') {
@@ -130,6 +153,42 @@ const getnestedFilesById = (folders, id) => {
 		}
 	}
 };
+
+const newArrayFromTwo = (arr1, arr2) => {
+	let newArr = []
+	arr2.map((files) => {
+		var resultObject = 	searchFolder(files.folder, arr1);
+		if(resultObject) {
+			newArr.push(files)
+		}
+	})
+	return newArr
+}
+
+function searchFiles(idKey, array){
+    for (var i=0; i < array.length; i++) {
+		if(typeof array[i] === 'object') {
+			if (array[i].id === idKey) {
+				console.log('files?????????????????????idKey', idKey)		
+				return array[i];
+			} else {
+				console.log('files?????????????????????222')
+				return false
+			}
+		}
+    }
+}
+
+const arr_diff = (a1, a2) => {
+	let diff = []
+	a1.map((a1files) => {
+		var resultObject = searchFiles(a1files.mainId, a2);
+		console.log('files?????????????????????resultObject', resultObject)
+		diff.push(resultObject)
+	})
+    return diff;
+}
+
 const checkTypeAndReturn = (arr = [], type) => arr.filter(ar => ar.type != type);
 const filesReducer = (state = initialState(), action) => {
 	switch (action.type) {
@@ -190,6 +249,7 @@ const filesReducer = (state = initialState(), action) => {
 				allFolderPaths: action.payload
 			};
 		case Actions.GET_FOLDERS:
+			console.log('files?????????????????????GET_FOLDERS')
 			const cFolderPath = state.folderPath;
 			return {
 				...state,
@@ -204,15 +264,109 @@ const filesReducer = (state = initialState(), action) => {
 			};
 		}
 		case Actions.SET_FOLDER_PATH:
-			console.log(action.payload);
+			let newArr = {}
+			console.log('files?????????????????????SET_FOLDER_PATH', state.folderPath)
+			console.log('files?????????????????????action.currentFiles', action.currentFiles)
+			console.log('files?????????????????????action.payload', action.payload)
+			state.folderPath.map((folder) => {
+				if(typeof folder === 'object' && "id" in folder) {
+					let newFold;
+					if(action.payload.id !== folder.id) {
+						let photo = [];
+						let video = [];
+						let document = [];
+
+						let newMediaObj = {
+							photo: [],
+							video: [],
+							document: []
+						};
+						action.currentFiles.map((mediaFiles) => {
+							if(mediaFiles.type === 'photo') {
+								photo.push(mediaFiles)
+								newMediaObj = {
+									...newMediaObj,
+									photo: photo
+								}
+							}
+							if(mediaFiles.type === 'video') {
+								video.push(mediaFiles)
+								newMediaObj = {
+									...newMediaObj,
+									video: video
+								}
+							}
+							if(mediaFiles.type === 'document') {
+								document.push(mediaFiles)
+								newMediaObj = {
+									...newMediaObj,
+									document: document
+								}
+							}
+						})
+						console.log('files?????????????????????newMediaObj', newMediaObj)
+						newFold = {
+							...folder,
+							media: newMediaObj
+						}
+					}
+					var newArrayFromResults = newArrayFromTwo(state.folderPath, action.currentFiles)
+					var resultCheck = 	searchFolderById(folder.id, newArrayFromResults);
+					console.log('files?????????????????????newArrayFromResults', newArrayFromResults)
+					
+					if(resultCheck) {
+						let photo = [];
+						let video = [];
+						let document = [];
+
+						let newMediaObj = {
+							photo: [],
+							video: [],
+							document: []
+						};
+						newArrayFromResults.map((mediaFiles) => {
+							if(mediaFiles.type === 'photo') {
+								photo.push(mediaFiles)
+								newMediaObj = {
+									...newMediaObj,
+									photo: photo
+								}
+							}
+							if(mediaFiles.type === 'video') {
+								video.push(mediaFiles)
+								newMediaObj = {
+									...newMediaObj,
+									video: video
+								}
+							}
+							if(mediaFiles.type === 'document') {
+								document.push(mediaFiles)
+								newMediaObj = {
+									...newMediaObj,
+									document: document
+								}
+							}
+						})
+						console.log('files?????????????????????newMediaObj', newMediaObj)
+						newFold = {
+							...folder,
+							media: newMediaObj
+						}
+					}
+					console.log('files?????????????????????newFold', newFold)
+					newArr = newFold
+				}
+			})
+			const folderPathResult = ("id" in newArr) ? [[""], newArr, action.payload] : [newArr, action.payload];
+			console.log('files?????????????????????folderPathResult', folderPathResult)
 			return {
 				...state,
-				folderPath: [...state.folderPath, action.payload],
+				folderPath: folderPathResult,
 				folders: addTypeInArray(action.payload.folders, 'folder'),
 				photos: action.payload.media.photo,
 				files: chnageIds(
 					sortByProperty(
-						mergeArray(state.files, [
+						mergeArray([], [
 							...addTypeInArray(action.payload.media.photo, 'photo'),
 							...addTypeInArray(action.payload.media.video, 'video'),
 							...addTypeInArray(action.payload.media.document, 'document')
@@ -222,10 +376,29 @@ const filesReducer = (state = initialState(), action) => {
 				)
 			};
 		case Actions.UPDATE_SPECIFIC_FOLDERS:
-			console.log(action.payload);
+			console.log('files?????????????????????folderPath', state.folderPath)
+			console.log('files?????????????????????state.files', state.files)
+			console.log('files?????????????????????UPDATE_SPECIFIC_FOLDERS', action.payload)
+
+			let currentFolderFiles = action.payload.media.photo.concat(action.payload.media.document, action.payload.media.video)
+			console.log('files?????????????????????currentFolderFiles', currentFolderFiles)
+
+			let differenceFiles = arr_diff(state.files, currentFolderFiles)
+			console.log('files?????????????????????differenceFiles', differenceFiles)
+
+			let newFolderPath = []
+			state.folderPath.map((folder) => {
+				if(action.payload.id === folder.id) {
+					newFolderPath.push(action.payload)
+				} else {
+					newFolderPath.push(folder)
+				}
+			})
+
 			return action.payload.media
 				? {
 						...state,
+						folderPath: newFolderPath,
 						folders: addTypeInArray(action.payload.folders, 'folder'),
 						files: chnageIds(
 							sortByProperty(
@@ -240,13 +413,14 @@ const filesReducer = (state = initialState(), action) => {
 								'title'
 							)
 						)
-				  }
+				}
 				: {
 						...state,
+						folderPath: newFolderPath,
 						folders: addTypeInArray(action.payload.folders, 'folder'),
 						files: chnageIds(
 							sortByProperty(
-								mergeArray(state.files, [
+								mergeArray([], [
 									...addTypeInArray(state.photos, 'photo'),
 									...addTypeInArray(state.videos, 'video'),
 									...addTypeInArray(state.documents, 'document')
@@ -254,19 +428,20 @@ const filesReducer = (state = initialState(), action) => {
 								'title'
 							)
 						)
-				  };
-
+				};
 		case Actions.UPDATE_FOLDER_PATH:
-			console.log(action.payload);
+
+			console.log('files?????????????????????update.action.payload', action.payload)
 			const pathData = action.payload[action.payload.length - 1];
+			console.log('files?????????????????????pathData', pathData)
 			return {
 				...state,
 				folderPath: [...action.payload],
-				photos: pathData?.media ? pathData.media.photo : [], // pathData.media.photo,
+				photos: pathData?.media ? pathData.media.photo : [],
 				files: pathData?.media
 					? chnageIds(
 							sortByProperty(
-								mergeArray(state.files, [
+								mergeArray([], [
 									...addTypeInArray(pathData.media.photo, 'photo'),
 									...addTypeInArray(pathData.media.video, 'video'),
 									...addTypeInArray(pathData.media.document, 'document')
@@ -276,20 +451,21 @@ const filesReducer = (state = initialState(), action) => {
 					  )
 					: chnageIds(
 							sortByProperty(
-								mergeArray(state.files, [
+								mergeArray([], [
 									...addTypeInArray(state.photos, 'photo'),
 									...addTypeInArray(state.videos, 'video'),
 									...addTypeInArray(state.documents, 'document')
 								]),
 								'title'
 							)
-					  ), // pathData.media.photo,
+					  ),
 				folders: pathData?.folders
 					? addTypeInArray(pathData.folders, 'folder')
 					: addTypeInArray(state.rootFolders, 'folder')
 			};
 		case Actions.POP_FOLDER_PATH:
 			const { folderPath } = state;
+			console.log('files?????????????????????POP_FOLDER_PATH')
 			folderPath.pop();
 			const pathDataAfterPop = folderPath[folderPath.length - 1];
 			return {

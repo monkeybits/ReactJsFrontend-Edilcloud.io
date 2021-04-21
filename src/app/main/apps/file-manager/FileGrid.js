@@ -81,6 +81,7 @@ const useStyles = makeStyles({
 		}
 	}
 });
+
 const useStylesList = makeStyles(theme => ({
 	root: {
 		borderRadius: '5%',
@@ -88,6 +89,7 @@ const useStylesList = makeStyles(theme => ({
 		boxShadow: '0 3px 6px #00000029'
 	}
 }));
+
 function FileGrid(props) {
 	const { t } = useTranslation('filemanager');
 	const dispatch = useDispatch();
@@ -124,24 +126,11 @@ function FileGrid(props) {
 			? { color: 'green' }
 			: {};
 
+	console.log('files?????????????????????111111', files)
+	// console.log('files?????????????????????', rootFiles)
+	// console.log('files?????????????????????', allFiles)
+
 	const setAllFilesInit = () => {
-		// let modifyfolders = folders?.filter(
-		// 	f =>
-		// 		f.path.includes(currentFolderPath) &&
-		// 		f.path.split('/').length <= folderPath.length &&
-		// 		!folderPath.includes(f.path)
-		// );
-		// if (modifyfolders) {
-		// 	modifyfolders = modifyfolders.map(item => {
-		// 		let title = item.path.split('/');
-		// 		title = title[title.length - 1];
-		// 		return { ...item, title, type: 'folder' };
-		// 	});
-		// 	setCurrentFolders(modifyfolders);
-		// 	let tempFiles = files.filter(f => f.folder_relative_path == currentFolderPath);
-		// 	setCurrentFiles(tempFiles);
-		// 	dispatch(Actions.setAllFiles([...modifyfolders, ...tempFiles]));
-		// }
 		console.log({ currentFolderPath, rootFiles });
 		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
 			setCurrentFiles(rootFiles);
@@ -152,6 +141,7 @@ function FileGrid(props) {
 			setCurrentFiles([]);
 		}
 	};
+
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 
@@ -166,13 +156,16 @@ function FileGrid(props) {
 		event.stopPropagation();
 		setAnchorEl(null);
 	};
+
 	useEffect(() => {
 		setAllFilesInit();
 	}, [files, folders, files.photos, files.videos, files.documents, rootFiles]);
+	
 	useEffect(() => {
 		dispatch(Actions.setSelectedItem(''));
 		setAllFilesInit();
 	}, [currentFolderPath]);
+	
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -189,27 +182,6 @@ function FileGrid(props) {
 			setAllFilesInit();
 		}
 	}, [searchText]);
-	// useEffect(() => {
-	// 	let modifyfolders = folders?.filter(
-	// 		f =>
-	// 			f.path.includes(currentFolderPath) &&
-	// 			f.path.split('/').length <= folderPath.length &&
-	// 			!folderPath.includes(f.path)
-	// 	);
-	// 	if (modifyfolders) {
-	// 		modifyfolders = modifyfolders.map(item => {
-	// 			let title = item.path.split('/');
-	// 			title = title[title.length - 1];
-	// 			return { ...item, title, type: 'folder' };
-	// 		});
-	// 		dispatch(
-	// 			Actions.setAllFiles([
-	// 				...modifyfolders,
-	// 				...files.filter(f => f.folder_relative_path == currentFolderPath)
-	// 			])
-	// 		);
-	// 	}
-	// }, [currentFolderPath]);
 
 	const handleFolderDelete = () => {
 		const findIndex = 0;
@@ -284,15 +256,18 @@ function FileGrid(props) {
 						{t('FOLDERS')}
 					</Typography>
 					<Grid container spacing={12} className="folder-grid">
-						{folders?.map(d => (
-							<Grid
+						{folders?.map(d => {
+							return <Grid
 								className="px-6 mb-20"
 								item
 								xs={12}
 								sm={6}
 								md={4}
 								xl={3}
-								onClick={() => dispatch(Actions.setFolderPath(d))}
+								onClick={() => {
+									console.log('files?????????????????????d', d)
+									dispatch(Actions.setFolderPath(d, currentFiles))
+								}}
 							>
 								<ListItem className={clsx(classesListItems.root, 'custom-box-shadow')}>
 									<ListItemIcon>
@@ -357,7 +332,8 @@ function FileGrid(props) {
 									)}
 								</ListItem>
 							</Grid>
-						))}
+						}
+						)}
 					</Grid>
 				</>
 			)}
