@@ -4,11 +4,15 @@ import { Button, Card, CardContent, Divider, Typography, Grid, InputLabel, MenuI
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
+import jwtService from 'app/services/jwtService';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import * as MainActions from 'app/store/actions';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { API_APPLE_AUTH_LOGIN } from 'app/services/apiEndPoints';
+import { toast } from 'react-toastify';
 import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AppleLogin from 'react-apple-login'
@@ -115,6 +119,55 @@ function LoginPage() {
 
 	const appleLoginSuccess = (data) => {
 		console.log('data', data)
+
+		// this.startLoading();
+		if(data) {
+
+			apiCall(
+				API_APPLE_AUTH_LOGIN,
+				{
+					access_token: data.authorization.id_token
+				},
+				res => {
+					console.log('dfdsgssdfsdfres', res);
+					const { token } = res;
+					const { history, dispatch } = this.props;
+					// if (this.props.isRegister) {
+						// history.push('/pages/auth/mail-confirm', { email: '' });
+						// return dispatch({
+						// 	type: REGISTER_SUCCESS,
+						// 	payload: res
+						// });
+					// }
+	
+					new Promise((resolve, reject) => {
+						console.log('dfdsgsres', res);
+						if (res) {
+							jwtService.setSession(token);
+							resolve(res);
+						} else {
+							reject(res);
+						}
+					})
+					.then(res => {
+						// this.props.onLogin(res);
+						// setTimeout(() => {
+						// 	this.removeLoading();
+						// }, 2000);
+					})
+					.catch(err => {
+						// this.removeLoading();
+						console.log('dfdsgs', err);
+					});
+				},
+				err => {
+					// this.removeLoading();
+					console.log('dfdsgssdfsdfs', err);
+					toast.error(err?.error);
+				},
+				METHOD.POST
+			);
+		}
 	}
 
 	return (
