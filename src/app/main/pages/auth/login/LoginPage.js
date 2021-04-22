@@ -52,7 +52,7 @@ function LoginPage() {
 		redirectURI: 'https://test.edilcloud.io/pages/auth/login',
 		scope: '',
 		state: '',
-		responseType: 'code',
+		responseType: 'code id_token',
 		responseMode: 'query',
 		nonce: '',
 		usePopup: true,
