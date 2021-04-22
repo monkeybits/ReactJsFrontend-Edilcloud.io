@@ -5,6 +5,8 @@ const initialState = () => ({
 	rootFiles: [],
 	allFolderPaths: [],
 	allFiles: [],
+	differenceFiles: [],
+	updatedFolderValues: {},
 	photos: [],
 	videos: [],
 	documents: [],
@@ -180,13 +182,9 @@ function searchFiles(idKey, array){
 }
 
 const arr_diff = (a1, a2) => {
-	let diff = []
-	a1.map((a1files) => {
-		var resultObject = searchFiles(a1files.mainId, a2);
-		console.log('files?????????????????????resultObject', resultObject)
-		diff.push(resultObject)
-	})
-    return diff;
+	var res = a1.filter(item1 => 
+	!a2.some(item2 => (item2.id === item1.mainId)))
+	return res
 }
 
 const checkTypeAndReturn = (arr = [], type) => arr.filter(ar => ar.type != type);
@@ -399,6 +397,8 @@ const filesReducer = (state = initialState(), action) => {
 				? {
 						...state,
 						folderPath: newFolderPath,
+						differenceFiles: differenceFiles,
+						updatedFolderValues: action.updatedFolderValues,
 						folders: addTypeInArray(action.payload.folders, 'folder'),
 						files: chnageIds(
 							sortByProperty(
@@ -417,6 +417,8 @@ const filesReducer = (state = initialState(), action) => {
 				: {
 						...state,
 						folderPath: newFolderPath,
+						differenceFiles: differenceFiles,
+						updatedFolderValues: action.updatedFolderValues,
 						folders: addTypeInArray(action.payload.folders, 'folder'),
 						files: chnageIds(
 							sortByProperty(
@@ -430,13 +432,62 @@ const filesReducer = (state = initialState(), action) => {
 						)
 				};
 		case Actions.UPDATE_FOLDER_PATH:
-
 			console.log('files?????????????????????update.action.payload', action.payload)
-			const pathData = action.payload[action.payload.length - 1];
+			let newActionPayload = [];
+			action.payload.map((folder) => {
+				if(typeof folder === 'object' && "id" in folder) {
+					let newFold;
+					if(folder.id === state.updatedFolderValues.folder) {
+						let newMediaObj = folder.media;
+						state.differenceFiles.map((mediaFiles) => {
+							let newMediaFile = Object.assign(mediaFiles, {folder: folder.id})
+							if(mediaFiles.type === 'photo') {
+								newMediaObj = {
+									...newMediaObj,
+									photo: [
+										...newMediaObj.photo,
+										newMediaFile
+									]
+								}
+							}
+							if(mediaFiles.type === 'video') {
+								newMediaObj = {
+									...newMediaObj,
+									video: [
+										...newMediaObj.video,
+										newMediaFile
+									]
+								}
+							}
+							if(mediaFiles.type === 'document') {
+								newMediaObj = {
+									...newMediaObj,
+									document: [
+										...newMediaObj.document,
+										newMediaFile
+									]
+								}
+							}
+						})
+						newFold = {
+							...folder,
+							media: newMediaObj
+						}
+					}
+					newActionPayload.push(newFold)
+				} else {
+					newActionPayload.push(folder)
+				}
+			})
+
+			const pathData = newActionPayload[newActionPayload.length - 1];
+
 			console.log('files?????????????????????pathData', pathData)
+			console.log('files?????????????????????differenceFiles', state.differenceFiles)
+			console.log('files?????????????????????updatedFolderValues', state.updatedFolderValues)
 			return {
 				...state,
-				folderPath: [...action.payload],
+				folderPath: [...newActionPayload],
 				photos: pathData?.media ? pathData.media.photo : [],
 				files: pathData?.media
 					? chnageIds(
@@ -465,7 +516,6 @@ const filesReducer = (state = initialState(), action) => {
 			};
 		case Actions.POP_FOLDER_PATH:
 			const { folderPath } = state;
-			console.log('files?????????????????????POP_FOLDER_PATH')
 			folderPath.pop();
 			const pathDataAfterPop = folderPath[folderPath.length - 1];
 			return {
