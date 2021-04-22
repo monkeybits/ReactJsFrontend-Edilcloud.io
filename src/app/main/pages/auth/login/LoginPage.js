@@ -112,6 +112,11 @@ function LoginPage() {
 
 		// userMenuClose();
 	}
+
+	const appleLoginSuccess = (data) => {
+		console.log('data', data)
+	}
+
 	return (
 		<>
 			<div
@@ -167,7 +172,7 @@ function LoginPage() {
 								</Grid>
 
 								<div className="flex mt-12 w-160 h-36">
-									<AppleLogin {...settings} />
+									<AppleLogin {...settings} callback={appleLoginSuccess} />
 								</div>
 
 								<div className="my-28 flex items-center justify-center or-container">
