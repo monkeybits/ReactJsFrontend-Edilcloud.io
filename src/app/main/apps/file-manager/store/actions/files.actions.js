@@ -177,7 +177,7 @@ export function setFolderPath(path, currentFiles) {
 		currentFiles
 	};
 }
-export function folderDetail(cid, handleSetLoading = () => '') {
+export function folderDetail(cid, updatedFolderValues, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingFolders: true
 	});
@@ -196,7 +196,8 @@ export function folderDetail(cid, handleSetLoading = () => '') {
 					});
 					dispatch({
 						type: UPDATE_SPECIFIC_FOLDERS,
-						payload: folders
+						payload: folders,
+						updatedFolderValues: updatedFolderValues
 					});
 				},
 				err => {
