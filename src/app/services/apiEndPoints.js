@@ -158,5 +158,5 @@ export const API_FACEBOOK_AUTH_LOGIN = '/api/auth/socials/facebook/login/';
 export const API_GOOGLE_AUTH_REGISTER = '/api/auth/socials/google/register/';
 export const API_FACEBOOK_AUTH_REGISTER = '/api/auth/socials/facebook/register/';
 
-export const API_APPLE_AUTH_LOGIN = '/api/auth/socials/facebook/login/';
-export const API_APPLE_AUTH_REGISTER = '/api/auth/socials/google/register/';
+export const API_APPLE_AUTH_LOGIN = '/api/auth/socials/apple/login/';
+export const API_APPLE_AUTH_REGISTER = '/api/auth/socials/apple/register/';

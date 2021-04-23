@@ -171,10 +171,8 @@ function searchFiles(idKey, array){
     for (var i=0; i < array.length; i++) {
 		if(typeof array[i] === 'object') {
 			if (array[i].id === idKey) {
-				console.log('files?????????????????????idKey', idKey)		
 				return array[i];
 			} else {
-				console.log('files?????????????????????222')
 				return false
 			}
 		}
@@ -247,7 +245,6 @@ const filesReducer = (state = initialState(), action) => {
 				allFolderPaths: action.payload
 			};
 		case Actions.GET_FOLDERS:
-			console.log('files?????????????????????GET_FOLDERS')
 			const cFolderPath = state.folderPath;
 			return {
 				...state,
@@ -262,101 +259,69 @@ const filesReducer = (state = initialState(), action) => {
 			};
 		}
 		case Actions.SET_FOLDER_PATH:
-			let newArr = {}
-			console.log('files?????????????????????SET_FOLDER_PATH', state.folderPath)
-			console.log('files?????????????????????action.currentFiles', action.currentFiles)
-			console.log('files?????????????????????action.payload', action.payload)
+			let newArr = []
 			state.folderPath.map((folder) => {
 				if(typeof folder === 'object' && "id" in folder) {
 					let newFold;
 					if(action.payload.id !== folder.id) {
-						let photo = [];
-						let video = [];
-						let document = [];
-
-						let newMediaObj = {
-							photo: [],
-							video: [],
-							document: []
-						};
-						action.currentFiles.map((mediaFiles) => {
-							if(mediaFiles.type === 'photo') {
-								photo.push(mediaFiles)
-								newMediaObj = {
-									...newMediaObj,
-									photo: photo
+						var newArrayFromResults = newArrayFromTwo(state.folderPath, action.currentFiles)
+						var resultCheck = 	searchFolderById(folder.id, newArrayFromResults);
+						if(resultCheck) {
+							let photo = [];
+							let video = [];
+							let document = [];
+	
+							let newMediaObj = {
+								photo: [],
+								video: [],
+								document: []
+							};
+							newArrayFromResults.map((mediaFiles) => {
+								if(mediaFiles.type === 'photo') {
+									photo.push(mediaFiles)
+									newMediaObj = {
+										...newMediaObj,
+										photo: photo
+									}
 								}
-							}
-							if(mediaFiles.type === 'video') {
-								video.push(mediaFiles)
-								newMediaObj = {
-									...newMediaObj,
-									video: video
+								if(mediaFiles.type === 'video') {
+									video.push(mediaFiles)
+									newMediaObj = {
+										...newMediaObj,
+										video: video
+									}
 								}
-							}
-							if(mediaFiles.type === 'document') {
-								document.push(mediaFiles)
-								newMediaObj = {
-									...newMediaObj,
-									document: document
+								if(mediaFiles.type === 'document') {
+									document.push(mediaFiles)
+									newMediaObj = {
+										...newMediaObj,
+										document: document
+									}
 								}
+							})
+							newFold = {
+								...folder,
+								media: newMediaObj
 							}
-						})
-						console.log('files?????????????????????newMediaObj', newMediaObj)
-						newFold = {
-							...folder,
-							media: newMediaObj
+							newArr = [
+								...newArr,
+								newFold
+							]
+						} else {
+							newArr = [
+								...newArr,
+								folder
+							]
 						}
+					} else {
+						newArr = [
+							...newArr,
+							folder
+						]
 					}
-					var newArrayFromResults = newArrayFromTwo(state.folderPath, action.currentFiles)
-					var resultCheck = 	searchFolderById(folder.id, newArrayFromResults);
-					console.log('files?????????????????????newArrayFromResults', newArrayFromResults)
-					
-					if(resultCheck) {
-						let photo = [];
-						let video = [];
-						let document = [];
-
-						let newMediaObj = {
-							photo: [],
-							video: [],
-							document: []
-						};
-						newArrayFromResults.map((mediaFiles) => {
-							if(mediaFiles.type === 'photo') {
-								photo.push(mediaFiles)
-								newMediaObj = {
-									...newMediaObj,
-									photo: photo
-								}
-							}
-							if(mediaFiles.type === 'video') {
-								video.push(mediaFiles)
-								newMediaObj = {
-									...newMediaObj,
-									video: video
-								}
-							}
-							if(mediaFiles.type === 'document') {
-								document.push(mediaFiles)
-								newMediaObj = {
-									...newMediaObj,
-									document: document
-								}
-							}
-						})
-						console.log('files?????????????????????newMediaObj', newMediaObj)
-						newFold = {
-							...folder,
-							media: newMediaObj
-						}
-					}
-					console.log('files?????????????????????newFold', newFold)
-					newArr = newFold
 				}
 			})
-			const folderPathResult = ("id" in newArr) ? [[""], newArr, action.payload] : [newArr, action.payload];
-			console.log('files?????????????????????folderPathResult', folderPathResult)
+			const folderPathResult = [[""], ...newArr, action.payload];
 			return {
 				...state,
 				folderPath: folderPathResult,
@@ -374,25 +339,57 @@ const filesReducer = (state = initialState(), action) => {
 				)
 			};
 		case Actions.UPDATE_SPECIFIC_FOLDERS:
-			console.log('files?????????????????????folderPath', state.folderPath)
-			console.log('files?????????????????????state.files', state.files)
-			console.log('files?????????????????????UPDATE_SPECIFIC_FOLDERS', action.payload)
-
 			let currentFolderFiles = action.payload.media.photo.concat(action.payload.media.document, action.payload.media.video)
-			console.log('files?????????????????????currentFolderFiles', currentFolderFiles)
-
+			
 			let differenceFiles = arr_diff(state.files, currentFolderFiles)
-			console.log('files?????????????????????differenceFiles', differenceFiles)
-
 			let newFolderPath = []
 			state.folderPath.map((folder) => {
-				if(action.payload.id === folder.id) {
-					newFolderPath.push(action.payload)
-				} else {
-					newFolderPath.push(folder)
-				}
-			})
+				if(typeof folder === 'object' && "id" in folder) {
+					if(action.payload.id === folder.id) {
+						newFolderPath = [
+							...newFolderPath,
+							action.payload
+						]
+					} else {
+						var resultObject = 	searchFolder(action.payload.id, folder.folders);
+						let newFolderObj = {}
+						if (resultObject) {
+							let newFolders = []
+							folder.folders.map((folderItem) => {
+								if(folderItem.id === action.payload.id) {
+									newFolders = [
+										...newFolders,
+										action.payload
+									]
+								} else {
+									newFolders = [
+										...newFolders,
+										folderItem
+									]
+								}
+							})
+							newFolderObj = {
+								...folder,
+								folders: newFolders
+							}
+						} else {
+							newFolderObj = {
+								...folder
+							}
+						}
 
+						newFolderPath = [
+							...newFolderPath,
+							newFolderObj
+						]
+					}
+				} else {
+					newFolderPath = [
+						...newFolderPath,
+						folder
+					]
+				}	
+			})
 			return action.payload.media
 				? {
 						...state,
@@ -432,7 +429,6 @@ const filesReducer = (state = initialState(), action) => {
 						)
 				};
 		case Actions.UPDATE_FOLDER_PATH:
-			console.log('files?????????????????????update.action.payload', action.payload)
 			let newActionPayload = [];
 			action.payload.map((folder) => {
 				if(typeof folder === 'object' && "id" in folder) {
@@ -473,21 +469,37 @@ const filesReducer = (state = initialState(), action) => {
 							...folder,
 							media: newMediaObj
 						}
+						newActionPayload = [
+							...newActionPayload,
+							newFold
+						]
+					} else {
+						newActionPayload = [
+							...newActionPayload,
+							folder
+						]
 					}
-					newActionPayload.push(newFold)
 				} else {
-					newActionPayload.push(folder)
+					newActionPayload = [
+						...newActionPayload,
+						folder
+					]
 				}
 			})
 
-			const pathData = newActionPayload[newActionPayload.length - 1];
+			let updateNewActionPayload;
+			let pathData;
+			if(state.differenceFiles.length > 0) {
+				pathData = newActionPayload[newActionPayload.length - 1];
+				updateNewActionPayload = newActionPayload
+			} else {
+				pathData = action.payload[action.payload.length - 1];
+				updateNewActionPayload = action.payload
+			}
 
-			console.log('files?????????????????????pathData', pathData)
-			console.log('files?????????????????????differenceFiles', state.differenceFiles)
-			console.log('files?????????????????????updatedFolderValues', state.updatedFolderValues)
 			return {
 				...state,
-				folderPath: [...newActionPayload],
+				folderPath: [...updateNewActionPayload],
 				photos: pathData?.media ? pathData.media.photo : [],
 				files: pathData?.media
 					? chnageIds(
