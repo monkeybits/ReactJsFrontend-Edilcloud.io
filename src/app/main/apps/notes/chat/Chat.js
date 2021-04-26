@@ -232,7 +232,7 @@ function Chat(props) {
 		<div className={clsx('flex flex-col relative chat-box', props.className)}>
 			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
 				{chat?.chats?.length ? (
-					<div className="flex flex-col pt-16 px-16 ltr:pl-48 rtl:pr-48 pb-30">
+					<div className="flex flex-col pt-16 px-16 ltr:pl-48 rtl:pr-48 pb-30 mb-192">
 						{chat.chats.map((item, i) => {
 							const contact = item.sender;
 							const color = contacts.length && contacts?.filter(c => c.id == contact.id);

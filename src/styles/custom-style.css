@@ -917,7 +917,17 @@ textarea.MuiOutlinedInput-input {
 .chat-pdf-box:first-child {
     margin-top: 3.0rem;
 }
-
+.send-message-form {
+    bottom: 5rem;
+    width: calc(100% - 350px);
+}
+.custom-w-form {
+    width: 350px;
+}
+.custom-form-fixed-position {
+    width: calc(100% - 350px);
+    position: relative;
+}
 /* ********************************************************************************************
     Team Page
 *********************************************************************************************** */

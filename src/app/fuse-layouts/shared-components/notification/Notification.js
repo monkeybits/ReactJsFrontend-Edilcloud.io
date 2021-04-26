@@ -127,6 +127,8 @@ function NotificationPanel(props) {
 	// if (!data.activities.length) {
 	// 	return null;
 	// }
+	console.log('notifications?????????????????????', readNotifications)
+	
 	return (
 		<Drawer
 			classes={{ paper: classes.root }}
@@ -254,6 +256,25 @@ function NotificationPanel(props) {
 									{!!readNotifications?.length &&
 										readNotifications.map((activity, index) => {
 											const { notification } = activity;
+
+											var now = moment(new Date().toISOString());
+											var end = moment(notification.date_create);
+											var duration = moment.duration(end.diff(now));
+
+											var days = duration.asDays();
+											duration.subtract(moment.duration(days,'days'));
+
+											//Get hours and subtract from duration
+											var hours = duration.hours();
+											duration.subtract(moment.duration(hours,'hours'));
+
+											//Get Minutes and subtract from duration
+											var minutes = duration.minutes();
+											duration.subtract(moment.duration(minutes,'minutes'));
+
+											var seconds = duration.seconds();
+
+											console.log('notifications?????????????????????', days + '====' + minutes + '====' + hours + '====' + seconds)
 
 											return (
 												<SwipeableListItem

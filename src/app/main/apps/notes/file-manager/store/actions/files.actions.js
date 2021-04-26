@@ -26,6 +26,8 @@ export const FILE_MOVE_CLOSE_DIALOG = '[FILE MANAGER APP(PROJECT)] FILE MOVE CLO
 
 export const FILE_RENAME_OPEN_DIALOG = '[FILE MANAGER APP(PROJECT)] FILE RENAME OPEN DIALOG';
 export const FILE_RENAME_CLOSE_DIALOG = '[FILE MANAGER APP(PROJECT)] FILE RENAME CLOSE DIALOG';
+export const SET_FOLDER_PATH = '[FILE MANAGER APP(PROJECT)] SET FOLDER PATH';
+
 export function openRenameFileDialog(payload) {
 	return {
 		type: FILE_RENAME_OPEN_DIALOG,
@@ -169,7 +171,14 @@ export function getFolders(pid, handleSetLoading = () => '') {
 		);
 	};
 }
-export function folderDetail(cid, handleSetLoading = () => '') {
+export function setFolderPath(path, currentFiles) {
+	return {
+		type: SET_FOLDER_PATH,
+		payload: path,
+		currentFiles
+	};
+}
+export function folderDetail(cid, updatedFolderValues, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingFolders: true
 	});
@@ -188,7 +197,8 @@ export function folderDetail(cid, handleSetLoading = () => '') {
 					console.log(folders);
 					dispatch({
 						type: UPDATE_SPECIFIC_FOLDERS,
-						payload: folders
+						payload: folders,
+						updatedFolderValues: updatedFolderValues
 					});
 				},
 				err => {

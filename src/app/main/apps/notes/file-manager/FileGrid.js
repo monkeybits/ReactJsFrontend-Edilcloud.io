@@ -102,6 +102,11 @@ function FileGrid(props) {
 	const checkData = data => data || '-';
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
 	const routeParams = useParams();
+
+	console.log('files???????????????????files', files)
+	console.log('files???????????????????currentFiles', currentFiles)
+	console.log('files???????????????????allFiles', allFiles)
+
 	const getCssColor = fileType =>
 		fileType == 'pdf'
 			? { color: 'red' }
@@ -138,7 +143,7 @@ function FileGrid(props) {
 		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
 			setCurrentFiles(rootFiles);
 		} else if (Array.isArray(files)) {
-			const tempFiles = files.filter(d => d.folder == currentFolderPath.mainId);
+			const tempFiles = files.filter(d => d.folder == currentFolderPath.id);
 			console.log({ tempFiles });
 			setCurrentFiles(tempFiles);
 		} else {
@@ -291,7 +296,7 @@ function FileGrid(props) {
 								sm={6}
 								md={4}
 								xl={3}
-								onClick={() => dispatch(Actions.setFolderPath(d))}
+								onClick={() => dispatch(Actions.setFolderPath(d, currentFiles))}
 							>
 								<ListItem className={clsx(classesListItems.root, 'custom-box-shadow')}>
 									<ListItemIcon>

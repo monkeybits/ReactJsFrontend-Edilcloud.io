@@ -177,7 +177,7 @@ export function setFolderPath(path, currentFiles) {
 		currentFiles
 	};
 }
-export function folderDetail(cid, updatedFolderValues, handleSetLoading = () => '') {
+export function folderDetail(cid, updatedFolderValues = {}, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingFolders: true
 	});
@@ -189,8 +189,6 @@ export function folderDetail(cid, updatedFolderValues, handleSetLoading = () => 
 				GET_FOLDERS_DETAIL(pathdata.mainId || pathdata.id),
 				{},
 				folders => {
-					console.log('files?????????????????????folders', folders);
-					console.log('files?????????????????????folderPath', folderPath);
 					handleSetLoading({
 						loadingFolders: false
 					});

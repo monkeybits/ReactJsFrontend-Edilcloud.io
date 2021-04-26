@@ -310,7 +310,7 @@ function ChatApp(props) {
 						<UserSidebar />
 					</Drawer>
 
-					<main className={clsx(classes.contentWrapper, 'z-10 multiple-images-overflow-x chat-bg')}>
+					<main className={clsx(classes.contentWrapper, 'z-10 multiple-images-overflow-x chat-bg custom-w-form')}>
 						<>
 							{/*	<AppBar className="w-full border-0" position="static" elevation={1}>
 								<Toolbar className="bg-dark min-h-72 px-16">
