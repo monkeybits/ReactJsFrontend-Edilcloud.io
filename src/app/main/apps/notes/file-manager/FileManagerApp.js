@@ -126,6 +126,8 @@ function FileManagerApp(props) {
 		apiError: ''
 	});
 
+	console.log('files???????????????????111111', allFiles)
+
 	const [loading, setLoading] = useState({
 		loadingPhotos: false,
 		loadingVideos: false,

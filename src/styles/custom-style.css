@@ -919,7 +919,14 @@ textarea.MuiOutlinedInput-input {
 }
 .send-message-form {
     bottom: 5rem;
-    width: 70%;
+    width: calc(100% - 350px);
+}
+.custom-w-form {
+    width: 350px;
+}
+.custom-form-fixed-position {
+    width: calc(100% - 350px);
+    position: relative;
 }
 /* ********************************************************************************************
     Team Page

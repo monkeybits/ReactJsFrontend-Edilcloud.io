@@ -390,6 +390,7 @@ const filesReducer = (state = initialState(), action) => {
 					]
 				}	
 			})
+			console.log('files???????????????????', newFolderPath)
 			return action.payload.media
 				? {
 						...state,
@@ -496,7 +497,7 @@ const filesReducer = (state = initialState(), action) => {
 				pathData = action.payload[action.payload.length - 1];
 				updateNewActionPayload = action.payload
 			}
-
+			
 			return {
 				...state,
 				folderPath: [...updateNewActionPayload],

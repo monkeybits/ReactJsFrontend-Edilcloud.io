@@ -2,6 +2,17 @@
     .ml-19 {
         margin-left: 19.6rem;
     }
+    .send-message-form {
+        bottom: 5rem;
+        width: calc(100% - 682px);
+    }
+    .custom-w-form {
+        width: 682px;
+    }
+    .custom-form-fixed-position {
+        width: calc(100% - 682px);
+        position: relative;
+    }
 }
 
 @media only screen and (max-width: 1279px) {

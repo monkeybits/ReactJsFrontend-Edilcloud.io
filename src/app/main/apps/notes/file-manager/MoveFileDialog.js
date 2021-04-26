@@ -130,7 +130,7 @@ function MoveFileDialog() {
 				// if (fileType == 'folder') {
 				console.log({ folderPath11: folderPath });
 				if (folderPath.length > 1) {
-					dispatch(Actions.folderDetail(routeParams.id));
+					dispatch(Actions.folderDetail(routeParams.id, values));
 				}
 				if (fileType != 'folder') {
 					if (fileType == 'photo') {

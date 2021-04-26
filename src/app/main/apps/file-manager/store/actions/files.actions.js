@@ -177,7 +177,7 @@ export function setFolderPath(path, currentFiles) {
 		currentFiles
 	};
 }
-export function folderDetail(cid, updatedFolderValues, handleSetLoading = () => '') {
+export function folderDetail(cid, updatedFolderValues = {}, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingFolders: true
 	});
