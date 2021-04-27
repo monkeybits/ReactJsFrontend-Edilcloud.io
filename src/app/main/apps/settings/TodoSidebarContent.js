@@ -1,8 +1,9 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { List, ListSubheader } from '@material-ui/core';
+import { List, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { useDispatch} from 'react-redux';
+import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
 	listItem: {
@@ -56,18 +57,41 @@ function TodoSidebarContent(props) {
 
 				<div className={classes.listWrapper}>
 					<List>
-						<ListSubheader className={classes.listSubheader} disableSticky>
-							MAIN PROFILE
-						</ListSubheader>
-						<ListSubheader className={classes.listSubheader} disableSticky>
-							COMPANY
-						</ListSubheader>
-						<ListSubheader className={classes.listSubheader} disableSticky>
-							BILLINGS
-						</ListSubheader>
-						<ListSubheader className={classes.listSubheader} disableSticky>
-							STORAGE
-						</ListSubheader>
+						<ListItem
+							button
+							onClick={() => dispatch(Actions.filterByKey('edit_profile'))}
+							// className={getListItemClassName('refused')}
+						>
+							<ListItemText className={classes.listSubheader} primary="MAIN PROFILE" disableTypography />
+						</ListItem>
+						<ListItem
+							button
+							onClick={() => dispatch(Actions.filterByKey('company'))}
+							// className={getListItemClassName('refused')}
+						>
+							<ListItemText className={classes.listSubheader} primary="COMPANY" disableTypography />
+						</ListItem>
+						<ListItem
+							button
+							onClick={() => dispatch(Actions.filterByKey('billings'))}
+							// className={getListItemClassName('refused')}
+						>
+							<ListItemText className={classes.listSubheader} primary="BILLINGS" disableTypography />
+						</ListItem>
+						<ListItem
+							button
+							onClick={() => dispatch(Actions.filterByKey('storage'))}
+							// className={getListItemClassName('refused')}
+						>
+							<ListItemText className={classes.listSubheader} primary="STORAGE" disableTypography />
+						</ListItem>
+						<ListItem
+							button
+							onClick={() => dispatch(Actions.filterByKey('notifications'))}
+							// className={getListItemClassName('refused')}
+						>
+							<ListItemText className={classes.listSubheader} primary="NOTIFICATION" disableTypography />
+						</ListItem>
 					</List>
 				</div>
 			</div>

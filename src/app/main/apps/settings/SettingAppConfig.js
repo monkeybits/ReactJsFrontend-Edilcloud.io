@@ -14,14 +14,6 @@ const TodoAppConfig = {
 		{
 			path: ['/apps/settings'],
 			component: React.lazy(() => import('./UserSettings'))
-		},
-		{
-			path: ['/apps/billing'],
-			component: React.lazy(() => import('./BillingSetting'))
-		},
-		{
-			path: ['/apps/storage'],
-			component: React.lazy(() => import('./UserStorage'))
 		}
 	]
 };

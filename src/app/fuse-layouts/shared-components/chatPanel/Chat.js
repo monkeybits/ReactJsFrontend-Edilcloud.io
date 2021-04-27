@@ -188,6 +188,7 @@ function Chat(props) {
 								{chat.chats.map((item, i) => {
 									const contact = item.sender;
 									const color = contacts.length && contacts?.filter(c => c.id == contact.id);
+									console.log('item????????????????????????', item)
 									return (
 										<div
 											key={item.time}
@@ -237,7 +238,7 @@ function Chat(props) {
 																className="time text-12 font-500 ltr:left-0 rtl:right-0 whitespace-no-wrap"
 																color="textSecondary"
 															>
-																{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
+																{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
 															</Typography>
 															// )
 														}

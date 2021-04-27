@@ -85,6 +85,8 @@ function CompanyCreationStepper({ user, history }) {
 
 	const classes = useStyles();
 
+	console.log('company??????????????????????', company)
+
 	const [activeStep, setActiveStep] = React.useState(0);
 	const steps = getSteps();
 	const [value, setValue] = React.useState('English');
@@ -97,6 +99,7 @@ function CompanyCreationStepper({ user, history }) {
 		vat_number: [],
 		phone: []
 	});
+
 	useEffect(() => {
 		apiCall(
 			TYPOLOGY_LIST,
@@ -137,13 +140,16 @@ function CompanyCreationStepper({ user, history }) {
 			getHeaderToken()
 		);
 	}, []);
+
 	useEffect(() => {
 		dispatch(Actions.companyInfo());
 	}, []);
+
 	useEffect(() => {
 		if (routeHistory) {
 			console.log({ routeHistory });
-			if (routeHistory.location.pathname == '/edit-company') {
+			if (routeHistory.location.pathname == '/apps/settings') {
+			// if (routeHistory.location.pathname == '/edit-company') {
 				setIsEdit(true);
 				console.log({ company });
 				setFile({
@@ -161,6 +167,7 @@ function CompanyCreationStepper({ user, history }) {
 			}
 		}
 	}, [routeHistory, company]);
+
 	const handleNext = () => {
 		setActiveStep(prevActiveStep => prevActiveStep + 1);
 		if (activeStep == 2) {
@@ -175,6 +182,7 @@ function CompanyCreationStepper({ user, history }) {
 	const handleReset = () => {
 		setActiveStep(0);
 	};
+
 	const handleSubmit = async () => {
 		const formData = new FormData();
 		const values = {
@@ -247,17 +255,19 @@ function CompanyCreationStepper({ user, history }) {
 		});
 		handleChange(e);
 	};
+
+	console.log('form???????????????????????', form)
 	return (
 		<div
 			className={clsx(
 				classes.root,
-				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 md:p-40'
+				'flex flex-col flex-auto flex-shrink-0'
 			)}
 		>
-			<div className="flex flex-col items-center justify-center w-full">
+			<div className="flex flex-col w-full">
 				<FuseAnimate animation="transition.expandIn">
-					<Card className="w-full max-w-512">
-						<CardContent className="flex flex-col items-center justify-center">
+					<Card>
+						<CardContent className="flex flex-col">
 							<Stepper activeStep={activeStep} orientation="vertical">
 								{steps.map((label, index) => (
 									<Step key={label}>
@@ -311,7 +321,6 @@ function CompanyCreationStepper({ user, history }) {
 									{progress > 0 && (
 										<Box position="relative" display="inline-flex" className={classes.progBox}>
 											<CircularProgress variant="static" color="primary" value={progress} />
-
 											<Box
 												top={0}
 												left={0}
