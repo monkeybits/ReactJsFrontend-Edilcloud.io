@@ -2,6 +2,7 @@ import { GET_SETTINGS_PREFERENCES } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 
+export const FILTER_BY = '[SETTINGS APP] FILTER BY';
 export const GET_SETTINGS = '[SETTINGS APP] GET SETTINGS';
 export const UPDATE_SETTINGS = '[SETTINGS APP] UPDATE SETTINGS';
 export const UPDATE_FULL_ARRAY_SETTINGS = '[SETTINGS APP] UPDATE FULL ARRAY SETTINGS';
@@ -31,6 +32,14 @@ export function updateByIndex(index, bool, isEmail) {
 			type: UPDATE_SETTINGS,
 			payload: { index, bool, isEmail }
 		});
+}
+export function filterByKey(filterKey) {
+	return (dispatch) => {
+		dispatch({
+			type: FILTER_BY,
+			filterKey
+		});
+	};
 }
 export function updateFullArray(bool, isEmail) {
 	return dispatch =>

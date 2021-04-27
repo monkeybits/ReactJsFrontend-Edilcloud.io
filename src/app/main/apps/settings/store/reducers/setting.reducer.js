@@ -1,7 +1,17 @@
 import * as Actions from '../actions';
 
-const foldersReducer = (state = {}, action) => {
+const initialState = {
+	filterKey: 'edit_profile'
+};
+
+const foldersReducer = (state = initialState, action) => {
 	switch (action.type) {
+		case Actions.FILTER_BY: {
+			return {
+				...state,
+				filterKey: action.filterKey
+			};
+		}
 		case Actions.GET_SETTINGS:
 			return { ...state, ...action.payload };
 		case Actions.UPDATE_SETTINGS: {

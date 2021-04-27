@@ -122,13 +122,13 @@ function VerticalLinearStepper({ user, history }) {
 		<div
 			className={clsx(
 				classes.root,
-				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 md:p-40'
+				'flex flex-col flex-auto flex-shrink-0'
 			)}
 		>
-			<div className="flex flex-col items-center justify-center w-full px-0">
+			<div className="flex flex-col w-full px-0">
 				<FuseAnimate animation="transition.expandIn">
-					<Card className="w-full max-w-512">
-						<CardContent className="flex flex-col items-center justify-center">
+					<Card>
+						<CardContent className="flex flex-col">
 							<Paper square elevation={0} className={clsx(classes.resetContainer, 'pb-10')}>
 								<Typography>{t('EDIT_YOUR_PROFILE')}</Typography>
 							</Paper>
