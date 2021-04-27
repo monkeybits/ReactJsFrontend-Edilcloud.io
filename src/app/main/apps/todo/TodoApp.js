@@ -168,7 +168,7 @@ function TodoApp(props) {
 			<TodoDialog />
 			<CreatePostDialog />
 			<TaskContentDialog />
-			<AccessibilityToggleButton />
+			{/* <AccessibilityToggleButton /> */}
 			<PostNotificationDialog />
 			<StatusConfirmDialog />
 		</>
