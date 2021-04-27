@@ -4,13 +4,18 @@ import { Button, Card, CardContent, FormControl, Typography, InputLabel, MenuIte
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { API_APPLE_AUTH_REGISTER } from 'app/services/apiEndPoints';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import * as MainActions from 'app/store/actions';
 import 'tippy.js/themes/light-border.css';
+import AppleRegister from 'react-apple-login'
+import jwtService from 'app/services/jwtService';
+import { toast } from 'react-toastify';
 const TippyMenu = loadable(() => import('app/TippyMenu'))
 const TermsModal = loadable(() => import('../login/TermsModal'))
 const JWTRegisterTab = loadable(() => import('app/main/register/tabs/JWTRegisterTab'))
@@ -47,6 +52,27 @@ function RegisterPage() {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [title, setTitle] = React.useState('Terms');
+	const [settings, setSettings] = useState({
+		clientId: 'com.monkeybits.edilcloud.signin',
+		redirectURI: 'https://test.edilcloud.io',
+		scope: '',
+		state: '',
+		responseType: 'code id_token',
+		responseMode: 'query',
+		nonce: '',
+		usePopup: true,
+		designProp: {
+		  height: 30,
+		  width: 140,
+		  color: 'black',
+		  border: false,
+		  type: 'continue',
+		  border_radius: 15,
+		  scale: 1,
+		  locale: 'en_US',
+		}
+	});
+	
 	const { t } = useTranslation('register');
 	const dispatch = useDispatch();
 
@@ -81,6 +107,58 @@ function RegisterPage() {
 
 		// userMenuClose();
 	}
+
+	const appleRegisterSuccess = (data) => {
+		console.log('data', data)
+		// this.startLoading();
+		if(data) {
+			apiCall(
+				API_APPLE_AUTH_REGISTER,
+				{
+					access_token: data.authorization.id_token
+				},
+				res => {
+					console.log('dfdsgssdfsdfres', res);
+					const { token } = res;
+					const { history, dispatch } = this.props;
+					// if (this.props.isRegister) {
+						// history.push('/pages/auth/mail-confirm', { email: '' });
+						// return dispatch({
+						// 	type: REGISTER_SUCCESS,
+						// 	payload: res
+						// });
+					// }
+	
+					new Promise((resolve, reject) => {
+						console.log('dfdsgsres', res);
+						if (res) {
+							jwtService.setSession(token);
+							resolve(res);
+						} else {
+							reject(res);
+						}
+					})
+					.then(res => {
+						// this.props.onLogin(res);
+						// setTimeout(() => {
+						// 	this.removeLoading();
+						// }, 2000);
+					})
+					.catch(err => {
+						// this.removeLoading();
+						console.log('dfdsgs', err);
+					});
+				},
+				err => {
+					// this.removeLoading();
+					console.log('dfdsgssdfsdfs', err);
+					toast.error(err?.error);
+				},
+				METHOD.POST
+			);
+		}
+	}
+
 	return (
 		<>
 			<div
@@ -134,6 +212,11 @@ function RegisterPage() {
 										</Button> */}
 									</Grid>
 								</Grid>
+
+								<div className="flex mt-12 w-160 h-36">
+									<AppleRegister {...settings} callback={appleRegisterSuccess} />
+								</div>
+
 								<div className="my-28 flex items-center justify-center or-container">
 									<Divider className="w-32" />
 									<span className="mx-8 font-size-16 whitespace-no-wrap text-muted">
