@@ -126,7 +126,9 @@ function LoginPage() {
 			apiCall(
 				API_APPLE_AUTH_LOGIN,
 				{
-					access_token: data.authorization.id_token
+					access_token: data.authorization.id_token,
+					provider: 'apple-id',
+					photo: ''
 				},
 				res => {
 					console.log('dfdsgssdfsdfres', res);
