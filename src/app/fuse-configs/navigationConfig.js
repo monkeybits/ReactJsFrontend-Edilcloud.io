@@ -109,22 +109,6 @@ const navigationConfig = [
 				type: 'item',
 				icon: 'settings',
 				url: '/apps/settings'
-			},
-			{
-				id: '',
-				title: 'Billing',
-				translate: 'BILLING',
-				type: 'item',
-				icon: 'receipt',
-				url: '/apps/billing'
-			},
-			{
-				id: '',
-				title: 'Storage',
-				translate: 'STORAGE',
-				type: 'item',
-				icon: 'cloud',
-				url: '/apps/storage'
 			}
 		]
 	},
