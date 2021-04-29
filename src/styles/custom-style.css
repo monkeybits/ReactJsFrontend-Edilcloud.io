@@ -723,6 +723,10 @@ textarea.MuiOutlinedInput-input {
     background-color: #ffffff;
 }
 
+.makeStyles-innerScroll-26 {
+    height: auto
+}
+
 .bordergrey {
     border: 1px #12121214 solid;
 }
