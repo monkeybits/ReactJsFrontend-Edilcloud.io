@@ -279,6 +279,7 @@ function FileGrid(props) {
 			</div>
 		);
 	}
+
 	return (
 		<div className="file-folder-grid px-24 mt-12">
 			{!!folders?.length && (
@@ -364,7 +365,7 @@ function FileGrid(props) {
 					</Grid>
 				</>
 			)}
-			{currentFiles.length ? (
+			{currentFiles.length > 0 &&
 				<>
 					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
 						{t('FILES')}
@@ -373,7 +374,9 @@ function FileGrid(props) {
 						<FileGridItem tileData={currentFiles} {...props} handleDelete={handleDelete} />
 					</Grid>
 				</>
-			) : (
+			}
+			{
+				(currentFiles.length === 0 && folders.length === 0) &&
 				<div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<img className="w-400" src="assets/images/errors/nofiles.png" />
@@ -389,7 +392,8 @@ function FileGrid(props) {
 						</Typography>
 					</div>
 				</div>
-			)}
+			}
+			
 			<Dialog
 				open={deleteConfirm}
 				// onClose={handleClose}
