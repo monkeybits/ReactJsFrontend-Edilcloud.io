@@ -489,14 +489,14 @@ function CreatePostForm({ isTask, taskId }) {
 								disableUnderline
 								onChange={e => setText(e.target.value)}
 							/>
-							{images && <ImagesPreview key={images.length} images={images} replaceUrl={replaceImageUrl} />}
+							{images && <ImagesPreview key={images !== null ? images.length : 0} images={images} replaceUrl={replaceImageUrl} />}
 
 							<AppBar
 								className="card-footer flex flex-row border-t-1 items-center justify-between pt-8 pb-6 pr-12 pl-10"
 								position="static"
 								color="default"
 								elevation={0}
-								key={`app_${images.length}`}
+								key={`app_${images ? images.length : 0}`}
 							>
 								<div className="add-photo-image flex">
 									<Dropzone onDrop={addPhoto}>

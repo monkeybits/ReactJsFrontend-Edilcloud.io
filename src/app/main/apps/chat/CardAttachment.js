@@ -38,7 +38,7 @@ function CardAttachment(props) {
 				</div>
 			</div>
 			{type() == 'application' && (
-				<Typography className="font-600 p-10 rounded bg-body">
+				<Typography className="font-600 p-10 rounded bg-body break-words">
 					{props.item.name}
 					{props.item.extension}
 				</Typography>
