@@ -285,56 +285,56 @@ function TodoActivityListItem(props) {
 				dense
 				button
 			>
-				<div className="flex flex-1 flex-col relative overflow-hidden">
-					<div className="flex items-center">
-						<Checkbox
-							disabled={
-								props.task.assigned_company?.id != company.id || getRole() == 'w' || getRole() == 'm'
-							}
-							tabIndex={-1}
-							disableRipple
-							onClick={ev => ev.stopPropagation()}
-							checked={completed}
-							onChange={e => {
-								e.stopPropagation();
-								// e.preventDefault();
-								editTodoActivty(e.target.checked);
-							}}
-						/>
-						<Typography
-							variant="subtitle1"
-							className="todo-title"
-							color={completed ? 'textSecondary' : 'inherit'}
-						>
-							{props.todo.title}
-						</Typography>
-						<div className="ml-auto">
-							{/* <Tooltip title="There is a issue with some tree are not clean on site" placement="top">
-								<IconButton
-									onClick={e => {
-										e.stopPropagation();
-										e.preventDefault();
-									}}
-								>
-									<Icon>info_outlined</Icon>
-								</IconButton>
-							</Tooltip> */}
-							{/* <IconButton
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											if (props.todo.assigned_company) {
-												dispatch(Actions.openAddActivityTodoDialog(props.todo));
-											}
+				<div className="flex-col relative overflow-hidden">
+					<div>
+						<div className="flex items-center">
+							<Checkbox
+								disabled={
+									props.task.assigned_company?.id != company.id || getRole() == 'w' || getRole() == 'm'
+								}
+								tabIndex={-1}
+								disableRipple
+								onClick={ev => ev.stopPropagation()}
+								checked={completed}
+								onChange={e => {
+									e.stopPropagation();
+									// e.preventDefault();
+									editTodoActivty(e.target.checked);
+								}}
+							/>
+							<Typography
+								variant="subtitle1"
+								className="todo-title"
+								color={completed ? 'textSecondary' : 'inherit'}
+							>
+								{props.todo.title}
+							</Typography>
+							<div className="ml-auto">
+								{/* <Tooltip title="There is a issue with some tree are not clean on site" placement="top">
+									<IconButton
+										onClick={e => {
+											e.stopPropagation();
+											e.preventDefault();
 										}}
 									>
-										<Icon>error</Icon>
-									</IconButton> */}
+										<Icon>info_outlined</Icon>
+									</IconButton>
+								</Tooltip> */}
+								{/* <IconButton
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												if (props.todo.assigned_company) {
+													dispatch(Actions.openAddActivityTodoDialog(props.todo));
+												}
+											}}
+										>
+											<Icon>error</Icon>
+										</IconButton> */}
+							</div>
 						</div>
-						<div className="flex items-center  ml-44 mb-8">
-							<WorkerProfiles
-								workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
-							/>
+					</div>
+					<div className="flex items-center">
 							{props.task.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
 								<Tippy
 									theme="light"
@@ -482,8 +482,11 @@ function TodoActivityListItem(props) {
 									</div>
 								</Tippy>
 							)}
+							<WorkerProfiles
+								workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
+							/>
 						</div>
-					</div>
+					
 
 					{/* <div className="flex items-center mb-8 ml-32">
 						<div className="flex items-center flex-wrap">
