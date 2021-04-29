@@ -231,6 +231,7 @@ export default function PostListItem({
 				delete tempofflinePostComments[res.unique_code];
 				setofflinePostComments(tempofflinePostComments);
 				getComments();
+				setText('');
 			},
 			err => {
 				tempofflinePostComments[unique_code] = {
