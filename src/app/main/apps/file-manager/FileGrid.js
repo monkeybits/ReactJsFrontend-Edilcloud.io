@@ -332,7 +332,7 @@ function FileGrid(props) {
 					</Grid>
 				</>
 			)}
-			{currentFiles.length > 0 &&
+			{currentFiles && currentFiles.length > 0 &&
 				<>
 					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
 						{t('FILES')}
@@ -343,7 +343,7 @@ function FileGrid(props) {
 				</>
 			}
 			{
-				(currentFiles.length === 0 && folders.length === 0) &&
+				(currentFiles && currentFiles.length === 0 && folders && folders.length === 0) &&
 				<div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<img className="w-400" src="assets/images/errors/nofiles.png" />

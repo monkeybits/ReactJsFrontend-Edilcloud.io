@@ -248,6 +248,7 @@ export default function PostListItem({
 		setImages(null);
 		document.getElementById(String(post.id)).value = '';
 		setText('');
+		console.log('text??????????', text)
 	};
 	const getComments = setIsEditing => {
 		apiCall(
@@ -782,6 +783,7 @@ export default function PostListItem({
 									placeholder={t('ADD_COMMENT')}
 									multiline
 									disableUnderline
+									defaultValue={text}
 									onChange={e => setText(e.target.value)}
 								/>
 								<IconButton

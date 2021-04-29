@@ -360,8 +360,6 @@ function TodoList(props) {
 			}}
 		>
 			<div>
-				
-
 				{filteredData.length === 0 ? (
 					<FuseAnimate delay={100}>
 						<div>
