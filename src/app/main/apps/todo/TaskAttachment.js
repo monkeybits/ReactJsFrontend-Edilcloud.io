@@ -309,7 +309,18 @@ function TaskAttachment(props) {
 	};
 
 	return (
-		<div className="w-full custom-task-content">
+		<div className="w-full custom-task-content mt-20">
+			<div className="absolute right-m-12">
+				<IconButton
+					onClick={ev => dispatch(Actions.closeDrawingContent())}
+					edge="start"
+					color="inherit"
+					aria-label="close"
+					className="close-icon"
+				>
+					<CloseIcon />
+				</IconButton>
+			</div>
 			<DialogContent id="dialog-content" className="p-0">
             <div className="sm:mx-12">
 				<CreateAttachments taskId={taskContentData?.id} attachments={taskContentData?.media_set} />
