@@ -46,7 +46,7 @@ function TodoSidebarContent(props) {
 
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
-			<div className="flex-auto border-l-1 border-solid">
+			<div className="flex-auto border-l-1 border-solid pt-88">
 				{/* <div className="p-24">
 					<Button
 						onClick={() => {
