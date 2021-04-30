@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Icon } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
@@ -140,9 +140,6 @@ export default function ContactCard(props) {
 				text={
 					<>
 						<Typography>Are you sure want to delete ?</Typography>
-						{/* {filterKey != 'deactivated' && (
-							<Typography>Account will be deactivated untill you not activet this user again!</Typography>
-						)} */}
 					</>
 				}
 				isOpenDeleteDialog={isOpenDeleteDialog}
@@ -155,7 +152,6 @@ export default function ContactCard(props) {
 				className="card-container flex flex-col px-10 text-13"
 			>
 				<span className={`pro ${String(status).toLowerCase()}`}>{status}</span>
-				{/* {editPermission && ( */}
 				<div className="team-action">
 					<MoreOption
 						canHaveDeleteOption={editPermission}
@@ -167,7 +163,6 @@ export default function ContactCard(props) {
 						onView={onCardClick}
 					/>
 				</div>
-				{/* )} */}
 				<input
 					type="file"
 					accept="image/*"
@@ -183,72 +178,26 @@ export default function ContactCard(props) {
 				<h4 className="font-weight-600 mb-8">{`${name} ${lastName}`}</h4>
 				{/* <h6>{address}</h6> */}
 				<p className="font-500 text-muted mb-8">
-					{position || 'N/A'} - {role}
+					{position || 'N/A'}
 				</p>
-				{/* <h3 className="font-weight-600 mb-8">
-					Job Title
-				</h3> */}
-
+				<p className="font-500 text-muted mb-8">
+					{role}
+				</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
-				<a className="font-700 text-muted mb-8" href={`mailto:${email}`}>
-					{email}
+				<a
+					className="flex font-700 mb-10 mx-28 whitespace-no-wrap normal-case custom-email-button justify-center items-center py-6 rounded-md"
+					href={`mailto:${email}`}
+				>
+					<Icon size="small" className="mr-8">email</Icon>
+					Email
 				</a>
-				<a className="font-700 text-muted mb-8" href={`tel:${phone}`}>
-					{phone}
+				<a
+					className="flex font-700 mb-10 mx-28 whitespace-no-wrap normal-case custom-email-button justify-center items-center py-6 rounded-md"
+					href={`tel:${phone}`}
+				>
+					<Icon size="small" className="mr-8">phone</Icon>
+					Phone
 				</a>
-
-				{/* <div className="my-12 block mx-auto">
-					<Button
-						variant={permission.can_access_files ? 'contained' : 'outlined'}
-						size="small"
-						color="secondary"
-						className="mr-8"
-						onClick={() => {
-							if (editPermission) {
-								let permissionData = {
-									...permission,
-									can_access_files: !permission.can_access_files
-								};
-								handleSubmit(() => {
-									setPermission(permissionData);
-								}, permissionData);
-							}
-						}}
-					>
-						Access File
-					</Button>
-					<Button
-						variant={permission.can_access_chat ? 'contained' : 'outlined'}
-						size="small"
-						color="secondary"
-						onClick={() => {
-							if (editPermission) {
-								let permissionData = {
-									...permission,
-									can_access_chat: !permission.can_access_chat
-								};
-								handleSubmit(() => {
-									setPermission(permissionData);
-								}, permissionData);
-							}
-						}}
-					>
-						Access Chat
-					</Button>
-				</div> */}
-
-				{/* <div class="skills">
-					<h6>Skills</h6>
-					<ul>
-						<li>UI / UX</li>
-						<li>Front End Development</li>
-						<li>HTML</li>
-						<li>CSS</li>
-						<li>JavaScript</li>
-						<li>React</li>
-						<li>Node</li>
-					</ul>
-				</div> */}
 			</div>
 		</Grid>
 	);
