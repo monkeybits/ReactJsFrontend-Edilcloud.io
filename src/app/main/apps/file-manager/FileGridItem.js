@@ -36,24 +36,6 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
-
 export default function FileGridItem({ tileData, pageLayout, handleDelete, setProgress }) {
 	const { t } = useTranslation('filemanager');
 	const dispatch = useDispatch();
@@ -63,13 +45,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 	const handleOpenData = (ev, tile) => {
-		// ev.preventDefault();
-		// ev.stopPropagation();
 		pageLayout.current.toggleRightSidebar();
-		// const findIndex = [...allFiles].findIndex(
-		// 	element => element.mainId == tile.mainId && element.type == tile.type
-		// );
-		// let fileData = allFiles[findIndex];
 		dispatch(Actions.setSelectedItem(tile));
 	};
 	const options = [
@@ -110,7 +86,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 			handleClickEvent: (ev, n) => {
 				handleOpenData(ev, n);
 			},
-			hasPermission: true // getRole() == 'o' || getRole() == 'd'
+			hasPermission: true
 		},
 		{
 			name: 'RENAME',
@@ -125,13 +101,16 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 	];
 	
 	const onDownload = tile => {
+		console.log('OnDownload???????????????????tile', tile)
 		let findIndex = 0;
 		if (tile.type == 'folder') {
 			findIndex = [...tileData].findIndex(element => element.path == tile.path);
 		} else {
 			findIndex = [...tileData].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 		}
+		console.log('OnDownload???????????????????findIndex', findIndex)
 		const selectedItem = tileData[findIndex];
+		console.log('OnDownload???????????????????selectedItem', selectedItem)
 		if (selectedItem) {
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
@@ -175,8 +154,6 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 						}
 					}
 					FileSaver.saveAs(file);
-					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
-					// FileSaver.saveAs(file);
 					dispatch(Actions.onUploadHandleLoading(false));
 				},
 				err => {

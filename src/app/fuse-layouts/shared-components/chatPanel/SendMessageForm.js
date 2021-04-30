@@ -232,7 +232,7 @@ export default function SendMessageForm() {
 					InputProps={{
 						disableUnderline: true,
 						classes: {
-							root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-48 rtl:ml-48 my-8',
+							root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-10 rtl:ml-48 my-8',
 							input: ''
 						},
 						placeholder: 'Type your message'

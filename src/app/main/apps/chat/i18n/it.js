@@ -6,6 +6,7 @@ const locale = {
 	PREVIOUS: 'Precedente',
 	NEXT: 'Prossimo',
 	DELETE: 'Cancella',
+	VIEW: 'Vedi',
 	PARTICIPANTS: 'Partecipanti',
 	TYPE_YOUR_MESSAGE: 'Scrivi un messaggio',
 	SEARCH_PARTICIPANTS: 'Cerca o inizia una nuova chat',
