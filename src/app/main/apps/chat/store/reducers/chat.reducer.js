@@ -1,6 +1,9 @@
 import * as Actions from '../actions';
 
-const initialState = null;
+const initialState = {
+	isUploadingFiles: false
+};
+
 const getAllFilesOfChat = chats => {
 	if (Array.isArray(chats) && chats.length) {
 		console.log({ chats });
@@ -32,6 +35,12 @@ const chat = (state = initialState, action) => {
 			return {
 				...state,
 				dialog: [...state.dialog, action.message]
+			};
+		}
+		case Actions.HANDLE_UPLOAD_LOADING: {
+			return {
+				...state,
+				isUploadingFiles: action.payload
 			};
 		}
 		case Actions.UPDATE_CHAT_LOG: {

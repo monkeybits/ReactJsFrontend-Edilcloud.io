@@ -10,6 +10,7 @@ import * as notificationActions from 'app/fuse-layouts/shared-components/notific
 import FuseUtils from '@fuse/utils';
 import * as Actions from './store/actions';
 import loadable from '@loadable/component';
+import LinearProgressWithLabel from '../file-manager/LinearProgressWithLabel';
 const ViewFile = loadable(() => import('./ViewFile'))
 const MessageMoreOptions = loadable(() => import('./MessageMoreOptions'))
 const RetryToSendMessage = loadable(() => import('./RetryToSendMessage'))
@@ -110,6 +111,7 @@ function Chat(props) {
 	const inputRef = useRef(null);
 	const user = useSelector(({ chatApp }) => chatApp.user);
 	const [images, setImages] = useState(null);
+	const [progress, setProgress] = React.useState(0);
 
 	const classes = useStyles(props);
 	const chatRef = useRef(null);
@@ -118,7 +120,9 @@ function Chat(props) {
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
 	const [hasRender, setHasRender] = React.useState(false);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const isUploadingFiles = useSelector(({ chatApp }) => chatApp.chat.isUploadingFiles);
 	const scrollRef = useRef(null);
+
 	useEffect(() => {
 		if (chat?.chats?.length) {
 			setTimeout(() => {
@@ -157,6 +161,11 @@ function Chat(props) {
 	return (
 		<div className={clsx('flex flex-col relative chat-box', props.className)}>
 			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
+				{isUploadingFiles && (
+					<div className="linear-progress custom-color">
+						<LinearProgressWithLabel progress={progress} />
+					</div>
+				)}
 				{chat?.chats?.length ? (
 					<div className="flex flex-col pt-16 px-16 ltr:pl-48 rtl:pr-48 pb-30">
 						{chat.chats.map((item, i) => {
@@ -211,6 +220,7 @@ function Chat(props) {
 												className="text-right chat-options"
 												item={item}
 												deleteMessage={Actions.deleteMessage}
+												setProgress={setProgress}
 											/>
 										)}
 										<div className="leading-normal py-4 font-size-16 mb-15">{item.body} </div>

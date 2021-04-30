@@ -91,7 +91,6 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 function FileManagerApp(props) {
-	// filesfolderPath
 	const { t } = useTranslation('filemanager');
 	const dispatch = useDispatch();
 	const allFolderPaths = useSelector(({ fileManagerApp }) => fileManagerApp.files.allFolderPaths);
@@ -247,10 +246,8 @@ function FileManagerApp(props) {
 				res => {
 					const userInfo = decodeDataFromToken();
 					const cid = userInfo.extra?.profile?.company;
-					// if (radioBtnValue == 'folder') {
-					// }
-					// if (radioBtnValue == 'folder') {
 					console.log({ folderPath11: folderPath });
+					
 					if (folderPath.length > 1) {
 						dispatch(Actions.folderDetail(cid, handleSetLoading));
 					} else if (radioBtnValue != 'folder') {

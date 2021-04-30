@@ -6,6 +6,7 @@ const locale = {
 	PREVIOUS: 'Previous',
 	NEXT: 'Next',
 	DELETE: 'Delete',
+	VIEW: 'View',
 	PARTICIPANTS: 'Participants',
 	TYPE_YOUR_MESSAGE: 'Type your message',
 	SEARCH_PARTICIPANTS: 'Search or start new chat',

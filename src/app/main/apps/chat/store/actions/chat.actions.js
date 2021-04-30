@@ -18,6 +18,7 @@ export const COMPANY_INFO = '[CHAT APP] COMPANY INFO';
 export const UPDATE_CONTECT_COUNT = '[CHAT APP] UPDATE_CONTECT_COUNT';
 export const RESET_CONTECT_COUNT = '[CHAT APP] RESET_CONTECT_COUNT';
 export const UPDATE_CHAT_LOG = '[CHAT APP] UPDATE_CHAT_LOG';
+export const HANDLE_UPLOAD_LOADING = '[CHAT APP] HANDLE UPLOAD LOADING';
 const uuidv1 = require('uuid/v1');
 
 export function updateChatLog(update) {
@@ -30,6 +31,12 @@ export function updateContactCount(contactMessage) {
 	return {
 		type: UPDATE_CONTECT_COUNT,
 		payload: contactMessage
+	};
+}
+export function onUploadHandleLoading(isUploadingFiles) {
+	return {
+		type: HANDLE_UPLOAD_LOADING,
+		payload: isUploadingFiles
 	};
 }
 export function resetCount() {
