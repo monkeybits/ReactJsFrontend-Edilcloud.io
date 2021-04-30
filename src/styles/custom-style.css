@@ -722,11 +722,13 @@ textarea.MuiOutlinedInput-input {
 .custom-task-content {
     background-color: #ffffff;
 }
-
 .makeStyles-innerScroll-26 {
     height: auto
 }
-
+.custom-email-button {
+    color: #fff !important;
+    background-color: #376aed;
+}
 .bordergrey {
     border: 1px #12121214 solid;
 }

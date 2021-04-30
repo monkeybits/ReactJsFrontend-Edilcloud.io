@@ -163,47 +163,7 @@ function ContactsList(props) {
 								openDeleteContactDialog();
 							}}
 						/>
-
-						// <div className="flex items-center">
-						// 	<IconButton
-						// 		onClick={ev => {
-						// 			ev.stopPropagation();
-						// 			dispatch(Actions.openEditContactDialog(row.original));
-						// 		}}
-						// 	>
-						// 		<Icon>edit</Icon>
-						// 	</IconButton>
-						// 	<IconButton
-						// 		onClick={ev => {
-						// 			ev.stopPropagation();
-						// 			setUserData(row.original);
-						// 			openDeleteContactDialog();
-						// 		}}
-						// 	>
-						// 		{row.original.status == 'Deactivated' ? <Icon>check</Icon> : <Icon>delete</Icon>}
-						// 	</IconButton>
-						// </div>
 					)
-
-				// <div className="flex items-center">
-				// 	<IconButton
-				// 		onClick={ev => {
-				// 			ev.stopPropagation();
-				// 			dispatch(Actions.openEditContactDialog(row.original));
-				// 		}}
-				// 	>
-				// 		<Icon>edit</Icon>
-				// 	</IconButton>
-				// 	<IconButton
-				// 		onClick={ev => {
-				// 			ev.stopPropagation();
-				// 			setUserData(row.original);
-				// 			openDeleteContactDialog();
-				// 		}}
-				// 	>
-				// 		{row.original.status == 'Deactivated' ? <Icon>check</Icon> : <Icon>delete</Icon>}
-				// 	</IconButton>
-				// </div>
 			}
 		],
 		[dispatch, user.starred]
@@ -411,10 +371,6 @@ function ContactsList(props) {
 						})}
 				</Grid>
 			)}
-
-			{/* <div className="flex justify-center mt-12">
-				<Pagination count={10} />
-			</div> */}
 		</>
 	);
 }
