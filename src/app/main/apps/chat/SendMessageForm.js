@@ -111,7 +111,6 @@ export default function SendMessageForm(props) {
 
 	function onMessageSubmit(ev) {
 		ev.preventDefault();
-		console.log(audioRef.current);
 		if (audioRef.current) {
 			audioRef.current.sendDirectToChat();
 		}

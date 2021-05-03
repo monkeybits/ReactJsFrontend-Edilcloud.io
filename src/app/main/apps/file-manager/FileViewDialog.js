@@ -85,7 +85,6 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 	const item = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const [selectedItem, setSelectedItem] = useState(null);
 	useEffect(() => {
-		console.log({ currentIndex });
 		const fileData = Allfiles[currentIndex];
 		setSelectedItem(fileData);
 	}, [currentIndex]);
@@ -93,7 +92,6 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 		if (Array.isArray(Allfiles) && item) {
 			const tile = item;
 			const findIndex = Allfiles.findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
-			console.log({ findIndex, Allfiles });
 			if (findIndex >= 0) {
 				setcurrentIndex(findIndex);
 				const fileData = Allfiles[findIndex];
@@ -129,10 +127,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 						new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
 					);
 					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
-					console.log({ file });
 					if (window) {
-						console.log('listenning to flutterInAppWebViewPlatformReady');
-						console.log(window.flutter_inappwebview);
 						if (selectedItem.type == 'photo') {
 							if (window.DownloadFiles) {
 								window.DownloadFiles.postMessage(selectedItem.photo);
@@ -154,8 +149,6 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress }) {
 							if (window.flutter_inappwebview)
 								window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
 						}
-
-						console.log('finish listenning to flutterInAppWebViewPlatformReady');
 					}
 					FileSaver.saveAs(file);
 					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);

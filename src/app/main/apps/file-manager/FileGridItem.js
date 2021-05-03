@@ -101,16 +101,13 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 	];
 	
 	const onDownload = tile => {
-		console.log('OnDownload???????????????????tile', tile)
 		let findIndex = 0;
 		if (tile.type == 'folder') {
 			findIndex = [...tileData].findIndex(element => element.path == tile.path);
 		} else {
 			findIndex = [...tileData].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 		}
-		console.log('OnDownload???????????????????findIndex', findIndex)
 		const selectedItem = tileData[findIndex];
-		console.log('OnDownload???????????????????selectedItem', selectedItem)
 		if (selectedItem) {
 			setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
@@ -128,10 +125,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 						new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
 					);
 					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
-					console.log({ file });
 					if (window) {
-						console.log('listenning to flutterInAppWebViewPlatformReady');
-						console.log(window.flutter_inappwebview);
 						if (selectedItem.type == 'photo') {
 							if (window.DownloadFiles) {
 								window.DownloadFiles.postMessage(selectedItem.photo);

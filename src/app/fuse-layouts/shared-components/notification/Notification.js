@@ -98,10 +98,6 @@ function NotificationPanel(props) {
 		if (hasReadMore || isInit) {
 			setHasReadMore(false);
 			setLoading(true);
-			console.log({
-				isInit,
-				pageRead: dataRead.pageRead
-			});
 			apiCall(
 				GET_ALL_NOTIFICATIONS('read_list', isInit ? 1 : dataRead.pageRead),
 				{},
@@ -127,8 +123,6 @@ function NotificationPanel(props) {
 	// if (!data.activities.length) {
 	// 	return null;
 	// }
-	console.log('notifications?????????????????????', readNotifications)
-	
 	return (
 		<Drawer
 			classes={{ paper: classes.root }}

@@ -65,21 +65,17 @@ export default ({ children }) => {
 			const data = JSON.parse(e.data);
 			const userInfo = decodeDataFromToken();
 			const getUserId = () => userInfo?.extra?.profile.id;
-			console.log({ socketData: data, id: getUserId() });
 			if (data.message.message.dest?.['id'] === parseInt(getUserId())) {
 				if (window.DownloadFiles) {
 					window.DownloadFiles.postMessage(data.message.message.url);
-					console.log('Download report url sent');
 				}
 				passMessage(data.message);
 			}
 		};
 		global.projectReportsWebSocket.onclose = function (event) {
-			console.log('Project ReportsWeb Socket is closed now.');
 			// toast.warn('WebSocket is closed now.');
 			setTimeout(() => {
 				createSocket();
-				console.log('Project Reports WebSocket is connectting..');
 				// toast.success('WebSocket is connectting..');
 			}, 1000);
 		};

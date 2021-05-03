@@ -66,9 +66,6 @@ function FuseNavVerticalItem(props) {
 	// const getRole = () => userInfo?.extra?.profile.role;
 	const checkHasPermissOnChat = USER_CHATS_PATHS.filter(d => String(item.url).includes(d));
 	const checkHasPermissOnFile = FILE_MANAHER_PATHS.filter(d => String(item.url).includes(d));
-	if (item.isOutsideLink) {
-		console.log({ item });
-	}
 	return (
 		<ListItem
 			button

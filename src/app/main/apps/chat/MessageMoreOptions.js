@@ -45,7 +45,6 @@ export default function SimpleMenu(props) {
 	};
 
 	const handleDownload = () => {
-		console.log('OnDownload???????????????????props', props)
 		const selectedItem = props.item.files[0];
 		if (selectedItem) {
 			props.setProgress(0);
@@ -60,16 +59,11 @@ export default function SimpleMenu(props) {
 				apiurl,
 				{},
 				({ headers, data }) => {
-					console.log('OnDownload???????????????????data', data)
-
 					const image = btoa(
 						new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
 					);
 					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
-					console.log({ file });
 					if (window) {
-						console.log('listenning to flutterInAppWebViewPlatformReady');
-						console.log(window.flutter_inappwebview);
 						if (window.DownloadFiles) {
 							window.DownloadFiles.postMessage(selectedItem.media_url);
 						}

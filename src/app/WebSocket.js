@@ -79,10 +79,6 @@ export default ({ children }) => {
 				const chats = getChats();
 				if (chats) {
 					const index = chats.findIndex(findUnique_code);
-					console.log({
-						chats,
-						index
-					});
 					if (chats[index]) {
 						chats[index] = msg.message;
 						dispatch({
@@ -99,12 +95,10 @@ export default ({ children }) => {
 	};
 	const createSocket = () => {
 		global.socket = new WebSocket(WS_BASE);
-		console.log('CONNECTING FIRST WEBSOCKET');
 		global.socket.onmessage = function (e) {
 			const data = JSON.parse(e.data);
 			const userInfo = decodeDataFromToken();
 			const getUserId = () => userInfo?.extra?.profile.id;
-			console.log({ socketData: data, id: getUserId() });
 			if (data.message.message.dest?.['id'] === parseInt(getUserId())) {
 				passMessage(data.message);
 				global.socket.send(
@@ -118,11 +112,9 @@ export default ({ children }) => {
 			}
 		};
 		global.socket.onclose = function (event) {
-			console.log('WebSocket is closed now.');
 			// toast.warn('WebSocket is closed now.');
 			setTimeout(() => {
 				createSocket();
-				console.log('WebSocket is connectting..');
 				// toast.success('WebSocket is connectting..');
 			}, 1000);
 		};

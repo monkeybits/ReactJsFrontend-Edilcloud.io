@@ -52,15 +52,6 @@ export function addNotificationData(payload) {
 			type: ADD_NOTOFICATION_PANEL_DATA,
 			payload
 		});
-		// dispatch(decrementNotificationCount());
-		// apiCall(
-		// 	READ_NOTIFICATION(payload.hasOwnProperty('id') ? payload.id : payload.notification.id),
-		// 	{},
-		// 	res => console.log(res),
-		// 	err => console.log(err),
-		// 	METHOD.GET,
-		// 	getHeaderToken()
-		// );
 	};
 }
 export function deleteNotificationDataByIndex(payload, hasRead, data) {
@@ -73,8 +64,12 @@ export function deleteNotificationDataByIndex(payload, hasRead, data) {
 		apiCall(
 			DELETE_NOTIFICATION_BY_ID(data.hasOwnProperty('id') ? data.id : data.notification.id),
 			{},
-			res => console.log(res),
-			err => console.log(err),
+			res => {
+				// console.log(res)
+			},
+			err => {
+				// console.log(err)
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);
@@ -109,7 +104,9 @@ export function getNotificationCount() {
 					payload
 				});
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -124,7 +121,9 @@ export function readAllNotifications() {
 			READ_ALL_NOTIFICATION,
 			{},
 			payload => {},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);

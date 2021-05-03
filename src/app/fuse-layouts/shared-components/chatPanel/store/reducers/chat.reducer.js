@@ -3,7 +3,6 @@ import * as Actions from '../actions';
 const initialState = null;
 const getAllFilesOfChat = chats => {
 	if (Array.isArray(chats) && chats.length) {
-		console.log({ chats });
 		return chats.reduce(
 			(prev, current) => {
 				return { files: [...prev.files, ...current.files].map((d, index) => ({ ...d, index })) };

@@ -127,7 +127,6 @@ function FileGrid(props) {
 			: {};
 
 	const setAllFilesInit = () => {
-		console.log({ currentFolderPath, rootFiles });
 		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
 			setCurrentFiles(rootFiles);
 		} else if (Array.isArray(files)) {
@@ -220,7 +219,9 @@ function FileGrid(props) {
 				// }
 				// colseDeleteFileDialog();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);

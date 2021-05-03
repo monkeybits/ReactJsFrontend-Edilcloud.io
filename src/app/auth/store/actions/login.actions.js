@@ -78,7 +78,9 @@ export const onLogin = user => dispatch =>
 				});
 			}
 		},
-		err => console.log(err),
+		err => {
+			// console.log(err)
+		},
 		METHOD.GET,
 		getHeaderToken()
 	);
@@ -100,7 +102,7 @@ const afterLogin = company_profile_id => {
 			},
 			err => {
 				// setIsLoading(false);
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.POST
 		);
@@ -112,7 +114,9 @@ const getMainProfile = mainProfileId => {
 			GET_MAIN_PROFILE(mainProfileId),
 			{},
 			res => dispatch(UserActions.setUserData({ ...res, redirectUrl: '/apps/todo/all' })),
-			err => console.log({ err }),
+			err => {
+				// console.log({ err })
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

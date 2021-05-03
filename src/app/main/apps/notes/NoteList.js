@@ -310,8 +310,7 @@ function NoteList(props) {
 	if (!filteredData) {
 		return null;
 	}
-
-	console.log('filteredData?????????????????', filteredData)
+	
 	return (
 		<>
 			<div id="project-list" className="flex flex-wrap w-full">

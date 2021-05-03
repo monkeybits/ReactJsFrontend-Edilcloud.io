@@ -155,9 +155,7 @@ function ChatApp(props) {
 			});
 		};
 	}, []);
-	const handleData = data => {
-		console.log(data);
-	};
+	
 	if (loading.loadingCompanyInfo || loading.loadingGetChat || loading.loadingGetContacts) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center">

@@ -257,7 +257,9 @@ function ContactsList(props) {
 				colseDeleteContactDialog();
 				dispatch(Actions.getContacts(routeParams));
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);

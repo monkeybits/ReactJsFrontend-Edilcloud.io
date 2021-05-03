@@ -43,7 +43,7 @@ export default class AudioRecord extends React.Component {
 			})
 			.catch(e => {
 				alert('We could not retrieve your message');
-				console.log(e);
+				// console.log(e);
 			});
 	};
 
@@ -64,7 +64,7 @@ export default class AudioRecord extends React.Component {
 				})
 				.catch(e => {
 					alert('We could not retrieve your message');
-					console.log(e);
+					// console.log(e);
 				});
 		}
 	};

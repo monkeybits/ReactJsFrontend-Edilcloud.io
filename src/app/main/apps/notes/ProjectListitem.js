@@ -44,8 +44,6 @@ export default function ProjectListitem(props) {
 	const { t } = useTranslation('projects');
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const okConfirmDeleteDialog = useSelector(({ notesApp }) => notesApp.notes.okConfirmDeleteDialog);
-	console.log('filteredData?????????????????', projectIndex)
-	console.log('filteredData?????????????????projects', projects)
 	if(projectIndex !== null) {
 		var {
 			mainId,
@@ -63,8 +61,6 @@ export default function ProjectListitem(props) {
 			address
 		} = projects[projectIndex];
 	}
-
-	console.log('filteredData?????????????????name', address)
 
 	const [expanded, setExpanded] = React.useState(false);
 	const [activeNotification, setActiveNotification] = React.useState(false);
@@ -137,7 +133,9 @@ export default function ProjectListitem(props) {
 				handleClose();
 				dispatch(Actions.toggleProjectStatus(index));
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.PUT,
 			getHeaderToken(),
 			true
@@ -150,7 +148,6 @@ export default function ProjectListitem(props) {
 	};
 	const handleArchiveProject = () => {
 		handleClose();
-		console.log('archive called');
 	};
 	const handleDeleteProject = () => {
 		dispatch(Actions.openConfirmDeleteDialog());

@@ -56,7 +56,9 @@ export function getChat(contact) {
 				});
 				dispatch(loadingChat(false));
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -69,14 +71,12 @@ export function removeChat() {
 	};
 }
 export function resetContactCount(contactMessage) {
-	console.log({ contactMessage });
 	return {
 		type: RESET_CONTECT_COUNT,
 		payload: contactMessage
 	};
 }
 export function sendMessage(messageText, setMessageText, user, images, setImages) {
-	console.log({ messageText, setMessageText, user, images, setImages });
 	return (dispatch, getState) => {
 		const getChats = () => getState().chatPanel.chat.chats;
 		const getUser = () => getState().auth.user.data.company;
@@ -90,7 +90,6 @@ export function sendMessage(messageText, setMessageText, user, images, setImages
 				type: d.type
 			}));
 		}
-		console.log({ images });
 		const userInfo = decodeDataFromToken();
 		const values = {
 			body: messageText,
@@ -170,7 +169,9 @@ export function retryToSendMessage(chatItem) {
 				: SEND_PROJECT_MESSAGE_API(chatItem.user.id),
 			formData,
 			chat => {},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);
@@ -191,7 +192,9 @@ export function readAllMessages(talkCode, type) {
 					dispatch(resetContactCount(projectId));
 				}
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);

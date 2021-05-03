@@ -69,7 +69,9 @@ class Auth extends Component {
 				GET_MAIN_PROFILE(mainProfileId),
 				{},
 				res => this.props.setUserData(res),
-				err => console.log({ err }),
+				err => {
+					// console.log({ err })
+				},
 				METHOD.GET,
 				getHeaderToken()
 			);
