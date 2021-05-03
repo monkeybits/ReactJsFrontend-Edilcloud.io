@@ -76,7 +76,7 @@ function NotesHeader(props) {
 				color="secondary"
 			>
 				<span className="xs:hidden sm:flex">Nuovo progetto</span>
-				<span className="flex sm:hidden">Nuobo</span>
+				<span className="flex sm:hidden"></span>
 			</Button>
 		</FuseAnimate>
 	</div>
