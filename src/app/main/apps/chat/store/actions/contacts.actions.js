@@ -52,7 +52,6 @@ export function getContacts(handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingGetUserData: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()

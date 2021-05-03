@@ -178,7 +178,9 @@ export const getCompanyProfile = token => {
 			GET_COMPANY_PROFILE(userData.extra.profile.id),
 			{},
 			company => dispatch(setUserCompanyData({ company })), //
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -190,7 +192,9 @@ export const getCompanyProfileById = id => {
 			GET_COMPANY_PROFILE(id),
 			{},
 			company => dispatch(setUserCompanyData({ company })), //
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

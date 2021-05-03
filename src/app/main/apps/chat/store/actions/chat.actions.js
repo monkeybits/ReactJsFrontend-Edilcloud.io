@@ -77,7 +77,6 @@ export function getChat(handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingGetChat: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -96,7 +95,9 @@ export function deleteMessage(mid) {
 			DELETE_MESSAGE(mid),
 			{},
 			chat => {},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);
@@ -106,9 +107,6 @@ export function sendMessage(messageText, setMessageText, images, setImages) {
 	return (dispatch, getState) => {
 		const getChats = () => getState().chatApp.chat.chats;
 		const getUser = () => getState().auth.user.data.company;
-		console.log({
-			user: getUser()
-		});
 		const unique_code = uuidv1();
 		let files = [];
 		if (images) {
@@ -209,7 +207,9 @@ export function readAllMessages(talkCode) {
 			chat => {
 				dispatch(resetCount());
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);
@@ -236,7 +236,6 @@ export function companyInfo(handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingCompanyInfo: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()

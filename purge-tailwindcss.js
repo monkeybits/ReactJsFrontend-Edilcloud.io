@@ -31,5 +31,3 @@ const result = purgecss.purge();
 result.forEach(out => {
 	fs.writeFileSync(path.resolve(__dirname, out.file), out.css, 'utf-8');
 });
-
-console.log('src/styles/tailwind.css successfully purged.');

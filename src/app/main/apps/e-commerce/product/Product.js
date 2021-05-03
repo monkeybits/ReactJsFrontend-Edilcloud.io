@@ -121,7 +121,7 @@ function Product(props) {
 		};
 
 		reader.onerror = () => {
-			console.log('error on load image');
+			// console.log('error on load image');
 		};
 	}
 

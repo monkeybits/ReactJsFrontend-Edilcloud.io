@@ -88,7 +88,6 @@ function ContactList(props) {
 	const contactListScroll = useRef(null);
 
 	const handleContactClick = contact => {
-		console.log({ contact });
 		// if(contact.type=="company"){
 
 		// }

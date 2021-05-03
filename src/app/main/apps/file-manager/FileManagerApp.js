@@ -171,7 +171,6 @@ function FileManagerApp(props) {
 		resetError();
 		const { files } = event.target;
 		for (let i = 0; i < files.length; i++) {
-			console.log(files[i]);
 			if (!title) {
 				const fileName = files[i].name.split('.');
 				fileName.pop();
@@ -246,7 +245,6 @@ function FileManagerApp(props) {
 				res => {
 					const userInfo = decodeDataFromToken();
 					const cid = userInfo.extra?.profile?.company;
-					console.log({ folderPath11: folderPath });
 					
 					if (folderPath.length > 1) {
 						dispatch(Actions.folderDetail(cid, handleSetLoading));

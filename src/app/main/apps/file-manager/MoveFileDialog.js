@@ -126,7 +126,6 @@ function MoveFileDialog() {
 					dispatch(Actions.foldersPaths(cid));
 				}
 				// if (fileType == 'folder') {
-				console.log({ folderPath11: folderPath });
 				if (folderPath.length > 1) {
 					dispatch(Actions.folderDetail(cid, values));
 				}
@@ -142,7 +141,9 @@ function MoveFileDialog() {
 				dispatch(Actions.getFolders(cid));
 				handleClose();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);

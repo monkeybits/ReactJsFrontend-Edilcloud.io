@@ -172,8 +172,6 @@ function AddProjectForm() {
 					date_start: err.date_start[0],
 					address: err.address[0]
 				});
-
-				console.log(err);
 			},
 			projectApp.dialogType == 'new' ? METHOD.POST : METHOD.PUT,
 			getHeaderToken()

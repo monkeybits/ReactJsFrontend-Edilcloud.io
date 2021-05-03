@@ -91,10 +91,7 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 			({ headers, data }) => {
 				const image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
 				const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
-				console.log({ file });
 				if (window) {
-					console.log('listenning to flutterInAppWebViewPlatformReady');
-					console.log(window.flutter_inappwebview);
 					if (type() == 'image') {
 						if (window.DownloadFiles) {
 							window.DownloadFiles.postMessage(item.photo);

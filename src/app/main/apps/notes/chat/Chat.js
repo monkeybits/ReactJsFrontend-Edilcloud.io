@@ -175,7 +175,6 @@ function Chat(props) {
 		if (messageText === '' && !images) {
 			return;
 		}
-		console.log({ routeParams });
 		dispatch(Actions.sendMessage(messageText, setMessageText, routeParams.id, images, setImages));
 	}
 	const addPhoto = async e => {

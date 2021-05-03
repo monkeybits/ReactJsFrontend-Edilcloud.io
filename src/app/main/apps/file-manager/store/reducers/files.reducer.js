@@ -145,7 +145,6 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) =>
 	};
 };
 const getnestedFilesById = (folders, id) => {
-	console.log({ folders, id });
 	if (Array.isArray(folders)) {
 		if (folders.find(x => x.id === id)) {
 			return folders;
@@ -390,7 +389,6 @@ const filesReducer = (state = initialState(), action) => {
 					]
 				}	
 			})
-			console.log('files???????????????????', newFolderPath)
 			return action.payload.media
 				? {
 						...state,

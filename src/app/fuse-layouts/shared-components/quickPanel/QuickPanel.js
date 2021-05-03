@@ -102,7 +102,9 @@ function QuickPanel(props) {
 				const items = results.map(d => ({ ...d, type: 'tasks' }));
 				setListTask(items);
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -115,7 +117,9 @@ function QuickPanel(props) {
 				const items = results.map(d => ({ ...d, type: 'activity' }));
 				setListActivity(items);
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

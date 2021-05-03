@@ -99,7 +99,9 @@ export default function ContactCard(props) {
 				colseDeleteContactDialog();
 				dispatch(Actions.getContacts(routeParams));
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);
@@ -128,7 +130,6 @@ export default function ContactCard(props) {
 			/>
 			<div className="card-container flex flex-col px-10 text-13">
 				<span className={`pro ${String(status).toLowerCase()}`}>{status}</span>
-				{console.log({ userInfo: decodeDataFromToken(), user: props.user?.id })}
 				{!!editPermission && (
 					<div className="team-action">
 						<MoreOption

@@ -188,7 +188,6 @@ function Chat(props) {
 								{chat.chats.map((item, i) => {
 									const contact = item.sender;
 									const color = contacts.length && contacts?.filter(c => c.id == contact.id);
-									console.log('item????????????????????????', item)
 									return (
 										<div
 											key={item.time}

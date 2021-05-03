@@ -79,7 +79,6 @@ export function getPhotos(cid, handleSetLoading = () => '', photos) {
 				handleSetLoading({
 					loadingPhotos: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -107,7 +106,6 @@ export function getVideos(cid, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingVideos: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -135,7 +133,6 @@ export function getDocuments(cid, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingDocuments: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -163,7 +160,6 @@ export function getFolders(cid, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingFolders: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -202,7 +198,6 @@ export function folderDetail(cid, updatedFolderValues = {}, handleSetLoading = (
 					handleSetLoading({
 						loadingFolders: false
 					});
-					console.log(err);
 				},
 				METHOD.GET,
 				getHeaderToken()
@@ -231,7 +226,6 @@ export function foldersPaths(cid, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingFolders: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -261,12 +255,6 @@ export function deleteFile(id, fileType, deleteId, selectedItem) {
 	return (dispatch, getState) => {
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
-		console.log({
-			id,
-			fileType,
-			deleteId,
-			selectedItem
-		});
 		if (fileType == 'folder') {
 			dispatch(getFolders(cid));
 		}

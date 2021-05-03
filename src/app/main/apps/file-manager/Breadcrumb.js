@@ -16,7 +16,6 @@ function Breadcrumb({ className, selected }) {
 
 	const updatePath = index => {
 		const newFolders = selected.filter((d, i) => i <= index);
-		console.log({ newFolders });
 		dispatch(Actions.updateFolderPath(newFolders));
 	};
 	return (

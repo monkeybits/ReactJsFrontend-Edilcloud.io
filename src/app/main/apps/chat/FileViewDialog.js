@@ -73,7 +73,6 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress, selectedItem }) {
-    console.log('selectedItem????????????????????', selectedItem)
 	const { t } = useTranslation('filemanager');
 	const dispatch = useDispatch();
 	const [currentIndex, setcurrentIndex] = useState(null);
@@ -100,16 +99,11 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress, selectedIt
 				apiurl,
 				{},
 				({ headers, data }) => {
-					console.log('OnDownload???????????????????data', data)
-
 					const image = btoa(
 						new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
 					);
 					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
-					console.log({ file });
 					if (window) {
-						console.log('listenning to flutterInAppWebViewPlatformReady');
-						console.log(window.flutter_inappwebview);
 						if (window.DownloadFiles) {
 							window.DownloadFiles.postMessage(selectedItem.media_url);
 						}

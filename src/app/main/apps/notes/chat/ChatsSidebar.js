@@ -79,8 +79,6 @@ function ChatsSidebar(props) {
 		setSearchText(event.target.value);
 	}
 
-	console.log('user?????????????????????', user)
-
 	return (
 		<div className="flex flex-col flex-auto h-full">
 			<AppBar position="static" color="default" elevation={1} className="bg-white border-0">

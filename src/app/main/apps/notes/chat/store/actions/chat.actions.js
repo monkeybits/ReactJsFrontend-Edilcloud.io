@@ -62,7 +62,6 @@ export function getChat(pid, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingGetChat: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -163,14 +162,15 @@ export function deleteMessage(mid) {
 			DELETE_MESSAGE(mid),
 			{},
 			chat => {},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);
 	};
 }
 export function readAllMessages(talkCode, pid) {
-	console.log({ talkCode, pid });
 	return (dispatch, getState) => {
 		apiCall(
 			READ_ALL_MESSAGES(talkCode),
@@ -178,7 +178,9 @@ export function readAllMessages(talkCode, pid) {
 			chat => {
 				// dispatch(resetContactCount(pid));
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.POST,
 			getHeaderToken(),
 			true

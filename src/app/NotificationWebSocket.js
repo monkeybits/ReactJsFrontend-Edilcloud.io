@@ -21,7 +21,6 @@ export default ({ children }) => {
 	}
 	const passMessage = ({ message }) => {
 		dispatch((dispatch, getState) => {
-			console.log({ notificationPanelState: getState().notificationPanel?.state, message });
 			// if (getState().notificationPanel?.state) {
 			dispatch(notificationPanelActions.pushNotificationData({ notification: message }));
 			// }
@@ -33,7 +32,6 @@ export default ({ children }) => {
 			const data = JSON.parse(e.data);
 			const userInfo = decodeDataFromToken();
 			const getUserId = () => userInfo?.extra?.profile.id;
-			console.log({ socketData: data, id: data.message.message.dest?.['id'] === parseInt(getUserId()) });
 			if (data.message.message.dest?.['id'] === parseInt(getUserId())) {
 				dispatch(notificationPanelActions.incrementNotificationCount());
 				passMessage(data.message);
@@ -48,11 +46,8 @@ export default ({ children }) => {
 			}
 		};
 		global.notificationSocket.onclose = function (event) {
-			console.log('WebSocket is closed now.');
-			// toast.warn('WebSocket is closed now.');
 			setTimeout(() => {
 				createSocket();
-				console.log('WebSocket is connectting..');
 				// toast.success('WebSocket is connectting..');
 			}, 1000);
 		};

@@ -38,7 +38,6 @@ const mergeArray = (oldArr = [], newArr = []) =>
 	}, []);
 const mergeArrayByComapny = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
-		console.log('arr???????????????????????', arr)
 		const x = arr.find(item =>
 			item.profile?.company?.name && current?.profile?.company?.name
 				? item.profile?.company?.name === current?.profile?.company?.name
@@ -66,10 +65,6 @@ const contactsReducer = (state = initialState(), action) => {
 			};
 		}
 		case Actions.GET_CONTACTS: {
-			console.log({
-				actiontype: action.type,
-				GET_CONTACTS: Actions.GET_CONTACTS
-			});
 			return {
 				...state,
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Approved')),

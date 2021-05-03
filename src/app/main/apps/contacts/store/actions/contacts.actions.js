@@ -104,7 +104,6 @@ export function getApprovedContacts(handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingApprove: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -150,7 +149,6 @@ export function getWaitingContacts(handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingWaiting: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -196,7 +194,6 @@ export function getRefusedContacts(handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingRefuse: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -242,7 +239,6 @@ export function getDeactivatedContacts(handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingDeactivate: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -338,7 +334,9 @@ export function updateContact(values, id, hideContectCalls, handleSetLoading = (
 					dispatch(getRefusedContacts(handleSetLoading));
 				}
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);
