@@ -57,6 +57,7 @@ export function getTodos(params, isGantt = false, handleSetLoading = () => '') {
 		loadingTodos: true
 	});
 	return (dispatch, getState) => {
+		const companyId = getState().auth.user.data.extra.profile.company;
 		apiCall(
 			GET_ALL_PROJECT_TASKS,
 			{},
@@ -66,7 +67,8 @@ export function getTodos(params, isGantt = false, handleSetLoading = () => '') {
 				});
 				dispatch({
 					type: GET_TODOS,
-					payload: results.sort(sortHolders)
+					payload: results.sort(sortHolders),
+					companyId
 				});
 			},
 			err => {

@@ -39,6 +39,7 @@ const locale = {
 	ORDER_BY: 'Ordina per',
 	PROCESSING_UPLOADING_FILE: 'Sto processando il file',
 	PROCESSING_UPLOADING_POST: 'Sto caricando il post',
+	NO_POSTS_MESSAGE: 'Sembra che non ci siano posts caricati',
 	LOADING_TASKS: 'Sto caricando le fasi di lavoro',
 	SELECT_ALL: 'Seleziona tutti',
 	SET_TASK_PROGRESS: 'Progresso della fase di lavoro',

@@ -423,7 +423,22 @@ function CreatePostForm({ isTask, taskId }) {
 					posts={Object.values(offilePosts)}
 					callRetryAfterSuccess={callRetryAfterSuccess}
 				/>
-				<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.posts} media={media.files} />
+				{
+					data.posts.length > 0 ? (
+						<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.posts} media={media.files} />
+					) : (
+						<div className="flex flex-col items-center justify-center">
+							<div className="h-full">
+								<img className="w-400" src="assets/images/errors/nofiles.png" />
+							</div>
+							<div className="h-full">
+								<Typography color="textSecondary" variant="h5">
+									{t('NO_POSTS_MESSAGE')}
+								</Typography>
+							</div>
+						</div>
+					)
+				}
 				<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.sharedPosts} />
 			</div>
 		</div>

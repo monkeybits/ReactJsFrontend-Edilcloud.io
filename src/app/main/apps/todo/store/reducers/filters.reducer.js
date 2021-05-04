@@ -13,7 +13,7 @@ const initialState = () => {
 		},
 		{
 			name: 'ALL',
-			isActive: true,
+			isActive: false,
 			icon: 'all_inbox'
 		},
 		{
@@ -53,8 +53,8 @@ const initialState = () => {
 		projectFilter: [],
 		companyFilter: [],
 		peopleFilter: [],
-		activeFilter: 'genrealFilter',
-		activeFilterKey: 'ALL',
+		activeFilter: 'companyFilter',
+		activeFilterKey: 'Signe Walsh',
 		usedKeys: [],
 		genrealFilter, // genrealFilterJsonData ? JSON.parse(genrealFilterJsonData) : genrealFilter,
 		timeFilter // timeFilterJsonData ? JSON.parse(timeFilterJsonData) : timeFilter
@@ -72,17 +72,27 @@ const projectNames = arr => {
 	}, []);
 	return result;
 };
-const companyFilterNames = arr => {
+
+const companyFilterNames = (arr, companyId) => {
 	const result = arr.reduce((unique, o) => {
 		if (o.assigned_company && !unique.some(obj => obj.id === o.assigned_company.id)) {
-			unique.push({
-				...o.assigned_company
-			});
+			if(companyId === o.assigned_company.id) {
+				unique.push({
+					...o.assigned_company,
+					isActive: true
+				});
+			} else {
+				unique.push({
+					...o.assigned_company,
+					isActive: false
+				});
+			}
 		}
 		return unique;
 	}, []);
-	return addIsActiveToDefault(result);
+	return result;
 };
+
 const peopleFilterNames = arr => {
 	const userInfo = decodeDataFromToken();
 	const result = arr.reduce(function (flat, toFlatten) {
@@ -101,6 +111,7 @@ const peopleFilterNames = arr => {
 	}, []);
 	return addIsActiveToDefault(uniqueById(result));
 };
+
 const uniqueById = arr => {
 	const result = arr.reduce((unique, o) => {
 		if (!unique.some(obj => obj.id === o.id)) {
@@ -110,22 +121,23 @@ const uniqueById = arr => {
 	}, []);
 	return addIsActiveToDefault(result);
 };
+
 function flatten(arr) {
 	return arr.reduce(function (flat, toFlatten) {
 		return flat.concat(Array.isArray(toFlatten.workers) ? flatten(toFlatten.workers) : toFlatten);
 	}, []);
 }
+
 const canSelectMultiple = ['projectFilter', 'companyFilter', 'peopleFilter'];
 const filtersReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS:
-			// console.log({ action, peopleFilterNames: peopleFilterNames(action.payload) });
 			return {
 				...state,
 				projectFilter: projectNames(action.payload),
-				companyFilter: companyFilterNames(action.payload),
+				companyFilter: companyFilterNames(action.payload, action.companyId),
 				peopleFilter: peopleFilterNames(action.payload),
-				usedKeys: ['genrealFilter', 'timeFilter']
+				usedKeys: ['genrealFilter', 'timeFilter', 'companyFilter']
 			};
 		case Actions.CHANGE_FILTERS:
 			let tempUsedKeys = [...state.usedKeys];

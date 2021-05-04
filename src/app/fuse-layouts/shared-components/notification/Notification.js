@@ -218,7 +218,7 @@ function NotificationPanel(props) {
 																	</div>
 																	{notification.body?.url && (
 																		<div className="flex">
-																			<Link className="textPrimary"
+																			<Link className="notifications-secondary"
 																			
 																				onClick={() => {
 																					dispatch(
@@ -250,7 +250,6 @@ function NotificationPanel(props) {
 									{!!readNotifications?.length &&
 										readNotifications.map((activity, index) => {
 											const { notification } = activity;
-
 											return (
 												<SwipeableListItem
 													threshold={0.3}
@@ -313,6 +312,7 @@ function NotificationPanel(props) {
 																	{notification.body?.url && (
 																		<div className="flex">
 																			<Link
+																				className="notifications-secondary"
 																				onClick={() => {
 																					dispatch(
 																						Actions.toggleNotification()

@@ -591,13 +591,28 @@ function CreatePostForm({ isTask, taskId }) {
 					callRetryAfterSuccess={callRetryAfterSuccess} // below function is used edit post locally
 					nameSpace="dashboard" // pass name sapce it will be  used for translate
 				/>
-				<PostList
-					isTask={isTask}
-					tempAuthor={tempAuthor}
-					posts={data.posts}
-					media={media.files}
-					nameSpace="dashboard"
-				/>
+				{
+					data.posts.length > 0 ? (
+						<PostList
+							isTask={isTask}
+							tempAuthor={tempAuthor}
+							posts={data.posts}
+							media={media.files}
+							nameSpace="dashboard"
+						/>
+					) : (
+						<div className="flex flex-col items-center justify-center">
+							<div className="h-full">
+								<img className="w-400" src="assets/images/errors/nofiles.png" />
+							</div>
+							<div className="h-full">
+								<Typography color="textSecondary" variant="h5">
+									{t('NO_POSTS_MESSAGE')}
+								</Typography>
+							</div>
+						</div>
+					)
+				}
 				<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.sharedPosts} nameSpace="dashboard" />
 			</div>
 		</div>

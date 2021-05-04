@@ -7,6 +7,7 @@ import { Typography, Icon, IconButton, Input, Paper } from '@material-ui/core';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 const TodoListItem = loadable(() => import('./TodoListItem'))
 const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'))
@@ -15,6 +16,7 @@ const TaskContentForm = loadable(() => import('./Dialog/TaskContentForm'))
 
 function TodoList(props) {
 	const dispatch = useDispatch();
+	const { t } = useTranslation('todo_project');
 	const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.todoEntities);
 	const searchText = useSelector(({ todoAppNote }) => todoAppNote.todos.searchText);
 	const [hasRenderd, setHasRenderd] = useState(false);
@@ -395,7 +397,20 @@ function TodoList(props) {
 							</div>
 						</div>
 						<div className="lg:w-2/3 content-ht custom-modal-open marginleft flex-fill">
-							{taskContentDialog.props.open && todoId == taskContentDialog.data.id && <TaskContentForm />}
+							{taskContentDialog.props.open && todoId == taskContentDialog.data.id ? (
+								<TaskContentForm />
+							) : (
+								<div className="flex flex-col items-center justify-center">
+									<div className="h-full">
+										<img className="w-400" src="assets/images/errors/nofiles.png" />
+									</div>
+									<div className="h-full">
+										<Typography color="textSecondary" variant="h5">
+											{t('NO_POSTS_MESSAGE')}
+										</Typography>
+									</div>
+								</div>
+							)}
 							{openDrawingContent && (
 								<TaskAttachment /> // if we click on tasks this component will be displayed
 							)}

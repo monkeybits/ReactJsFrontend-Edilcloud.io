@@ -37,6 +37,7 @@ const locale = {
 	ORDER_BY: 'Order by',
 	PROCESSING_UPLOADING_FILE: 'Processing uploading file',
 	PROCESSING_UPLOADING_POST: 'Processing uploading post',
+	NO_POSTS_MESSAGE: 'Seems that there are no posts yet!',
 	LOADING_TASKS: 'Loading Tasks',
 	SELECT_ALL: 'Select All',
 	SET_TASK_PROGRESS: 'Set Task Progress',

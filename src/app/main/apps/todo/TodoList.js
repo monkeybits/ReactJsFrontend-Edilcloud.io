@@ -22,6 +22,7 @@ import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
 import * as AccessibilityActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
+import { useTranslation } from 'react-i18next';
 const TodoListItem = loadable(() => import('./TodoListItem'))
 const TaskContentForm = loadable(() => import('./TaskContentForm'))
 const TaskAttachment = loadable(() => import('./TaskAttachment'))
@@ -29,6 +30,7 @@ const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'))
 
 function TodoList(props) {
 	const dispatch = useDispatch();
+	const { t } = useTranslation('dashboard');
 	const todos = useSelector(({ todoApp }) => todoApp.todos.entities); // it will get all tasks
 	const searchText = useSelector(({ todoApp }) => todoApp.todos.searchText); // its search text in dashboard you'll see search option and you can search task by this
 	const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy); // to get the current order(sorting of list)
@@ -55,8 +57,6 @@ function TodoList(props) {
 			...loading,
 			...data
 		}));
-
-	console.log('companies????????????????????????', companies)
 
 	const contacts = useSelector(({ contactsApp }) => contactsApp.contacts?.entities);
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
@@ -129,7 +129,7 @@ function TodoList(props) {
 			dispatch(AccessibilityActions.setIsPost('post'));
 		}
 	}, [posts]);
-	
+
 	useEffect(() => {
 		if (accessibilityPanelApp === 'true' || accessibilityPanelAppState) {
 			dispatch(AccessibilityActions.setOpenMenu('discover'));
@@ -163,6 +163,7 @@ function TodoList(props) {
 				);
 				resolve(data);
 			}).then(data => {
+				console.log('data??????????????????????????', data)
 				setFilteredData(setFilterByKey(activeFilter, data, activeFilterKey));
 				handleDoFilter();
 			});
@@ -174,6 +175,7 @@ function TodoList(props) {
 	useEffect(() => {
 		handleDoFilter();
 	}, [activeFilterKey, company, usedKeys, todos]);
+
 	const handleDoFilter = () => {
 		// this function is called to apply a filter, whenever user apply new filter this function will be called
 		function getFilteredArray(entities, _searchText) {
@@ -215,6 +217,7 @@ function TodoList(props) {
 			}
 		}
 	};
+	
 	const setFilterByKey = (activeFilter, list, activeFilterKey) => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -451,7 +454,7 @@ function TodoList(props) {
 			</FuseAnimate>
 		);
 	}
-
+	
 	return (
 		// <List className="p-0">
 		<FuseAnimateGroup
@@ -468,8 +471,19 @@ function TodoList(props) {
 					</div>
 				</div>
 				<div className="lg:w-2/3 content-ht dashboard left-30 custom-modal-open flex-fill">
-					{taskContentDialog.props.open && todoId == taskContentDialog.data.id && (
+					{taskContentDialog.props.open && todoId == taskContentDialog.data.id ? (
 						<TaskContentForm /> // if we click on tasks this component will be displayed
+					) : (
+						<div className="flex flex-col items-center justify-center">
+							<div className="h-full">
+								<img className="w-400" src="assets/images/errors/nofiles.png" />
+							</div>
+							<div className="h-full">
+								<Typography color="textSecondary" variant="h5">
+									{t('NO_POSTS_MESSAGE')}
+								</Typography>
+							</div>
+						</div>
 					)}
 					{openDrawingContent && (
 						<TaskAttachment /> // if we click on tasks this component will be displayed

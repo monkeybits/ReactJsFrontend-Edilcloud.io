@@ -394,18 +394,16 @@ function TaskContentForm(props) {
 			</div>
 			<div className="my-24 todo-bg-footer p-12 px-20 rounded">
 				{taskContentData?.project && (
-					<Typography variant="h6" color="inherit" className="font-size-18 font-weight-700">
+					<Typography variant="h6" color="inherit" className="font-size-14 ">
 						<div>
-							{t('PROJECT')}: {taskContentData?.project.name}
+							{taskContentData?.project.name}
 						</div>
 					</Typography>
 				)}
-				<div className="flex items-center font-size-12">
+				<div className="flex items-center font-weight-700 font-size-18">
 					<div className="my-4">
-						{t('TASK')}: {taskContentData?.name}
+						{taskContentData?.name}{' '}
 					</div>
-					<span className="mx-12">{' > '}</span>
-					<div>Title</div>
 				</div>
 			</div>
 			<DialogContent id="dialog-content" className="p-0">
