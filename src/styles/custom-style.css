@@ -532,6 +532,9 @@ textarea.MuiOutlinedInput-input {
 .chat-tab-content-height >  .MuiBox-root > .MuiTypography-root{
     height: 100%;
 }
+.chat-custom-h-full {
+    height: 100vh;
+}
 /* .chat-tab-content-height {
     height: calc(100vh - 220px);
 } */
@@ -838,6 +841,9 @@ textarea.MuiOutlinedInput-input {
 .notifications-header {
     background-color: #1b2330 !important;
     color: white !important;
+}
+.notifications-secondary {
+    color: rgba(0, 0, 0, 0.54) !important;
 }
 .team-chat-body {
     background-color: #fff;

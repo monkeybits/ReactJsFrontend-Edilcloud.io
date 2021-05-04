@@ -249,7 +249,7 @@ function ChatApp(props) {
 
 				<ThemeProvider theme={mainTheme}>
 			
-			<div className={clsx(classes.contentCardWrapper, 'container h-full p-0 inner-height')}>
+			<div className={clsx(classes.contentCardWrapper, 'container chat-custom-h-full p-0 inner-height')}>
 				<div className={clsx(classes.contentCard, 'chat-bg')}>
 					<Hidden mdUp>
 						<Drawer

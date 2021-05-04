@@ -392,14 +392,13 @@ function TaskContentForm(props) {
 				{taskContentData?.project && (
 					<Typography variant="h6" color="inherit" className="font-size-14 ">
 						<div>
-							{t('PROJECT')}: {taskContentData?.project.name}
+							{taskContentData?.project.name}
 						</div>
 					</Typography>
 				)}
 				<div className="flex items-center font-weight-700 font-size-18">
 					<div className="my-4">
-						{' '}
-						{t('TASK')}: {taskContentData?.name}{' '}
+						{taskContentData?.name}{' '}
 					</div>
 				</div>
 			</div>

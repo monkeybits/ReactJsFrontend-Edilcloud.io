@@ -168,7 +168,7 @@ function AddTeamMemberToProject(props) {
 				</Toolbar>
 			</AppBar>
 			<form noValidate onSubmit={handleSubmit} className="flex flex-col mt-16 md:overflow-hidden">
-				<DialogContent classes={{ root: 'p-24 height-dialogcontent' }}>
+				<DialogContent classes={{ root: 'px-24 pt-24 pb-0 height-dialogcontent' }}>
 					<div className="flex mb-10">
 						<div className="min-w-48 pt-20">
 							<Icon color="action">search</Icon>
@@ -200,36 +200,21 @@ function AddTeamMemberToProject(props) {
 							}))}
 						/>
 					</div>
-
-					{/* <div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">nature_people</Icon>
+					<div>
+						<div className="flex flex-1 items-center justify-center h-full px-52 pt-12">
+							<Typography color="textSecondary" variant="subtitle1" className="text-center">
+								search for One or multiple existent profile in edilcloud ( owner or delegate ) and add to this project for collaborare in Cloud
+							</Typography>
 						</div>
-						<Autocomplete
-							options={SYSTEM_ROLES}
-							style={{ width: '100%' }}
-							className="mb-24"
-							getOptionLabel={option => option.label}
-							renderOption={(option, { selected }) => (
-								<>
-									<Checkbox
-										icon={icon}
-										checkedIcon={checkedIcon}
-										style={{ marginRight: 8 }}
-										checked={selected}
-									/>
-									{option.label}
-								</>
-							)}
-							defaultValue={
-								SYSTEM_ROLES.filter(d => d.label == role).length &&
-								SYSTEM_ROLES.filter(d => d.label == role)[0]
-							}
-							inputValue={role}
-							renderInput={params => <TextField {...params} variant="outlined" label="Role" />}
-							onInputChange={(e, value) => setRole(value)}
-						/>
-					</div> */}
+						<div className="flex flex-1 items-center justify-center h-full">
+							<img className="w-400" src="assets/images/errors/nofiles.png" />
+						</div>
+						{/* <div className="flex flex-1 mt-20 items-center justify-center h-full">
+							<Typography color="textSecondary" variant="h6">
+								{t('CREATE_FILE_ADVICE')}
+							</Typography>
+						</div> */}
+					</div>
 				</DialogContent>
 			</form>
 			<DialogActions className="p-24">
