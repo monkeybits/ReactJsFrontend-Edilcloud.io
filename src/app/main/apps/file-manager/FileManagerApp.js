@@ -23,6 +23,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import { ThemeProvider } from '@material-ui/core/styles';
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
 // import loadable from '@loadable/component';
@@ -35,6 +36,7 @@ import MoveFileDialog from './MoveFileDialog';
 import FloatingButtonUpload from './FloatingButtonUpload';
 import TransitionAlerts from './TransitionAlerts';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 // const FileList = loadable(() => import('./FileList'))
 // const DetailSidebarHeader = loadable(() => import('./DetailSidebarHeader'))
 // const DetailSidebarContent = loadable(() => import('./DetailSidebarContent'))
@@ -101,6 +103,7 @@ function FileManagerApp(props) {
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const allFiles = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
 	const selectedItem = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
+	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
 	const pageLayout = useRef(null);
 	const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
@@ -134,7 +137,7 @@ function FileManagerApp(props) {
 			...loading,
 			...data
 		}));
-	
+
 	const [error, seterror] = useState({
 		fileError: '',
 		titleError: '',
@@ -142,7 +145,7 @@ function FileManagerApp(props) {
 		nameError: '',
 		apiError: ''
 	});
-	
+
 	const resetError = () =>
 		seterror({
 			fileError: '',
@@ -150,7 +153,7 @@ function FileManagerApp(props) {
 			descError: '',
 			nameError: ''
 		});
-	
+
 	useEffect(() => {
 		if (company.can_access_files) {
 			const userInfo = decodeDataFromToken();
@@ -160,13 +163,13 @@ function FileManagerApp(props) {
 			props.history.push('/apps/todo/all');
 		}
 	}, [dispatch]);
-	
+
 	useEffect(() => {
 		setFilePath(folderPath[folderPath.length - 1]);
 		setPath(folderPath[folderPath.length - 1]);
 		setNewFolderPath(folderPath)
 	}, [folderPath, isOpenDrawer]);
-	
+
 	const addFile = event => {
 		resetError();
 		const { files } = event.target;
@@ -183,7 +186,7 @@ function FileManagerApp(props) {
 			});
 		}
 	};
-	
+
 	const resetOpenForm = () => {
 		setFile({
 			file: null,
@@ -214,16 +217,16 @@ function FileManagerApp(props) {
 			const values =
 				radioBtnValue == 'folder'
 					? {
-							name: title,
-							parent: path?.id ? path.id : '',
-							is_public: false
-					  }
+						name: title,
+						parent: path?.id ? path.id : '',
+						is_public: false
+					}
 					: {
-							[datakey]: fileType == 'image' ? await getCompressFile(file) : file,
-							title,
-							description,
-							folder: filePath ? filePath.id : null
-					  };
+						[datakey]: fileType == 'image' ? await getCompressFile(file) : file,
+						title,
+						description,
+						folder: filePath ? filePath.id : null
+					};
 			if (radioBtnValue == 'folder') {
 				formData = values;
 			} else {
@@ -235,17 +238,17 @@ function FileManagerApp(props) {
 				radioBtnValue == 'folder'
 					? ADD_FOLDER(company.id)
 					: fileType == 'image'
-					? ADD_PHOTO(company.id)
-					: fileType == 'video'
-					? ADD_VIDEO(company.id)
-					: ADD_DOCUMENT(company.id);
+						? ADD_PHOTO(company.id)
+						: fileType == 'video'
+							? ADD_VIDEO(company.id)
+							: ADD_DOCUMENT(company.id);
 			apiCall(
 				apiUrl,
 				formData,
 				res => {
 					const userInfo = decodeDataFromToken();
 					const cid = userInfo.extra?.profile?.company;
-					
+
 					if (folderPath.length > 1) {
 						dispatch(Actions.folderDetail(cid, handleSetLoading));
 					} else if (radioBtnValue != 'folder') {
@@ -313,58 +316,74 @@ function FileManagerApp(props) {
 			<FusePageSimple
 				classes={{
 					root: selectedItem?.title ? 'bg-red-500 fileInfoSidebar' : 'bg-red-500 fileInfoSidebar hide-sidebar',
-					header: 'p-24 pb-0 bg-white h-auto min-h-auto',
+					header: 'pb-0 bg-white h-auto min-h-auto',
 					sidebarHeader: '',
 					rightSidebar: 'w-320'
 				}}
 				header={
 					<>
-						<div className="flex flex-col flex-1 relative z-50">
-							<div className="flex w-full justify-between items-center mb-20">
-								<div className="mr-20">
-									<Typography variant="h5" className="mb-4">
+						<ThemeProvider theme={mainTheme}>
+							<div className="flex flex-1 dashboard-todo-header w-full">
+								<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
+									<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
 										{t('FILES')}
 									</Typography>
-								</div>
-							</div>
-							<div className="flex items-center justify-between left-icon-btn">
-								<FuseAnimate delay={200}>
-									<div>
-										{newFolderPath && (
-											<Breadcrumb
-												selected={newFolderPath}
-												className="flex flex-1 filemanager-breadcumb font-700 text-24 text-default mt-6"
-											/>
-										)}
+									<div className="flex flex-1 items-center justify-end">
+										<FuseAnimate animation="transition.slideRightIn" delay={300}>
+											<Button
+												onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
+												className="whitespace-no-wrap normal-case"
+												variant="contained"
+												color="secondary"
+											>
+												<span className="xs:hidden sm:flex">Guida</span>
+											</Button>
+										</FuseAnimate>
 									</div>
-								</FuseAnimate>
-								<div className="flex two-btn rounded h-40 ml-10">
-									<IconButton
-										onClick={() => setViewTable(false)}
-										className={!viewTable ? 'text-default' : ''}
-									>
-										<FontAwesomeIcon icon={faTh} />
-									</IconButton>
-									<IconButton onClick={() => setViewTable(true)}>
-										<FontAwesomeIcon icon={faList} className={viewTable ? 'text-default' : ''} />
-									</IconButton>
 								</div>
 							</div>
-							<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
-							{isUploadingFiles && (
-								<div className="linear-progress custom-color">
-									<LinearProgressWithLabel progress={progress} />
-								</div>
-							)}
-						</div>
+						</ThemeProvider>
 					</>
 				}
 				content={
-					viewTable ? (
-						<FileList setProgress={setProgress} pageLayout={pageLayout} />
-					) : (
-						<FileGrid setProgress={setProgress} pageLayout={pageLayout} />
-					)
+					<>
+						<div className="flex items-center justify-between left-icon-btn">
+							<FuseAnimate delay={200}>
+								<div className="pl-24">
+									{newFolderPath && (
+										<Breadcrumb
+											selected={newFolderPath}
+											className="flex flex-1 filemanager-breadcumb font-700 text-24 text-default mt-6"
+										/>
+									)}
+								</div>
+							</FuseAnimate>
+							<div className="flex two-btn rounded h-40 ml-10">
+								<IconButton
+									onClick={() => setViewTable(false)}
+									className={!viewTable ? 'text-default' : ''}
+								>
+									<FontAwesomeIcon icon={faTh} />
+								</IconButton>
+								<IconButton onClick={() => setViewTable(true)}>
+									<FontAwesomeIcon icon={faList} className={viewTable ? 'text-default' : ''} />
+								</IconButton>
+							</div>
+						</div>
+						<TransitionAlerts open={open} setOpen={setOpen} text={error.apiError} />
+						{isUploadingFiles && (
+							<div className="linear-progress custom-color">
+								<LinearProgressWithLabel progress={progress} />
+							</div>
+						)}
+						{
+							viewTable ? (
+								<FileList setProgress={setProgress} pageLayout={pageLayout} />
+							) : (
+								<FileGrid setProgress={setProgress} pageLayout={pageLayout} />
+							)
+						}
+					</>
 				}
 				leftSidebarVariant="temporary"
 				// leftSidebarHeader={<MainSidebarHeader />}

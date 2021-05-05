@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import { useParams } from 'react-router';
-import { Backdrop, Fab, Icon, makeStyles, Typography } from '@material-ui/core';
+import { Backdrop, Fab, Icon, makeStyles, Typography, Button } from '@material-ui/core';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import clsx from 'clsx';
@@ -11,6 +11,7 @@ import axios from 'app/services/axiosConfig';
 import { toast } from 'react-toastify';
 import { gantt } from 'dhtmlx-gantt';
 import moment from 'moment';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
 import ImportExcelDialog from './ImportExcelDialog';
 import CreateTasks from './CreateTasks';
@@ -20,6 +21,7 @@ import TodoDialog from '../todo/TodoDialog';
 import CreatePostDialog from '../todo/CreatePostDialog';
 import * as Actions from '../todo/store/actions';
 import Gantt from './Gantt';
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	backdrop: {
@@ -39,6 +41,7 @@ function GanttWrapper(props) {
 	});
 	const dispatch = useDispatch();
 	const routeParams = useParams();
+	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const entities = useSelector(({ todoAppNote }) => todoAppNote.todos.entities);
@@ -147,7 +150,7 @@ function GanttWrapper(props) {
 									switch (result) {
 										case 'save':
 											dispatch(Actions.setLoading(true));
-											handleUploadListOfTasks(listOfData, () => {});
+											handleUploadListOfTasks(listOfData, () => { });
 											// var selects = div.querySelectorAll(
 											// 	'[data-column-mapping]'
 											// );
@@ -175,6 +178,27 @@ function GanttWrapper(props) {
 	};
 	return (
 		<div>
+			<ThemeProvider theme={mainTheme}>
+				<div className="flex flex-1 dashboard-todo-header w-full">
+					<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
+						<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
+							Gantt
+						</Typography>
+						<div className="flex flex-1 items-center justify-end">
+							<FuseAnimate animation="transition.slideRightIn" delay={300}>
+								<Button
+									onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
+									className="whitespace-no-wrap normal-case"
+									variant="contained"
+									color="secondary"
+								>
+									<span className="xs:hidden sm:flex">Guida</span>
+								</Button>
+							</FuseAnimate>
+						</div>
+					</div>
+				</div>
+			</ThemeProvider>
 			{/* <div className={!isViewChart && 'hidden'}> */}
 			<div>
 				<Gantt

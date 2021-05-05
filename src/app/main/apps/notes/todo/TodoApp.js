@@ -313,7 +313,7 @@ function TodoApp(props) {
 				classes={{
 					contentWrapper: 'bg-azure h-full',
 					content: 'flex bg-azure flex-col h-full pb-0',
-					leftSidebar: `mobile-h-full w-256 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`,
+					leftSidebar: `mobile-h-full w-350 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`,
 					header: 'h-72 sm:h-136 sm:min-h-136',
 					wrapper: 'min-h-0 p-24 team-tab'
 				}}

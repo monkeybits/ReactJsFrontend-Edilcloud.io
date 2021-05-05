@@ -4,7 +4,7 @@ import loadable from '@loadable/component';
 import { makeStyles } from '@material-ui/core/styles';
 import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Box, CircularProgress, Card, CardContent } from '@material-ui/core';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory, withRouter, useLocation } from 'react-router-dom';
 import {
 	TYPOLOGY_LIST,
 	TYPOLOGY_LIST_BY_CODE,
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-	return ['COMPANY_DETAILS', 'COMPANY_CATEGORIES', 'COMPANY_LOGO'];
+	return ['COMPANY_DETAILS', 'COMPANY_LOGO'];
 }
 
 function getStepContent(step, elementProps) {
@@ -56,8 +56,6 @@ function getStepContent(step, elementProps) {
 		case 0:
 			return <CompanyDetails {...elementProps} />;
 		case 1:
-			return <CompanyCategory {...elementProps} />;
-		case 2:
 			return <FileUpload isCompany {...elementProps} />;
 		default:
 			return 'Unknown step';
@@ -66,6 +64,7 @@ function getStepContent(step, elementProps) {
 
 function CompanyCreationStepper({ user, history }) {
 	const { t } = useTranslation('company_create');
+	const location = useLocation();
 	const { form, handleChange, resetForm, setForm } = useForm({
 		name: '',
 		desc: '',
@@ -84,8 +83,6 @@ function CompanyCreationStepper({ user, history }) {
 	const routeHistory = useHistory();
 
 	const classes = useStyles();
-
-	console.log('company??????????????????????', company)
 
 	const [activeStep, setActiveStep] = React.useState(0);
 	const steps = getSteps();
@@ -256,18 +253,17 @@ function CompanyCreationStepper({ user, history }) {
 		handleChange(e);
 	};
 
-	console.log('form???????????????????????', form)
 	return (
 		<div
 			className={clsx(
 				classes.root,
-				'flex flex-col flex-auto flex-shrink-0'
+				`flex flex-col flex-auto flex-shrink-0 ${location.pathname === '/create-company' ? 'items-center justify-center p-20 md:p-40' : ''}`
 			)}
 		>
-			<div className="flex flex-col w-full">
+			<div className={`flex flex-col w-full ${location.pathname === '/create-company' ? 'items-center justify-center' : ''}`}>
 				<FuseAnimate animation="transition.expandIn">
-					<Card>
-						<CardContent className="flex flex-col">
+					<Card className={`${location.pathname === '/create-company' ? 'w-full max-w-512' : ''}`}>
+						<CardContent className={`flex flex-col ${location.pathname === '/create-company' ? 'items-center justify-center' : ''}`}>
 							<Stepper activeStep={activeStep} orientation="vertical">
 								{steps.map((label, index) => (
 									<Step key={label}>

@@ -26,6 +26,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 	const handleRadioChange = event => {};
 	const { t } = useTranslation('company_create');
 
+	console.log('form???????????????', form)
 	return (
 		<form name="registerForm" className="flex flex-col justify-center w-full">
 			<TextField
@@ -37,62 +38,6 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 				type="text"
 				name="name"
 				value={form.name}
-				onChange={handleChange}
-				variant="outlined"
-				required
-				fullWidth
-			/>
-			<TextField
-				className="mb-8"
-				label={t('DESCRIPTION')}
-				autoFocus
-				type="text"
-				name="desc"
-				value={form.desc}
-				onChange={handleChange}
-				variant="outlined"
-				required
-				fullWidth
-			/>
-			<TextField
-				className="mb-8"
-				label={t('COMPANY_EMAIL')}
-				type="email"
-				name="email"
-				value={form.email}
-				onChange={handleChange}
-				variant="outlined"
-				required
-				fullWidth
-			/>
-			<TextField
-				className="mb-8"
-				label={t('VAT_NUMBER')}
-				type="text"
-				name="vat_number"
-				value={form.vat_number}
-				onChange={handleChange}
-				variant="outlined"
-				required
-				fullWidth
-			/>
-			<TextField
-				className="mb-8"
-				label={t('WEBSITE_URL')}
-				type="text"
-				name="url"
-				value={form.url}
-				onChange={handleChange}
-				variant="outlined"
-				required
-				fullWidth
-			/>
-			<TextField
-				className="mb-8"
-				label={t('TELEPHONE_NUMBER')}
-				type="text"
-				name="phone"
-				value={form.phone}
 				onChange={handleChange}
 				variant="outlined"
 				required

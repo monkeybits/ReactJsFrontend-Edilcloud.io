@@ -2,6 +2,10 @@
     .ml-19 {
         margin-left: 19.6rem;
     }
+    .chat-send-message-form {
+        bottom: 0;
+        width: calc(100% - 682px);
+    }
     .send-message-form {
         bottom: 5rem;
         width: calc(100% - 682px);
@@ -118,6 +122,10 @@
 
 @media only screen and (max-width: 960px) {
     .send-message-form {
+        width: 100%;
+    }
+    .chat-send-message-form {
+        bottom: 0;
         width: 100%;
     }
 }

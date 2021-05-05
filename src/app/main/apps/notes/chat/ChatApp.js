@@ -161,73 +161,69 @@ function ChatApp(props) {
 	}
 	return (
 		<div>
-		<ThemeProvider theme={mainTheme}>
-		<div className="flex flex-1 dashboard-todo-header w-full">
-		<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
-		<div>
-		<Typography className="sm:flex pt-4 pb-4 text-white mx-0 sm:mx-12" variant="h6">
-		{projectDetail.name}
-					</Typography>
-					<Typography className="sm:flex pb-8 text-white mx-0 sm:mx-12" variant="p">
-		{projectDetail.address}
-					</Typography>
+			<ThemeProvider theme={mainTheme}>
+				<div className="flex flex-1 dashboard-todo-header w-full">
+					<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
+						<div>
+							<Typography className="sm:flex pt-4 pb-4 text-white mx-0 sm:mx-12" variant="h6">
+								{projectDetail.name}
+							</Typography>
+							<Typography className="sm:flex pb-8 text-white mx-0 sm:mx-12" variant="p">
+								{projectDetail.address}
+							</Typography>
+						</div>
+
+						<div className="flex flex-1 w-full items-center justify-between">
+
+							{/* <div className="flex items-center">
+								<FuseAnimate animation="transition.expandIn" delay={300}>
+									<div className="flex items-center">
+										<FuseAnimate animation="transition.expandIn" delay={300}>
+											<IconButton>
+												<Icon className="text-32 text-white">filter_list</Icon></IconButton>
+										</FuseAnimate>
+									</div>
+								</FuseAnimate>
+							</div> */}
+
+							<div className="flex flex-1 items-center justify-center px-12">
+								<ThemeProvider theme={mainTheme}>
+									<FuseAnimate animation="transition.slideDownIn" delay={300}>
+										<Paper className="flex items-center w-full max-w-512 px-8 py-4 rounded-8" elevation={1}>
+											<Icon color="action">search</Icon>
+
+											<Input
+												placeholder="Cerca Progetti o aziende committenti"
+												className="flex flex-1 mx-8"
+												disableUnderline
+												fullWidth
+												value={searchText}
+												inputProps={{
+													'aria-label': 'Search'
+												}}
+
+											/>
+										</Paper>
+									</FuseAnimate>
+								</ThemeProvider>
+							</div>
+
+							<FuseAnimate animation="transition.slideRightIn" delay={300}>
+								<Button
+									component={Link}
+									to="/apps/e-commerce/products/new"
+									className="whitespace-no-wrap normal-case"
+									variant="contained"
+									color="secondary"
+								>
+									<span className="flex">Nuovo</span>
+								</Button>
+							</FuseAnimate>
+						</div>
 					</div>
+				</div>
+			</ThemeProvider>
 
-	<div className="flex flex-1 w-full items-center justify-between">
-		
-	<div className="flex items-center">
-		<FuseAnimate animation="transition.expandIn" delay={300}>
-		<div className="flex items-center">
-			<FuseAnimate animation="transition.expandIn" delay={300}>
-				<IconButton>
-			<Icon className="text-32 text-white">filter_list</Icon></IconButton>
-				 
-			</FuseAnimate>
-			
-		</div>
-				
-		</FuseAnimate>
-		
-	</div>
-
-	<div className="flex flex-1 items-center justify-center px-12">
-		<ThemeProvider theme={mainTheme}>
-			<FuseAnimate animation="transition.slideDownIn" delay={300}>
-				<Paper className="flex items-center w-full max-w-512 px-8 py-4 rounded-8" elevation={1}>
-					<Icon color="action">search</Icon>
-
-					<Input
-						placeholder="Cerca Progetti o aziende committenti"
-						className="flex flex-1 mx-8"
-						disableUnderline
-						fullWidth
-						value={searchText}
-						inputProps={{
-							'aria-label': 'Search'
-						}}
-						
-					/>
-				</Paper>
-			</FuseAnimate>
-		</ThemeProvider>
-	</div>
-
-	<FuseAnimate animation="transition.slideRightIn" delay={300}>
-		<Button
-			component={Link}
-			to="/apps/e-commerce/products/new"
-			className="whitespace-no-wrap normal-case"
-			variant="contained"
-			color="secondary"
-		>
-			<span className="flex">Nuovo</span>
-		</Button>
-	</FuseAnimate>
-</div>
-</div>
-</div>
-</ThemeProvider>
-	
 			{/* <div className={classes.topBg} /> */}
 
 			{/* <div className="flex w-full justify-between items-center mb-20">
@@ -247,23 +243,58 @@ function ChatApp(props) {
 					</Button>
 				</div> */}
 
-				<ThemeProvider theme={mainTheme}>
-			
-			<div className={clsx(classes.contentCardWrapper, 'container chat-custom-h-full p-0 inner-height')}>
-				<div className={clsx(classes.contentCard, 'chat-bg')}>
-					<Hidden mdUp>
+			<ThemeProvider theme={mainTheme}>
+
+				<div className={clsx(classes.contentCardWrapper, 'container chat-custom-h-full p-0 inner-height')}>
+					<div className={clsx(classes.contentCard, 'chat-bg')}>
+						<Hidden mdUp>
+							<Drawer
+								className="h-full absolute z-20 b-right"
+								variant="temporary"
+								anchor="left"
+								open={mobileChatsSidebarOpen}
+								onClose={() => dispatch(Actions.closeMobileChatsSidebar())}
+								classes={{
+									paper: clsx(classes.drawerPaper, 'absolute ltr:left-0 rtl:right-0')
+								}}
+								style={{ position: 'absolute' }}
+								ModalProps={{
+									keepMounted: true,
+									disablePortal: true,
+									BackdropProps: {
+										classes: {
+											root: 'absolute'
+										}
+									}
+								}}
+							>
+								<ChatsSidebar />
+							</Drawer>
+						</Hidden>
+						<Hidden smDown>
+							<Drawer
+								className="h-full z-20 b-right"
+								variant="permanent"
+								open
+								classes={{
+									paper: classes.drawerPaper
+								}}
+							>
+								<ChatsSidebar />
+							</Drawer>
+						</Hidden>
 						<Drawer
-							className="h-full absolute z-20 b-right"
+							className="h-full absolute z-30 b-right"
 							variant="temporary"
 							anchor="left"
-							open={mobileChatsSidebarOpen}
-							onClose={() => dispatch(Actions.closeMobileChatsSidebar())}
+							open={userSidebarOpen}
+							onClose={() => dispatch(Actions.closeUserSidebar())}
 							classes={{
-								paper: clsx(classes.drawerPaper, 'absolute ltr:left-0 rtl:right-0')
+								paper: clsx(classes.drawerPaper, 'absolute left-0')
 							}}
 							style={{ position: 'absolute' }}
 							ModalProps={{
-								keepMounted: true,
+								keepMounted: false,
 								disablePortal: true,
 								BackdropProps: {
 									classes: {
@@ -272,47 +303,12 @@ function ChatApp(props) {
 								}
 							}}
 						>
-							<ChatsSidebar />
+							<UserSidebar />
 						</Drawer>
-					</Hidden>
-					<Hidden smDown>
-						<Drawer
-							className="h-full z-20 b-right"
-							variant="permanent"
-							open
-							classes={{
-								paper: classes.drawerPaper
-							}}
-						>
-							<ChatsSidebar />
-						</Drawer>
-					</Hidden>
-					<Drawer
-						className="h-full absolute z-30 b-right"
-						variant="temporary"
-						anchor="left"
-						open={userSidebarOpen}
-						onClose={() => dispatch(Actions.closeUserSidebar())}
-						classes={{
-							paper: clsx(classes.drawerPaper, 'absolute left-0')
-						}}
-						style={{ position: 'absolute' }}
-						ModalProps={{
-							keepMounted: false,
-							disablePortal: true,
-							BackdropProps: {
-								classes: {
-									root: 'absolute'
-								}
-							}
-						}}
-					>
-						<UserSidebar />
-					</Drawer>
 
-					<main className={clsx(classes.contentWrapper, 'z-10 multiple-images-overflow-x chat-bg custom-w-form')}>
-						<>
-							{/*	<AppBar className="w-full border-0" position="static" elevation={1}>
+						<main className={clsx(classes.contentWrapper, 'z-10 multiple-images-overflow-x chat-bg custom-w-form')}>
+							<>
+								{/*	<AppBar className="w-full border-0" position="static" elevation={1}>
 								<Toolbar className="bg-dark min-h-72 px-16">
 									<IconButton
 										color="inherit"
@@ -338,37 +334,37 @@ function ChatApp(props) {
 								</Toolbar>
 							</AppBar> */}
 
-							<div className={classes.content}>
-								<Chat className="flex flex-1 z-10 Poppinsple-images-overflow-x chat-bg" />
-							</div>
-						</>
-					</main>
+								<div className={classes.content}>
+									<Chat className="flex flex-1 z-10 Poppinsple-images-overflow-x chat-bg" />
+								</div>
+							</>
+						</main>
 
-					<Drawer
-						className="h-full absolute z-30"
-						variant="temporary"
-						anchor="right"
-						open={contactSidebarOpen}
-						onClose={() => dispatch(Actions.closeContactSidebar())}
-						classes={{
-							paper: clsx(classes.drawerPaper, 'absolute ltr:right-0 rtl:left-0')
-						}}
-						style={{ position: 'absolute' }}
-						ModalProps={{
-							keepMounted: true,
-							disablePortal: true,
-							BackdropProps: {
-								classes: {
-									root: 'absolute'
+						<Drawer
+							className="h-full absolute z-30"
+							variant="temporary"
+							anchor="right"
+							open={contactSidebarOpen}
+							onClose={() => dispatch(Actions.closeContactSidebar())}
+							classes={{
+								paper: clsx(classes.drawerPaper, 'absolute ltr:right-0 rtl:left-0')
+							}}
+							style={{ position: 'absolute' }}
+							ModalProps={{
+								keepMounted: true,
+								disablePortal: true,
+								BackdropProps: {
+									classes: {
+										root: 'absolute'
+									}
 								}
-							}
-						}}
-					>
-						<ContactSidebar />
-					</Drawer>
+							}}
+						>
+							<ContactSidebar />
+						</Drawer>
+					</div>
 				</div>
-			</div>
-		</ThemeProvider>
+			</ThemeProvider>
 		</div>
 	);
 }

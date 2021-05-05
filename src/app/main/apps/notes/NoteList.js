@@ -315,7 +315,6 @@ function NoteList(props) {
 		<>
 			<div id="project-list" className="flex flex-wrap w-full">
 				<div className={classes.root}>
-					
 					{companies.map((data, index) => (
 						<>
 							<div className="flex justify-start items-center pb-8 mb-16">
