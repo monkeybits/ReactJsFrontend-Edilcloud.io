@@ -55,7 +55,7 @@ function RegisterPage() {
 	const [settings, setSettings] = useState({
 		clientId: 'com.monkeybits.edilcloud.signin',
 		redirectURI: 'https://test.edilcloud.io',
-		scope: '',
+		scope: 'name%20email',
 		state: '',
 		responseType: 'code id_token',
 		responseMode: 'query',
