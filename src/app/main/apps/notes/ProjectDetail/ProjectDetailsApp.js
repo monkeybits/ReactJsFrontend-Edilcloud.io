@@ -72,7 +72,7 @@ function ProjectDetails(props) {
 				classes={{
 					contentWrapper: value == 4 ? '' : havePaddingTabs.includes(value) ? 'pb-60' : 'pb-60',
 					content: 'flex min-h-full tabs-content custom-padding-small',
-					leftSidebar: 'w-256 border-0',
+					leftSidebar: 'w-350 border-0',
 					header: 'h-auto min-h-auto bg-body'
 				}}
 				// header={<ProjectDetailHeader onOpen={() => setOpenDialog(true)} pageLayout={pageLayout} />}

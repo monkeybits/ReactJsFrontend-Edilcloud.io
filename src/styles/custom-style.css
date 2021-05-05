@@ -933,6 +933,10 @@ textarea.MuiOutlinedInput-input {
     bottom: 5rem;
     width: calc(100% - 350px);
 }
+.chat-send-message-form {
+    bottom: 0;
+    width: calc(100% - 350px);
+}
 .custom-w-form {
     width: 350px;
 }

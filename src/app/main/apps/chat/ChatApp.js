@@ -4,7 +4,7 @@
 *This file is created for ChatApp
 TODO: ChatApp is created for do chats between company team mates
 */
-import { AppBar, Avatar, Drawer, Hidden, Icon, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Avatar, Drawer, Hidden, Icon, IconButton, Toolbar, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import withReducer from 'app/store/withReducer';
@@ -18,6 +18,9 @@ import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import { GET_CHAT } from './store/actions';
 import loadable from '@loadable/component';
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import { ThemeProvider } from '@material-ui/core/styles';
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 const Chat = loadable(() => import('./Chat'))
 const ChatsSidebar = loadable(() => import('./ChatsSidebar'))
 const ContactSidebar = loadable(() => import('./ContactSidebar'))
@@ -112,6 +115,7 @@ function ChatApp(props) {
 	const mobileChatsSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.mobileChatsSidebarOpen);
 	const userSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.userSidebarOpen);
 	const contactSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.contactSidebarOpen);
+	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
 	const [isMounted, setIsMounted] = useState(false);
 	const { t } = useTranslation('chat');
 
@@ -155,7 +159,7 @@ function ChatApp(props) {
 			});
 		};
 	}, []);
-	
+
 	if (loading.loadingCompanyInfo || loading.loadingGetChat || loading.loadingGetContacts) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center">
@@ -168,30 +172,33 @@ function ChatApp(props) {
 	}
 	return (
 		<>
-			<div className={clsx(classes.root, 'flex-col h-full p-24')}>
+			<div className={clsx(classes.root, 'flex-col h-full')}>
 				{/* <div className={classes.topBg} /> */}
 
-				<div className="flex w-full justify-between items-center mb-20">
-					<div className="mr-20">
-						<Typography variant="h5" className="mb-4">
-							{t('CHAT')}
-						</Typography>
-						{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-								<Typography variant="subtitle1" className="font-weight-700 mb-4">
-									Project Test 1
-								</Typography>
-							</FuseAnimate>
-							<Typography variant="subtitle1" className="text-14 font-weight-600 text-muted">
-								Nuernbergerstrasse 45, Elsfleth, Niedersachsen, 26931
-							</Typography> */}
+				<ThemeProvider theme={mainTheme}>
+					<div className="flex flex-1 dashboard-todo-header w-full">
+						<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
+							<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
+								{t('CHAT')}
+							</Typography>
+							<div className="flex flex-1 items-center justify-end">
+								<FuseAnimate animation="transition.slideRightIn" delay={300}>
+									<Button
+										onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
+										className="whitespace-no-wrap normal-case"
+										variant="contained"
+										color="secondary"
+									>
+										<span className="xs:hidden sm:flex">Guida</span>
+									</Button>
+								</FuseAnimate>
+							</div>
+						</div>
 					</div>
-					{/* <Button className="badge-btn" color="secondary" onClick={() => props.onOpen()}>
-							Open Details
-						</Button> */}
-				</div>
+				</ThemeProvider>
 
 				<div
-					className={clsx(classes.contentCardWrapper, 'container chat-custom-h-full p-0 inner-height chat-inner-height')}
+					className={clsx(classes.contentCardWrapper, 'container max-w-full chat-custom-h-full p-0 inner-height chat-inner-height')}
 				>
 					<div className={clsx(classes.contentCard, 'chat-bg')}>
 						<Hidden mdUp>
@@ -301,7 +308,7 @@ function ChatApp(props) {
 									</Toolbar>
 								</AppBar>
 
-								<div className={classes.content}>
+								<div className={clsx(classes.content, 'mb-88')}>
 									<Chat className="flex flex-1 z-10 Poppinsple-images-overflow-x chat-bg" />
 								</div>
 							</>

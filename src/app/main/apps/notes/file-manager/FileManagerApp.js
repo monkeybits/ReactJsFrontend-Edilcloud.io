@@ -33,6 +33,7 @@ import FloatingButtonUpload from './FloatingButtonUpload';
 import TransitionAlerts from './TransitionAlerts.js';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import reducer from './store/reducers';
+import { ThemeProvider } from '@material-ui/core/styles';
 import * as Actions from './store/actions';
 import MainSidebarHeader from './MainSidebarHeader';
 import MainSidebarContent from './MainSidebarContent';
@@ -41,6 +42,7 @@ import FileList from './FileList';
 import DetailSidebarHeader from './DetailSidebarHeader';
 import DetailSidebarContent from './DetailSidebarContent';
 import Breadcrumb from './Breadcrumb';
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 
 const styles = theme => ({
 	root: {
@@ -98,6 +100,7 @@ function FileManagerApp(props) {
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const selectedItem = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.selectedItemId);
+	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
 	const pageLayout = useRef(null);
 	const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
@@ -125,8 +128,6 @@ function FileManagerApp(props) {
 		nameError: '',
 		apiError: ''
 	});
-
-	console.log('files???????????????????111111', allFiles)
 
 	const [loading, setLoading] = useState({
 		loadingPhotos: false,
@@ -309,16 +310,41 @@ function FileManagerApp(props) {
 			<FusePageSimple
 				classes={{
 					root: selectedItem?.title ? 'fileInfoSidebar' : 'bg-red-500 fileInfoSidebar hide-sidebar',
-					header: 'p-24 pb-0 bg-white h-auto min-h-auto block',
+					header: 'pb-0 bg-white h-auto min-h-auto block',
 					sidebarHeader: '',
 					rightSidebar: 'w-320'
 				}}
 				header={
 					<>
+						<ThemeProvider theme={mainTheme}>
+							<div className="flex flex-1 dashboard-todo-header w-full">
+								<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
+									<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
+										{t('FILES')}
+									</Typography>
+									<div className="flex flex-1 items-center justify-end">
+										<FuseAnimate animation="transition.slideRightIn" delay={300}>
+											<Button
+												onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
+												className="whitespace-no-wrap normal-case"
+												variant="contained"
+												color="secondary"
+											>
+												<span className="xs:hidden sm:flex">Guida</span>
+											</Button>
+										</FuseAnimate>
+									</div>
+								</div>
+							</div>
+						</ThemeProvider>
+					</>
+				}
+				content={
+					<>
 						<div className="flex flex-col flex-1 relative z-50 mt-10">
 							<div className="flex items-center justify-between left-icon-btn">
 								<FuseAnimate delay={200}>
-									<div>
+									<div className="pl-24">
 										{folderPath && (
 											<Breadcrumb
 												selected={folderPath}
@@ -346,14 +372,14 @@ function FileManagerApp(props) {
 								</div>
 							)}
 						</div>
+						{
+							viewTable ? (
+								<FileList viewTable={viewTable} pageLayout={pageLayout} setProgress={setProgress} />
+							) : (
+								<FileGrid viewTable={viewTable} pageLayout={pageLayout} setProgress={setProgress} />
+							)
+						}
 					</>
-				}
-				content={
-					viewTable ? (
-						<FileList viewTable={viewTable} pageLayout={pageLayout} setProgress={setProgress} />
-					) : (
-						<FileGrid viewTable={viewTable} pageLayout={pageLayout} setProgress={setProgress} />
-					)
 				}
 				leftSidebarVariant="temporary"
 				leftSidebarHeader={<MainSidebarHeader />}

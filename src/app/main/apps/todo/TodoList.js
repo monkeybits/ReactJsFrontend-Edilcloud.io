@@ -103,7 +103,7 @@ function TodoList(props) {
 	};
 
 	useEffect(() => {
-		if (contacts && contacts.length > 0) {
+		if (contacts && contacts.length > 1) {
 			dispatch(AccessibilityActions.setOpenMenu('project'));
 			dispatch(AccessibilityActions.setIsTeam('team'));
 		}
