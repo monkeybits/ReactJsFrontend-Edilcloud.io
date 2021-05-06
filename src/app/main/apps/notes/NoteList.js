@@ -8,7 +8,7 @@ TODO: All Projects listed here
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
 import { Typography, Avatar, Grid, Badge, Paper, IconButton, Icon, Input } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -62,6 +62,7 @@ const useStyles = makeStyles(theme => ({
 
 function NoteList(props) {
 	const [hasRenderd, setHasRenderd] = useState(false);
+	const [newCompanyList, setNewCompanyList] = useState([]);
 
 	const orderBy = useSelector(({ notesApp }) => notesApp.project.orderBy);
 	const orderDescending = useSelector(({ notesApp }) => notesApp.project.orderDescending);
@@ -151,6 +152,16 @@ function NoteList(props) {
 		handleDoFilter();
 	}, [activeFilterKey, usedKeys, projects]);
 
+	const newCompany = useMemo(() => {
+		const res = filteredData && filteredData.map((project) => {
+			return project.company
+		}) || []
+		const key = 'slug'
+		const arrayUniqueByKey = [...new Map(res.map(item =>
+			[item[key], item])).values()];
+			return arrayUniqueByKey
+	}, [filteredData])
+
 	const handleDoFilter = () => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -161,6 +172,7 @@ function NoteList(props) {
 		}
 		if (projects) {
 			let list = _.orderBy(getFilteredArray(projects, searchText), [orderBy], [orderDescending ? 'desc' : 'asc']);
+			
 			if (usedKeys && usedKeys.length) {
 				for (const key in usedKeys) {
 					if (usedKeys.hasOwnProperty(key)) {
@@ -310,13 +322,13 @@ function NoteList(props) {
 	if (!filteredData) {
 		return null;
 	}
-	
+
 	return (
 		<>
 			<div id="project-list" className="flex flex-wrap w-full">
 				<div className={classes.root}>
-					{companies.map((data, index) => (
-						<>
+					{newCompany.map((data, index) => {
+						return <>
 							<div className="flex justify-start items-center pb-8 mb-16">
 								<Avatar className="mr-4" aria-label="recipe" src={data?.logo} sizes="25">
 									{data?.name?.split('')[0]}
@@ -327,7 +339,7 @@ function NoteList(props) {
 							</div>
 							<Grid container spacing={12} className="grid-space-remove">
 								{filteredData.length > 0 && filteredData.map((project, index) => {
-									if (data.id = project.company?.id)
+									if (data.slug === project.company.slug)
 										return project.isApproved ? (
 											<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
 												<ProjectListitem
@@ -362,7 +374,7 @@ function NoteList(props) {
 								})}
 							</Grid>
 						</>
-					))}
+					})}
 					{!!projects.filter((project, index) => !project.company?.id).length && (
 						<div className="mb-16 border-b-1">
 							<Typography variant="subtitle1" className="font-size-18 font-600">
