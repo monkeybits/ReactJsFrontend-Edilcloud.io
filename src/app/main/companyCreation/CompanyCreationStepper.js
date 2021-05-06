@@ -145,8 +145,7 @@ function CompanyCreationStepper({ user, history }) {
 	useEffect(() => {
 		if (routeHistory) {
 			console.log({ routeHistory });
-			if (routeHistory.location.pathname == '/apps/settings') {
-			// if (routeHistory.location.pathname == '/edit-company') {
+			if (routeHistory.location.pathname == '/apps/settings' || routeHistory.location.pathname == '/edit-company') {
 				setIsEdit(true);
 				console.log({ company });
 				setFile({
@@ -167,7 +166,7 @@ function CompanyCreationStepper({ user, history }) {
 
 	const handleNext = () => {
 		setActiveStep(prevActiveStep => prevActiveStep + 1);
-		if (activeStep == 2) {
+		if (activeStep == 1) {
 			handleSubmit();
 		}
 	};
@@ -253,17 +252,19 @@ function CompanyCreationStepper({ user, history }) {
 		handleChange(e);
 	};
 
+	const isMainWrap = location.pathname === '/create-company' || location.pathname === '/edit-company' ? true : false;
+
 	return (
 		<div
 			className={clsx(
 				classes.root,
-				`flex flex-col flex-auto flex-shrink-0 ${location.pathname === '/create-company' ? 'items-center justify-center p-20 md:p-40' : ''}`
+				`flex flex-col flex-auto flex-shrink-0 ${isMainWrap ? 'items-center justify-center p-20 md:p-40' : ''}`
 			)}
 		>
-			<div className={`flex flex-col w-full ${location.pathname === '/create-company' ? 'items-center justify-center' : ''}`}>
+			<div className={`flex flex-col w-full ${isMainWrap ? 'items-center justify-center' : ''}`}>
 				<FuseAnimate animation="transition.expandIn">
-					<Card className={`${location.pathname === '/create-company' ? 'w-full max-w-512' : ''}`}>
-						<CardContent className={`flex flex-col ${location.pathname === '/create-company' ? 'items-center justify-center' : ''}`}>
+					<Card className={`${isMainWrap ? 'w-full max-w-512' : ''}`}>
+						<CardContent className={`flex flex-col ${isMainWrap ? 'items-center justify-center' : ''}`}>
 							<Stepper activeStep={activeStep} orientation="vertical">
 								{steps.map((label, index) => (
 									<Step key={label}>
@@ -274,9 +275,9 @@ function CompanyCreationStepper({ user, history }) {
 													index,
 													index == 0
 														? { form, handleChangeAfterRemoveError, error }
-														: index == 1
-														? { typologyList, optionList }
-														: { setFile, file, remove: () => setFile(null) }
+													: index == 1
+														? { setFile, file, remove: () => setFile(null) }
+														: { typologyList, optionList }
 												)}
 											</Typography>
 											<div
