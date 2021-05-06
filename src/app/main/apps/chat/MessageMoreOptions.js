@@ -97,6 +97,8 @@ export default function SimpleMenu(props) {
 		// handleClose(event);
 	};
 
+	console.log('props.item', props.item)
+
 	return (
 		<div className={props.className}>
 			<TippyMenu
@@ -115,8 +117,13 @@ export default function SimpleMenu(props) {
 				outsideClick
 			>
 				<MenuItem onClick={handleDelete}>{t('DELETE')}</MenuItem>
-				<MenuItem onClick={handleDownload}>{t('DOWNLOAD')}</MenuItem>
-				<MenuItem onClick={openViewFile}>{t('VIEW')}</MenuItem>
+				{
+					props.item.files.length > 0 &&
+					<>
+					<MenuItem onClick={handleDownload}>{t('DOWNLOAD')}</MenuItem>
+					<MenuItem onClick={openViewFile}>{t('VIEW')}</MenuItem>
+					</>
+				}
 			</TippyMenu>
 			<FileViewDialog
 				isOpenViewFile={isOpenViewFile}

@@ -400,6 +400,7 @@ function TodoList(props) {
 							{taskContentDialog.props.open && todoId == taskContentDialog.data.id ? (
 								<TaskContentForm />
 							) : (
+								!openDrawingContent && !todoDialog.props.openTimelineDialog &&
 								<div className="flex flex-col items-center justify-center">
 									<div className="h-full">
 										<img className="w-400" src="assets/images/errors/nofiles.png" />
@@ -411,7 +412,7 @@ function TodoList(props) {
 									</div>
 								</div>
 							)}
-							{openDrawingContent && (
+							{openDrawingContent && !todoDialog.props.openTimelineDialog && (
 								<TaskAttachment /> // if we click on tasks this component will be displayed
 							)}
 							{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
