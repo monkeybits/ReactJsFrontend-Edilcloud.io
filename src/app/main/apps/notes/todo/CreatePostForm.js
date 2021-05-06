@@ -80,7 +80,6 @@ function CreatePostForm({ isTask, taskId }) {
 	});
 	const inputRef = useRef(null);
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
-	const openDrawingContent = useSelector(({ todoAppNote }) => todoAppNote.todos.openDrawingContent);
 	useEffect(() => {
 		if (user) {
 			setTempAuthor({
@@ -428,17 +427,16 @@ function CreatePostForm({ isTask, taskId }) {
 					data.posts.length > 0 ? (
 						<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.posts} media={media.files} />
 					) : (
-							!openDrawingContent &&
-								<div className="flex flex-col items-center justify-center">
-									<div className="h-full">
-										<img className="w-400" src="assets/images/errors/nofiles.png" />
-									</div>
-									<div className="h-full">
-										<Typography color="textSecondary" variant="h5">
-											{t('NO_POSTS_MESSAGE')}
-										</Typography>
-									</div>
-								</div>
+						<div className="flex flex-col items-center justify-center">
+							<div className="h-full">
+								<img className="w-400" src="assets/images/errors/nofiles.png" />
+							</div>
+							<div className="h-full">
+								<Typography color="textSecondary" variant="h5">
+									{t('NO_POSTS_MESSAGE')}
+								</Typography>
+							</div>
+						</div>
 					)
 				}
 				<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.sharedPosts} />

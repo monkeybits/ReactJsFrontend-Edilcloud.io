@@ -177,7 +177,6 @@ function TodoList(props) {
 	}, [activeFilterKey, company, usedKeys, todos]);
 
 	const handleDoFilter = () => {
-		// this function is called to apply a filter, whenever user apply new filter this function will be called
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
 			if (_searchText.length === 0) {
@@ -474,6 +473,7 @@ function TodoList(props) {
 					{taskContentDialog.props.open && todoId == taskContentDialog.data.id ? (
 						<TaskContentForm /> // if we click on tasks this component will be displayed
 					) : (
+						!openDrawingContent && !todoDialog.props.openTimelineDialog &&
 						<div className="flex flex-col items-center justify-center">
 							<div className="h-full">
 								<img className="w-400" src="assets/images/errors/nofiles.png" />
@@ -485,7 +485,7 @@ function TodoList(props) {
 							</div>
 						</div>
 					)}
-					{openDrawingContent && (
+					{openDrawingContent && !todoDialog.props.openTimelineDialog && (
 						<TaskAttachment /> // if we click on tasks this component will be displayed
 					)}
 					{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
