@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { Button, Icon, MenuItem, Paper, Typography } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFile,
-	faFileExcel,
-	faFileVideo,
-	faFileAudio
-} from '@fortawesome/free-regular-svg-icons';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+import { faFile, faFileExcel, faFileVideo, faFileAudio } from '@fortawesome/free-regular-svg-icons';
+
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 function SendMessageFilePreview(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

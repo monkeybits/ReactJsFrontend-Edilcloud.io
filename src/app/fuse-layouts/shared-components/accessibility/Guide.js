@@ -36,7 +36,8 @@ function Guide(props) {
 			title: 'Aggiungi i Tuoi Collaboratori',
 			content: 'Testing',
 			contentTitle: 'Benvenuti in EdilCLoud',
-			contentDescription: 'Inizia a creare il tuo team inviando una richiesta ai tuoi collaboratori, in questo modo tutti avrete accesso alle informazioni aziendali sulla base del ruolo scelto.',
+			contentDescription:
+				'Inizia a creare il tuo team inviando una richiesta ai tuoi collaboratori, in questo modo tutti avrete accesso alle informazioni aziendali sulla base del ruolo scelto.',
 			link: '/apps/contacts/all',
 			linkText: 'Aggiungi un collaboratore',
 			linkTextAll: 'Vai a Team',
@@ -61,7 +62,8 @@ function Guide(props) {
 			title: 'Crea una fase di lavoro',
 			content: 'Testing',
 			contentTitle: '',
-			contentDescription: 'La fase di lavoro è un task completo che nei progetti viene assegnato alle aziende, è un contenitore per condividere contenuti.',
+			contentDescription:
+				'La fase di lavoro è un task completo che nei progetti viene assegnato alle aziende, è un contenitore per condividere contenuti.',
 			link: projects !== undefined && projects.length > 0 ? `/apps/projects/${projects[0].id}` : '',
 			linkText: 'Add task page',
 			linkTextAll: 'Vai alla pagina fasi',

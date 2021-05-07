@@ -12,12 +12,12 @@ import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const MoreOption = loadable(() => import('./MoreOption'))
-const ContactCard = loadable(() => import('./ContactCard'))
-const ContactsTable = loadable(() => import('./ContactsTable'))
-const ContactsMultiSelectMenu = loadable(() => import('./ContactsMultiSelectMenu'))
-const DeleteConfirmDialog = loadable(() => import('../../file-manager/DeleteConfirmDialog'))
+// import loadable from '@loadable/component';
+const MoreOption = React.lazy(() => import('./MoreOption'));
+const ContactCard = React.lazy(() => import('./ContactCard'));
+const ContactsTable = React.lazy(() => import('./ContactsTable'));
+const ContactsMultiSelectMenu = React.lazy(() => import('./ContactsMultiSelectMenu'));
+const DeleteConfirmDialog = React.lazy(() => import('../../file-manager/DeleteConfirmDialog'));
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -281,7 +281,6 @@ function ContactsList(props) {
 						</IconButton>
 					</Hidden>
 				</div>
-			
 
 				<div className="flex two-btn rounded h-40 ml-10">
 					<IconButton onClick={() => setViewTable(false)} className={!viewTable ? 'text-default' : ''}>
@@ -347,9 +346,7 @@ function ContactsList(props) {
 									// company.id == data.profile?.company?.id ?
 									<ContactCard
 										editPermission={
-											(getRole() == 'o') &&
-											data.profile &&
-											userInfo.user_id != data.profile.id
+											getRole() == 'o' && data.profile && userInfo.user_id != data.profile.id
 										}
 										onCardClick={ev => {
 											ev.preventDefault();

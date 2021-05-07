@@ -5,7 +5,7 @@
 Todo: This file is return each task item and list of activity which includes in task
 */
 import _ from '@lodash';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { blue } from '@material-ui/core/colors';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -40,8 +40,9 @@ import moment from 'moment';
 import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-const TodoActivityListItem = loadable(() => import('./TodoActivityListItem'))
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+
+const TodoActivityListItem = React.lazy(() => import('./TodoActivityListItem'));
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -181,17 +182,31 @@ function TodoListItem(props) {
 		/**
 		 * After Dialog Open
 		 */
-		if (todoDialog !== undefined && todoDialog.type === 'activity' && todoDialog.props.open && todoDialog.data.id == props.todo.id) {
+		if (
+			todoDialog !== undefined &&
+			todoDialog.type === 'activity' &&
+			todoDialog.props.open &&
+			todoDialog.data.id == props.todo.id
+		) {
 			setId(todoDialog.data.id);
 		}
 
-		if (todoDialog !== undefined && todoDialog.type === 'activity' && todoDialog.props.open == false && props.todo.id == id) {
+		if (
+			todoDialog !== undefined &&
+			todoDialog.type === 'activity' &&
+			todoDialog.props.open == false &&
+			props.todo.id == id
+		) {
 			getDetailOfTask();
 			setId(null);
 		}
 	}, [todoDialog?.props?.open]);
 	useEffect(() => {
-		if (todoDialog !== undefined && todoDialog.props.openTimelineDialog == true && todoDialog.data.task.id == props.todo.id) {
+		if (
+			todoDialog !== undefined &&
+			todoDialog.props.openTimelineDialog == true &&
+			todoDialog.data.task.id == props.todo.id
+		) {
 			setId(todoDialog.data.task.id);
 		}
 		if (todoDialog !== undefined && todoDialog.props.openTimelineDialog == false && props.todo.id == id) {
@@ -242,13 +257,11 @@ function TodoListItem(props) {
 					id,
 					company: [
 						{
-							data: company
-								? company
-								: {
-										profile: {
-											company: company ? company : props.todo.assigned_company
-										}
-								  }
+							data: company || {
+								profile: {
+									company: company || props.todo.assigned_company
+								}
+							}
 						}
 					],
 					startDate: props.todo.date_start,
@@ -278,14 +291,14 @@ function TodoListItem(props) {
 	};
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
 
-	console.log('props.todo????????????????', props.todo)
+	console.log('props.todo????????????????', props.todo);
 	return (
 		<div className="mb-20">
 			<Card
 				elevation={1}
 				className="flex flex-col bordergrey overflow-inherit mb-6"
 				// ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
-				onClick={(e) => {
+				onClick={e => {
 					dispatch(Actions.closeDrawingContent());
 					// if (getRole() == 'o' || getRole() == 'd') {
 					e.preventDefault();
@@ -304,8 +317,7 @@ function TodoListItem(props) {
 						color: theme.palette.getContrastText(blue[500])
 					}}
 				>
-				{
-					props.todo.assigned_company !== null ? ( 
+					{props.todo.assigned_company !== null ? (
 						<>
 							<div className="flex items-center">
 								<Avatar className="mr-10" src={props.todo.assigned_company?.logo} />
@@ -318,7 +330,7 @@ function TodoListItem(props) {
 								<IconButton
 									// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
 									aria-haspopup="true"
-									onClick={(e) => {
+									onClick={e => {
 										e.preventDefault();
 										e.stopPropagation();
 										dispatch(Actions.openDrawingContent(props.todo));
@@ -346,15 +358,16 @@ function TodoListItem(props) {
 									}
 									outsideClick
 								>
-									<MenuItem onClick={ev => {
-										ev.preventDefault();
-										ev.stopPropagation();
-										if (props.todo.assigned_company) {
-											dispatch(Actions.openAddActivityTodoDialog(props.todo));
-										}
-									}}>
-										<Button
-										>
+									<MenuItem
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											if (props.todo.assigned_company) {
+												dispatch(Actions.openAddActivityTodoDialog(props.todo));
+											}
+										}}
+									>
+										<Button>
 											<Icon className="mr-10">add_circle_outline</Icon>
 											SOTTOFASE
 										</Button>
@@ -362,8 +375,7 @@ function TodoListItem(props) {
 								</TippyMenu>
 							</div>
 						</>
-					) : (
-						(getRole() == 'd' || getRole() == 'o') ? (
+					) : getRole() == 'd' || getRole() == 'o' ? (
 						<>
 							<div ref={anchorRef} onClick={handleMenuOpen}>
 								<IconButton>
@@ -413,9 +425,7 @@ function TodoListItem(props) {
 						<Typography className="font-medium truncate ht-auto" color="inherit">
 							{props.todo.assigned_company?.name}
 						</Typography>
-					)
-					)
-				}
+					)}
 				</div>
 				<CardContent className="flex flex-col flex-auto ">
 					<div className="flex items-center flex-wrap justify-center my-12">

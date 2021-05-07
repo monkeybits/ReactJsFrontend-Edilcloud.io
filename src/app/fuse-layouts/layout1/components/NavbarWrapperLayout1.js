@@ -1,12 +1,13 @@
 import React from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { useDispatch, useSelector } from 'react-redux';
 import { Drawer, Hidden } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import * as Actions from 'app/store/actions';
 import clsx from 'clsx';
-const NavbarLayout1 = loadable(() => import('./NavbarLayout1'))
-const NavbarMobileToggleFab = loadable(() => import('app/fuse-layouts/shared-components/NavbarMobileToggleFab'))
+
+const NavbarLayout1 = React.lazy(() => import('./NavbarLayout1'));
+const NavbarMobileToggleFab = React.lazy(() => import('app/fuse-layouts/shared-components/NavbarMobileToggleFab'));
 
 const navbarWidth = 260;
 

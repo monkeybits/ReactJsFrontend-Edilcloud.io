@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCompressFile } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const AudioRecord = loadable(() => import('app/AudioRecord'))
-const SendMessageFilePreview = loadable(() => import('./SendMessageFilePreview'))
+// import loadable from '@loadable/component';
+const AudioRecord = React.lazy(() => import('app/AudioRecord'));
+const SendMessageFilePreview = React.lazy(() => import('./SendMessageFilePreview'));
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -170,7 +170,11 @@ export default function SendMessageForm(props) {
 	};
 	return (
 		<div className="fixed w-full chat-send-message-form">
-			<form autoComplete="off" onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8 chat-form-bg">
+			<form
+				autoComplete="off"
+				onSubmit={onMessageSubmit}
+				className="bottom-0 right-0 left-0 py-16 px-8 chat-form-bg"
+			>
 				<div className="multiple-images flex flex-row overflow-x-auto">
 					{images &&
 						images.map((item, index) => (
@@ -205,7 +209,11 @@ export default function SendMessageForm(props) {
 						onChange={onInputChange}
 						value={messageText}
 					/>
-					<AudioRecord afterRecordComplete={addAudio} ref={audioRef} sendDirectToChat={sendAudioDirectToChat} />
+					<AudioRecord
+						afterRecordComplete={addAudio}
+						ref={audioRef}
+						sendDirectToChat={sendAudioDirectToChat}
+					/>
 					<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
 					<IconButton
 						className="image mr-48"

@@ -1,5 +1,5 @@
 import React from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { useForm } from '@fuse/hooks';
 import { makeStyles } from '@material-ui/core/styles';
 import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Card, CardContent } from '@material-ui/core';
@@ -12,8 +12,9 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { useTranslation } from 'react-i18next';
 import axios from '../../services/axiosConfig';
-const ProfileUpload = loadable(() => import('./FileUpload'))
-const BasicInfo = loadable(() => import('./BasicInfo'))
+
+const ProfileUpload = React.lazy(() => import('./FileUpload'));
+const BasicInfo = React.lazy(() => import('./BasicInfo'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -111,9 +112,7 @@ function VerticalLinearStepper({ user, history }) {
 				classes.root,
 				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 md:p-40'
 			)}
-			
 		>
-			
 			<img width="200" src="assets/images/logos/fuse.svg" />
 			<div className="flex flex-col items-center justify-center w-full px-0">
 				<FuseAnimate animation="transition.expandIn">

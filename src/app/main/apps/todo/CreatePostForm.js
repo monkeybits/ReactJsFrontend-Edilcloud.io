@@ -4,8 +4,20 @@
 *This File is written for Dashboard
 Todo: This File is created for create timeline posts and view timeline 
 */
-import { MenuItem, ListItemIcon, AppBar, Button, Card, Icon, IconButton, Input, Typography, LinearProgress, InputLabel } from '@material-ui/core';
-import loadable from '@loadable/component';
+import {
+	MenuItem,
+	ListItemIcon,
+	AppBar,
+	Button,
+	Card,
+	Icon,
+	IconButton,
+	Input,
+	Typography,
+	LinearProgress,
+	InputLabel
+} from '@material-ui/core';
+// import loadable from '@loadable/component';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
@@ -20,11 +32,12 @@ import imageCompression from 'browser-image-compression';
 import FuseUtils from '@fuse/utils';
 import Dropzone from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
-import * as Actions from './store/actions';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-const ImagesPreview = loadable(() => import('app/main/apps/notes/todo/ImagesPreview'))
-const PostList = loadable(() => import('app/main/apps/notes/todo/PostList'))
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+import * as Actions from './store/actions';
+
+const ImagesPreview = React.lazy(() => import('app/main/apps/notes/todo/ImagesPreview'));
+const PostList = React.lazy(() => import('app/main/apps/notes/todo/PostList'));
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 const uuidv1 = require('uuid/v1');
 
@@ -90,7 +103,7 @@ function CreatePostForm({ isTask, taskId }) {
 	const getRole = () => userInfo?.extra?.profile.role;
 
 	useEffect(() => {
-		window.updateImage = updateImage
+		window.updateImage = updateImage;
 	}, []);
 
 	useEffect(() => {
@@ -246,9 +259,9 @@ function CreatePostForm({ isTask, taskId }) {
 	 * below function is used to add media file before post it will store all files locallay on state called "fileData"
 	 */
 
-	const updateImage = async (string) => {
-		let files = []
-		var extToMimes = {
+	const updateImage = async string => {
+		const files = [];
+		const extToMimes = {
 			'image/jpeg': '.jpg',
 			'image/png': '.png',
 			'application/pdf': '.pdf',
@@ -258,21 +271,21 @@ function CreatePostForm({ isTask, taskId }) {
 			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
 			'audio/mp4': '.mp4a',
 			'video/mp4': '.mp4',
-			'application/mp4': '.mp4',
-		}
-
-		let randomName = '';
-		for(let i = 0; i < 8; i++){
-			const random = Math.floor(Math.random() * 27);
-			randomName += String.fromCharCode(97 + random);
+			'application/mp4': '.mp4'
 		};
 
+		let randomName = '';
+		for (let i = 0; i < 8; i++) {
+			const random = Math.floor(Math.random() * 27);
+			randomName += String.fromCharCode(97 + random);
+		}
+
 		// var string = 'data:image/png;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K';
-		var dataWithMimeType = string.substr(0, string.indexOf(';'));
-		var mimeT = dataWithMimeType.split(':')[1]; 
-		var fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
-		console.log('file???????????????????????', fileObject)
-		files.push(fileObject)
+		const dataWithMimeType = string.substr(0, string.indexOf(';'));
+		const mimeT = dataWithMimeType.split(':')[1];
+		const fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
+		console.log('file???????????????????????', fileObject);
+		files.push(fileObject);
 
 		const fileToCompress = files[0];
 		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
@@ -319,11 +332,10 @@ function CreatePostForm({ isTask, taskId }) {
 				];
 				setImages(file);
 			}
-		} catch(e) {
-			console.log('Error', e)
+		} catch (e) {
+			console.log('Error', e);
 		}
-
-	}
+	};
 
 	// function dataURItoBlob(dataURI) {
 	// 	var byteString = atob(dataURI.split(',')[1]);
@@ -342,37 +354,37 @@ function CreatePostForm({ isTask, taskId }) {
 	// }
 
 	const dataURLtoFile = (dataurl, filename) => {
-		var arr = dataurl.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), 
-            n = bstr.length, 
-            u8arr = new Uint8Array(n);
-            
-        while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        
-        return new File([u8arr], filename, {type:mime});
-	}
+		const arr = dataurl.split(',');
+		const mime = arr[0].match(/:(.*?);/)[1];
+		const bstr = atob(arr[1]);
+		let n = bstr.length;
+		const u8arr = new Uint8Array(n);
+
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+
+		return new File([u8arr], filename, { type: mime });
+	};
 
 	// function dataURItoBlob(dataURI) {
 	// 	var byteString = atob(dataURI.split(',')[1]);
-	
+
 	// 	var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-	
+
 	// 	var ab = new ArrayBuffer(byteString.length);
 	// 	var ia = new Uint8Array(ab);
 	// 	for (var i = 0; i < byteString.length; i++) {
 	// 		ia[i] = byteString.charCodeAt(i);
 	// 	}
-	
+
 	// 	var bb = new BlobBuilder();
 	// 	bb.append(ab);
 	// 	return bb.getBlob(mimeString);
 	// }
-	
+
 	const addPhoto = async files => {
-		console.log('files???????????????????', files)
+		console.log('files???????????????????', files);
 		// const files = e.currentTarget.files;
 		const fileToCompress = files[0];
 		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
@@ -460,13 +472,13 @@ function CreatePostForm({ isTask, taskId }) {
 
 	const onAddPhoto = () => {
 		try {
-			if(window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage("Start Image Loading")
+			if (window.webkit.messageHandlers) {
+				window.webkit.messageHandlers.UploadImage.postMessage('Start Image Loading');
 			}
 		} catch (e) {
 			console.log('error', e);
 		}
-	}
+	};
 
 	if (!data) {
 		return null;
@@ -489,7 +501,13 @@ function CreatePostForm({ isTask, taskId }) {
 								disableUnderline
 								onChange={e => setText(e.target.value)}
 							/>
-							{images && <ImagesPreview key={images !== null ? images.length : 0} images={images} replaceUrl={replaceImageUrl} />}
+							{images && (
+								<ImagesPreview
+									key={images !== null ? images.length : 0}
+									images={images}
+									replaceUrl={replaceImageUrl}
+								/>
+							)}
 
 							<AppBar
 								className="card-footer flex flex-row border-t-1 items-center justify-between pt-8 pb-6 pr-12 pl-10"
@@ -591,28 +609,26 @@ function CreatePostForm({ isTask, taskId }) {
 					callRetryAfterSuccess={callRetryAfterSuccess} // below function is used edit post locally
 					nameSpace="dashboard" // pass name sapce it will be  used for translate
 				/>
-				{
-					data.posts.length > 0 ? (
-						<PostList
-							isTask={isTask}
-							tempAuthor={tempAuthor}
-							posts={data.posts}
-							media={media.files}
-							nameSpace="dashboard"
-						/>
-					) : (
-						<div className="flex flex-col items-center justify-center">
-							<div className="h-full">
-								<img className="w-400" src="assets/images/errors/nofiles.png" />
-							</div>
-							<div className="h-full">
-								<Typography color="textSecondary" variant="h5">
-									{t('NO_POSTS_MESSAGE')}
-								</Typography>
-							</div>
+				{data.posts.length > 0 ? (
+					<PostList
+						isTask={isTask}
+						tempAuthor={tempAuthor}
+						posts={data.posts}
+						media={media.files}
+						nameSpace="dashboard"
+					/>
+				) : (
+					<div className="flex flex-col items-center justify-center">
+						<div className="h-full">
+							<img className="w-400" src="assets/images/errors/nofiles.png" />
 						</div>
-					)
-				}
+						<div className="h-full">
+							<Typography color="textSecondary" variant="h5">
+								{t('NO_POSTS_MESSAGE')}
+							</Typography>
+						</div>
+					</div>
+				)}
 				<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.sharedPosts} nameSpace="dashboard" />
 			</div>
 		</div>

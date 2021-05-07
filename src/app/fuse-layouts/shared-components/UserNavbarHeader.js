@@ -64,24 +64,18 @@ function UserNavbarHeader(props) {
 			<Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
 				{company?.name}
 			</Typography>
-			{
-				company?.logo ? (
-					<Avatar
-						className={clsx(classes.avatar, 'avatar')}
-						alt="user photo"
-						src={company.logo}
-					/>
-				) : (
-					<IconButton
-						key="close"
-						aria-label="Close"
-						color="inherit"
-						// onClick={() => dispatch(Actions.hideMessage())}
-					>
-						<Icon className="company-logo-icon">business</Icon>
-					</IconButton>
-				)
-			}
+			{company?.logo ? (
+				<Avatar className={clsx(classes.avatar, 'avatar')} alt="user photo" src={company.logo} />
+			) : (
+				<IconButton
+					key="close"
+					aria-label="Close"
+					color="inherit"
+					// onClick={() => dispatch(Actions.hideMessage())}
+				>
+					<Icon className="company-logo-icon">business</Icon>
+				</IconButton>
+			)}
 			<span className="trial intrial">{company.trial_used ? 'Plan' : 'Periodo di Prova'}</span>
 		</AppBar>
 	);

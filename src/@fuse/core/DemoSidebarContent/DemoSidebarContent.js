@@ -1,5 +1,5 @@
 import _ from '@lodash';
-import {List, ListItem, ListItemText} from '@material-ui/core';
+import { List, ListItem, ListItemText } from '@material-ui/core';
 import React from 'react';
 
 function DemoSidebarContent() {

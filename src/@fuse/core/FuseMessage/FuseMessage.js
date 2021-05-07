@@ -1,6 +1,6 @@
 import React from 'react';
 import { amber, blue, green } from '@material-ui/core/colors';
-import {Icon, IconButton, Snackbar, SnackbarContent, Typography} from '@material-ui/core';
+import { Icon, IconButton, Snackbar, SnackbarContent, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import * as Actions from 'app/store/actions';
 import clsx from 'clsx';

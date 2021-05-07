@@ -16,13 +16,13 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { Icon } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import * as TodoActions from 'app/main/apps/notes/todo/store/actions';
+import { Height } from '@material-ui/icons';
 import Gantt from '../gantt/index';
 import FileManagerApp from '../file-manager/FileManagerApp';
 import TodoApp from '../todo/TodoApp';
 import ChatApp from '../chat/ChatApp';
 import ContactsApp from '../contacts/ContactsApp';
 import ProjectInfo from './ProjectInfo';
-import { Height } from '@material-ui/icons';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -53,8 +53,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
 	return {
 		id: `wrapped-tab-${index}`,
-		'aria-controls': `wrapped-tabpanel-${index}`,
-		
+		'aria-controls': `wrapped-tabpanel-${index}`
 	};
 }
 const useStyles = makeStyles(theme => ({
@@ -62,8 +61,7 @@ const useStyles = makeStyles(theme => ({
 		flexGrow: 1,
 		minHeight: '100%',
 		backgroundColor: '#1e2125',
-		height: 76,
-		
+		height: 76
 	}
 }));
 
@@ -162,7 +160,12 @@ function ProjectTabs({ value, setValue, setOpenDialog }) {
 					showLabels
 					className={classes.root}
 				>
-					<BottomNavigationAction className="text-white" label={t('TEAM')} icon={<Icon className="white">people</Icon>} {...a11yProps(0)} />
+					<BottomNavigationAction
+						className="text-white"
+						label={t('TEAM')}
+						icon={<Icon className="white">people</Icon>}
+						{...a11yProps(0)}
+					/>
 					<BottomNavigationAction label={t('CHAT')} icon={<Icon>message</Icon>} {...a11yProps(1)} />
 					<BottomNavigationAction label={t('TODO')} icon={<Icon>check_box</Icon>} {...a11yProps(2)} />
 					<BottomNavigationAction label={t('FILES')} icon={<Icon>folder</Icon>} {...a11yProps(3)} />

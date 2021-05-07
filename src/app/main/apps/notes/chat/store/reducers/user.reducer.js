@@ -22,14 +22,14 @@ const userReducer = (state = null, action) => {
 
 function getUpdatedUser(state, action) {
 	const newUserData = _.merge({}, state);
-	const userChatData = newUserData.chatList.find(_chat => _chat.contactId === action.userChatData.contactId);
-	if (userChatData) {
-		newUserData.chatList = newUserData.chatList.map(_chat =>
-			_chat.contactId === action.userChatData.contactId ? action.userChatData : _chat
-		);
-	} else {
-		newUserData.chatList = [action.userChatData, ...newUserData.chatList];
-	}
+	// const userChatData = newUserData.chatList.find(_chat => _chat.contactId === action.userChatData.contactId);
+	// if (userChatData) {
+	// 	newUserData.chatList = newUserData.chatList.map(_chat =>
+	// 		_chat.contactId === action.userChatData.contactId ? action.userChatData : _chat
+	// 	);
+	// } else {
+	// 	newUserData.chatList = [action.userChatData, ...newUserData.chatList];
+	// }
 	return newUserData;
 }
 

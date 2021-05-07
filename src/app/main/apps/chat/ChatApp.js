@@ -5,7 +5,7 @@
 TODO: ChatApp is created for do chats between company team mates
 */
 import { AppBar, Avatar, Drawer, Hidden, Icon, IconButton, Toolbar, Typography, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
@@ -14,17 +14,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import { LinearProgress } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import { GET_CHAT } from './store/actions';
-import loadable from '@loadable/component';
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import { ThemeProvider } from '@material-ui/core/styles';
-import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
-const Chat = loadable(() => import('./Chat'))
-const ChatsSidebar = loadable(() => import('./ChatsSidebar'))
-const ContactSidebar = loadable(() => import('./ContactSidebar'))
-const UserSidebar = loadable(() => import('./UserSidebar'))
+// import loadable from '@loadable/component';
+
+const Chat = React.lazy(() => import('./Chat'));
+const ChatsSidebar = React.lazy(() => import('./ChatsSidebar'));
+const ContactSidebar = React.lazy(() => import('./ContactSidebar'));
+const UserSidebar = React.lazy(() => import('./UserSidebar'));
 
 const drawerWidth = 350;
 const headerHeight = 200;
@@ -198,7 +198,10 @@ function ChatApp(props) {
 				</ThemeProvider>
 
 				<div
-					className={clsx(classes.contentCardWrapper, 'container max-w-full chat-custom-h-full p-0 inner-height chat-inner-height')}
+					className={clsx(
+						classes.contentCardWrapper,
+						'container max-w-full chat-custom-h-full p-0 inner-height chat-inner-height'
+					)}
 				>
 					<div className={clsx(classes.contentCard, 'chat-bg')}>
 						<Hidden mdUp>

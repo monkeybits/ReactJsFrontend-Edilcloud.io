@@ -1,5 +1,5 @@
 import _ from '@lodash';
-import {Checkbox, FormControl, FormControlLabel, FormHelperText} from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, FormHelperText } from '@material-ui/core';
 import { withFormsy } from 'formsy-react';
 import React from 'react';
 

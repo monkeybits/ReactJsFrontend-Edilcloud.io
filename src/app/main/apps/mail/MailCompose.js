@@ -1,9 +1,20 @@
 import { useForm } from '@fuse/hooks';
-import { AppBar, Button, Dialog, DialogActions, DialogContent, IconButton, Icon, TextField, Toolbar, Typography } from '@material-ui/core';
+import {
+	AppBar,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	IconButton,
+	Icon,
+	TextField,
+	Toolbar,
+	Typography
+} from '@material-ui/core';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import loadable from '@loadable/component';
-const MailAttachment = loadable(() => import('./MailAttachment'))
+// import loadable from '@loadable/component';
+const MailAttachment = React.lazy(() => import('./MailAttachment'));
 
 function MailCompose() {
 	const [openDialog, setOpenDialog] = useState(false);

@@ -10,8 +10,8 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import * as Actions from './store/actions';
 import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
+import * as Actions from './store/actions';
 
 function ContactsHeader(props) {
 	const dispatch = useDispatch();
@@ -24,7 +24,7 @@ function ContactsHeader(props) {
 			<div className="flex flex-1 dashboard-todo-header w-full">
 				<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
 					<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
-					{t('TEAM')}
+						{t('TEAM')}
 					</Typography>
 
 					<div className="flex flex-1 items-center justify-between">
@@ -40,7 +40,10 @@ function ContactsHeader(props) {
 						<div className="flex flex-1 items-center justify-center px-12">
 							<ThemeProvider theme={mainTheme}>
 								<FuseAnimate animation="transition.slideDownIn" delay={300}>
-									<Paper className="flex items-center w-full max-w-512 px-8 py-4 rounded-8" elevation={1}>
+									<Paper
+										className="flex items-center w-full max-w-512 px-8 py-4 rounded-8"
+										elevation={1}
+									>
 										<Icon color="action">search</Icon>
 										<Input
 											placeholder="Cerca Fase di lavoro o attività"

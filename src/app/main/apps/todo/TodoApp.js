@@ -7,7 +7,7 @@ Main files to make changes are
 * 1. src/app/main/apps/todo/TodoListItem.js  -> used for task item
 * 2. src/app/main/apps/todo/TodoActivityListItem.js  -> every task may have activity if you want to make change on activity.
 */
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,16 +19,19 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
 import * as Actions from './store/actions';
 import * as ConatctActions from '../contacts/store/actions';
 import reducer from './store/reducers';
-const StatusConfirmDialog = loadable(() => import('./StatusConfirmDialog'))
-const TodoHeader = loadable(() => import('./TodoHeader'))
-const TodoList = loadable(() => import('./TodoList'))
-const TodoSidebarContent = loadable(() => import('./TodoSidebarContent'))
-const CreatePostDialog = loadable(() => import('./CreatePostDialog'))
-const TaskContentDialog = loadable(() => import('./TaskContentDialog'))
-const TodoDialog = loadable(() => import('./TodoDialog'))
-const ShowUpload = loadable(() => import('./ShowUpload'))
-const AccessibilityToggleButton = loadable(() => import('app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton'))
-const PostNotificationDialog = loadable(() => import('./PostNotificationDialog'))
+
+const StatusConfirmDialog = React.lazy(() => import('./StatusConfirmDialog'));
+const TodoHeader = React.lazy(() => import('./TodoHeader'));
+const TodoList = React.lazy(() => import('./TodoList'));
+const TodoSidebarContent = React.lazy(() => import('./TodoSidebarContent'));
+const CreatePostDialog = React.lazy(() => import('./CreatePostDialog'));
+const TaskContentDialog = React.lazy(() => import('./TaskContentDialog'));
+const TodoDialog = React.lazy(() => import('./TodoDialog'));
+const ShowUpload = React.lazy(() => import('./ShowUpload'));
+const AccessibilityToggleButton = React.lazy(() =>
+	import('app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton')
+);
+const PostNotificationDialog = React.lazy(() => import('./PostNotificationDialog'));
 
 const useStyles = makeStyles({
 	addButton: {
@@ -40,8 +43,8 @@ const useStyles = makeStyles({
 });
 function TodoApp(props) {
 	const dispatch = useDispatch();
-	const [defaultMenu, setDefaultMenu] = useState(true)
-	const [foldedAndOpened, setFoldedAndOpened] = useState(false)
+	const [defaultMenu, setDefaultMenu] = useState(true);
+	const [foldedAndOpened, setFoldedAndOpened] = useState(false);
 	const { t } = useTranslation('dashboard');
 	const classes = useStyles(props);
 	const history = useHistory();
@@ -56,10 +59,10 @@ function TodoApp(props) {
 	const { folded } = config.navbar;
 
 	useEffect(() => {
-		if(toggleSidebarMenu) {
-			setDefaultMenu(false)
+		if (toggleSidebarMenu) {
+			setDefaultMenu(false);
 		} else {
-			setDefaultMenu(true)
+			setDefaultMenu(true);
 		}
 	}, [toggleSidebarMenu]);
 
@@ -67,13 +70,13 @@ function TodoApp(props) {
 	useEffect(() => {
 		const foldedAndOpened = folded && navbar.foldedOpen;
 		setTimeout(() => {
-			if(foldedAndOpened) {
-				setDefaultMenu(false)
-				setFoldedAndOpened(foldedAndOpened)
+			if (foldedAndOpened) {
+				setDefaultMenu(false);
+				setFoldedAndOpened(foldedAndOpened);
 			}
-		}, 200)
-		if(!foldedAndOpened) {
-			setFoldedAndOpened(foldedAndOpened)
+		}, 200);
+		if (!foldedAndOpened) {
+			setFoldedAndOpened(foldedAndOpened);
 		}
 	}, [folded, navbar]);
 
@@ -112,7 +115,7 @@ function TodoApp(props) {
 		dispatch(Actions.getTodos(routeParams, false, handleSetLoading));
 		dispatch(ConatctActions.getContacts());
 	}, [dispatch, routeParams]);
-	
+
 	if (loading.loadingTodos) {
 		// when we are fetching data we will show below loading HTML
 		return (
@@ -133,7 +136,7 @@ function TodoApp(props) {
 					<ShowUpload progress={upload.uploadPercentage} />
 				</div>
 			)}
-			
+
 			<FusePageSimple
 				classes={{
 					contentWrapper: 'bg-azure h-full',
@@ -147,9 +150,8 @@ function TodoApp(props) {
 				sidebarInner
 				leftSidebarVariant
 				ref={pageLayout}
-				
 			/>
-		
+
 			{/**
 			 * ======================================================
 			 * 1. <TodoDialog />

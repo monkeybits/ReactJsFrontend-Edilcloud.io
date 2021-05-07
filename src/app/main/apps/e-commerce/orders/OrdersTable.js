@@ -6,9 +6,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as Actions from '../store/actions';
-import loadable from '@loadable/component';
-const OrdersStatus = loadable(() => import('../order/OrdersStatus'))
-const OrdersTableHead = loadable(() => import('./OrdersTableHead'))
+// import loadable from '@loadable/component';
+const OrdersStatus = React.lazy(() => import('../order/OrdersStatus'));
+const OrdersTableHead = React.lazy(() => import('./OrdersTableHead'));
 
 function OrdersTable(props) {
 	const dispatch = useDispatch();

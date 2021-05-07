@@ -1,22 +1,36 @@
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { useDebounce, useForm, useUpdateEffect } from '@fuse/hooks';
 import _ from '@lodash';
-import { AppBar, Avatar, DialogContent, DialogTitle, Icon, IconButton, InputAdornment, List, TextField, Toolbar, Tooltip, Typography } from '@material-ui/core';
+import {
+	AppBar,
+	Avatar,
+	DialogContent,
+	DialogTitle,
+	Icon,
+	IconButton,
+	InputAdornment,
+	List,
+	TextField,
+	Toolbar,
+	Tooltip,
+	Typography
+} from '@material-ui/core';
 import LabelModel from 'app/main/apps/scrumboard/model/LabelModel';
 import * as Actions from 'app/main/apps/scrumboard/store/actions/index';
 import moment from 'moment';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-const CardActivity = loadable(() => import('./activity/CardActivity'))
-const CardAttachment = loadable(() => import('./attachment/CardAttachment'))
-const CardChecklist = loadable(() => import('./checklist/CardChecklist'))
-const CardComment = loadable(() => import('./comment/CardComment'))
-const CheckListMenu = loadable(() => import('./toolbar/CheckListMenu'))
-const DueMenu = loadable(() => import('./toolbar/DueMenu'))
-const LabelsMenu = loadable(() => import('./toolbar/LabelsMenu'))
-const MembersMenu = loadable(() => import('./toolbar/MembersMenu'))
-const OptionsMenu = loadable(() => import('./toolbar/OptionsMenu'))
+
+const CardActivity = React.lazy(() => import('./activity/CardActivity'));
+const CardAttachment = React.lazy(() => import('./attachment/CardAttachment'));
+const CardChecklist = React.lazy(() => import('./checklist/CardChecklist'));
+const CardComment = React.lazy(() => import('./comment/CardComment'));
+const CheckListMenu = React.lazy(() => import('./toolbar/CheckListMenu'));
+const DueMenu = React.lazy(() => import('./toolbar/DueMenu'));
+const LabelsMenu = React.lazy(() => import('./toolbar/LabelsMenu'));
+const MembersMenu = React.lazy(() => import('./toolbar/MembersMenu'));
+const OptionsMenu = React.lazy(() => import('./toolbar/OptionsMenu'));
 
 function BoardCardForm(props) {
 	const dispatch = useDispatch();

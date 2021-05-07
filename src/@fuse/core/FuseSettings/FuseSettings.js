@@ -1,7 +1,7 @@
 import React from 'react';
 import FuseLayoutConfigs from '@fuse/layouts/FuseLayoutConfigs';
 import _ from '@lodash';
-import {FormControl, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, Select} from '@material-ui/core';
+import { FormControl, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';

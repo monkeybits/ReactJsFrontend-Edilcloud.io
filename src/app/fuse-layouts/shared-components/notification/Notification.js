@@ -1,17 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import { Divider, Drawer, Icon, List, ListItem, ListItemText, Typography, IconButton, AppBar, Toolbar, CardContent, Card, Button, Avatar, CircularProgress } from '@material-ui/core';
+import {
+	Divider,
+	Drawer,
+	Icon,
+	List,
+	ListItem,
+	ListItemText,
+	Typography,
+	IconButton,
+	AppBar,
+	Toolbar,
+	CardContent,
+	Card,
+	Button,
+	Avatar,
+	CircularProgress
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
-import reducer from './store/reducers';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ALL_NOTIFICATIONS, GET_ALL_PAGES_NOTIFICATIONS } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { Link } from 'react-router-dom';
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
+import reducer from './store/reducers';
+import * as Actions from './store/actions';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 
 const useStyles = makeStyles(theme => ({
@@ -145,16 +161,14 @@ function NotificationPanel(props) {
 				</Toolbar>
 				<div className="flex flex-col">
 					<Card className="w-full">
-						
 						<CardContent className="p-0">
-							<SwipeableList
-							className="borderbottom"> 
+							<SwipeableList className="borderbottom">
 								<List>
 									{notifications &&
 										notifications.map((activity, index) => {
 											const { notification } = activity;
 											return (
-												<SwipeableListItem 
+												<SwipeableListItem
 													className="borderbottom"
 													threshold={0.3}
 													swipeLeft={{
@@ -218,8 +232,8 @@ function NotificationPanel(props) {
 																	</div>
 																	{notification.body?.url && (
 																		<div className="flex">
-																			<Link className="notifications-secondary"
-																			
+																			<Link
+																				className="notifications-secondary"
 																				onClick={() => {
 																					dispatch(
 																						Actions.toggleNotification()

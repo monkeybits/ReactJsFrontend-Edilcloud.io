@@ -1,5 +1,16 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { Icon, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography, MenuItem, ListItemIcon } from '@material-ui/core';
+import {
+	Icon,
+	IconButton,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableRow,
+	Typography,
+	MenuItem,
+	ListItemIcon
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useEffect, useRef } from 'react';
@@ -23,8 +34,8 @@ import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+// import loadable from '@loadable/component';
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 const useStyles = makeStyles({
 	typeIcon: {
@@ -238,9 +249,9 @@ function FileList(props) {
 			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 		}
 		const selectedItem = allFiles[findIndex];
-		console.log('tile??????????????????????????', selectedItem)
+		console.log('tile??????????????????????????', selectedItem);
 		if (selectedItem) {
-			console.log('tile??????????????????????????', selectedItem)
+			console.log('tile??????????????????????????', selectedItem);
 			props.setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
 			const apiurl =

@@ -143,11 +143,13 @@
         "purgecss": "1.4.2",
         "tailwindcss": "^2.0.3",
         "tailwindcss-dir": "4.0.0",
-        "terser-webpack-plugin": "^5.1.1"
+        "terser-webpack-plugin": "^5.1.1",
+        "webpack-cli": "^4.7.0",
+        "webpack-deadcode-plugin": "^0.1.12"
     },
     "scripts": {
         "start": "yarn run tailwind && react-scripts start",
-        "build": "yarn run tailwind && yarn run purge-tailwind && cross-env GENERATE_SOURCEMAP=false react-scripts build",
+        "build": "yarn run tailwind && webpack --mode production && yarn run purge-tailwind && cross-env GENERATE_SOURCEMAP=false react-scripts build",
         "tailwind": "tailwind build ./src/styles/tailwind-config.css -c ./tailwind.config.js -o ./src/styles/tailwind.css",
         "purge-tailwind": "node ./purge-tailwindcss.js",
         "test": "react-scripts test --env=node",

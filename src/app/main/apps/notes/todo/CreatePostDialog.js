@@ -1,10 +1,10 @@
 import _ from '@lodash';
-import {Dialog} from '@material-ui/core';
+import { Dialog } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'))
+// import loadable from '@loadable/component';
+const EditActivityPostForm = React.lazy(() => import('./EditActivityPostForm'));
 
 function CreatePostDialog(props) {
 	const dispatch = useDispatch();

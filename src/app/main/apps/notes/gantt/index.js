@@ -13,6 +13,7 @@ import { gantt } from 'dhtmlx-gantt';
 import moment from 'moment';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import ImportExcelDialog from './ImportExcelDialog';
 import CreateTasks from './CreateTasks';
 import useScript from './useScript';
@@ -21,7 +22,6 @@ import TodoDialog from '../todo/TodoDialog';
 import CreatePostDialog from '../todo/CreatePostDialog';
 import * as Actions from '../todo/store/actions';
 import Gantt from './Gantt';
-import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 
 const useStyles = makeStyles(theme => ({
 	backdrop: {
@@ -150,7 +150,7 @@ function GanttWrapper(props) {
 									switch (result) {
 										case 'save':
 											dispatch(Actions.setLoading(true));
-											handleUploadListOfTasks(listOfData, () => { });
+											handleUploadListOfTasks(listOfData, () => {});
 											// var selects = div.querySelectorAll(
 											// 	'[data-column-mapping]'
 											// );

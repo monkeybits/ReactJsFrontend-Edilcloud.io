@@ -5,7 +5,18 @@ This is part of dashboard
 TODO: This file is used to show Filters and apply filters on tasks 
 */
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { Avatar, Icon, List, ListItem, ListItemText, ListSubheader, AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
+import {
+	Avatar,
+	Icon,
+	List,
+	ListItem,
+	ListItemText,
+	ListSubheader,
+	AppBar,
+	Toolbar,
+	IconButton,
+	Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import { withRouter } from 'react-router';
@@ -71,15 +82,12 @@ function NotesSidebarContent(props) {
 					<List className="p-0">
 						<AppBar position="static" elevation={1}>
 							<Toolbar className="p-0">
-								<IconButton className="p-32"
-									color="inherit"
-								>
+								<IconButton className="p-32" color="inherit">
 									<Icon className="text-32">filter_list</Icon>
 								</IconButton>
 								<Typography className="mx-8 p-32 text-24" color="inherit">
 									Filtri
 								</Typography>
-								
 							</Toolbar>
 						</AppBar>
 						<ListSubheader className={classes.listSubheader} disableSticky>

@@ -14,7 +14,7 @@ import {
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { withRouter } from 'react-router';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -28,12 +28,13 @@ import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import MoveFileDialog from './MoveFileDialog';
 import FloatingButtonUpload from './FloatingButtonUpload';
 import TransitionAlerts from './TransitionAlerts.js';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import reducer from './store/reducers';
-import { ThemeProvider } from '@material-ui/core/styles';
+
 import * as Actions from './store/actions';
 import MainSidebarHeader from './MainSidebarHeader';
 import MainSidebarContent from './MainSidebarContent';
@@ -42,7 +43,6 @@ import FileList from './FileList';
 import DetailSidebarHeader from './DetailSidebarHeader';
 import DetailSidebarContent from './DetailSidebarContent';
 import Breadcrumb from './Breadcrumb';
-import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 
 const styles = theme => ({
 	root: {
@@ -141,7 +141,7 @@ function FileManagerApp(props) {
 			...loading,
 			...data
 		}));
-	
+
 	const resetError = () =>
 		seterror({
 			fileError: '',
@@ -149,18 +149,18 @@ function FileManagerApp(props) {
 			descError: '',
 			nameError: ''
 		});
-	
+
 	useEffect(() => {
 		setFilePath(folderPath[folderPath.length - 1]);
 		setPath(folderPath[folderPath.length - 1]);
 	}, [folderPath, isOpenDrawer]);
-	
+
 	useEffect(() => {
 		if (routeParams) {
 			dispatch(Actions.getFiles(routeParams.id, handleSetLoading));
 		}
 	}, [dispatch, routeParams]);
-	
+
 	const addFile = event => {
 		resetError();
 		const { files } = event.target;
@@ -178,7 +178,7 @@ function FileManagerApp(props) {
 			});
 		}
 	};
-	
+
 	const resetOpenForm = () => {
 		setFile({
 			file: null,
@@ -194,7 +194,7 @@ function FileManagerApp(props) {
 			nameError: ''
 		});
 	};
-	
+
 	const handleUpload = async () => {
 		if (isUploading == false) {
 			setIsUploading(true);
@@ -283,17 +283,17 @@ function FileManagerApp(props) {
 			setTitle('');
 		}
 	};
-	
+
 	const handleClose = () => {
 		resetOpenForm();
 		setIsOpenDrawer(false);
 	};
-	
+
 	const canSubmit = () => (radioBtnValue == 'folder' ? title?.length : title?.length && fileData.file);
-	
+
 	const isLoadingFiles = () =>
 		loading.loadingVideos || loading.loadingPhotos || loading.loadingFolders || loading.loadingDocuments;
-	
+
 	const loadingComponent = (
 		<div className="flex flex-1 flex-col items-center justify-center h-full">
 			<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
@@ -302,9 +302,9 @@ function FileManagerApp(props) {
 			<LinearProgress className="w-xs" color="secondary" />
 		</div>
 	);
-	
+
 	if (isLoadingFiles()) return loadingComponent;
-	
+
 	return (
 		<>
 			<FusePageSimple
@@ -325,7 +325,9 @@ function FileManagerApp(props) {
 									<div className="flex flex-1 items-center justify-end">
 										<FuseAnimate animation="transition.slideRightIn" delay={300}>
 											<Button
-												onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
+												onClick={ev =>
+													dispatch(accessibilityPanelActions.toggleAccessibility())
+												}
 												className="whitespace-no-wrap normal-case"
 												variant="contained"
 												color="secondary"
@@ -372,13 +374,11 @@ function FileManagerApp(props) {
 								</div>
 							)}
 						</div>
-						{
-							viewTable ? (
-								<FileList viewTable={viewTable} pageLayout={pageLayout} setProgress={setProgress} />
-							) : (
-								<FileGrid viewTable={viewTable} pageLayout={pageLayout} setProgress={setProgress} />
-							)
-						}
+						{viewTable ? (
+							<FileList viewTable={viewTable} pageLayout={pageLayout} setProgress={setProgress} />
+						) : (
+							<FileGrid viewTable={viewTable} pageLayout={pageLayout} setProgress={setProgress} />
+						)}
 					</>
 				}
 				leftSidebarVariant="temporary"

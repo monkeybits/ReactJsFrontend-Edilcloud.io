@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from '@lodash';
-import {FormControl, FormHelperText, FormLabel, RadioGroup} from '@material-ui/core';
+import { FormControl, FormHelperText, FormLabel, RadioGroup } from '@material-ui/core';
 import { withFormsy } from 'formsy-react';
 
 function RadioGroupFormsy(props) {

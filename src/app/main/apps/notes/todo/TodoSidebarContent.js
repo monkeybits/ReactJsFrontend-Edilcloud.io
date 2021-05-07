@@ -1,6 +1,18 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
-import { Avatar, Button, Icon, List, ListItem, ListItemText, ListSubheader, AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
+import {
+	Avatar,
+	Button,
+	Icon,
+	List,
+	ListItem,
+	ListItemText,
+	ListSubheader,
+	AppBar,
+	Toolbar,
+	IconButton,
+	Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React from 'react';
@@ -62,15 +74,12 @@ function TodoSidebarContent(props) {
 					<List className="p-0">
 						<AppBar position="static" elevation={1}>
 							<Toolbar className="p-0">
-								<IconButton className="p-32"
-									color="inherit"
-								>
+								<IconButton className="p-32" color="inherit">
 									<Icon className="text-32">filter_list</Icon>
 								</IconButton>
 								<Typography className="mx-8 p-32 text-24" color="inherit">
 									Filtri
 								</Typography>
-								
 							</Toolbar>
 						</AppBar>
 						<ListSubheader className={classes.listSubheader} disableSticky>

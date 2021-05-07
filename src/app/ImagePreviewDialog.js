@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { withStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -13,7 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from './services/apiEndPoints';
 import { apiCall, METHOD } from './services/baseUrl';
 import { getHeaderToken } from './services/serviceUtils';
-const VideoListItem = loadable(() => import('app/VideoPlayer/VideoListItem'))
+
+const VideoListItem = React.lazy(() => import('app/VideoPlayer/VideoListItem'));
 
 const styles = theme => ({
 	root: {

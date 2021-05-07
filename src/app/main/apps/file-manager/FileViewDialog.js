@@ -6,31 +6,25 @@ TODO: This File is created to view view the media file
 */
 import React, { useEffect, useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Dialog, IconButton, Typography } from '@material-ui/core';
+import { Dialog, IconButton, Typography, Button } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '@material-ui/core';
+
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileAudio,
-	faFileWord
-} from '@fortawesome/free-regular-svg-icons';
+import { faFilePdf, faFile, faFileExcel, faFileAudio, faFileWord } from '@fortawesome/free-regular-svg-icons';
 import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import FileSaver from 'file-saver';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const ReadPDF = loadable(() => import('./ReadPDF'))
-const VideoListItem = loadable(() => import('app/VideoPlayer/VideoListItem'))
+// import loadable from '@loadable/component';
+const ReadPDF = React.lazy(() => import('./ReadPDF'));
+const VideoListItem = React.lazy(() => import('app/VideoPlayer/VideoListItem'));
 
 const styles = theme => ({
 	root: {

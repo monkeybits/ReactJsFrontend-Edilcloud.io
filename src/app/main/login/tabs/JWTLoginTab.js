@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TextFieldFormsy } from '@fuse/core/formsy';
-import { Button, IconButton, Icon, InputAdornment, CircularProgress, FormControl, FormHelperText } from '@material-ui/core';
+import {
+	Button,
+	IconButton,
+	Icon,
+	InputAdornment,
+	CircularProgress,
+	FormControl,
+	FormHelperText
+} from '@material-ui/core';
 import * as authActions from 'app/auth/store/actions';
 import Formsy from 'formsy-react';
 import { useDispatch, useSelector } from 'react-redux';

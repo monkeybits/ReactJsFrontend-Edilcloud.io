@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseDialog from '@fuse/core/FuseDialog';
 import FuseMessage from '@fuse/core/FuseMessage';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
@@ -10,12 +10,13 @@ import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import RightSideLayout1 from './components/RightSideLayout1';
-const FooterLayout1 = loadable(() => import('./components/FooterLayout1'))
-const LeftSideLayout1 = loadable(() => import('./components/LeftSideLayout1'))
-const NavbarWrapperLayout1 = loadable(() => import('./components/NavbarWrapperLayout1'))
-// const RightSideLayout1 = loadable(() => import('./components/RightSideLayout1'))
-const ToolbarLayout1 = loadable(() => import('./components/ToolbarLayout1'))
-const SettingsPanel = loadable(() => import('app/fuse-layouts/shared-components/SettingsPanel'))
+
+const FooterLayout1 = React.lazy(() => import('./components/FooterLayout1'));
+const LeftSideLayout1 = React.lazy(() => import('./components/LeftSideLayout1'));
+const NavbarWrapperLayout1 = React.lazy(() => import('./components/NavbarWrapperLayout1'));
+// const RightSideLayout1 = React.lazy(() => import('./components/RightSideLayout1'))
+const ToolbarLayout1 = React.lazy(() => import('./components/ToolbarLayout1'));
+const SettingsPanel = React.lazy(() => import('app/fuse-layouts/shared-components/SettingsPanel'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

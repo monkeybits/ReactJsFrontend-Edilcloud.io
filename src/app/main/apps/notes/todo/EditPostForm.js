@@ -1,4 +1,15 @@
-import { AppBar, Button, Card, Icon, IconButton, Input, Typography, CircularProgress, MenuItem, ListItemIcon } from '@material-ui/core';
+import {
+	AppBar,
+	Button,
+	Card,
+	Icon,
+	IconButton,
+	Input,
+	Typography,
+	CircularProgress,
+	MenuItem,
+	ListItemIcon
+} from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
@@ -14,8 +25,8 @@ import FuseUtils from '@fuse/utils';
 import { useTranslation } from 'react-i18next';
 import ImagesPreview from './ImagesPreview';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+// import loadable from '@loadable/component';
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 const uuidv1 = require('uuid/v1');
 
@@ -225,7 +236,7 @@ function EditPostForm(props) {
 	if (!data) {
 		return null;
 	}
-	
+
 	return (
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1">

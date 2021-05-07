@@ -11,12 +11,12 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import * as ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Icon } from '@material-ui/core';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-import { Icon } from '@material-ui/core';
-import loadable from '@loadable/component';
-const CalendarHeader = loadable(() => import('./CalendarHeader'))
-const EventDialog = loadable(() => import('./EventDialog'))
+// import loadable from '@loadable/component';
+const CalendarHeader = React.lazy(() => import('./CalendarHeader'));
+const EventDialog = React.lazy(() => import('./EventDialog'));
 
 const localizer = momentLocalizer(moment);
 

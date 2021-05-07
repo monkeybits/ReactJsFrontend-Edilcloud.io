@@ -9,12 +9,13 @@ import { decodeDataFromToken } from 'app/services/serviceUtils';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import FuseUtils from '@fuse/utils';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import LinearProgressWithLabel from '../file-manager/LinearProgressWithLabel';
-const ViewFile = loadable(() => import('./ViewFile'))
-const MessageMoreOptions = loadable(() => import('./MessageMoreOptions'))
-const RetryToSendMessage = loadable(() => import('./RetryToSendMessage'))
-const SendMessageForm = loadable(() => import('./SendMessageForm'))
+
+const ViewFile = React.lazy(() => import('./ViewFile'));
+const MessageMoreOptions = React.lazy(() => import('./MessageMoreOptions'));
+const RetryToSendMessage = React.lazy(() => import('./RetryToSendMessage'));
+const SendMessageForm = React.lazy(() => import('./SendMessageForm'));
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {

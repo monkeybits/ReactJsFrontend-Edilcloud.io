@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { Card, CardContent, Typography, Button } from '@material-ui/core';
+import { Card, CardContent, Typography, Button, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
-import { CircularProgress } from '@material-ui/core';
+
 import { USER_ACTIVATION } from 'app/services/apiEndPoints';
 import { useHistory } from 'react-router-dom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';

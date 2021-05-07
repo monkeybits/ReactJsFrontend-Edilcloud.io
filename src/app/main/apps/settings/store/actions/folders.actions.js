@@ -34,7 +34,7 @@ export function updateByIndex(index, bool, isEmail) {
 		});
 }
 export function filterByKey(filterKey) {
-	return (dispatch) => {
+	return dispatch => {
 		dispatch({
 			type: FILTER_BY,
 			filterKey

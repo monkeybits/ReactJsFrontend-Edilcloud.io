@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from '@lodash';
-import {FilledInput, FormControl, FormHelperText, Input, InputLabel, OutlinedInput, Select} from '@material-ui/core';
+import { FilledInput, FormControl, FormHelperText, Input, InputLabel, OutlinedInput, Select } from '@material-ui/core';
 import { withFormsy } from 'formsy-react';
 
 function SelectFormsy(props) {

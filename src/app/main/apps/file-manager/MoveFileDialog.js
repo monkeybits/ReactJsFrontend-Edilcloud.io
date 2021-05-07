@@ -7,12 +7,7 @@ TODO: This File is Move file or folder to folder
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, TextField, IconButton, Dialog, Typography, Toolbar, AppBar } from '@material-ui/core';
-import {
-	PHOTO_EDIT,
-	VIDEO_EDIT,
-	DOCUMENT_EDIT,
-	FOLDER_EDIT
-} from 'app/services/apiEndPoints';
+import { PHOTO_EDIT, VIDEO_EDIT, DOCUMENT_EDIT, FOLDER_EDIT } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import { withStyles } from '@material-ui/core/styles';
@@ -77,7 +72,7 @@ function MoveFileDialog() {
 		const fileType = moveFileDialog.data.type;
 		const fileId = moveFileDialog.data.mainId;
 		const relative_path = moveFileDialog.data.folder_relative_path;
-		
+
 		const apiUrl =
 			fileType == 'folder'
 				? FOLDER_EDIT(fileId)

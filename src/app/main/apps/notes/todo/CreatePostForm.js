@@ -1,4 +1,16 @@
-import { InputLabel, MenuItem, ListItemIcon, AppBar, Button, Card, Icon, IconButton, Input, Typography, LinearProgress } from '@material-ui/core';
+import {
+	InputLabel,
+	MenuItem,
+	ListItemIcon,
+	AppBar,
+	Button,
+	Card,
+	Icon,
+	IconButton,
+	Input,
+	Typography,
+	LinearProgress
+} from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
@@ -12,12 +24,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import FuseUtils from '@fuse/utils';
 import { useTranslation } from 'react-i18next';
-import * as Actions from './store/actions';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import loadable from '@loadable/component';
-const PostList = loadable(() => import('./PostList'))
-const ImagesPreview = loadable(() => import('./ImagesPreview'))
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+import * as Actions from './store/actions';
+// import loadable from '@loadable/component';
+const PostList = React.lazy(() => import('./PostList'));
+const ImagesPreview = React.lazy(() => import('./ImagesPreview'));
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 const uuidv1 = require('uuid/v1');
 
@@ -50,7 +62,7 @@ function CreatePostForm({ isTask, taskId }) {
 	const [images, setImages] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [postStatus, setPostStatus] = useState(true);
-	
+
 	const postStatusOptions = [
 		{
 			icon: 'public',
@@ -423,22 +435,20 @@ function CreatePostForm({ isTask, taskId }) {
 					posts={Object.values(offilePosts)}
 					callRetryAfterSuccess={callRetryAfterSuccess}
 				/>
-				{
-					data.posts.length > 0 ? (
-						<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.posts} media={media.files} />
-					) : (
-						<div className="flex flex-col items-center justify-center">
-							<div className="h-full">
-								<img className="w-400" src="assets/images/errors/nofiles.png" />
-							</div>
-							<div className="h-full">
-								<Typography color="textSecondary" variant="h5">
-									{t('NO_POSTS_MESSAGE')}
-								</Typography>
-							</div>
+				{data.posts.length > 0 ? (
+					<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.posts} media={media.files} />
+				) : (
+					<div className="flex flex-col items-center justify-center">
+						<div className="h-full">
+							<img className="w-400" src="assets/images/errors/nofiles.png" />
 						</div>
-					)
-				}
+						<div className="h-full">
+							<Typography color="textSecondary" variant="h5">
+								{t('NO_POSTS_MESSAGE')}
+							</Typography>
+						</div>
+					</div>
+				)}
 				<PostList isTask={isTask} tempAuthor={tempAuthor} posts={data.sharedPosts} />
 			</div>
 		</div>

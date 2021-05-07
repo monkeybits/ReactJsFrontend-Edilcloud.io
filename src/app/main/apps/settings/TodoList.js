@@ -1,7 +1,17 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import _ from '@lodash';
-import { Typography, List, ListItem, ListItemSecondaryAction, ListItemText, Button, Grid, Switch, Divider } from '@material-ui/core';
+import {
+	Typography,
+	List,
+	ListItem,
+	ListItemSecondaryAction,
+	ListItemText,
+	Button,
+	Grid,
+	Switch,
+	Divider
+} from '@material-ui/core';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +19,8 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { UPDATE_SETTINGS_PREFERENCES } from 'app/services/apiEndPoints';
 import { toast } from 'react-toastify';
 import * as Actions from './store/actions';
-const SettingListItem = loadable(() => import('./SettingListItem'))
+
+const SettingListItem = React.lazy(() => import('./SettingListItem'));
 
 function TodoList(props) {
 	const dispatch = useDispatch();

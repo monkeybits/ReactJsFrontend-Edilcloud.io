@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
@@ -11,7 +11,8 @@ import jwtService from 'app/services/jwtService';
 import { getMainProfileId, getHeaderToken, getTokenOnly } from 'app/services/serviceUtils';
 import { GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-const FuseSplashScreen = loadable(() => import('@fuse/core/FuseSplashScreen'))
+
+const FuseSplashScreen = React.lazy(() => import('@fuse/core/FuseSplashScreen'));
 class Auth extends Component {
 	state = {
 		waitAuthCheck: true
@@ -22,11 +23,11 @@ class Auth extends Component {
 			this.setState({
 				waitAuthCheck: false
 			});
-		}, 1000)
+		}, 1000);
 		setTimeout(() => {
-			var splashScreen = document.getElementById('fuse-splash-screen');
+			const splashScreen = document.getElementById('fuse-splash-screen');
 			splashScreen.style.display = 'none';
-		}, 2000)
+		}, 2000);
 	}
 
 	componentDidMount() {
@@ -35,7 +36,7 @@ class Auth extends Component {
 		const { pathname } = location;
 		const outsidePath = outsidePlatformPaths.filter(d => String(pathname).includes(d));
 		if (outsidePath.length) {
-			this.hideLoader()
+			this.hideLoader();
 			// setTimeout(() => {
 			// 	this.setState({
 			// 		waitAuthCheck: false
@@ -51,20 +52,20 @@ class Auth extends Component {
 			this.jwtCheck()
 		])
 			.then(() => {
-				this.hideLoader()
+				this.hideLoader();
 				// this.setState({ waitAuthCheck: false });
 				this.getUser();
 				this.getCompanyProfileData();
 			})
 			.catch(() => {
-				this.hideLoader()
+				this.hideLoader();
 				// this.setState({ waitAuthCheck: false });
 			});
 	}
 
 	getUser = () => {
 		const mainProfileId = getMainProfileId();
-		if(mainProfileId !== null) {
+		if (mainProfileId !== null) {
 			apiCall(
 				GET_MAIN_PROFILE(mainProfileId),
 				{},

@@ -1,5 +1,5 @@
 import withReducer from 'app/store/withReducer';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -25,8 +25,9 @@ import { GET_TODOS } from './store/actions';
 import TaskContentDialog from './Dialog/TaskContentDialog';
 import CreateTasks from '../gantt/CreateTasks';
 import ImportExcelDialog from '../gantt/ImportExcelDialog';
-const PostNotificationDialog = loadable(() => import('../../todo/PostNotificationDialog'))
-const StatusConfirmDialog = loadable(() => import('../../todo/StatusConfirmDialog'))
+
+const PostNotificationDialog = React.lazy(() => import('../../todo/PostNotificationDialog'));
+const StatusConfirmDialog = React.lazy(() => import('../../todo/StatusConfirmDialog'));
 
 const useStyles = makeStyles({
 	addButton: {
@@ -39,8 +40,8 @@ const useStyles = makeStyles({
 function TodoApp(props) {
 	const dispatch = useDispatch();
 	const { t } = useTranslation('todo_project');
-	const [defaultMenu, setDefaultMenu] = useState(true)
-	const [foldedAndOpened, setFoldedAndOpened] = useState(false)
+	const [defaultMenu, setDefaultMenu] = useState(true);
+	const [foldedAndOpened, setFoldedAndOpened] = useState(false);
 	const classes = useStyles(props);
 	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
@@ -59,12 +60,12 @@ function TodoApp(props) {
 	const navbar = useSelector(({ fuse }) => fuse.navbar);
 	const toggleSidebarMenu = useSelector(({ fuse }) => fuse.settings.toggleSidebarMenu);
 	const { folded } = config.navbar;
-	
+
 	useEffect(() => {
-		if(toggleSidebarMenu) {
-			setDefaultMenu(false)
+		if (toggleSidebarMenu) {
+			setDefaultMenu(false);
 		} else {
-			setDefaultMenu(true)
+			setDefaultMenu(true);
 		}
 	}, [toggleSidebarMenu]);
 
@@ -72,13 +73,13 @@ function TodoApp(props) {
 	useEffect(() => {
 		const foldedAndOpened = folded && navbar.foldedOpen;
 		setTimeout(() => {
-			if(foldedAndOpened) {
-				setDefaultMenu(false)
-				setFoldedAndOpened(foldedAndOpened)
+			if (foldedAndOpened) {
+				setDefaultMenu(false);
+				setFoldedAndOpened(foldedAndOpened);
 			}
-		}, 200)
-		if(!foldedAndOpened) {
-			setFoldedAndOpened(foldedAndOpened)
+		}, 200);
+		if (!foldedAndOpened) {
+			setFoldedAndOpened(foldedAndOpened);
 		}
 	}, [folded, navbar]);
 

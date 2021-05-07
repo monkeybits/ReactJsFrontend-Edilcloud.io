@@ -1,10 +1,11 @@
 import React from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { useSelector } from 'react-redux';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
-const PoweredByLinks = loadable(() => import('app/fuse-layouts/shared-components/PoweredByLinks'))
-const PurchaseButton = loadable(() => import('app/fuse-layouts/shared-components/PurchaseButton'))
+
+const PoweredByLinks = React.lazy(() => import('app/fuse-layouts/shared-components/PoweredByLinks'));
+const PurchaseButton = React.lazy(() => import('app/fuse-layouts/shared-components/PurchaseButton'));
 
 function FooterLayout3(props) {
 	const footerTheme = useSelector(({ fuse }) => fuse.settings.footerTheme);
@@ -22,9 +23,7 @@ function FooterLayout3(props) {
 						<PurchaseButton />
 					</div>
 
-					<div>
-						{/* <PoweredByLinks /> */}
-					</div>
+					<div>{/* <PoweredByLinks /> */}</div>
 				</Toolbar>
 			</AppBar>
 		</ThemeProvider>

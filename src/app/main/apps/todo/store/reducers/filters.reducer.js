@@ -76,7 +76,7 @@ const projectNames = arr => {
 const companyFilterNames = (arr, companyId) => {
 	const result = arr.reduce((unique, o) => {
 		if (o.assigned_company && !unique.some(obj => obj.id === o.assigned_company.id)) {
-			if(companyId === o.assigned_company.id) {
+			if (companyId === o.assigned_company.id) {
 				unique.push({
 					...o.assigned_company,
 					isActive: true

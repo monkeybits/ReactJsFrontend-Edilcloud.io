@@ -9,6 +9,7 @@ import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 import { LinearProgress, Typography, Box } from '@material-ui/core';
 import { useStyles } from '@material-ui/pickers/views/Calendar/SlideTransition';
 import { useTranslation } from 'react-i18next';
+
 function LinearProgressWithLabel(props) {
 	const { t } = useTranslation('dashboard');
 	const classes = useStyles1();

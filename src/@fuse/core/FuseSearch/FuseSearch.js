@@ -1,6 +1,18 @@
 import React, { useEffect, useReducer, useRef } from 'react';
 import FuseUtils from '@fuse/utils';
-import {ClickAwayListener, Icon, IconButton, ListItemIcon, ListItemText, MenuItem, Paper, Popper, TextField, Tooltip, Typography} from '@material-ui/core';
+import {
+	ClickAwayListener,
+	Icon,
+	IconButton,
+	ListItemIcon,
+	ListItemText,
+	MenuItem,
+	Paper,
+	Popper,
+	TextField,
+	Tooltip,
+	Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';

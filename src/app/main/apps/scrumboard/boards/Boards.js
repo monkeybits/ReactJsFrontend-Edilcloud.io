@@ -5,7 +5,7 @@ TODO: Boards.js
 TODO: This file fetch request from other company and user compamies.
 */
 import _ from '@lodash';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -23,12 +23,7 @@ import {
 	REFUSE_INVITATION
 } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import {
-	getHeaderToken,
-	getTokenOnly,
-	saveToken,
-	saveMainProfileId
-} from 'app/services/serviceUtils';
+import { getHeaderToken, getTokenOnly, saveToken, saveMainProfileId } from 'app/services/serviceUtils';
 import * as authActions from 'app/auth/store/actions';
 import { Icon, Typography, Badge, Avatar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -40,8 +35,9 @@ import ReuestsDrawer from './ReuestsDrawer';
 import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import reducer from '../store/reducers';
 import * as Actions from '../store/actions';
-const Tutorial = loadable(() => import('./Tutorial'))
-const UpdatePlanDialog = loadable(() => import('./UpdatePlanDialog'))
+
+const Tutorial = React.lazy(() => import('./Tutorial'));
+const UpdatePlanDialog = React.lazy(() => import('./UpdatePlanDialog'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -158,11 +154,13 @@ function Boards(props) {
 			if (window.OneSignalSetUser?.postMessage) {
 				window.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
 			}
-			
+
 			console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		}
 		try {
-			window.webkit.messageHandlers.OneSignalSetUser.postMessage(JSON.stringify({ "userid" : myCustomUniqueUserId}));
+			window.webkit.messageHandlers.OneSignalSetUser.postMessage(
+				JSON.stringify({ userid: myCustomUniqueUserId })
+			);
 		} catch (e) {
 			console.log('error', e);
 		}
@@ -223,7 +221,7 @@ function Boards(props) {
 			props.history.push('/edit-company');
 		}
 	};
-	
+
 	return isLoading ? (
 		<FuseSplashScreen />
 	) : (
@@ -244,8 +242,8 @@ function Boards(props) {
 										onClick={e => {
 											e.preventDefault();
 											e.stopPropagation();
-											if(
-												board.subscription.status === 'trialing' || 
+											if (
+												board.subscription.status === 'trialing' ||
 												board.subscription.status === 'active'
 											) {
 												setRequest(board);
@@ -348,7 +346,7 @@ function Boards(props) {
 						</div>
 					</div>
 				</div>
-				<UpdatePlanDialog {...props}/>
+				<UpdatePlanDialog {...props} />
 			</div>
 			<ReuestsDrawer
 				afterSuccess={handleInvitation}

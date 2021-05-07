@@ -2,7 +2,14 @@ import PropTypes from 'prop-types';
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import { DialogContent, IconButton, Typography, Box, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
+import {
+	DialogContent,
+	IconButton,
+	Typography,
+	Box,
+	BottomNavigation,
+	BottomNavigationAction
+} from '@material-ui/core';
 import moment from 'moment/moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,10 +19,10 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const EditActivityForm = loadable(() => import('./EditActivityForm'))
-const CreatePostForm = loadable(() => import('./CreatePostForm'))
-const ShowUpload = loadable(() => import('./ShowUpload'))
+// import loadable from '@loadable/component';
+const EditActivityForm = React.lazy(() => import('./EditActivityForm'));
+const CreatePostForm = React.lazy(() => import('./CreatePostForm'));
+const ShowUpload = React.lazy(() => import('./ShowUpload'));
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -196,8 +203,17 @@ function EditActivityPostForm(props) {
 					showLabels
 					className="w-full h-64"
 				>
-					<BottomNavigationAction label="Timeline" className="min-w-auto max-w-full font-bold" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction label="Activity" className="min-w-auto max-w-full font-bold" {...a11yProps(1)} />
+					<BottomNavigationAction
+						label="Timeline"
+						className="min-w-auto max-w-full font-bold"
+						wrapped
+						{...a11yProps(0)}
+					/>
+					<BottomNavigationAction
+						label="Activity"
+						className="min-w-auto max-w-full font-bold"
+						{...a11yProps(1)}
+					/>
 				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton

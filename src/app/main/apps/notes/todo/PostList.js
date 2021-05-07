@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import loadable from '@loadable/component';
-const PostListItem = loadable(() => import('./PostListItem'))
+// import loadable from '@loadable/component';
+const PostListItem = React.lazy(() => import('./PostListItem'));
 
 function PostList({
 	posts,

@@ -1,7 +1,19 @@
-import { AppBar, Drawer, Button, Input, Paper, Hidden, Icon, IconButton, Toolbar, Typography, LinearProgress } from '@material-ui/core';
+import {
+	AppBar,
+	Drawer,
+	Button,
+	Input,
+	Paper,
+	Hidden,
+	Icon,
+	IconButton,
+	Toolbar,
+	Typography,
+	LinearProgress
+} from '@material-ui/core';
 
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
@@ -9,16 +21,16 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import FuseAnimate from '@fuse/core/FuseAnimate';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import { GET_CHAT } from './store/actions';
-import { ThemeProvider } from '@material-ui/core/styles';
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import loadable from '@loadable/component';
-const Chat = loadable(() => import('./Chat'))
-const ChatsSidebar = loadable(() => import('./ChatsSidebar'))
-const ContactSidebar = loadable(() => import('./ContactSidebar'))
-const UserSidebar = loadable(() => import('./UserSidebar'))
+
+// import loadable from '@loadable/component';
+const Chat = React.lazy(() => import('./Chat'));
+const ChatsSidebar = React.lazy(() => import('./ChatsSidebar'));
+const ContactSidebar = React.lazy(() => import('./ContactSidebar'));
+const UserSidebar = React.lazy(() => import('./UserSidebar'));
 
 const drawerWidth = 350;
 const headerHeight = 200;
@@ -174,7 +186,6 @@ function ChatApp(props) {
 						</div>
 
 						<div className="flex flex-1 w-full items-center justify-between">
-
 							{/* <div className="flex items-center">
 								<FuseAnimate animation="transition.expandIn" delay={300}>
 									<div className="flex items-center">
@@ -189,7 +200,10 @@ function ChatApp(props) {
 							<div className="flex flex-1 items-center justify-center px-12">
 								<ThemeProvider theme={mainTheme}>
 									<FuseAnimate animation="transition.slideDownIn" delay={300}>
-										<Paper className="flex items-center w-full max-w-512 px-8 py-4 rounded-8" elevation={1}>
+										<Paper
+											className="flex items-center w-full max-w-512 px-8 py-4 rounded-8"
+											elevation={1}
+										>
 											<Icon color="action">search</Icon>
 
 											<Input
@@ -201,7 +215,6 @@ function ChatApp(props) {
 												inputProps={{
 													'aria-label': 'Search'
 												}}
-
 											/>
 										</Paper>
 									</FuseAnimate>
@@ -244,7 +257,6 @@ function ChatApp(props) {
 				</div> */}
 
 			<ThemeProvider theme={mainTheme}>
-
 				<div className={clsx(classes.contentCardWrapper, 'container chat-custom-h-full p-0 inner-height')}>
 					<div className={clsx(classes.contentCard, 'chat-bg')}>
 						<Hidden mdUp>
@@ -306,7 +318,12 @@ function ChatApp(props) {
 							<UserSidebar />
 						</Drawer>
 
-						<main className={clsx(classes.contentWrapper, 'z-10 multiple-images-overflow-x chat-bg custom-w-form')}>
+						<main
+							className={clsx(
+								classes.contentWrapper,
+								'z-10 multiple-images-overflow-x chat-bg custom-w-form'
+							)}
+						>
 							<>
 								{/*	<AppBar className="w-full border-0" position="static" elevation={1}>
 								<Toolbar className="bg-dark min-h-72 px-16">

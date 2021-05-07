@@ -17,9 +17,9 @@ import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { ACCEPT_PROJECT_INVITATION, REJECT_PROJECT_INVITATION } from 'app/services/apiEndPoints';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useTranslation } from 'react-i18next';
-import loadable from '@loadable/component';
-const ReuestsDrawer = loadable(() => import('../scrumboard/boards/ReuestsDrawer'))
-const ProjectListitem = loadable(() => import('./ProjectListitem'))
+// import loadable from '@loadable/component';
+const ReuestsDrawer = React.lazy(() => import('../scrumboard/boards/ReuestsDrawer'));
+const ProjectListitem = React.lazy(() => import('./ProjectListitem'));
 
 const useStyles = makeStyles(theme => ({
 	// root: {
@@ -153,14 +153,16 @@ function NoteList(props) {
 	}, [activeFilterKey, usedKeys, projects]);
 
 	const newCompany = useMemo(() => {
-		const res = filteredData && filteredData.map((project) => {
-			return project.company
-		}) || []
-		const key = 'slug'
-		const arrayUniqueByKey = [...new Map(res.map(item =>
-			[item[key], item])).values()];
-			return arrayUniqueByKey
-	}, [filteredData])
+		const res =
+			(filteredData &&
+				filteredData.map(project => {
+					return project.company;
+				})) ||
+			[];
+		const key = 'slug';
+		const arrayUniqueByKey = [...new Map(res.map(item => [item[key], item])).values()];
+		return arrayUniqueByKey;
+	}, [filteredData]);
 
 	const handleDoFilter = () => {
 		function getFilteredArray(entities, _searchText) {
@@ -172,7 +174,7 @@ function NoteList(props) {
 		}
 		if (projects) {
 			let list = _.orderBy(getFilteredArray(projects, searchText), [orderBy], [orderDescending ? 'desc' : 'asc']);
-			
+
 			if (usedKeys && usedKeys.length) {
 				for (const key in usedKeys) {
 					if (usedKeys.hasOwnProperty(key)) {
@@ -204,7 +206,7 @@ function NoteList(props) {
 			}, 3000);
 		}
 	};
-	
+
 	const setFilterByKey = (activeFilter, list, activeFilterKey) => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -218,15 +220,15 @@ function NoteList(props) {
 				var result = [];
 				const userInfo = decodeDataFromToken();
 				if (activeFilterKey === '' && userInfo) {
-					result = list.filter((l) => parseInt(l.status) === 1, []);
+					result = list.filter(l => parseInt(l.status) === 1, []);
 				} else if (activeFilterKey === '') {
-					result = list.filter((l) => parseInt(l.status) === 1, []);
+					result = list.filter(l => parseInt(l.status) === 1, []);
 				} else {
-					result = list.filter((l) => parseInt(l.status) === 1, []);
+					result = list.filter(l => parseInt(l.status) === 1, []);
 				}
 				return result;
 			case 'companyFilter':
-				var result = list.filter((l) => {
+				var result = list.filter(l => {
 					if (activeFilterKey.includes(l.company?.name)) {
 						return l;
 					}
@@ -235,40 +237,36 @@ function NoteList(props) {
 			case 'timeFilter':
 				var result = [];
 				if (activeFilterKey === 'TODAY') {
-					result = list.filter((l) => {
+					result = list.filter(l => {
 						const startDate = new Date(l.date_start);
 						const endDate = new Date(l.date_end);
 						const date = new Date();
-						if (
-							(date.getTime() <= endDate.getTime() && date.getTime() >= startDate.getTime())
-						) {
-							return l
+						if (date.getTime() <= endDate.getTime() && date.getTime() >= startDate.getTime()) {
+							return l;
 						}
 					}, []);
 				} else if (activeFilterKey === 'NEXT_WEEK') {
-					result = list.filter((l) => {
+					result = list.filter(l => {
 						const startDate = new Date(l.date_start);
 						const endDate = new Date(l.date_end);
 						const fromDate = new Date();
 						const toDate = new Date();
 						const pastDate = toDate.getDate() + 7;
 						toDate.setDate(pastDate);
-						if (
-							(startDate.getTime() <= toDate.getTime() && endDate.getTime() >= fromDate.getTime())
-						) {
-							return l
+						if (startDate.getTime() <= toDate.getTime() && endDate.getTime() >= fromDate.getTime()) {
+							return l;
 						}
 					}, []);
 				} else if (activeFilterKey === 'IN_LATE') {
-					result = list.filter((l) => {
+					result = list.filter(l => {
 						const endDate = new Date(l.date_end);
 						const date = new Date();
-						if ((date.getTime() >= endDate.getTime() && parseInt(l.completed) < 100)) {
-							return l
+						if (date.getTime() >= endDate.getTime() && parseInt(l.completed) < 100) {
+							return l;
 						}
 					}, []);
 				} else {
-					result = list.filter((l) => parseInt(l.completed) === 100, []);
+					result = list.filter(l => parseInt(l.completed) === 100, []);
 				}
 				return result;
 			default:
@@ -328,52 +326,69 @@ function NoteList(props) {
 			<div id="project-list" className="flex flex-wrap w-full">
 				<div className={classes.root}>
 					{newCompany.map((data, index) => {
-						return <>
-							<div className="flex justify-start items-center pb-8 mb-16">
-								<Avatar className="mr-4" aria-label="recipe" src={data?.logo} sizes="25">
-									{data?.name?.split('')[0]}
-								</Avatar>
-								<Typography variant="subtitle1" className="font-size-18 font-600">
-									{data.name}
-								</Typography>
-							</div>
-							<Grid container spacing={12} className="grid-space-remove">
-								{filteredData.length > 0 && filteredData.map((project, index) => {
-									if (data.slug === project.company.slug)
-										return project.isApproved ? (
-											<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
-												<ProjectListitem
-													key={index}
-													index={index}
-													{...{ project, classes, setRequest }}
-												/>
-											</Grid>
-										) : (
-											<Grid className="px-12 mb-32 project_box" item xs={12} sm={6} md={4} xl={3}>
-												{' '}
-												<Badge
-													invisible={project.isApproved}
-													color="secondary"
-													className="h-full flex flex-col"
-													badgeContent="New"
-													onClick={e => {
-														e.stopPropagation();
-														e.preventDefault();
-														setIsShowRequests(true);
-														setRequest(project);
-													}}
-												>
-													<ProjectListitem
-														key={index}
-														index={index}
-														{...{ project, classes, setRequest }}
-													/>
-												</Badge>
-											</Grid>
-										);
-								})}
-							</Grid>
-						</>
+						return (
+							<>
+								<div className="flex justify-start items-center pb-8 mb-16">
+									<Avatar className="mr-4" aria-label="recipe" src={data?.logo} sizes="25">
+										{data?.name?.split('')[0]}
+									</Avatar>
+									<Typography variant="subtitle1" className="font-size-18 font-600">
+										{data.name}
+									</Typography>
+								</div>
+								<Grid container spacing={12} className="grid-space-remove">
+									{filteredData.length > 0 &&
+										filteredData.map((project, index) => {
+											if (data.slug === project.company.slug)
+												return project.isApproved ? (
+													<Grid
+														className="px-12 mb-32 project_box"
+														item
+														xs={12}
+														sm={6}
+														md={4}
+														xl={3}
+													>
+														<ProjectListitem
+															key={index}
+															index={index}
+															{...{ project, classes, setRequest }}
+														/>
+													</Grid>
+												) : (
+													<Grid
+														className="px-12 mb-32 project_box"
+														item
+														xs={12}
+														sm={6}
+														md={4}
+														xl={3}
+													>
+														{' '}
+														<Badge
+															invisible={project.isApproved}
+															color="secondary"
+															className="h-full flex flex-col"
+															badgeContent="New"
+															onClick={e => {
+																e.stopPropagation();
+																e.preventDefault();
+																setIsShowRequests(true);
+																setRequest(project);
+															}}
+														>
+															<ProjectListitem
+																key={index}
+																index={index}
+																{...{ project, classes, setRequest }}
+															/>
+														</Badge>
+													</Grid>
+												);
+										})}
+								</Grid>
+							</>
+						);
 					})}
 					{!!projects.filter((project, index) => !project.company?.id).length && (
 						<div className="mb-16 border-b-1">

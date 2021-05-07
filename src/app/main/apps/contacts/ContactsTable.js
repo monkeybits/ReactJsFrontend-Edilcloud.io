@@ -5,13 +5,23 @@
 TODO: view of contact table
 */
 import React from 'react';
-import { Checkbox, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TableSortLabel } from '@material-ui/core';
+import {
+	Checkbox,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableFooter,
+	TableHead,
+	TablePagination,
+	TableRow,
+	TableSortLabel
+} from '@material-ui/core';
 import MaUTable from '@material-ui/core/Table';
 import PropTypes from 'prop-types';
 import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
 import clsx from 'clsx';
-import loadable from '@loadable/component';
-const ContactsTablePaginationActions = loadable(() => import('./ContactsTablePaginationActions'))
+// import loadable from '@loadable/component';
+const ContactsTablePaginationActions = React.lazy(() => import('./ContactsTablePaginationActions'));
 
 const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
 	const defaultRef = React.useRef();

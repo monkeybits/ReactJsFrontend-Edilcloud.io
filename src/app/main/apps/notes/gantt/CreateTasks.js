@@ -45,12 +45,12 @@ const useStyles = makeStyles(theme => ({
 		'&:hover': {
 			backgroundColor: '#295da2'
 		}
-	},
+	}
 }));
 
-const tooltipUseStyles = makeStyles((theme) => ({
+const tooltipUseStyles = makeStyles(theme => ({
 	staticTooltipLabel: {
-	  width : 140
+		width: 140
 	}
 }));
 

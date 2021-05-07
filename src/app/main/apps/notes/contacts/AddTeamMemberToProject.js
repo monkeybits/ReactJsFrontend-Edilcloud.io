@@ -1,6 +1,17 @@
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useForm } from '@fuse/hooks';
-import { Avatar, Button, Dialog, DialogActions, DialogContent, Icon, Toolbar, AppBar, IconButton, Typography } from '@material-ui/core';
+import {
+	Avatar,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	Icon,
+	Toolbar,
+	AppBar,
+	IconButton,
+	Typography
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -203,7 +214,8 @@ function AddTeamMemberToProject(props) {
 					<div>
 						<div className="flex flex-1 items-center justify-center h-full px-52 pt-12">
 							<Typography color="textSecondary" variant="subtitle1" className="text-center">
-								search for One or multiple existent profile in edilcloud ( owner or delegate ) and add to this project for collaborare in Cloud
+								search for One or multiple existent profile in edilcloud ( owner or delegate ) and add
+								to this project for collaborare in Cloud
 							</Typography>
 						</div>
 						<div className="flex flex-1 items-center justify-center h-full">

@@ -5,7 +5,18 @@
 TODO: its list of all files in table view
 */
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { Icon, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography, MenuItem, ListItemIcon } from '@material-ui/core';
+import {
+	Icon,
+	IconButton,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableRow,
+	Typography,
+	MenuItem,
+	ListItemIcon
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useEffect, useRef } from 'react';
@@ -28,8 +39,8 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+// import loadable from '@loadable/component';
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 const useStyles = makeStyles({
 	typeIcon: {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
+
 class VideoListItem extends Component {
 	constructor(props) {
 		super(props);

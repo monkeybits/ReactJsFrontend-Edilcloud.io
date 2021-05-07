@@ -3,6 +3,7 @@ import {
 	SEND_MESSAGE_API,
 	GET_PROJECT_MESSAGES_API,
 	SEND_PROJECT_MESSAGE_API,
+	DELETE_MESSAGE,
 	READ_ALL_MESSAGES
 } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -15,6 +16,7 @@ export const SEND_MESSAGE = '[CHAT PANEL] SEND MESSAGE';
 export const UPDATE_CHAT_LOG = '[CHAT PANEL] UPDATE_CHAT_LOG';
 export const RESET_CONTECT_COUNT = '[CHAT PANEL] RESET_CONTECT_COUNT';
 export const CHAT_IS_LOADING = '[CHAT PANEL] CHAT_IS_LOADING';
+export const HANDLE_UPLOAD_LOADING = '[CHAT PANEL] HANDLE UPLOAD LOADING';
 const uuidv1 = require('uuid/v1');
 
 export function updateChatLog(update) {
@@ -29,7 +31,26 @@ export function loadingChat(payload) {
 		payload
 	};
 }
-
+export function onUploadHandleLoading(isUploadingFiles) {
+	return {
+		type: HANDLE_UPLOAD_LOADING,
+		payload: isUploadingFiles
+	};
+}
+export function deleteMessage(mid) {
+	return (dispatch, getState) => {
+		apiCall(
+			DELETE_MESSAGE(mid),
+			{},
+			chat => {},
+			err => {
+				// console.log(err)
+			},
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	};
+}
 export function getChat(contact) {
 	return (dispatch, getState) => {
 		dispatch(loadingChat(true));

@@ -6,8 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as Actions from '../store/actions';
-import loadable from '@loadable/component';
-const ProductsTableHead = loadable(() => import('./ProductsTableHead'))
+// import loadable from '@loadable/component';
+const ProductsTableHead = React.lazy(() => import('./ProductsTableHead'));
 
 function ProductsTable(props) {
 	const dispatch = useDispatch();

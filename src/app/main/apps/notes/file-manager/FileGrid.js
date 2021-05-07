@@ -1,5 +1,16 @@
-import { MenuItem, Icon, IconButton, ListItem, ListItemIcon, ListItemText, Grid, Typography, Dialog, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+	MenuItem,
+	Icon,
+	IconButton,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
+	Grid,
+	Typography,
+	Dialog,
+	Button
+} from '@material-ui/core';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,20 +20,15 @@ import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TippyMenu from 'app/TippyMenu';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import {
-	PHOTO_DELETE,
-	VIDEO_DELETE,
-	DOCUMENT_DELETE,
-	FOLDER_DELETE
-} from 'app/services/apiEndPoints';
+import { PHOTO_DELETE, VIDEO_DELETE, DOCUMENT_DELETE, FOLDER_DELETE } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import * as Actions from './store/actions';
-import { withStyles } from '@material-ui/core/styles';
+
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import CloseIcon from '@material-ui/icons/Close';
+import * as Actions from './store/actions';
 import FileGridItem from './FileGridItem';
 
 const styles = theme => ({
@@ -42,7 +48,7 @@ const DialogTitle = withStyles(styles)(props => {
 	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-            <Typography variant="h6">{children}</Typography>
+			<Typography variant="h6">{children}</Typography>
 			{onClose ? (
 				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
 					<CloseIcon />
@@ -103,9 +109,9 @@ function FileGrid(props) {
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
 	const routeParams = useParams();
 
-	console.log('files???????????????????files', files)
-	console.log('files???????????????????currentFiles', currentFiles)
-	console.log('files???????????????????allFiles', allFiles)
+	console.log('files???????????????????files', files);
+	console.log('files???????????????????currentFiles', currentFiles);
+	console.log('files???????????????????allFiles', allFiles);
 
 	const getCssColor = fileType =>
 		fileType == 'pdf'
@@ -209,7 +215,6 @@ function FileGrid(props) {
 		}
 	}, [currentFolderPath]);
 
-	
 	const handleFolderDelete = () => {
 		const findIndex = 0;
 		const selectedItem = tile; // allFiles[findIndex];
@@ -251,13 +256,13 @@ function FileGrid(props) {
 			METHOD.DELETE,
 			getHeaderToken()
 		);
-		setDeleteConfirm(false)
-	}
+		setDeleteConfirm(false);
+	};
 
 	const handleDelete = tile => {
 		// e.stopPropagation();
-		setDeleteConfirm(true)
-		setTile(tile)
+		setDeleteConfirm(true);
+		setTile(tile);
 	};
 
 	if (allFiles.length === 0 && searchText) {
@@ -365,7 +370,7 @@ function FileGrid(props) {
 					</Grid>
 				</>
 			)}
-			{currentFiles.length > 0 &&
+			{currentFiles.length > 0 && (
 				<>
 					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
 						{t('FILES')}
@@ -374,9 +379,8 @@ function FileGrid(props) {
 						<FileGridItem tileData={currentFiles} {...props} handleDelete={handleDelete} />
 					</Grid>
 				</>
-			}
-			{
-				(currentFiles.length === 0 && folders.length === 0) &&
+			)}
+			{currentFiles.length === 0 && folders.length === 0 && (
 				<div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<img className="w-400" src="assets/images/errors/nofiles.png" />
@@ -392,8 +396,8 @@ function FileGrid(props) {
 						</Typography>
 					</div>
 				</div>
-			}
-			
+			)}
+
 			<Dialog
 				open={deleteConfirm}
 				// onClose={handleClose}
@@ -401,13 +405,16 @@ function FileGrid(props) {
 				maxWidth="xs"
 				fullWidth="true"
 			>
-				<DialogTitle id="customized-dialog-title" onClose={() => {
-					setDeleteConfirm(false)
-				}}>Remove?</DialogTitle>
+				<DialogTitle
+					id="customized-dialog-title"
+					onClose={() => {
+						setDeleteConfirm(false);
+					}}
+				>
+					Remove?
+				</DialogTitle>
 				<DialogContent dividers>
-					<Typography className="text-lg">
-						Are you sure that you want to delete this?
-					</Typography>
+					<Typography className="text-lg">Are you sure that you want to delete this?</Typography>
 					<div>
 						<div className="flex mt-24 justify-end">
 							<Button
@@ -420,7 +427,7 @@ function FileGrid(props) {
 							</Button>
 							<Button
 								onClick={() => {
-									setDeleteConfirm(false)
+									setDeleteConfirm(false);
 								}}
 								variant="contained"
 								className="justify-start d-inline-block mb-20 bg-gray-500 text-white"

@@ -1,7 +1,19 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { useForm } from '@fuse/hooks';
-import { Button, Card, CardContent, TextField, Typography, InputLabel, MenuItem, FormControl, Icon, InputAdornment, ListItemText } from '@material-ui/core';
+import {
+	Button,
+	Card,
+	CardContent,
+	TextField,
+	Typography,
+	InputLabel,
+	MenuItem,
+	FormControl,
+	Icon,
+	InputAdornment,
+	ListItemText
+} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
@@ -14,7 +26,8 @@ import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

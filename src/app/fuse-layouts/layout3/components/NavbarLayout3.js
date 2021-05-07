@@ -1,7 +1,8 @@
 import React from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-const Navigation = loadable(() => import('app/fuse-layouts/shared-components/Navigation'))
+
+const Navigation = React.lazy(() => import('app/fuse-layouts/shared-components/Navigation'));
 
 function NavbarLayout3() {
 	return (

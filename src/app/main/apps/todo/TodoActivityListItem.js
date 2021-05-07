@@ -4,16 +4,26 @@
 This is part of dashboard 
 TODO: This file is created for activity list item 
 */
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import _ from '@lodash';
 import { green } from '@material-ui/core/colors';
-import { Checkbox, Icon, ListItem, Typography, ListItemText, Avatar, Paper, Button, MenuItem, FormControlLabel } from '@material-ui/core';
+import {
+	Checkbox,
+	Icon,
+	ListItem,
+	Typography,
+	ListItemText,
+	Avatar,
+	Paper,
+	Button,
+	MenuItem,
+	FormControlLabel
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import * as Actions from './store/actions';
 import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_ACTIVITY_TO_TASK, GET_ACTIVITY_OF_TASK, GET_STAFF_LIST } from 'app/services/apiEndPoints';
@@ -23,8 +33,10 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
 import { useTranslation } from 'react-i18next';
-const WorkerProfiles = loadable(() => import('./WorkerProfiles'))
-const TodoChip = loadable(() => import('./TodoChip'))
+import * as Actions from './store/actions';
+
+const WorkerProfiles = React.lazy(() => import('./WorkerProfiles'));
+const TodoChip = React.lazy(() => import('./TodoChip'));
 
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
@@ -157,7 +169,7 @@ function TodoActivityListItem(props) {
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(props.todo.id),
 			values,
-			res => { },
+			res => {},
 			err => {
 				setCompleted(!status);
 				console.log(err);
@@ -187,7 +199,7 @@ function TodoActivityListItem(props) {
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(props.todo.id),
 			values,
-			res => { },
+			res => {},
 			err => {
 				console.log(err);
 			},
@@ -418,7 +430,10 @@ function TodoActivityListItem(props) {
 																		}
 																	}}
 																/>
-																<Avatar className="w-32 h-32" src={member.profile.photo} />
+																<Avatar
+																	className="w-32 h-32"
+																	src={member.profile.photo}
+																/>
 																<ListItemText className="mx-8">
 																	{member.profile.first_name}{' '}
 																	{member.profile.last_name}
@@ -457,7 +472,10 @@ function TodoActivityListItem(props) {
 																		}
 																	}}
 																/>
-																<Avatar className="w-32 h-32" src={member.profile.photo} />
+																<Avatar
+																	className="w-32 h-32"
+																	src={member.profile.photo}
+																/>
 																<ListItemText className="mx-8">
 																	{member.profile.first_name}{' '}
 																	{member.profile.last_name}
@@ -480,7 +498,10 @@ function TodoActivityListItem(props) {
 																className="px-8"
 																key={member.id}
 															>
-																<Avatar className="w-32 h-32" src={member.profile.photo} />
+																<Avatar
+																	className="w-32 h-32"
+																	src={member.profile.photo}
+																/>
 																<ListItemText className="mx-8">
 																	{member.first_name} {member.last_name}
 																</ListItemText>
@@ -496,7 +517,7 @@ function TodoActivityListItem(props) {
 										{/* </ToolbarMenu> */}
 									</Paper>
 								}
-							// onClickOutside={handleMenuClose}
+								// onClickOutside={handleMenuClose}
 							>
 								<div
 									ref={anchorRef}
@@ -515,7 +536,6 @@ function TodoActivityListItem(props) {
 							workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
 						/>
 					</div>
-
 
 					{/*
 					// *The below old code was for UI, I just had to leave it here for you to see.
