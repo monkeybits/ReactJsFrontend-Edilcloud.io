@@ -58,7 +58,7 @@ function RegisterPage() {
 		scope: 'name email',
 		state: '',
 		responseType: 'code id_token',
-		responseMode: 'query',
+		responseMode: 'form_post',
 		nonce: '',
 		usePopup: true,
 		designProp: {

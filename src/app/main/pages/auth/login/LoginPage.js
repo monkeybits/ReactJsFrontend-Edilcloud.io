@@ -54,10 +54,10 @@ function LoginPage() {
 	const [settings, setSettings] = useState({
 		clientId: 'com.monkeybits.edilcloud.signin',
 		redirectURI: 'https://test.edilcloud.io',
-		scope: '',
+		scope: 'name email',
 		state: '',
 		responseType: 'code id_token',
-		responseMode: 'query',
+		responseMode: 'form_post',
 		nonce: '',
 		usePopup: true,
 		designProp: {
@@ -65,7 +65,7 @@ function LoginPage() {
 		  width: 140,
 		  color: 'black',
 		  border: false,
-		  type: 'sign-in',
+		  type: 'continue',
 		  border_radius: 15,
 		  scale: 1,
 		  locale: 'en_US',
