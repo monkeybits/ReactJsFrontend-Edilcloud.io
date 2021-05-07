@@ -1,8 +1,9 @@
 import React, { useImperativeHandle, useState } from 'react';
-import loadable from '@loadable/component';
-import {Drawer, Hidden} from '@material-ui/core';
+// import loadable from '@loadable/component';
+import { Drawer, Hidden } from '@material-ui/core';
 import clsx from 'clsx';
-const FusePageSimpleSidebarContent = loadable(() => import('./FusePageSimpleSidebarContent'))
+
+const FusePageSimpleSidebarContent = React.lazy(() => import('./FusePageSimpleSidebarContent'));
 
 function FusePageSimpleSidebar(props, ref) {
 	const [isOpen, setIsOpen] = useState(false);

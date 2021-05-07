@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import { Drawer, Icon, Typography, IconButton, AppBar, Tabs, Tab, Box, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,7 +11,8 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 import PropTypes from 'prop-types';
 import reducer from './store/reducers';
 import * as Actions from './store/actions/index';
-const PostList = loadable(() => import('app/main/apps/notes/todo/PostList'))
+
+const PostList = React.lazy(() => import('app/main/apps/notes/todo/PostList'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

@@ -12,8 +12,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import { useTranslation } from 'react-i18next';
-import loadable from '@loadable/component';
-const AddProjectForm = loadable(() => import('./AddProjectForm'))
+// import loadable from '@loadable/component';
+const AddProjectForm = React.lazy(() => import('./AddProjectForm'));
 
 const styles = theme => ({
 	root: {

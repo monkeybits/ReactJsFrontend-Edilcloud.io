@@ -11,7 +11,6 @@ import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
-import ReadPDF from './ReadPDF';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import {
@@ -30,9 +29,10 @@ import * as ICONS from 'app/main/apps/constants';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
 import { useTranslation } from 'react-i18next';
-import loadable from '@loadable/component';
-const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'))
-const FileViewDialog = loadable(() => import('./FileViewDialog'))
+import ReadPDF from './ReadPDF';
+// import loadable from '@loadable/component';
+const DeleteConfirmDialog = React.lazy(() => import('./DeleteConfirmDialog'));
+const FileViewDialog = React.lazy(() => import('./FileViewDialog'));
 
 const useStyles = makeStyles({
 	table: {

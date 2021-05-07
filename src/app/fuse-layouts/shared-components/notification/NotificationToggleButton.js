@@ -1,6 +1,6 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
-import { Icon, IconButton } from '@material-ui/core';
+import { makeStyles, Icon, IconButton } from '@material-ui/core';
+
 import { useDispatch } from 'react-redux';
 import * as notificationActions from './store/actions';
 

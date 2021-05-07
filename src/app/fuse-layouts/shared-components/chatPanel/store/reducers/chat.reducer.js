@@ -1,6 +1,8 @@
 import * as Actions from '../actions';
 
-const initialState = null;
+const initialState = {
+	isUploadingFiles: false
+};
 const getAllFilesOfChat = chats => {
 	if (Array.isArray(chats) && chats.length) {
 		return chats.reduce(
@@ -22,6 +24,12 @@ const chat = (state = initialState, action) => {
 			return {
 				chats: [...action.chat],
 				media: getAllFilesOfChat(action.chat)
+			};
+		}
+		case Actions.HANDLE_UPLOAD_LOADING: {
+			return {
+				...state,
+				isUploadingFiles: action.payload
 			};
 		}
 		case Actions.REMOVE_CHAT: {

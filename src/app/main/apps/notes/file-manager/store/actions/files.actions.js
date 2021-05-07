@@ -198,7 +198,7 @@ export function folderDetail(cid, updatedFolderValues, handleSetLoading = () => 
 					dispatch({
 						type: UPDATE_SPECIFIC_FOLDERS,
 						payload: folders,
-						updatedFolderValues: updatedFolderValues
+						updatedFolderValues
 					});
 				},
 				err => {

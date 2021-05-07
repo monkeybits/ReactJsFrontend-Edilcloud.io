@@ -17,9 +17,7 @@ function NavbarFoldedToggleButton(props) {
 						_.set({}, 'layout.config.navbar.folded', !settings.layout.config.navbar.folded)
 					)
 				);
-				dispatch(
-					Actions.toggleSidebarMenu()
-				);
+				dispatch(Actions.toggleSidebarMenu());
 			}}
 			color="inherit"
 		>

@@ -119,12 +119,7 @@ function VerticalLinearStepper({ user, history }) {
 			});
 	};
 	return (
-		<div
-			className={clsx(
-				classes.root,
-				'flex flex-col flex-auto flex-shrink-0'
-			)}
-		>
+		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0')}>
 			<div className="flex flex-col w-full px-0">
 				<FuseAnimate animation="transition.expandIn">
 					<Card>

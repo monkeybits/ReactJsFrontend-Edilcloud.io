@@ -14,7 +14,7 @@ import { ADD_PHOTO, ADD_FOLDER, ADD_VIDEO, ADD_DOCUMENT } from 'app/services/api
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { withRouter } from 'react-router';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
@@ -23,10 +23,11 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
-import { ThemeProvider } from '@material-ui/core/styles';
+
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
+// // import loadable from '@loadable/component';
 import FileList from './FileList';
 import DetailSidebarHeader from './DetailSidebarHeader';
 import DetailSidebarContent from './DetailSidebarContent';
@@ -36,16 +37,15 @@ import MoveFileDialog from './MoveFileDialog';
 import FloatingButtonUpload from './FloatingButtonUpload';
 import TransitionAlerts from './TransitionAlerts';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
-import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
-// const FileList = loadable(() => import('./FileList'))
-// const DetailSidebarHeader = loadable(() => import('./DetailSidebarHeader'))
-// const DetailSidebarContent = loadable(() => import('./DetailSidebarContent'))
-// const Breadcrumb = loadable(() => import('./Breadcrumb'))
-// const FileGrid = loadable(() => import('./FileGrid'))
-// const MoveFileDialog = loadable(() => import('./MoveFileDialog'))
-// const FloatingButtonUpload = loadable(() => import('./FloatingButtonUpload'))
-// const TransitionAlerts = loadable(() => import('./TransitionAlerts'))
-// const LinearProgressWithLabel = loadable(() => import('./LinearProgressWithLabel'))
+// const FileList = React.lazy(() => import('./FileList'))
+// const DetailSidebarHeader = React.lazy(() => import('./DetailSidebarHeader'))
+// const DetailSidebarContent = React.lazy(() => import('./DetailSidebarContent'))
+// const Breadcrumb = React.lazy(() => import('./Breadcrumb'))
+// const FileGrid = React.lazy(() => import('./FileGrid'))
+// const MoveFileDialog = React.lazy(() => import('./MoveFileDialog'))
+// const FloatingButtonUpload = React.lazy(() => import('./FloatingButtonUpload'))
+// const TransitionAlerts = React.lazy(() => import('./TransitionAlerts'))
+// const LinearProgressWithLabel = React.lazy(() => import('./LinearProgressWithLabel'))
 
 const styles = theme => ({
 	root: {
@@ -167,7 +167,7 @@ function FileManagerApp(props) {
 	useEffect(() => {
 		setFilePath(folderPath[folderPath.length - 1]);
 		setPath(folderPath[folderPath.length - 1]);
-		setNewFolderPath(folderPath)
+		setNewFolderPath(folderPath);
 	}, [folderPath, isOpenDrawer]);
 
 	const addFile = event => {
@@ -217,16 +217,16 @@ function FileManagerApp(props) {
 			const values =
 				radioBtnValue == 'folder'
 					? {
-						name: title,
-						parent: path?.id ? path.id : '',
-						is_public: false
-					}
+							name: title,
+							parent: path?.id ? path.id : '',
+							is_public: false
+					  }
 					: {
-						[datakey]: fileType == 'image' ? await getCompressFile(file) : file,
-						title,
-						description,
-						folder: filePath ? filePath.id : null
-					};
+							[datakey]: fileType == 'image' ? await getCompressFile(file) : file,
+							title,
+							description,
+							folder: filePath ? filePath.id : null
+					  };
 			if (radioBtnValue == 'folder') {
 				formData = values;
 			} else {
@@ -238,10 +238,10 @@ function FileManagerApp(props) {
 				radioBtnValue == 'folder'
 					? ADD_FOLDER(company.id)
 					: fileType == 'image'
-						? ADD_PHOTO(company.id)
-						: fileType == 'video'
-							? ADD_VIDEO(company.id)
-							: ADD_DOCUMENT(company.id);
+					? ADD_PHOTO(company.id)
+					: fileType == 'video'
+					? ADD_VIDEO(company.id)
+					: ADD_DOCUMENT(company.id);
 			apiCall(
 				apiUrl,
 				formData,
@@ -315,7 +315,9 @@ function FileManagerApp(props) {
 		<>
 			<FusePageSimple
 				classes={{
-					root: selectedItem?.title ? 'bg-red-500 fileInfoSidebar' : 'bg-red-500 fileInfoSidebar hide-sidebar',
+					root: selectedItem?.title
+						? 'bg-red-500 fileInfoSidebar'
+						: 'bg-red-500 fileInfoSidebar hide-sidebar',
 					header: 'pb-0 bg-white h-auto min-h-auto',
 					sidebarHeader: '',
 					rightSidebar: 'w-320'
@@ -331,7 +333,9 @@ function FileManagerApp(props) {
 									<div className="flex flex-1 items-center justify-end">
 										<FuseAnimate animation="transition.slideRightIn" delay={300}>
 											<Button
-												onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
+												onClick={ev =>
+													dispatch(accessibilityPanelActions.toggleAccessibility())
+												}
 												className="whitespace-no-wrap normal-case"
 												variant="contained"
 												color="secondary"
@@ -376,13 +380,11 @@ function FileManagerApp(props) {
 								<LinearProgressWithLabel progress={progress} />
 							</div>
 						)}
-						{
-							viewTable ? (
-								<FileList setProgress={setProgress} pageLayout={pageLayout} />
-							) : (
-								<FileGrid setProgress={setProgress} pageLayout={pageLayout} />
-							)
-						}
+						{viewTable ? (
+							<FileList setProgress={setProgress} pageLayout={pageLayout} />
+						) : (
+							<FileGrid setProgress={setProgress} pageLayout={pageLayout} />
+						)}
 					</>
 				}
 				leftSidebarVariant="temporary"

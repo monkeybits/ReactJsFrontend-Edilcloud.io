@@ -8,19 +8,24 @@ import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import _ from '@lodash';
 import { withStyles } from '@material-ui/core/styles';
-import { Dialog, IconButton, Icon, Typography, Avatar, Grid, Button, CircularProgress, Checkbox } from '@material-ui/core';
+import {
+	Dialog,
+	IconButton,
+	Icon,
+	Typography,
+	Avatar,
+	Grid,
+	Button,
+	CircularProgress,
+	Checkbox
+} from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	APPROVE_LIST,
-	EDIT_POST
-} from 'app/services/apiEndPoints';
+import { APPROVE_LIST, EDIT_POST } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import {
-	getHeaderToken
-} from 'app/services/serviceUtils';
+import { getHeaderToken } from 'app/services/serviceUtils';
 import * as Actions from '../notes/todo/store/actions';
 
 const styles = theme => ({
@@ -64,26 +69,26 @@ function PostNotificationDialog() {
 	const [loading, setLoading] = useState(false);
 
 	const handleChange = (event, company) => {
-		let newCompanyList = []
-		let count = 0
-		companyList.map((item) => {
-			if(item.profile.company.id === company.profile.company.id && event.target.checked){
-				newCompanyList.push({...item, is_checked: true})
+		const newCompanyList = [];
+		let count = 0;
+		companyList.map(item => {
+			if (item.profile.company.id === company.profile.company.id && event.target.checked) {
+				newCompanyList.push({ ...item, is_checked: true });
 			} else if (item.is_checked && item.profile.company.id !== company.profile.company.id) {
-				newCompanyList.push({...item, is_checked: true})
+				newCompanyList.push({ ...item, is_checked: true });
 			} else {
-				newCompanyList.push({...item, is_checked: false})
+				newCompanyList.push({ ...item, is_checked: false });
 			}
-		})
-		newCompanyList.map((item) => {
-			if(item.is_checked) {
-				count++
+		});
+		newCompanyList.map(item => {
+			if (item.is_checked) {
+				count++;
 			}
-		})
-		if(count > 0) {
-			setIsFormValid(true)
+		});
+		if (count > 0) {
+			setIsFormValid(true);
 		}
-		setCompanyList(newCompanyList)
+		setCompanyList(newCompanyList);
 		// setChecked(event.target.checked);
 	};
 
@@ -93,27 +98,27 @@ function PostNotificationDialog() {
 
 	useEffect(() => {
 		if (companies && companies.length > 0) {
-			let newCompanyList = []
-			companies.map((item) => {
-				if('profile' in item) {
-					newCompanyList.push({...item, is_checked: false})
+			const newCompanyList = [];
+			companies.map(item => {
+				if ('profile' in item) {
+					newCompanyList.push({ ...item, is_checked: false });
 				}
-			})
-			setCompanyList(newCompanyList)
+			});
+			setCompanyList(newCompanyList);
 		}
 	}, [companies, setCompanyList]);
 
 	const handleClose = () => {
 		dispatch(Actions.closeNotificationDialog());
-	}
+	};
 
 	const handleSubmit = () => {
-		let companyIds = []
-		companyList.map((company) => {
-			if(company.is_checked){
-				companyIds.push(company.profile.company.id)
+		const companyIds = [];
+		companyList.map(company => {
+			if (company.is_checked) {
+				companyIds.push(company.profile.company.id);
 			}
-		})
+		});
 		setLoading(true);
 		apiCall(
 			EDIT_POST(notificationPost.id),
@@ -122,7 +127,7 @@ function PostNotificationDialog() {
 				company_ids: companyIds
 			},
 			res => {
-				console.log(res)
+				console.log(res);
 				dispatch(Actions.closeNotificationDialog());
 				// setPost(cp => ({ ...cp, ...res }));
 				// setIsEditPost(false);
@@ -135,11 +140,11 @@ function PostNotificationDialog() {
 			METHOD.PUT,
 			getHeaderToken()
 		);
-	}
+	};
 
 	return (
 		<Dialog
-            open={isNotificationDialog}
+			open={isNotificationDialog}
 			onClose={handleClose}
 			aria-labelledby="customized-dialog-title"
 			maxWidth="xs"
@@ -149,38 +154,36 @@ function PostNotificationDialog() {
 				Select Company
 			</DialogTitle>
 			<DialogContent dividers>
-				{
-					companyList &&
-					companyList.length > 0 &&
+				{companyList && companyList.length > 0 && (
 					<div className="mb-24">
-					{
-						companyList.map(company => {
-							return <div className="flex justify-between my-6">
-								<div className="flex items-center">
-									<Checkbox
-										checked={company.is_checked}
-										onChange={(event) => handleChange(event, company)}
-									/>
-									<Typography
-										variant="subtitle1"
-										className="todo-title"
-										// color={completed ? 'textSecondary' : 'inherit'} // in change of activity change styles
-									>
-										{company.profile.company.name}
-									</Typography>
+						{companyList.map(company => {
+							return (
+								<div className="flex justify-between my-6">
+									<div className="flex items-center">
+										<Checkbox
+											checked={company.is_checked}
+											onChange={event => handleChange(event, company)}
+										/>
+										<Typography
+											variant="subtitle1"
+											className="todo-title"
+											// color={completed ? 'textSecondary' : 'inherit'} // in change of activity change styles
+										>
+											{company.profile.company.name}
+										</Typography>
+									</div>
+									<div>
+										<Avatar className="w-32 h-32" src={company.profile.company.logo} />
+									</div>
 								</div>
-								<div>
-									<Avatar className="w-32 h-32" src={company.profile.company.logo} />
-								</div>
-							</div>
-						})
-					}
+							);
+						})}
 					</div>
-				}
+				)}
 				<Grid item xs={12}>
 					<div className="inline-block">
 						<Button
-						 	onClick={handleSubmit}
+							onClick={handleSubmit}
 							variant="contained"
 							color="primary"
 							className="justify-start d-inline-block mb-20"

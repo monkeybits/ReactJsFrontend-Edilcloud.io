@@ -6,7 +6,7 @@ TODO: This file simpley get list from redux store and do filters
 ! Main function here to do the filters is handleDoFilter()
 after do the filters it will show all the tasks 
 */
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseUtils from '@fuse/utils';
@@ -23,10 +23,11 @@ import * as AccessibilityActions from 'app/fuse-layouts/shared-components/access
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
 import { useTranslation } from 'react-i18next';
-const TodoListItem = loadable(() => import('./TodoListItem'))
-const TaskContentForm = loadable(() => import('./TaskContentForm'))
-const TaskAttachment = loadable(() => import('./TaskAttachment'))
-const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'))
+
+const TodoListItem = React.lazy(() => import('./TodoListItem'));
+const TaskContentForm = React.lazy(() => import('./TaskContentForm'));
+const TaskAttachment = React.lazy(() => import('./TaskAttachment'));
+const EditActivityPostForm = React.lazy(() => import('./EditActivityPostForm'));
 
 function TodoList(props) {
 	const dispatch = useDispatch();
@@ -163,7 +164,7 @@ function TodoList(props) {
 				);
 				resolve(data);
 			}).then(data => {
-				console.log('data??????????????????????????', data)
+				console.log('data??????????????????????????', data);
 				setFilteredData(setFilterByKey(activeFilter, data, activeFilterKey));
 				handleDoFilter();
 			});
@@ -216,7 +217,7 @@ function TodoList(props) {
 			}
 		}
 	};
-	
+
 	const setFilterByKey = (activeFilter, list, activeFilterKey) => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -453,7 +454,7 @@ function TodoList(props) {
 			</FuseAnimate>
 		);
 	}
-	
+
 	return (
 		// <List className="p-0">
 		<FuseAnimateGroup
@@ -465,7 +466,14 @@ function TodoList(props) {
 				<div className="lg:w-1/3 sidebar-ht border-right dashboard">
 					<div className="lg:mr-28 custom-margin">
 						{filteredData.map((todo, index) => (
-							<TodoListItem setTodoId={setTodoId} {...props} todo={todo} key={todo.id} index={index} companies={companies} /> // all tasks will be display from this function
+							<TodoListItem
+								setTodoId={setTodoId}
+								{...props}
+								todo={todo}
+								key={todo.id}
+								index={index}
+								companies={companies}
+							/> // all tasks will be display from this function
 						))}
 					</div>
 				</div>
@@ -473,17 +481,19 @@ function TodoList(props) {
 					{taskContentDialog.props.open && todoId == taskContentDialog.data.id ? (
 						<TaskContentForm /> // if we click on tasks this component will be displayed
 					) : (
-						!openDrawingContent && !todoDialog.props.openTimelineDialog &&
-						<div className="flex flex-col items-center justify-center">
-							<div className="h-full">
-								<img className="w-400" src="assets/images/errors/nofiles.png" />
+						!openDrawingContent &&
+						!todoDialog.props.openTimelineDialog && (
+							<div className="flex flex-col items-center justify-center">
+								<div className="h-full">
+									<img className="w-400" src="assets/images/errors/nofiles.png" />
+								</div>
+								<div className="h-full">
+									<Typography color="textSecondary" variant="h5">
+										{t('NO_POSTS_MESSAGE')}
+									</Typography>
+								</div>
 							</div>
-							<div className="h-full">
-								<Typography color="textSecondary" variant="h5">
-									{t('NO_POSTS_MESSAGE')}
-								</Typography>
-							</div>
-						</div>
+						)
 					)}
 					{openDrawingContent && !todoDialog.props.openTimelineDialog && (
 						<TaskAttachment /> // if we click on tasks this component will be displayed

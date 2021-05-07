@@ -30,7 +30,7 @@ export function getProjects(handleSetLoading = () => '') {
 			PROJECT_LIST,
 			{},
 			results => {
-				console.log('results???????????????', results)
+				console.log('results???????????????', results);
 				const { company } = getState().chatApp;
 				if (Array.isArray(results)) {
 					dispatch({

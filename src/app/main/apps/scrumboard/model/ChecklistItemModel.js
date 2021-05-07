@@ -1,4 +1,5 @@
 import FuseUtils from '@fuse/utils';
+
 class ChecklistItemModel {
 	constructor(data) {
 		const item = data || {};

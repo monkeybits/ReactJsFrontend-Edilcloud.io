@@ -7,8 +7,8 @@ import { useParams } from 'react-router';
 import AudioRecord from 'app/AudioRecord';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const SendMessageFilePreview = loadable(() => import('./SendMessageFilePreview'))
+// import loadable from '@loadable/component';
+const SendMessageFilePreview = React.lazy(() => import('./SendMessageFilePreview'));
 
 const useStyles = makeStyles(() => ({
 	messageRow: {
@@ -206,7 +206,11 @@ export default function SendMessageForm(props) {
 						onChange={onInputChange}
 						value={messageText}
 					/>
-					<AudioRecord afterRecordComplete={addAudio} ref={audioRef} sendDirectToChat={sendAudioDirectToChat} />
+					<AudioRecord
+						afterRecordComplete={addAudio}
+						ref={audioRef}
+						sendDirectToChat={sendAudioDirectToChat}
+					/>
 					<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
 					<IconButton
 						className="image mr-48"

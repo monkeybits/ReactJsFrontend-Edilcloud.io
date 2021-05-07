@@ -5,11 +5,18 @@
 Todo: This File is created for Edit activity show timeline of Activity
 */
 import PropTypes from 'prop-types';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import { DialogContent, IconButton, Typography, Box, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
+import {
+	DialogContent,
+	IconButton,
+	Typography,
+	Box,
+	BottomNavigation,
+	BottomNavigationAction
+} from '@material-ui/core';
 import moment from 'moment/moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,9 +27,10 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-const EditActivityForm = loadable(() => import('./EditActivityForm'))
-const ShowUpload = loadable(() => import('../notes/todo/ShowUpload'))
-const CreatePostForm = loadable(() => import('./CreatePostForm'))
+
+const EditActivityForm = React.lazy(() => import('./EditActivityForm'));
+const ShowUpload = React.lazy(() => import('../notes/todo/ShowUpload'));
+const CreatePostForm = React.lazy(() => import('./CreatePostForm'));
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -211,8 +219,17 @@ function EditActivityPostForm(props) {
 					showLabels
 					className="w-full h-64"
 				>
-					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Timeline" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Activity" {...a11yProps(1)} />
+					<BottomNavigationAction
+						className="min-w-auto max-w-full font-bold"
+						label="Timeline"
+						wrapped
+						{...a11yProps(0)}
+					/>
+					<BottomNavigationAction
+						className="min-w-auto max-w-full font-bold"
+						label="Activity"
+						{...a11yProps(1)}
+					/>
 				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton

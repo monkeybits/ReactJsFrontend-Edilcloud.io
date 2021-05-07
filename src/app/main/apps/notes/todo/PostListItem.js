@@ -34,15 +34,15 @@ import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 import { toast } from 'react-toastify';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import * as Actions from './store/actions';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
-import loadable from '@loadable/component';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
-const EditPostForm = loadable(() => import('./EditPostForm'))
-const PostedImages = loadable(() => import('./PostedImages'))
-const CommentListItem = loadable(() => import('./CommentListItem'))
-const ImagesPreview = loadable(() => import('./ImagesPreview'))
+import * as Actions from './store/actions';
+// import loadable from '@loadable/component';
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+const EditPostForm = React.lazy(() => import('./EditPostForm'));
+const PostedImages = React.lazy(() => import('./PostedImages'));
+const CommentListItem = React.lazy(() => import('./CommentListItem'));
+const ImagesPreview = React.lazy(() => import('./ImagesPreview'));
 
 const uuidv1 = require('uuid/v1');
 
@@ -111,7 +111,7 @@ export default function PostListItem({
 	const scrollRef = useRef(null);
 
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == currnetPost.id;
-	
+
 	useEffect(() => {
 		setPost(currnetPost);
 		if (hasNotifcationOnThisItem) {
@@ -122,14 +122,14 @@ export default function PostListItem({
 			setHasRender(true);
 		}
 	}, [currnetPost]);
-	
+
 	useEffect(() => {
 		if (post.comment_set) {
 			setPostComments(post.comment_set);
 			return () => setPostComments([]);
 		}
 	}, [post.comment_set]);
-	
+
 	useEffect(() => {
 		const notification = notificationPanel.notificationData?.notification;
 		if (notificationPanel.viewing && notification?.content_type == 'post' && hasRender && scrollRef.current) {
@@ -153,9 +153,9 @@ export default function PostListItem({
 					is_public: !statusPost.is_public
 				},
 				res => {
-					console.log('statusPost', statusPost)
-					console.log('res', res)
-					if(statusPost.id === post.id) {
+					console.log('statusPost', statusPost);
+					console.log('res', res);
+					if (statusPost.id === post.id) {
 						setPost(cp => ({ ...statusPost, is_public: res.is_public }));
 					}
 					dispatch(Actions.closeStatusConfirmDialog());
@@ -270,7 +270,7 @@ export default function PostListItem({
 		);
 	};
 	const handleAlertPost = () => {
-		setAlertLoading(true)
+		setAlertLoading(true);
 		apiCall(
 			EDIT_POST(post.id),
 			{
@@ -279,7 +279,7 @@ export default function PostListItem({
 			},
 			res => {
 				setPost(currnetPost => ({ ...currnetPost, alert: res.alert }));
-				setAlertLoading(false)
+				setAlertLoading(false);
 			},
 			err => console.log(err),
 			METHOD.PUT,
@@ -399,7 +399,7 @@ export default function PostListItem({
 
 	const onNotificationClick = () => {
 		dispatch(Actions.openNotificationDialog(post));
-	}
+	};
 
 	return (
 		<Card
@@ -408,7 +408,8 @@ export default function PostListItem({
 			key={post.id}
 			className="mb-40 overflow-hidden post-card-clx"
 		>
-			<CardHeader className="bg-dark-blue"
+			<CardHeader
+				className="bg-dark-blue"
 				avatar={
 					post.author.first_name ? (
 						<Avatar aria-label="Recipe" src={post.author.photo} className="sm:h-60 sm:w-60  h-48 w-48">
@@ -460,36 +461,36 @@ export default function PostListItem({
 							)}
 						</IconButton> */}
 						{/* {tempAuthor.id == post.author.id && ( */}
-							<div className="inline">
-								<TippyMenu
-									icon={
-										<>
-											<IconButton
-												aria-label="more"
-												aria-controls="long-menu"
-												aria-haspopup="true"
-												className="sm:p-8 text-white py-8 px-0"
-											>
-												<MoreVertIcon />
-											</IconButton>
-										</>
-									}
-									outsideClick
-								>
-									{options.map(option => (
-										<MenuItem
-											key={option.name}
-											selected={option.name === 'Pyxis'}
-											onClick={option.handler}
+						<div className="inline">
+							<TippyMenu
+								icon={
+									<>
+										<IconButton
+											aria-label="more"
+											aria-controls="long-menu"
+											aria-haspopup="true"
+											className="sm:p-8 text-white py-8 px-0"
 										>
-											<ListItemIcon>
-												<Icon>{option.icon}</Icon>
-											</ListItemIcon>
-											<Typography variant="inherit"> {t(option.name)}</Typography>
-										</MenuItem>
-									))}
-								</TippyMenu>
-							</div>
+											<MoreVertIcon />
+										</IconButton>
+									</>
+								}
+								outsideClick
+							>
+								{options.map(option => (
+									<MenuItem
+										key={option.name}
+										selected={option.name === 'Pyxis'}
+										onClick={option.handler}
+									>
+										<ListItemIcon>
+											<Icon>{option.icon}</Icon>
+										</ListItemIcon>
+										<Typography variant="inherit"> {t(option.name)}</Typography>
+									</MenuItem>
+								))}
+							</TippyMenu>
+						</div>
 						{/* )} */}
 						{/* <IconButton className="text-default p-8" aria-label="more">
 							<Icon>more_vert</Icon>
@@ -535,7 +536,8 @@ export default function PostListItem({
 							</p>
 						</div>
 						<div className="text-13 sm:text-15 lg:text-base text-white font-600">
-							{post.author.position}{ 'company' in post.author ? ' - ' + post.author.company.name : '' }
+							{post.author.position}
+							{'company' in post.author ? ` - ${post.author.company.name}` : ''}
 						</div>
 						{/* <div className="">
 							{showPrject && (
@@ -569,7 +571,9 @@ export default function PostListItem({
 				subheader={
 					<div className="flex items-center text-14 font-600">
 						<Icon className="font-600 text-white text-18">public</Icon>
-						<span className="ml-4 sm:mr-16 text-white mr-4">{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span>
+						<span className="ml-4 sm:mr-16 text-white mr-4">
+							{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}
+						</span>
 						<span className="text-white">
 							{`${moment.parseZone(post.published_date).format('MMMM DD')} at ${moment
 								.parseZone(post.published_date)
@@ -616,7 +620,12 @@ export default function PostListItem({
 			)} */}
 
 			{/* ----------------- Show Comments and likes ---------------*/}
-			<AppBar className="card-footer flex flex-column p-16 bg-white" position="static" color="default" elevation={0}>
+			<AppBar
+				className="card-footer flex flex-column p-16 bg-white"
+				position="static"
+				color="default"
+				elevation={0}
+			>
 				<div className="flex flex-wrap items-center mb-12 cursor-pointer justify-between">
 					<div className="flex">
 						<Avatar aria-label="Recipe" src={post.author.photo} className="h-32 w-32 mr-8" />
@@ -624,26 +633,26 @@ export default function PostListItem({
 						<Avatar aria-label="Recipe" src={post.author.photo} className="h-32 w-32 mr-8" />
 					</div>
 					{/* {showComments() && ( */}
-						<div
-							className="flex items-start mb-12 cursor-pointer"
-							onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								setOpen(!open);
-								setCommentOpen(!commentOpen);
-							}}
-						>
-							<Icon fontSize="small" className="mr-4">
-								comment
-							</Icon>
-							{/* <span className="text-base font-600 hover:underline">
+					<div
+						className="flex items-start mb-12 cursor-pointer"
+						onClick={ev => {
+							ev.preventDefault();
+							ev.stopPropagation();
+							setOpen(!open);
+							setCommentOpen(!commentOpen);
+						}}
+					>
+						<Icon fontSize="small" className="mr-4">
+							comment
+						</Icon>
+						{/* <span className="text-base font-600 hover:underline">
 								{commentsLength() > 0
 									? commentsLength() === 1
 										? `${commentsLength()} comment`
 										: `${commentsLength()} comments`
 									: 'comment'}
 							</span> */}
-						</div>
+					</div>
 					{/* )} */}
 				</div>
 
@@ -663,9 +672,13 @@ export default function PostListItem({
 						className="justify-center w-1/3 text-18 font-500 my-8 p-6 posts-social-icon"
 					>
 						{post.alert ? (
-							<Icon fontSize="small" className="mr-4">new_releases</Icon>
+							<Icon fontSize="small" className="mr-4">
+								new_releases
+							</Icon>
 						) : (
-							<Icon fontSize="small" className="mr-4">new_releases</Icon>
+							<Icon fontSize="small" className="mr-4">
+								new_releases
+							</Icon>
 						)}
 						<span>{t('ALERT')}</span>
 						{alertLoading && <CircularProgress size={20} className="ml-10" color="black" />}
@@ -762,7 +775,9 @@ export default function PostListItem({
 								}}
 								// aria-label="Add photo"
 							>
-								<span className="font-700 mr-4 hover:underline">{`View ${postComments.length - 3} more ${postComments.length - 3 > 1 ? 'comments' : 'comment'}`}</span>
+								<span className="font-700 mr-4 hover:underline">{`View ${
+									postComments.length - 3
+								} more ${postComments.length - 3 > 1 ? 'comments' : 'comment'}`}</span>
 							</IconButton>
 						)}
 					</Collapse>

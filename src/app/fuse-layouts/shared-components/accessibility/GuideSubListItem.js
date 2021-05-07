@@ -4,12 +4,12 @@ import { List, ListItem, ListItemText, CardActionArea, CardMedia, Icon, IconButt
 import { useDispatch, useSelector } from 'react-redux';
 import withReducer from 'app/store/withReducer';
 import reducer from 'app/main/apps/notes/todo/store/reducers';
-import * as Actions from './store/actions';
 import * as NotesActions from 'app/main/apps/notes/store/actions';
 import * as ContactActions from 'app/main/apps/contacts/store/actions';
 import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
 import ReactPlayer from 'react-player';
 import { useHistory } from 'react-router-dom';
+import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {

@@ -5,25 +5,39 @@ This is part of dashboard
 TODO: This file is created edit task / attchments / timeline
 */
 import PropTypes from 'prop-types';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useForm } from '@fuse/hooks';
 import _ from '@lodash';
-import { DialogContent, Icon, IconButton, InputAdornment, Box, TextField, Typography, Button, makeStyles, Slider, withStyles, CircularProgress, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
+import {
+	DialogContent,
+	Icon,
+	IconButton,
+	InputAdornment,
+	Box,
+	TextField,
+	Typography,
+	Button,
+	makeStyles,
+	Slider,
+	withStyles,
+	CircularProgress,
+	BottomNavigation,
+	BottomNavigationAction
+} from '@material-ui/core';
 import moment from 'moment';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	KeyboardDatePicker
-  } from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useParams } from 'react-router';
-import * as Actions from './store/actions';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
-const ShowUpload = loadable(() => import('../notes/todo/ShowUpload'))
-const CreatePostForm = loadable(() => import('./CreatePostForm'))
-const CreateAttachments = loadable(() => import('app/main/apps/notes/todo/Dialog/attachment/CreateAttachments'))
+import * as Actions from './store/actions';
+
+const ShowUpload = React.lazy(() => import('../notes/todo/ShowUpload'));
+const CreatePostForm = React.lazy(() => import('./CreatePostForm'));
+const CreateAttachments = React.lazy(() => import('app/main/apps/notes/todo/Dialog/attachment/CreateAttachments'));
 function TabPanel(props) {
 	/**
 	 * Tab panel is used for show tab
@@ -185,7 +199,7 @@ function TaskContentForm(props) {
 	useEffect(() => {
 		if (openDrawingContent) {
 			setValue(1);
-			a11yProps(1)
+			a11yProps(1);
 		}
 	}, [openDrawingContent]);
 
@@ -305,13 +319,13 @@ function TaskContentForm(props) {
 	function commentAdd(comment) {
 		// return setInForm('activities', [comment, ...cardForm.activities]);
 	}
-	
+
 	const handleTabChange = (event, newValue) => {
 		setValue(newValue);
 	};
 
 	const isFormInvalid = () => cardForm.name && cardForm.name.length > 0 && taskDate.startDate && taskDate.endDate;
-	
+
 	const handleSubmit = () => {
 		setLoading(true);
 		dispatch(
@@ -334,7 +348,7 @@ function TaskContentForm(props) {
 			)
 		);
 	};
-	
+
 	const getIsDisabled = () =>
 		taskContentData?.assigned_company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
 	console.log({
@@ -367,9 +381,18 @@ function TaskContentForm(props) {
 					showLabels
 					className="w-full h-64"
 				>
-					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Contents" wrapped {...a11yProps(0)} />
+					<BottomNavigationAction
+						className="min-w-auto max-w-full font-bold"
+						label="Contents"
+						wrapped
+						{...a11yProps(0)}
+					/>
 					{/* <BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Drawings" {...a11yProps(1)} /> */}
-					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Edit" {...a11yProps(2)} />
+					<BottomNavigationAction
+						className="min-w-auto max-w-full font-bold"
+						label="Edit"
+						{...a11yProps(2)}
+					/>
 				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton
@@ -391,15 +414,11 @@ function TaskContentForm(props) {
 			<div className="my-24 todo-bg-footer p-12 px-20 rounded">
 				{taskContentData?.project && (
 					<Typography variant="h6" color="inherit" className="font-size-14 ">
-						<div>
-							{taskContentData?.project.name}
-						</div>
+						<div>{taskContentData?.project.name}</div>
 					</Typography>
 				)}
 				<div className="flex items-center font-weight-700 font-size-18">
-					<div className="my-4">
-						{taskContentData?.name}{' '}
-					</div>
+					<div className="my-4">{taskContentData?.name} </div>
 				</div>
 			</div>
 

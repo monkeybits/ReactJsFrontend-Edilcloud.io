@@ -1,5 +1,5 @@
 import React from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import MomentUtils from '@date-io/moment';
 import '@fake-db';
 import history from '@history';
@@ -21,9 +21,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import WebSocketProvider from 'app/WebSocket';
 import ProjectReportsProvider from 'app/ProjectReportsWebSocket';
-const FuseAuthorization = loadable(() => import('@fuse/core/FuseAuthorization'))
-const FuseLayout = loadable(() => import('@fuse/core/FuseLayout'))
-const FuseTheme = loadable(() => import('@fuse/core/FuseTheme'))
+
+const FuseAuthorization = React.lazy(() => import('@fuse/core/FuseAuthorization'));
+const FuseLayout = React.lazy(() => import('@fuse/core/FuseLayout'));
+const FuseTheme = React.lazy(() => import('@fuse/core/FuseTheme'));
 
 const jss = create({
 	...jssPreset(),

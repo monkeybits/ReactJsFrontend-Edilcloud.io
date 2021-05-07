@@ -16,14 +16,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import { Typography, Avatar, IconButton, Icon, Input, Grid, Paper, Hidden } from '@material-ui/core';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
-import * as Actions from './store/actions';
 import { useTranslation } from 'react-i18next';
-import loadable from '@loadable/component';
-const MoreOption = loadable(() => import('./MoreOption'))
-const ContactCard = loadable(() => import('./ContactCard'))
-const ContactsTable = loadable(() => import('./ContactsTable'))
-const ContactsMultiSelectMenu = loadable(() => import('./ContactsMultiSelectMenu'))
-const DeleteConfirmDialog = loadable(() => import('../file-manager/DeleteConfirmDialog'))
+import * as Actions from './store/actions';
+// import loadable from '@loadable/component';
+const MoreOption = React.lazy(() => import('./MoreOption'));
+const ContactCard = React.lazy(() => import('./ContactCard'));
+const ContactsTable = React.lazy(() => import('./ContactsTable'));
+const ContactsMultiSelectMenu = React.lazy(() => import('./ContactsMultiSelectMenu'));
+const DeleteConfirmDialog = React.lazy(() => import('../file-manager/DeleteConfirmDialog'));
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>
@@ -329,9 +329,7 @@ function ContactsList(props) {
 							return (
 								<ContactCard
 									currentUser={user}
-									editPermission={
-										getRole() == 'o' || data.email == userInfo?.email
-									}
+									editPermission={getRole() == 'o' || data.email == userInfo?.email}
 									{...data}
 								/>
 							);

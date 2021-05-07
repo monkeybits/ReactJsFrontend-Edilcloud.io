@@ -1,4 +1,3 @@
-
 import i18next from 'i18next';
 import en from './navigation-i18n/en';
 import tr from './navigation-i18n/it';

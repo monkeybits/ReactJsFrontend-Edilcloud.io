@@ -71,7 +71,7 @@ const projectNames = arr => {
 	return result;
 };
 const companyFilterNames = arr => {
-	const companyArr = arr.map((project) => project.company)
+	const companyArr = arr.map(project => project.company);
 	const result = companyArr.reduce((unique, o) => {
 		if (!unique.some(obj => obj.id === o.id)) {
 			unique.push({
@@ -149,7 +149,7 @@ const filtersReducer = (state = initialState(), action) => {
 				return d;
 			});
 			const allActivited = chnagedState.filter(d => d.isActive);
-		
+
 			if (allActivited?.length) {
 				tempUsedKeys.push(action.payload.activeFilter);
 			}

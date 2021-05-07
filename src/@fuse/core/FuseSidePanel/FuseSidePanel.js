@@ -1,5 +1,5 @@
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import {Drawer, Fab, Hidden, Icon, IconButton, Paper, Tooltip} from '@material-ui/core';
+import { Drawer, Fab, Hidden, Icon, IconButton, Paper, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useState } from 'react';

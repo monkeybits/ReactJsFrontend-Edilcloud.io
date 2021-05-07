@@ -1,14 +1,19 @@
 import React from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import { AppBar, Hidden, Icon } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
-const Logo = loadable(() => import('app/fuse-layouts/shared-components/Logo'))
-const NavbarFoldedToggleButton = loadable(() => import('app/fuse-layouts/shared-components/NavbarFoldedToggleButton'))
-const NavbarMobileToggleButton = loadable(() => import('app/fuse-layouts/shared-components/NavbarMobileToggleButton'))
-const Navigation = loadable(() => import('app/fuse-layouts/shared-components/Navigation'))
-const UserNavbarHeader = loadable(() => import('app/fuse-layouts/shared-components/UserNavbarHeader'))
+
+const Logo = React.lazy(() => import('app/fuse-layouts/shared-components/Logo'));
+const NavbarFoldedToggleButton = React.lazy(() =>
+	import('app/fuse-layouts/shared-components/NavbarFoldedToggleButton')
+);
+const NavbarMobileToggleButton = React.lazy(() =>
+	import('app/fuse-layouts/shared-components/NavbarMobileToggleButton')
+);
+const Navigation = React.lazy(() => import('app/fuse-layouts/shared-components/Navigation'));
+const UserNavbarHeader = React.lazy(() => import('app/fuse-layouts/shared-components/UserNavbarHeader'));
 
 const useStyles = makeStyles({
 	content: {

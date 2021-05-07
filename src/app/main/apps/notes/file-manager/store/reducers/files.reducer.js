@@ -20,7 +20,7 @@ const initialState = () => ({
 		data: {}
 	},
 	allFolderPaths: [],
-	differenceFiles: [],	
+	differenceFiles: [],
 	updatedFolderValues: {}
 });
 
@@ -124,67 +124,62 @@ const deleteFileOrFolder = (fileType, state, indexId, deleteId, selectedItem) =>
 };
 const checkTypeAndReturn = (arr = [], type) => arr.filter(ar => ar.type != type);
 
-		
-function searchFolder(nameKey, array){	
-    for (var i=0; i < array.length; i++) {	
-		if(typeof array[i] === 'object') {	
-			if (array[i].id === nameKey) {	
-				return true;	
-			} else {	
-				return false;	
-			}	
-		}	
-    }	
-}	
-function searchFolderById(nameKey, array){	
-    for (var i=0; i < array.length; i++) {	
-		if(typeof array[i] === 'object') {	
-			if (array[i].folder === nameKey) {	
-				return true;	
-			}	
-		}	
-    }	
+function searchFolder(nameKey, array) {
+	for (let i = 0; i < array.length; i++) {
+		if (typeof array[i] === 'object') {
+			if (array[i].id === nameKey) {
+				return true;
+			}
+			return false;
+		}
+	}
+}
+function searchFolderById(nameKey, array) {
+	for (let i = 0; i < array.length; i++) {
+		if (typeof array[i] === 'object') {
+			if (array[i].folder === nameKey) {
+				return true;
+			}
+		}
+	}
 }
 
-	
-const getnestedFilesById = (folders, id) => {	
-	console.log({ folders, id });	
-	if (Array.isArray(folders)) {	
-		if (folders.find(x => x.id === id)) {	
-			return folders;	
-		}	
-		for (let i = 0; i < folders.length; i++) {	
-			getnestedFilesById(folders[i].folders, id);	
-		}	
-	}	
+const getnestedFilesById = (folders, id) => {
+	console.log({ folders, id });
+	if (Array.isArray(folders)) {
+		if (folders.find(x => x.id === id)) {
+			return folders;
+		}
+		for (let i = 0; i < folders.length; i++) {
+			getnestedFilesById(folders[i].folders, id);
+		}
+	}
 };
 
-const newArrayFromTwo = (arr1, arr2) => {	
-	let newArr = []	
-	arr2.map((files) => {	
-		var resultObject = 	searchFolder(files.folder, arr1);	
-		if(resultObject) {	
-			newArr.push(files)	
-		}	
-	})	
-	return newArr	
-}	
-function searchFiles(idKey, array){	
-    for (var i=0; i < array.length; i++) {	
-		if(typeof array[i] === 'object') {	
-			if (array[i].id === idKey) {	
-				return array[i];	
-			} else {	
-				return false	
-			}	
-		}	
-    }	
-}	
-const arr_diff = (a1, a2) => {	
-	var res = a1.filter(item1 => 	
-	!a2.some(item2 => (item2.id === item1.mainId)))	
-	return res	
+const newArrayFromTwo = (arr1, arr2) => {
+	const newArr = [];
+	arr2.map(files => {
+		const resultObject = searchFolder(files.folder, arr1);
+		if (resultObject) {
+			newArr.push(files);
+		}
+	});
+	return newArr;
+};
+function searchFiles(idKey, array) {
+	for (let i = 0; i < array.length; i++) {
+		if (typeof array[i] === 'object') {
+			if (array[i].id === idKey) {
+				return array[i];
+			}
+			return false;
+		}
+	}
 }
+const arr_diff = (a1, a2) => {
+	const res = a1.filter(item1 => !a2.some(item2 => item2.id === item1.mainId));
+	return res;
+};
 
 const filesReducer = (state = initialState(), action) => {
 	switch (action.type) {
@@ -259,69 +254,60 @@ const filesReducer = (state = initialState(), action) => {
 			};
 		}
 		case Actions.SET_FOLDER_PATH:
-			let newArr = []	
-			state.folderPath.map((folder) => {	
-				if(typeof folder === 'object' && "id" in folder) {	
-					let newFold;	
-					if(action.payload.id !== folder.id) {	
-						var newArrayFromResults = newArrayFromTwo(state.folderPath, action.currentFiles)	
-						var resultCheck = 	searchFolderById(folder.id, newArrayFromResults);	
-						if(resultCheck) {	
-							let photo = [];	
-							let video = [];	
-							let document = [];	
-		
-							let newMediaObj = {	
-								photo: [],	
-								video: [],	
-								document: []	
-							};	
-							newArrayFromResults.map((mediaFiles) => {	
-								if(mediaFiles.type === 'photo') {	
-									photo.push(mediaFiles)	
-									newMediaObj = {	
-										...newMediaObj,	
-										photo: photo	
-									}	
-								}	
-								if(mediaFiles.type === 'video') {	
-									video.push(mediaFiles)	
-									newMediaObj = {	
-										...newMediaObj,	
-										video: video	
-									}	
-								}	
-								if(mediaFiles.type === 'document') {	
-									document.push(mediaFiles)	
-									newMediaObj = {	
-										...newMediaObj,	
-										document: document	
-									}	
-								}	
-							})	
-							newFold = {	
-								...folder,	
-								media: newMediaObj	
-							}	
-							newArr = [	
-								...newArr,	
-								newFold	
-							]	
-						} else {	
-							newArr = [	
-								...newArr,	
-								folder	
-							]	
-						}	
-					} else {	
-						newArr = [	
-							...newArr,	
-							folder	
-						]	
-					}	
-				}	
-			})	
-			const folderPathResult = [[""], ...newArr, action.payload];
+			let newArr = [];
+			state.folderPath.map(folder => {
+				if (typeof folder === 'object' && 'id' in folder) {
+					let newFold;
+					if (action.payload.id !== folder.id) {
+						const newArrayFromResults = newArrayFromTwo(state.folderPath, action.currentFiles);
+						const resultCheck = searchFolderById(folder.id, newArrayFromResults);
+						if (resultCheck) {
+							const photo = [];
+							const video = [];
+							const document = [];
+
+							let newMediaObj = {
+								photo: [],
+								video: [],
+								document: []
+							};
+							newArrayFromResults.map(mediaFiles => {
+								if (mediaFiles.type === 'photo') {
+									photo.push(mediaFiles);
+									newMediaObj = {
+										...newMediaObj,
+										photo
+									};
+								}
+								if (mediaFiles.type === 'video') {
+									video.push(mediaFiles);
+									newMediaObj = {
+										...newMediaObj,
+										video
+									};
+								}
+								if (mediaFiles.type === 'document') {
+									document.push(mediaFiles);
+									newMediaObj = {
+										...newMediaObj,
+										document
+									};
+								}
+							});
+							newFold = {
+								...folder,
+								media: newMediaObj
+							};
+							newArr = [...newArr, newFold];
+						} else {
+							newArr = [...newArr, folder];
+						}
+					} else {
+						newArr = [...newArr, folder];
+					}
+				}
+			});
+			const folderPathResult = [[''], ...newArr, action.payload];
 			return {
 				...state,
 				folderPath: folderPathResult,
@@ -329,72 +315,63 @@ const filesReducer = (state = initialState(), action) => {
 				photos: action.payload.media.photo,
 				files: chnageIds(
 					sortByProperty(
-						mergeArray([], [
-							...addTypeInArray(action.payload.media.photo, 'photo'),
-							...addTypeInArray(action.payload.media.video, 'video'),
-							...addTypeInArray(action.payload.media.document, 'document')
-						]),
+						mergeArray(
+							[],
+							[
+								...addTypeInArray(action.payload.media.photo, 'photo'),
+								...addTypeInArray(action.payload.media.video, 'video'),
+								...addTypeInArray(action.payload.media.document, 'document')
+							]
+						),
 						'title'
 					)
 				)
 			};
 		case Actions.UPDATE_SPECIFIC_FOLDERS:
-			let currentFolderFiles = action.payload.media.photo.concat(action.payload.media.document, action.payload.media.video)	
-				
-			let differenceFiles = arr_diff(state.files, currentFolderFiles)	
-			let newFolderPath = []	
-			state.folderPath.map((folder) => {	
-				if(typeof folder === 'object' && "id" in folder) {	
-					if(action.payload.id === folder.id) {	
-						newFolderPath = [	
-							...newFolderPath,	
-							action.payload	
-						]	
-					} else {	
-						var resultObject = 	searchFolder(action.payload.id, folder.folders);	
-						let newFolderObj = {}	
-						if (resultObject) {	
-							let newFolders = []	
-							folder.folders.map((folderItem) => {	
-								if(folderItem.id === action.payload.id) {	
-									newFolders = [	
-										...newFolders,	
-										action.payload	
-									]	
-								} else {	
-									newFolders = [	
-										...newFolders,	
-										folderItem	
-									]	
-								}	
-							})	
-							newFolderObj = {	
-								...folder,	
-								folders: newFolders	
-							}	
-						} else {	
-							newFolderObj = {	
-								...folder	
-							}	
-						}	
-						newFolderPath = [	
-							...newFolderPath,	
-							newFolderObj	
-						]	
-					}	
-				} else {	
-					newFolderPath = [	
-						...newFolderPath,	
-						folder	
-					]	
-				}		
-			})
-			console.log('files???????????????????', newFolderPath)
+			const currentFolderFiles = action.payload.media.photo.concat(
+				action.payload.media.document,
+				action.payload.media.video
+			);
+
+			const differenceFiles = arr_diff(state.files, currentFolderFiles);
+			let newFolderPath = [];
+			state.folderPath.map(folder => {
+				if (typeof folder === 'object' && 'id' in folder) {
+					if (action.payload.id === folder.id) {
+						newFolderPath = [...newFolderPath, action.payload];
+					} else {
+						const resultObject = searchFolder(action.payload.id, folder.folders);
+						let newFolderObj = {};
+						if (resultObject) {
+							let newFolders = [];
+							folder.folders.map(folderItem => {
+								if (folderItem.id === action.payload.id) {
+									newFolders = [...newFolders, action.payload];
+								} else {
+									newFolders = [...newFolders, folderItem];
+								}
+							});
+							newFolderObj = {
+								...folder,
+								folders: newFolders
+							};
+						} else {
+							newFolderObj = {
+								...folder
+							};
+						}
+						newFolderPath = [...newFolderPath, newFolderObj];
+					}
+				} else {
+					newFolderPath = [...newFolderPath, folder];
+				}
+			});
+			console.log('files???????????????????', newFolderPath);
 			return action.payload.media
 				? {
 						...state,
-						folderPath: newFolderPath,	
-						differenceFiles: differenceFiles,	
+						folderPath: newFolderPath,
+						differenceFiles,
 						updatedFolderValues: action.updatedFolderValues,
 						folders: addTypeInArray(action.payload.folders, 'folder'),
 						files: chnageIds(
@@ -416,86 +393,71 @@ const filesReducer = (state = initialState(), action) => {
 						folders: addTypeInArray(action.payload.folders, 'folder'),
 						files: chnageIds(
 							sortByProperty(
-								mergeArray([], [
-									...addTypeInArray(state.photos, 'photo'),
-									...addTypeInArray(state.videos, 'video'),
-									...addTypeInArray(state.documents, 'document')
-								]),
+								mergeArray(
+									[],
+									[
+										...addTypeInArray(state.photos, 'photo'),
+										...addTypeInArray(state.videos, 'video'),
+										...addTypeInArray(state.documents, 'document')
+									]
+								),
 								'title'
 							)
 						)
 				  };
 
 		case Actions.UPDATE_FOLDER_PATH:
-			let newActionPayload = [];	
-			action.payload.map((folder) => {	
-				if(typeof folder === 'object' && "id" in folder) {	
-					let newFold;	
-					if(folder.id === state.updatedFolderValues.folder) {	
-						let newMediaObj = folder.media;	
-						state.differenceFiles.map((mediaFiles) => {	
-							let newMediaFile = Object.assign(mediaFiles, {folder: folder.id})	
-							if(mediaFiles.type === 'photo') {	
-								newMediaObj = {	
-									...newMediaObj,	
-									photo: [	
-										...newMediaObj.photo,	
-										newMediaFile	
-									]	
-								}	
-							}	
-							if(mediaFiles.type === 'video') {	
-								newMediaObj = {	
-									...newMediaObj,	
-									video: [	
-										...newMediaObj.video,	
-										newMediaFile	
-									]	
-								}	
-							}	
-							if(mediaFiles.type === 'document') {	
-								newMediaObj = {	
-									...newMediaObj,	
-									document: [	
-										...newMediaObj.document,	
-										newMediaFile	
-									]	
-								}	
-							}	
-						})	
-						newFold = {	
-							...folder,	
-							media: newMediaObj	
-						}	
-						newActionPayload = [	
-							...newActionPayload,	
-							newFold	
-						]	
-					} else {	
-						newActionPayload = [	
-							...newActionPayload,	
-							folder	
-						]	
-					}	
-				} else {	
-					newActionPayload = [	
-						...newActionPayload,	
-						folder	
-					]	
-				}	
-			})	
-			let updateNewActionPayload;	
-			let pathData;	
-			if(state.differenceFiles.length > 0) {	
-				pathData = newActionPayload[newActionPayload.length - 1];	
-				updateNewActionPayload = newActionPayload	
-			} else {	
-				pathData = action.payload[action.payload.length - 1];	
-				updateNewActionPayload = action.payload	
+			let newActionPayload = [];
+			action.payload.map(folder => {
+				if (typeof folder === 'object' && 'id' in folder) {
+					let newFold;
+					if (folder.id === state.updatedFolderValues.folder) {
+						let newMediaObj = folder.media;
+						state.differenceFiles.map(mediaFiles => {
+							const newMediaFile = Object.assign(mediaFiles, { folder: folder.id });
+							if (mediaFiles.type === 'photo') {
+								newMediaObj = {
+									...newMediaObj,
+									photo: [...newMediaObj.photo, newMediaFile]
+								};
+							}
+							if (mediaFiles.type === 'video') {
+								newMediaObj = {
+									...newMediaObj,
+									video: [...newMediaObj.video, newMediaFile]
+								};
+							}
+							if (mediaFiles.type === 'document') {
+								newMediaObj = {
+									...newMediaObj,
+									document: [...newMediaObj.document, newMediaFile]
+								};
+							}
+						});
+						newFold = {
+							...folder,
+							media: newMediaObj
+						};
+						newActionPayload = [...newActionPayload, newFold];
+					} else {
+						newActionPayload = [...newActionPayload, folder];
+					}
+				} else {
+					newActionPayload = [...newActionPayload, folder];
+				}
+			});
+			let updateNewActionPayload;
+			let pathData;
+			if (state.differenceFiles.length > 0) {
+				pathData = newActionPayload[newActionPayload.length - 1];
+				updateNewActionPayload = newActionPayload;
+			} else {
+				pathData = action.payload[action.payload.length - 1];
+				updateNewActionPayload = action.payload;
 			}
 
-			console.log('files???????????????????', updateNewActionPayload)
-			console.log('files???????????????????', pathData)
+			console.log('files???????????????????', updateNewActionPayload);
+			console.log('files???????????????????', pathData);
 
 			return {
 				...state,
@@ -504,21 +466,27 @@ const filesReducer = (state = initialState(), action) => {
 				files: pathData?.media
 					? chnageIds(
 							sortByProperty(
-								mergeArray([], [
-									...addTypeInArray(pathData.media.photo, 'photo'),
-									...addTypeInArray(pathData.media.video, 'video'),
-									...addTypeInArray(pathData.media.document, 'document')
-								]),
+								mergeArray(
+									[],
+									[
+										...addTypeInArray(pathData.media.photo, 'photo'),
+										...addTypeInArray(pathData.media.video, 'video'),
+										...addTypeInArray(pathData.media.document, 'document')
+									]
+								),
 								'title'
 							)
 					  )
 					: chnageIds(
 							sortByProperty(
-								mergeArray([], [
-									...addTypeInArray(state.photos, 'photo'),
-									...addTypeInArray(state.videos, 'video'),
-									...addTypeInArray(state.documents, 'document')
-								]),
+								mergeArray(
+									[],
+									[
+										...addTypeInArray(state.photos, 'photo'),
+										...addTypeInArray(state.videos, 'video'),
+										...addTypeInArray(state.documents, 'document')
+									]
+								),
 								'title'
 							)
 					  ),

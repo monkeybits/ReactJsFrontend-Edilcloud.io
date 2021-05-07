@@ -6,9 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
-import {
-	KeyboardDatePicker
-  } from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -89,7 +87,8 @@ export default function EditActivityForm(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const getName = profile => `${profile.first_name} ${profile.last_name}`;
 	const getUsername = profile => `${profile.profile.first_name} ${profile.profile.last_name}`;
-	const getIsDisabled = () => todoDialog.data?.task && todoDialog.data.task.assigned_company.id != companyDetail.id || getRole() == 'w';
+	const getIsDisabled = () =>
+		(todoDialog.data?.task && todoDialog.data.task.assigned_company.id != companyDetail.id) || getRole() == 'w';
 	return (
 		<div className="sm:pl-10">
 			{getIsDisabled() && (

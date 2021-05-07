@@ -11,7 +11,7 @@ import FileSaver from 'file-saver';
 import * as Actions from './store/actions';
 
 const TippyMenu = React.lazy(() => import('app/TippyMenu'));
-const FileViewDialog = React.lazy(() => import('./FileViewDialog'));
+const FileViewDialog = React.lazy(() => import('../../../main/apps/chat/FileViewDialog'));
 
 export default function SimpleMenu(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);

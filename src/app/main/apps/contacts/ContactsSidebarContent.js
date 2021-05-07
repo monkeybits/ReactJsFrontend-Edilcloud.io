@@ -5,7 +5,17 @@
 TODO: sidebar filters are decleared here.
 */
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { Divider, List, ListItem, ListItemText, Typography, AppBar, Toolbar, IconButton, Icon } from '@material-ui/core';
+import {
+	Divider,
+	List,
+	ListItem,
+	ListItemText,
+	Typography,
+	AppBar,
+	Toolbar,
+	IconButton,
+	Icon
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -59,15 +69,12 @@ function ContactsSidebarContent(props) {
 					<Divider /> */}
 				<AppBar position="static" elevation={1}>
 					<Toolbar className="p-0">
-						<IconButton className="p-32"
-							color="inherit"
-						>
+						<IconButton className="p-32" color="inherit">
 							<Icon className="text-32">filter_list</Icon>
 						</IconButton>
 						<Typography className="mx-8 p-32 text-24" color="inherit">
 							Filtri
-								</Typography>
-
+						</Typography>
 					</Toolbar>
 				</AppBar>
 				<List className="team-page-filter text-default">
@@ -107,11 +114,7 @@ function ContactsSidebarContent(props) {
 						onClick={() => dispatch(Actions.filterByKey('deactivated'))}
 						className={getListItemClassName('deactivated')}
 					>
-						<ListItemText
-							className="truncate"
-							primary={t('DEACTIVATED_TEAM_MEMBERS')}
-							disableTypography
-						/>
+						<ListItemText className="truncate" primary={t('DEACTIVATED_TEAM_MEMBERS')} disableTypography />
 					</ListItem>
 					<Divider />
 					<ListItem

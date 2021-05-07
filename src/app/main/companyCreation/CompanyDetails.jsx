@@ -26,7 +26,7 @@ function CompanyDetails({ form, handleChangeAfterRemoveError, error }) {
 	const handleRadioChange = event => {};
 	const { t } = useTranslation('company_create');
 
-	console.log('form???????????????', form)
+	console.log('form???????????????', form);
 	return (
 		<form name="registerForm" className="flex flex-col justify-center w-full">
 			<TextField

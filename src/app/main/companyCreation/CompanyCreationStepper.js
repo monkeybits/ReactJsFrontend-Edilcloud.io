@@ -1,16 +1,23 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@fuse/hooks';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { makeStyles } from '@material-ui/core/styles';
-import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Box, CircularProgress, Card, CardContent } from '@material-ui/core';
+import {
+	Stepper,
+	Step,
+	StepLabel,
+	StepContent,
+	Button,
+	Paper,
+	Typography,
+	Box,
+	CircularProgress,
+	Card,
+	CardContent
+} from '@material-ui/core';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory, withRouter, useLocation } from 'react-router-dom';
-import {
-	TYPOLOGY_LIST,
-	TYPOLOGY_LIST_BY_CODE,
-	USER_ADD_COMPANY,
-	USER_EDIT_COMPANY
-} from 'app/services/apiEndPoints';
+import { TYPOLOGY_LIST, TYPOLOGY_LIST_BY_CODE, USER_ADD_COMPANY, USER_EDIT_COMPANY } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import clsx from 'clsx';
@@ -19,9 +26,10 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import * as Actions from 'app/main/apps/chat/store/actions';
 import { useTranslation } from 'react-i18next';
 import axios from '../../services/axiosConfig';
-const FileUpload = loadable(() => import('../mainProfile/FileUpload'))
-const CompanyCategory = loadable(() => import('./CompanyCategory'))
-const CompanyDetails = loadable(() => import('./CompanyDetails'))
+
+const FileUpload = React.lazy(() => import('../mainProfile/FileUpload'));
+const CompanyCategory = React.lazy(() => import('./CompanyCategory'));
+const CompanyDetails = React.lazy(() => import('./CompanyDetails'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -145,7 +153,10 @@ function CompanyCreationStepper({ user, history }) {
 	useEffect(() => {
 		if (routeHistory) {
 			console.log({ routeHistory });
-			if (routeHistory.location.pathname == '/apps/settings' || routeHistory.location.pathname == '/edit-company') {
+			if (
+				routeHistory.location.pathname == '/apps/settings' ||
+				routeHistory.location.pathname == '/edit-company'
+			) {
 				setIsEdit(true);
 				console.log({ company });
 				setFile({
@@ -252,7 +263,7 @@ function CompanyCreationStepper({ user, history }) {
 		handleChange(e);
 	};
 
-	const isMainWrap = location.pathname === '/create-company' || location.pathname === '/edit-company' ? true : false;
+	const isMainWrap = !!(location.pathname === '/create-company' || location.pathname === '/edit-company');
 
 	return (
 		<div
@@ -275,7 +286,7 @@ function CompanyCreationStepper({ user, history }) {
 													index,
 													index == 0
 														? { form, handleChangeAfterRemoveError, error }
-													: index == 1
+														: index == 1
 														? { setFile, file, remove: () => setFile(null) }
 														: { typologyList, optionList }
 												)}

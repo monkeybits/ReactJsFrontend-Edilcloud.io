@@ -1,6 +1,17 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import loadable from '@loadable/component';
-import { Button, Card, CardContent, Divider, Typography, Grid, InputLabel, MenuItem, FormControl, ListItemText } from '@material-ui/core';
+// import loadable from '@loadable/component';
+import {
+	Button,
+	Card,
+	CardContent,
+	Divider,
+	Typography,
+	Grid,
+	InputLabel,
+	MenuItem,
+	FormControl,
+	ListItemText
+} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
@@ -15,12 +26,13 @@ import { API_APPLE_AUTH_LOGIN } from 'app/services/apiEndPoints';
 import { toast } from 'react-toastify';
 import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import AppleLogin from 'react-apple-login'
-const FacebookLoginComponent = loadable(() => import('./FacebookLoginComponent'))
-const GoogleLoginComponent = loadable(() => import('./GoogleLoginComponent'))
-const TippyMenu = loadable(() => import('app/TippyMenu'))
-const TermsModal = loadable(() => import('./TermsModal'))
-const JWTLoginTab = loadable(() => import('app/main/login/tabs/JWTLoginTab'))
+import AppleLogin from 'react-apple-login';
+
+const FacebookLoginComponent = React.lazy(() => import('./FacebookLoginComponent'));
+const GoogleLoginComponent = React.lazy(() => import('./GoogleLoginComponent'));
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+const TermsModal = React.lazy(() => import('./TermsModal'));
+const JWTLoginTab = React.lazy(() => import('app/main/login/tabs/JWTLoginTab'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -61,14 +73,14 @@ function LoginPage() {
 		nonce: '',
 		usePopup: true,
 		designProp: {
-		  height: 30,
-		  width: 140,
-		  color: 'black',
-		  border: false,
-		  type: 'sign-in',
-		  border_radius: 15,
-		  scale: 1,
-		  locale: 'en_US',
+			height: 30,
+			width: 140,
+			color: 'black',
+			border: false,
+			type: 'sign-in',
+			border_radius: 15,
+			scale: 1,
+			locale: 'en_US'
 		}
 	});
 
@@ -93,11 +105,11 @@ function LoginPage() {
 	useEffect(() => {
 		return () => {
 			setTimeout(() => {
-				var splashScreen = document.getElementById('fuse-splash-screen');
+				const splashScreen = document.getElementById('fuse-splash-screen');
 				splashScreen.style.display = 'none';
-			}, 2000)
-		}
-	}, [])
+			}, 2000);
+		};
+	}, []);
 
 	function handleLanguageChange(lng) {
 		const newLangDir = i18n.dir(lng.id);
@@ -117,12 +129,11 @@ function LoginPage() {
 		// userMenuClose();
 	}
 
-	const appleLoginSuccess = (data) => {
-		console.log('data', data)
+	const appleLoginSuccess = data => {
+		console.log('data', data);
 
 		// this.startLoading();
-		if(data) {
-
+		if (data) {
 			apiCall(
 				API_APPLE_AUTH_LOGIN,
 				{
@@ -135,13 +146,13 @@ function LoginPage() {
 					const { token } = res;
 					const { history, dispatch } = this.props;
 					// if (this.props.isRegister) {
-						// history.push('/pages/auth/mail-confirm', { email: '' });
-						// return dispatch({
-						// 	type: REGISTER_SUCCESS,
-						// 	payload: res
-						// });
+					// history.push('/pages/auth/mail-confirm', { email: '' });
+					// return dispatch({
+					// 	type: REGISTER_SUCCESS,
+					// 	payload: res
+					// });
 					// }
-	
+
 					new Promise((resolve, reject) => {
 						console.log('dfdsgsres', res);
 						if (res) {
@@ -151,16 +162,16 @@ function LoginPage() {
 							reject(res);
 						}
 					})
-					.then(res => {
-						// this.props.onLogin(res);
-						// setTimeout(() => {
-						// 	this.removeLoading();
-						// }, 2000);
-					})
-					.catch(err => {
-						// this.removeLoading();
-						console.log('dfdsgs', err);
-					});
+						.then(res => {
+							// this.props.onLogin(res);
+							// setTimeout(() => {
+							// 	this.removeLoading();
+							// }, 2000);
+						})
+						.catch(err => {
+							// this.removeLoading();
+							console.log('dfdsgs', err);
+						});
 				},
 				err => {
 					// this.removeLoading();
@@ -170,7 +181,7 @@ function LoginPage() {
 				METHOD.POST
 			);
 		}
-	}
+	};
 
 	return (
 		<>
@@ -240,13 +251,10 @@ function LoginPage() {
 
 								<JWTLoginTab />
 
-								
-
 								<div className="flex items-center justify-center w-full pt-16">
 									<span className="text-custom font-600 mr-6"> {t('DONT_HAVE_AN_ACCOUNT_ASK')}</span>
 								</div>
 								<div className="flex items-center  justify-center w-full ">
-									
 									<Button
 										type="submit"
 										variant="contained"
@@ -254,11 +262,10 @@ function LoginPage() {
 										className="w-full bg-dark-blue mx-auto mt-16 uppercase"
 										aria-label="Register"
 										value="legacy"
-										>
-											<Link className="text-white font-600 inline" to="/pages/auth/register">
-										{t('SIGN_UP')}
-									</Link>
-				
+									>
+										<Link className="text-white font-600 inline" to="/pages/auth/register">
+											{t('SIGN_UP')}
+										</Link>
 									</Button>
 								</div>
 							</CardContent>

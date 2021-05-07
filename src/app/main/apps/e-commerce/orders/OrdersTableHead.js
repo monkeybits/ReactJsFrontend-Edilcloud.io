@@ -1,4 +1,18 @@
-import { Checkbox, Icon, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, MenuList, TableCell, TableHead, TableRow, TableSortLabel, Tooltip } from '@material-ui/core';
+import {
+	Checkbox,
+	Icon,
+	IconButton,
+	ListItemIcon,
+	ListItemText,
+	Menu,
+	MenuItem,
+	MenuList,
+	TableCell,
+	TableHead,
+	TableRow,
+	TableSortLabel,
+	Tooltip
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useState } from 'react';

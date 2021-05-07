@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import { Avatar, Icon, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,9 +8,13 @@ import moment from 'moment/moment';
 import { useSelector } from 'react-redux';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
-const ViewFile = loadable(() => import('./ViewFile'))
-const RetryToSendMessage = loadable(() => import('./RetryToSendMessage'))
-const SendMessageForm = loadable(() => import('./SendMessageForm'))
+import * as Actions from './store/actions';
+import LinearProgressWithLabel from '../../../main/apps/file-manager/LinearProgressWithLabel';
+const MessageMoreOptions = React.lazy(() => import('./MessageMoreOptions'));
+
+const ViewFile = React.lazy(() => import('./ViewFile'));
+const RetryToSendMessage = React.lazy(() => import('./RetryToSendMessage'));
+const SendMessageForm = React.lazy(() => import('./SendMessageForm'));
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -141,8 +145,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Chat(props) {
+	const [progress, setProgress] = React.useState(0);
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
+	const isUploadingFiles = useSelector(({ chatPanel }) => chatPanel.chat.isUploadingFiles);
 	const chat = useSelector(({ chatPanel }) => chatPanel.chat);
 	const user = useSelector(({ chatPanel }) => chatPanel.user);
 	const userInfo = decodeDataFromToken();
@@ -174,6 +180,11 @@ function Chat(props) {
 				};
 				return (
 					<FuseScrollbars ref={chatScroll} className="flex flex-1 flex-col overflow-y-auto">
+						{isUploadingFiles && (
+							<div className="linear-progress custom-color">
+								<LinearProgressWithLabel progress={progress} />
+							</div>
+						)}
 						{!chat ? (
 							<div className="flex flex-col flex-1 items-center justify-center p-24">
 								<Icon className="text-128" color="disabled">
@@ -221,7 +232,14 @@ function Chat(props) {
 														</Typography>
 													)}
 													<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
-
+													{!item.waitingToSend && contact.id == userIdFromCompany && (
+														<MessageMoreOptions
+															className="text-right chat-options"
+															item={item}
+															deleteMessage={Actions.deleteMessage}
+															setProgress={setProgress}
+														/>
+													)}
 													<div className="leading-normal py-4 font-size-16 mb-15">
 														{item.body}
 													</div>
@@ -237,7 +255,9 @@ function Chat(props) {
 																className="time text-12 font-500 ltr:left-0 rtl:right-0 whitespace-no-wrap"
 																color="textSecondary"
 															>
-																{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
+																{moment(item.date_create).format(
+																	'MMMM Do YYYY, h:mm:ss a'
+																)}
 															</Typography>
 															// )
 														}

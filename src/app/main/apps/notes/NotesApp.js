@@ -20,30 +20,30 @@ import rtl from 'jss-rtl';
 import { useTranslation } from 'react-i18next';
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const AddProjectDialog = loadable(() => import('./AddProjectDialog'))
-const NotesHeader = loadable(() => import('./NotesHeader'))
-const NoteList = loadable(() => import('./NoteList'))
-const NotesSidebarContent = loadable(() => import('./NotesSidebarContent'))
-const ConfirmDeleteDialog = loadable(() => import('./ConfirmDeleteDialog'))
+// import loadable from '@loadable/component';
+const AddProjectDialog = React.lazy(() => import('./AddProjectDialog'));
+const NotesHeader = React.lazy(() => import('./NotesHeader'));
+const NoteList = React.lazy(() => import('./NoteList'));
+const NotesSidebarContent = React.lazy(() => import('./NotesSidebarContent'));
+const ConfirmDeleteDialog = React.lazy(() => import('./ConfirmDeleteDialog'));
 
 function NotesApp(props) {
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
 	const { t } = useTranslation('projects');
-	const [defaultMenu, setDefaultMenu] = useState(true)
-	const [foldedAndOpened, setFoldedAndOpened] = useState(false)
+	const [defaultMenu, setDefaultMenu] = useState(true);
+	const [foldedAndOpened, setFoldedAndOpened] = useState(false);
 	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
 	const navbar = useSelector(({ fuse }) => fuse.navbar);
 	const toggleSidebarMenu = useSelector(({ fuse }) => fuse.settings.toggleSidebarMenu);
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const { folded } = config.navbar;
-	
+
 	useEffect(() => {
-		if(toggleSidebarMenu) {
-			setDefaultMenu(false)
+		if (toggleSidebarMenu) {
+			setDefaultMenu(false);
 		} else {
-			setDefaultMenu(true)
+			setDefaultMenu(true);
 		}
 	}, [toggleSidebarMenu]);
 
@@ -51,13 +51,13 @@ function NotesApp(props) {
 	useEffect(() => {
 		const foldedAndOpened = folded && navbar.foldedOpen;
 		setTimeout(() => {
-			if(foldedAndOpened) {
-				setDefaultMenu(false)
-				setFoldedAndOpened(foldedAndOpened)
+			if (foldedAndOpened) {
+				setDefaultMenu(false);
+				setFoldedAndOpened(foldedAndOpened);
 			}
-		}, 200)
-		if(!foldedAndOpened) {
-			setFoldedAndOpened(foldedAndOpened)
+		}, 200);
+		if (!foldedAndOpened) {
+			setFoldedAndOpened(foldedAndOpened);
 		}
 	}, [folded, navbar]);
 
@@ -109,7 +109,7 @@ function NotesApp(props) {
 				classes={{
 					contentWrapper: 'p-16 sm:p-24 md:px-32 pb-80 sm:pb-80',
 					content: `flex min-h-full`,
-					leftSidebar: `w-350 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`,
+					leftSidebar: `w-350 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`
 				}}
 				header={<NotesHeader pageLayout={pageLayout} />}
 				content={

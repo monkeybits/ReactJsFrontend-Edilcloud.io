@@ -1,6 +1,17 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import loadable from '@loadable/component';
-import { Button, Card, CardContent, FormControl, Typography, InputLabel, MenuItem, Grid, Divider, ListItemText } from '@material-ui/core';
+// import loadable from '@loadable/component';
+import {
+	Button,
+	Card,
+	CardContent,
+	FormControl,
+	Typography,
+	InputLabel,
+	MenuItem,
+	Grid,
+	Divider,
+	ListItemText
+} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
@@ -13,14 +24,15 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import * as MainActions from 'app/store/actions';
 import 'tippy.js/themes/light-border.css';
-import AppleRegister from 'react-apple-login'
+import AppleRegister from 'react-apple-login';
 import jwtService from 'app/services/jwtService';
 import { toast } from 'react-toastify';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
-const TermsModal = loadable(() => import('../login/TermsModal'))
-const JWTRegisterTab = loadable(() => import('app/main/register/tabs/JWTRegisterTab'))
-const FacebookLoginComponent = loadable(() => import('../login/FacebookLoginComponent'))
-const GoogleLoginComponent = loadable(() => import('../login/GoogleLoginComponent'))
+
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+const TermsModal = React.lazy(() => import('../login/TermsModal'));
+const JWTRegisterTab = React.lazy(() => import('app/main/register/tabs/JWTRegisterTab'));
+const FacebookLoginComponent = React.lazy(() => import('../login/FacebookLoginComponent'));
+const GoogleLoginComponent = React.lazy(() => import('../login/GoogleLoginComponent'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -62,17 +74,17 @@ function RegisterPage() {
 		nonce: '',
 		usePopup: true,
 		designProp: {
-		  height: 30,
-		  width: 140,
-		  color: 'black',
-		  border: false,
-		  type: 'continue',
-		  border_radius: 15,
-		  scale: 1,
-		  locale: 'en_US',
+			height: 30,
+			width: 140,
+			color: 'black',
+			border: false,
+			type: 'continue',
+			border_radius: 15,
+			scale: 1,
+			locale: 'en_US'
 		}
 	});
-	
+
 	const { t } = useTranslation('register');
 	const dispatch = useDispatch();
 
@@ -108,10 +120,10 @@ function RegisterPage() {
 		// userMenuClose();
 	}
 
-	const appleRegisterSuccess = (data) => {
-		console.log('data', data)
+	const appleRegisterSuccess = data => {
+		console.log('data', data);
 		// this.startLoading();
-		if(data) {
+		if (data) {
 			apiCall(
 				API_APPLE_AUTH_REGISTER,
 				{
@@ -124,13 +136,13 @@ function RegisterPage() {
 					const { token } = res;
 					const { history, dispatch } = this.props;
 					// if (this.props.isRegister) {
-						// history.push('/pages/auth/mail-confirm', { email: '' });
-						// return dispatch({
-						// 	type: REGISTER_SUCCESS,
-						// 	payload: res
-						// });
+					// history.push('/pages/auth/mail-confirm', { email: '' });
+					// return dispatch({
+					// 	type: REGISTER_SUCCESS,
+					// 	payload: res
+					// });
 					// }
-	
+
 					new Promise((resolve, reject) => {
 						console.log('dfdsgsres', res);
 						if (res) {
@@ -140,16 +152,16 @@ function RegisterPage() {
 							reject(res);
 						}
 					})
-					.then(res => {
-						// this.props.onLogin(res);
-						// setTimeout(() => {
-						// 	this.removeLoading();
-						// }, 2000);
-					})
-					.catch(err => {
-						// this.removeLoading();
-						console.log('dfdsgs', err);
-					});
+						.then(res => {
+							// this.props.onLogin(res);
+							// setTimeout(() => {
+							// 	this.removeLoading();
+							// }, 2000);
+						})
+						.catch(err => {
+							// this.removeLoading();
+							console.log('dfdsgs', err);
+						});
 				},
 				err => {
 					// this.removeLoading();
@@ -159,7 +171,7 @@ function RegisterPage() {
 				METHOD.POST
 			);
 		}
-	}
+	};
 
 	return (
 		<>
@@ -232,9 +244,8 @@ function RegisterPage() {
 									<span className="text-custom font-600 mr-6">
 										{t('ALREADY_HAVE_AN_ACCOUNT_ASK')}
 									</span>
-									</div>
+								</div>
 								<div className="flex items-center  justify-center w-full ">
-									
 									<Button
 										type="submit"
 										variant="contained"
@@ -242,11 +253,10 @@ function RegisterPage() {
 										className="w-full bg-dark-blue mx-auto mt-16 uppercase"
 										aria-label="Login"
 										value="legacy"
-										>
-											<Link className="text-white font-600 inline" to="/pages/auth/login">
-										{t('LOGIN')}
-									</Link>
-				
+									>
+										<Link className="text-white font-600 inline" to="/pages/auth/login">
+											{t('LOGIN')}
+										</Link>
 									</Button>
 								</div>
 							</CardContent>

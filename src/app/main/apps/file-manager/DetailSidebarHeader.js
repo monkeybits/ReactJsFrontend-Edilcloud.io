@@ -8,19 +8,14 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import { IconButton, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-	PHOTO_DELETE,
-	VIDEO_DELETE,
-	DOCUMENT_DELETE,
-	FOLDER_DELETE
-} from 'app/services/apiEndPoints';
+import { PHOTO_DELETE, VIDEO_DELETE, DOCUMENT_DELETE, FOLDER_DELETE } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'))
-const FileViewDialog = loadable(() => import('./FileViewDialog'))
+// import loadable from '@loadable/component';
+const DeleteConfirmDialog = React.lazy(() => import('./DeleteConfirmDialog'));
+const FileViewDialog = React.lazy(() => import('./FileViewDialog'));
 
 function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const dispatch = useDispatch();

@@ -5,7 +5,23 @@
 TODO: Single item of project list
 */
 import FuseUtils from '@fuse/utils';
-import { Typography, Card, CardHeader, CardActions, Avatar, IconButton, Icon, MenuItem, Box, Paper, Tabs, Tab, Divider, Button, Tooltip } from '@material-ui/core';
+import {
+	Typography,
+	Card,
+	CardHeader,
+	CardActions,
+	Avatar,
+	IconButton,
+	Icon,
+	MenuItem,
+	Box,
+	Paper,
+	Tabs,
+	Tab,
+	Divider,
+	Button,
+	Tooltip
+} from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
@@ -24,8 +40,8 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css';
-import loadable from '@loadable/component';
-const DownloadPdf = loadable(() => import('./DownloadPdf'))
+// import loadable from '@loadable/component';
+const DownloadPdf = React.lazy(() => import('./DownloadPdf'));
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -34,17 +50,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ProjectListitem(props) {
-	const [projectIndex, setProjectIndex] = useState(null)
-	const {
-		index,
-		project,
-		classes
-	} = props;
+	const [projectIndex, setProjectIndex] = useState(null);
+	const { index, project, classes } = props;
 
 	const { t } = useTranslation('projects');
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const okConfirmDeleteDialog = useSelector(({ notesApp }) => notesApp.notes.okConfirmDeleteDialog);
-	if(projectIndex !== null) {
+	if (projectIndex !== null) {
 		var {
 			mainId,
 			id,
@@ -85,13 +97,13 @@ export default function ProjectListitem(props) {
 	useEffect(() => {
 		if (project) {
 			projects.map((item, index) => {
-				if(item.name === project.name) {
-					setProjectIndex(index)
+				if (item.name === project.name) {
+					setProjectIndex(index);
 				}
-			})
+			});
 		}
 	}, [project]);
-	
+
 	useEffect(() => {
 		if (okConfirmDeleteDialog) {
 			handleClose();
@@ -204,7 +216,8 @@ export default function ProjectListitem(props) {
 			ref={notificationPanel.notificationData?.notification?.object_id == mainId ? scrollRef : null}
 			className="h-full flex flex-col project_card"
 		>
-			<CardHeader className="bg-dark-blue"
+			<CardHeader
+				className="bg-dark-blue"
 				action={
 					!!isApproved &&
 					(getRole() == 'o' || getRole() == 'd') && (
@@ -237,9 +250,7 @@ export default function ProjectListitem(props) {
 							{name}
 						</Link>
 					) : (
-						<div className="font-size-17 text-white">
-							{name}
-						</div>
+						<div className="font-size-17 text-white">{name}</div>
 					)
 				}
 				// subheader={moment(date_start).format('MMM DD, YYYY')}
@@ -249,9 +260,7 @@ export default function ProjectListitem(props) {
 							{address}
 						</Link>
 					) : (
-						<div className="font-size-14 text-white">
-							{address}
-						</div>
+						<div className="font-size-14 text-white">{address}</div>
 					)
 				}
 				//
@@ -425,14 +434,14 @@ export default function ProjectListitem(props) {
 					{description}
 				</Typography>
 			</CardContent> */}
-			
-				{/* <IconButton aria-label="add to favorites">
+
+			{/* <IconButton aria-label="add to favorites">
 					<FavoriteIcon />
 				</IconButton>
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton> */}
-				<Button className="MuiButtonBase-root MuiButton-root mr-8 ">
+			<Button className="MuiButtonBase-root MuiButton-root mr-8 ">
 				<CardActions disableSpacing className="border-t-1 mt-auto">
 					<DownloadPdf
 						className="MuiButtonBase-root MuiButton-root "
@@ -440,9 +449,8 @@ export default function ProjectListitem(props) {
 						id={name}
 						pid={id}
 					/>
-					</CardActions>
-				</Button>
-			
+				</CardActions>
+			</Button>
 		</Card>
 	);
 }

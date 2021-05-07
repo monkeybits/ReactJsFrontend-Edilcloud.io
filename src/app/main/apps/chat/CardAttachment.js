@@ -1,13 +1,9 @@
 import { Button, Icon, MenuItem, Paper, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFile,
-	faFileExcel,
-	faFileVideo
-} from '@fortawesome/free-regular-svg-icons';
-import loadable from '@loadable/component';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+import { faFile, faFileExcel, faFileVideo } from '@fortawesome/free-regular-svg-icons';
+// import loadable from '@loadable/component';
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 function CardAttachment(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

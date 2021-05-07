@@ -5,12 +5,11 @@ import AccessibilityPanel from 'app/fuse-layouts/shared-components/accessibility
 import React from 'react';
 
 // import React from 'react';
-// import loadable from '@loadable/component';
-// const ChatPanel = loadable(() => import('app/fuse-layouts/shared-components/chatPanel/ChatPanel'))
-// const QuickPanel = loadable(() => import('app/fuse-layouts/shared-components/quickPanel/QuickPanel'))
-// const NotificationPanel = loadable(() => import('app/fuse-layouts/shared-components/notification/Notification'))
-// const AccessibilityPanel = loadable(() => import('app/fuse-layouts/shared-components/accessibility/Accessibility'))
-
+// // import loadable from '@loadable/component';
+// const ChatPanel = React.lazy(() => import('app/fuse-layouts/shared-components/chatPanel/ChatPanel'))
+// const QuickPanel = React.lazy(() => import('app/fuse-layouts/shared-components/quickPanel/QuickPanel'))
+// const NotificationPanel = React.lazy(() => import('app/fuse-layouts/shared-components/notification/Notification'))
+// const AccessibilityPanel = React.lazy(() => import('app/fuse-layouts/shared-components/accessibility/Accessibility'))
 
 function RightSideLayout1(props) {
 	return (

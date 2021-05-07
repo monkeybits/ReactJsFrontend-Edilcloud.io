@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import loadable from '@loadable/component';
-import {AppBar, Card, Icon, Tab, Tabs} from '@material-ui/core';
+// import loadable from '@loadable/component';
+import { AppBar, Card, Icon, Tab, Tabs } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import DemoFrame from './DemoFrame';
-const FuseHighlight = loadable(() => import('@fuse/core/FuseHighlight'))
+
+const FuseHighlight = React.lazy(() => import('@fuse/core/FuseHighlight'));
 
 const propTypes = {
 	raw: PropTypes.object,

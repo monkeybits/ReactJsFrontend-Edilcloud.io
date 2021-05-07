@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { makeStyles } from '@material-ui/core/styles';
 import { ListItem, ListItemText, Collapse, Card, CardContent, Icon, IconButton } from '@material-ui/core';
 import withReducer from 'app/store/withReducer';
 import reducer from 'app/main/apps/notes/todo/store/reducers';
 import { useSelector } from 'react-redux';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
-const GuideSubListItem = loadable(() => import('./GuideSubListItem'))
+
+const GuideSubListItem = React.lazy(() => import('./GuideSubListItem'));
 
 const useStyles = makeStyles(theme => ({
 	nested: {

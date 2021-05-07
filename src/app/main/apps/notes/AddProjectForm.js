@@ -5,17 +5,13 @@
 TODO: This File is created for showing add project form and on submit method we are creating new project and geting list of project
 */
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
-import {
-	TextFieldFormsy
-} from '@fuse/core/formsy';
+import { TextFieldFormsy } from '@fuse/core/formsy';
 import { Button, withStyles, Avatar, CircularProgress, Grid } from '@material-ui/core';
 import Formsy from 'formsy-react';
 import React, { useRef, useState, useEffect } from 'react';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import {
-	KeyboardDatePicker
-  } from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import { useParams } from 'react-router';
@@ -24,8 +20,8 @@ import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import loadable from '@loadable/component';
-const UploadProjectImage = loadable(() => import('./UploadProjectImage'))
+// import loadable from '@loadable/component';
+const UploadProjectImage = React.lazy(() => import('./UploadProjectImage'));
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>

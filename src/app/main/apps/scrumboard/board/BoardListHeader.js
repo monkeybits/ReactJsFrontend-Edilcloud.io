@@ -1,10 +1,21 @@
 import { useForm } from '@fuse/hooks';
-import loadable from '@loadable/component';
-import { ClickAwayListener, Icon, IconButton, InputAdornment, ListItemIcon, ListItemText, MenuItem, TextField, Typography } from '@material-ui/core';
+// import loadable from '@loadable/component';
+import {
+	ClickAwayListener,
+	Icon,
+	IconButton,
+	InputAdornment,
+	ListItemIcon,
+	ListItemText,
+	MenuItem,
+	TextField,
+	Typography
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../store/actions';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 function BoardListHeader(props) {
 	const dispatch = useDispatch();

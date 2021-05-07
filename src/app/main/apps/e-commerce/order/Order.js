@@ -1,7 +1,17 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FusePageCarded from '@fuse/core/FusePageCarded';
-import { Avatar, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Icon, Tab, Tabs, Tooltip, Typography } from '@material-ui/core';
+import {
+	Avatar,
+	ExpansionPanel,
+	ExpansionPanelDetails,
+	ExpansionPanelSummary,
+	Icon,
+	Tab,
+	Tabs,
+	Tooltip,
+	Typography
+} from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import withReducer from 'app/store/withReducer';
@@ -12,8 +22,9 @@ import { Link, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-const OrderInvoice = loadable(() => import('./OrderInvoice'))
-const OrdersStatus = loadable(() => import('./OrdersStatus'))
+
+const OrderInvoice = React.lazy(() => import('./OrderInvoice'));
+const OrdersStatus = React.lazy(() => import('./OrdersStatus'));
 
 function Marker(props) {
 	return (

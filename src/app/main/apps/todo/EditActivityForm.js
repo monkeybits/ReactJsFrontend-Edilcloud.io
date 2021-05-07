@@ -12,9 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useParams } from 'react-router';
-import {
-	KeyboardDatePicker
-  } from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { GET_COMPANY_PROJECT_TEAM_MEMBER_LIST } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
@@ -111,7 +109,8 @@ export default function EditActivityForm(props) {
 	/**
 	 * getIsDisabled: Make Fields disbaled when user has no permissions to change activity data, This function will return boolean
 	 */
-	const getIsDisabled = () => todoDialog.data?.task && todoDialog.data.task.assigned_company.id != companyDetail.id || getRole() == 'w';
+	const getIsDisabled = () =>
+		(todoDialog.data?.task && todoDialog.data.task.assigned_company.id != companyDetail.id) || getRole() == 'w';
 	return (
 		<div className="sm:pl-10">
 			{getIsDisabled() && (

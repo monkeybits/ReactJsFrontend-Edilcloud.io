@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { Card, CardContent, Tab, Tabs, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
-const Auth0RegisterTab = loadable(() => import('./tabs/Auth0RegisterTab'))
-const FirebaseRegisterTab = loadable(() => import('./tabs/FirebaseRegisterTab'))
-const JWTRegisterTab = loadable(() => import('./tabs/JWTRegisterTab'))
+
+const Auth0RegisterTab = React.lazy(() => import('./tabs/Auth0RegisterTab'));
+const FirebaseRegisterTab = React.lazy(() => import('./tabs/FirebaseRegisterTab'));
+const JWTRegisterTab = React.lazy(() => import('./tabs/JWTRegisterTab'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

@@ -1,11 +1,24 @@
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import { useDebounce, useForm, useUpdateEffect } from '@fuse/hooks';
-import { AppBar, Avatar, FormControl, FormControlLabel, FormLabel, Icon, IconButton, Radio, RadioGroup, TextField, Toolbar, Typography } from '@material-ui/core';
+import {
+	AppBar,
+	Avatar,
+	FormControl,
+	FormControlLabel,
+	FormLabel,
+	Icon,
+	IconButton,
+	Radio,
+	RadioGroup,
+	TextField,
+	Toolbar,
+	Typography
+} from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const StatusIcon = loadable(() => import('./StatusIcon'))
+// import loadable from '@loadable/component';
+const StatusIcon = React.lazy(() => import('./StatusIcon'));
 
 const statusArr = [
 	{

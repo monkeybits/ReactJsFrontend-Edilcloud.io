@@ -6,31 +6,25 @@ TODO: This File is created to view view the media file
 */
 import React, { useEffect, useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Dialog, IconButton, Typography } from '@material-ui/core';
+import { Dialog, IconButton, Typography, Button } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '@material-ui/core';
+
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileAudio,
-	faFileWord
-} from '@fortawesome/free-regular-svg-icons';
+import { faFilePdf, faFile, faFileExcel, faFileAudio, faFileWord } from '@fortawesome/free-regular-svg-icons';
 import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import FileSaver from 'file-saver';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const ReadPDF = loadable(() => import('../file-manager/ReadPDF'))
-const VideoListItem = loadable(() => import('app/VideoPlayer/VideoListItem'))
+// import loadable from '@loadable/component';
+const ReadPDF = React.lazy(() => import('../file-manager/ReadPDF'));
+const VideoListItem = React.lazy(() => import('app/VideoPlayer/VideoListItem'));
 
 const styles = theme => ({
 	root: {
@@ -93,8 +87,8 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress, selectedIt
 				selectedItem.extension === '.jpg' || selectedItem.extension === '.png'
 					? DOWNLOAD_PHOTO(selectedItem.id)
 					: selectedItem.extension == '.mp3' || selectedItem.extension == '.mp4'
-						? DOWNLOAD_VIDEO(selectedItem.id)
-						: DOWNLOAD_DOCUMENT(selectedItem.id);
+					? DOWNLOAD_VIDEO(selectedItem.id)
+					: DOWNLOAD_DOCUMENT(selectedItem.id);
 			apiCall(
 				apiurl,
 				{},
@@ -130,8 +124,8 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress, selectedIt
 			);
 		}
 	};
-	
-    const getCssColor = fileType =>
+
+	const getCssColor = fileType =>
 		fileType == 'pdf'
 			? { color: 'red' }
 			: fileType == 'video'
@@ -156,11 +150,13 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress, selectedIt
 				{selectedItem !== undefined && selectedItem?.name}
 			</DialogTitle>
 			<DialogContent dividers>
-				{(selectedItem !== undefined) && (selectedItem.extension === '.png' || selectedItem.extension === '.jpg') ? (
+				{selectedItem !== undefined &&
+				(selectedItem.extension === '.png' || selectedItem.extension === '.jpg') ? (
 					<LazyLoadImage delayTime={300} src={selectedItem?.media_url} alt={selectedItem?.name} />
-				) : (selectedItem !== undefined) && (selectedItem.extension === '.mp4' || selectedItem.extension === '.mp3') ? (
+				) : selectedItem !== undefined &&
+				  (selectedItem.extension === '.mp4' || selectedItem.extension === '.mp3') ? (
 					<VideoListItem width="100%" height="100%" video_url={selectedItem?.media_url} />
-				) : (selectedItem !== undefined) && (selectedItem?.extension == 'pdf') ? (
+				) : selectedItem !== undefined && selectedItem?.extension == 'pdf' ? (
 					<ReadPDF height={700} file={selectedItem.media_url} />
 				) : (
 					<FontAwesomeIcon
@@ -182,11 +178,7 @@ function FileViewDialog({ isOpenViewFile, closeViewFile, setProgress, selectedIt
 				)}
 			</DialogContent>
 			<DialogActions className="p-8">
-				<Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleDownload}
-                >
+				<Button variant="contained" color="primary" onClick={handleDownload}>
 					{t('DOWNLOAD')}
 				</Button>
 			</DialogActions>

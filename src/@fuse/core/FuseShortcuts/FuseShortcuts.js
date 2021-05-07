@@ -2,7 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseUtils from '@fuse/utils';
 import { amber } from '@material-ui/core/colors';
-import {Divider, Icon, IconButton, Input, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography} from '@material-ui/core';
+import {
+	Divider,
+	Icon,
+	IconButton,
+	Input,
+	ListItemIcon,
+	ListItemText,
+	Menu,
+	MenuItem,
+	Tooltip,
+	Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import * as UserActions from 'app/auth/store/actions';
 import clsx from 'clsx';

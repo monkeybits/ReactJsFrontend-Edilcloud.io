@@ -5,12 +5,13 @@
 Todo: This File is created for Edit activity view in dialog
 */
 import _ from '@lodash';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { Dialog } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'))
+
+const EditActivityPostForm = React.lazy(() => import('./EditActivityPostForm'));
 
 function CreatePostDialog() {
 	const dispatch = useDispatch();

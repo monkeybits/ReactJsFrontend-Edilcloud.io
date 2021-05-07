@@ -10,9 +10,7 @@ import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
-import {
-	KeyboardDatePicker
-  } from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, makeStyles, Slider, withStyles, CircularProgress } from '@material-ui/core';
@@ -175,7 +173,7 @@ function TaskContentForm(props) {
 	});
 	const [value, setValue] = React.useState(0);
 	const getName = profile => `${profile.first_name} ${profile.last_name}`;
-	
+
 	useEffect(() => {
 		if (companies && companies.length && taskContentData) {
 			const company = [...companies]
@@ -236,7 +234,7 @@ function TaskContentForm(props) {
 	useEffect(() => {
 		if (openDrawingContent) {
 			setValue(1);
-			a11yProps(1)
+			a11yProps(1);
 		}
 	}, [openDrawingContent]);
 
@@ -358,22 +356,35 @@ function TaskContentForm(props) {
 		// 	getHeaderToken()
 		// );
 	};
-	
+
 	return (
 		<div className="w-full custom-task-content">
 			<div className="custom-tab-header2 bg-white h-64 flex relative">
 				<BottomNavigation
 					value={value}
 					onChange={(event, newValue) => {
-						console.log('newValue', newValue)
+						console.log('newValue', newValue);
 						setValue(newValue);
 					}}
 					showLabels
 					className="w-full h-64"
 				>
-					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Contents" wrapped {...a11yProps(0)} />
-					<BottomNavigationAction className="min-w-auto max-w-full font-bold hidden" label="Drawings" {...a11yProps(1)} />
-					<BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Edit" {...a11yProps(2)} />
+					<BottomNavigationAction
+						className="min-w-auto max-w-full font-bold"
+						label="Contents"
+						wrapped
+						{...a11yProps(0)}
+					/>
+					<BottomNavigationAction
+						className="min-w-auto max-w-full font-bold hidden"
+						label="Drawings"
+						{...a11yProps(1)}
+					/>
+					<BottomNavigationAction
+						className="min-w-auto max-w-full font-bold"
+						label="Edit"
+						{...a11yProps(2)}
+					/>
 				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton
@@ -395,15 +406,11 @@ function TaskContentForm(props) {
 			<div className="my-24 todo-bg-footer p-12 px-20 rounded">
 				{taskContentData?.project && (
 					<Typography variant="h6" color="inherit" className="font-size-14 ">
-						<div>
-							{taskContentData?.project.name}
-						</div>
+						<div>{taskContentData?.project.name}</div>
 					</Typography>
 				)}
 				<div className="flex items-center font-weight-700 font-size-18">
-					<div className="my-4">
-						{taskContentData?.name}{' '}
-					</div>
+					<div className="my-4">{taskContentData?.name} </div>
 				</div>
 			</div>
 			<DialogContent id="dialog-content" className="p-0">

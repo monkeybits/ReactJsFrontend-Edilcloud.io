@@ -4,10 +4,10 @@ import clsx from 'clsx';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const NoteLabel = loadable(() => import('./NoteLabel'))
-const NoteReminderLabel = loadable(() => import('./NoteReminderLabel'))
-const setDescriptionStyle = loadable(() => import('./setDescriptionStyle'))
+// import loadable from '@loadable/component';
+const NoteLabel = React.lazy(() => import('./NoteLabel'));
+const NoteReminderLabel = React.lazy(() => import('./NoteReminderLabel'));
+const setDescriptionStyle = React.lazy(() => import('./setDescriptionStyle'));
 
 function NoteListItem(props) {
 	const dispatch = useDispatch();

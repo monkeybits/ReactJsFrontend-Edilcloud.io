@@ -1,4 +1,14 @@
-import { AppBar, Icon, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Switch, Toolbar } from '@material-ui/core';
+import {
+	AppBar,
+	Icon,
+	List,
+	ListItem,
+	ListItemIcon,
+	ListItemSecondaryAction,
+	ListItemText,
+	Switch,
+	Toolbar
+} from '@material-ui/core';
 import * as Actions from 'app/main/apps/scrumboard/store/actions';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';

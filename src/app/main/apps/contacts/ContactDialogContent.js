@@ -6,7 +6,20 @@ TODO: dialog to create new company team member
 */
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils/FuseUtils';
-import { AppBar, Avatar, Button, DialogActions, DialogContent, Icon, IconButton, TextField, Toolbar, Typography, Checkbox, Radio } from '@material-ui/core';
+import {
+	AppBar,
+	Avatar,
+	Button,
+	DialogActions,
+	DialogContent,
+	Icon,
+	IconButton,
+	TextField,
+	Toolbar,
+	Typography,
+	Checkbox,
+	Radio
+} from '@material-ui/core';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -22,9 +35,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from 'react-i18next';
 import { SYSTEM_ROLES } from '../../../constants';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const ImageCropper = loadable(() => import('app/main/mainProfile/ImageCropper'))
-const AsyncAutocomplete = loadable(() => import('./AsyncAutocomplete'))
+// import loadable from '@loadable/component';
+const ImageCropper = React.lazy(() => import('app/main/mainProfile/ImageCropper'));
+const AsyncAutocomplete = React.lazy(() => import('./AsyncAutocomplete'));
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;

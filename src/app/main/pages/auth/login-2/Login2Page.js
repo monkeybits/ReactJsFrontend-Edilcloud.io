@@ -1,6 +1,16 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { useForm } from '@fuse/hooks';
-import { Button, Card, CardContent, Checkbox, Divider, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
+import {
+	Button,
+	Card,
+	CardContent,
+	Checkbox,
+	Divider,
+	FormControl,
+	FormControlLabel,
+	TextField,
+	Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';

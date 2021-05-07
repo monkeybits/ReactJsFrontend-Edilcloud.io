@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from '../store/actions';
-import loadable from '@loadable/component';
-const MailListItem = loadable(() => import('./MailListItem'))
+// import loadable from '@loadable/component';
+const MailListItem = React.lazy(() => import('./MailListItem'));
 
 function MailList(props) {
 	const dispatch = useDispatch();

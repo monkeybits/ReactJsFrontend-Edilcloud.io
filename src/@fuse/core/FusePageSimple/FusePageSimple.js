@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
-const FusePageSimpleSidebar = loadable(() => import('./FusePageSimpleSidebar'))
-const FusePageSimpleHeader = loadable(() => import('./FusePageSimpleHeader'))
+
+const FusePageSimpleSidebar = React.lazy(() => import('./FusePageSimpleSidebar'));
+const FusePageSimpleHeader = React.lazy(() => import('./FusePageSimpleHeader'));
 
 const headerHeight = 120;
 const toolbarHeight = 64;

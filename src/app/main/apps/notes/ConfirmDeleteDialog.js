@@ -31,7 +31,7 @@ const DialogTitle = withStyles(styles)(props => {
 	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-            <Typography variant="h6">{children}</Typography>
+			<Typography variant="h6">{children}</Typography>
 			{onClose ? (
 				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
 					<CloseIcon />
@@ -51,50 +51,52 @@ const DialogContent = withStyles(theme => ({
 function ConfirmDeleteDialog() {
 	const dispatch = useDispatch();
 
-    const openConfirmDeleteDialog = useSelector(({ notesApp }) => notesApp.notes.openConfirmDeleteDialog);
-    
-    const handleClose = () => {
-        dispatch(Actions.closeConfirmDeleteDialog());
-    }
+	const openConfirmDeleteDialog = useSelector(({ notesApp }) => notesApp.notes.openConfirmDeleteDialog);
+
+	const handleClose = () => {
+		dispatch(Actions.closeConfirmDeleteDialog());
+	};
 
 	return (
 		<Dialog
-            open={openConfirmDeleteDialog}
+			open={openConfirmDeleteDialog}
 			// onClose={handleClose}
 			aria-labelledby="customized-dialog-title"
 			maxWidth="xs"
 			fullWidth="true"
 		>
-            <DialogTitle id="customized-dialog-title" onClose={handleClose}>Remove?</DialogTitle>
+			<DialogTitle id="customized-dialog-title" onClose={handleClose}>
+				Remove?
+			</DialogTitle>
 			<DialogContent dividers>
-                <Typography className="text-lg">
-                    Are you sure you want to delete this project?
-                    {/* {userData.status == 'Deactivated' ? t('DEACTIVATE_MSG') : t('ACTIVATE_MSG')} */}
-                </Typography>
-                <div>
-                    <div className="flex mt-24 justify-end">
+				<Typography className="text-lg">
+					Are you sure you want to delete this project?
+					{/* {userData.status == 'Deactivated' ? t('DEACTIVATE_MSG') : t('ACTIVATE_MSG')} */}
+				</Typography>
+				<div>
+					<div className="flex mt-24 justify-end">
 						<Button
-						 	onClick={() => {
-                                dispatch(Actions.okConfirmDeleteDialog());
-                             }}
+							onClick={() => {
+								dispatch(Actions.okConfirmDeleteDialog());
+							}}
 							variant="contained"
 							className="justify-start d-inline-block mb-20 mr-10 bg-blue-500 text-white"
 						>
 							Yes
 							{/* {loading && <CircularProgress size={20} color="secondary" />} */}
 						</Button>
-                        <Button
-						 	onClick={() => {
-                                dispatch(Actions.closeConfirmDeleteDialog());
-                             }}
+						<Button
+							onClick={() => {
+								dispatch(Actions.closeConfirmDeleteDialog());
+							}}
 							variant="contained"
-                            className="justify-start d-inline-block mb-20 bg-gray-500 text-white"
+							className="justify-start d-inline-block mb-20 bg-gray-500 text-white"
 						>
 							No
 							{/* {loading && <CircularProgress size={20} color="secondary" />} */}
 						</Button>
 					</div>
-                </div>
+				</div>
 			</DialogContent>
 		</Dialog>
 	);

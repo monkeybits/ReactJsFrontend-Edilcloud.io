@@ -2,7 +2,7 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
-import React, {useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
@@ -12,13 +12,13 @@ import { useTranslation } from 'react-i18next';
 import ContactsList from './ContactsList';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import TeamFloationButton from './TeamFloationButton';
-const ViewContactDialog = loadable(() => import('./ViewContactDialog'))
-const AddTeamMemberToProject = loadable(() => import('./AddTeamMemberToProject'))
-const ContactsSidebarContent = loadable(() => import('./ContactsSidebarContent'))
-const ContactsHeader = loadable(() => import('./ContactsHeader'))
 
+const ViewContactDialog = React.lazy(() => import('./ViewContactDialog'));
+const AddTeamMemberToProject = React.lazy(() => import('./AddTeamMemberToProject'));
+const ContactsSidebarContent = React.lazy(() => import('./ContactsSidebarContent'));
+const ContactsHeader = React.lazy(() => import('./ContactsHeader'));
 
 const useStyles = makeStyles({
 	addButton: {
@@ -32,8 +32,8 @@ const useStyles = makeStyles({
 function ContactsApp(props) {
 	const dispatch = useDispatch();
 	const { t } = useTranslation('contacts_project');
-	const [defaultMenu, setDefaultMenu] = useState(true)
-	const [foldedAndOpened, setFoldedAndOpened] = useState(false)
+	const [defaultMenu, setDefaultMenu] = useState(true);
+	const [foldedAndOpened, setFoldedAndOpened] = useState(false);
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
@@ -44,28 +44,27 @@ function ContactsApp(props) {
 	const { folded } = config.navbar;
 
 	useEffect(() => {
-		if(toggleSidebarMenu) {
-			setDefaultMenu(false)
+		if (toggleSidebarMenu) {
+			setDefaultMenu(false);
 		} else {
-			setDefaultMenu(true)
+			setDefaultMenu(true);
 		}
 	}, [toggleSidebarMenu]);
-	
+
 	const foldedAndClosed = folded && !navbar.foldedOpen;
 	useEffect(() => {
 		const foldedAndOpened = folded && navbar.foldedOpen;
 		setTimeout(() => {
-			if(foldedAndOpened) {
-				setDefaultMenu(false)
-				setFoldedAndOpened(foldedAndOpened)
+			if (foldedAndOpened) {
+				setDefaultMenu(false);
+				setFoldedAndOpened(foldedAndOpened);
 			}
-		}, 200)
-		if(!foldedAndOpened) {
-			setFoldedAndOpened(foldedAndOpened)
+		}, 200);
+		if (!foldedAndOpened) {
+			setFoldedAndOpened(foldedAndOpened);
 		}
 	}, [folded, navbar]);
-	
-	
+
 	const [loading, setLoading] = useState({
 		loadingApprove: false,
 		loadingRefuse: false,

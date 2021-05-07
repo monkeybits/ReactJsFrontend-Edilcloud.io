@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import FuseUtils from '@fuse/utils';
-import {Icon, ListItem, ListItemText, useMediaQuery} from '@material-ui/core';
+import { Icon, ListItem, ListItemText, useMediaQuery } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as Actions from 'app/store/actions';
 import clsx from 'clsx';
@@ -12,7 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { USER_CHATS_PATHS, FILE_MANAHER_PATHS } from 'app/constants';
 import * as authActions from 'app/auth/store/actions';
-const FuseNavBadge = loadable(() => import('../FuseNavBadge'))
+
+const FuseNavBadge = React.lazy(() => import('../FuseNavBadge'));
 
 const useStyles = makeStyles(theme => ({
 	item: props => ({

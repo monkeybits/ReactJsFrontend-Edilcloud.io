@@ -3,10 +3,10 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import { Fab, makeStyles } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
-import * as Actions from './store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
+import * as Actions from './store/actions';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -56,31 +56,31 @@ function AccessibilityToggleButton(props) {
 
 	useEffect(() => {
 		if (contacts && contacts.length > 0) {
-			setQuickStartCount(1)
+			setQuickStartCount(1);
 		}
 	}, [contacts]);
 
 	useEffect(() => {
 		if (projects && projects.length > 0) {
-			setQuickStartCount(2)
+			setQuickStartCount(2);
 		}
 	}, [projects]);
 
 	useEffect(() => {
 		if (todosNote && Object.keys(todosNote).length > 0) {
-			setQuickStartCount(3)
+			setQuickStartCount(3);
 		}
 	}, [todosNote]);
 
 	useEffect(() => {
 		if (posts && posts.length > 0) {
-			setQuickStartCount(4)
+			setQuickStartCount(4);
 		}
 	}, [posts]);
 
 	useEffect(() => {
 		if (accessibilityPanelApp === 'true' || accessibilityPanelAppState) {
-			setQuickStartCount(5)
+			setQuickStartCount(5);
 		}
 	}, [accessibilityPanelApp, accessibilityPanelAppState]);
 

@@ -9,7 +9,7 @@ const locale = {
 	PEC_EMAIL_ADDRESS: 'PEC Email Address',
 	BILLING_EMAIL: 'Billing Email',
 	SDI_CODE: 'SDI code',
-    SAVE: 'Save'
+	SAVE: 'Save'
 };
 
 export default locale;

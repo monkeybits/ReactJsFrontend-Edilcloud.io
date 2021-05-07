@@ -3,8 +3,8 @@ import { List, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import clsx from 'clsx';
+import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
 	listItem: {

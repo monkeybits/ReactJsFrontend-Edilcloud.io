@@ -1,4 +1,4 @@
-import {Drawer, Hidden} from '@material-ui/core';
+import { Drawer, Hidden } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useImperativeHandle, useState } from 'react';
 import FusePageCardedSidebarContent from './FusePageCardedSidebarContent';

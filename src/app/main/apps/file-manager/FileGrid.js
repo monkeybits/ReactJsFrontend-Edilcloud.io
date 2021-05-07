@@ -4,7 +4,18 @@
 *This File is part of Company File manager
 TODO: Grid is part of view we have 2 views grid and list
 */
-import { Dialog, Button, Icon, IconButton, ListItem, ListItemIcon, ListItemText, MenuItem, Grid, Typography } from '@material-ui/core';
+import {
+	Dialog,
+	Button,
+	Icon,
+	IconButton,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
+	MenuItem,
+	Grid,
+	Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
@@ -14,22 +25,18 @@ import FuseUtils from '@fuse/utils';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import {
-	PHOTO_DELETE,
-	VIDEO_DELETE,
-	DOCUMENT_DELETE,
-	FOLDER_DELETE
-} from 'app/services/apiEndPoints';
+import { PHOTO_DELETE, VIDEO_DELETE, DOCUMENT_DELETE, FOLDER_DELETE } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
-import * as Actions from './store/actions';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { withStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import CloseIcon from '@material-ui/icons/Close';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
-const FileGridItem = loadable(() => import('./FileGridItem'))
+import * as Actions from './store/actions';
+
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+const FileGridItem = React.lazy(() => import('./FileGridItem'));
 
 const styles = theme => ({
 	root: {
@@ -48,7 +55,7 @@ const DialogTitle = withStyles(styles)(props => {
 	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-            <Typography variant="h6">{children}</Typography>
+			<Typography variant="h6">{children}</Typography>
 			{onClose ? (
 				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
 					<CloseIcon />
@@ -155,12 +162,12 @@ function FileGrid(props) {
 	useEffect(() => {
 		setAllFilesInit();
 	}, [files, folders, files.photos, files.videos, files.documents, rootFiles]);
-	
+
 	useEffect(() => {
 		dispatch(Actions.setSelectedItem(''));
 		setAllFilesInit();
 	}, [currentFolderPath]);
-	
+
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -225,15 +232,15 @@ function FileGrid(props) {
 			METHOD.DELETE,
 			getHeaderToken()
 		);
-		setDeleteConfirm(false)
-	}
+		setDeleteConfirm(false);
+	};
 
 	const handleDelete = tile => {
 		// e.stopPropagation();
-		setDeleteConfirm(true)
-		setTile(tile)
+		setDeleteConfirm(true);
+		setTile(tile);
 	};
-	
+
 	if (allFiles.length === 0 && searchText) {
 		return (
 			<div className="flex flex-1 items-center justify-center h-full">
@@ -254,86 +261,87 @@ function FileGrid(props) {
 					</Typography>
 					<Grid container spacing={12} className="folder-grid">
 						{folders?.map(d => {
-							return <Grid
-								className="px-6 mb-20"
-								item
-								xs={12}
-								sm={6}
-								md={4}
-								xl={3}
-								onClick={() => {
-									dispatch(Actions.setFolderPath(d, currentFiles))
-								}}
-							>
-								<ListItem className={clsx(classesListItems.root, 'custom-box-shadow')}>
-									<ListItemIcon>
-										<FolderOutlinedIcon className="text-custom-primary" />
-										{/* <FolderSharedOutlinedIcon className="text-custom-danger" /> */}
-										{/* <FolderSpecialOutlinedIcon className="text-custom-warning" /> */}
-									</ListItemIcon>
-									<ListItemText primary={d.name} secondary={null} />
-									{(getRole() == 'o' || getRole() == 'd') && (
-										<div className="actions-dropdown file-folder-action-dropdown">
-											<TippyMenu
-												icon={
-													<IconButton
-														aria-label="more"
-														aria-controls="long-menu"
-														aria-haspopup="true"
-														// onClick={handleClick}
+							return (
+								<Grid
+									className="px-6 mb-20"
+									item
+									xs={12}
+									sm={6}
+									md={4}
+									xl={3}
+									onClick={() => {
+										dispatch(Actions.setFolderPath(d, currentFiles));
+									}}
+								>
+									<ListItem className={clsx(classesListItems.root, 'custom-box-shadow')}>
+										<ListItemIcon>
+											<FolderOutlinedIcon className="text-custom-primary" />
+											{/* <FolderSharedOutlinedIcon className="text-custom-danger" /> */}
+											{/* <FolderSpecialOutlinedIcon className="text-custom-warning" /> */}
+										</ListItemIcon>
+										<ListItemText primary={d.name} secondary={null} />
+										{(getRole() == 'o' || getRole() == 'd') && (
+											<div className="actions-dropdown file-folder-action-dropdown">
+												<TippyMenu
+													icon={
+														<IconButton
+															aria-label="more"
+															aria-controls="long-menu"
+															aria-haspopup="true"
+															// onClick={handleClick}
+														>
+															<MoreVertIcon />
+														</IconButton>
+													}
+													outsideClick
+												>
+													{/* {options.map(option => ( */}
+													<MenuItem
+														onClick={e => {
+															e.stopPropagation();
+															handleDelete(d);
+														}}
 													>
-														<MoreVertIcon />
-													</IconButton>
-												}
-												outsideClick
-											>
-												{/* {options.map(option => ( */}
-												<MenuItem
-													onClick={e => {
-														e.stopPropagation();
-														handleDelete(d);
-													}}
-												>
-													<ListItemIcon>
-														<Icon>delete</Icon>
-													</ListItemIcon>
-													<Typography variant="inherit"> {t('DELETE')}</Typography>
-												</MenuItem>
-												<MenuItem
-													onClick={e => {
-														e.stopPropagation();
-														dispatch(Actions.openRenameFileDialog(d));
-													}}
-												>
-													<ListItemIcon>
-														<Icon>edit</Icon>
-													</ListItemIcon>
-													<Typography variant="inherit"> {t('RENAME')}</Typography>
-												</MenuItem>
-												<MenuItem
-													onClick={ev => {
-														ev.preventDefault();
-														ev.stopPropagation();
-														dispatch(Actions.openMoveFileDialog(d));
-													}}
-												>
-													<ListItemIcon>
-														<Icon>transform</Icon>
-													</ListItemIcon>
-													<Typography variant="inherit"> {t('MOVE_TO')}</Typography>
-												</MenuItem>
-												{/* ))} */}
-											</TippyMenu>
-										</div>
-									)}
-								</ListItem>
-							</Grid>
-						}
-						)}
+														<ListItemIcon>
+															<Icon>delete</Icon>
+														</ListItemIcon>
+														<Typography variant="inherit"> {t('DELETE')}</Typography>
+													</MenuItem>
+													<MenuItem
+														onClick={e => {
+															e.stopPropagation();
+															dispatch(Actions.openRenameFileDialog(d));
+														}}
+													>
+														<ListItemIcon>
+															<Icon>edit</Icon>
+														</ListItemIcon>
+														<Typography variant="inherit"> {t('RENAME')}</Typography>
+													</MenuItem>
+													<MenuItem
+														onClick={ev => {
+															ev.preventDefault();
+															ev.stopPropagation();
+															dispatch(Actions.openMoveFileDialog(d));
+														}}
+													>
+														<ListItemIcon>
+															<Icon>transform</Icon>
+														</ListItemIcon>
+														<Typography variant="inherit"> {t('MOVE_TO')}</Typography>
+													</MenuItem>
+													{/* ))} */}
+												</TippyMenu>
+											</div>
+										)}
+									</ListItem>
+								</Grid>
+							);
+						})}
 					</Grid>
 				</>
 			)}
-			{currentFiles && currentFiles.length > 0 &&
+			{currentFiles && currentFiles.length > 0 && (
 				<>
 					<Typography variant="subtitle1" className="font-400 uppercase text-gray-600 mb-12">
 						{t('FILES')}
@@ -342,9 +350,8 @@ function FileGrid(props) {
 						<FileGridItem tileData={currentFiles} {...props} handleDelete={handleDelete} />
 					</Grid>
 				</>
-			}
-			{
-				(currentFiles && currentFiles.length === 0 && folders && folders.length === 0) &&
+			)}
+			{currentFiles && currentFiles.length === 0 && folders && folders.length === 0 && (
 				<div>
 					<div className="flex flex-1 items-center justify-center h-full">
 						<img className="w-400" src="assets/images/errors/nofiles.png" />
@@ -360,7 +367,7 @@ function FileGrid(props) {
 						</Typography>
 					</div>
 				</div>
-			}
+			)}
 			<Dialog
 				open={deleteConfirm}
 				// onClose={handleClose}
@@ -368,13 +375,16 @@ function FileGrid(props) {
 				maxWidth="xs"
 				fullWidth="true"
 			>
-				<DialogTitle id="customized-dialog-title" onClose={() => {
-					setDeleteConfirm(false)
-				}}>Remove?</DialogTitle>
+				<DialogTitle
+					id="customized-dialog-title"
+					onClose={() => {
+						setDeleteConfirm(false);
+					}}
+				>
+					Remove?
+				</DialogTitle>
 				<DialogContent dividers>
-					<Typography className="text-lg">
-						Are you sure that you want to delete this?
-					</Typography>
+					<Typography className="text-lg">Are you sure that you want to delete this?</Typography>
 					<div>
 						<div className="flex mt-24 justify-end">
 							<Button
@@ -387,7 +397,7 @@ function FileGrid(props) {
 							</Button>
 							<Button
 								onClick={() => {
-									setDeleteConfirm(false)
+									setDeleteConfirm(false);
 								}}
 								variant="contained"
 								className="justify-start d-inline-block mb-20 bg-gray-500 text-white"

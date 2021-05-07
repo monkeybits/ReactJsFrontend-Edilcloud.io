@@ -1,7 +1,22 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import _ from '@lodash';
-import { Button, Card, CardActions, CardContent, Divider, FormControl, Icon, InputLabel, LinearProgress, MenuItem, OutlinedInput, Select, TextField, Typography } from '@material-ui/core';
+import {
+	Button,
+	Card,
+	CardActions,
+	CardContent,
+	Divider,
+	FormControl,
+	Icon,
+	InputLabel,
+	LinearProgress,
+	MenuItem,
+	OutlinedInput,
+	Select,
+	TextField,
+	Typography
+} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';

@@ -6,22 +6,27 @@ TODO: its single item of grid
 */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { GridList, GridListTile, GridListTileBar, IconButton, Icon, ListItemIcon, MenuItem, Typography } from '@material-ui/core';
+import {
+	GridList,
+	GridListTile,
+	GridListTileBar,
+	IconButton,
+	Icon,
+	ListItemIcon,
+	MenuItem,
+	Typography
+} from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import * as ICONS from 'app/main/apps/constants';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import {
-	DOWNLOAD_PHOTO,
-	DOWNLOAD_VIDEO,
-	DOWNLOAD_DOCUMENT
-} from 'app/services/apiEndPoints';
+import { DOWNLOAD_PHOTO, DOWNLOAD_VIDEO, DOWNLOAD_DOCUMENT } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+// import loadable from '@loadable/component';
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -99,7 +104,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 			hasPermission: getRole() == 'o' || getRole() == 'd'
 		}
 	];
-	
+
 	const onDownload = tile => {
 		let findIndex = 0;
 		if (tile.type == 'folder') {

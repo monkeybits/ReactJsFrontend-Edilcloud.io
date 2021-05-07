@@ -1,6 +1,19 @@
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils/FuseUtils';
-import { AppBar, Button, Dialog, DialogActions, DialogContent, FormControlLabel, Icon, IconButton, Switch, TextField, Toolbar, Typography } from '@material-ui/core';
+import {
+	AppBar,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	FormControlLabel,
+	Icon,
+	IconButton,
+	Switch,
+	TextField,
+	Toolbar,
+	Typography
+} from '@material-ui/core';
 import { DateTimePicker } from '@material-ui/pickers';
 import moment from 'moment';
 import React, { useCallback, useEffect } from 'react';

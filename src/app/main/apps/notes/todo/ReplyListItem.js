@@ -1,4 +1,17 @@
-import { Button, Icon, IconButton, Input, ListItem, ListItemText, MenuItem, Paper, Typography, Box, CircularProgress, ListItemIcon } from '@material-ui/core';
+import {
+	Button,
+	Icon,
+	IconButton,
+	Input,
+	ListItem,
+	ListItemText,
+	MenuItem,
+	Paper,
+	Typography,
+	Box,
+	CircularProgress,
+	ListItemIcon
+} from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { ADD_COMMENT_TO_POST, DELETE_COMMENT, EDIT_COMMENT } from 'app/services/apiEndPoints';
@@ -10,9 +23,9 @@ import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
-import loadable from '@loadable/component';
-const PostedImages = loadable(() => import('./PostedImages'))
-const TippyMenu = loadable(() => import('app/TippyMenu'))
+// import loadable from '@loadable/component';
+const PostedImages = React.lazy(() => import('./PostedImages'));
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
 
 export default function ReplyListItem({
 	post,

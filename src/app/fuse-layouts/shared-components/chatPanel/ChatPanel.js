@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppBar, Avatar, Icon, IconButton, Paper, Toolbar, Typography, LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,13 +7,14 @@ import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import keycode from 'keycode';
 import i18next from 'i18next';
-import * as Actions from './store/actions';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import en from './i18n/en';
 import it from './i18n/it';
-const Chat = loadable(() => import('./Chat'))
-const ContactList = loadable(() => import('./ContactList'))
+
+const Chat = React.lazy(() => import('./Chat'));
+const ContactList = React.lazy(() => import('./ContactList'));
 
 i18next.addResourceBundle('en', 'chat_panel', en);
 i18next.addResourceBundle('it', 'chat_panel', it);

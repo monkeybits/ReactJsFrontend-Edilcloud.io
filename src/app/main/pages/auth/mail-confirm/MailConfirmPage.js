@@ -38,7 +38,7 @@ function MailConfirmPage() {
 							<img width="250" src="assets/images/logos/fuse.svg" alt="logo" />
 
 							<Typography variant="h5" className="text-center font-600 mt-20 mb-24">
-								Complimenti! 
+								Complimenti!
 							</Typography>
 
 							<Typography className="text-muted font-600 text-center mb-16 w-full">
@@ -46,7 +46,7 @@ function MailConfirmPage() {
 							</Typography>
 
 							<Typography className="text-muted font-600 text-center w-full">
-							Controlla la tua casella mail e clicca sul link per attivare il tuo profilo
+								Controlla la tua casella mail e clicca sul link per attivare il tuo profilo
 							</Typography>
 
 							<div className="flex items-center justify-center w-full pt-24">

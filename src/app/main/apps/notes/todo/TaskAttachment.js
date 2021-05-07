@@ -5,23 +5,37 @@ This is part of dashboard
 TODO: This file is created edit task / attchments / timeline
 */
 import PropTypes from 'prop-types';
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useForm } from '@fuse/hooks';
 import _ from '@lodash';
-import { DialogContent, Icon, IconButton, InputAdornment, Box, TextField, Typography, Button, makeStyles, Slider, withStyles, CircularProgress, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
+import {
+	DialogContent,
+	Icon,
+	IconButton,
+	InputAdornment,
+	Box,
+	TextField,
+	Typography,
+	Button,
+	makeStyles,
+	Slider,
+	withStyles,
+	CircularProgress,
+	BottomNavigation,
+	BottomNavigationAction
+} from '@material-ui/core';
 import moment from 'moment';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	KeyboardDatePicker
-} from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useParams } from 'react-router';
-import * as Actions from './store/actions';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
-const CreateAttachments = loadable(() => import('app/main/apps/notes/todo/Dialog/attachment/CreateAttachments'))
+import * as Actions from './store/actions';
+
+const CreateAttachments = React.lazy(() => import('app/main/apps/notes/todo/Dialog/attachment/CreateAttachments'));
 
 function TabPanel(props) {
 	/**
@@ -182,10 +196,10 @@ function TaskAttachment(props) {
 	const getName = profile => `${profile.first_name} ${profile.last_name}`;
 
 	useEffect(() => {
-		console.log('openDrawingContent?????????????????????????', openDrawingContent)
+		console.log('openDrawingContent?????????????????????????', openDrawingContent);
 		if (openDrawingContent) {
 			setValue(1);
-			a11yProps(1)
+			a11yProps(1);
 		}
 	}, [openDrawingContent]);
 
@@ -257,11 +271,11 @@ function TaskAttachment(props) {
 		name: taskContentData?.parent == 1 ? taskContentData?.title : taskContentData?.name,
 		description: taskContentData?.parent == 1 ? taskContentData?.description : taskContentData?.note
 	});
-	
-    const dueDate = cardForm && cardForm.due ? moment(cardForm.due).format(moment.HTML5_FMT.DATE) : '';
+
+	const dueDate = cardForm && cardForm.due ? moment(cardForm.due).format(moment.HTML5_FMT.DATE) : '';
 
 	const isFormInvalid = () => cardForm.name && cardForm.name.length > 0 && taskDate.startDate && taskDate.endDate;
-	
+
 	const handleSubmit = () => {
 		setLoading(true);
 		dispatch(
@@ -284,7 +298,7 @@ function TaskAttachment(props) {
 			)
 		);
 	};
-	
+
 	const getIsDisabled = () =>
 		taskContentData?.assigned_company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
 	console.log({
@@ -320,9 +334,9 @@ function TaskAttachment(props) {
 				</IconButton>
 			</div>
 			<DialogContent id="dialog-content" className="p-0">
-            <div className="sm:mx-12">
-				<CreateAttachments taskId={taskContentData?.id} attachments={taskContentData?.media_set} />
-			</div>
+				<div className="sm:mx-12">
+					<CreateAttachments taskId={taskContentData?.id} attachments={taskContentData?.media_set} />
+				</div>
 			</DialogContent>
 		</div>
 	);

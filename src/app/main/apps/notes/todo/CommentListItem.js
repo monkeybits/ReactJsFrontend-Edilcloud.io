@@ -17,12 +17,7 @@ import {
 } from '@material-ui/core';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import {
-	ADD_COMMENT_TO_POST,
-	DELETE_COMMENT,
-	GET_REPLIES_OF_COMMENT,
-	EDIT_COMMENT
-} from 'app/services/apiEndPoints';
+import { ADD_COMMENT_TO_POST, DELETE_COMMENT, GET_REPLIES_OF_COMMENT, EDIT_COMMENT } from 'app/services/apiEndPoints';
 import { getHeaderToken, getCompressFile, decodeDataFromToken } from 'app/services/serviceUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import FuseUtils from '@fuse/utils';
@@ -31,10 +26,10 @@ import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
-import loadable from '@loadable/component';
-const TippyMenu = loadable(() => import('app/TippyMenu'))
-const ReplyListItem = loadable(() => import('./ReplyListItem'))
-const ImagesPreview = loadable(() => import('./ImagesPreview'))
+// import loadable from '@loadable/component';
+const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+const ReplyListItem = React.lazy(() => import('./ReplyListItem'));
+const ImagesPreview = React.lazy(() => import('./ImagesPreview'));
 
 const uuidv1 = require('uuid/v1');
 

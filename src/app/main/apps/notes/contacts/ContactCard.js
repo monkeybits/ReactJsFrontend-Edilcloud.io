@@ -9,10 +9,10 @@ import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-import loadable from '@loadable/component';
-const ImageCropper = loadable(() => import('app/main/mainProfile/ImageCropper'))
-const DeleteConfirmDialog = loadable(() => import('../../file-manager/DeleteConfirmDialog'))
-const MoreOption = loadable(() => import('./MoreOption'))
+// import loadable from '@loadable/component';
+const ImageCropper = React.lazy(() => import('app/main/mainProfile/ImageCropper'));
+const DeleteConfirmDialog = React.lazy(() => import('../../file-manager/DeleteConfirmDialog'));
+const MoreOption = React.lazy(() => import('./MoreOption'));
 
 export default function ContactCard(props) {
 	const {
@@ -177,25 +177,25 @@ export default function ContactCard(props) {
 				<img className="round" src={image || avatar} alt="user" />
 				<h4 className="font-weight-600 mb-8">{`${name} ${lastName}`}</h4>
 				{/* <h6>{address}</h6> */}
-				<p className="font-500 text-muted mb-8">
-					{position || 'N/A'}
-				</p>
-				<p className="font-500 text-muted mb-8">
-					{role}
-				</p>
+				<p className="font-500 text-muted mb-8">{position || 'N/A'}</p>
+				<p className="font-500 text-muted mb-8">{role}</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
 				<a
 					className="flex font-700 mb-10 mx-28 whitespace-no-wrap normal-case custom-email-button justify-center items-center py-6 rounded-md"
 					href={`mailto:${email}`}
 				>
-					<Icon size="small" className="mr-8">email</Icon>
+					<Icon size="small" className="mr-8">
+						email
+					</Icon>
 					Email
 				</a>
 				<a
 					className="flex font-700 mb-10 mx-28 whitespace-no-wrap normal-case custom-email-button justify-center items-center py-6 rounded-md"
 					href={`tel:${phone}`}
 				>
-					<Icon size="small" className="mr-8">phone</Icon>
+					<Icon size="small" className="mr-8">
+						phone
+					</Icon>
 					Phone
 				</a>
 			</div>
