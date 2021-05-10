@@ -1,11 +1,11 @@
 import React from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import _ from '@lodash';
 import { FormControl, FormHelperText, InputLabel } from '@material-ui/core';
 import clsx from 'clsx';
 import { withFormsy } from 'formsy-react';
 
-const FuseChipSelect = React.lazy(() => import('@fuse/core/FuseChipSelect'));
+const FuseChipSelect = loadable(() => import('@fuse/core/FuseChipSelect'));
 
 function FuseChipSelectFormsy(props) {
 	const importedProps = _.pick(props, [

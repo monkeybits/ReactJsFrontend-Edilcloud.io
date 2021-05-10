@@ -20,8 +20,8 @@ import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-// import loadable from '@loadable/component';
-const UploadProjectImage = React.lazy(() => import('./UploadProjectImage'));
+import loadable from '@loadable/component';
+const UploadProjectImage = loadable(() => import('./UploadProjectImage'));
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>

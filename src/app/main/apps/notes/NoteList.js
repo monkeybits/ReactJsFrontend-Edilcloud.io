@@ -17,9 +17,9 @@ import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { ACCEPT_PROJECT_INVITATION, REJECT_PROJECT_INVITATION } from 'app/services/apiEndPoints';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useTranslation } from 'react-i18next';
-// import loadable from '@loadable/component';
-const ReuestsDrawer = React.lazy(() => import('../scrumboard/boards/ReuestsDrawer'));
-const ProjectListitem = React.lazy(() => import('./ProjectListitem'));
+import loadable from '@loadable/component';
+const ReuestsDrawer = loadable(() => import('../scrumboard/boards/ReuestsDrawer'));
+const ProjectListitem = loadable(() => import('./ProjectListitem'));
 
 const useStyles = makeStyles(theme => ({
 	// root: {

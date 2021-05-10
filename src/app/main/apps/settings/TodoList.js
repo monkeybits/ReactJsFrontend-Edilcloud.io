@@ -1,5 +1,5 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import _ from '@lodash';
 import {
 	Typography,
@@ -20,7 +20,7 @@ import { UPDATE_SETTINGS_PREFERENCES } from 'app/services/apiEndPoints';
 import { toast } from 'react-toastify';
 import * as Actions from './store/actions';
 
-const SettingListItem = React.lazy(() => import('./SettingListItem'));
+const SettingListItem = loadable(() => import('./SettingListItem'));
 
 function TodoList(props) {
 	const dispatch = useDispatch();

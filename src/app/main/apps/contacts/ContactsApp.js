@@ -17,14 +17,14 @@ import { LinearProgress, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import TeamFloationButton from './TeamFloationButton';
 
-const ContactDialog = React.lazy(() => import('./ContactDialog'));
-const ViewContactDialog = React.lazy(() => import('./ViewContactDialog'));
-const ContactsHeader = React.lazy(() => import('./ContactsHeader'));
-const ContactsList = React.lazy(() => import('./ContactsList'));
-const ContactsSidebarContent = React.lazy(() => import('./ContactsSidebarContent'));
+const ContactDialog = loadable(() => import('./ContactDialog'));
+const ViewContactDialog = loadable(() => import('./ViewContactDialog'));
+const ContactsHeader = loadable(() => import('./ContactsHeader'));
+const ContactsList = loadable(() => import('./ContactsList'));
+const ContactsSidebarContent = loadable(() => import('./ContactsSidebarContent'));
 
 const useStyles = makeStyles({
 	addButton: {

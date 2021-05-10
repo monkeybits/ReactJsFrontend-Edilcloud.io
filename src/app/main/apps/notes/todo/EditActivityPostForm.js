@@ -19,10 +19,10 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const EditActivityForm = React.lazy(() => import('./EditActivityForm'));
-const CreatePostForm = React.lazy(() => import('./CreatePostForm'));
-const ShowUpload = React.lazy(() => import('./ShowUpload'));
+import loadable from '@loadable/component';
+const EditActivityForm = loadable(() => import('./EditActivityForm'));
+const CreatePostForm = loadable(() => import('./CreatePostForm'));
+const ShowUpload = loadable(() => import('./ShowUpload'));
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 

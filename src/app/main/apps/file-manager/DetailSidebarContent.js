@@ -30,9 +30,9 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
 import { useTranslation } from 'react-i18next';
 import ReadPDF from './ReadPDF';
-// import loadable from '@loadable/component';
-const DeleteConfirmDialog = React.lazy(() => import('./DeleteConfirmDialog'));
-const FileViewDialog = React.lazy(() => import('./FileViewDialog'));
+import loadable from '@loadable/component';
+const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'));
+const FileViewDialog = loadable(() => import('./FileViewDialog'));
 
 const useStyles = makeStyles({
 	table: {

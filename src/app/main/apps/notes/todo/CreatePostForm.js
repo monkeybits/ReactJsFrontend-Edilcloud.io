@@ -26,10 +26,10 @@ import FuseUtils from '@fuse/utils';
 import { useTranslation } from 'react-i18next';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const PostList = React.lazy(() => import('./PostList'));
-const ImagesPreview = React.lazy(() => import('./ImagesPreview'));
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+import loadable from '@loadable/component';
+const PostList = loadable(() => import('./PostList'));
+const ImagesPreview = loadable(() => import('./ImagesPreview'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 const uuidv1 = require('uuid/v1');
 

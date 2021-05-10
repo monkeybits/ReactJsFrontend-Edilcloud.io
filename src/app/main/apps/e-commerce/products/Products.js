@@ -2,9 +2,9 @@ import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
 import React from 'react';
 import reducer from '../store/reducers';
-// import loadable from '@loadable/component';
-const ProductsHeader = React.lazy(() => import('./ProductsHeader'));
-const ProductsTable = React.lazy(() => import('./ProductsTable'));
+import loadable from '@loadable/component';
+const ProductsHeader = loadable(() => import('./ProductsHeader'));
+const ProductsTable = loadable(() => import('./ProductsTable'));
 
 function Products() {
 	return (

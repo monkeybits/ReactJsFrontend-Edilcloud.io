@@ -39,8 +39,8 @@ import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 const useStyles = makeStyles({
 	typeIcon: {

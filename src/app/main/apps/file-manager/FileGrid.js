@@ -28,15 +28,15 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { PHOTO_DELETE, VIDEO_DELETE, DOCUMENT_DELETE, FOLDER_DELETE } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { withStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
 
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
-const FileGridItem = React.lazy(() => import('./FileGridItem'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
+const FileGridItem = loadable(() => import('./FileGridItem'));
 
 const styles = theme => ({
 	root: {

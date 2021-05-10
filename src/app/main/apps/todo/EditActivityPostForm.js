@@ -5,7 +5,7 @@
 Todo: This File is created for Edit activity show timeline of Activity
 */
 import PropTypes from 'prop-types';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
@@ -28,9 +28,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 
-const EditActivityForm = React.lazy(() => import('./EditActivityForm'));
-const ShowUpload = React.lazy(() => import('../notes/todo/ShowUpload'));
-const CreatePostForm = React.lazy(() => import('./CreatePostForm'));
+const EditActivityForm = loadable(() => import('./EditActivityForm'));
+const ShowUpload = loadable(() => import('../notes/todo/ShowUpload'));
+const CreatePostForm = loadable(() => import('./CreatePostForm'));
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 

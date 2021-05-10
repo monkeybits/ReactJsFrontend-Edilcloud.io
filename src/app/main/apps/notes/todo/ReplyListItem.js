@@ -23,9 +23,9 @@ import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
-// import loadable from '@loadable/component';
-const PostedImages = React.lazy(() => import('./PostedImages'));
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+import loadable from '@loadable/component';
+const PostedImages = loadable(() => import('./PostedImages'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 export default function ReplyListItem({
 	post,

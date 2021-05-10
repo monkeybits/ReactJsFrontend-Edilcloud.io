@@ -3,6 +3,7 @@
     "version": "4.1.6",
     "private": true,
     "dependencies": {
+        "@babel/plugin-syntax-jsx": "^7.12.13",
         "@date-io/core": "1.3.13",
         "@date-io/date-fns": "1.3.13",
         "@date-io/moment": "1.3.13",
@@ -21,9 +22,11 @@
         "autosuggest-highlight": "3.1.1",
         "axios": "0.19.2",
         "axios-mock-adapter": "1.18.1",
+        "babel-loader": "^8.2.2",
         "browser-image-compression": "^1.0.12",
         "chart.js": "2.9.3",
         "clsx": "1.1.0",
+        "compression-webpack-plugin": "^7.1.2",
         "cross-fetch": "3.0.4",
         "custom-error": "^0.2.1",
         "date-fns": "2.13.0",
@@ -48,6 +51,7 @@
         "material-table": "1.58.2",
         "material-ui-popup-state": "1.5.4",
         "mic-recorder-to-mp3": "^2.2.2",
+        "mini-css-extract-plugin": "^1.6.0",
         "mobile-detect": "1.4.4",
         "moment": "2.26.0",
         "notistack": "0.9.16",
@@ -56,7 +60,7 @@
         "prismjs": "1.20.0",
         "prop-types": "15.7.2",
         "qs": "6.9.4",
-        "raw-loader": "4.0.1",
+        "raw-loader": "^4.0.2",
         "react": "16.13.1",
         "react-app-polyfill": "1.0.6",
         "react-apple-login": "^1.1.3",
@@ -111,7 +115,8 @@
         "velocity-react": "1.4.3",
         "video-react": "^0.14.1",
         "webpack": "^4.42.0",
-        "webpack-bundle-analyzer": "^4.4.0"
+        "webpack-bundle-analyzer": "^4.4.0",
+        "webpack-dev-server": "^3.11.2"
     },
     "resolutions": {
         "react": "16.13.1",
@@ -148,8 +153,8 @@
         "webpack-deadcode-plugin": "^0.1.12"
     },
     "scripts": {
-        "start": "yarn run tailwind && react-scripts start",
-        "build": "yarn run tailwind && webpack --mode production && yarn run purge-tailwind && cross-env GENERATE_SOURCEMAP=false react-scripts build",
+        "start": "yarn run tailwind && webpack --mode development",
+        "build": "yarn run tailwind && yarn run purge-tailwind && cross-env GENERATE_SOURCEMAP=false webpack --mode development",
         "tailwind": "tailwind build ./src/styles/tailwind-config.css -c ./tailwind.config.js -o ./src/styles/tailwind.css",
         "purge-tailwind": "node ./purge-tailwindcss.js",
         "test": "react-scripts test --env=node",
@@ -159,7 +164,8 @@
         "pnpify-sdk": "yarn pnpify --sdk",
         "lint": "eslint --fix --ext .js,.jsx .",
         "prebuild": "npm run generate-build-meta",
-        "generate-build-meta": "node ./node_modules/react-clear-browser-cache/bin/cli.js"
+        "generate-build-meta": "node ./node_modules/react-clear-browser-cache/bin/cli.js",
+        "dev": "webpack --mode development"
     },
     "browserslist": {
         "production": [

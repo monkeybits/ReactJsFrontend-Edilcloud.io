@@ -1,22 +1,22 @@
 import React from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import FuseSearch from '@fuse/core/FuseSearch';
 import FuseShortcuts from '@fuse/core/FuseShortcuts';
 import { AppBar, Hidden, Toolbar } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 
-const ChatPanelToggleButton = React.lazy(() =>
+const ChatPanelToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton')
 );
-const NavbarMobileToggleButton = React.lazy(() =>
+const NavbarMobileToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/NavbarMobileToggleButton')
 );
-const QuickPanelToggleButton = React.lazy(() =>
+const QuickPanelToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton')
 );
-const UserMenu = React.lazy(() => import('app/fuse-layouts/shared-components/UserMenu'));
-const LanguageSwitcher = React.lazy(() => import('../../shared-components/LanguageSwitcher'));
+const UserMenu = loadable(() => import('app/fuse-layouts/shared-components/UserMenu'));
+const LanguageSwitcher = loadable(() => import('../../shared-components/LanguageSwitcher'));
 
 const useStyles = makeStyles(theme => ({
 	separator: {

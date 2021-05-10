@@ -1,5 +1,5 @@
 import withReducer from 'app/store/withReducer';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -7,9 +7,9 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 
-const TodoHeader = React.lazy(() => import('./TodoHeader'));
-const TodoSidebarContent = React.lazy(() => import('./TodoSidebarContent'));
-const UserStorageChart = React.lazy(() => import('./UserStorageChart'));
+const TodoHeader = loadable(() => import('./TodoHeader'));
+const TodoSidebarContent = loadable(() => import('./TodoSidebarContent'));
+const UserStorageChart = loadable(() => import('./UserStorageChart'));
 
 function Storage() {
 	const dispatch = useDispatch();

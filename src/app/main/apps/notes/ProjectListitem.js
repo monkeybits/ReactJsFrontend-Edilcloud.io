@@ -40,8 +40,8 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css';
-// import loadable from '@loadable/component';
-const DownloadPdf = React.lazy(() => import('./DownloadPdf'));
+import loadable from '@loadable/component';
+const DownloadPdf = loadable(() => import('./DownloadPdf'));
 
 const useStyles = makeStyles(theme => ({
 	paper: {

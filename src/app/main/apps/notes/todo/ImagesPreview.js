@@ -4,9 +4,9 @@ import { MobileStepper, Button } from '@material-ui/core';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
 import clsx from 'clsx';
 import * as ICONS from 'app/main/apps/constants';
-// import loadable from '@loadable/component';
-const DrawImage = React.lazy(() => import('./DrawImage'));
-const VideoListItem = React.lazy(() => import('app/VideoPlayer/VideoListItem'));
+import loadable from '@loadable/component';
+const DrawImage = loadable(() => import('./DrawImage'));
+const VideoListItem = loadable(() => import('app/VideoPlayer/VideoListItem'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

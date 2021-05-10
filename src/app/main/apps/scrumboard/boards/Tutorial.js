@@ -1,9 +1,9 @@
 import React from 'react';
-// import loadable from '@loadable/component';
-const CompanyCreationStepper = React.lazy(() => import('app/main/companyCreation/CompanyCreationStepper'));
-const ContactDialogContent = React.lazy(() => import('app/main/apps/contacts/ContactDialogContent'));
-const FullscreenModal = React.lazy(() => import('./FullscreenModal'));
-const Steps = React.lazy(() => import('./Steps'));
+import loadable from '@loadable/component';
+const CompanyCreationStepper = loadable(() => import('app/main/companyCreation/CompanyCreationStepper'));
+const ContactDialogContent = loadable(() => import('app/main/apps/contacts/ContactDialogContent'));
+const FullscreenModal = loadable(() => import('./FullscreenModal'));
+const Steps = loadable(() => import('./Steps'));
 
 function getStepContent(step, elementProps) {
 	switch (step) {

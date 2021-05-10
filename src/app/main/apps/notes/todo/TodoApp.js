@@ -1,5 +1,5 @@
 import withReducer from 'app/store/withReducer';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -26,8 +26,8 @@ import TaskContentDialog from './Dialog/TaskContentDialog';
 import CreateTasks from '../gantt/CreateTasks';
 import ImportExcelDialog from '../gantt/ImportExcelDialog';
 
-const PostNotificationDialog = React.lazy(() => import('../../todo/PostNotificationDialog'));
-const StatusConfirmDialog = React.lazy(() => import('../../todo/StatusConfirmDialog'));
+const PostNotificationDialog = loadable(() => import('../../todo/PostNotificationDialog'));
+const StatusConfirmDialog = loadable(() => import('../../todo/StatusConfirmDialog'));
 
 const useStyles = makeStyles({
 	addButton: {

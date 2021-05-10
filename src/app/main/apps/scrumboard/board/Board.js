@@ -1,5 +1,5 @@
 import { AppBar, Button, Drawer, Hidden, Icon, IconButton, Toolbar } from '@material-ui/core';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useRef, useState } from 'react';
@@ -10,11 +10,11 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
 
-const BoardAddList = React.lazy(() => import('./BoardAddList'));
-const BoardList = React.lazy(() => import('./BoardList'));
-const BoardTitle = React.lazy(() => import('./BoardTitle'));
-const BoardCardDialog = React.lazy(() => import('./dialogs/card/BoardCardDialog'));
-const BoardSettingsSidebar = React.lazy(() => import('./sidebars/settings/BoardSettingsSidebar'));
+const BoardAddList = loadable(() => import('./BoardAddList'));
+const BoardList = loadable(() => import('./BoardList'));
+const BoardTitle = loadable(() => import('./BoardTitle'));
+const BoardCardDialog = loadable(() => import('./dialogs/card/BoardCardDialog'));
+const BoardSettingsSidebar = loadable(() => import('./sidebars/settings/BoardSettingsSidebar'));
 
 function Board(props) {
 	const dispatch = useDispatch();

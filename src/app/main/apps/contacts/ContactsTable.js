@@ -20,8 +20,8 @@ import MaUTable from '@material-ui/core/Table';
 import PropTypes from 'prop-types';
 import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
 import clsx from 'clsx';
-// import loadable from '@loadable/component';
-const ContactsTablePaginationActions = React.lazy(() => import('./ContactsTablePaginationActions'));
+import loadable from '@loadable/component';
+const ContactsTablePaginationActions = loadable(() => import('./ContactsTablePaginationActions'));
 
 const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
 	const defaultRef = React.useRef();

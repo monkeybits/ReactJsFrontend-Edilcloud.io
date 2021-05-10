@@ -1,5 +1,5 @@
 import { useForm } from '@fuse/hooks';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import {
 	ClickAwayListener,
 	Icon,
@@ -15,7 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../store/actions';
 
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 function BoardListHeader(props) {
 	const dispatch = useDispatch();

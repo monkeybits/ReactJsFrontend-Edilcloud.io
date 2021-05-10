@@ -14,9 +14,9 @@ import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const DeleteConfirmDialog = React.lazy(() => import('../file-manager/DeleteConfirmDialog'));
-const MoreOption = React.lazy(() => import('./MoreOption'));
+import loadable from '@loadable/component';
+const DeleteConfirmDialog = loadable(() => import('../file-manager/DeleteConfirmDialog'));
+const MoreOption = loadable(() => import('./MoreOption'));
 
 export default function ContactCard(props) {
 	const { t } = useTranslation('contacts');

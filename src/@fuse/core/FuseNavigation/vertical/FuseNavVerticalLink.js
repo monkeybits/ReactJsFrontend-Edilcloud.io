@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import FuseUtils from '@fuse/utils';
 import { Icon, ListItem, ListItemText, useMediaQuery } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-const FuseNavBadge = React.lazy(() => import('../FuseNavBadge'));
+const FuseNavBadge = loadable(() => import('../FuseNavBadge'));
 
 const useStyles = makeStyles(theme => ({
 	item: props => ({

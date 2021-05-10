@@ -19,12 +19,12 @@ import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/a
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 import { GET_CHAT } from './store/actions';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 
-const Chat = React.lazy(() => import('./Chat'));
-const ChatsSidebar = React.lazy(() => import('./ChatsSidebar'));
-const ContactSidebar = React.lazy(() => import('./ContactSidebar'));
-const UserSidebar = React.lazy(() => import('./UserSidebar'));
+const Chat = loadable(() => import('./Chat'));
+const ChatsSidebar = loadable(() => import('./ChatsSidebar'));
+const ContactSidebar = loadable(() => import('./ContactSidebar'));
+const UserSidebar = loadable(() => import('./UserSidebar'));
 
 const drawerWidth = 350;
 const headerHeight = 200;

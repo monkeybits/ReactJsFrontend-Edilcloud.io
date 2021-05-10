@@ -6,7 +6,7 @@ TODO: This file simpley get list from redux store and do filters
 ! Main function here to do the filters is handleDoFilter()
 after do the filters it will show all the tasks 
 */
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseUtils from '@fuse/utils';
@@ -24,10 +24,10 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
 import { useTranslation } from 'react-i18next';
 
-const TodoListItem = React.lazy(() => import('./TodoListItem'));
-const TaskContentForm = React.lazy(() => import('./TaskContentForm'));
-const TaskAttachment = React.lazy(() => import('./TaskAttachment'));
-const EditActivityPostForm = React.lazy(() => import('./EditActivityPostForm'));
+const TodoListItem = loadable(() => import('./TodoListItem'));
+const TaskContentForm = loadable(() => import('./TaskContentForm'));
+const TaskAttachment = loadable(() => import('./TaskAttachment'));
+const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'));
 
 function TodoList(props) {
 	const dispatch = useDispatch();

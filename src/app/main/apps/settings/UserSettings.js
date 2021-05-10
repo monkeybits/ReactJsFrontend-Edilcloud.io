@@ -1,18 +1,18 @@
 import withReducer from 'app/store/withReducer';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
 
-const TodoHeader = React.lazy(() => import('./TodoHeader'));
-const TodoSidebarContent = React.lazy(() => import('./TodoSidebarContent'));
-const TodoList = React.lazy(() => import('./TodoList'));
-const UserStorageChart = React.lazy(() => import('./UserStorageChart'));
-const BillingContent = React.lazy(() => import('./BillingContent'));
-const CompanyCreationStepper = React.lazy(() => import('app/main/companyCreation/CompanyCreationStepper'));
-const EditProfileStepper = React.lazy(() => import('app/main/editMainProfile/EditProfileStepper'));
+const TodoHeader = loadable(() => import('./TodoHeader'));
+const TodoSidebarContent = loadable(() => import('./TodoSidebarContent'));
+const TodoList = loadable(() => import('./TodoList'));
+const UserStorageChart = loadable(() => import('./UserStorageChart'));
+const BillingContent = loadable(() => import('./BillingContent'));
+const CompanyCreationStepper = loadable(() => import('app/main/companyCreation/CompanyCreationStepper'));
+const EditProfileStepper = loadable(() => import('app/main/editMainProfile/EditProfileStepper'));
 
 function SettingApp() {
 	const dispatch = useDispatch();

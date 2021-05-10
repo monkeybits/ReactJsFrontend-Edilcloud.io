@@ -14,9 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from '@material-ui/core';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-// import loadable from '@loadable/component';
-const CalendarHeader = React.lazy(() => import('./CalendarHeader'));
-const EventDialog = React.lazy(() => import('./EventDialog'));
+import loadable from '@loadable/component';
+const CalendarHeader = loadable(() => import('./CalendarHeader'));
+const EventDialog = loadable(() => import('./EventDialog'));
 
 const localizer = momentLocalizer(moment);
 

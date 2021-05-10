@@ -1,5 +1,5 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import {
 	Button,
 	Card,
@@ -28,11 +28,11 @@ import AppleRegister from 'react-apple-login';
 import jwtService from 'app/services/jwtService';
 import { toast } from 'react-toastify';
 
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
-const TermsModal = React.lazy(() => import('../login/TermsModal'));
-const JWTRegisterTab = React.lazy(() => import('app/main/register/tabs/JWTRegisterTab'));
-const FacebookLoginComponent = React.lazy(() => import('../login/FacebookLoginComponent'));
-const GoogleLoginComponent = React.lazy(() => import('../login/GoogleLoginComponent'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
+const TermsModal = loadable(() => import('../login/TermsModal'));
+const JWTRegisterTab = loadable(() => import('app/main/register/tabs/JWTRegisterTab'));
+const FacebookLoginComponent = loadable(() => import('../login/FacebookLoginComponent'));
+const GoogleLoginComponent = loadable(() => import('../login/GoogleLoginComponent'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { AppBar, Hidden, Toolbar, Icon } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { useLocation } from 'react-router';
 
-const ChatPanelToggleButton = React.lazy(() =>
+const ChatPanelToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton')
 );
-const NavbarMobileToggleButton = React.lazy(() =>
+const NavbarMobileToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/NavbarMobileToggleButton')
 );
-const QuickPanelToggleButton = React.lazy(() =>
+const QuickPanelToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton')
 );
-const NotificationToggleButton = React.lazy(() =>
+const NotificationToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/notification/NotificationToggleButton')
 );
-const UserMenu = React.lazy(() => import('app/fuse-layouts/shared-components/UserMenu'));
-const NotificationWebSocket = React.lazy(() => import('app/NotificationWebSocket'));
-const LanguageSwitcher = React.lazy(() => import('../../shared-components/LanguageSwitcher'));
+const UserMenu = loadable(() => import('app/fuse-layouts/shared-components/UserMenu'));
+const NotificationWebSocket = loadable(() => import('app/NotificationWebSocket'));
+const LanguageSwitcher = loadable(() => import('../../shared-components/LanguageSwitcher'));
 
 const useStyles = makeStyles(theme => ({
 	separator: {

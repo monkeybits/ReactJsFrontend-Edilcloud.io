@@ -1,8 +1,8 @@
 import { Icon, IconButton, InputAdornment, MenuItem, TextField } from '@material-ui/core';
 import moment from 'moment';
 import React, { useState } from 'react';
-// import loadable from '@loadable/component';
-const ToolbarMenu = React.lazy(() => import('./ToolbarMenu'));
+import loadable from '@loadable/component';
+const ToolbarMenu = loadable(() => import('./ToolbarMenu'));
 
 function DueMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

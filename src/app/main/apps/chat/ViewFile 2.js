@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-// import loadable from '@loadable/component';
-const CardAttachment = React.lazy(() => import('./CardAttachment'));
-const ImagePreviewDialog = React.lazy(() => import('../../../ImagePreviewDialog'));
+import loadable from '@loadable/component';
+const CardAttachment = loadable(() => import('./CardAttachment'));
+const ImagePreviewDialog = loadable(() => import('../../../ImagePreviewDialog'));
 
 export default function ViewFile({ files }) {
 	const media = useSelector(({ chatApp }) => chatApp.chat?.media);

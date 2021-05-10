@@ -12,7 +12,7 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, { Suspense } from 'react';
-// // import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import ReactDOM from 'react-dom';
 import 'typeface-poppins';
 import './i18n';
@@ -24,7 +24,7 @@ import './styles/custom-style.css';
 import './styles/responsive.css';
 import ErrorBoundary from './ErrorBoundary';
 // import App from 'app/App'
-const App = React.lazy(() => import('app/App'));
+const App = loadable(() => import('app/App'));
 
 ReactDOM.render(
 	<Suspense fallback={<div>Loading...</div>}>

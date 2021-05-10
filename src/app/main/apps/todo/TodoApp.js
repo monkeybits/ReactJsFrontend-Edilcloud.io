@@ -7,7 +7,7 @@ Main files to make changes are
 * 1. src/app/main/apps/todo/TodoListItem.js  -> used for task item
 * 2. src/app/main/apps/todo/TodoActivityListItem.js  -> every task may have activity if you want to make change on activity.
 */
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,18 +20,18 @@ import * as Actions from './store/actions';
 import * as ConatctActions from '../contacts/store/actions';
 import reducer from './store/reducers';
 
-const StatusConfirmDialog = React.lazy(() => import('./StatusConfirmDialog'));
-const TodoHeader = React.lazy(() => import('./TodoHeader'));
-const TodoList = React.lazy(() => import('./TodoList'));
-const TodoSidebarContent = React.lazy(() => import('./TodoSidebarContent'));
-const CreatePostDialog = React.lazy(() => import('./CreatePostDialog'));
-const TaskContentDialog = React.lazy(() => import('./TaskContentDialog'));
-const TodoDialog = React.lazy(() => import('./TodoDialog'));
-const ShowUpload = React.lazy(() => import('./ShowUpload'));
-const AccessibilityToggleButton = React.lazy(() =>
+const StatusConfirmDialog = loadable(() => import('./StatusConfirmDialog'));
+const TodoHeader = loadable(() => import('./TodoHeader'));
+const TodoList = loadable(() => import('./TodoList'));
+const TodoSidebarContent = loadable(() => import('./TodoSidebarContent'));
+const CreatePostDialog = loadable(() => import('./CreatePostDialog'));
+const TaskContentDialog = loadable(() => import('./TaskContentDialog'));
+const TodoDialog = loadable(() => import('./TodoDialog'));
+const ShowUpload = loadable(() => import('./ShowUpload'));
+const AccessibilityToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton')
 );
-const PostNotificationDialog = React.lazy(() => import('./PostNotificationDialog'));
+const PostNotificationDialog = loadable(() => import('./PostNotificationDialog'));
 
 const useStyles = makeStyles({
 	addButton: {

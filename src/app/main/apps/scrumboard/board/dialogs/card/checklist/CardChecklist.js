@@ -1,6 +1,6 @@
 import { useForm, useUpdateEffect } from '@fuse/hooks';
 import _ from '@lodash';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import {
 	Icon,
 	IconButton,
@@ -13,10 +13,10 @@ import {
 } from '@material-ui/core';
 import React, { useCallback, useRef, useState } from 'react';
 
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
-const CardAddChecklistItem = React.lazy(() => import('./CardAddChecklistItem'));
-const CardChecklistItem = React.lazy(() => import('./CardChecklistItem'));
-const CardChecklistName = React.lazy(() => import('./CardChecklistName'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
+const CardAddChecklistItem = loadable(() => import('./CardAddChecklistItem'));
+const CardChecklistItem = loadable(() => import('./CardChecklistItem'));
+const CardChecklistName = loadable(() => import('./CardChecklistName'));
 
 function CardChecklist(props) {
 	const { onCheckListChange, checklist, index } = props;

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { Avatar, Button, Icon, ListItemIcon, ListItemText, MenuItem, Typography } from '@material-ui/core';
 import * as authActions from 'app/auth/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { getMainProfileId, decodeDataFromToken } from 'app/services/serviceUtils';
 
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 function UserMenu(props) {
 	const dispatch = useDispatch();

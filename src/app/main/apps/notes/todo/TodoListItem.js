@@ -5,7 +5,7 @@
 Todo: This file is return each task item and list of activity which includes in task
 */
 import _ from '@lodash';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { blue } from '@material-ui/core/colors';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -41,8 +41,8 @@ import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 
-const TodoActivityListItem = React.lazy(() => import('./TodoActivityListItem'));
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+const TodoActivityListItem = loadable(() => import('./TodoActivityListItem'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 const useStyles = makeStyles(theme => ({
 	card: {

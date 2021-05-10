@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { useTranslation } from 'react-i18next';
-// import loadable from '@loadable/component';
-const ImageCropper = React.lazy(() => import('app/main/mainProfile/ImageCropper'));
+import loadable from '@loadable/component';
+const ImageCropper = loadable(() => import('app/main/mainProfile/ImageCropper'));
 
 export default function UploadProjectImage({ setFile, file, remove }) {
 	const { t } = useTranslation('projects');

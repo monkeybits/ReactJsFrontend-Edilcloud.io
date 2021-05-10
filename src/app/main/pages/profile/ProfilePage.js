@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import { Avatar, Button, Tab, Tabs, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const AboutTab = React.lazy(() => import('./tabs/AboutTab'));
-const PhotosVideosTab = React.lazy(() => import('./tabs/PhotosVideosTab'));
-const TimelineTab = React.lazy(() => import('./tabs/TimelineTab'));
+const AboutTab = loadable(() => import('./tabs/AboutTab'));
+const PhotosVideosTab = loadable(() => import('./tabs/PhotosVideosTab'));
+const TimelineTab = loadable(() => import('./tabs/TimelineTab'));
 
 const useStyles = makeStyles(theme => ({
 	layoutHeader: {

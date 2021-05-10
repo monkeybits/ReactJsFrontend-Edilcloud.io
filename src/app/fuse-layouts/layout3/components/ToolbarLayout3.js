@@ -1,23 +1,23 @@
 import React from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 import FuseSearch from '@fuse/core/FuseSearch';
 import { AppBar, Hidden, Toolbar } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 
-const ChatPanelToggleButton = React.lazy(() =>
+const ChatPanelToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton')
 );
-const NavbarMobileToggleButton = React.lazy(() =>
+const NavbarMobileToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/NavbarMobileToggleButton')
 );
-const QuickPanelToggleButton = React.lazy(() =>
+const QuickPanelToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton')
 );
-const Logo = React.lazy(() => import('app/fuse-layouts/shared-components/Logo'));
-const UserMenu = React.lazy(() => import('app/fuse-layouts/shared-components/UserMenu'));
-const LanguageSwitcher = React.lazy(() => import('../../shared-components/LanguageSwitcher'));
+const Logo = loadable(() => import('app/fuse-layouts/shared-components/Logo'));
+const UserMenu = loadable(() => import('app/fuse-layouts/shared-components/UserMenu'));
+const LanguageSwitcher = loadable(() => import('../../shared-components/LanguageSwitcher'));
 
 const useStyles = makeStyles(theme => ({
 	separator: {
