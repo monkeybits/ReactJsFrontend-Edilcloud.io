@@ -1,12 +1,12 @@
 import { Dialog } from '@material-ui/core';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { makeStyles } from '@material-ui/core/styles';
 import * as Actions from 'app/main/apps/scrumboard/store/actions';
 import clsx from 'clsx';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const BoardCardForm = React.lazy(() => import('./BoardCardForm'));
+const BoardCardForm = loadable(() => import('./BoardCardForm'));
 
 const useStyles = makeStyles(theme => ({
 	paper: {

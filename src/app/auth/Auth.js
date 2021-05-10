@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
@@ -12,7 +12,7 @@ import { getMainProfileId, getHeaderToken, getTokenOnly } from 'app/services/ser
 import { GET_MAIN_PROFILE } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 
-const FuseSplashScreen = React.lazy(() => import('@fuse/core/FuseSplashScreen'));
+const FuseSplashScreen = loadable(() => import('@fuse/core/FuseSplashScreen'));
 class Auth extends Component {
 	state = {
 		waitAuthCheck: true

@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-// import loadable from '@loadable/component';
-const MailCompose = React.lazy(() => import('./MailCompose'));
+import loadable from '@loadable/component';
+const MailCompose = loadable(() => import('./MailCompose'));
 
 const useStyles = makeStyles(theme => ({
 	listItem: {

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { Button, ListItemIcon, ListItemText, MenuItem, Typography } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import * as Actions from 'app/store/actions';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 const languages = [
 	{

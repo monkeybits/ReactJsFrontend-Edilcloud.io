@@ -20,12 +20,12 @@ import rtl from 'jss-rtl';
 import { useTranslation } from 'react-i18next';
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const AddProjectDialog = React.lazy(() => import('./AddProjectDialog'));
-const NotesHeader = React.lazy(() => import('./NotesHeader'));
-const NoteList = React.lazy(() => import('./NoteList'));
-const NotesSidebarContent = React.lazy(() => import('./NotesSidebarContent'));
-const ConfirmDeleteDialog = React.lazy(() => import('./ConfirmDeleteDialog'));
+import loadable from '@loadable/component';
+const AddProjectDialog = loadable(() => import('./AddProjectDialog'));
+const NotesHeader = loadable(() => import('./NotesHeader'));
+const NoteList = loadable(() => import('./NoteList'));
+const NotesSidebarContent = loadable(() => import('./NotesSidebarContent'));
+const ConfirmDeleteDialog = loadable(() => import('./ConfirmDeleteDialog'));
 
 function NotesApp(props) {
 	const dispatch = useDispatch();

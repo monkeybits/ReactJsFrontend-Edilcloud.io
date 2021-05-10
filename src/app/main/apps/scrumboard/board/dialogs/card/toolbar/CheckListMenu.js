@@ -2,8 +2,8 @@ import { useForm } from '@fuse/hooks';
 import { Button, IconButton, Icon, TextField } from '@material-ui/core';
 import ChecklistModel from 'app/main/apps/scrumboard/model/ChecklistModel';
 import React, { useEffect, useState } from 'react';
-// import loadable from '@loadable/component';
-const ToolbarMenu = React.lazy(() => import('./ToolbarMenu'));
+import loadable from '@loadable/component';
+const ToolbarMenu = loadable(() => import('./ToolbarMenu'));
 
 function CheckListMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

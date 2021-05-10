@@ -17,7 +17,7 @@ import {
 	LinearProgress,
 	InputLabel
 } from '@material-ui/core';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import React, { useEffect, useState, useRef } from 'react';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import {
@@ -35,9 +35,9 @@ import { useTranslation } from 'react-i18next';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import * as Actions from './store/actions';
 
-const ImagesPreview = React.lazy(() => import('app/main/apps/notes/todo/ImagesPreview'));
-const PostList = React.lazy(() => import('app/main/apps/notes/todo/PostList'));
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+const ImagesPreview = loadable(() => import('app/main/apps/notes/todo/ImagesPreview'));
+const PostList = loadable(() => import('app/main/apps/notes/todo/PostList'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 const uuidv1 = require('uuid/v1');
 

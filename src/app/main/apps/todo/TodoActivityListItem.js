@@ -4,7 +4,7 @@
 This is part of dashboard 
 TODO: This file is created for activity list item 
 */
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import _ from '@lodash';
 import { green } from '@material-ui/core/colors';
 import {
@@ -35,8 +35,8 @@ import 'tippy.js/themes/light-border.css';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 
-const WorkerProfiles = React.lazy(() => import('./WorkerProfiles'));
-const TodoChip = React.lazy(() => import('./TodoChip'));
+const WorkerProfiles = loadable(() => import('./WorkerProfiles'));
+const TodoChip = loadable(() => import('./TodoChip'));
 
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {

@@ -30,9 +30,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import { SYSTEM_ROLES } from 'app/constants';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const ImageCropper = React.lazy(() => import('app/main/mainProfile/ImageCropper'));
-const AsyncAutocomplete = React.lazy(() => import('./AsyncAutocomplete'));
+import loadable from '@loadable/component';
+const ImageCropper = loadable(() => import('app/main/mainProfile/ImageCropper'));
+const AsyncAutocomplete = loadable(() => import('./AsyncAutocomplete'));
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;

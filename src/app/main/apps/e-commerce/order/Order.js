@@ -1,5 +1,5 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import FusePageCarded from '@fuse/core/FusePageCarded';
 import {
 	Avatar,
@@ -23,8 +23,8 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
 
-const OrderInvoice = React.lazy(() => import('./OrderInvoice'));
-const OrdersStatus = React.lazy(() => import('./OrdersStatus'));
+const OrderInvoice = loadable(() => import('./OrderInvoice'));
+const OrdersStatus = loadable(() => import('./OrdersStatus'));
 
 function Marker(props) {
 	return (

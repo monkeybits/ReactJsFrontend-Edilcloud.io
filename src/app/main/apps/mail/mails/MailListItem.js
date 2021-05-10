@@ -6,8 +6,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 import * as Actions from '../store/actions/index';
-// import loadable from '@loadable/component';
-const MailChip = React.lazy(() => import('../MailChip'));
+import loadable from '@loadable/component';
+const MailChip = loadable(() => import('../MailChip'));
 
 const pathToRegexp = require('path-to-regexp');
 

@@ -3,15 +3,15 @@ import { MenuItem, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { DOWNLOAD_PHOTO, DOWNLOAD_VIDEO, DOWNLOAD_DOCUMENT } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import * as Actions from './store/actions';
 
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
-const FileViewDialog = React.lazy(() => import('../../../main/apps/chat/FileViewDialog'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
+const FileViewDialog = loadable(() => import('../../../main/apps/chat/FileViewDialog'));
 
 export default function SimpleMenu(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);

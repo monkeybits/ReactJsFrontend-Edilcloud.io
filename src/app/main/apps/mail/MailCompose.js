@@ -13,8 +13,8 @@ import {
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import loadable from '@loadable/component';
-const MailAttachment = React.lazy(() => import('./MailAttachment'));
+import loadable from '@loadable/component';
+const MailAttachment = loadable(() => import('./MailAttachment'));
 
 function MailCompose() {
 	const [openDialog, setOpenDialog] = useState(false);

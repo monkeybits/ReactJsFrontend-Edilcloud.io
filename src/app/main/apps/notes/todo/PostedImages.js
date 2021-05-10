@@ -5,9 +5,9 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
 import clsx from 'clsx';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-// import loadable from '@loadable/component';
-const VideoListItem = React.lazy(() => import('app/VideoPlayer/VideoListItem'));
-const ImagePreviewDialog = React.lazy(() => import('app/ImagePreviewDialog'));
+import loadable from '@loadable/component';
+const VideoListItem = loadable(() => import('app/VideoPlayer/VideoListItem'));
+const ImagePreviewDialog = loadable(() => import('app/ImagePreviewDialog'));
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews); // SwipeableViews;
 const useStyles = makeStyles(theme => ({

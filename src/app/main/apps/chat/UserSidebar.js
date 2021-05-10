@@ -17,8 +17,8 @@ import {
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const StatusIcon = React.lazy(() => import('./StatusIcon'));
+import loadable from '@loadable/component';
+const StatusIcon = loadable(() => import('./StatusIcon'));
 
 const statusArr = [
 	{

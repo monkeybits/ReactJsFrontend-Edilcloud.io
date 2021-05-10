@@ -1,7 +1,7 @@
 import { Checkbox, IconButton, Icon, ListItemIcon, ListItemText, MenuItem } from '@material-ui/core';
 import React, { useState } from 'react';
-// import loadable from '@loadable/component';
-const ToolbarMenu = React.lazy(() => import('./ToolbarMenu'));
+import loadable from '@loadable/component';
+const ToolbarMenu = loadable(() => import('./ToolbarMenu'));
 
 function LabelsMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

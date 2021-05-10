@@ -18,12 +18,12 @@ import { Typography, Avatar, IconButton, Icon, Input, Grid, Paper, Hidden } from
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const MoreOption = React.lazy(() => import('./MoreOption'));
-const ContactCard = React.lazy(() => import('./ContactCard'));
-const ContactsTable = React.lazy(() => import('./ContactsTable'));
-const ContactsMultiSelectMenu = React.lazy(() => import('./ContactsMultiSelectMenu'));
-const DeleteConfirmDialog = React.lazy(() => import('../file-manager/DeleteConfirmDialog'));
+import loadable from '@loadable/component';
+const MoreOption = loadable(() => import('./MoreOption'));
+const ContactCard = loadable(() => import('./ContactCard'));
+const ContactsTable = loadable(() => import('./ContactsTable'));
+const ContactsMultiSelectMenu = loadable(() => import('./ContactsMultiSelectMenu'));
+const DeleteConfirmDialog = loadable(() => import('../file-manager/DeleteConfirmDialog'));
 
 function sortByProperty(array, property, order = 'ASC') {
 	return array.sort((a, b) =>

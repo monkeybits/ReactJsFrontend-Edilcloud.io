@@ -23,9 +23,9 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import * as Actions from './store/actions';
 import ReadPDF from './ReadPDF';
-// import loadable from '@loadable/component';
-const DeleteConfirmDialog = React.lazy(() => import('./DeleteConfirmDialog'));
-const FileViewDialog = React.lazy(() => import('./FileViewDialog'));
+import loadable from '@loadable/component';
+const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'));
+const FileViewDialog = loadable(() => import('./FileViewDialog'));
 
 const useStyles = makeStyles({
 	table: {

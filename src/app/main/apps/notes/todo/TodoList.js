@@ -1,5 +1,5 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
@@ -10,10 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 
-const TodoListItem = React.lazy(() => import('./TodoListItem'));
-const EditActivityPostForm = React.lazy(() => import('./EditActivityPostForm'));
-const TaskAttachment = React.lazy(() => import('./TaskAttachment'));
-const TaskContentForm = React.lazy(() => import('./Dialog/TaskContentForm'));
+const TodoListItem = loadable(() => import('./TodoListItem'));
+const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'));
+const TaskAttachment = loadable(() => import('./TaskAttachment'));
+const TaskContentForm = loadable(() => import('./Dialog/TaskContentForm'));
 
 function TodoList(props) {
 	const dispatch = useDispatch();

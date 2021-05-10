@@ -5,7 +5,7 @@ TODO: Boards.js
 TODO: This file fetch request from other company and user compamies.
 */
 import _ from '@lodash';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -36,8 +36,8 @@ import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import reducer from '../store/reducers';
 import * as Actions from '../store/actions';
 
-const Tutorial = React.lazy(() => import('./Tutorial'));
-const UpdatePlanDialog = React.lazy(() => import('./UpdatePlanDialog'));
+const Tutorial = loadable(() => import('./Tutorial'));
+const UpdatePlanDialog = loadable(() => import('./UpdatePlanDialog'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

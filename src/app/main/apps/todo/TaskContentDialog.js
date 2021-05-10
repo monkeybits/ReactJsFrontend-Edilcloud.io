@@ -5,14 +5,14 @@
 Todo: This File is created for create timeline posts and view timeline of task
 */
 import { Dialog } from '@material-ui/core';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 
-const TaskContentForm = React.lazy(() => import('./TaskContentForm'));
-const TaskAttachment = React.lazy(() => import('./TaskAttachment'));
+const TaskContentForm = loadable(() => import('./TaskContentForm'));
+const TaskAttachment = loadable(() => import('./TaskAttachment'));
 
 const useStyles = makeStyles(theme => ({
 	paper: {

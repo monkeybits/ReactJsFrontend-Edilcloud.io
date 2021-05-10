@@ -13,9 +13,9 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const DeleteConfirmDialog = React.lazy(() => import('./DeleteConfirmDialog'));
-const FileViewDialog = React.lazy(() => import('./FileViewDialog'));
+import loadable from '@loadable/component';
+const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'));
+const FileViewDialog = loadable(() => import('./FileViewDialog'));
 
 function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const dispatch = useDispatch();

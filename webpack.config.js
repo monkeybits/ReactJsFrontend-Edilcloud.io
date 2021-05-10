@@ -1,6 +1,21 @@
 const DeadCodePlugin = require('webpack-deadcode-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+	module: {
+		rules: [
+			{
+				test: /\.css$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader'
+				]
+			},
+			{
+				test: /\.js$/,
+				use: 'babel-loader'
+			}],
+	},
 	optimization: {
 		splitChunks: {
 			chunks: 'all',
@@ -33,6 +48,7 @@ module.exports = {
     usedExports: true,
 	},
   plugins: [
+	new MiniCssExtractPlugin(),
     new DeadCodePlugin({
       patterns: [
         'src/**/*.(js|jsx|css)',

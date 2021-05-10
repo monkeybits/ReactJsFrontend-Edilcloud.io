@@ -12,13 +12,13 @@ import { useTranslation } from 'react-i18next';
 import ContactsList from './ContactsList';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import TeamFloationButton from './TeamFloationButton';
 
-const ViewContactDialog = React.lazy(() => import('./ViewContactDialog'));
-const AddTeamMemberToProject = React.lazy(() => import('./AddTeamMemberToProject'));
-const ContactsSidebarContent = React.lazy(() => import('./ContactsSidebarContent'));
-const ContactsHeader = React.lazy(() => import('./ContactsHeader'));
+const ViewContactDialog = loadable(() => import('./ViewContactDialog'));
+const AddTeamMemberToProject = loadable(() => import('./AddTeamMemberToProject'));
+const ContactsSidebarContent = loadable(() => import('./ContactsSidebarContent'));
+const ContactsHeader = loadable(() => import('./ContactsHeader'));
 
 const useStyles = makeStyles({
 	addButton: {

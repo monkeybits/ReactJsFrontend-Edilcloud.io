@@ -9,10 +9,10 @@ import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const ImageCropper = React.lazy(() => import('app/main/mainProfile/ImageCropper'));
-const DeleteConfirmDialog = React.lazy(() => import('../../file-manager/DeleteConfirmDialog'));
-const MoreOption = React.lazy(() => import('./MoreOption'));
+import loadable from '@loadable/component';
+const ImageCropper = loadable(() => import('app/main/mainProfile/ImageCropper'));
+const DeleteConfirmDialog = loadable(() => import('../../file-manager/DeleteConfirmDialog'));
+const MoreOption = loadable(() => import('./MoreOption'));
 
 export default function ContactCard(props) {
 	const {

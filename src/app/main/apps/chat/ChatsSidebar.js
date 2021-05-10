@@ -20,10 +20,10 @@ import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
-const ContactListItem = React.lazy(() => import('./ContactListItem'));
-const StatusIcon = React.lazy(() => import('./StatusIcon'));
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'));
+const ContactListItem = loadable(() => import('./ContactListItem'));
+const StatusIcon = loadable(() => import('./StatusIcon'));
 
 const statusArr = [
 	{

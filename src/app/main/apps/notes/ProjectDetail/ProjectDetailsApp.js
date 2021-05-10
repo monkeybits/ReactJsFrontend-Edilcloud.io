@@ -6,11 +6,11 @@ import { useParams } from 'react-router';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-// import loadable from '@loadable/component';
-const StatusConfirmDialog = React.lazy(() => import('../../todo/StatusConfirmDialog'));
-const TodoDialog = React.lazy(() => import('../todo/TodoDialog'));
-const ProjectInfo = React.lazy(() => import('./ProjectInfo'));
-const ProjectContent = React.lazy(() => import('./ProjectContent'));
+import loadable from '@loadable/component';
+const StatusConfirmDialog = loadable(() => import('../../todo/StatusConfirmDialog'));
+const TodoDialog = loadable(() => import('../todo/TodoDialog'));
+const ProjectInfo = loadable(() => import('./ProjectInfo'));
+const ProjectContent = loadable(() => import('./ProjectContent'));
 
 function ProjectDetails(props) {
 	const dispatch = useDispatch();

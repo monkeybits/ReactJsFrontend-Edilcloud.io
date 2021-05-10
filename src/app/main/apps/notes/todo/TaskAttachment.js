@@ -5,7 +5,7 @@ This is part of dashboard
 TODO: This file is created edit task / attchments / timeline
 */
 import PropTypes from 'prop-types';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useForm } from '@fuse/hooks';
 import _ from '@lodash';
@@ -35,7 +35,7 @@ import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
 
-const CreateAttachments = React.lazy(() => import('app/main/apps/notes/todo/Dialog/attachment/CreateAttachments'));
+const CreateAttachments = loadable(() => import('app/main/apps/notes/todo/Dialog/attachment/CreateAttachments'));
 
 function TabPanel(props) {
 	/**

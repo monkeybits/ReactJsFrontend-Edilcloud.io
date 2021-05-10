@@ -22,9 +22,9 @@ import FileSaver from 'file-saver';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const ReadPDF = React.lazy(() => import('./ReadPDF'));
-const VideoListItem = React.lazy(() => import('app/VideoPlayer/VideoListItem'));
+import loadable from '@loadable/component';
+const ReadPDF = loadable(() => import('./ReadPDF'));
+const VideoListItem = loadable(() => import('app/VideoPlayer/VideoListItem'));
 
 const styles = theme => ({
 	root: {

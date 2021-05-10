@@ -8,8 +8,8 @@ import { Dialog } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const ContactDialogContent = React.lazy(() => import('./ContactDialogContent'));
+import loadable from '@loadable/component';
+const ContactDialogContent = loadable(() => import('./ContactDialogContent'));
 
 function ContactDialog() {
 	const dispatch = useDispatch();

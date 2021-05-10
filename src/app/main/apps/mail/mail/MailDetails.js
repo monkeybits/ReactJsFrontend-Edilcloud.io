@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import * as Actions from '../store/actions/index';
-// import loadable from '@loadable/component';
-const MailChip = React.lazy(() => import('../MailChip'));
+import loadable from '@loadable/component';
+const MailChip = loadable(() => import('../MailChip'));
 
 function MailDetails(props) {
 	const dispatch = useDispatch();

@@ -9,8 +9,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import React from 'react';
 import { MenuItem, ListItemIcon } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-// import loadable from '@loadable/component';
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 export default function MoreOption(props) {
 	const { t } = useTranslation('contacts');

@@ -13,11 +13,11 @@ import {
 } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { Stage, Layer } from 'react-konva';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { addLine } from './line';
 import { addTextNode } from './textNode';
 
-const Image = React.lazy(() => import('./Image'));
+const Image = loadable(() => import('./Image'));
 
 const uuidv1 = require('uuid/v1');
 

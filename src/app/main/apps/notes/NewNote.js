@@ -4,8 +4,8 @@ import * as Actions from 'app/main/apps/notes/store/actions';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import loadable from '@loadable/component';
-const NoteForm = React.lazy(() => import('./note-form/NoteForm'));
+import loadable from '@loadable/component';
+const NoteForm = loadable(() => import('./note-form/NoteForm'));
 
 const useStyles = makeStyles({
 	button: {

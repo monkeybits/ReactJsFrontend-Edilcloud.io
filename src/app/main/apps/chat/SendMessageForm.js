@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCompressFile } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const AudioRecord = React.lazy(() => import('app/AudioRecord'));
-const SendMessageFilePreview = React.lazy(() => import('./SendMessageFilePreview'));
+import loadable from '@loadable/component';
+const AudioRecord = loadable(() => import('app/AudioRecord'));
+const SendMessageFilePreview = loadable(() => import('./SendMessageFilePreview'));
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {

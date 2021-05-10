@@ -27,7 +27,7 @@ import { useTranslation } from 'react-i18next';
 import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
-// // import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import FileList from './FileList';
 import DetailSidebarHeader from './DetailSidebarHeader';
 import DetailSidebarContent from './DetailSidebarContent';
@@ -37,15 +37,15 @@ import MoveFileDialog from './MoveFileDialog';
 import FloatingButtonUpload from './FloatingButtonUpload';
 import TransitionAlerts from './TransitionAlerts';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
-// const FileList = React.lazy(() => import('./FileList'))
-// const DetailSidebarHeader = React.lazy(() => import('./DetailSidebarHeader'))
-// const DetailSidebarContent = React.lazy(() => import('./DetailSidebarContent'))
-// const Breadcrumb = React.lazy(() => import('./Breadcrumb'))
-// const FileGrid = React.lazy(() => import('./FileGrid'))
-// const MoveFileDialog = React.lazy(() => import('./MoveFileDialog'))
-// const FloatingButtonUpload = React.lazy(() => import('./FloatingButtonUpload'))
-// const TransitionAlerts = React.lazy(() => import('./TransitionAlerts'))
-// const LinearProgressWithLabel = React.lazy(() => import('./LinearProgressWithLabel'))
+// const FileList = loadable(() => import('./FileList'))
+// const DetailSidebarHeader = loadable(() => import('./DetailSidebarHeader'))
+// const DetailSidebarContent = loadable(() => import('./DetailSidebarContent'))
+// const Breadcrumb = loadable(() => import('./Breadcrumb'))
+// const FileGrid = loadable(() => import('./FileGrid'))
+// const MoveFileDialog = loadable(() => import('./MoveFileDialog'))
+// const FloatingButtonUpload = loadable(() => import('./FloatingButtonUpload'))
+// const TransitionAlerts = loadable(() => import('./TransitionAlerts'))
+// const LinearProgressWithLabel = loadable(() => import('./LinearProgressWithLabel'))
 
 const styles = theme => ({
 	root: {

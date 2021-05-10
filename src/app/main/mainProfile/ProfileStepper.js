@@ -1,5 +1,5 @@
 import React from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { useForm } from '@fuse/hooks';
 import { makeStyles } from '@material-ui/core/styles';
 import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Card, CardContent } from '@material-ui/core';
@@ -13,8 +13,8 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import { useTranslation } from 'react-i18next';
 import axios from '../../services/axiosConfig';
 
-const ProfileUpload = React.lazy(() => import('./FileUpload'));
-const BasicInfo = React.lazy(() => import('./BasicInfo'));
+const ProfileUpload = loadable(() => import('./FileUpload'));
+const BasicInfo = loadable(() => import('./BasicInfo'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import { useDebounce } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils';
@@ -13,8 +13,8 @@ import { Manager, Popper, Reference } from 'react-popper';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-const FuseNavBadge = React.lazy(() => import('../FuseNavBadge'));
-const FuseNavItem = React.lazy(() => import('../FuseNavItem'));
+const FuseNavBadge = loadable(() => import('../FuseNavBadge'));
+const FuseNavItem = loadable(() => import('../FuseNavItem'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

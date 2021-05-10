@@ -25,8 +25,8 @@ import FuseUtils from '@fuse/utils';
 import { useTranslation } from 'react-i18next';
 import ImagesPreview from './ImagesPreview';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 const uuidv1 = require('uuid/v1');
 

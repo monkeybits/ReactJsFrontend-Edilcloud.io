@@ -7,8 +7,8 @@ import { useParams } from 'react-router';
 import AudioRecord from 'app/AudioRecord';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
-// import loadable from '@loadable/component';
-const SendMessageFilePreview = React.lazy(() => import('./SendMessageFilePreview'));
+import loadable from '@loadable/component';
+const SendMessageFilePreview = loadable(() => import('./SendMessageFilePreview'));
 
 const useStyles = makeStyles(() => ({
 	messageRow: {

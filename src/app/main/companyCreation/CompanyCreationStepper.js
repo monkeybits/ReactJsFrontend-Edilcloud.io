@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@fuse/hooks';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	Stepper,
@@ -27,9 +27,9 @@ import * as Actions from 'app/main/apps/chat/store/actions';
 import { useTranslation } from 'react-i18next';
 import axios from '../../services/axiosConfig';
 
-const FileUpload = React.lazy(() => import('../mainProfile/FileUpload'));
-const CompanyCategory = React.lazy(() => import('./CompanyCategory'));
-const CompanyDetails = React.lazy(() => import('./CompanyDetails'));
+const FileUpload = loadable(() => import('../mainProfile/FileUpload'));
+const CompanyCategory = loadable(() => import('./CompanyCategory'));
+const CompanyDetails = loadable(() => import('./CompanyDetails'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

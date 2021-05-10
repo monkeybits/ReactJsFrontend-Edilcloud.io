@@ -1,5 +1,5 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-// import loadable from '@loadable/component';
+import loadable from '@loadable/component';
 import {
 	Button,
 	Card,
@@ -28,11 +28,11 @@ import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AppleLogin from 'react-apple-login';
 
-const FacebookLoginComponent = React.lazy(() => import('./FacebookLoginComponent'));
-const GoogleLoginComponent = React.lazy(() => import('./GoogleLoginComponent'));
-const TippyMenu = React.lazy(() => import('app/TippyMenu'));
-const TermsModal = React.lazy(() => import('./TermsModal'));
-const JWTLoginTab = React.lazy(() => import('app/main/login/tabs/JWTLoginTab'));
+const FacebookLoginComponent = loadable(() => import('./FacebookLoginComponent'));
+const GoogleLoginComponent = loadable(() => import('./GoogleLoginComponent'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
+const TermsModal = loadable(() => import('./TermsModal'));
+const JWTLoginTab = loadable(() => import('app/main/login/tabs/JWTLoginTab'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
