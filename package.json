@@ -153,8 +153,8 @@
         "webpack-deadcode-plugin": "^0.1.12"
     },
     "scripts": {
-        "start": "yarn run tailwind && webpack --mode development",
-        "build": "yarn run tailwind && yarn run purge-tailwind && cross-env GENERATE_SOURCEMAP=false webpack --mode development",
+        "start": "yarn run tailwind && react-scripts start",
+        "build": "yarn run tailwind && yarn run purge-tailwind && cross-env GENERATE_SOURCEMAP=false webpack --mode production",
         "tailwind": "tailwind build ./src/styles/tailwind-config.css -c ./tailwind.config.js -o ./src/styles/tailwind.css",
         "purge-tailwind": "node ./purge-tailwindcss.js",
         "test": "react-scripts test --env=node",
