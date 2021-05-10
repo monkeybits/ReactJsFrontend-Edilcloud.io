@@ -44,38 +44,39 @@ function NotesHeader(props) {
 										elevation={1}
 									>
 										<Icon color="action">search</Icon>
+						<Input
+							placeholder="Cerca Progetti o aziende committenti"
+							className="flex flex-1 mx-8"
+							disableUnderline
+							fullWidth
+							value={searchText}
+							inputProps={{
+								'aria-label': 'Search'
+							}}
+							onChange={ev => dispatch(Actions.setSearchText(ev))}
+							
+						/>
+					</Paper>
+				</FuseAnimate>
+			</ThemeProvider>
+		</div>
+		<FuseAnimate animation="transition.slideRightIn" delay={300}>
+			<Button
+				component={Link}
+				to="/apps/e-commerce/products/new"
+				className="whitespace-no-wrap normal-case"
+				variant="contained"
+				color="secondary"
+			>
+				<span className="xs:hidden sm:flex">Nuovo progetto</span>
+				<span className="flex sm:hidden"></span>
+			</Button>
+		</FuseAnimate>
+	</div>
+	</div>
+	</div>
+</ThemeProvider>
 
-										<Input
-											placeholder="Cerca Progetti o aziende committenti"
-											className="flex flex-1 mx-8"
-											disableUnderline
-											fullWidth
-											value={searchText}
-											inputProps={{
-												'aria-label': 'Search'
-											}}
-											onChange={ev => dispatch(Actions.setSearchText(ev))}
-										/>
-									</Paper>
-								</FuseAnimate>
-							</ThemeProvider>
-						</div>
-						<FuseAnimate animation="transition.slideRightIn" delay={300}>
-							<Button
-								component={Link}
-								to="/apps/e-commerce/products/new"
-								className="whitespace-no-wrap normal-case"
-								variant="contained"
-								color="secondary"
-							>
-								<span className="xs:hidden sm:flex">Nuovo progetto</span>
-								<span className="flex sm:hidden">Nuobo</span>
-							</Button>
-						</FuseAnimate>
-					</div>
-				</div>
-			</div>
-		</ThemeProvider>
 	);
 }
 
