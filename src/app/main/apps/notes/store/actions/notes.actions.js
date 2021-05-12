@@ -30,7 +30,6 @@ export function getProjects(handleSetLoading = () => '') {
 			PROJECT_LIST,
 			{},
 			results => {
-				console.log('results???????????????', results);
 				const { company } = getState().chatApp;
 				if (Array.isArray(results)) {
 					dispatch({
@@ -50,7 +49,6 @@ export function getProjects(handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingProjects: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -86,7 +84,6 @@ export function getRequest(handleSetLoading) {
 				handleSetLoading({
 					loadingProjectRequest: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -104,7 +101,9 @@ export function getProjectDetail(pid) {
 					payload: res
 				});
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -118,7 +117,9 @@ export function deleteProject(pid) {
 			res => {
 				dispatch(deleteFromStore(pid));
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);

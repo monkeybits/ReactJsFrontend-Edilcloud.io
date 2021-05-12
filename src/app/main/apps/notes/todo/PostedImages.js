@@ -46,7 +46,6 @@ export default function PostedImages(props) {
 	const [activtStep, setActivtStep] = useState(0);
 	const openImage = index => {
 		const selected = media.filter(file => file.id === props.images[index].id)[0];
-		// console.log(files[index], media.files, selected);
 		if (selected) {
 			setOpen(true);
 			setActivtStep(selected.index);

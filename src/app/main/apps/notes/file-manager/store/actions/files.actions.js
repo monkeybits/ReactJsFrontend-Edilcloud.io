@@ -80,7 +80,6 @@ export function getPhotos(cid, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingPhotos: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -108,7 +107,6 @@ export function getVideos(cid, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingVideos: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -136,7 +134,6 @@ export function getDocuments(cid, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingDocuments: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -164,7 +161,6 @@ export function getFolders(pid, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingFolders: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -190,11 +186,9 @@ export function folderDetail(cid, updatedFolderValues, handleSetLoading = () => 
 				GET_FOLDERS_DETAIL(pathdata.id),
 				{},
 				folders => {
-					console.log('GET_FOLDERS_DETAIL', folders);
 					handleSetLoading({
 						loadingFolders: false
 					});
-					console.log(folders);
 					dispatch({
 						type: UPDATE_SPECIFIC_FOLDERS,
 						payload: folders,
@@ -205,7 +199,6 @@ export function folderDetail(cid, updatedFolderValues, handleSetLoading = () => 
 					handleSetLoading({
 						loadingFolders: false
 					});
-					console.log(err);
 				},
 				METHOD.GET,
 				getHeaderToken()
@@ -222,7 +215,6 @@ export function foldersPaths(pid, handleSetLoading = () => '') {
 			FOLDER_STRUCTURE_LIST_PROJECT(pid),
 			{},
 			folders => {
-				console.log(folders);
 				handleSetLoading({
 					loadingFolders: false
 				});
@@ -235,7 +227,6 @@ export function foldersPaths(pid, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingFolders: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()

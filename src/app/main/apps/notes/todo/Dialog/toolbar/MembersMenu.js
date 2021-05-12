@@ -40,7 +40,6 @@ function MembersMenu(props) {
 			...tempMembers[index],
 			is_exists: event.target.checked
 		};
-		console.log({ tempMembers });
 		props.addWorkers(tempMembers);
 		setMembers(tempMembers);
 	};

@@ -135,7 +135,9 @@ function TodoActivityListItem(props) {
 					setTaskDetail(res.results);
 					setOpen(true);
 				},
-				err => console.log(err),
+				err => {
+					// console.log(err),
+				},
 				METHOD.GET,
 				getHeaderToken()
 			);
@@ -160,7 +162,6 @@ function TodoActivityListItem(props) {
 			res => {},
 			err => {
 				setCompleted(!status);
-				console.log(err);
 			},
 			METHOD.PUT,
 			getHeaderToken()
@@ -173,8 +174,6 @@ function TodoActivityListItem(props) {
 		if (Array.isArray(workers)) {
 			ids = [...workers, ...data].filter(w => w.is_exists);
 		}
-
-		console.log({ ids });
 		const values = {
 			id: props.todo.id,
 			title: props.todo.title,
@@ -189,7 +188,7 @@ function TodoActivityListItem(props) {
 			values,
 			res => {},
 			err => {
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.PUT,
 			getHeaderToken()
@@ -234,11 +233,10 @@ function TodoActivityListItem(props) {
 			{},
 			res => {
 				const inviteMembers = res.results.filter(m => m.role == 'Worker');
-				console.log(inviteMembers);
 				setInviteMembers(inviteMembers);
 			},
 			err => {
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()

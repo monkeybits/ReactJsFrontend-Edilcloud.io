@@ -32,6 +32,8 @@ const AccessibilityToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/accessibility/AccessibilityToggleButton')
 );
 const PostNotificationDialog = loadable(() => import('./PostNotificationDialog'));
+const EditTaskTodoDialog = loadable(() => import('./EditTaskTodoDialog'));
+const EditActivityTodoDialog = loadable(() => import('./EditActivityTodoDialog'));
 
 const useStyles = makeStyles({
 	addButton: {
@@ -172,6 +174,8 @@ function TodoApp(props) {
 			{/* <AccessibilityToggleButton /> */}
 			<PostNotificationDialog />
 			<StatusConfirmDialog />
+			<EditTaskTodoDialog />
+			<EditActivityTodoDialog />
 		</>
 	);
 }

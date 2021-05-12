@@ -286,7 +286,9 @@ class Gantt extends Component {
 			res => {
 				this.props.getTodos(this.props.match.params.id, true);
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);
@@ -300,14 +302,15 @@ class Gantt extends Component {
 			datetime_end: moment(todo.date_end).format('YYYY-MM-DD'),
 			workers: todo.profile?.length ? todo.profile.map(d => d.id) : undefined
 		};
-		console.log({ values });
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(todo.id),
 			values,
 			res => {
 				this.props.getTodos(this.props.match.params.id, true);
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);
@@ -544,7 +547,6 @@ class Gantt extends Component {
 		}
 		gantt.showLightbox = id => {
 			const savedTask = gantt.getTask(id);
-			console.log({ id, savedTask });
 			if (gantt.isTaskExists(id)) {
 				if (savedTask.$new == true) {
 					if (savedTask.$level == 1) {
@@ -794,12 +796,6 @@ class Gantt extends Component {
 		const endDates = this.state.tasks.data.map(a => a.end_date && new Date(a.end_date.split('-')));
 		const min = new Date(Math.min.apply(null, startDates));
 		const max = new Date(Math.min.apply(null, endDates));
-		console.log({
-			startDatesFormat: moment(min).format('DD-MM-YYYY'),
-			endDatesFormat: moment(max).format('DD-MM-YYYY'),
-			min,
-			max
-		});
 		gantt.exportToPNG({
 			name: 'mygantt.png',
 			header: '<h1>My company</h1>',

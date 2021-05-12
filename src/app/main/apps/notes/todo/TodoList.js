@@ -116,7 +116,6 @@ function TodoList(props) {
 						} else {
 							filters[element].map(d => {
 								if (d.isActive) {
-									console.log('activeFilter????????????????????3', activeFilterKey);
 									list = setFilterByKey(element, list, element == 'peopleFilter' ? d.id : d.name);
 								}
 							});

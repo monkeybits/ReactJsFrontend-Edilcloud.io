@@ -105,8 +105,8 @@ function DetailSidebarContent({ setProgress }) {
 				({ headers, data }) => {
 					const file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
 					if (window) {
-						console.log('listenning to flutterInAppWebViewPlatformReady');
-						console.log(window.flutter_inappwebview);
+						// console.log('listenning to flutterInAppWebViewPlatformReady');
+						// console.log(window.flutter_inappwebview);
 						if (selectedItem.type == 'photo') {
 							if (window.DownloadFiles) {
 								window.DownloadFiles.postMessage(selectedItem.photo);
@@ -129,7 +129,7 @@ function DetailSidebarContent({ setProgress }) {
 								window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
 						}
 
-						console.log('finish listenning to flutterInAppWebViewPlatformReady');
+						// console.log('finish listenning to flutterInAppWebViewPlatformReady');
 					}
 					FileSaver.saveAs(file);
 					dispatch(Actions.onUploadHandleLoading(false));
@@ -186,7 +186,9 @@ function DetailSidebarContent({ setProgress }) {
 				dispatch(Actions.setSelectedItem(''));
 				colseDeleteFileDialog();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);

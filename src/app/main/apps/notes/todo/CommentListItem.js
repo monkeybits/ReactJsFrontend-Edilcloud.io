@@ -182,7 +182,6 @@ export default function CommentListItem({
 					...tempofflineCommentReplies[unique_code],
 					retryOption: true
 				};
-				console.log({ myErrorComment: err, tempofflineCommentReplies });
 				setofflineCommentReplies(tempofflineCommentReplies);
 				forceUpdate();
 			},
@@ -207,7 +206,6 @@ export default function CommentListItem({
 				if (setIsEditing) {
 					setIsEditing(false);
 				}
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -261,7 +259,9 @@ export default function CommentListItem({
 			DELETE_COMMENT(comment.id),
 			{},
 			res => afterDeleteComment(),
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);
@@ -278,7 +278,6 @@ export default function CommentListItem({
 			EDIT_COMMENT(comment.id),
 			formData,
 			res => {
-				console.log('edited', res);
 				needToGetComments(setIsEditing);
 			},
 			err => {},

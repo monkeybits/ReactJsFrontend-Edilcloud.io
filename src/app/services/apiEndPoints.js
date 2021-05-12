@@ -120,6 +120,8 @@ export const GET_ACTIVITY_OF_TASK = tid => `/api/frontend/project/task/${tid}/ac
 export const ADD_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/add_post/`;
 export const ADD_POST_TO_TASK = tid => `/api/frontend/project/task/${tid}/add_post/`;
 export const GET_POST_TO_ACTIVITY = aid => `/api/frontend/project/activity/${aid}/post_list/`;
+export const DELETE_ACTIVITY_OF_TASK = aid => `/api/frontend/project/activity/delete/${aid}/`;
+export const DELETE_TASK_OF_PROJECT = aid => `/api/frontend/project/task/delete/${aid}/`;
 export const GET_POST_FOR_TASK = tid => `/api/frontend/project/task/${tid}/post_list/`;
 export const DELETE_POST = pid => `/api/frontend/project/post/delete/${pid}/`;
 export const DELETE_COMMENT = cid => `/api/frontend/project/comment/delete/${cid}/`;

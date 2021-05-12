@@ -33,7 +33,7 @@ import {
 	Paper
 } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
+import { GET_ACTIVITY_OF_TASK, DELETE_TASK_OF_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import moment from 'moment';
@@ -291,6 +291,21 @@ function TodoListItem(props) {
 	};
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
 
+	const deleteTaskOfProject = (todo) => {
+		apiCall(
+			DELETE_TASK_OF_PROJECT(todo.id),
+			{},
+			res => {
+				console.log('res.................', res)
+			},
+			err => {
+				// console.log(err);
+			},
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	}
+
 	return (
 		<div className="mb-20">
 			<Card
@@ -369,6 +384,30 @@ function TodoListItem(props) {
 										<Button>
 											<Icon className="mr-10">add_circle_outline</Icon>
 											SOTTOFASE
+										</Button>
+									</MenuItem>
+									<MenuItem
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											dispatch(Actions.editTaskTodoDialog(props.todo));
+										}}
+									>
+										<Button>
+											<Icon className="mr-10">edit</Icon>
+											Edit
+										</Button>
+									</MenuItem>
+									<MenuItem
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											deleteTaskOfProject(props.todo);
+										}}
+									>
+										<Button>
+											<Icon className="mr-10">delete</Icon>
+											Delete
 										</Button>
 									</MenuItem>
 								</TippyMenu>

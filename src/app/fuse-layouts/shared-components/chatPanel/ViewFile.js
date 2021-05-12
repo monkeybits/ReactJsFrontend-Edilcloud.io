@@ -12,7 +12,6 @@ export default function ViewFile({ files, open, setOpen }) {
 
 	const openImage = index => {
 		const selected = media.files.filter(file => file.id === files[index].id)[0];
-		// console.log(files[index], media.files, selected);
 		if (selected) {
 			setOpenDialog(true);
 			setOpen(true);

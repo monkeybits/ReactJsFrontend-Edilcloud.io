@@ -145,7 +145,6 @@ function searchFolderById(nameKey, array) {
 }
 
 const getnestedFilesById = (folders, id) => {
-	console.log({ folders, id });
 	if (Array.isArray(folders)) {
 		if (folders.find(x => x.id === id)) {
 			return folders;
@@ -366,7 +365,6 @@ const filesReducer = (state = initialState(), action) => {
 					newFolderPath = [...newFolderPath, folder];
 				}
 			});
-			console.log('files???????????????????', newFolderPath);
 			return action.payload.media
 				? {
 						...state,
@@ -455,10 +453,6 @@ const filesReducer = (state = initialState(), action) => {
 				pathData = action.payload[action.payload.length - 1];
 				updateNewActionPayload = action.payload;
 			}
-
-			console.log('files???????????????????', updateNewActionPayload);
-			console.log('files???????????????????', pathData);
-
 			return {
 				...state,
 				folderPath: [...updateNewActionPayload],

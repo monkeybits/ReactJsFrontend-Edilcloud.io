@@ -87,7 +87,9 @@ function GanttWrapper(props) {
 			.then(res => {
 				dispatch(Actions.getTodos(routeParams.id, true));
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				// console.log(err)
+			});
 	};
 	const importExcel = data => {
 		const file = data || target;

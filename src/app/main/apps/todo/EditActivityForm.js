@@ -39,6 +39,7 @@ export default function EditActivityForm(props) {
 	const todoDialog = useSelector(({ todoApp }) => todoApp.todos.todoDialog);
 	const companyDetail = useSelector(({ chatApp }) => chatApp?.company);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
+	const editActivityTodoDialog = useSelector(({ todoApp }) => todoApp.todos.editActivityTodoDialog);
 	const [labelMenuEl, setLabelMenuEl] = useState(null);
 	const { form, handleChange, setForm, resetForm } = useForm({ ...defaultFormState });
 	const startDate = moment(form.startDate).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
@@ -58,7 +59,7 @@ export default function EditActivityForm(props) {
 		/**
 		 * After Dialog Open
 		 */
-		if (todoDialog.props.openTimelineDialog) {
+		if (todoDialog.props.openTimelineDialog || editActivityTodoDialog) {
 			setForm({ ...todoDialog.data.todo, notes: todoDialog.data.todo.description });
 			getProjectCompanyTeamProfiles();
 			setTaskDate({
@@ -77,7 +78,8 @@ export default function EditActivityForm(props) {
 				resetForm();
 			};
 		}
-	}, []);
+	}
+	, []);
 	/**
 	 * getProjectCompanyTeamProfiles: get external & company team mates
 	 */
@@ -111,6 +113,7 @@ export default function EditActivityForm(props) {
 	 */
 	const getIsDisabled = () =>
 		(todoDialog.data?.task && todoDialog.data.task.assigned_company.id != companyDetail.id) || getRole() == 'w';
+
 	return (
 		<div className="sm:pl-10">
 			{getIsDisabled() && (

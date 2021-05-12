@@ -67,7 +67,7 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 	};
 
 	React.useEffect(() => {
-		console.log('image', imageProps);
+		// console.log('image', imageProps);
 	}, [imageProps]);
 
 	const handleWheel = e => {
@@ -350,15 +350,9 @@ function DrawImage({ open, onClose, imgSrc, replaceUrl, width, height }) {
 						variant="contained"
 						color="primary"
 						onClick={() => {
-							// setImageProps({
-							// 	width,
-							// 	height
-							// });
 							setTimeout(() => {
 								convertosvg();
 							}, 400);
-
-							// console.log('imageRef', imageRef.getClientRect())
 						}}
 					>
 						save

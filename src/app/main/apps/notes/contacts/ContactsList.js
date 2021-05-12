@@ -64,9 +64,6 @@ function ContactsList(props) {
 		setAnchorEl(true);
 		event.preventDefault();
 		event.stopPropagation();
-		setTimeout(() => {
-			console.log({ currentTarget: event.currentTarget, anchorEl: Boolean(anchorEl) });
-		}, 1000);
 	};
 
 	const handleClose = event => {
@@ -150,7 +147,6 @@ function ContactsList(props) {
 				// width: 128,
 				sortable: false,
 				Cell: ({ row }) => {
-					console.log(user, row.original, userInfo);
 					return (
 						<MoreOption
 							canHaveDeleteOption={
@@ -260,7 +256,9 @@ function ContactsList(props) {
 				colseDeleteContactDialog();
 				dispatch(Actions.getContacts(routeParams));
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);

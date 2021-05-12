@@ -130,7 +130,9 @@ function TodoApp(props) {
 								})
 							);
 						},
-						err => console.log(err),
+						err => {
+							// console.log(err),
+						},
 						METHOD.GET,
 						getHeaderToken()
 					);
@@ -151,7 +153,9 @@ function TodoApp(props) {
 							dispatch(Actions.addTaskData(res));
 						}
 					},
-					err => console.log(err),
+					err => {
+						// console.log(err),
+					},
 					METHOD.GET,
 					getHeaderToken()
 				);
@@ -189,7 +193,9 @@ function TodoApp(props) {
 			.then(res => {
 				dispatch(Actions.getTodos(routeParams.id, false));
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				// console.log(err)
+			});
 	};
 	const importExcel = data => {
 		const file = data || target;

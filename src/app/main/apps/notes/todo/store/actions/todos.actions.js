@@ -70,8 +70,6 @@ export function setUploadPercentage(payload) {
 	};
 }
 export function getTodos(pid, isGantt, handleSetLoading = () => '') {
-	console.log({ pid, isGantt, handleSetLoading });
-	// const request = axios.get('/api/todo-app/todos', { params });
 	handleSetLoading({
 		loadingTodos: true
 	});
@@ -279,6 +277,14 @@ export function openAddActivityTodoDialog(data) {
 			type: OPEN_ACTIVITY_TODO_DIALOG,
 			data
 		});
+}
+export function editTaskTodoDialog(data) {
+	console.log('dsfsdfs', data)
+	// return dispatch =>
+	// 	dispatch({
+	// 		type: OPEN_ACTIVITY_TODO_DIALOG,
+	// 		data
+	// 	});
 }
 export function closeEditTodoDialog() {
 	return {

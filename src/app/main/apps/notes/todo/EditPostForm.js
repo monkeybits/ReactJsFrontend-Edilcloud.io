@@ -32,7 +32,6 @@ const uuidv1 = require('uuid/v1');
 
 const getAllFilesOfTimeline = timeline => {
 	if (Array.isArray(timeline) && timeline.length) {
-		console.log({ timeline });
 		return timeline.reduce(
 			(prev, current) => {
 				return { media_set: [...prev.media_set, ...current.media_set].map((d, index) => ({ ...d, index })) };
@@ -134,7 +133,9 @@ function EditPostForm(props) {
 				const files = getAllFilesOfTimeline(res.results);
 				setMedia({ files: files.media_set });
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -155,7 +156,6 @@ function EditPostForm(props) {
 			},
 			err => {
 				setLoading(false);
-				console.log(err);
 			},
 			METHOD.PUT,
 			getHeaderToken()
@@ -165,18 +165,18 @@ function EditPostForm(props) {
 	const addPhoto = async e => {
 		const { files } = e.currentTarget;
 		const fileToCompress = e.currentTarget.files[0];
-		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
-		console.log(`File Index 0`, fileToCompress); // smaller than maxSizeMB
+		// console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+		// console.log(`File Index 0`, fileToCompress); // smaller than maxSizeMB
 		if (fileToCompress.type?.split('/')[0] == 'image') {
 			const compressedFile = await imageCompression(fileToCompress, {
 				maxSizeMB: 0.1,
 				maxWidthOrHeight: 1024,
 				useWebWorker: true
 			});
-			console.log(`without compressedFile(blob)`, compressedFile);
-			console.log(`compressedFile into the file`, new File([compressedFile], compressedFile.name));
-			console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
-			console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+			// console.log(`without compressedFile(blob)`, compressedFile);
+			// console.log(`compressedFile into the file`, new File([compressedFile], compressedFile.name));
+			// console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
+			// console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 			setFile({
 				fileData: new File([compressedFile], compressedFile.name)
 			});
@@ -189,7 +189,7 @@ function EditPostForm(props) {
 		let file = [];
 		for (let i = 0; i < files.length; i++) {
 			const fileType = files[i].type?.split('/');
-			console.log({ fileType });
+			// console.log({ fileType });
 			file = [
 				...file,
 				{
@@ -208,7 +208,9 @@ function EditPostForm(props) {
 			GET_SHARED_POSTS_FOR_TASKS(taskId),
 			{},
 			res => setData(prev => ({ ...prev, sharedPosts: res.results })),
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

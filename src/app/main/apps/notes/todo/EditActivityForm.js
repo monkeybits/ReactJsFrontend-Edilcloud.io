@@ -73,12 +73,13 @@ export default function EditActivityForm(props) {
 	}, []);
 
 	const getProjectCompanyTeamProfiles = value => {
-		// console.log(routeParams.id, todoDialog, value);
 		apiCall(
 			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, todoDialog.data.task.assigned_company.id, value),
 			{},
 			res => setProfiles(res),
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

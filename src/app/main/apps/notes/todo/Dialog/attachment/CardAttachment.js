@@ -51,10 +51,10 @@ function CardAttachment(props) {
 			({ headers, data }) => {
 				const image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
 				const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
-				console.log({ file });
+				// console.log({ file });
 				if (window) {
-					console.log('listenning to flutterInAppWebViewPlatformReady');
-					console.log(window.flutter_inappwebview);
+					// console.log('listenning to flutterInAppWebViewPlatformReady');
+					// console.log(window.flutter_inappwebview);
 					if (type() == 'image') {
 						if (window.DownloadFiles) {
 							window.DownloadFiles.postMessage(item.photo);

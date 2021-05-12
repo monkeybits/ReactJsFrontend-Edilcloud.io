@@ -126,7 +126,9 @@ export default function ContactCard(props) {
 				colseDeleteContactDialog();
 				dispatch(Actions.getContacts(routeParams));
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);

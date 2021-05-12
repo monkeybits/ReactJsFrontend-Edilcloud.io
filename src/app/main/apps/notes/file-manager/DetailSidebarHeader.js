@@ -71,7 +71,9 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 				dispatch(Actions.setSelectedItem(''));
 				colseDeleteFileDialog();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);

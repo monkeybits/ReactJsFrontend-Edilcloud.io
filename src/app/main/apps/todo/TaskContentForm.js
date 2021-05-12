@@ -174,7 +174,7 @@ const IOSSlider = withStyles({
 })(Slider);
 
 function TaskContentForm(props) {
-	const { t } = useTranslation('dashboard'); // translate dashbord
+	const { t } = useTranslation('dashboard');
 	const dispatch = useDispatch();
 	const upload = useSelector(({ todoApp }) => todoApp.todos.upload);
 	const taskContent = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
@@ -388,11 +388,11 @@ function TaskContentForm(props) {
 						{...a11yProps(0)}
 					/>
 					{/* <BottomNavigationAction className="min-w-auto max-w-full font-bold" label="Drawings" {...a11yProps(1)} /> */}
-					<BottomNavigationAction
+					{/* <BottomNavigationAction
 						className="min-w-auto max-w-full font-bold"
 						label="Edit"
 						{...a11yProps(2)}
-					/>
+					/> */}
 				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton
@@ -426,7 +426,7 @@ function TaskContentForm(props) {
 				<TabPanel value={value} index={0} class="write-post-img-full">
 					<CreatePostForm taskId={taskContentData?.id} isTask />
 				</TabPanel>
-				<TabPanel value={value} index={1} className="bg-white">
+				{/* <TabPanel value={value} index={1} className="bg-white">
 					<div className="sm:mx-12">
 						{getIsDisabled() && (
 							<div className="flex items-center mb-24">
@@ -598,7 +598,7 @@ function TaskContentForm(props) {
 							</Button>
 						</div>
 					</div>
-				</TabPanel>
+				</TabPanel> */}
 
 				{/* <TabPanel value={value} index={1}>
 					<div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center mb-24">

@@ -153,8 +153,6 @@ function TodoDialog(props) {
 		/**
 		 * Dialog type: 'edit'
 		 */
-		console.log({ assigned_company: todoDialog.data });
-
 		if (todoDialog.type === 'edit' && todoDialog.data) {
 			setForm({ ...todoDialog.data });
 		}
@@ -249,7 +247,6 @@ function TodoDialog(props) {
 		return form.title.length > 0 && taskDate.startDate && taskDate.endDate;
 	}
 	const getProjectCompanyTeamProfiles = value => {
-		console.log(routeParams.id, todoDialog.data.assigned_company.id, value);
 		apiCall(
 			GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, todoDialog.data.assigned_company?.id, value),
 			{},
@@ -265,7 +262,9 @@ function TodoDialog(props) {
 						}))
 				);
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
