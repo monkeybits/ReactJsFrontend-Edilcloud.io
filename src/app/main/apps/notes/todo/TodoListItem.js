@@ -382,7 +382,19 @@ function TodoListItem(props) {
 									>
 										<Button>
 											<Icon className="mr-10">edit</Icon>
-											Edit Task
+											Edit
+										</Button>
+									</MenuItem>
+									<MenuItem
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											// dispatch(Actions.editTaskTodoDialog(props.todo));
+										}}
+									>
+										<Button>
+											<Icon className="mr-10">delete</Icon>
+											Delete
 										</Button>
 									</MenuItem>
 								</TippyMenu>

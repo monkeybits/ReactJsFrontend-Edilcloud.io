@@ -33,6 +33,7 @@ const AccessibilityToggleButton = loadable(() =>
 );
 const PostNotificationDialog = loadable(() => import('./PostNotificationDialog'));
 const EditTaskTodoDialog = loadable(() => import('./EditTaskTodoDialog'));
+const EditActivityTodoDialog = loadable(() => import('./EditActivityTodoDialog'));
 
 const useStyles = makeStyles({
 	addButton: {
@@ -174,6 +175,7 @@ function TodoApp(props) {
 			<PostNotificationDialog />
 			<StatusConfirmDialog />
 			<EditTaskTodoDialog />
+			<EditActivityTodoDialog />
 		</>
 	);
 }

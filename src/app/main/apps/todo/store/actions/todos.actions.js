@@ -38,6 +38,8 @@ export const EDIT_TASK_TODO_DIALOG = '[TODO APP] EDIT TASK TODO DIALOG';
 export const SET_UPLOAD = '[TODO APP] SET UPLOAD ';
 export const SET_UPLOAD_PERCENTAGE = '[TODO APP] SET UPLOAD PERCENTAGE';
 export const CLOSE_EDIT_TASK_TODO_DIALOG = '[TODO APP] CLOSE EDIT TASK TODO DIALOG';
+export const EDIT_ACTIVITY_TODO_DIALOG = '[TODO APP] EDIT ACTIVITY TODO DIALOG';
+export const CLOSE_EDIT_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE EDIT ACTIVITY TODO DIALOG';
 
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
@@ -134,7 +136,6 @@ export function editActivity(todo, pid, setLoading, isGantt) {
 	// 	todo
 	// });
 	return dispatch => {
-		console.log(todo, todo.profile);
 		const values = {
 			title: todo.title,
 			description: todo.notes,
@@ -153,7 +154,7 @@ export function editActivity(todo, pid, setLoading, isGantt) {
 					dispatch(getTodos(pid, isGantt));
 					dispatch(closeTimelineDialog());
 				}
-				console.log(res);
+				dispatch(closeEditActivityTodoDialog());
 				setLoading(false);
 				toast.success('Updated');
 			},
@@ -265,6 +266,7 @@ export function openAddActivityTodoDialog(data) {
 			data
 		});
 }
+
 export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, setLoading, handleSetLoading) {
 	console.log({
 		todo
@@ -313,6 +315,17 @@ export function openTimelineDialog(todo) {
 	return {
 		type: OPEN_TIMELINE_DIALOG,
 		todo
+	};
+}
+export function editActivityTodoDialog(todo) {
+	return {
+		type: EDIT_ACTIVITY_TODO_DIALOG,
+		todo
+	};
+}
+export function closeEditActivityTodoDialog(todo) {
+	return {
+		type: CLOSE_EDIT_ACTIVITY_TODO_DIALOG
 	};
 }
 export function removeTodo(todoId) {

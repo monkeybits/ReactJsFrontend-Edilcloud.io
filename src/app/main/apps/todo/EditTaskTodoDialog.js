@@ -124,12 +124,11 @@ const IOSSlider = withStyles({
 })(Slider);
 
 function EditTaskTodoDialog() {
-    const { t } = useTranslation('dashboard'); // translate dashbord
+    const { t } = useTranslation('dashboard');
     const dispatch = useDispatch();
     const taskContent = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
     const editTaskTodoDialog = useSelector(({ todoApp }) => todoApp.todos.editTaskTodoDialog);
-    // const taskContentData = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog?.data);
-    const taskContentData = useSelector(({ todoApp }) => todoApp.todos.editTaskTodoData);
+    const taskContentData = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog?.data);
     const companyDetail = useSelector(({ chatApp }) => chatApp?.company);
     const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
     const getRole = () => userInfo?.extra?.profile.role;
@@ -226,8 +225,7 @@ function EditTaskTodoDialog() {
 		description: taskContentData?.parent == 1 ? taskContentData?.description : taskContentData?.note
 	});
     const dueDate = cardForm && cardForm.due ? moment(cardForm.due).format(moment.HTML5_FMT.DATE) : '';
-
-    console.log('props.todo????????????????taskContentData', taskContentData?.parent);
+    
     console.log('props.todo????????????????name', taskContentData?.parent == 1 ? taskContentData?.title : taskContentData?.name);
     console.log('props.todo????????????????note', taskContentData?.parent == 1 ? taskContentData?.description : taskContentData?.note);
     console.log('props.todo????????????????cardForm', cardForm);
@@ -263,7 +261,7 @@ function EditTaskTodoDialog() {
 				taskContentData.project.id,
 				taskContent.type,
 				() => {
-					dispatch(Actions.closeTaskContent());
+					dispatch(Actions.closeEditTaskTodoDialog());
 				},
 				taskContentData.isGantt,
 				setLoading
@@ -271,13 +269,11 @@ function EditTaskTodoDialog() {
 		);
 	};
 
-    console.log('props.todo????????????????taskContentData', taskContentData);
-
     return (
         <Dialog
-            classes={{
-                root: 'custom-modal-close'
-            }}
+            // classes={{
+            //     root: 'custom-modal-close'
+            // }}
             open={editTaskTodoDialog}
             onClose={closeTodoDialog}
             fullWidth

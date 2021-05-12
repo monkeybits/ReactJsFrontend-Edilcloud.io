@@ -26,7 +26,8 @@ const initialState = {
 		data: null
 	},
 	openDrawingContent: false,
-	editTaskTodoDialog: false
+	editTaskTodoDialog: false,
+	editActivityTodoDialog: false
 };
 
 const todosReducer = (state = initialState, action) => {
@@ -62,14 +63,26 @@ const todosReducer = (state = initialState, action) => {
 			return {
 				...state,
 				editTaskTodoDialog: true,
-				editTaskTodoData: action.data
+				taskContentDialog: {
+					type: 'new',
+					props: {
+						open: false
+					},
+					data: action.data
+				}
 			};
 		}
 		case Actions.CLOSE_EDIT_TASK_TODO_DIALOG: {
 			return {
 				...state,
 				editTaskTodoDialog: false,
-				editTaskTodoData: {}
+				taskContentDialog: {
+					type: 'new',
+					props: {
+						open: false
+					},
+					data: null
+				}
 			};
 		}
 		case Actions.OPEN_TASK_CONTENT_DIALOG: {
@@ -144,6 +157,32 @@ const todosReducer = (state = initialState, action) => {
 					},
 					data: action.todo
 				}
+			};
+		}
+		case Actions.EDIT_ACTIVITY_TODO_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'edit',
+					props: {
+						openTimelineDialog: false
+					},
+					data: action.todo
+				},
+				editActivityTodoDialog: true
+			};
+		}
+		case Actions.CLOSE_EDIT_ACTIVITY_TODO_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'edit',
+					props: {
+						openTimelineDialog: false
+					},
+					data: null
+				},
+				editActivityTodoDialog: false
 			};
 		}
 		case Actions.CLOSE_NEW_TODO_DIALOG: {

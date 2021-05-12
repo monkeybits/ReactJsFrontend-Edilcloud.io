@@ -17,7 +17,8 @@ import {
 	Paper,
 	Button,
 	MenuItem,
-	FormControlLabel
+	FormControlLabel,
+	IconButton
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -26,7 +27,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { EDIT_ACTIVITY_TO_TASK, GET_ACTIVITY_OF_TASK, GET_STAFF_LIST } from 'app/services/apiEndPoints';
+import { EDIT_ACTIVITY_TO_TASK, GET_ACTIVITY_OF_TASK, GET_STAFF_LIST, DELETE_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { useParams } from 'react-router';
 import Tippy from '@tippyjs/react';
@@ -37,6 +38,7 @@ import * as Actions from './store/actions';
 
 const WorkerProfiles = loadable(() => import('./WorkerProfiles'));
 const TodoChip = loadable(() => import('./TodoChip'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
@@ -169,7 +171,7 @@ function TodoActivityListItem(props) {
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(props.todo.id),
 			values,
-			res => {},
+			res => { },
 			err => {
 				setCompleted(!status);
 				console.log(err);
@@ -185,8 +187,6 @@ function TodoActivityListItem(props) {
 		if (Array.isArray(workers)) {
 			ids = [...workers, ...data].filter(w => w.is_exists);
 		}
-
-		console.log({ ids });
 		const values = {
 			id: props.todo.id,
 			title: props.todo.title,
@@ -199,9 +199,9 @@ function TodoActivityListItem(props) {
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(props.todo.id),
 			values,
-			res => {},
+			res => { },
 			err => {
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.PUT,
 			getHeaderToken()
@@ -255,11 +255,10 @@ function TodoActivityListItem(props) {
 			{},
 			res => {
 				const inviteMembers = res.results.filter(m => m.role == 'Worker');
-				console.log(inviteMembers);
 				setInviteMembers(inviteMembers);
 			},
 			err => {
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -286,6 +285,23 @@ function TodoActivityListItem(props) {
 		);
 	};
 
+	const deleteActivityOfTask = (task, todo) => {
+		console.log('props.................', task)
+		console.log('props.................', todo)
+		apiCall(
+			DELETE_ACTIVITY_OF_TASK(todo.id),
+			{},
+			res => {
+				console.log('res.................', res)
+			},
+			err => {
+				// console.log(err);
+			},
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+	}
+
 	return (
 		<>
 			<ListItem
@@ -306,294 +322,255 @@ function TodoActivityListItem(props) {
 				dense
 				button
 			>
-				<div className="flex-col relative overflow-hidden">
-					<div>
-						<div className="flex items-center">
-							<Checkbox
-								disabled={
-									props.task.assigned_company?.id != company.id || getRole() == 'w' // we have to disbale check box for some roles or for other comapnies
-								}
-								tabIndex={-1}
-								disableRipple
-								checked={completed}
-								onChange={e => {
-									e.stopPropagation();
-									// e.preventDefault();
-									editTodoActivty(e.target.checked); // call the API to Edit Activity
-								}}
-								onClick={ev => ev.stopPropagation()}
-							/>
-							<Typography
-								variant="subtitle1"
-								className="todo-title"
-								color={completed ? 'textSecondary' : 'inherit'} // in change of activity change styles
-							>
-								{props.todo.title}
-							</Typography>
-							<div className="ml-auto">
-								{/* 
-								// *The below old code was for UI, I just had to leave it here for you to see.
-
-								<Tooltip title="There is a issue with some tree are not clean on site" placement="top">
-									<IconButton
-										onClick={e => {
-											e.stopPropagation();
-											e.preventDefault();
-										}}
-									>
-										<Icon>info_outlined</Icon>
-									</IconButton>
-								</Tooltip> */}
-								{/*
-								// *The below old code was for UI, I just had to leave it here for you to see.
-								<IconButton
-											onClick={ev => {
-												ev.preventDefault();
-												ev.stopPropagation();
-												if (props.todo.assigned_company) {
-													dispatch(Actions.openAddActivityTodoDialog(props.todo));
-												}
-											}}
-										>
-											<Icon>error</Icon>
-										</IconButton> */}
+				<div className="flex relative overflow-hidden w-full justify-between">
+					<div className="flex-col">
+						<div>
+							<div className="flex items-center">
+								<Checkbox
+									disabled={
+										props.task.assigned_company?.id != company.id || getRole() == 'w' // we have to disbale check box for some roles or for other comapnies
+									}
+									tabIndex={-1}
+									disableRipple
+									checked={completed}
+									onChange={e => {
+										e.stopPropagation();
+										// e.preventDefault();
+										editTodoActivty(e.target.checked); // call the API to Edit Activity
+									}}
+									onClick={ev => ev.stopPropagation()}
+								/>
+								<Typography
+									variant="subtitle1"
+									className="todo-title"
+									color={completed ? 'textSecondary' : 'inherit'} // in change of activity change styles
+								>
+									{props.todo.title}
+								</Typography>
+								<div className="ml-auto">
+								</div>
 							</div>
 						</div>
-					</div>
-					<div className="flex items-center">
-						{props.task.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
-							<Tippy
-								className="custom-tippy"
-								placement="bottom"
-								animation="fade"
-								arrow
-								theme="light-border"
-								trigger="click"
-								// Need to ensure it can be tabbed to directly after with no clipping issues
-								// appendTo="parent"
-								onMount={() => setAriaExpanded('true')}
-								onHide={() => setAriaExpanded('false')}
-								// interactive
-								// hideOnClick={false}
-								onClickOutside={handleMenuClose}
-								content={
-									<Paper className={classes.paper}>
-										{/* <ToolbarMenu state={anchorEl} onClose={handleMenuClose}> */}
-										<>
-											{!!members?.length && (
-												// <Button onClick={handleSelectAll}>Select All </Button>
-												<FormControlLabel
-													className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
-													control={
-														<Checkbox
-															checked={
-																members.every(d => d.is_exists) &&
-																canAssign.every(d => d.is_exists)
-															}
-															onClick={handleSelectAll}
-															name="checkedB"
-														/>
-													}
-													label={t('SELECT_ALL')}
-												/>
-											)}
-											{!!members?.length || !!canAssign?.length ? (
-												<>
-													{members.map((member, index) => {
-														return (
-															<MenuItem
-																onClick={stopsEvents}
-																className="px-8"
-																key={member.id}
-															>
-																<Checkbox
+						<div className="flex items-center">
+							{props.task.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
+								<Tippy
+									className="custom-tippy"
+									placement="bottom"
+									animation="fade"
+									arrow
+									theme="light-border"
+									trigger="click"
+									// Need to ensure it can be tabbed to directly after with no clipping issues
+									// appendTo="parent"
+									onMount={() => setAriaExpanded('true')}
+									onHide={() => setAriaExpanded('false')}
+									// interactive
+									// hideOnClick={false}
+									onClickOutside={handleMenuClose}
+									content={
+										<Paper className={classes.paper}>
+											{/* <ToolbarMenu state={anchorEl} onClose={handleMenuClose}> */}
+											<>
+												{!!members?.length && (
+													// <Button onClick={handleSelectAll}>Select All </Button>
+													<FormControlLabel
+														className="px-8 pt-10 m-0 flex cusotm-checkbox-label"
+														control={
+															<Checkbox
+																checked={
+																	members.every(d => d.is_exists) &&
+																	canAssign.every(d => d.is_exists)
+																}
+																onClick={handleSelectAll}
+																name="checkedB"
+															/>
+														}
+														label={t('SELECT_ALL')}
+													/>
+												)}
+												{!!members?.length || !!canAssign?.length ? (
+													<>
+														{members.map((member, index) => {
+															return (
+																<MenuItem
 																	onClick={stopsEvents}
-																	name={member.first_name}
-																	checked={!!member.is_exists}
-																	onChange={e => {
-																		const tempMembers = [...members];
-																		tempMembers[index] = {
-																			...tempMembers[index],
-																			is_exists: e.target.checked
-																		};
-																		if (
-																			[...tempMembers, ...canAssign].some(
-																				d => d.is_exists
-																			)
-																		) {
-																			setMembers(tempMembers);
-																			editWorkers(tempMembers, false);
-																		} else {
-																			toast.error(
-																				'Can not remove everyone from activity'
-																			);
-																		}
-																	}}
-																/>
-																<Avatar
-																	className="w-32 h-32"
-																	src={member.profile.photo}
-																/>
-																<ListItemText className="mx-8">
-																	{member.profile.first_name}{' '}
-																	{member.profile.last_name}
-																</ListItemText>
-															</MenuItem>
-														);
-													})}
-													{canAssign.map((member, index) => {
-														return (
-															<MenuItem
-																onClick={stopsEvents}
-																className="px-8"
-																key={member.id}
-															>
-																<Checkbox
-																	onClick={ev => ev.stopPropagation()}
-																	name={member.first_name}
-																	checked={!!member.is_exists}
-																	onChange={e => {
-																		const tempMembers = [...canAssign];
-																		tempMembers[index] = {
-																			...tempMembers[index],
-																			is_exists: e.target.checked
-																		};
-																		if (
-																			[...tempMembers, ...members].some(
-																				d => d.is_exists
-																			)
-																		) {
-																			setCanAssign(tempMembers);
-																			editWorkers(tempMembers, true);
-																		} else {
-																			toast.error(
-																				'Can not remove everyone from activity'
-																			);
-																		}
-																	}}
-																/>
-																<Avatar
-																	className="w-32 h-32"
-																	src={member.profile.photo}
-																/>
-																<ListItemText className="mx-8">
-																	{member.profile.first_name}{' '}
-																	{member.profile.last_name}
-																</ListItemText>
-															</MenuItem>
-														);
-													})}
-												</>
-											) : (
-												<>
-													<Typography variant="subtitle1" className="todo-title p-8">
-														{inviteMembers.length
-															? 'You have no workers in your project, add from below list'
-															: 'You have no workers in your company'}
-													</Typography>
-													{inviteMembers.map((member, index) => {
-														return member.is_exists ? null : (
-															<MenuItem
-																onClick={stopsEvents}
-																className="px-8"
-																key={member.id}
-															>
-																<Avatar
-																	className="w-32 h-32"
-																	src={member.profile.photo}
-																/>
-																<ListItemText className="mx-8">
-																	{member.first_name} {member.last_name}
-																</ListItemText>
-																<Button onClick={e => addMemberToProject(e, index)}>
-																	Add
-																</Button>
-															</MenuItem>
-														);
-													})}
-												</>
-											)}
-										</>
-										{/* </ToolbarMenu> */}
-									</Paper>
-								}
+																	className="px-8"
+																	key={member.id}
+																>
+																	<Checkbox
+																		onClick={stopsEvents}
+																		name={member.first_name}
+																		checked={!!member.is_exists}
+																		onChange={e => {
+																			const tempMembers = [...members];
+																			tempMembers[index] = {
+																				...tempMembers[index],
+																				is_exists: e.target.checked
+																			};
+																			if (
+																				[...tempMembers, ...canAssign].some(
+																					d => d.is_exists
+																				)
+																			) {
+																				setMembers(tempMembers);
+																				editWorkers(tempMembers, false);
+																			} else {
+																				toast.error(
+																					'Can not remove everyone from activity'
+																				);
+																			}
+																		}}
+																	/>
+																	<Avatar
+																		className="w-32 h-32"
+																		src={member.profile.photo}
+																	/>
+																	<ListItemText className="mx-8">
+																		{member.profile.first_name}{' '}
+																		{member.profile.last_name}
+																	</ListItemText>
+																</MenuItem>
+															);
+														})}
+														{canAssign.map((member, index) => {
+															return (
+																<MenuItem
+																	onClick={stopsEvents}
+																	className="px-8"
+																	key={member.id}
+																>
+																	<Checkbox
+																		onClick={ev => ev.stopPropagation()}
+																		name={member.first_name}
+																		checked={!!member.is_exists}
+																		onChange={e => {
+																			const tempMembers = [...canAssign];
+																			tempMembers[index] = {
+																				...tempMembers[index],
+																				is_exists: e.target.checked
+																			};
+																			if (
+																				[...tempMembers, ...members].some(
+																					d => d.is_exists
+																				)
+																			) {
+																				setCanAssign(tempMembers);
+																				editWorkers(tempMembers, true);
+																			} else {
+																				toast.error(
+																					'Can not remove everyone from activity'
+																				);
+																			}
+																		}}
+																	/>
+																	<Avatar
+																		className="w-32 h-32"
+																		src={member.profile.photo}
+																	/>
+																	<ListItemText className="mx-8">
+																		{member.profile.first_name}{' '}
+																		{member.profile.last_name}
+																	</ListItemText>
+																</MenuItem>
+															);
+														})}
+													</>
+												) : (
+													<>
+														<Typography variant="subtitle1" className="todo-title p-8">
+															{inviteMembers.length
+																? 'You have no workers in your project, add from below list'
+																: 'You have no workers in your company'}
+														</Typography>
+														{inviteMembers.map((member, index) => {
+															return member.is_exists ? null : (
+																<MenuItem
+																	onClick={stopsEvents}
+																	className="px-8"
+																	key={member.id}
+																>
+																	<Avatar
+																		className="w-32 h-32"
+																		src={member.profile.photo}
+																	/>
+																	<ListItemText className="mx-8">
+																		{member.first_name} {member.last_name}
+																	</ListItemText>
+																	<Button onClick={e => addMemberToProject(e, index)}>
+																		Add
+																	</Button>
+																</MenuItem>
+															);
+														})}
+													</>
+												)}
+											</>
+											{/* </ToolbarMenu> */}
+										</Paper>
+									}
 								// onClickOutside={handleMenuClose}
-							>
-								<div
-									ref={anchorRef}
-									className="custom-member-menu flex items-center"
-									onClick={visible ? handleMenuClose : handleMenuOpen}
-									aria-haspopup="true"
-									aria-expanded={ariaExpanded}
 								>
-									<Icon className="bg-custom-primary text-white">person_add</Icon>
-									{/* Assign People */}
-								</div>
-							</Tippy>
-						)}
-						{/* <JSXContent /> */}
-						<WorkerProfiles
-							workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
-						/>
+									<div
+										ref={anchorRef}
+										className="custom-member-menu flex items-center"
+										onClick={visible ? handleMenuClose : handleMenuOpen}
+										aria-haspopup="true"
+										aria-expanded={ariaExpanded}
+									>
+										<Icon className="bg-custom-primary text-white">person_add</Icon>
+										{/* Assign People */}
+									</div>
+								</Tippy>
+							)}
+							{/* <JSXContent /> */}
+							<WorkerProfiles
+								workers={[...members.filter(d => d.is_exists), ...canAssign.filter(d => d.is_exists)]}
+							/>
+						</div>
 					</div>
 
-					{/*
-					// *The below old code was for UI, I just had to leave it here for you to see.
-					<div className="flex items-center mb-8 ml-32">
-						<div className="flex items-center flex-wrap">
-							{props.todo.progress == 100 ? (
-								<div className={clsx('flex items-center px-8 py-4 rounded-sm bg-green text-white')}>
-									<Icon className="text-16 mt-4">check_circle</Icon>{' '}
-									<span className="mx-4">Completed</span>
-								</div>
-							) : moment().diff(moment(props.todo.datetime_start)) > 0 ? (
-								moment().diff(moment(props.todo.datetime_end)) > 0 ? (
-									<>
-										<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
-											Start: {moment(props.todo.datetime_start).format('MMM Do YY')}
-										</div>
-										<div
-											className={clsx(
-												'flex items-center px-8 py-4 rounded bg-red text-white font-size-12 ml-12'
-											)}
-										>
-											Ends: {moment(props.todo.datetime_end).format('MMM Do YY')}
-										</div>
-									</>
-								) : (
-									<>
-										<div
-											className={clsx(
-												'flex items-center px-8 py-4 bg-green rounded text-white font-size-12'
-											)}
-										>
-											Start: {moment(props.todo.datetime_start).format('MMM Do YY')}
-										</div>
-										<div
-											className={clsx(
-												'flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12'
-											)}
-										>
-											Ends: {moment(props.todo.datetime_end).format('MMM Do YY')}
-										</div>
-									</>
-								)
-							) : (
+					<div className="flex ml-auto items-end">
+						<TippyMenu
+							icon={
 								<>
-									<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
-										Start: {moment(props.todo.datetime_start).format('MMM Do YY')}
-									</div>
-									<div
-										className={clsx(
-											'flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12'
-										)}
+									<IconButton
+										// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+										aria-haspopup="true"
+										// onClick={handleMoreMenuClick}
+										// className="text-white opacity-60"
 									>
-										Ends: {moment(props.todo.datetime_end).format('MMM Do YY')}
-									</div>
+										<Icon>more_vert</Icon>
+									</IconButton>
 								</>
-							)}
-						</div>
-					</div> */}
+							}
+							outsideClick
+						>
+							<MenuItem
+								onClick={ev => {
+									ev.preventDefault();
+									ev.stopPropagation();
+									dispatch(Actions.editActivityTodoDialog({ todo: props.todo, task: props.task }));
+								}}
+							>
+								<Button>
+									<Icon className="mr-10">edit</Icon>
+									Edit
+								</Button>
+							</MenuItem>
+							<MenuItem
+								onClick={ev => {
+									ev.preventDefault();
+									ev.stopPropagation();
+									deleteActivityOfTask(props.task, props.todo)
+								}}
+							>
+								<Button>
+									<Icon className="mr-10">delete</Icon>
+									Delete
+								</Button>
+							</MenuItem>
+						</TippyMenu>
+					</div>
 					<div className={clsx(classes.labels, 'flex -mx-2')}>
 						{props.todo.labels?.map(label => (
 							<TodoChip
@@ -605,24 +582,6 @@ function TodoActivityListItem(props) {
 						))}
 					</div>
 				</div>
-
-				{/*
-				// *The below old code was for UI, I just had to leave it here for you to see.
-				<div className="flex items-center px-8">
-					<div className="custom-error-icon">
-						<IconButton
-							onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								if (props.todo.assigned_company) {
-									dispatch(Actions.openAddActivityTodoDialog(props.todo));
-								}
-							}}
-						>
-							<Icon>error</Icon>
-						</IconButton>
-					</div>
-				</div> */}
 			</ListItem>
 		</>
 	);
