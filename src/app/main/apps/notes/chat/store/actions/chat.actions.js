@@ -194,7 +194,9 @@ export function retryToSendMessage(chatItem) {
 			SEND_PROJECT_MESSAGE_API(chatItem.pid),
 			formData,
 			chat => {},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);
@@ -221,7 +223,6 @@ export function companyInfo(handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingCompanyInfo: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()

@@ -227,7 +227,9 @@ function TodoListItem(props) {
 			results => {
 				setTaskDetail(results);
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -291,7 +293,6 @@ function TodoListItem(props) {
 	};
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
 
-	console.log('props.todo????????????????', props.todo);
 	return (
 		<div className="mb-20">
 			<Card
@@ -370,6 +371,18 @@ function TodoListItem(props) {
 										<Button>
 											<Icon className="mr-10">add_circle_outline</Icon>
 											SOTTOFASE
+										</Button>
+									</MenuItem>
+									<MenuItem
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											dispatch(Actions.editTaskTodoDialog(props.todo));
+										}}
+									>
+										<Button>
+											<Icon className="mr-10">edit</Icon>
+											Edit Task
 										</Button>
 									</MenuItem>
 								</TippyMenu>

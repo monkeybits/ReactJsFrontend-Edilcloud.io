@@ -119,7 +119,9 @@ export default function ReplyListItem({
 			DELETE_COMMENT(comment.id),
 			{},
 			res => afterDeleteComment(),
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);
@@ -136,7 +138,6 @@ export default function ReplyListItem({
 			EDIT_COMMENT(comment.id),
 			formData,
 			res => {
-				console.log('edited', res);
 				getReplies(setIsEditing);
 			},
 			err => {},
@@ -160,8 +161,6 @@ export default function ReplyListItem({
 	const userInfo = decodeDataFromToken();
 	const getUserId = () => userInfo?.extra?.profile.id;
 	const getRole = () => userInfo?.extra?.profile.role;
-
-	console.log('comment>>>>>>>>>>>>>>>>>>>>>>>>>>>', comment);
 
 	const index = comment.text.indexOf(' ', comment.text.indexOf(' ') + 1);
 	const replyAuthor = comment.text.substring(0, index);

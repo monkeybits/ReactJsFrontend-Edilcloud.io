@@ -34,8 +34,10 @@ export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG';
 export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG';
 export const OPEN_ACTIVITY_TODO_DIALOG = '[TODO APP] OPEN ACTIVITY TODO DIALOG';
 export const CLOSE_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE ACTIVITY TODO DIALOG';
+export const EDIT_TASK_TODO_DIALOG = '[TODO APP] EDIT TASK TODO DIALOG';
 export const SET_UPLOAD = '[TODO APP] SET UPLOAD ';
-export const SET_UPLOAD_PERCENTAGE = '[TODO APP] SET UPLOAD PERCENTAGE ';
+export const SET_UPLOAD_PERCENTAGE = '[TODO APP] SET UPLOAD PERCENTAGE';
+export const CLOSE_EDIT_TASK_TODO_DIALOG = '[TODO APP] CLOSE EDIT TASK TODO DIALOG';
 
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
@@ -51,6 +53,19 @@ export function setUploadPercentage(payload) {
 		type: SET_UPLOAD_PERCENTAGE,
 		payload
 	};
+}
+export function editTaskTodoDialog(data) {
+	return dispatch =>
+		dispatch({
+			type: EDIT_TASK_TODO_DIALOG,
+			data
+		});
+}
+export function closeEditTaskTodoDialog() {
+	return dispatch =>
+		dispatch({
+			type: CLOSE_EDIT_TASK_TODO_DIALOG
+		});
 }
 export function getTodos(params, isGantt = false, handleSetLoading = () => '') {
 	handleSetLoading({

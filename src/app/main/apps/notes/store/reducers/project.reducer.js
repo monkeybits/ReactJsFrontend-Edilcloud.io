@@ -51,7 +51,6 @@ const labelsReducer = (state = initialState(), action) => {
 				const myCompanyProjects = entities.filter(d => d.company.id == company.id);
 				const notMyCompanyProjects = entities.filter(d => d.company.id != company.id);
 				entities = [...myCompanyProjects, ...notMyCompanyProjects];
-				// console.log({ entities, company, myCompanyProjects, notMyCompanyProjects }); // myCompanyProjects, notMyCompanyProjects
 			}
 			return {
 				...state,

@@ -138,10 +138,9 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 						new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
 					);
 					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
-					console.log({ file });
 					if (window) {
-						console.log('listenning to flutterInAppWebViewPlatformReady');
-						console.log(window.flutter_inappwebview);
+						// console.log('listenning to flutterInAppWebViewPlatformReady');
+						// console.log(window.flutter_inappwebview);
 						if (selectedItem.type == 'photo') {
 							if (window.DownloadFiles) {
 								window.DownloadFiles.postMessage(selectedItem.photo);

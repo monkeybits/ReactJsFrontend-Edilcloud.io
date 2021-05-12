@@ -236,7 +236,9 @@ function FileList(props) {
 				dispatch(Actions.getFolders(routeParams.id));
 				// colseDeleteFileDialog();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);
@@ -249,9 +251,7 @@ function FileList(props) {
 			findIndex = [...allFiles].findIndex(element => element.mainId == tile.mainId && element.type == tile.type);
 		}
 		const selectedItem = allFiles[findIndex];
-		console.log('tile??????????????????????????', selectedItem);
 		if (selectedItem) {
-			console.log('tile??????????????????????????', selectedItem);
 			props.setProgress(0);
 			dispatch(Actions.onUploadHandleLoading(true));
 			const apiurl =
@@ -269,8 +269,8 @@ function FileList(props) {
 					);
 					const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 					if (window) {
-						console.log('listenning to flutterInAppWebViewPlatformReady');
-						console.log(window.flutter_inappwebview);
+						// console.log('listenning to flutterInAppWebViewPlatformReady');
+						// console.log(window.flutter_inappwebview);
 						if (selectedItem.type == 'photo') {
 							if (window.DownloadFiles) {
 								window.DownloadFiles.postMessage(selectedItem.photo);
@@ -292,7 +292,6 @@ function FileList(props) {
 								window.flutter_inappwebview.callHandler('DownloadFiles', selectedItem.document);
 						}
 					}
-					console.log({ file });
 					FileSaver.saveAs(file);
 					// var file = new File([data], `${selectedItem.title}.${selectedItem.extension}`);
 					// FileSaver.saveAs(file);

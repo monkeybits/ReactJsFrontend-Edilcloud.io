@@ -165,7 +165,6 @@ function FileManagerApp(props) {
 		resetError();
 		const { files } = event.target;
 		for (let i = 0; i < files.length; i++) {
-			console.log(files[i]);
 			if (!title) {
 				const fileName = files[i].name.split('.');
 				fileName.pop();

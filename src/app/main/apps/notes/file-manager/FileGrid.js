@@ -109,10 +109,6 @@ function FileGrid(props) {
 	const getdate = date => moment(date).format('MMMM Do YYYY, h:mm a');
 	const routeParams = useParams();
 
-	console.log('files???????????????????files', files);
-	console.log('files???????????????????currentFiles', currentFiles);
-	console.log('files???????????????????allFiles', allFiles);
-
 	const getCssColor = fileType =>
 		fileType == 'pdf'
 			? { color: 'red' }
@@ -145,12 +141,10 @@ function FileGrid(props) {
 		// 	setCurrentFiles(tempFiles);
 		// 	dispatch(Actions.setAllFiles([...modifyfolders, ...tempFiles]));
 		// }
-		console.log({ currentFolderPath, rootFiles });
 		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
 			setCurrentFiles(rootFiles);
 		} else if (Array.isArray(files)) {
 			const tempFiles = files.filter(d => d.folder == currentFolderPath.id);
-			console.log({ tempFiles });
 			setCurrentFiles(tempFiles);
 		} else {
 			setCurrentFiles([]);
@@ -252,7 +246,9 @@ function FileGrid(props) {
 				dispatch(Actions.getFolders(routeParams.id));
 				// colseDeleteFileDialog();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);

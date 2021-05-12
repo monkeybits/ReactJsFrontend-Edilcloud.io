@@ -153,8 +153,6 @@ export default function PostListItem({
 					is_public: !statusPost.is_public
 				},
 				res => {
-					console.log('statusPost', statusPost);
-					console.log('res', res);
 					if (statusPost.id === post.id) {
 						setPost(cp => ({ ...statusPost, is_public: res.is_public }));
 					}
@@ -164,7 +162,6 @@ export default function PostListItem({
 				},
 				err => {
 					setLoading(false);
-					console.log(err);
 				},
 				METHOD.PUT,
 				getHeaderToken()
@@ -238,7 +235,6 @@ export default function PostListItem({
 					...tempofflinePostComments[unique_code],
 					retryOption: true
 				};
-				console.log({ myErrorComment: err, tempofflinePostComments });
 				setofflinePostComments(tempofflinePostComments);
 				forceUpdate();
 			},
@@ -263,7 +259,6 @@ export default function PostListItem({
 				if (setIsEditing) {
 					setIsEditing(false);
 				}
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -281,7 +276,9 @@ export default function PostListItem({
 				setPost(currnetPost => ({ ...currnetPost, alert: res.alert }));
 				setAlertLoading(false);
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);
@@ -321,7 +318,7 @@ export default function PostListItem({
 				toast.success('Shared To Task');
 			},
 			err => {
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.POST,
 			getHeaderToken()
@@ -337,7 +334,6 @@ export default function PostListItem({
 				setIsRetryingPost(false);
 			},
 			(err, request, error) => {
-				console.log({ myError: err, request, error });
 				setIsRetryingPost(false);
 			},
 			METHOD.POST,
@@ -358,7 +354,9 @@ export default function PostListItem({
 			DELETE_POST(post.id),
 			{},
 			res => afterDeletePost(),
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);
@@ -371,7 +369,6 @@ export default function PostListItem({
 		const newLoadMorePostIds = [...loadMorePostIds, id];
 		setLoadMorePost(true);
 		setLoadMorePostIds(newLoadMorePostIds);
-		console.log('newLoadMorePostIds>>>>>>>>>>>>>>>', newLoadMorePostIds);
 	};
 
 	const onStatusChange = () => {

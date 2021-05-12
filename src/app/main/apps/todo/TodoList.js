@@ -433,7 +433,6 @@ function TodoList(props) {
 	}
 
 	if (filteredData.length === 0) {
-		// if there are no tasks to show below HTML code wiil be display
 		return (
 			<FuseAnimate delay={100}>
 				<div>
@@ -473,13 +472,13 @@ function TodoList(props) {
 								key={todo.id}
 								index={index}
 								companies={companies}
-							/> // all tasks will be display from this function
+							/>
 						))}
 					</div>
 				</div>
 				<div className="lg:w-2/3 content-ht dashboard left-30 custom-modal-open flex-fill">
 					{taskContentDialog.props.open && todoId == taskContentDialog.data.id ? (
-						<TaskContentForm /> // if we click on tasks this component will be displayed
+						<TaskContentForm />
 					) : (
 						!openDrawingContent &&
 						!todoDialog.props.openTimelineDialog && (
@@ -496,10 +495,10 @@ function TodoList(props) {
 						)
 					)}
 					{openDrawingContent && !todoDialog.props.openTimelineDialog && (
-						<TaskAttachment /> // if we click on tasks this component will be displayed
+						<TaskAttachment />
 					)}
 					{todoDialog.props.openTimelineDialog && todoId == todoDialog.data.task.id && (
-						<EditActivityPostForm /> // if we click on activity this component will be displayed
+						<EditActivityPostForm />
 					)}
 				</div>
 			</div>

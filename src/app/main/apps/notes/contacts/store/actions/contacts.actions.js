@@ -116,7 +116,6 @@ export function getApprovedContacts(routeParams, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingApprove: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -163,7 +162,6 @@ export function getWaitingContacts(routeParams, handleSetLoading) {
 				handleSetLoading({
 					loadingWaiting: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -211,7 +209,6 @@ export function getRefusedContacts(routeParams, handleSetLoading) {
 				handleSetLoading({
 					loadingRefuse: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -249,7 +246,7 @@ export function getDeactivatedContacts(routeParams) {
 				});
 			},
 			err => {
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -307,7 +304,7 @@ export function addMemberToProject(
 	is_external,
 	needToGetContacts = true,
 	showError = err => {
-		console.log(err);
+		// console.log(err);
 	},
 	handleSetLoading = () => '',
 	name = ''
@@ -357,7 +354,9 @@ export function addContact(values, isExisting) {
 			res => {
 				dispatch(getContacts(routeParams));
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);
@@ -377,7 +376,9 @@ export function updateContact(values, id) {
 			res => {
 				dispatch(getContacts(routeParams));
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err),
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);

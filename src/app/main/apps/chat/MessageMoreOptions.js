@@ -93,9 +93,6 @@ export default function SimpleMenu(props) {
 		setIsOpenViewFile(false);
 		// handleClose(event);
 	};
-
-	console.log('props.item', props.item);
-
 	return (
 		<div className={props.className}>
 			<TippyMenu

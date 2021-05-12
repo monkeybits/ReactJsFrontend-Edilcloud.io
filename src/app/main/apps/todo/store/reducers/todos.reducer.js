@@ -25,7 +25,8 @@ const initialState = {
 		},
 		data: null
 	},
-	openDrawingContent: false
+	openDrawingContent: false,
+	editTaskTodoDialog: false
 };
 
 const todosReducer = (state = initialState, action) => {
@@ -55,6 +56,20 @@ const todosReducer = (state = initialState, action) => {
 					},
 					data: action.data ? action.data : null
 				}
+			};
+		}
+		case Actions.EDIT_TASK_TODO_DIALOG: {
+			return {
+				...state,
+				editTaskTodoDialog: true,
+				editTaskTodoData: action.data
+			};
+		}
+		case Actions.CLOSE_EDIT_TASK_TODO_DIALOG: {
+			return {
+				...state,
+				editTaskTodoDialog: false,
+				editTaskTodoData: {}
 			};
 		}
 		case Actions.OPEN_TASK_CONTENT_DIALOG: {

@@ -64,7 +64,6 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 			},
 			err => {
 				setProgress(0);
-				console.log(err);
 			},
 			METHOD.POST,
 			{
