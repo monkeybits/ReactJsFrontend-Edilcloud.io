@@ -568,9 +568,7 @@ function TodoActivityListItem(props) {
 								onClick={ev => {
 									ev.preventDefault();
 									ev.stopPropagation();
-									console.log('props.todo???????????????????????', props.todo)
 									dispatch(Actions.openDeleteConfirmDialog('Activity', props.todo));
-									// deleteActivityOfTask(props.task, props.todo)
 								}}
 							>
 								<Button>

@@ -69,7 +69,18 @@ const removeByActivityId = (arr = [], activity) => {
 	return newEntities
 }
 
-const removeByTaskId = (arr = [], task) => (arr.length ? arr.filter((d, i) => d.id != task.id) : []);
+const removeByTaskId = (arr = [], task) => {
+	let newEntities = []
+	for (const [k, d] of Object.entries(arr)) {
+		if(task.id !== d.id) {
+			newEntities = [
+				...newEntities,
+				d
+			]
+		}
+	}
+	return newEntities
+}
 
 // (arr.length ? arr.map((d, i) => {
 // 	let newActivity = []
@@ -225,6 +236,11 @@ const todosReducer = (state = initialState, action) => {
 					data: action.todo
 				},
 				editActivityTodoDialog: true
+			};
+		}
+		case Actions.EDIT_ACTIVITY: {
+			return {
+				...state,
 			};
 		}
 		case Actions.OPEN_DELETE_CONFIRM_DIALOG: {
