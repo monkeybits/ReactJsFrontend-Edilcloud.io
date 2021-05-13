@@ -710,12 +710,7 @@ function TodoListItem(props) {
 							_.orderBy(
 								taskDetail,
 								['id'],
-								// orderBy == 'date_start'
-								// 	? ['datetime_start']
-								// 	: orderBy == 'date_end'
-								// 	? ['datetime_end']
-								// 	: [orderBy],
-								'asc' //	[orderDescending ? 'desc' : 'asc']
+								'asc'
 							).map(todo => (
 								<TodoActivityListItem
 									setTodoId={props.setTodoId}

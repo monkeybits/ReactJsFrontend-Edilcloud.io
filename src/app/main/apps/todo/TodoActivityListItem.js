@@ -100,6 +100,8 @@ function TodoActivityListItem(props) {
 	const labels = useSelector(({ todoApp }) => todoApp.labels); // to get the labels
 	const [open, setOpen] = React.useState(false);
 	const [completed, setCompleted] = React.useState(props.todo.status != 'to-do'); // to set task compalted or not
+	const deleteConfirmDialog = useSelector(({ todoApp }) => todoApp?.todos?.deleteConfirmDialog);
+	const okDeleteActivityConfirmDialog = useSelector(({ todoApp }) => todoApp?.todos?.okDeleteActivityConfirmDialog);
 	const [taskDetail, setTaskDetail] = useState([]);
 	const routeParams = useParams();
 	const classes = useStyles(props);
@@ -114,7 +116,7 @@ function TodoActivityListItem(props) {
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const show = () => setVisible(true);
 	const hide = () => setVisible(false);
-	const { t } = useTranslation('dashboard'); // dashboard translate
+	const { t } = useTranslation('dashboard');
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 	useEffect(() => {
@@ -124,6 +126,25 @@ function TodoActivityListItem(props) {
 			setCompleted(false);
 		}
 	}, [props.todo?.status]);
+
+	useEffect(() => {
+		if(okDeleteActivityConfirmDialog && deleteConfirmDialog.data !== null) {
+			apiCall(
+				DELETE_ACTIVITY_OF_TASK(deleteConfirmDialog.data.id),
+				{},
+				res => {
+					dispatch(Actions.removeActivity(deleteConfirmDialog.data));
+					dispatch(Actions.closeDeleteConfirmDialog());
+				},
+				err => {
+					// console.log(err);
+				},
+				METHOD.DELETE,
+				getHeaderToken()
+			);
+		}
+	}, [okDeleteActivityConfirmDialog, deleteConfirmDialog]);
+
 	useEffect(() => {
 		if (Array.isArray(props.todo.workers_in_activity)) {
 			const workers_in_activity = _.enhance(props.todo.workers_in_activity, { is_exists: true });
@@ -131,15 +152,18 @@ function TodoActivityListItem(props) {
 			setMembers(workers_in_activity);
 		}
 	}, [props.todo.workers_in_activity]);
+
 	useEffect(() => {
 		if (Array.isArray(props.todo.can_assign_in_activity)) {
 			const can_assign_in_activity = _.enhance(props.todo.can_assign_in_activity, { is_exists: false });
 			setCanAssign(can_assign_in_activity);
 		}
 	}, [props.todo.can_assign_in_activity]);
+
 	const handleClick = () => {
 		setOpen(!open);
 	};
+
 	const getDetailOfTask = () => {
 		if (open === false) {
 			apiCall(
@@ -284,23 +308,6 @@ function TodoActivityListItem(props) {
 			)
 		);
 	};
-
-	const deleteActivityOfTask = (task, todo) => {
-		console.log('props.................', task)
-		console.log('props.................', todo)
-		apiCall(
-			DELETE_ACTIVITY_OF_TASK(todo.id),
-			{},
-			res => {
-				console.log('res.................', res)
-			},
-			err => {
-				// console.log(err);
-			},
-			METHOD.DELETE,
-			getHeaderToken()
-		);
-	}
 
 	return (
 		<>
@@ -561,7 +568,9 @@ function TodoActivityListItem(props) {
 								onClick={ev => {
 									ev.preventDefault();
 									ev.stopPropagation();
-									deleteActivityOfTask(props.task, props.todo)
+									console.log('props.todo???????????????????????', props.todo)
+									dispatch(Actions.openDeleteConfirmDialog('Activity', props.todo));
+									// deleteActivityOfTask(props.task, props.todo)
 								}}
 							>
 								<Button>

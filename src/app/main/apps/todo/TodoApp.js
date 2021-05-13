@@ -34,6 +34,7 @@ const AccessibilityToggleButton = loadable(() =>
 const PostNotificationDialog = loadable(() => import('./PostNotificationDialog'));
 const EditTaskTodoDialog = loadable(() => import('./EditTaskTodoDialog'));
 const EditActivityTodoDialog = loadable(() => import('./EditActivityTodoDialog'));
+const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'));
 
 const useStyles = makeStyles({
 	addButton: {
@@ -176,6 +177,7 @@ function TodoApp(props) {
 			<StatusConfirmDialog />
 			<EditTaskTodoDialog />
 			<EditActivityTodoDialog />
+			<DeleteConfirmDialog />
 		</>
 	);
 }
