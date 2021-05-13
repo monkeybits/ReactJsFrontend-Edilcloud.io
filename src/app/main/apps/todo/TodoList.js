@@ -164,7 +164,7 @@ function TodoList(props) {
 				);
 				resolve(data);
 			}).then(data => {
-				console.log('data??????????????????????????', data);
+				console.log('data??????????????????????????45554', data);
 				setFilteredData(setFilterByKey(activeFilter, data, activeFilterKey));
 				handleDoFilter();
 			});
@@ -413,6 +413,7 @@ function TodoList(props) {
 		}, []);
 		return result;
 	};
+	
 	const todayFilterToNextWeekForActivity = (arr = []) => {
 		const result = arr.reduce((unique, o) => {
 			const startDate = new Date(o.datetime_start);
@@ -428,6 +429,7 @@ function TodoList(props) {
 		}, []);
 		return result;
 	};
+
 	if (!filteredData) {
 		return null;
 	}

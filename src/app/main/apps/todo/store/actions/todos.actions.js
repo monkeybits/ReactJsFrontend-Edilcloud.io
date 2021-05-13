@@ -29,6 +29,12 @@ export const OPEN_TASK_CONTENT_DIALOG = '[TODO APP] OPEN TASK CONTENT DIALOG';
 export const CLOSE_TASK_CONTENT_DIALOG = '[TODO APP] CLOSE TASK CONTENT DIALOG';
 export const OPEN_DRAWING_CONTENT_DIALOG = '[TODO APP] OPEN DRAWING CONTENT DIALOG';
 export const CLOSE_DRAWING_CONTENT_DIALOG = '[TODO APP] CLOSE DRAWING CONTENT DIALOG';
+export const OPEN_DELETE_CONFIRM_DIALOG = '[TODO APP] OPEN DELETE CONFIRM DIALOG';
+export const CLOSE_DELETE_CONFIRM_DIALOG = '[TODO APP] CLOSE DELETE CONFIRM DIALOG';
+export const OK_DELETE_TASK_CONFIRM_DIALOG = '[TODO APP] OK DELETE TASK CONFIRM DIALOG';
+export const OK_DELETE_ACTIVITY_CONFIRM_DIALOG = '[TODO APP] OK DELETE ACTIVITY CONFIRM DIALOG';
+export const REMOVE_ACTIVITY = '[TODO APP] REMOVE ACTIVITY';
+export const REMOVE_TASK = '[TODO APP] REMOVE TASK';
 
 export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG';
 export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG';
@@ -131,10 +137,41 @@ export function closeTaskContent() {
 		type: CLOSE_TASK_CONTENT_DIALOG
 	};
 }
+export function closeDeleteConfirmDialog() {
+	return {
+		type: CLOSE_DELETE_CONFIRM_DIALOG
+	};
+}
+export function openDeleteConfirmDialog(deleteType, data) {
+	return {
+		type: OPEN_DELETE_CONFIRM_DIALOG,
+		deleteType,
+		data
+	};
+}
+export function okDeleteTaskConfirmDialog() {
+	return {
+		type: OK_DELETE_TASK_CONFIRM_DIALOG
+	};
+}
+export function okDeleteActivityConfirmDialog() {
+	return {
+		type: OK_DELETE_ACTIVITY_CONFIRM_DIALOG
+	};
+}
+export function removeActivity(payload) {
+	return {
+		type: REMOVE_ACTIVITY,
+		payload
+	};
+}
+export function removeTask(payload) {
+	return {
+		type: REMOVE_TASK,
+		payload
+	};
+}
 export function editActivity(todo, pid, setLoading, isGantt) {
-	// console.log({
-	// 	todo
-	// });
 	return dispatch => {
 		const values = {
 			title: todo.title,

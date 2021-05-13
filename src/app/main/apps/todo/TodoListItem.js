@@ -147,6 +147,8 @@ function TodoListItem(props) {
 	const dispatch = useDispatch();
 	// const labels = useSelector(({ todoApp }) => todoApp.labels);
 	const todoDialog = useSelector(({ todoApp }) => todoApp?.todos?.todoDialog);
+	const deleteConfirmDialog = useSelector(({ todoApp }) => todoApp?.todos?.deleteConfirmDialog);
+	const okDeleteTaskConfirmDialog = useSelector(({ todoApp }) => todoApp?.todos?.okDeleteTaskConfirmDialog);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projectDetail = props.todo.project;
 	const [open, setOpen] = React.useState(false);
@@ -183,6 +185,24 @@ function TodoListItem(props) {
 	useEffect(() => {
 		setTaskDetail(props.todo.activities);
 	}, [props.todo.activities]);
+
+	useEffect(() => {
+		if(okDeleteTaskConfirmDialog) {
+			apiCall(
+				DELETE_TASK_OF_PROJECT(deleteConfirmDialog.data.id),
+				{},
+				res => {
+					dispatch(Actions.removeTask(deleteConfirmDialog.data));
+					dispatch(Actions.closeDeleteConfirmDialog());
+				},
+				err => {
+					// console.log(err);
+				},
+				METHOD.DELETE,
+				getHeaderToken()
+			);
+		}
+	}, [okDeleteTaskConfirmDialog, deleteConfirmDialog]);
 
 	const stopsEvents = event => {
 		event.preventDefault();
@@ -275,8 +295,6 @@ function TodoListItem(props) {
 		}
 	}, [todoDialog?.props?.openTimelineDialog]);
 	const getDetailOfTask = () => {
-		// if (open === false) {
-
 		apiCall(
 			GET_ACTIVITY_OF_TASK(props.todo.id),
 			{},
@@ -287,24 +305,8 @@ function TodoListItem(props) {
 			METHOD.GET,
 			getHeaderToken()
 		);
-		// }
 	};
 	const getdate = date => (date ? moment(date).format('DD-MM-YYYY') : undefined);
-
-	const deleteTaskOfProject = (todo) => {
-		apiCall(
-			DELETE_TASK_OF_PROJECT(todo.id),
-			{},
-			res => {
-				console.log('res.................', res)
-			},
-			err => {
-				// console.log(err);
-			},
-			METHOD.DELETE,
-			getHeaderToken()
-		);
-	}
 
 	return (
 		<div className="mb-20">
@@ -402,7 +404,8 @@ function TodoListItem(props) {
 										onClick={ev => {
 											ev.preventDefault();
 											ev.stopPropagation();
-											deleteTaskOfProject(props.todo);
+											dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
+											// deleteTaskOfProject(props.todo);
 										}}
 									>
 										<Button>
@@ -656,58 +659,6 @@ function TodoListItem(props) {
 					value={props.todo.progress}
 					color="secondary"
 				/>
-				{/* </div> */}
-				{/* footer */}
-				{/* <div
-					className="flex h-48 px-16 border-t-1 todo-bg-footer"
-					onClick={ev => {
-						if (open) {
-							ev.preventDefault();
-							ev.stopPropagation();
-							setOpen(!open);
-						} else {
-							ev.preventDefault();
-							ev.stopPropagation();
-							if (props.todo.assigned_company?.id == company.id) {
-								setOpen(true);
-							}
-						}
-					}}
-				> */}
-				{/* left side footer */}
-				{/* <div className="flex items-center mr-16">
-						<div className="flex items-center px-8 py-4 mx-4 rounded bg-grey-700 text-white">
-							<Icon className="text-16">check_circle</Icon>
-							<span className="mx-4">2/7</span>
-						</div>
-					</div> */}
-				{/* right side footer */}
-				{/* <div className="flex items-center">
-						{props.todo.assigned_company?.id == company.id && (
-							<div className="flex items-center font-600">
-								<span className="mx-4 underline">Task Activities</span>
-								<span className="mx-4"> (0/{taskDetail?.length})</span>
-
-								{open ? <Icon>expand_more </Icon> : <Icon>chevron_right </Icon>}
-								<Button
-									variant="outlined"
-									color="primary"
-									className={classes.button}
-									startIcon={<add_task />}
-									onClick={ev => {
-										ev.preventDefault();
-										ev.stopPropagation();
-										if (props.todo.assigned_company) {
-											dispatch(Actions.openAddActivityTodoDialog(props.todo));
-										}
-									}}
-								>
-									Add
-								</Button>
-							</div>
-						)}
-					</div> */}
-				{/* </div> */}
 			</Card>
 			{/* <Collapse in={open} timeout="auto" unmountOnExit> */}
 			{props.todo.assigned_company?.id == company.id && (

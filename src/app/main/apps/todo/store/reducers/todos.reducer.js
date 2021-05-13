@@ -1,4 +1,5 @@
 import _ from '@lodash';
+import { actions } from 'react-table';
 import * as Actions from '../actions';
 
 const initialState = {
@@ -27,13 +28,67 @@ const initialState = {
 	},
 	openDrawingContent: false,
 	editTaskTodoDialog: false,
-	editActivityTodoDialog: false
+	editActivityTodoDialog: false,
+	isDeleteConfirmDialog: false,
+	deleteConfirmDialog: {
+		type: null,
+		data: null
+	},
+	okDeleteTaskConfirmDialog: false,
+	okDeleteActivityConfirmDialog: false
 };
+
+const removeByActivityId = (arr = [], activity) => {
+	let newEntities = []
+	for (const [k, d] of Object.entries(arr)) {
+		// console.log('remove.activity????????????????d', d)
+		if(activity.task === d.id) {
+			let newActivity = []
+			d.activities && d.activities.map((c) => {
+				if(c.id !== activity.id) {
+					newActivity = [
+						...newActivity,
+						c
+					]
+				}
+			})
+			newEntities = [
+				...newEntities,
+				{
+					...d,
+					activities: newActivity
+				}
+			]
+		} else {
+			newEntities = [
+				...newEntities,
+				d
+			]
+		}
+	}
+	return newEntities
+}
+
+const removeByTaskId = (arr = [], task) => (arr.length ? arr.filter((d, i) => d.id != task.id) : []);
+
+// (arr.length ? arr.map((d, i) => {
+// 	let newActivity = []
+// 	d.activities && d.activities.map((c) => {
+// 		if(c.id !== activity.id) {
+// 			newActivity.push(c)
+// 		}
+// 	})
+// 	console.log('remove.activity????????????????newActivity', newActivity)
+// 	return {
+// 		...d,
+// 		activities: newActivity
+// 	}
+// } ) : []);
+// const r = data.filter(d => d.courses.every(c => courses.includes(c.id)));
 
 const todosReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS: {
-			// console.log({ payload: action.payload });
 			return {
 				...state,
 				entities: { ...action.payload },
@@ -170,6 +225,50 @@ const todosReducer = (state = initialState, action) => {
 					data: action.todo
 				},
 				editActivityTodoDialog: true
+			};
+		}
+		case Actions.OPEN_DELETE_CONFIRM_DIALOG: {
+			return {
+				...state,
+				isDeleteConfirmDialog: true,
+				deleteConfirmDialog: {
+					type: action.deleteType,
+					data: action.data 
+				},
+			};
+		}
+		case Actions.CLOSE_DELETE_CONFIRM_DIALOG: {
+			return {
+				...state,
+				isDeleteConfirmDialog: false,
+				deleteConfirmDialog: {
+					type: null,
+					data: null
+				},
+			};
+		}
+		case Actions.REMOVE_ACTIVITY: {
+			return {
+				...state,
+				entities: removeByActivityId(state.entities, action.payload),
+			};
+		}
+		case Actions.REMOVE_TASK: {
+			return {
+				...state,
+				entities: removeByTaskId(state.entities, action.payload),
+			};
+		}
+		case Actions.OK_DELETE_TASK_CONFIRM_DIALOG: {
+			return {
+				...state,
+				okDeleteTaskConfirmDialog: true
+			};
+		}
+		case Actions.OK_DELETE_ACTIVITY_CONFIRM_DIALOG: {
+			return {
+				...state,
+				okDeleteActivityConfirmDialog: true
 			};
 		}
 		case Actions.CLOSE_EDIT_ACTIVITY_TODO_DIALOG: {

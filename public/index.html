@@ -21,20 +21,6 @@
 		<link href="%PUBLIC_URL%/assets/fonts/meteocons/style.css" rel="stylesheet" />
 
         <noscript id="jss-insertion-point"></noscript>
-
-        <script src="%PUBLIC_URL%/assets/scripts/OneSignalSDK.js" async=""></script>
-        <script>
-			window.OneSignal = window.OneSignal || [];
-			OneSignal.push(function() {
-				OneSignal.init({
-					appId: "0fbdf0cf-d9f5-4363-809f-4735b1bba268",
-                    autoRegister: false,
-                    notifyButton: {
-                        enable: true,
-                    },
-				});
-			});
-        </script>
         <!--
           Notice the use of %PUBLIC_URL% in the tags above.
           It will be replaced with the URL of the `public` folder during the build.
@@ -255,5 +241,18 @@
           To begin the development, run `npm start` or `yarn start`.
           To create a production bundle, use `npm run build` or `yarn build`.
         -->
+		<script src="%PUBLIC_URL%/assets/scripts/OneSignalSDK.js" async></script>
+        <script>
+			window.OneSignal = window.OneSignal || [];
+			OneSignal.push(function() {
+				OneSignal.init({
+					appId: "0fbdf0cf-d9f5-4363-809f-4735b1bba268",
+                    autoRegister: false,
+                    notifyButton: {
+                        enable: true,
+                    },
+				});
+			});
+        </script>
 	</body>
 </html>
