@@ -255,7 +255,8 @@ export default function EditActivityForm(props) {
 								},
 								routeParams.id,
 								setLoading,
-								todoDialog.data.isGantt
+								todoDialog.data.isGantt,
+								editActivityTodoDialog
 							)
 						);
 					}}

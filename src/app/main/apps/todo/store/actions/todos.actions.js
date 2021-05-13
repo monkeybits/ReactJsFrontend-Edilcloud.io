@@ -35,6 +35,7 @@ export const OK_DELETE_TASK_CONFIRM_DIALOG = '[TODO APP] OK DELETE TASK CONFIRM 
 export const OK_DELETE_ACTIVITY_CONFIRM_DIALOG = '[TODO APP] OK DELETE ACTIVITY CONFIRM DIALOG';
 export const REMOVE_ACTIVITY = '[TODO APP] REMOVE ACTIVITY';
 export const REMOVE_TASK = '[TODO APP] REMOVE TASK';
+export const EDIT_ACTIVITY = '[TODO APP] EDIT ACTIVITY';
 
 export const OPEN_TIMELINE_DIALOG = '[TODO APP] OPEN TIMELINE DIALOG';
 export const CLOSE_TIMELINE_DIALOG = '[TODO APP] CLOSE TIMELINE DIALOG';
@@ -171,7 +172,7 @@ export function removeTask(payload) {
 		payload
 	};
 }
-export function editActivity(todo, pid, setLoading, isGantt) {
+export function editActivity(todo, pid, setLoading, isGantt, editActivityTodoDialog = false) {
 	return dispatch => {
 		const values = {
 			title: todo.title,
@@ -190,6 +191,12 @@ export function editActivity(todo, pid, setLoading, isGantt) {
 				if (isGantt) {
 					dispatch(getTodos(pid, isGantt));
 					dispatch(closeTimelineDialog());
+				}
+				if(editActivityTodoDialog) {
+					return {
+						type: EDIT_ACTIVITY,
+						payload: todo
+					};				
 				}
 				dispatch(closeEditActivityTodoDialog());
 				setLoading(false);

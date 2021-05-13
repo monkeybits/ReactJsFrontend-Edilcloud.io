@@ -187,7 +187,7 @@ function TodoListItem(props) {
 	}, [props.todo.activities]);
 
 	useEffect(() => {
-		if(okDeleteTaskConfirmDialog) {
+		if(okDeleteTaskConfirmDialog && deleteConfirmDialog.data !== null) {
 			apiCall(
 				DELETE_TASK_OF_PROJECT(deleteConfirmDialog.data.id),
 				{},
