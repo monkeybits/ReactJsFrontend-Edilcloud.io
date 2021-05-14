@@ -193,10 +193,10 @@ export function editActivity(todo, pid, setLoading, isGantt, editActivityTodoDia
 					dispatch(closeTimelineDialog());
 				}
 				if(editActivityTodoDialog) {
-					return {
+					dispatch({
 						type: EDIT_ACTIVITY,
 						payload: todo
-					};				
+					});
 				}
 				dispatch(closeEditActivityTodoDialog());
 				setLoading(false);
@@ -367,7 +367,7 @@ export function editActivityTodoDialog(todo) {
 		todo
 	};
 }
-export function closeEditActivityTodoDialog(todo) {
+export function closeEditActivityTodoDialog() {
 	return {
 		type: CLOSE_EDIT_ACTIVITY_TODO_DIALOG
 	};

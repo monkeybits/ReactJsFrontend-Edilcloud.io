@@ -115,7 +115,7 @@ export default function EditActivityForm(props) {
 		(todoDialog.data?.task && todoDialog.data.task.assigned_company.id != companyDetail.id) || getRole() == 'w';
 
 	return (
-		<div className="sm:pl-10">
+		<div className={`sm:pl-10 ${editActivityTodoDialog ? 'p-24' : ''}`}>
 			{getIsDisabled() && (
 				/**
 				 * Show permissions info.

@@ -9,7 +9,6 @@ import loadable from '@loadable/component';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import {
     Dialog,
-    DialogContent,
 	Icon,
 	IconButton,
 	InputAdornment,
@@ -33,6 +32,9 @@ import * as Actions from './store/actions';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import CloseIcon from '@material-ui/icons/Close';
 
 const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'));
 
@@ -122,6 +124,40 @@ const IOSSlider = withStyles({
 		backgroundColor: 'currentColor'
 	}
 })(Slider);
+
+const styles = theme => ({
+	root: {
+		margin: 0,
+		padding: theme.spacing(2)
+	},
+	closeButton: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+		color: theme.palette.grey[500]
+	}
+});
+
+const DialogTitle = withStyles(styles)(props => {
+	const { children, classes, onClose, ...other } = props;
+	return (
+		<MuiDialogTitle disableTypography className={classes.root} {...other}>
+			<Typography variant="h6">{children}</Typography>
+			{onClose ? (
+				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+					<CloseIcon />
+				</IconButton>
+			) : null}
+		</MuiDialogTitle>
+	);
+});
+
+const DialogContent = withStyles(theme => ({
+	root: {
+		padding: theme.spacing(2),
+		flexGrow: 1
+	}
+}))(MuiDialogContent);
 
 function EditTaskTodoDialog() {
     const { t } = useTranslation('dashboard');
@@ -280,177 +316,182 @@ function EditTaskTodoDialog() {
             maxWidth="sm"
             className="rs-dialog-sm-full custom-modal-new timeline-modal"
         >
-            <div className="sm:mx-12">
-                {getIsDisabled() && (
+            <DialogTitle id="customized-dialog-title" onClose={closeTodoDialog}>
+                Edit Task
+			</DialogTitle>
+			<DialogContent dividers>
+                <div className="sm:mx-12">
+                    {getIsDisabled() && (
+                        <div className="flex items-center mb-24">
+                            <Icon>lock</Icon> only company owner can change this details
+                        </div>
+                    )}
                     <div className="flex items-center mb-24">
-                        <Icon>lock</Icon> only company owner can change this details
-                    </div>
-                )}
-                <div className="flex items-center mb-24">
-                    <TextField
-                        label={t('TITLE')}
-                        disabled={getIsDisabled()}
-                        type="text"
-                        name="name"
-                        variant="outlined"
-                        value={cardForm.name}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <Icon className="text-20" color="action">
-                                        remove_red_eye
-											</Icon>
-                                </InputAdornment>
-                            )
-                        }}
-                    />
-                </div>
-                {taskContentData?.isGantt && taskContentData?.parent == 1 ? (
-                    <div className="mt-8 mb-16 select-dropdown">
-                        <FuseChipSelect
-                            isDisabled={getIsDisabled()}
-                            placeholder={t('SELECT_PROFILE')}
-                            variant="fixed"
-                            isMulti
-                            textFieldProps={{
-                                label: 'Profile',
-                                InputLabelProps: {
-                                    shrink: true
-                                },
-                                variant: 'outlined'
-                                // onChange: e => getProjectCompanyTeamProfiles(e.target.value)
+                        <TextField
+                            label={t('TITLE')}
+                            disabled={getIsDisabled()}
+                            type="text"
+                            name="name"
+                            variant="outlined"
+                            value={cardForm.name}
+                            onChange={handleChange}
+                            fullWidth
+                            required
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <Icon className="text-20" color="action">
+                                            remove_red_eye
+                                                </Icon>
+                                    </InputAdornment>
+                                )
                             }}
-                            onChange={value => {
-                                setProfileData(value.splice(value.length - 1));
-                            }}
-                            value={profileData}
-                            options={profiles.map(profile => ({
-                                data: profile,
-                                value: getName(profile),
-                                label: <span className="flex items-center">{getName(profile)}</span>
-                            }))}
                         />
                     </div>
-                ) : (
-                    companies &&
-                    !!companies.length && (
+                    {taskContentData?.isGantt && taskContentData?.parent == 1 ? (
                         <div className="mt-8 mb-16 select-dropdown">
                             <FuseChipSelect
-                                className=""
-                                placeholder={t('SELECT_COMPANY')}
                                 isDisabled={getIsDisabled()}
+                                placeholder={t('SELECT_PROFILE')}
                                 variant="fixed"
                                 isMulti
                                 textFieldProps={{
-                                    label: 'Company',
+                                    label: 'Profile',
                                     InputLabelProps: {
                                         shrink: true
                                     },
                                     variant: 'outlined'
+                                    // onChange: e => getProjectCompanyTeamProfiles(e.target.value)
                                 }}
                                 onChange={value => {
-                                    setCompany(value.splice(value.length - 1));
+                                    setProfileData(value.splice(value.length - 1));
                                 }}
-                                value={company}
-                                options={companies.map(company => ({
-                                    data: company,
-                                    value: company.company,
-                                    label: (
-                                        <span className="flex items-center">
-                                            <Icon
-                                                className="list-item-icon mx-6 text-20"
-                                                style={{
-                                                    color: company.color
-                                                }}
-                                                color="action"
-                                            >
-                                                label
-													</Icon>{' '}
-                                            {company.company}
-                                        </span>
-                                    )
+                                value={profileData}
+                                options={profiles.map(profile => ({
+                                    data: profile,
+                                    value: getName(profile),
+                                    label: <span className="flex items-center">{getName(profile)}</span>
                                 }))}
                             />
                         </div>
-                    )
-                )}
-                <div className="w-full mb-24">
-                    <TextField
-                        label={t('DESCRIPTION')}
-                        name="description"
-                        value={cardForm.description}
-                        disabled={getIsDisabled()}
-                        onChange={handleChange}
-                        multiline
-                        rows="4"
-                        variant="outlined"
-                        fullWidth
-                    />
-                </div>
-                <div className="flex -mx-4">
-                    <div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-                        <KeyboardDatePicker
-                            label={t('START_DATE')}
-                            inputVariant="outlined"
-                            format="DD/MM/yyyy"
-                            value={taskDate.startDate}
-                            onChange={startDate => {
-                                setTaskDate({
-                                    ...taskDate,
-                                    startDate
-                                });
-                            }}
-                            className="mt-8 mb-16 w-full"
-                        />
-                    </div>
-                    <div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
-                        <KeyboardDatePicker
-                            label={t('END_DATE')}
-                            inputVariant="outlined"
-                            format="DD/MM/yyyy"
-                            value={taskDate.endDate}
-                            onChange={endDate => {
-                                setTaskDate({
-                                    ...taskDate,
-                                    endDate
-                                });
-                            }}
-                            className="mt-8 mb-16 w-full"
+                    ) : (
+                        companies &&
+                        !!companies.length && (
+                            <div className="mt-8 mb-16 select-dropdown">
+                                <FuseChipSelect
+                                    className=""
+                                    placeholder={t('SELECT_COMPANY')}
+                                    isDisabled={getIsDisabled()}
+                                    variant="fixed"
+                                    isMulti
+                                    textFieldProps={{
+                                        label: 'Company',
+                                        InputLabelProps: {
+                                            shrink: true
+                                        },
+                                        variant: 'outlined'
+                                    }}
+                                    onChange={value => {
+                                        setCompany(value.splice(value.length - 1));
+                                    }}
+                                    value={company}
+                                    options={companies.map(company => ({
+                                        data: company,
+                                        value: company.company,
+                                        label: (
+                                            <span className="flex items-center">
+                                                <Icon
+                                                    className="list-item-icon mx-6 text-20"
+                                                    style={{
+                                                        color: company.color
+                                                    }}
+                                                    color="action"
+                                                >
+                                                    label
+                                                        </Icon>{' '}
+                                                {company.company}
+                                            </span>
+                                        )
+                                    }))}
+                                />
+                            </div>
+                        )
+                    )}
+                    <div className="w-full mb-24">
+                        <TextField
+                            label={t('DESCRIPTION')}
+                            name="description"
+                            value={cardForm.description}
                             disabled={getIsDisabled()}
-                            minDate={taskDate.startDate}
+                            onChange={handleChange}
+                            multiline
+                            rows="4"
+                            variant="outlined"
+                            fullWidth
                         />
                     </div>
-                </div>
-                {taskContentData?.isGantt && taskContentData?.parent == 1 ? null : (
-                    <div className="mt-24 mx-12 zoom-125">
-                        <IOSSlider
-                            aria-label="ios slider"
-                            disabled={getIsDisabled()}
-                            defaultValue={0}
-                            marks={marks}
-                            onChange={(e, v) => setProgress(v)}
-                            value={progress}
-                            valueLabelDisplay="on"
-                        />
+                    <div className="flex -mx-4">
+                        <div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
+                            <KeyboardDatePicker
+                                label={t('START_DATE')}
+                                inputVariant="outlined"
+                                format="DD/MM/yyyy"
+                                value={taskDate.startDate}
+                                onChange={startDate => {
+                                    setTaskDate({
+                                        ...taskDate,
+                                        startDate
+                                    });
+                                }}
+                                className="mt-8 mb-16 w-full"
+                            />
+                        </div>
+                        <div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
+                            <KeyboardDatePicker
+                                label={t('END_DATE')}
+                                inputVariant="outlined"
+                                format="DD/MM/yyyy"
+                                value={taskDate.endDate}
+                                onChange={endDate => {
+                                    setTaskDate({
+                                        ...taskDate,
+                                        endDate
+                                    });
+                                }}
+                                className="mt-8 mb-16 w-full"
+                                disabled={getIsDisabled()}
+                                minDate={taskDate.startDate}
+                            />
+                        </div>
                     </div>
-                )}
-                <div className="flex justify-end mt-16">
-                    <Button
-                        aria-label="save"
-                        variant="contained"
-                        color="secondary"
-                        type="submit"
-                        size="small"
-                        disabled={!isFormInvalid() || getIsDisabled()}
-                        onClick={getIsDisabled() ? () => '' : handleSubmit}
-                    >
-                        {t('SAVE')} {loading && <CircularProgress size={15} color="secondary" />}
-                    </Button>
+                    {taskContentData?.isGantt && taskContentData?.parent == 1 ? null : (
+                        <div className="mt-24 mx-12 zoom-125">
+                            <IOSSlider
+                                aria-label="ios slider"
+                                disabled={getIsDisabled()}
+                                defaultValue={0}
+                                marks={marks}
+                                onChange={(e, v) => setProgress(v)}
+                                value={progress}
+                                valueLabelDisplay="on"
+                            />
+                        </div>
+                    )}
+                    <div className="flex justify-end mt-16">
+                        <Button
+                            aria-label="save"
+                            variant="contained"
+                            color="secondary"
+                            type="submit"
+                            size="small"
+                            disabled={!isFormInvalid() || getIsDisabled()}
+                            onClick={getIsDisabled() ? () => '' : handleSubmit}
+                        >
+                            {t('SAVE')} {loading && <CircularProgress size={15} color="secondary" />}
+                        </Button>
+                    </div>
                 </div>
-            </div>
+            </DialogContent>
         </Dialog>
     );
 }
