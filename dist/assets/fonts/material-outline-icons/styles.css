@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'material-outline-icons';
+    src: url('./material-outline-icons.ttf?8ot508') format('truetype'),
+    url('./material-outline-icons.woff?8ot508') format('woff'),
+    url('./material-outline-icons.svg?8ot508#material-outline-icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
