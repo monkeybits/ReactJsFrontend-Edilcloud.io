@@ -41,7 +41,6 @@ const initialState = {
 const removeByActivityId = (arr = [], activity) => {
 	let newEntities = []
 	for (const [k, d] of Object.entries(arr)) {
-		// console.log('remove.activity????????????????d', d)
 		if(activity.task === d.id) {
 			let newActivity = []
 			d.activities && d.activities.map((c) => {
@@ -82,20 +81,41 @@ const removeByTaskId = (arr = [], task) => {
 	return newEntities
 }
 
-// (arr.length ? arr.map((d, i) => {
-// 	let newActivity = []
-// 	d.activities && d.activities.map((c) => {
-// 		if(c.id !== activity.id) {
-// 			newActivity.push(c)
-// 		}
-// 	})
-// 	console.log('remove.activity????????????????newActivity', newActivity)
-// 	return {
-// 		...d,
-// 		activities: newActivity
-// 	}
-// } ) : []);
-// const r = data.filter(d => d.courses.every(c => courses.includes(c.id)));
+
+const editByActivityId = (arr = [], activity) => {
+	let newEntities = []
+	for (const [k, d] of Object.entries(arr)) {
+		if(activity.task === d.id) {
+			let newActivity = []
+			d.activities && d.activities.map((c) => {
+				if(c.id === activity.id) {
+					newActivity = [
+						...newActivity,
+						activity
+					]
+				} else {
+					newActivity = [
+						...newActivity,
+						c
+					]
+				}
+			})
+			newEntities = [
+				...newEntities,
+				{
+					...d,
+					activities: newActivity
+				}
+			]
+		} else {
+			newEntities = [
+				...newEntities,
+				d
+			]
+		}
+	}
+	return newEntities
+}
 
 const todosReducer = (state = initialState, action) => {
 	switch (action.type) {
@@ -241,6 +261,7 @@ const todosReducer = (state = initialState, action) => {
 		case Actions.EDIT_ACTIVITY: {
 			return {
 				...state,
+				entities: editByActivityId(state.entities, action.payload)
 			};
 		}
 		case Actions.OPEN_DELETE_CONFIRM_DIALOG: {
