@@ -156,7 +156,7 @@
         "start": "yarn run tailwind && react-scripts start",
         "build": "yarn run tailwind && yarn run purge-tailwind && cross-env GENERATE_SOURCEMAP=false react-scripts start",
         "tailwind": "tailwind build ./src/styles/tailwind-config.css -c ./tailwind.config.js -o ./src/styles/tailwind.css",
-        "purge-tailwind": "cross-env NODE_ENV=production && node ./purge-tailwindcss.js",
+        "purge-tailwind": "node ./purge-tailwindcss.js",
         "test": "react-scripts test --env=node",
         "eject": "react-scripts eject",
         "build-docs": "find ./src/app/main/documentation/material-ui-components \\( -name '*.ts' -o -name '*.tsx' \\) -type f -delete && babel-node --presets @babel/preset-env src/app/main/documentation/material-ui-components/build.js",
