@@ -22,7 +22,6 @@
         "autosuggest-highlight": "3.1.1",
         "axios": "0.19.2",
         "axios-mock-adapter": "1.18.1",
-        "babel-loader": "^8.2.2",
         "browser-image-compression": "^1.0.12",
         "chart.js": "2.9.3",
         "clsx": "1.1.0",
@@ -154,7 +153,7 @@
     },
     "scripts": {
         "start": "yarn run tailwind && react-scripts start",
-        "build": "yarn run tailwind && yarn run purge-tailwind && cross-env GENERATE_SOURCEMAP=false react-scripts start",
+        "build": "yarn run tailwind && yarn run purge-tailwind && cross-env GENERATE_SOURCEMAP=false react-scripts build",
         "tailwind": "tailwind build ./src/styles/tailwind-config.css -c ./tailwind.config.js -o ./src/styles/tailwind.css",
         "purge-tailwind": "node ./purge-tailwindcss.js",
         "test": "react-scripts test --env=node",
