@@ -2,6 +2,7 @@
     "name": "fuse-react-app",
     "version": "4.1.6",
     "private": true,
+    "homepage": "/",
     "dependencies": {
         "@babel/plugin-syntax-jsx": "^7.12.13",
         "@date-io/core": "1.3.13",
@@ -113,9 +114,7 @@
         "velocity-animate": "1.5.2",
         "velocity-react": "1.4.3",
         "video-react": "^0.14.1",
-        "webpack": "^4.42.0",
-        "webpack-bundle-analyzer": "^4.4.0",
-        "webpack-dev-server": "^3.11.2"
+        "webpack-bundle-analyzer": "^4.4.0"
     },
     "resolutions": {
         "react": "16.13.1",
@@ -126,10 +125,15 @@
     "devDependencies": {
         "@babel/core": "7.10.0",
         "@babel/node": "7.8.7",
+        "@babel/plugin-proposal-class-properties": "^7.13.0",
+        "@babel/plugin-transform-runtime": "^7.14.2",
         "@babel/preset-env": "7.10.0",
+        "@babel/preset-react": "^7.13.13",
         "@yarnpkg/pnpify": "^2.0.0-rc.22",
         "babel-eslint": "10.1.0",
+        "babel-loader": "^8.2.2",
         "cross-env": "7.0.2",
+        "css-loader": "^5.2.4",
         "eslint": "^6.8.0",
         "eslint-config-airbnb": "^18.0.1",
         "eslint-config-prettier": "^6.10.0",
@@ -139,17 +143,23 @@
         "eslint-plugin-prettier": "^3.1.2",
         "eslint-plugin-react": "^7.19.0",
         "eslint-plugin-react-hooks": "^1.7.0",
+        "file-loader": "^6.2.0",
         "html-webpack-plugin": "^5.3.1",
         "js-beautify": "1.11.0",
         "postcss": "^8.2.9",
         "prettier": "^2.0.5",
         "promise": "8.1.0",
         "purgecss": "1.4.2",
+        "style-loader": "^2.0.0",
         "tailwindcss": "^2.0.3",
         "tailwindcss-dir": "4.0.0",
         "terser-webpack-plugin": "^5.1.1",
+        "uglifyjs-webpack-plugin": "^2.2.0",
+        "url-loader": "^4.1.1",
+        "webpack": "^5.37.0",
         "webpack-cli": "^4.7.0",
-        "webpack-deadcode-plugin": "^0.1.12"
+        "webpack-deadcode-plugin": "^0.1.12",
+        "webpack-dev-server": "^3.11.2"
     },
     "scripts": {
         "start": "yarn run tailwind && react-scripts start",
@@ -163,7 +173,9 @@
         "pnpify-sdk": "yarn pnpify --sdk",
         "lint": "eslint --fix --ext .js,.jsx .",
         "prebuild": "npm run generate-build-meta",
-        "generate-build-meta": "node ./node_modules/react-clear-browser-cache/bin/cli.js"
+        "generate-build-meta": "node ./node_modules/react-clear-browser-cache/bin/cli.js",
+        "watch": "yarn run tailwind && yarn run purge-tailwind && webpack serve --mode development --config ./webpack.config.prod.js --progress --open",
+        "webpack-build": "yarn run tailwind && yarn run purge-tailwind && cross-env GENERATE_SOURCEMAP=false && webpack --mode production --config ./webpack.config.prod.js --progress"
     },
     "browserslist": {
         "production": [

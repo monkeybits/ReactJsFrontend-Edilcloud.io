@@ -31,14 +31,101 @@ const initialState = {
 	isStateConfirmDialog: false,
 	statusPost: {},
 	okStateConfirmDialog: false,
-	openDrawingContent: false
+	openDrawingContent: false,
+	editTaskTodoDialog: false,
+	editActivityTodoDialog: false,
+	isDeleteConfirmDialog: false,
+	deleteConfirmDialog: {
+		type: null,
+		data: null
+	},
+	okDeleteTaskConfirmDialog: false,
+	okDeleteActivityConfirmDialog: false
 };
+
+const removeByActivityId = (arr = [], activity) => {
+	let newEntities = []
+	for (const [k, d] of Object.entries(arr)) {
+		if(activity.task === d.id) {
+			let newActivity = []
+			d.activities && d.activities.map((c) => {
+				if(c.id !== activity.id) {
+					newActivity = [
+						...newActivity,
+						c
+					]
+				}
+			})
+			newEntities = [
+				...newEntities,
+				{
+					...d,
+					activities: newActivity
+				}
+			]
+		} else {
+			newEntities = [
+				...newEntities,
+				d
+			]
+		}
+	}
+	return newEntities
+}
+
+const removeByTaskId = (arr = [], task) => {
+	let newEntities = []
+	for (const [k, d] of Object.entries(arr)) {
+		if(task.id !== d.id) {
+			newEntities = [
+				...newEntities,
+				d
+			]
+		}
+	}
+	return newEntities
+}
+
+
+const editByActivityId = (arr = [], activity) => {
+	let newEntities = []
+	for (const [k, d] of Object.entries(arr)) {
+		if(activity.task === d.id) {
+			let newActivity = []
+			d.activities && d.activities.map((c) => {
+				if(c.id === activity.id) {
+					newActivity = [
+						...newActivity,
+						activity
+					]
+				} else {
+					newActivity = [
+						...newActivity,
+						c
+					]
+				}
+			})
+			newEntities = [
+				...newEntities,
+				{
+					...d,
+					activities: newActivity
+				}
+			]
+		} else {
+			newEntities = [
+				...newEntities,
+				d
+			]
+		}
+	}
+	return newEntities
+}
 
 const todosReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS: {
 			console.log({ payload: action.payload, isGantt: action.isGantt });
-
 			return {
 				...state,
 				[action.isGantt ? 'entities' : 'todoEntities']: { ...action.payload },
@@ -76,6 +163,31 @@ const todosReducer = (state = initialState, action) => {
 				}
 			};
 		}
+		case Actions.EDIT_TASK_TODO_DIALOG: {
+			return {
+				...state,
+				editTaskTodoDialog: true,
+				taskContentDialog: {
+					type: 'new',
+					props: {
+						open: false
+					},
+					data: action.data
+				}
+			};
+		}
+		case Actions.OPEN_DELETE_CONFIRM_DIALOG: {
+			return {
+				...state,
+				isDeleteConfirmDialog: true,
+				deleteConfirmDialog: {
+					type: action.deleteType,
+					data: action.data 
+				},
+				okDeleteTaskConfirmDialog: false,
+				okDeleteActivityConfirmDialog: false
+			};
+		}
 		case Actions.OPEN_DRAWING_CONTENT_DIALOG: {
 			return {
 				...state,
@@ -93,6 +205,87 @@ const todosReducer = (state = initialState, action) => {
 			return {
 				...state,
 				openDrawingContent: false
+			};
+		}
+		case Actions.CLOSE_EDIT_TASK_TODO_DIALOG: {
+			return {
+				...state,
+				editTaskTodoDialog: false,
+				taskContentDialog: {
+					type: 'new',
+					props: {
+						open: false
+					},
+					data: null
+				}
+			};
+		}
+		case Actions.CLOSE_DELETE_CONFIRM_DIALOG: {
+			return {
+				...state,
+				isDeleteConfirmDialog: false,
+				deleteConfirmDialog: {
+					type: null,
+					data: null
+				},
+				okDeleteTaskConfirmDialog: false,
+				okDeleteActivityConfirmDialog: false
+			};
+		}
+		case Actions.EDIT_ACTIVITY: {
+			return {
+				...state,
+				todoEntities: editByActivityId(state.todoEntities, action.payload)
+			};
+		}
+		case Actions.EDIT_ACTIVITY_TODO_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'edit',
+					props: {
+						openTimelineDialog: false
+					},
+					data: action.todo
+				},
+				editActivityTodoDialog: true
+			};
+		}
+		case Actions.CLOSE_EDIT_ACTIVITY_TODO_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'edit',
+					props: {
+						openTimelineDialog: false
+					},
+					data: null
+				},
+				editActivityTodoDialog: false
+			};
+		}
+		case Actions.REMOVE_ACTIVITY: {
+			return {
+				...state,
+				todoEntities: removeByActivityId(state.todoEntities, action.payload),
+			};
+		}
+		case Actions.REMOVE_TASK: {
+			return {
+				...state,
+				todoEntities: removeByTaskId(state.todoEntities, action.payload),
+			};
+		}
+		case Actions.OK_DELETE_TASK_CONFIRM_DIALOG: {
+			return {
+				...state,
+				okDeleteTaskConfirmDialog: true
+			};
+		}
+		case Actions.OK_DELETE_ACTIVITY_CONFIRM_DIALOG: {
+			return {
+				...state,
+				okDeleteActivityConfirmDialog: true
 			};
 		}
 		case Actions.OPEN_NOTIFICATION_DIALOG: {

@@ -173,10 +173,7 @@ function TodoListItem(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const classes = useStyles(props);
 	const routeParams = useParams();
-	// const orderBy = useSelector(({ todoApp }) => todoApp.todos.orderBy);
-	// const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
 	const { t } = useTranslation('dashboard');
-	// const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
 
 	const handleClick = () => {
 		setOpen(!open);

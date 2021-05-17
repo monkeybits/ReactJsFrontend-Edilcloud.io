@@ -31,6 +31,7 @@ export default function EditActivityForm(props) {
 	const dispatch = useDispatch();
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
+	const editActivityTodoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.editActivityTodoDialog);
 	const [labelMenuEl, setLabelMenuEl] = useState(null);
 	const { form, handleChange, setForm, resetForm } = useForm({ ...defaultFormState });
 	const startDate = moment(form.startDate).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
@@ -51,7 +52,7 @@ export default function EditActivityForm(props) {
 		/**
 		 * After Dialog Open
 		 */
-		if (todoDialog.props.openTimelineDialog) {
+		if (todoDialog.props.openTimelineDialog || editActivityTodoDialog) {
 			setForm({ ...todoDialog.data.todo, notes: todoDialog.data.todo.description });
 			getProjectCompanyTeamProfiles();
 			setTaskDate({
@@ -237,7 +238,8 @@ export default function EditActivityForm(props) {
 								},
 								routeParams.id,
 								setLoading,
-								todoDialog.data.isGantt
+								todoDialog.data.isGantt,
+								editActivityTodoDialog
 							)
 						);
 					}}
