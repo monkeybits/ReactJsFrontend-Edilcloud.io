@@ -272,6 +272,8 @@ const todosReducer = (state = initialState, action) => {
 					type: action.deleteType,
 					data: action.data 
 				},
+				okDeleteTaskConfirmDialog: false,
+				okDeleteActivityConfirmDialog: false
 			};
 		}
 		case Actions.CLOSE_DELETE_CONFIRM_DIALOG: {
@@ -282,6 +284,8 @@ const todosReducer = (state = initialState, action) => {
 					type: null,
 					data: null
 				},
+				okDeleteTaskConfirmDialog: false,
+				okDeleteActivityConfirmDialog: false
 			};
 		}
 		case Actions.REMOVE_ACTIVITY: {

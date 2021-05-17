@@ -10,15 +10,12 @@ import {
     Dialog,
 	IconButton,
 	Typography,
-	withStyles
+	withStyles,
 } from '@material-ui/core';
-import React, { useState, useEffect } from 'react';
-import { useForm } from '@fuse/hooks';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import * as Actions from './store/actions';
-import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -64,8 +61,8 @@ const DialogContent = withStyles(theme => ({
 function EditTaskTodoDialog() {
     const { t } = useTranslation('dashboard');
     const dispatch = useDispatch();
-    const editTaskTodoDialog = useSelector(({ todoApp }) => todoApp.todos.editTaskTodoDialog);
-    const taskContentData = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog?.data);
+    const editTaskTodoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.editTaskTodoDialog);
+    const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data);
     const userInfo = decodeDataFromToken();
     const [profileData, setProfileData] = useState([]);
     const [profiles, setProfiles] = useState([]);
@@ -80,8 +77,6 @@ function EditTaskTodoDialog() {
 	});
     const [value, setValue] = React.useState(0);
 
-    console.log('taskContentData?????????????????????????', taskContentData)
-	
     // this Method will be used to close the post dialog
     function closeTodoDialog() {
         return dispatch(Actions.closeEditTaskTodoDialog());

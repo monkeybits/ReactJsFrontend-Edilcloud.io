@@ -389,7 +389,7 @@ function TodoListItem(props) {
 										onClick={ev => {
 											ev.preventDefault();
 											ev.stopPropagation();
-											// dispatch(Actions.editTaskTodoDialog(props.todo));
+											dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
 										}}
 									>
 										<Button>

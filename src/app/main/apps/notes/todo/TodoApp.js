@@ -28,6 +28,9 @@ import ImportExcelDialog from '../gantt/ImportExcelDialog';
 
 const PostNotificationDialog = loadable(() => import('../../todo/PostNotificationDialog'));
 const StatusConfirmDialog = loadable(() => import('../../todo/StatusConfirmDialog'));
+const EditTaskTodoDialog = loadable(() => import('./EditTaskTodoDialog'));
+const EditActivityTodoDialog = loadable(() => import('./EditActivityTodoDialog'));
+const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'));
 
 const useStyles = makeStyles({
 	addButton: {
@@ -346,6 +349,9 @@ function TodoApp(props) {
 			<TaskContentDialog />
 			<PostNotificationDialog />
 			<StatusConfirmDialog />
+			<EditTaskTodoDialog />
+			<EditActivityTodoDialog />
+			<DeleteConfirmDialog />
 		</>
 	);
 }

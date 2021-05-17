@@ -47,6 +47,17 @@ export const CLOSE_STATUS_CONFIRM_DIALOG = '[TODO APP] CLOSE STATUS CONFIRM DIAL
 export const OK_STATUS_CONFIRM_DIALOG = '[TODO APP] OK STATUS CONFIRM DIALOG (PROJECT)';
 export const OPEN_DRAWING_CONTENT_DIALOG = '[TODO APP] OPEN DRAWING CONTENT DIALOG (PROJECT)';
 export const CLOSE_DRAWING_CONTENT_DIALOG = '[TODO APP] CLOSE DRAWING CONTENT DIALOG (PROJECT)';
+export const REMOVE_ACTIVITY = '[TODO APP] REMOVE ACTIVITY';
+export const REMOVE_TASK = '[TODO APP] REMOVE TASK';
+export const EDIT_ACTIVITY = '[TODO APP] EDIT ACTIVITY';
+
+export const EDIT_TASK_TODO_DIALOG = '[TODO APP] EDIT TASK TODO DIALOG (PROJECT)';
+export const OPEN_DELETE_CONFIRM_DIALOG = '[TODO APP] OPEN DELETE CONFIRM DIALOG (PROJECT)';
+export const CLOSE_EDIT_TASK_TODO_DIALOG = '[TODO APP] CLOSE EDIT TASK TODO DIALOG (PROJECT)';
+export const OK_DELETE_ACTIVITY_CONFIRM_DIALOG = '[TODO APP] OK DELETE ACTIVITY CONFIRM DIALOG (PROJECT)';
+export const OK_DELETE_TASK_CONFIRM_DIALOG = '[TODO APP] OK DELETE TASK CONFIRM DIALOG (PROJECT)';
+export const CLOSE_DELETE_CONFIRM_DIALOG = '[TODO APP] CLOSE DELETE CONFIRM DIALOG (PROJECT)';
+export const CLOSE_EDIT_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE EDIT ACTIVITY TODO DIALOG (PROJECT)';
 
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
@@ -67,6 +78,11 @@ export function setUploadPercentage(payload) {
 	return {
 		type: SET_UPLOAD_PERCENTAGE,
 		payload
+	};
+}
+export function closeEditActivityTodoDialog() {
+	return {
+		type: CLOSE_EDIT_ACTIVITY_TODO_DIALOG
 	};
 }
 export function getTodos(pid, isGantt, handleSetLoading = () => '') {
@@ -184,7 +200,21 @@ export function closeDrawingContent() {
 		type: CLOSE_DRAWING_CONTENT_DIALOG
 	};
 }
-
+export function closeDeleteConfirmDialog() {
+	return {
+		type: CLOSE_DELETE_CONFIRM_DIALOG
+	};
+}
+export function okDeleteTaskConfirmDialog() {
+	return {
+		type: OK_DELETE_TASK_CONFIRM_DIALOG
+	};
+}
+export function okDeleteActivityConfirmDialog() {
+	return {
+		type: OK_DELETE_ACTIVITY_CONFIRM_DIALOG
+	};
+}
 export function addTaskData(data) {
 	return {
 		type: ADD_TASK_CONTENT_DATA,
@@ -279,12 +309,18 @@ export function openAddActivityTodoDialog(data) {
 		});
 }
 export function editTaskTodoDialog(data) {
-	console.log('dsfsdfs', data)
-	// return dispatch =>
-	// 	dispatch({
-	// 		type: OPEN_ACTIVITY_TODO_DIALOG,
-	// 		data
-	// 	});
+	return dispatch =>
+		dispatch({
+			type: EDIT_TASK_TODO_DIALOG,
+			data
+		});
+}
+export function openDeleteConfirmDialog(deleteType, data) {
+	return {
+		type: OPEN_DELETE_CONFIRM_DIALOG,
+		deleteType,
+		data
+	};
 }
 export function closeEditTodoDialog() {
 	return {
@@ -296,10 +332,13 @@ export function closeActivityTodoDialog() {
 		type: CLOSE_ACTIVITY_TODO_DIALOG
 	};
 }
+export function closeEditTaskTodoDialog() {
+	return dispatch =>
+		dispatch({
+			type: CLOSE_EDIT_TASK_TODO_DIALOG
+		});
+}
 export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
-	// console.log({
-	// 	todo
-	// });
 	return dispatch => {
 		const values =
 			todoDialogType == 'new'
@@ -349,7 +388,7 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 	// 		]).then(() => dispatch(updateTodos()))
 	// 	);
 }
-export function editActivity(todo, pid, setLoading, isGantt) {
+export function editActivity(todo, pid, setLoading, isGantt, editActivityTodoDialog = false) {
 	// console.log({
 	// 	todo
 	// });
@@ -373,6 +412,13 @@ export function editActivity(todo, pid, setLoading, isGantt) {
 					dispatch(getTodos(pid, isGantt));
 					dispatch(closeTimelineDialog());
 				}
+				if(editActivityTodoDialog) {
+					dispatch({
+						type: EDIT_ACTIVITY,
+						payload: todo
+					});
+				}
+				dispatch(closeEditActivityTodoDialog());
 				console.log(res);
 				setLoading(false);
 				toast.success('Updated');
