@@ -106,8 +106,8 @@ const IOSSlider = withStyles({
 export default function EditTaskForm(props) {
     const { t } = useTranslation('dashboard');
     const dispatch = useDispatch();
-    const taskContent = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
-    const taskContentData = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog?.data);
+    const taskContent = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
+    const taskContentData = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog?.data);
     const companyDetail = useSelector(({ chatApp }) => chatApp?.company);
     const companies = useSelector(({ contactsApp }) => contactsApp.contacts.approvedCompanies);
     const getRole = () => userInfo?.extra?.profile.role;

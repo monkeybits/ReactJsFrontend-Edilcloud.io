@@ -58,6 +58,7 @@ export const OK_DELETE_ACTIVITY_CONFIRM_DIALOG = '[TODO APP] OK DELETE ACTIVITY 
 export const OK_DELETE_TASK_CONFIRM_DIALOG = '[TODO APP] OK DELETE TASK CONFIRM DIALOG (PROJECT)';
 export const CLOSE_DELETE_CONFIRM_DIALOG = '[TODO APP] CLOSE DELETE CONFIRM DIALOG (PROJECT)';
 export const CLOSE_EDIT_ACTIVITY_TODO_DIALOG = '[TODO APP] CLOSE EDIT ACTIVITY TODO DIALOG (PROJECT)';
+export const EDIT_ACTIVITY_TODO_DIALOG = '[TODO APP] EDIT ACTIVITY TODO DIALOG (PROJECT)';
 
 function sortHolders(a, b) {
 	return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
@@ -78,6 +79,12 @@ export function setUploadPercentage(payload) {
 	return {
 		type: SET_UPLOAD_PERCENTAGE,
 		payload
+	};
+}
+export function editActivityTodoDialog(todo) {
+	return {
+		type: EDIT_ACTIVITY_TODO_DIALOG,
+		todo
 	};
 }
 export function closeEditActivityTodoDialog() {
@@ -388,10 +395,19 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 	// 		]).then(() => dispatch(updateTodos()))
 	// 	);
 }
+export function removeActivity(payload) {
+	return {
+		type: REMOVE_ACTIVITY,
+		payload
+	};
+}
+export function removeTask(payload) {
+	return {
+		type: REMOVE_TASK,
+		payload
+	};
+}
 export function editActivity(todo, pid, setLoading, isGantt, editActivityTodoDialog = false) {
-	// console.log({
-	// 	todo
-	// });
 	return dispatch => {
 		console.log(todo, todo.profile);
 		const values = {

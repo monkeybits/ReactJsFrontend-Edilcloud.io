@@ -33,7 +33,7 @@ import {
 	Paper
 } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { GET_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
+import { GET_ACTIVITY_OF_TASK, DELETE_TASK_OF_PROJECT } from 'app/services/apiEndPoints';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import moment from 'moment';
@@ -143,6 +143,8 @@ function TodoListItem(props) {
 	const dispatch = useDispatch();
 	// const labels = useSelector(({ todoApp }) => todoApp.labels);
 	const todoDialog = useSelector(({ todoApp }) => todoApp?.todos?.todoDialog);
+	const deleteConfirmDialog = useSelector(({ todoAppNote }) => todoAppNote?.todos?.deleteConfirmDialog);
+	const okDeleteTaskConfirmDialog = useSelector(({ todoAppNote }) => todoAppNote?.todos?.okDeleteTaskConfirmDialog);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projectDetail = props.todo.project;
 	const [open, setOpen] = React.useState(false);
@@ -178,6 +180,27 @@ function TodoListItem(props) {
 	useEffect(() => {
 		setTaskDetail(props.todo.activities);
 	}, [props.todo.activities]);
+
+	useEffect(() => {
+		console.log('okDeleteTaskConfirmDialog??????????????????????????', okDeleteTaskConfirmDialog)
+		console.log('okDeleteTaskConfirmDialog??????????????????????????', deleteConfirmDialog)
+		if(okDeleteTaskConfirmDialog && deleteConfirmDialog.data !== null) {
+			apiCall(
+				DELETE_TASK_OF_PROJECT(deleteConfirmDialog.data.id),
+				{},
+				res => {
+					dispatch(Actions.removeTask(deleteConfirmDialog.data));
+					dispatch(Actions.closeDeleteConfirmDialog());
+				},
+				err => {
+					// console.log(err);
+				},
+				METHOD.DELETE,
+				getHeaderToken()
+			);
+		}
+	}, [okDeleteTaskConfirmDialog, deleteConfirmDialog]);
+
 	useEffect(() => {
 		/**
 		 * After Dialog Open

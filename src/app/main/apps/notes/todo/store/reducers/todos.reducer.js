@@ -126,7 +126,6 @@ const todosReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS: {
 			console.log({ payload: action.payload, isGantt: action.isGantt });
-
 			return {
 				...state,
 				[action.isGantt ? 'entities' : 'todoEntities']: { ...action.payload },
@@ -219,6 +218,62 @@ const todosReducer = (state = initialState, action) => {
 					},
 					data: null
 				}
+			};
+		}
+		case Actions.CLOSE_DELETE_CONFIRM_DIALOG: {
+			return {
+				...state,
+				isDeleteConfirmDialog: false,
+				deleteConfirmDialog: {
+					type: null,
+					data: null
+				},
+				okDeleteTaskConfirmDialog: false,
+				okDeleteActivityConfirmDialog: false
+			};
+		}
+		case Actions.EDIT_ACTIVITY: {
+			return {
+				...state,
+				todoEntities: editByActivityId(state.todoEntities, action.payload)
+			};
+		}
+		case Actions.EDIT_ACTIVITY_TODO_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'edit',
+					props: {
+						openTimelineDialog: false
+					},
+					data: action.todo
+				},
+				editActivityTodoDialog: true
+			};
+		}
+		case Actions.CLOSE_EDIT_ACTIVITY_TODO_DIALOG: {
+			return {
+				...state,
+				todoDialog: {
+					type: 'edit',
+					props: {
+						openTimelineDialog: false
+					},
+					data: null
+				},
+				editActivityTodoDialog: false
+			};
+		}
+		case Actions.REMOVE_ACTIVITY: {
+			return {
+				...state,
+				todoEntities: removeByActivityId(state.todoEntities, action.payload),
+			};
+		}
+		case Actions.REMOVE_TASK: {
+			return {
+				...state,
+				todoEntities: removeByTaskId(state.todoEntities, action.payload),
 			};
 		}
 		case Actions.OK_DELETE_TASK_CONFIRM_DIALOG: {

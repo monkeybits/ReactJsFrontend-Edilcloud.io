@@ -13,12 +13,12 @@
           manifest.json provides metadata used when your web app is added to the
           homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
         -->
-		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-		<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+		<link rel="manifest" href="manifest.json" />
+		<link rel="shortcut icon" href="favicon.ico" />
 
 		<!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
-		<link href="%PUBLIC_URL%/assets/fonts/material-outline-icons/styles.css" rel="stylesheet" />
-		<link href="%PUBLIC_URL%/assets/fonts/meteocons/style.css" rel="stylesheet" />
+		<link href="assets/fonts/material-outline-icons/styles.css" rel="stylesheet" />
+		<link href="assets/fonts/meteocons/style.css" rel="stylesheet" />
 
         <noscript id="jss-insertion-point"></noscript>
         <!--
@@ -32,19 +32,6 @@
         -->
 		<title>Edilcloud.io - Coordina i cantieri edili in cloud</title>
 
-		<script src="%PUBLIC_URL%/assets/scripts/OneSignalSDK.js" async></script>
-        <script>
-			window.OneSignal = window.OneSignal || [];
-			OneSignal.push(function() {
-				OneSignal.init({
-					appId: "0fbdf0cf-d9f5-4363-809f-4735b1bba268",
-                    autoRegister: false,
-                    notifyButton: {
-                        enable: true,
-                    },
-				});
-			});
-        </script>
 		<!-- FUSE Splash Screen CSS -->
 		<style type="text/css">
 			#fuse-splash-screen {
@@ -221,7 +208,7 @@
 		<div id="fuse-splash-screen">
 			<div class="bg-white center">
 				<div class="logo">
-					<img width="350" height="100%" src="%PUBLIC_URL%/assets/images/logos/fuse.svg" alt="logo" />
+					<img width="350" height="100%" src="assets/images/logos/fuse.svg" alt="logo" />
 				</div>
 
 				<!-- Material Design Spinner -->
@@ -241,6 +228,20 @@
 				<!-- / Material Design Spinner -->
 			</div>
 		</div>
+
+		<script src="assets/scripts/OneSignalSDK.js" async></script>
+        <script>
+			window.OneSignal = window.OneSignal || [];
+			OneSignal.push(function() {
+				OneSignal.init({
+					appId: "0fbdf0cf-d9f5-4363-809f-4735b1bba268",
+                    autoRegister: false,
+                    notifyButton: {
+                        enable: true,
+                    },
+				});
+			});
+        </script>
 		<!-- / FUSE Splash Screen -->
 		<!-- <div style="padding: 150px 30% 0px;" id="rootpdf"></div> -->
 
