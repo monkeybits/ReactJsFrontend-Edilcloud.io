@@ -373,7 +373,7 @@ function TaskContentForm(props) {
 						wrapped
 						{...a11yProps(0)}
 					/>
-					<BottomNavigationAction
+					{/* <BottomNavigationAction
 						className="min-w-auto max-w-full font-bold hidden"
 						label="Drawings"
 						{...a11yProps(1)}
@@ -382,7 +382,7 @@ function TaskContentForm(props) {
 						className="min-w-auto max-w-full font-bold"
 						label="Edit"
 						{...a11yProps(2)}
-					/>
+					/> */}
 				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton

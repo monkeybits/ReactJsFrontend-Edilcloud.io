@@ -164,7 +164,7 @@ function TodoList(props) {
 				);
 				resolve(data);
 			}).then(data => {
-				console.log('data??????????????????????????45554', data);
+				console.log('setFilterByKey????????????????????11')
 				setFilteredData(setFilterByKey(activeFilter, data, activeFilterKey));
 				handleDoFilter();
 			});
@@ -197,10 +197,12 @@ function TodoList(props) {
 									return element == 'peopleFilter' ? d.id : d.name;
 								}
 							});
+							console.log('setFilterByKey????????????????????22')
 							list = setFilterByKey(element, list, selectedFilters);
 						} else {
 							filters[element].map(d => {
 								if (d.isActive) {
+									console.log('setFilterByKey????????????????????33')
 									list = setFilterByKey(element, list, element == 'peopleFilter' ? d.id : d.name);
 								}
 							});
@@ -247,6 +249,12 @@ function TodoList(props) {
 						[orderBy],
 						[orderDescending ? 'desc' : 'asc']
 					);
+				} else if (activeFilterKey === 'DEACTIVATED') {
+					result = _.orderBy(
+						getFilteredArray(todos, searchText),
+						[orderBy],
+						[orderDescending ? 'desc' : 'asc']
+					);
 				} else {
 					// activeFilterKey === 'Alerted'
 					result = list.reduce((unique, o) => {
@@ -283,7 +291,7 @@ function TodoList(props) {
 				return result;
 			case 'companyFilter':
 				var result = list.reduce((unique, o) => {
-					if (activeFilterKey.includes(o.assigned_company?.name)) {
+					if (activeFilterKey.includes(o.assigned_company?.name) && o.status) {
 						unique.push(o);
 					}
 					return unique;
@@ -336,14 +344,12 @@ function TodoList(props) {
 						if (o.assigned_company && o.assigned_company.id == company.id) {
 							activities = inLateFilterForActivity(o.activities);
 						}
-						// console.log({ date, endDate, name: o.name });
 						if ((date.getTime() >= endDate.getTime() && o.progress < 100) || activities.length) {
 							unique.push({ ...o, activities });
 						}
 						return unique;
 					}, []);
 				} else {
-					// activeFilterKey=== 'Completed'
 					result = list.reduce((unique, o) => {
 						let activities = [];
 						if (o.assigned_company && o.assigned_company.id == company.id) {
@@ -413,7 +419,6 @@ function TodoList(props) {
 		}, []);
 		return result;
 	};
-	
 	const todayFilterToNextWeekForActivity = (arr = []) => {
 		const result = arr.reduce((unique, o) => {
 			const startDate = new Date(o.datetime_start);
@@ -429,7 +434,6 @@ function TodoList(props) {
 		}, []);
 		return result;
 	};
-
 	if (!filteredData) {
 		return null;
 	}
@@ -455,6 +459,8 @@ function TodoList(props) {
 			</FuseAnimate>
 		);
 	}
+
+	console.log('data??????????????????????????', filteredData);
 
 	return (
 		// <List className="p-0">

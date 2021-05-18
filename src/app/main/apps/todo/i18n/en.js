@@ -3,6 +3,7 @@ const locale = {
 	MINE: 'Mine',
 	ALL: 'All',
 	ALERTED: 'Alerted',
+	DEACTIVATED: 'Deactivated',
 	TODAY: 'Today',
 	NEXT_WEEK: 'Next week',
 	ACTIVE: 'Active',

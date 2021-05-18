@@ -225,11 +225,11 @@ function EditActivityPostForm(props) {
 						wrapped
 						{...a11yProps(0)}
 					/>
-					<BottomNavigationAction
+					{/* <BottomNavigationAction
 						className="min-w-auto max-w-full font-bold"
 						label="Activity"
 						{...a11yProps(1)}
-					/>
+					/> */}
 				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton
