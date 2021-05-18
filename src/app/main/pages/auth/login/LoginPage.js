@@ -103,12 +103,10 @@ function LoginPage() {
 	// };
 
 	useEffect(() => {
-		return () => {
-			setTimeout(() => {
-				const splashScreen = document.getElementById('fuse-splash-screen');
-				splashScreen.style.display = 'none';
-			}, 2000);
-		};
+		setTimeout(() => {
+			const splashScreen = document.getElementById('fuse-splash-screen');
+			splashScreen.style.display = 'none';
+		}, 2000);
 	}, []);
 
 	function handleLanguageChange(lng) {

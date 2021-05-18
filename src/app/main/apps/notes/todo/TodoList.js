@@ -142,6 +142,15 @@ function TodoList(props) {
 			}
 			return FuseUtils.filterArrayByString(arr, _searchText);
 		}
+		function getFilteredArrayByDeactivate(entities, _searchText) {
+			const arr = Object.keys(entities).map(id => entities[id]);
+			// if (_searchText.length === 0) {
+			// 	return arr;
+			// }
+			let newArr = arr.filter((item) => !item.status)
+			return FuseUtils.filterArrayByString(newArr, _searchText);
+		}
+
 		switch (activeFilter) {
 			case 'genrealFilter':
 				var result = [];
@@ -163,6 +172,8 @@ function TodoList(props) {
 						[orderBy],
 						[orderDescending ? 'desc' : 'asc']
 					);
+				}  else if (activeFilterKey === 'DEACTIVATED') {
+					result = getFilteredArrayByDeactivate(todos, searchText);
 				} else {
 					// activeFilterKey === 'Alerted'
 					result = list.reduce((unique, o) => {

@@ -19,6 +19,11 @@ const initialState = () => {
 			name: 'ALERTED',
 			isActive: false,
 			icon: 'announcement'
+		},
+		{
+			name: 'DEACTIVATED',
+			isActive: false,
+			icon: 'domain_disable'
 		}
 	];
 	const timeFilter = [
