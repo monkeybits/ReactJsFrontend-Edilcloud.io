@@ -14,6 +14,7 @@ import * as Actions from 'app/main/apps/notes/store/actions';
 import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
 const AddProjectForm = loadable(() => import('./AddProjectForm'));
+const AddCode = loadable(() => import('./AddCode'));
 
 const styles = theme => ({
 	root: {
@@ -63,9 +64,15 @@ export default function CustomizedDialogs() {
 			open={projectApp.projectDialog}
 		>
 			<DialogTitle id="customized-dialog-title" onClose={handleClose}>
-				{projectApp.dialogType == 'new' ? t('ADD_PROJECT') : t('EDIT_PROJECT')}{' '}
+				{ projectApp.dialogName == 'Add code' ? t('ADD_CODE') : projectApp.dialogType == 'new' ? t('ADD_PROJECT') : t('EDIT_PROJECT')}{' '}
 			</DialogTitle>
-			<AddProjectForm />
+			{projectApp.dialogName == 'Add code'
+				? (
+					<AddCode />
+				) : (
+					<AddProjectForm />
+				)
+			}
 		</Dialog>
 	);
 }

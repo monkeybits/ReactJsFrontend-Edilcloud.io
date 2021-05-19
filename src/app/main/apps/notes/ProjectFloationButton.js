@@ -39,21 +39,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const actions = [
-	{ icon: <Icon>link_off</Icon>, name: 'External' },
-	{ icon: <Icon>link</Icon>, name: 'From company' }
+	{ icon: <Icon>description</Icon>, name: 'Create project' },
+	{ icon: <Icon>crop_landscape</Icon>, name: 'Add code' }
 ];
 
-export default function TeamFloationButton(props) {
+export default function ProjectFloationButton(props) {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const userInfo = decodeDataFromToken();
 	const roleFromCompany = userInfo?.extra?.profile?.role;
-
-	useEffect(() => {
-		if(roleFromCompany === 'o') {
-			actions.push({ icon: <Icon>email</Icon>, name: 'From email' })
-		}
-	}, [roleFromCompany]);
 
 	const handleClose = () => {
 		setOpen(false);

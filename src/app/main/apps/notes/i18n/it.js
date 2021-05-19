@@ -7,6 +7,7 @@ const locale = {
 	DELETE: 'Elimina',
 	ARCHIVE: 'Archivia',
 	ADD: 'Crea Progetto',
+	ADD_CODE: 'Aggiungi codice',
 	PROJECT_NOTES: 'Note del Progetto',
 	SEARCH_PROJECT_COORFINATORS: 'Seleziona coordinatore progetto',
 	PROJECT_DESCRIPTION: 'Descrizione ',
