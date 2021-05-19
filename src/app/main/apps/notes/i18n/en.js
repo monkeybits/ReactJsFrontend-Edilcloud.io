@@ -7,6 +7,7 @@ const locale = {
 	DELETE: 'Delete',
 	ARCHIVE: 'Archive',
 	ADD: 'Add',
+	ADD_CODE: 'Add Code',
 	PROJECT_NOTES: 'Project Notes',
 	SEARCH_PROJECT_COORFINATORS: 'Search Project coordinators',
 	PROJECT_DESCRIPTION: 'Project Description',

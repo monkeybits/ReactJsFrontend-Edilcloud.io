@@ -143,13 +143,15 @@ function MoveFileDialog() {
 			getHeaderToken()
 		);
 	};
+
 	const resetError = () =>
 		seterror({
 			fileError: '',
 			titleError: '',
 			descError: '',
 			nameError: ''
-		});
+	});
+	
 	const { relative_path } = moveFileDialog.data;
 	return (
 		<Dialog

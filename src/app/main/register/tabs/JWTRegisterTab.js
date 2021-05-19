@@ -23,11 +23,19 @@ function JWTRegisterTab({ history }) {
 
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
+	const [defaultEmail, setDefaultEmail] = useState('');
 	const formRef = useRef(null);
 	const [state, setState] = React.useState({
 		termsFile: false,
 		conditionFile: false
 	});
+
+	useEffect(() => {
+		const queryString = window.location.search;
+		const email = queryString.split('=')[1];
+		setDefaultEmail(email)
+	}, []);
+
 	useEffect(() => {
 		if (register.error && (register.error.username || register.error.password || register.error.email)) {
 			formRef.current.updateInputsWithError({
@@ -51,6 +59,7 @@ function JWTRegisterTab({ history }) {
 	const handleChange = event => {
 		setState({ ...state, [event.target.name]: event.target.checked });
 	};
+
 	return (
 		<div className="w-full">
 			<Formsy
@@ -136,6 +145,7 @@ function JWTRegisterTab({ history }) {
 					className="mb-24"
 					type="text"
 					name="email"
+					value={defaultEmail}
 					label={t('EMAIL')}
 					validations="isEmail"
 					validationErrors={{

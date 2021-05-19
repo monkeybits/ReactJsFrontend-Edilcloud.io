@@ -7,7 +7,8 @@ const initialState = () => ({
 	projectDialog: false,
 	searchText: '',
 	projectDetail: {},
-	dialogType: 'new'
+	dialogType: 'new',
+	dialogName: ''
 });
 const mergeArray = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
@@ -89,7 +90,8 @@ const labelsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				projectDialog: true,
-				dialogType: action.dialogType
+				dialogType: action.dialogType,
+				dialogName: action.name
 			};
 		}
 		case Actions.SET_SEARCH_TEXT: {

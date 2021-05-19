@@ -85,45 +85,6 @@ function NoteList(props) {
 	const [filteredData, setFilteredData] = useState(null);
 	const { t } = useTranslation('projects');
 
-	// useEffect(() => {
-	// 	function filterData() {
-	// 		const { params } = props.match;
-	// 		const { id, labelId } = params;
-
-	// 		let data = Object.keys(projects).map(_id => projects[_id]);
-
-	// 		console.log('data???????????????????????', id)
-
-	// 		if (labelId) {
-	// 			data = data.filter(note => note.labels.includes(labelId) && !note.archive);
-	// 		}
-
-	// 		if (!id) {
-	// 			data = data.filter(note => !note.archive);
-	// 		}
-
-	// 		if (id === 'archive') {
-	// 			data = data.filter(note => note.archive);
-	// 		}
-
-	// 		if (id === 'reminders') {
-	// 			data = data.filter(note => Boolean(note.reminder) && !note.archive);
-	// 		}
-
-	// 		if (searchText.length === 0) {
-	// 			return data;
-	// 		}
-
-	// 		data = FuseUtils.filterArrayByString(data, searchText);
-
-	// 		return data;
-	// 	}
-
-	// 	if (projects) {
-	// 		setFilteredData(filterData());
-	// 	}
-	// }, [projects, searchText, props.match]);
-
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);

@@ -26,6 +26,7 @@ const NotesHeader = loadable(() => import('./NotesHeader'));
 const NoteList = loadable(() => import('./NoteList'));
 const NotesSidebarContent = loadable(() => import('./NotesSidebarContent'));
 const ConfirmDeleteDialog = loadable(() => import('./ConfirmDeleteDialog'));
+const ProjectFloationButton = loadable(() => import('./ProjectFloationButton'));
 
 function NotesApp(props) {
 	const dispatch = useDispatch();
@@ -89,10 +90,6 @@ function NotesApp(props) {
 		dispatch({
 			type: Actions.RESET_PROEJECTS
 		});
-		// handleSetLoading({
-		// 	loadingProjects: true,
-		// 	loadingProjectRequest: true
-		// });
 		dispatch(Actions.getProjects(handleSetLoading));
 		dispatch(Actions.getRequest(handleSetLoading));
 	}, [dispatch]);
@@ -114,12 +111,8 @@ function NotesApp(props) {
 				header={<NotesHeader pageLayout={pageLayout} />}
 				content={
 					<div className="flex flex-col w-full items-center">
-						{/* <NewNote /> */}
-						{/* <Button onClick={handleDownload}>Download</Button> */}
 						<NoteList pageLayout={pageLayout} {...loading} handleSetLoading={handleSetLoading} />
 						<AddProjectDialog />
-						{/* <NoteDialog /> */}
-						{/* <LabelsDialog /> */}
 					</div>
 				}
 				leftSidebarContent={<NotesSidebarContent pageLayout={pageLayout} />}
@@ -130,14 +123,13 @@ function NotesApp(props) {
 			/>
 			{(getRole() == 'o' || getRole() == 'd') && (
 				<FuseAnimate animation="transition.expandIn" delay={300}>
-					<Fab
-						color="primary"
-						aria-label="add"
-						className={classes.addButton}
-						onClick={() => dispatch(Actions.openProjectDialog('new'))}
-					>
-						<FontAwesomeIcon icon={faPlus} size="1x" />
-					</Fab>
+					<ProjectFloationButton
+						color="secondary"
+						className=" ltr:left-0 rtl:right-0 mx-16 z-999"
+						callAction={name => {
+							dispatch(Actions.openProjectDialog('new', name));
+						}}
+					/>
 				</FuseAnimate>
 			)}
 			<ConfirmDeleteDialog />
