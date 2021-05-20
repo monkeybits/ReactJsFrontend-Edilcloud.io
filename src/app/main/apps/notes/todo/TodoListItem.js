@@ -182,9 +182,7 @@ function TodoListItem(props) {
 	}, [props.todo.activities]);
 
 	useEffect(() => {
-		console.log('okDeleteTaskConfirmDialog??????????????????????????', okDeleteTaskConfirmDialog)
-		console.log('okDeleteTaskConfirmDialog??????????????????????????', deleteConfirmDialog)
-		if(okDeleteTaskConfirmDialog && deleteConfirmDialog.data !== null) {
+		if (okDeleteTaskConfirmDialog && deleteConfirmDialog.data !== null) {
 			apiCall(
 				DELETE_TASK_OF_PROJECT(deleteConfirmDialog.data.id),
 				{},
@@ -468,6 +466,61 @@ function TodoListItem(props) {
 									</MenuList>
 								</Paper>
 							</Popover>
+							<TippyMenu
+								icon={
+									<>
+										<IconButton
+											// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+											aria-haspopup="true"
+											// onClick={handleMoreMenuClick}
+											className="opacity-60"
+										>
+											<Icon>more_vert</Icon>
+										</IconButton>
+									</>
+								}
+								outsideClick
+							>
+								{/* <MenuItem
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											if (props.todo.assigned_company) {
+												dispatch(Actions.openAddActivityTodoDialog(props.todo));
+											}
+										}}
+									>
+										<Button>
+											<Icon className="mr-10">add_circle_outline</Icon>
+											SOTTOFASE
+										</Button>
+									</MenuItem> */}
+								<MenuItem
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										dispatch(Actions.editTaskTodoDialog(props.todo));
+									}}
+								>
+									<Button>
+										<Icon className="mr-10">edit</Icon>
+											Edit
+										</Button>
+								</MenuItem>
+								{/* <MenuItem
+										onClick={ev => {
+											ev.preventDefault();
+											ev.stopPropagation();
+											dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
+											// deleteTaskOfProject(props.todo);
+										}}
+									>
+										<Button>
+											<Icon className="mr-10">delete</Icon>
+											Delete
+										</Button>
+									</MenuItem> */}
+							</TippyMenu>
 						</>
 					) : (
 						<Typography className="font-medium truncate ht-auto" color="inherit">
@@ -641,7 +694,7 @@ function TodoListItem(props) {
 														},
 														projectDetail.id,
 														'new',
-														() => {},
+														() => { },
 														false,
 														() => {
 															setShowProgress(prev => !prev);

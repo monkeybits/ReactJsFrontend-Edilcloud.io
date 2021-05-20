@@ -57,6 +57,9 @@ export default function ProjectListitem(props) {
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const okConfirmDeleteDialog = useSelector(({ notesApp }) => notesApp.notes.okConfirmDeleteDialog);
 	const projectConfirmDeleteId = useSelector(({ notesApp }) => notesApp.notes.projectConfirmDeleteId);
+	const okConfirmArchiveDialog = useSelector(({ notesApp }) => notesApp.notes.okConfirmArchiveDialog);
+	const projectConfirmArchiveId = useSelector(({ notesApp }) => notesApp.notes.projectConfirmArchiveId);
+	const projectConfirmArchiveStatus = useSelector(({ notesApp }) => notesApp.notes.projectConfirmArchiveStatus);
 	if (projectIndex !== null) {
 		var {
 			mainId,
@@ -113,6 +116,26 @@ export default function ProjectListitem(props) {
 	}, [okConfirmDeleteDialog]);
 
 	useEffect(() => {
+		if (okConfirmArchiveDialog) {
+			handleClose();
+			apiCall(
+				projectConfirmArchiveStatus ? DISABLE_PROJECT(projectConfirmArchiveId) : ENABLE_PROJECT(projectConfirmArchiveId),
+				{},
+				res => {
+					handleClose();
+					dispatch(Actions.toggleProjectStatus(index));
+				},
+				err => {
+					// console.log(err)
+				},
+				METHOD.PUT,
+				getHeaderToken(),
+				true
+			);	
+		}
+	}, [okConfirmArchiveDialog]);
+
+	useEffect(() => {
 		if (hasNotifcationOnThisItem) {
 			setTimeout(() => {
 				setHasRender(true);
@@ -136,31 +159,13 @@ export default function ProjectListitem(props) {
 	const handleExpandClick = () => {
 		setExpanded(!expanded);
 	};
-	const handleDeactivate = event => {
-		event.stopPropagation();
-		event.preventDefault();
-		apiCall(
-			status ? DISABLE_PROJECT(id) : ENABLE_PROJECT(id),
-			{},
-			res => {
-				handleClose();
-				dispatch(Actions.toggleProjectStatus(index));
-			},
-			err => {
-				// console.log(err)
-			},
-			METHOD.PUT,
-			getHeaderToken(),
-			true
-		);
-	};
 	const handleUpdateProject = () => {
 		handleClose();
 		dispatch(Actions.updateProjectDetail({ ...projects[index], index }));
 		dispatch(Actions.openProjectDialog('edit'));
 	};
 	const handleArchiveProject = () => {
-		handleClose();
+		dispatch(Actions.openConfirmArchiveDialog(id, status));
 	};
 	const handleDeleteProject = () => {
 		dispatch(Actions.openConfirmDeleteDialog(id));

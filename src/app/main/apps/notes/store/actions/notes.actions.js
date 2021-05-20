@@ -20,6 +20,9 @@ export const TOGGLE_VARIATE_DESC_SIZE = '[NOTES APP] TOGGLE VARIATE DESC SIZE';
 export const OPEN_CONFIRM_DELETE_DIALOG = '[NOTES APP] OPEN CONFIRM DELETE DIALOG';
 export const CLOSE_CONFIRM_DELETE_DIALOG = '[NOTES APP] CLOSE CONFIRM DELETE DIALOG';
 export const OK_CONFIRM_DELETE_DIALOG = '[NOTES APP] OK CONFIRM DELETE DIALOG';
+export const OPEN_CONFIRM_ARCHIVE_DIALOG = '[NOTES APP] OPEN CONFIRM ARCHIVE DIALOG';
+export const CLOSE_CONFIRM_ARCHIVE_DIALOG = '[NOTES APP] CLOSE CONFIRM ARCHIVE DIALOG';
+export const OK_CONFIRM_ARCHIVE_DIALOG = '[NOTES APP] OK CONFIRM ARCHIVE DIALOG';
 
 export function getProjects(handleSetLoading = () => '') {
 	handleSetLoading({
@@ -142,6 +145,26 @@ export function closeConfirmDeleteDialog() {
 export function okConfirmDeleteDialog() {
 	return {
 		type: OK_CONFIRM_DELETE_DIALOG
+	};
+}
+
+export function openConfirmArchiveDialog(id, status) {
+	return {
+		type: OPEN_CONFIRM_ARCHIVE_DIALOG,
+		id,
+		status
+	};
+}
+
+export function closeConfirmArchiveDialog() {
+	return {
+		type: CLOSE_CONFIRM_ARCHIVE_DIALOG
+	};
+}
+
+export function okConfirmArchiveDialog() {
+	return {
+		type: OK_CONFIRM_ARCHIVE_DIALOG
 	};
 }
 
