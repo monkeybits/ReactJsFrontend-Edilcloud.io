@@ -11,7 +11,8 @@ import {
 	AppBar,
 	IconButton,
 	Typography,
-	TextField
+	TextField,
+	CircularProgress
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,10 +41,11 @@ function AddTeamMemberToProject(props) {
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const contactDialog = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.contactDialog);
+	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const match = useRouteMatch();
 	const [, setValue] = useState('English');
 	const [project, setProject] = useState('');
-	const [email, setEmail] = useState('');
+	const [loading, setIsLoading] = useState(false);
 	const [, setCanTryWithExisting] = useState(true);
 	const [, setPermission] = useState({
 		can_access_chat: true,
@@ -59,6 +61,12 @@ function AddTeamMemberToProject(props) {
 		file: undefined,
 		imagePreviewUrl: undefined
 	});
+
+	useEffect(() => {
+		if('id' in projectDetail) {
+			setProject(projectDetail)
+		}
+	}, [projectDetail])
 
 	const { form, handleChange, setForm, resetForm } = useForm(defaultFormState);
 
@@ -101,27 +109,26 @@ function AddTeamMemberToProject(props) {
 	}
 
 	function canBeSubmittedSend() {
-		return project && form.email;
+		return form.email;
 	}
 
 	function handleSend(event) {
 		event.preventDefault();
-		// setIsLoading(true);
+		setIsLoading(true);
 		apiCall(
-			PROJECT_GENERATE_CODE(project.value),
+			PROJECT_GENERATE_CODE(project.id),
 			{
-				project: project.value,
+				project: project.id,
 				email: form.email
 			},
 			res => {
-				console.log('project????????????????????????', res)
 				if(res) {
-					// setIsLoading(false);
+					setIsLoading(false);
 					closeComposeDialog();
 				}
 			},
 			err => {
-				// setIsLoading(false);
+				setIsLoading(false);
 				// console.log(err);
 			},
 			METHOD.POST,
@@ -208,7 +215,7 @@ function AddTeamMemberToProject(props) {
 					<Typography variant="subtitle1" color="inherit">
 						{
 							contactDialog.name === 'From email'
-								? 'Test' 
+								? 'Invite user by email' 
 								: contactDialog.type === 'new'
 									? t('ADD_TEAM_MEMBER_TO_PROJECT')
 									: t('EDIT_TEAM_MEMBER_TO_PROJECT')
@@ -221,34 +228,6 @@ function AddTeamMemberToProject(props) {
 					{
 						contactDialog.name === 'From email' ? (
 							<div>
-								<div className="flex mb-10">
-									<div className="min-w-48 pt-20">
-										<Icon color="action">description</Icon>
-									</div>
-									<FuseChipSelect
-										variant="fixed"
-										className="custom-dropdown w-full"
-										onChange={value => {
-											setProject(value);
-										}}
-										// isMulti
-										value={project}
-										placeholder="Projects"
-										textFieldProps={{
-											onChange: e => retrieveDataAsynchronously(e.target.value),
-											variant: 'outlined'
-										}}
-										options={projects.map(project => ({
-											data: project,
-											value: project.id,
-											label: (
-												<span className="flex items-center">
-													<span className="mx-8">{project.name}</span>
-												</span>
-											)
-										}))}
-									/>
-								</div>
 								<div className="flex">
 									<div className="min-w-48 pt-20">
 										<Icon color="action">email</Icon>
@@ -310,11 +289,6 @@ function AddTeamMemberToProject(props) {
 									<div className="flex flex-1 items-center justify-center h-full">
 										<img className="w-400" src="assets/images/errors/nofiles.png" />
 									</div>
-									{/* <div className="flex flex-1 mt-20 items-center justify-center h-full">
-										<Typography color="textSecondary" variant="h6">
-											{t('CREATE_FILE_ADVICE')}
-										</Typography>
-									</div> */}
 								</div>
 							</div>
 						)
@@ -332,6 +306,7 @@ function AddTeamMemberToProject(props) {
 							disabled={!canBeSubmittedSend()}
 						>
 							Send
+							{loading && <CircularProgress size={20} color="secondary" />}
 						</Button>
 					</DialogActions>
 				) : (

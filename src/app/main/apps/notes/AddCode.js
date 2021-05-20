@@ -5,8 +5,7 @@
 TODO: This File is created for showing add project form and on submit method we are creating new project and geting list of project
 */
 import { useForm } from '@fuse/hooks';
-import FuseChipSelect from '@fuse/core/FuseChipSelect';
-import { TextFieldFormsy } from '@fuse/core/formsy';
+import history from '@history';
 import { Button, withStyles, Avatar, CircularProgress, Grid, TextField } from '@material-ui/core';
 import Formsy from 'formsy-react';
 import React, { useRef, useState, useEffect } from 'react';
@@ -43,6 +42,8 @@ function AddCode() {
 	const projectApp = useSelector(({ notesApp }) => notesApp.project);
     const formRef = useRef(null);
 	const [loading, setLoading] = React.useState(false);
+	const [error, setError] = React.useState(false);
+	const [errorMessage, setErrorMessage] = React.useState('');
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [code, setCode] = useState(false);
 	const [file, setFile] = useState(null);
@@ -67,16 +68,23 @@ function AddCode() {
 	}
 
 	const handleSubmit = () => {
-        console.log('res???????????????????????', cardForm.code)
 		setLoading(true);
 		apiCall(
 			ADD_TEAM_BY_CODE,
 			{unique_code: cardForm.code},
 			res => {
-                console.log('res???????????????????????', res)
+				if(res.unique_code){
+					dispatch(Actions.closeProjectDialog());
+					dispatch(Actions.getProjects());
+				} else {
+					setError(true)
+					setErrorMessage('Please enter correct code')
+				}
 				setLoading(false);
 			},
 			err => {
+				setError(true)
+				setErrorMessage(err.detail)
 				setLoading(false);
 			},
 			METHOD.POST,
@@ -102,7 +110,6 @@ function AddCode() {
                         <TextField
                             className="mt-12"
                             label="Code"
-                            // disabled={getIsDisabled()}
                             type="text"
                             name="code"
                             variant="outlined"
@@ -110,16 +117,11 @@ function AddCode() {
                             onChange={handleChange}
                             fullWidth
                             required
-                            // InputProps={{
-                            //     endAdornment: (
-                            //         <InputAdornment position="end">
-                            //             <Icon className="text-20" color="action">
-                            //                 remove_red_eye
-                            //                             </Icon>
-                            //         </InputAdornment>
-                            //     )
-                            // }}
                         />
+						{
+							error &&
+							<div className="text-red-700">{errorMessage}</div>
+						}
 					</Grid>
 					<Grid item xs={12}>
 						<div className="inline-block">
