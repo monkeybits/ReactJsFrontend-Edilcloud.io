@@ -129,8 +129,6 @@ export default function EditTaskForm(props) {
 	});
     const [value, setValue] = React.useState(0);
 
-    console.log('taskContentData?????????????????????????', companies)
-    
     useEffect(() => {
 		if (companies && companies.length && taskContentData) {
 			const company = [...companies]

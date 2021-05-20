@@ -40,7 +40,8 @@ const useStyles = makeStyles(theme => ({
 
 const actions = [
 	{ icon: <Icon>link_off</Icon>, name: 'External' },
-	{ icon: <Icon>link</Icon>, name: 'From company' }
+	{ icon: <Icon>link</Icon>, name: 'From company' },
+	{ icon: <Icon>email</Icon>, name: 'From email' }
 ];
 
 export default function TeamFloationButton(props) {
@@ -48,12 +49,6 @@ export default function TeamFloationButton(props) {
 	const [open, setOpen] = React.useState(false);
 	const userInfo = decodeDataFromToken();
 	const roleFromCompany = userInfo?.extra?.profile?.role;
-
-	useEffect(() => {
-		if(roleFromCompany === 'o') {
-			actions.push({ icon: <Icon>email</Icon>, name: 'From email' })
-		}
-	}, [roleFromCompany]);
 
 	const handleClose = () => {
 		setOpen(false);
@@ -78,19 +73,35 @@ export default function TeamFloationButton(props) {
 					open={open}
 					direction="up"
 				>
-					{actions.map((action) => (
-						<SpeedDialAction
-							className={classes.fab}
-							key={action.name}
-							icon={action.icon}
-							tooltipTitle={action.name}
-							tooltipOpen
-							onClick={() => {
-								props.callAction(action.name);
-								handleClose();
-							}}
-						/>
-					))}
+					{actions.map((action, index) => 
+						{
+							if(index === 2) {
+								return roleFromCompany === 'o' && <SpeedDialAction
+									className={classes.fab}
+									key={action.name}
+									icon={action.icon}
+									tooltipTitle={action.name}
+									tooltipOpen
+									onClick={() => {
+										props.callAction(action.name);
+										handleClose();
+									}}
+								/>
+							} else {
+								return <SpeedDialAction
+									className={classes.fab}
+									key={action.name}
+									icon={action.icon}
+									tooltipTitle={action.name}
+									tooltipOpen
+									onClick={() => {
+										props.callAction(action.name);
+										handleClose();
+									}}
+								/>
+							}
+						}
+					)}
 				</SpeedDial>
 			</div>
 		</div>

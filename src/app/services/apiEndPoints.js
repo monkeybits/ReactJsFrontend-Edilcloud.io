@@ -56,7 +56,7 @@ export const VIDEO_LIST_PROJECT = pid =>
 	`/api/frontend/project/project/${pid}/video_list/?filter__folder__isnull=true&no_page=no_page`;
 export const FOLDER_STRUCTURE_LIST = cid => `/api/frontend/media/folder/company/${cid}/structure_list/?no_page=no_page`;
 export const PROJECT_GENERATE_CODE = pid => `/api/frontend/project/project/${pid}/generate_code/`;
-export const ADD_TEAM_BY_CODE = pid => `/api/frontend/project/project/${pid}/add_team_by_code/`;
+export const ADD_TEAM_BY_CODE = `/api/frontend/project/project/add_team_by_code/`;
 export const GET_FOLDERS_DETAIL = fid => `/api/frontend/media/folder/${fid}/detail/`;
 export const FOLDER_LIST = cid => `/api/frontend/media/folder/company/${cid}/list/?no_page=no_page`;
 export const FOLDER_LIST_PROJECT = pid => `/api/frontend/media/folder/project/${pid}/list/?no_page=no_page`;
