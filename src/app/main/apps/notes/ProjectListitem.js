@@ -56,6 +56,7 @@ export default function ProjectListitem(props) {
 	const { t } = useTranslation('projects');
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const okConfirmDeleteDialog = useSelector(({ notesApp }) => notesApp.notes.okConfirmDeleteDialog);
+	const projectConfirmDeleteId = useSelector(({ notesApp }) => notesApp.notes.projectConfirmDeleteId);
 	if (projectIndex !== null) {
 		var {
 			mainId,
@@ -107,7 +108,7 @@ export default function ProjectListitem(props) {
 	useEffect(() => {
 		if (okConfirmDeleteDialog) {
 			handleClose();
-			dispatch(Actions.deleteProject(id));
+			dispatch(Actions.deleteProject(projectConfirmDeleteId));
 		}
 	}, [okConfirmDeleteDialog]);
 
@@ -162,7 +163,7 @@ export default function ProjectListitem(props) {
 		handleClose();
 	};
 	const handleDeleteProject = () => {
-		dispatch(Actions.openConfirmDeleteDialog());
+		dispatch(Actions.openConfirmDeleteDialog(id));
 	};
 	const [value, setValue] = React.useState(0);
 

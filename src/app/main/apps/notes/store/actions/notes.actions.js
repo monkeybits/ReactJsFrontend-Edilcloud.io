@@ -126,9 +126,10 @@ export function deleteProject(pid) {
 	};
 }
 
-export function openConfirmDeleteDialog() {
+export function openConfirmDeleteDialog(id) {
 	return {
-		type: OPEN_CONFIRM_DELETE_DIALOG
+		type: OPEN_CONFIRM_DELETE_DIALOG,
+		id
 	};
 }
 
