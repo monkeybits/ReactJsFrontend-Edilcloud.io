@@ -8,7 +8,11 @@ const initialState = {
 	variateDescSize: true,
 	openConfirmDeleteDialog: false,
 	okConfirmDeleteDialog: false,
-	projectConfirmDeleteId: null
+	projectConfirmDeleteId: null,
+	openConfirmArchiveDialog: false,
+	okConfirmArchiveDialog: false,
+	projectConfirmArchiveId: null,
+	projectConfirmArchiveStatus: null
 };
 
 const notesReducer = (state = initialState, action) => {
@@ -41,6 +45,29 @@ const notesReducer = (state = initialState, action) => {
 			return {
 				...state,
 				noteDialogId: null
+			};
+		}
+		case Actions.OPEN_CONFIRM_ARCHIVE_DIALOG: {
+			return {
+				...state,
+				openConfirmArchiveDialog: true,
+				projectConfirmArchiveId: action.id,
+				projectConfirmArchiveStatus: action.status
+			};
+		}
+		case Actions.CLOSE_CONFIRM_ARCHIVE_DIALOG: {
+			return {
+				...state,
+				openConfirmArchiveDialog: false,
+				okConfirmArchiveDialog: false,
+				projectConfirmArchiveId: null
+			};
+		}
+		case Actions.OK_CONFIRM_ARCHIVE_DIALOG: {
+			return {
+				...state,
+				openConfirmArchiveDialog: false,
+				okConfirmArchiveDialog: true
 			};
 		}
 		case Actions.OPEN_CONFIRM_DELETE_DIALOG: {

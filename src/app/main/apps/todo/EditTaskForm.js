@@ -131,7 +131,8 @@ export default function EditTaskForm(props) {
 
     useEffect(() => {
 		if (companies && companies.length && taskContentData) {
-			const company = [...companies]
+            if(taskContentData?.assigned_company?.id !== undefined) {
+                const company = [...companies]
 				.filter(company => company.profile?.company?.id == taskContentData?.assigned_company?.id)
 				.map(company => ({
 					data: company,
@@ -149,7 +150,8 @@ export default function EditTaskForm(props) {
 						</span>
 					)
 				}));
-			setCompany(company);
+			    setCompany(company);
+            }
 		}
 		if (taskContentData) {
 			console.log({ taskContentData, date_start: taskContentData.date_start });

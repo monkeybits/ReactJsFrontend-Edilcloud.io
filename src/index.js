@@ -27,13 +27,9 @@ import ErrorBoundary from './ErrorBoundary';
 const App = loadable(() => import('app/App'));
 
 ReactDOM.render(
-	<Suspense fallback={<div>Loading...</div>}>
-		<ErrorBoundary>
-			<ClearBrowserCacheBoundary auto fallback="Loading" duration={60000}>
-				<App />
-			</ClearBrowserCacheBoundary>
-		</ErrorBoundary>
-	</Suspense>,
+<ClearBrowserCacheBoundary auto fallback="Loading" duration={60000}>
+	<App />
+</ClearBrowserCacheBoundary>,
 	document.getElementById('root')
 );
 
