@@ -27,6 +27,7 @@ import { toast } from 'react-toastify';
 import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AppleLogin from 'react-apple-login';
+import AppleSignin from 'react-apple-signin-auth';
 
 const FacebookLoginComponent = loadable(() => import('./FacebookLoginComponent'));
 const GoogleLoginComponent = loadable(() => import('./GoogleLoginComponent'));
@@ -60,6 +61,7 @@ const languages = [
 		flag: 'tr'
 	}
 ];
+
 function LoginPage() {
 	const [open, setOpen] = React.useState(false);
 	const [title, setTitle] = React.useState('Terms');
@@ -236,6 +238,28 @@ function LoginPage() {
 
 								<div className="flex mt-12 w-160 h-36">
 									<AppleLogin {...settings} callback={appleLoginSuccess} />
+								</div>
+
+								<div className="flex mt-12 w-160 h-36">
+									<AppleSignin
+										authOptions={{
+											clientId: 'com.monkeybits.edilcloud.signin',
+											scope: 'email name',
+											redirectURI: 'https://test.edilcloud.io',
+											state: 'state',
+											nonce: 'nonce',
+											usePopup: true
+										}}
+										uiType="dark"
+										className="apple-auth-btn"
+										noDefaultStyle={false}
+										buttonExtraChildren="Continue with Apple"
+										onSuccess={(response) => console.log('response', response)}
+										onError={(error) => console.error(error)}
+										skipScript={false}
+										iconProp={{ style: { marginTop: '10px' } }}
+										// render={(props) => <button {...props}>My Custom Button</button>}
+									/>
 								</div>
 
 								<div className="my-28 flex items-center justify-center or-container">
