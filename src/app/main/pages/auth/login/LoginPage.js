@@ -68,7 +68,7 @@ function LoginPage() {
 		redirectURI: 'https://test.edilcloud.io',
 		scope: 'name email',
 		state: '',
-		responseType: 'code id_token',
+		//responseType: 'code id_token',
 		responseMode: 'form_post',
 		nonce: '',
 		usePopup: true,
@@ -129,7 +129,6 @@ function LoginPage() {
 
 	const appleLoginSuccess = data => {
 		console.log('data', data);
-
 		// this.startLoading();
 		if (data) {
 			apiCall(
