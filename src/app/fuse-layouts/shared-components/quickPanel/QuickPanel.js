@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import { Drawer, Icon, Typography, IconButton, AppBar, Tabs, Tab, Box, Toolbar } from '@material-ui/core';
+import { Drawer, Icon, Typography, IconButton, AppBar, Tabs, Tab, Box, Toolbar, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -74,6 +74,9 @@ function QuickPanel(props) {
 	const dispatch = useDispatch();
 	const data = useSelector(({ quickPanel }) => quickPanel.data);
 	const state = useSelector(({ quickPanel }) => quickPanel.state);
+	const projectAlertId = useSelector(({ quickPanel }) => quickPanel.projectAlertId);
+	const isShowAlertPost = useSelector(({ quickPanel }) => quickPanel.isShowAlertPost);
+	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 	const classesAccordion = useStylesAccordion();
 	const classesTabs = useStylesTabs();
 	const [value, setValue] = React.useState(0);
@@ -85,6 +88,7 @@ function QuickPanel(props) {
 	const [checked, setChecked] = useState('notifications');
 	const [listTask, setListTask] = useState([]);
 	const [listActivity, setListActivity] = useState([]);
+
 	useEffect(() => {
 		if (state) {
 			getAlertPostTask();
@@ -95,13 +99,26 @@ function QuickPanel(props) {
 			setListTask([]);
 		};
 	}, [state]);
+
+	useEffect(() => {
+		if (projectAlertId !== null) {
+			getAlertPostTask();
+			getAlertPostActivity();
+		}
+	}, [projectAlertId]);
+
 	const getAlertPostTask = () => {
 		apiCall(
 			ALERTED_POSTS_TASKS,
 			{},
 			results => {
 				const items = results.map(d => ({ ...d, type: 'tasks' }));
-				setListTask(items);
+				if (projectAlertId !== null) {
+					const filteredTask = items.filter((task) => task.project.id === projectAlertId)
+					setListTask(filteredTask);
+				} else {
+					setListTask(items);
+				}
 			},
 			err => {
 				// console.log(err)
@@ -110,13 +127,19 @@ function QuickPanel(props) {
 			getHeaderToken()
 		);
 	};
+	
 	const getAlertPostActivity = () => {
 		apiCall(
 			ALERTED_POSTS_ACTIVITY,
 			{},
 			results => {
 				const items = results.map(d => ({ ...d, type: 'activity' }));
-				setListActivity(items);
+				if (projectAlertId !== null) {
+					const filteredActivity = items.filter((activity) => activity.project.id === projectAlertId)
+					setListTask(filteredActivity);
+				} else {
+					setListActivity(items);
+				}
 			},
 			err => {
 				// console.log(err)
@@ -125,6 +148,7 @@ function QuickPanel(props) {
 			getHeaderToken()
 		);
 	};
+	
 	const handleToggle = value => () => {
 		const currentIndex = checked.indexOf(value);
 		const newChecked = [...checked];
@@ -137,6 +161,10 @@ function QuickPanel(props) {
 
 		setChecked(newChecked);
 	};
+
+	const handleSelectProject = (event, id) => {
+		dispatch(Actions.openAlertQuickPanel(id))
+	}
 
 	useEffect(() => {
 		dispatch(Actions.getQuickPanelData());
@@ -151,31 +179,80 @@ function QuickPanel(props) {
 			onClose={ev => dispatch(Actions.toggleQuickPanel())}
 		>
 			<FuseScrollbars>
-				<Toolbar className="px-4 flex justify-between items-center">
-					{/* <ListSubheader className="bg-body" component="div">Alerted posts</ListSubheader> */}
-					<Typography className="mx-16 text-16" color="inherit">
-						Alerted posts
-					</Typography>
-					<div className="px-4">
-						<IconButton onClick={ev => dispatch(Actions.toggleQuickPanel())} color="inherit">
-							<Icon>close</Icon>
-						</IconButton>
-					</div>
-				</Toolbar>
-				<div className={classesTabs.root}>
-					<AppBar position="static">
-						<Tabs fullWidth value={value} onChange={handleChange} centered aria-label="simple tabs example">
-							<Tab label="Tasks" {...a11yProps(0)} />
-							<Tab label="Activities" {...a11yProps(1)} />
-						</Tabs>
-					</AppBar>
-					<TabPanel value={value} index={0} className="bg-post-section write-post-img-full">
-						<PostList posts={listTask} showPrject />
-					</TabPanel>
-					<TabPanel value={value} index={1} className="bg-post-section write-post-img-full">
-						<PostList posts={listActivity} showPrject showTask />
-					</TabPanel>
-				</div>
+				{
+					isShowAlertPost ? (
+						<div>
+							<Toolbar className="px-4 flex justify-between items-center">
+								<Typography className="mx-16 text-16" color="inherit">
+									Alerted posts
+								</Typography>
+								<div className="px-4">
+									<IconButton onClick={ev => dispatch(Actions.closeAlertPost())} color="inherit">
+										<Icon>close</Icon>
+									</IconButton>
+								</div>
+							</Toolbar>
+							<div className={classesTabs.root}>
+								<AppBar position="static">
+									<Tabs fullWidth value={value} onChange={handleChange} centered aria-label="simple tabs example">
+										<Tab label="Tasks" {...a11yProps(0)} />
+										<Tab label="Activities" {...a11yProps(1)} />
+									</Tabs>
+								</AppBar>
+								<TabPanel value={value} index={0} className="bg-post-section write-post-img-full">
+									<PostList posts={listTask} showPrject />
+								</TabPanel>
+								<TabPanel value={value} index={1} className="bg-post-section write-post-img-full">
+									<PostList posts={listActivity} showPrject showTask />
+								</TabPanel>
+							</div>
+						</div>
+					) : (
+						<div>
+
+							<Toolbar className="px-4 flex justify-between items-center notifications-header">
+								<Typography className="mx-16 text-16" color="inherit">
+									Projects
+								</Typography>
+								<div className="px-4">
+									<IconButton onClick={ev => dispatch(Actions.toggleQuickPanel())} color="inherit">
+										<Icon>close</Icon>
+									</IconButton>
+								</div>
+							</Toolbar>
+							<div className="p-16">
+								{
+									projects.length > 0 &&
+									projects.map((project) => (
+										<ListItem
+											button
+											className="flex items-center relative w-full rounded-16 p-10 min-h-20 shadow mb-10 border-2 font-bold"
+											onClick={(event) => 
+												handleSelectProject(event, project.id)
+											}
+											// component={item.url ? NavLinkAdapter : 'li'}
+											// to={item.url}
+											role="button"
+										>
+											<ListItemText
+												className="text-bold"
+												primary={project.name}
+											/>
+											<IconButton
+												disableRipple
+												className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
+											>
+												<Icon className="text-16 arrow-icon" color="inherit">
+													chevron_right
+												</Icon>
+											</IconButton>
+										</ListItem>
+									))
+								}
+							</div>
+						</div>
+					)
+				}
 			</FuseScrollbars>
 		</Drawer>
 	);

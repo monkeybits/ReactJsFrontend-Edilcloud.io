@@ -2,7 +2,9 @@ import * as Actions from '../actions';
 
 const initialState = {
 	state: false,
-	data: null
+	data: null,
+	projectAlertId: null,
+	isShowAlertPost: false
 };
 
 const quickPanel = (state = initialState, action) => {
@@ -17,6 +19,19 @@ const quickPanel = (state = initialState, action) => {
 			return {
 				...state,
 				state: !state.state
+			};
+		}
+		case Actions.OPEN_ALERT_QUICK_PANEL: {
+			return {
+				...state,
+				projectAlertId: action.id,
+				isShowAlertPost: true
+			};
+		}
+		case Actions.CLOSE_ALERT_POST: {
+			return {
+				...state,
+				isShowAlertPost: false
 			};
 		}
 		default: {
