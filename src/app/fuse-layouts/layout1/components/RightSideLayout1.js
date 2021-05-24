@@ -1,5 +1,7 @@
 import ChatPanel from 'app/fuse-layouts/shared-components/chatPanel/ChatPanel';
 import QuickPanel from 'app/fuse-layouts/shared-components/quickPanel/QuickPanel';
+import TabPanelTodo from 'app/fuse-layouts/shared-components/quickPanel/TabPanelTodo';
+import AlertedPost from 'app/fuse-layouts/shared-components/quickPanel/AlertedPost';
 import NotificationPanel from 'app/fuse-layouts/shared-components/notification/Notification';
 import AccessibilityPanel from 'app/fuse-layouts/shared-components/accessibility/Accessibility';
 import React from 'react';
@@ -17,6 +19,8 @@ function RightSideLayout1(props) {
 			<ChatPanel />
 
 			<QuickPanel />
+			<TabPanelTodo />
+			<AlertedPost />
 
 			<NotificationPanel />
 

@@ -11,6 +11,7 @@ import { getHeaderToken } from 'app/services/serviceUtils';
 import PropTypes from 'prop-types';
 import reducer from './store/reducers';
 import * as Actions from './store/actions/index';
+import * as NotesActions from 'app/main/apps/notes/todo/store/actions';
 
 const PostList = loadable(() => import('app/main/apps/notes/todo/PostList'));
 
@@ -74,8 +75,10 @@ function AlertPost(props) {
     const data = useSelector(({ quickPanel }) => quickPanel.data);
     const state = useSelector(({ quickPanel }) => quickPanel.state);
     const projectAlertId = useSelector(({ quickPanel }) => quickPanel.projectAlertId);
-    const isShowAlertPost = useSelector(({ quickPanel }) => quickPanel.isShowAlertPost);
+    const isShowAlertedPost = useSelector(({ quickPanel }) => quickPanel.isShowAlertedPost);
+    const taskAlertId = useSelector(({ quickPanel }) => quickPanel.taskAlertId);
     const projects = useSelector(({ notesApp }) => notesApp.project.entities);
+    const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.todoEntities);
     const classesAccordion = useStylesAccordion();
     const classesTabs = useStylesTabs();
     const [value, setValue] = React.useState(0);
@@ -100,11 +103,11 @@ function AlertPost(props) {
     }, [state]);
 
     useEffect(() => {
-        if (projectAlertId !== null) {
+        if (taskAlertId !== null) {
             getAlertPostTask();
             getAlertPostActivity();
         }
-    }, [projectAlertId]);
+    }, [taskAlertId]);
 
     const getAlertPostTask = () => {
         apiCall(
@@ -112,8 +115,8 @@ function AlertPost(props) {
             {},
             results => {
                 const items = results.map(d => ({ ...d, type: 'tasks' }));
-                if (projectAlertId !== null) {
-                    const filteredTask = items.filter((task) => task.project.id === projectAlertId)
+                if (taskAlertId !== null) {
+                    const filteredTask = items.filter((task) => task.task.id === taskAlertId)
                     setListTask(filteredTask);
                 } else {
                     setListTask(items);
@@ -133,9 +136,10 @@ function AlertPost(props) {
             {},
             results => {
                 const items = results.map(d => ({ ...d, type: 'activity' }));
-                if (projectAlertId !== null) {
-                    const filteredActivity = items.filter((activity) => activity.project.id === projectAlertId)
-                    setListTask(filteredActivity);
+                console.log('items????????????????????????????activities', items)
+                if (taskAlertId !== null) {
+                    const filteredActivity = items.filter((activity) => activity.task.id === taskAlertId)
+                    setListActivity(filteredActivity);
                 } else {
                     setListActivity(items);
                 }
@@ -173,9 +177,9 @@ function AlertPost(props) {
         <Drawer
             classes={{ paper: classes.root }}
             className="alerted-post-modal-width"
-            open={state}
+            open={isShowAlertedPost}
             anchor="right"
-            onClose={ev => dispatch(Actions.toggleQuickPanel())}
+            onClose={ev => dispatch(Actions.closeAlertedPost())}
         >
             <FuseScrollbars>
                 <Toolbar className="px-4 flex justify-between items-center">
@@ -183,7 +187,7 @@ function AlertPost(props) {
                         Alerted posts
                     </Typography>
                     <div className="px-4">
-                        <IconButton onClick={ev => dispatch(Actions.closeAlertPost())} color="inherit">
+                        <IconButton onClick={ev => dispatch(Actions.closeAlertedPost())} color="inherit">
                             <Icon>close</Icon>
                         </IconButton>
                     </div>

@@ -44,6 +44,7 @@ const useStyles = makeStyles({
 		zIndex: 999999
 	}
 });
+
 function TodoApp(props) {
 	const dispatch = useDispatch();
 	const [defaultMenu, setDefaultMenu] = useState(true);
@@ -89,14 +90,14 @@ function TodoApp(props) {
 
 	useEffect(() => {
 		return () => {
-			dispatch(Actions.getTodos()); // * It will get the tasks and activities of tasks
+			dispatch(Actions.getTodos());
 		};
-	}, [taskContentDialog.props.open]); // * when todo dialog states changes we need to call getTodos
+	}, [taskContentDialog.props.open]);
 
 	const [loading, setLoading] = useState({
-		// when fetching tasks we need to show user a loading screen
 		loadingTodos: false
 	});
+
 	const handleSetLoading = data => {
 		if (!data.loadingTodos) {
 			setTimeout(() => {
@@ -114,13 +115,11 @@ function TodoApp(props) {
 	};
 
 	useDeepCompareEffect(() => {
-		// this is a component did mount it will call when we have dispatcher ready to dispatch the event
 		dispatch(Actions.getTodos(routeParams, false, handleSetLoading));
 		dispatch(ConatctActions.getContacts());
 	}, [dispatch, routeParams]);
 
 	if (loading.loadingTodos) {
-		// when we are fetching data we will show below loading HTML
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center">
 				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
@@ -132,7 +131,6 @@ function TodoApp(props) {
 	}
 
 	return (
-		// after data loaded it will return tasks
 		<>
 			{!!upload?.isUploading && (
 				<div className="linear-progress custom-color">

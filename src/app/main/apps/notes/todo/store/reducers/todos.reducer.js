@@ -86,7 +86,6 @@ const removeByTaskId = (arr = [], task) => {
 	return newEntities
 }
 
-
 const editByActivityId = (arr = [], activity) => {
 	let newEntities = []
 	for (const [k, d] of Object.entries(arr)) {
