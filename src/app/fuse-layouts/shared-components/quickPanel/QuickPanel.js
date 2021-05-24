@@ -127,7 +127,7 @@ function QuickPanel(props) {
 			getHeaderToken()
 		);
 	};
-	
+
 	const getAlertPostActivity = () => {
 		apiCall(
 			ALERTED_POSTS_ACTIVITY,
@@ -148,7 +148,7 @@ function QuickPanel(props) {
 			getHeaderToken()
 		);
 	};
-	
+
 	const handleToggle = value => () => {
 		const currentIndex = checked.indexOf(value);
 		const newChecked = [...checked];
@@ -179,80 +179,48 @@ function QuickPanel(props) {
 			onClose={ev => dispatch(Actions.toggleQuickPanel())}
 		>
 			<FuseScrollbars>
-				{
-					isShowAlertPost ? (
-						<div>
-							<Toolbar className="px-4 flex justify-between items-center">
-								<Typography className="mx-16 text-16" color="inherit">
-									Alerted posts
-								</Typography>
-								<div className="px-4">
-									<IconButton onClick={ev => dispatch(Actions.closeAlertPost())} color="inherit">
-										<Icon>close</Icon>
-									</IconButton>
-								</div>
-							</Toolbar>
-							<div className={classesTabs.root}>
-								<AppBar position="static">
-									<Tabs fullWidth value={value} onChange={handleChange} centered aria-label="simple tabs example">
-										<Tab label="Tasks" {...a11yProps(0)} />
-										<Tab label="Activities" {...a11yProps(1)} />
-									</Tabs>
-								</AppBar>
-								<TabPanel value={value} index={0} className="bg-post-section write-post-img-full">
-									<PostList posts={listTask} showPrject />
-								</TabPanel>
-								<TabPanel value={value} index={1} className="bg-post-section write-post-img-full">
-									<PostList posts={listActivity} showPrject showTask />
-								</TabPanel>
-							</div>
+				<div>
+					<Toolbar className="px-4 flex justify-between items-center notifications-header">
+						<Typography className="mx-16 text-16" color="inherit">
+							Projects
+						</Typography>
+						<div className="px-4">
+							<IconButton onClick={ev => dispatch(Actions.toggleQuickPanel())} color="inherit">
+								<Icon>close</Icon>
+							</IconButton>
 						</div>
-					) : (
-						<div>
-
-							<Toolbar className="px-4 flex justify-between items-center notifications-header">
-								<Typography className="mx-16 text-16" color="inherit">
-									Projects
-								</Typography>
-								<div className="px-4">
-									<IconButton onClick={ev => dispatch(Actions.toggleQuickPanel())} color="inherit">
-										<Icon>close</Icon>
+					</Toolbar>
+					<div className="p-16">
+						{
+							projects.length > 0 &&
+							projects.map((project) => (
+								<ListItem
+									button
+									className="flex items-center relative w-full rounded-16 p-10 min-h-20 shadow mb-10 border-2 font-bold"
+									onClick={(event) =>
+										handleSelectProject(event, project.id)
+									}
+									// component={item.url ? NavLinkAdapter : 'li'}
+									// to={item.url}
+									role="button"
+								>
+									<ListItemText
+										className="text-bold"
+										primary={project.name}
+									/>
+									<IconButton
+										disableRipple
+										className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
+									>
+										<Icon className="text-16 arrow-icon" color="inherit">
+											chevron_right
+										</Icon>
 									</IconButton>
-								</div>
-							</Toolbar>
-							<div className="p-16">
-								{
-									projects.length > 0 &&
-									projects.map((project) => (
-										<ListItem
-											button
-											className="flex items-center relative w-full rounded-16 p-10 min-h-20 shadow mb-10 border-2 font-bold"
-											onClick={(event) => 
-												handleSelectProject(event, project.id)
-											}
-											// component={item.url ? NavLinkAdapter : 'li'}
-											// to={item.url}
-											role="button"
-										>
-											<ListItemText
-												className="text-bold"
-												primary={project.name}
-											/>
-											<IconButton
-												disableRipple
-												className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
-											>
-												<Icon className="text-16 arrow-icon" color="inherit">
-													chevron_right
-												</Icon>
-											</IconButton>
-										</ListItem>
-									))
-								}
-							</div>
-						</div>
-					)
-				}
+								</ListItem>
+							))
+						}
+					</div>
+				</div>
 			</FuseScrollbars>
 		</Drawer>
 	);
