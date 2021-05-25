@@ -5,6 +5,7 @@ const initialState = {
 	data: null,
 	projectAlertId: null,
 	taskAlertId: null,
+	activityAlertId: null,
 	isShowAlertPost: false,
 	isShowAlertedPost: false
 };
@@ -34,6 +35,15 @@ const quickPanel = (state = initialState, action) => {
 			return {
 				...state,
 				taskAlertId: action.id,
+				activityAlertId: null,
+				isShowAlertedPost: true
+			};
+		}
+		case Actions.OPEN_ALERTED_ACTIVITY: {
+			return {
+				...state,
+				taskAlertId: null,
+				activityAlertId: action.id,
 				isShowAlertedPost: true
 			};
 		}

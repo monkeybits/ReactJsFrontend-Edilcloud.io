@@ -72,22 +72,37 @@ const useStylesTabs = makeStyles(theme => ({
 
 function QuickPanel(props) {
 	const dispatch = useDispatch();
-	const data = useSelector(({ quickPanel }) => quickPanel.data);
 	const state = useSelector(({ quickPanel }) => quickPanel.state);
-	const projectAlertId = useSelector(({ quickPanel }) => quickPanel.projectAlertId);
-	const isShowAlertPost = useSelector(({ quickPanel }) => quickPanel.isShowAlertPost);
 	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
-	const classesAccordion = useStylesAccordion();
-	const classesTabs = useStylesTabs();
-	const [value, setValue] = React.useState(0);
 
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
 	const classes = useStyles();
-	const [checked, setChecked] = useState('notifications');
 	const [listTask, setListTask] = useState([]);
 	const [listActivity, setListActivity] = useState([]);
+	const [distinctProject, setDistinctProject] = useState([]);
+
+	const onlyUnique = (value, index, self) => {
+		return self.indexOf(value) === index;
+	}
+
+	useEffect(() => {
+		if (projects) {
+			let projectIds = []
+			listTask.map((task) => {
+				projectIds = [
+					...projectIds,
+					task.project.id
+				]
+			})
+			listActivity.map((activity) => {
+				projectIds = [
+					...projectIds,
+					activity.project.id
+				]
+			})
+			var distinctProject = projectIds.filter(onlyUnique);
+			setDistinctProject(distinctProject)
+		}
+	}, [projects, listTask, listActivity]);
 
 	useEffect(() => {
 		if (state) {
@@ -100,25 +115,13 @@ function QuickPanel(props) {
 		};
 	}, [state]);
 
-	useEffect(() => {
-		if (projectAlertId !== null) {
-			getAlertPostTask();
-			getAlertPostActivity();
-		}
-	}, [projectAlertId]);
-
 	const getAlertPostTask = () => {
 		apiCall(
 			ALERTED_POSTS_TASKS,
 			{},
 			results => {
 				const items = results.map(d => ({ ...d, type: 'tasks' }));
-				if (projectAlertId !== null) {
-					const filteredTask = items.filter((task) => task.project.id === projectAlertId)
-					setListTask(filteredTask);
-				} else {
-					setListTask(items);
-				}
+				setListTask(items);
 			},
 			err => {
 				// console.log(err)
@@ -134,12 +137,7 @@ function QuickPanel(props) {
 			{},
 			results => {
 				const items = results.map(d => ({ ...d, type: 'activity' }));
-				if (projectAlertId !== null) {
-					const filteredActivity = items.filter((activity) => activity.project.id === projectAlertId)
-					setListTask(filteredActivity);
-				} else {
-					setListActivity(items);
-				}
+				setListActivity(items);
 			},
 			err => {
 				// console.log(err)
@@ -147,19 +145,6 @@ function QuickPanel(props) {
 			METHOD.GET,
 			getHeaderToken()
 		);
-	};
-
-	const handleToggle = value => () => {
-		const currentIndex = checked.indexOf(value);
-		const newChecked = [...checked];
-
-		if (currentIndex === -1) {
-			newChecked.push(value);
-		} else {
-			newChecked.splice(currentIndex, 1);
-		}
-
-		setChecked(newChecked);
 	};
 
 	const handleSelectProject = (event, id) => {
@@ -194,29 +179,34 @@ function QuickPanel(props) {
 						{
 							projects.length > 0 &&
 							projects.map((project) => (
-								<ListItem
-									button
-									className="flex items-center relative w-full rounded-16 p-10 min-h-20 shadow mb-10 border-2 font-bold"
-									onClick={(event) =>
-										handleSelectProject(event, project.id)
+								<>
+									{
+										distinctProject.includes(project.id) &&
+										<ListItem
+											button
+											className="flex items-center relative w-full p-10 min-h-20 shadow border-2 font-bold bg-gray-300 hover:bg-gray-300 rounded-8 mb-16"
+											onClick={(event) =>
+												handleSelectProject(event, project.id)
+											}
+											// component={item.url ? NavLinkAdapter : 'li'}
+											// to={item.url}
+											role="button"
+										>
+											<ListItemText
+												className="text-bold"
+												primary={project.name}
+											/>
+											<IconButton
+												disableRipple
+												className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
+											>
+												<Icon className="text-16 arrow-icon" color="inherit">
+													chevron_right
+												</Icon>
+											</IconButton>
+										</ListItem>
 									}
-									// component={item.url ? NavLinkAdapter : 'li'}
-									// to={item.url}
-									role="button"
-								>
-									<ListItemText
-										className="text-bold"
-										primary={project.name}
-									/>
-									<IconButton
-										disableRipple
-										className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
-									>
-										<Icon className="text-16 arrow-icon" color="inherit">
-											chevron_right
-										</Icon>
-									</IconButton>
-								</ListItem>
+								</>
 							))
 						}
 					</div>

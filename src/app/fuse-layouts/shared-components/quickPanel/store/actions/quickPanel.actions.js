@@ -6,6 +6,7 @@ export const OPEN_ALERT_QUICK_PANEL = '[QUICK PANEL] OPEN ALERT QUICK PANEL';
 export const CLOSE_ALERT_POST = '[QUICK PANEL] CLOSE ALERT POST';
 export const OPEN_ALERTED_POST = '[QUICK PANEL] OPEN ALERTED POST';
 export const CLOSE_ALERTED_POST = '[QUICK PANEL] CLOSE ALERTED POST';
+export const OPEN_ALERTED_ACTIVITY = '[QUICK PANEL] OPEN ALERTED ACTIVITY';
 
 export function getQuickPanelData() {
 	const request = axios.get('/api/quick-panel/data');
@@ -40,6 +41,13 @@ export function closeAlertPost() {
 export function openAlertedPost(id) {
 	return {
 		type: OPEN_ALERTED_POST,
+		id
+	};
+}
+
+export function openAlertedActivity(id) {
+	return {
+		type: OPEN_ALERTED_ACTIVITY,
 		id
 	};
 }

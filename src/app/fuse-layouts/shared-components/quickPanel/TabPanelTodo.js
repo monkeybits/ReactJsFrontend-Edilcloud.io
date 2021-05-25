@@ -82,30 +82,62 @@ function TabPanelTodo(props) {
     const classesTabs = useStylesTabs();
     const [value, setValue] = React.useState(0);
     const [tasks, setTasks] = React.useState([]);
-    const [activities, setActivities] = React.useState([]);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
     const classes = useStyles();
-    const [checked, setChecked] = useState('notifications');
     const [listTask, setListTask] = useState([]);
-    const [listActivity, setListActivity] = useState([]);
+	const [listActivity, setListActivity] = useState([]);
+    const [distinctTask, setDistinctTask] = useState([]);
 
+    const onlyUnique = (value, index, self) => {
+		return self.indexOf(value) === index;
+	}
+    
     useEffect(() => {
         if (todos) {
+            console.log('todos?????????????????????????????todos', todos)
+            console.log('todos?????????????????????????????listTask', listTask)
+            console.log('todos?????????????????????????????listActivity', listActivity)
+            let taskIds = []
+			listTask.map((task) => {
+				taskIds = [
+					...taskIds,
+					task.task.id
+				]
+			})
+			listActivity.map((activity) => {
+				taskIds = [
+					...taskIds,
+					activity.task.id
+				]
+			})
+            console.log('todos?????????????????????????????taskIds', taskIds)
+			var distinctTask = taskIds.filter(onlyUnique);
+            console.log('todos?????????????????????????????distinctTask', distinctTask)
+			setDistinctTask(distinctTask)
             let arr = Object.keys(todos).map((k) => todos[k])
-            let activities = []
-            arr.map((task) => {
-                if(task.activities && task.activities.length > 0) {
-                    activities = [
-                        ...activities,
-                        task.activities[0]
-                    ]
-                }
-            })
+            // let activities = []
+            // arr.map((task) => {
+            //     if(task.activities && task.activities.length > 0) {
+            //         activities = [
+            //             ...activities,
+            //             task.activities[0]
+            //         ]
+            //     }
+            // })
+            // let newTasks = []
+            // arr.map((task) => {
+            //     const resultArr = searchTaskById(task.id);
+            //     if(resultArr.includes(task.id)) {
+            //         newTasks = [
+            //             ...newTasks,
+            //             task
+            //         ]
+            //     }
+            // })
+            // if(newTasks && newTasks.length > 0) {
+            //     // setTasks(newTasks)
+            // }
             setTasks(arr)
-            setActivities(activities)
         }
     }, [todos]);
 
@@ -128,41 +160,18 @@ function TabPanelTodo(props) {
         }
     }, [projectAlertId]);
 
-    const searchTaskById = (id) => {
-        let result = []
-        listTask.map((task) => {
-            if(task.task.id === id) {
-                result = [
-                    ...result,
-                    task.task.id
-                ]
-            }
-        })
-        return result
-    }
-
-    useEffect(() => {
-        let newTasks = []
-        if (tasks && listTask) {
-            tasks.map((task) => {
-                const resultArr = searchTaskById(task.id);
-                if(resultArr.includes(task.id)) {
-                    newTasks = [
-                        ...newTasks,
-                        task
-                    ]
-                    // console.log('Tasks?????????????????????????task', task)
-                }
-            })
-            // console.log('Tasks?????????????????????????tasks', tasks)
-            // console.log('Tasks?????????????????????????listTask', listTask)
-        }
-        if(newTasks && newTasks.length > 0) {
-            // setTasks(newTasks)
-        }
-        // console.log('Tasks?????????????????????????newTasks', newTasks)
-        // setTasks(newTasks)
-    }, [tasks, listTask, setTasks]);
+    // const searchTaskById = (id) => {
+    //     let result = []
+    //     listTask.map((task) => {
+    //         if(task.task.id === id) {
+    //             result = [
+    //                 ...result,
+    //                 task.task.id
+    //             ]
+    //         }
+    //     })
+    //     return result
+    // }
 
     const getAlertPostTask = () => {
         apiCall(
@@ -205,11 +214,13 @@ function TabPanelTodo(props) {
         dispatch(Actions.openAlertedPost(id))
     }
 
+    const handleSelectActivity = (event, id) => {
+        dispatch(Actions.openAlertedActivity(id))
+    }
+
     useEffect(() => {
         dispatch(Actions.getQuickPanelData());
     }, [dispatch]);
-
-    console.log('tasks?????????????????????????', tasks)
 
     return (
         <Drawer
@@ -220,7 +231,7 @@ function TabPanelTodo(props) {
             onClose={ev => dispatch(Actions.toggleQuickPanel())}
         >
             <FuseScrollbars>
-                <Toolbar className="px-4 flex justify-between items-center">
+                <Toolbar className="px-4 flex justify-between items-center notifications-header">
                     <Typography className="mx-16 text-16" color="inherit">
                         Tasks & Activities
                     </Typography>
@@ -231,74 +242,75 @@ function TabPanelTodo(props) {
                     </div>
                 </Toolbar>
                 <div className={classesTabs.root}>
-                    <AppBar position="static">
-                        <Tabs fullWidth value={value} onChange={handleChange} centered aria-label="simple tabs example">
-                            <Tab label="Tasks" {...a11yProps(0)} />
-                            <Tab label="Activities" {...a11yProps(1)} />
-                        </Tabs>
-                    </AppBar>
-                    <TabPanel value={value} index={0} className="bg-post-section write-post-img-full p-16">
+                    <div className="p-16">
                         {
                             tasks && tasks.length > 0 &&
                             tasks.map((task) => (
-                                <ListItem
-                                    button
-                                    className="flex items-center relative w-full rounded-16 p-10 min-h-20 shadow mb-10 border-2 font-bold"
-                                    onClick={(event) => {
-                                        handleSelectTask(event, task.id)
-                                    }}
-                                    // component={item.url ? NavLinkAdapter : 'li'}
-                                    // to={item.url}
-                                    role="button"
-                                >
-                                    <ListItemText
-                                        className="text-bold"
-                                        primary={task.name}
-                                    />
-                                    <IconButton
-                                        disableRipple
-                                        className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
-                                    >
-                                        <Icon className="text-16 arrow-icon" color="inherit">
-                                            chevron_right
-                                        </Icon>
-                                    </IconButton>
-                                </ListItem>
+                                <>
+                                    {
+                                        distinctTask.includes(task.id) &&
+                                        <div>
+                                            <ListItem
+                                                button
+                                                className="flex items-center relative w-full p-10 min-h-20 shadow border-2 font-bold bg-gray-300 hover:bg-gray-300 rounded-8 mb-16"
+                                                onClick={(event) => {
+                                                    handleSelectTask(event, task.id)
+                                                }}
+                                                // component={item.url ? NavLinkAdapter : 'li'}
+                                                // to={item.url}
+                                                role="button"
+                                            >
+                                                <Icon className="mr-8">new_releases</Icon>
+                                                <ListItemText
+                                                    className="text-bold"
+                                                    primary={task.name}
+                                                />
+                                                <IconButton
+                                                    disableRipple
+                                                    className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
+                                                >
+                                                    <Icon className="text-16 arrow-icon" color="inherit">
+                                                        chevron_right
+                                                    </Icon>
+                                                </IconButton>
+                                            </ListItem>
+                                            <div className="ml-28">
+                                                {
+                                                    task.activities.length > 0 &&
+                                                    task.activities.map((activity) => (
+                                                        <ListItem
+                                                            button
+                                                            className="flex items-center relative w-full p-10 min-h-20 shadow mb-10 border-2 font-bold bg-gray-300 hover:bg-gray-300 rounded-8"
+                                                            onClick={(event) => {
+                                                                handleSelectActivity(event, activity.id)
+                                                            }}
+                                                            // component={item.url ? NavLinkAdapter : 'li'}
+                                                            // to={item.url}
+                                                            role="button"
+                                                        >
+                                                            <Icon className="mr-8">new_releases</Icon>
+                                                            <ListItemText
+                                                                className="text-bold"
+                                                                primary={activity.title}
+                                                            />
+                                                            <IconButton
+                                                                disableRipple
+                                                                className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
+                                                            >
+                                                                <Icon className="text-16 arrow-icon" color="inherit">
+                                                                    chevron_right
+                                                                </Icon>
+                                                            </IconButton>
+                                                        </ListItem>
+                                                    ))
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </>
                             ))
                         }
-                        {/* <PostList posts={listTask} showPrject /> */}
-                    </TabPanel>
-                    <TabPanel value={value} index={1} className="bg-post-section write-post-img-full p-16">
-                        {
-                            activities && activities.length > 0 &&
-                            activities.map((task) => (
-                                <ListItem
-                                    button
-                                    className="flex items-center relative w-full rounded-16 p-10 min-h-20 shadow mb-10 border-2 font-bold"
-                                    onClick={(event) => {
-                                        // handleSelectProject(event, project.id)
-                                    }}
-                                    // component={item.url ? NavLinkAdapter : 'li'}
-                                    // to={item.url}
-                                    role="button"
-                                >
-                                    <ListItemText
-                                        className="text-bold"
-                                        primary={task.title}
-                                    />
-                                    <IconButton
-                                        disableRipple
-                                        className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
-                                    >
-                                        <Icon className="text-16 arrow-icon" color="inherit">
-                                            chevron_right
-                                        </Icon>
-                                    </IconButton>
-                                </ListItem>
-                            ))
-                        }
-                        {/* <PostList posts={listActivity} showPrject showTask /> */}
-                    </TabPanel>
+                    </div>
                 </div>
             </FuseScrollbars>
         </Drawer>

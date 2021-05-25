@@ -72,22 +72,13 @@ const useStylesTabs = makeStyles(theme => ({
 
 function AlertPost(props) {
     const dispatch = useDispatch();
-    const data = useSelector(({ quickPanel }) => quickPanel.data);
     const state = useSelector(({ quickPanel }) => quickPanel.state);
-    const projectAlertId = useSelector(({ quickPanel }) => quickPanel.projectAlertId);
     const isShowAlertedPost = useSelector(({ quickPanel }) => quickPanel.isShowAlertedPost);
     const taskAlertId = useSelector(({ quickPanel }) => quickPanel.taskAlertId);
-    const projects = useSelector(({ notesApp }) => notesApp.project.entities);
-    const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.todoEntities);
-    const classesAccordion = useStylesAccordion();
+    const activityAlertId = useSelector(({ quickPanel }) => quickPanel.activityAlertId);
     const classesTabs = useStylesTabs();
-    const [value, setValue] = React.useState(0);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
     const classes = useStyles();
-    const [checked, setChecked] = useState('notifications');
     const [listTask, setListTask] = useState([]);
     const [listActivity, setListActivity] = useState([]);
 
@@ -105,9 +96,11 @@ function AlertPost(props) {
     useEffect(() => {
         if (taskAlertId !== null) {
             getAlertPostTask();
+        }
+        if (activityAlertId !== null) {
             getAlertPostActivity();
         }
-    }, [taskAlertId]);
+    }, [taskAlertId, activityAlertId]);
 
     const getAlertPostTask = () => {
         apiCall(
@@ -136,9 +129,8 @@ function AlertPost(props) {
             {},
             results => {
                 const items = results.map(d => ({ ...d, type: 'activity' }));
-                console.log('items????????????????????????????activities', items)
-                if (taskAlertId !== null) {
-                    const filteredActivity = items.filter((activity) => activity.task.id === taskAlertId)
+                if (activityAlertId !== null) {
+                    const filteredActivity = items.filter((activity) => activity.task.id === activityAlertId)
                     setListActivity(filteredActivity);
                 } else {
                     setListActivity(items);
@@ -151,23 +143,6 @@ function AlertPost(props) {
             getHeaderToken()
         );
     };
-
-    const handleToggle = value => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setChecked(newChecked);
-    };
-
-    const handleSelectProject = (event, id) => {
-        dispatch(Actions.openAlertQuickPanel(id))
-    }
 
     useEffect(() => {
         dispatch(Actions.getQuickPanelData());
@@ -182,7 +157,7 @@ function AlertPost(props) {
             onClose={ev => dispatch(Actions.closeAlertedPost())}
         >
             <FuseScrollbars>
-                <Toolbar className="px-4 flex justify-between items-center">
+                <Toolbar className="px-4 flex justify-between items-center notifications-header">
                     <Typography className="mx-16 text-16" color="inherit">
                         Alerted posts
                     </Typography>
@@ -193,18 +168,16 @@ function AlertPost(props) {
                     </div>
                 </Toolbar>
                 <div className={classesTabs.root}>
-                    <AppBar position="static">
-                        <Tabs fullWidth value={value} onChange={handleChange} centered aria-label="simple tabs example">
-                            <Tab label="Tasks" {...a11yProps(0)} />
-                            <Tab label="Activities" {...a11yProps(1)} />
-                        </Tabs>
-                    </AppBar>
-                    <TabPanel value={value} index={0} className="bg-post-section write-post-img-full">
-                        <PostList posts={listTask} showPrject />
-                    </TabPanel>
-                    <TabPanel value={value} index={1} className="bg-post-section write-post-img-full">
-                        <PostList posts={listActivity} showPrject showTask />
-                    </TabPanel>
+                    <div className="bg-post-section write-post-img-full">
+                        {
+                            taskAlertId !== null &&
+                            <PostList posts={listTask} showPrject />
+                        }
+                        {
+                            activityAlertId !== null &&
+                            <PostList posts={listActivity} showPrject showTask />
+                        }
+                    </div>
                 </div>
             </FuseScrollbars>
         </Drawer>
