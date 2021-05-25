@@ -475,14 +475,19 @@ function TodoList(props) {
 				<div className="lg:w-1/3 sidebar-ht border-right dashboard">
 					<div className="lg:mr-28 custom-margin">
 						{filteredData.map((todo, index) => (
-							<TodoListItem
-								setTodoId={setTodoId}
-								{...props}
-								todo={todo}
-								key={todo.id}
-								index={index}
-								companies={companies}
-							/>
+							<>
+							{
+								todo.assigned_company !== null &&
+								<TodoListItem
+									setTodoId={setTodoId}
+									{...props}
+									todo={todo}
+									key={todo.id}
+									index={index}
+									companies={companies}
+								/>
+							}
+							</>
 						))}
 					</div>
 				</div>

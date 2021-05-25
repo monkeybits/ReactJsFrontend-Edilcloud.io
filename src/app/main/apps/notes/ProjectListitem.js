@@ -60,7 +60,8 @@ export default function ProjectListitem(props) {
 	const okConfirmArchiveDialog = useSelector(({ notesApp }) => notesApp.notes.okConfirmArchiveDialog);
 	const projectConfirmArchiveId = useSelector(({ notesApp }) => notesApp.notes.projectConfirmArchiveId);
 	const projectConfirmArchiveStatus = useSelector(({ notesApp }) => notesApp.notes.projectConfirmArchiveStatus);
-	if (projectIndex !== null) {
+
+	if (projectIndex !== null && projectIndex < projects.length) {
 		var {
 			mainId,
 			id,
