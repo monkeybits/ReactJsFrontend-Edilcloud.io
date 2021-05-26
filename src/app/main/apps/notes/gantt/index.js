@@ -201,8 +201,8 @@ function GanttWrapper(props) {
 					</div>
 				</div>
 			</ThemeProvider>
-			{/* <div className={!isViewChart && 'hidden'}> */}
-			<div>
+			<div className={!isViewChart && 'hidden'}>
+			{/* <div> */}
 				<Gantt
 					{...{ ...props, company, projectDetail, orientation: state.orientation }}
 					importExcel={importExcel}
@@ -217,10 +217,11 @@ function GanttWrapper(props) {
 				)}
 				<ImportExcelDialog {...{ open, setOpen, target, setTarget }} onImport={() => importExcel(undefined)} />
 			</div>
-			{/* <img className={isViewChart && 'hidden'} src="/assets/images/patterns/rotate_5146697.png" /> */}
+			<img className={isViewChart && 'hidden'} src="/assets/images/patterns/rotate_5146697.png" />
 			<CreatePostDialog isGantt={props.value == 4} />
 			<TaskContentDialog isGantt={props.value == 4} />
 		</div>
 	);
 }
+
 export default GanttWrapper;
