@@ -130,7 +130,7 @@ function AlertPost(props) {
             results => {
                 const items = results.map(d => ({ ...d, type: 'activity' }));
                 if (activityAlertId !== null) {
-                    const filteredActivity = items.filter((activity) => activity.task.id === activityAlertId)
+                    const filteredActivity = items.filter((activity) => activity.sub_task.id === activityAlertId)
                     setListActivity(filteredActivity);
                 } else {
                     setListActivity(items);
@@ -178,6 +178,19 @@ function AlertPost(props) {
                             <PostList posts={listActivity} showPrject showTask />
                         }
                     </div>
+                    {
+                        (listTask.length === 0 || listActivity.length === 0) &&
+                        <div className="p-16">
+                            <div className="flex flex-1 items-center justify-center h-full">
+                                <img className="w-400" src="assets/images/errors/nogantt.png" />
+                            </div>
+                            <div className="flex flex-1 items-center justify-center">
+                                <Typography color="textSecondary" variant="h5">
+                                    Nessun post trovato
+                                </Typography>
+                            </div>
+                        </div>
+                    }
                 </div>
             </FuseScrollbars>
         </Drawer>
