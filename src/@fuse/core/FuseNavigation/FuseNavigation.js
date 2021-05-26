@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { useSelector } from 'react-redux';
 import { Divider, List } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -97,7 +98,27 @@ const useStyles = makeStyles(theme => ({
 
 function FuseNavigation(props) {
 	const classes = useStyles(props);
+	const [companyValidate, setCompanyValidate] = useState(false);
 	const { navigation, layout, active, dense, className } = props;
+	const company = useSelector(({ chatApp }) => chatApp?.company);
+
+	useEffect(() => {
+		if (
+			company.name &&
+			company.tax_code &&
+			company.vat_number &&
+			company.address &&
+			company.province &&
+			company.cap &&
+			company.country &&
+			company.pec &&
+			company.billing_email
+		) {
+			setCompanyValidate(true);
+		} else {
+			setCompanyValidate(false);
+		}
+	}, [company]);
 
 	const verticalNav = (
 		<List
@@ -111,7 +132,16 @@ function FuseNavigation(props) {
 			)}
 		>
 			{navigation.map(_item => (
-				<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
+				<>
+				{
+					_item.id !== "PLAN" &&
+					<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
+				}
+				{
+					companyValidate && _item.id === "PLAN" &&
+					<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
+				}
+				</>
 			))}
 		</List>
 	);
