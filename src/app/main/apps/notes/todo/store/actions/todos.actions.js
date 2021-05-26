@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import { changeFilters } from './filters.actions';
 
 export const GET_TODOS = '[TODO APP] GET TODOS (PROJECT)';
+export const GET_TODOS_ALERTED = '[TODO APP] GET TODOS ALERTED (PROJECT)';
 export const RESET_ALL_FILTERS = '[TODO APP] RESET ALL FILTERS (PROJECT)';
 export const UPDATE_TODOS = '[TODO APP] UPDATE TODOS (PROJECT)';
 export const TOGGLE_STARRED = '[TODO APP] TOGGLE STARRED (PROJECT)';
@@ -129,6 +130,39 @@ export function getTodos(pid, isGantt, handleSetLoading = () => '') {
 		// 		payload: response.data
 		// 	})
 		// );
+	};
+}
+
+export function getTodosAlerted(pid, isGantt, handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingTodos: true
+	});
+	return dispatch => {
+		dispatch(setLoading(true));
+		apiCall(
+			isGantt ? GET_GANTT_TASK_LIST(pid) : GET_TASK_LIST(pid),
+			{},
+			results => {
+				handleSetLoading({
+					loadingTodos: false
+				});
+				dispatch(setLoading(false));
+				dispatch({
+					type: GET_TODOS_ALERTED,
+					payload: results.sort(sortHolders),
+					isGantt
+				});
+			},
+			err => {
+				handleSetLoading({
+					loadingTodos: false
+				});
+				dispatch(setLoading(false));
+				console.log(err);
+			},
+			METHOD.GET,
+			getHeaderToken()
+		);
 	};
 }
 

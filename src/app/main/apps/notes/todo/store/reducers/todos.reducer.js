@@ -124,12 +124,17 @@ const editByActivityId = (arr = [], activity) => {
 const todosReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_TODOS: {
-			console.log({ payload: action.payload, isGantt: action.isGantt });
 			return {
 				...state,
 				[action.isGantt ? 'entities' : 'todoEntities']: { ...action.payload },
 				searchText: '',
 				routeParams: action.routeParams
+			};
+		}
+		case Actions.GET_TODOS_ALERTED: {
+			return {
+				...state,
+				todoEntitiesAlerted: { ...action.payload }
 			};
 		}
 		case Actions.UPDATE_TODOS: {
