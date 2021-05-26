@@ -151,7 +151,6 @@ function TodoListItem(props) {
 	const [showProgress, setShowProgress] = React.useState(false);
 	const [id, setId] = React.useState(null);
 	const [taskDetail, setTaskDetail] = useState([]);
-	const [activityId, setactivityId] = useState(null);
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 	const [loading, setLoading] = useState(false);
@@ -322,13 +321,11 @@ function TodoListItem(props) {
 				// ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				onClick={e => {
 					dispatch(Actions.closeDrawingContent());
-					// if (getRole() == 'o' || getRole() == 'd') {
 					e.preventDefault();
 					e.stopPropagation();
 					dispatch(Actions.closeTimelineDialog());
 					dispatch(Actions.openTaskContent(props.todo));
 					props.setTodoId(props.todo.id);
-					// }
 				}}
 			>
 				{/* card body */}
@@ -507,19 +504,18 @@ function TodoListItem(props) {
 											Edit
 										</Button>
 								</MenuItem>
-								{/* <MenuItem
+								<MenuItem
 										onClick={ev => {
 											ev.preventDefault();
 											ev.stopPropagation();
 											dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
-											// deleteTaskOfProject(props.todo);
 										}}
 									>
 										<Button>
 											<Icon className="mr-10">delete</Icon>
 											Delete
 										</Button>
-									</MenuItem> */}
+									</MenuItem>
 							</TippyMenu>
 						</>
 					) : (

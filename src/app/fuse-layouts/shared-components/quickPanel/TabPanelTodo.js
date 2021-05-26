@@ -72,21 +72,18 @@ const useStylesTabs = makeStyles(theme => ({
 
 function TabPanelTodo(props) {
     const dispatch = useDispatch();
-    const data = useSelector(({ quickPanel }) => quickPanel.data);
     const state = useSelector(({ quickPanel }) => quickPanel.state);
     const projectAlertId = useSelector(({ quickPanel }) => quickPanel.projectAlertId);
     const isShowAlertPost = useSelector(({ quickPanel }) => quickPanel.isShowAlertPost);
-    const projects = useSelector(({ notesApp }) => notesApp.project.entities);
     const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.todoEntities);
-    const classesAccordion = useStylesAccordion();
     const classesTabs = useStylesTabs();
-    const [value, setValue] = React.useState(0);
     const [tasks, setTasks] = React.useState([]);
 
     const classes = useStyles();
     const [listTask, setListTask] = useState([]);
 	const [listActivity, setListActivity] = useState([]);
     const [distinctTask, setDistinctTask] = useState([]);
+    const [distinctActivity, setDistinctActivity] = useState([]);
 
     const onlyUnique = (value, index, self) => {
 		return self.indexOf(value) === index;
@@ -94,10 +91,8 @@ function TabPanelTodo(props) {
     
     useEffect(() => {
         if (todos) {
-            console.log('todos?????????????????????????????todos', todos)
-            console.log('todos?????????????????????????????listTask', listTask)
-            console.log('todos?????????????????????????????listActivity', listActivity)
             let taskIds = []
+            let activityIds = []
 			listTask.map((task) => {
 				taskIds = [
 					...taskIds,
@@ -105,38 +100,16 @@ function TabPanelTodo(props) {
 				]
 			})
 			listActivity.map((activity) => {
-				taskIds = [
-					...taskIds,
-					activity.task.id
+				activityIds = [
+					...activityIds,
+					activity.sub_task.task
 				]
 			})
-            console.log('todos?????????????????????????????taskIds', taskIds)
 			var distinctTask = taskIds.filter(onlyUnique);
-            console.log('todos?????????????????????????????distinctTask', distinctTask)
+			var distinctActivity = activityIds.filter(onlyUnique);
 			setDistinctTask(distinctTask)
+			setDistinctActivity(distinctActivity)
             let arr = Object.keys(todos).map((k) => todos[k])
-            // let activities = []
-            // arr.map((task) => {
-            //     if(task.activities && task.activities.length > 0) {
-            //         activities = [
-            //             ...activities,
-            //             task.activities[0]
-            //         ]
-            //     }
-            // })
-            // let newTasks = []
-            // arr.map((task) => {
-            //     const resultArr = searchTaskById(task.id);
-            //     if(resultArr.includes(task.id)) {
-            //         newTasks = [
-            //             ...newTasks,
-            //             task
-            //         ]
-            //     }
-            // })
-            // if(newTasks && newTasks.length > 0) {
-            //     // setTasks(newTasks)
-            // }
             setTasks(arr)
         }
     }, [todos]);
@@ -160,19 +133,6 @@ function TabPanelTodo(props) {
         }
     }, [projectAlertId]);
 
-    // const searchTaskById = (id) => {
-    //     let result = []
-    //     listTask.map((task) => {
-    //         if(task.task.id === id) {
-    //             result = [
-    //                 ...result,
-    //                 task.task.id
-    //             ]
-    //         }
-    //     })
-    //     return result
-    // }
-
     const getAlertPostTask = () => {
         apiCall(
             ALERTED_POSTS_TASKS,
@@ -195,12 +155,7 @@ function TabPanelTodo(props) {
             {},
             results => {
                 const items = results.map(d => ({ ...d, type: 'activity' }));
-                if (projectAlertId !== null) {
-                    const filteredActivity = items.filter((activity) => activity.project.id === projectAlertId)
-                    setListActivity(filteredActivity);
-                } else {
-                    setListActivity(items);
-                }
+                setListActivity(items);
             },
             err => {
                 // console.log(err)
@@ -248,7 +203,7 @@ function TabPanelTodo(props) {
                             tasks.map((task) => (
                                 <>
                                     {
-                                        distinctTask.includes(task.id) &&
+                                        (distinctTask.includes(task.id) || distinctActivity.includes(task.id)) &&
                                         <div>
                                             <ListItem
                                                 button
@@ -260,7 +215,10 @@ function TabPanelTodo(props) {
                                                 // to={item.url}
                                                 role="button"
                                             >
-                                                <Icon className="mr-8">new_releases</Icon>
+                                                {
+                                                    distinctTask.includes(task.id) &&
+                                                    <Icon className="mr-8">new_releases</Icon>
+                                                }
                                                 <ListItemText
                                                     className="text-bold"
                                                     primary={task.name}
