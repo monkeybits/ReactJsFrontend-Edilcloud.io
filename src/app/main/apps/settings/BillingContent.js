@@ -92,7 +92,7 @@ function BillingContent(props) {
 					toast.success('Successfully saved!');
 
 					if (document.referrer.includes('apps/companies')) {
-						window.location = `https://back.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`;
+						window.location = `https://back-test.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`;
 					}
 				}
 			})

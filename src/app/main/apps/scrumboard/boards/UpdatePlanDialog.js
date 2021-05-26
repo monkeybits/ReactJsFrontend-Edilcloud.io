@@ -91,8 +91,8 @@ function UpdatePlanDialog(props) {
 		) {
 			props.history.push('/apps/billing');
 		} else {
-			window.location = `https://back.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`;
-			// props.history.push(`https://back.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`);
+			window.location = `https://back-test.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`;
+			// props.history.push(`https://back-test.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`);
 		}
 	};
 
