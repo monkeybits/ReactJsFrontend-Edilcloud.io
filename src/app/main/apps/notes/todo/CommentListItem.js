@@ -30,6 +30,7 @@ import loadable from '@loadable/component';
 const TippyMenu = loadable(() => import('app/TippyMenu'));
 const ReplyListItem = loadable(() => import('./ReplyListItem'));
 const ImagesPreview = loadable(() => import('./ImagesPreview'));
+const PostedImages = loadable(() => import('./PostedImages'));
 
 const uuidv1 = require('uuid/v1');
 
@@ -354,7 +355,7 @@ export default function CommentListItem({
 							}
 						/>
 						<div className="posted-images comment-post-img">
-							{/* <PostedImages images={comment.media_set} hideNavigation /> */}
+							<PostedImages images={comment.media_set} hideNavigation />
 						</div>
 						{tempAuthor.id == comment.author.id && (
 							<div className="actions-dropdown resize-action-btn absolute top-0 right-0">

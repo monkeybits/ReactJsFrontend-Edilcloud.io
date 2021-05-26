@@ -75,7 +75,7 @@ function TabPanelTodo(props) {
     const state = useSelector(({ quickPanel }) => quickPanel.state);
     const projectAlertId = useSelector(({ quickPanel }) => quickPanel.projectAlertId);
     const isShowAlertPost = useSelector(({ quickPanel }) => quickPanel.isShowAlertPost);
-    const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.todoEntities);
+    const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.todoEntitiesAlerted);
     const classesTabs = useStylesTabs();
     const [tasks, setTasks] = React.useState([]);
 
@@ -127,7 +127,7 @@ function TabPanelTodo(props) {
 
     useEffect(() => {
         if (projectAlertId !== null) {
-            dispatch(NotesActions.getTodos(projectAlertId, false));
+            dispatch(NotesActions.getTodosAlerted(projectAlertId, false));
             getAlertPostTask();
             getAlertPostActivity();
         }
