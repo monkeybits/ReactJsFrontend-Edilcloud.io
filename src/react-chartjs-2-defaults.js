@@ -23,7 +23,7 @@ Chart.pluginService.register({
 					ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
 					const fontSize = 13;
 					const fontStyle = 'normal';
-					const fontFamily = 'Muli, Roboto, Helvetica Neue, Arial, sans-serif';
+					const fontFamily = 'Poppins, Roboto, Helvetica Neue, Arial, sans-serif';
 					ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
 
 					// Just naively convert to string for now

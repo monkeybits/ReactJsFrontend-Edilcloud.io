@@ -1,5 +1,4 @@
 import React from 'react';
-import { authRoles } from 'app/auth';
 
 const MailConfirmPageConfig = {
 	settings: {

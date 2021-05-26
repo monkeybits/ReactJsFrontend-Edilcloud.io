@@ -1,11 +1,8 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { TextFieldFormsy } from '@fuse/core/formsy';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import { Button, Icon, IconButton, InputAdornment } from '@material-ui/core';
 import * as authActions from 'app/auth/store/actions';
 import Formsy from 'formsy-react';
-import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 function FirebaseLoginTab(props) {

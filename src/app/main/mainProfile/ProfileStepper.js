@@ -1,26 +1,20 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import loadable from '@loadable/component';
 import { useForm } from '@fuse/hooks';
 import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import BasicInfo from './BasicInfo';
-import ProfileUpload from './FileUpload';
+import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Card, CardContent } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import axios from '../../services/axiosConfig';
-import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getCompressFile } from 'app/services/serviceUtils';
 import { USER_MAIN_PROFILE } from 'app/services/apiEndPoints';
 import clsx from 'clsx';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { useTranslation } from 'react-i18next';
+import axios from '../../services/axiosConfig';
+
+const ProfileUpload = loadable(() => import('./FileUpload'));
+const BasicInfo = loadable(() => import('./BasicInfo'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -41,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-	return ['Basic Information', 'Upload Profile Picture'];
+	return ['BASIC_INFORMATION', 'UPLOAD_PROFILE_PICTURE'];
 }
 
 function getStepContent(step, elementProps) {
@@ -49,13 +43,14 @@ function getStepContent(step, elementProps) {
 		case 0:
 			return <BasicInfo {...elementProps} />;
 		case 1:
-			return <ProfileUpload {...elementProps} />;
+			return <ProfileUpload {...elementProps} nameSpace="mainProfile" />;
 		default:
 			return 'Unknown step';
 	}
 }
 
 function VerticalLinearStepper({ user, history }) {
+	const { t } = useTranslation('mainProfile');
 	const { form, handleChange, resetForm } = useForm({
 		fname: '',
 		lname: '',
@@ -81,16 +76,16 @@ function VerticalLinearStepper({ user, history }) {
 	const handleReset = () => {
 		setActiveStep(0);
 	};
-	const handleSubmit = () => {
-		var formData = new FormData();
-		let values = {
+	const handleSubmit = async () => {
+		const formData = new FormData();
+		const values = {
 			first_name: form.fname,
 			last_name: form.lname,
 			language: value == 'English' ? 'en' : 'it',
-			photo: file && file.fileData ? file.fileData : undefined
+			photo: file && file.fileData ? await getCompressFile(file.fileData) : undefined
 		};
-		let token = localStorage.getItem('jwt_access_token');
-		for (let key in values) {
+		const token = localStorage.getItem('jwt_access_token');
+		for (const key in values) {
 			if (values[key]) formData.append(key, values[key]);
 		}
 		axios
@@ -101,7 +96,11 @@ function VerticalLinearStepper({ user, history }) {
 				}
 			})
 			.then(res => {
-				history.push('/create-company');
+				if (res.data.is_invited) {
+					history.push('/apps/companies');
+				} else {
+					history.push('/create-company');
+				}
 			})
 			.catch(err => {
 				console.log(err);
@@ -114,17 +113,18 @@ function VerticalLinearStepper({ user, history }) {
 				'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-20 md:p-40'
 			)}
 		>
+			<img width="200" src="assets/images/logos/fuse.svg" />
 			<div className="flex flex-col items-center justify-center w-full px-0">
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full max-w-512">
 						<CardContent className="flex flex-col items-center justify-center">
 							<Paper square elevation={0} className={clsx(classes.resetContainer, 'pb-10')}>
-								<Typography>a few more steps and you can start using Edilcloud</Typography>
+								<Typography>{t('STEP_MESSAGE')}</Typography>
 							</Paper>
 							<Stepper className="px-0" activeStep={activeStep} orientation="vertical">
 								{steps.map((label, index) => (
 									<Step key={label}>
-										<StepLabel>{label}</StepLabel>
+										<StepLabel>{t(label)}</StepLabel>
 										<StepContent>
 											<Typography>
 												{getStepContent(
@@ -148,7 +148,7 @@ function VerticalLinearStepper({ user, history }) {
 														size="large"
 														className={clsx(classes.button, 'mr-8')}
 													>
-														Back
+														{t('BACK')}
 													</Button>
 													<Button
 														size="large"
@@ -157,7 +157,7 @@ function VerticalLinearStepper({ user, history }) {
 														onClick={handleNext}
 														className={classes.button}
 													>
-														{activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+														{activeStep === steps.length - 1 ? t('FINISH') : t('NEXT')}
 													</Button>
 												</div>
 											</div>

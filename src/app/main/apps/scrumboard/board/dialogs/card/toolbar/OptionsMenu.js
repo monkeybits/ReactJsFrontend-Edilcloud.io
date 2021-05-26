@@ -1,8 +1,8 @@
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
+import { Icon, IconButton, MenuItem } from '@material-ui/core';
+import loadable from '@loadable/component';
 import React, { useState } from 'react';
-import ToolbarMenu from './ToolbarMenu';
+
+const ToolbarMenu = loadable(() => import('./ToolbarMenu'));
 
 function OptionsMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

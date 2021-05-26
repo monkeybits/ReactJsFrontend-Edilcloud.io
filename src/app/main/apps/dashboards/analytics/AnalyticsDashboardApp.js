@@ -1,5 +1,5 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

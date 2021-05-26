@@ -1,8 +1,8 @@
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 function FuseCountdown(props) {
 	const { onComplete } = props;

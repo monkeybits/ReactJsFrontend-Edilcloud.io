@@ -174,8 +174,8 @@ module.exports = {
 				200: '#90CAF9',
 				300: '#64B5F6',
 				400: '#42A5F5',
-				500: '#2196F3',
-				default: '#2196F3',
+				500: '#376aed',
+				default: '#376aed',
 				600: '#1E88E5',
 				700: '#1976D2',
 				800: '#1565C0',
@@ -543,7 +543,7 @@ module.exports = {
 		},
 		fontFamily: {
 			sans: [
-				'Muli',
+				'Poppins',
 				'Roboto',
 				'-apple-system',
 				'BlinkMacSystemFont',

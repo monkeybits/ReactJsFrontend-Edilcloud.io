@@ -1,9 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import Button from '@material-ui/core/Button';
+import { IconButton, Collapse, Button } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 
@@ -20,7 +18,7 @@ export default function TransitionAlerts({ open, setOpen, text }) {
 	const classes = useStyles();
 
 	return (
-		<div className={clsx(classes.root,"mt-8")}>
+		<div className={clsx(classes.root, 'mt-8')}>
 			<Collapse in={open}>
 				<Alert
 					variant="outlined"

@@ -1,21 +1,14 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { Card, CardContent, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`
+		background: `#ffffff)`
 	},
 	divider: {
 		backgroundColor: theme.palette.divider
@@ -51,9 +44,10 @@ function ModernInvoicePage() {
 								<div className="flex flex-col">
 									<div className="flex items-center mb-80 print:mb-0">
 										<img
-											className="w-160 print:w-60"
+											className="print:w-60"
 											src="assets/images/logos/fuse.svg"
 											alt="logo"
+											width="160"
 										/>
 
 										<div className={clsx(classes.divider, 'mx-48 w-px h-128 print:mx-16')} />
@@ -289,7 +283,7 @@ function ModernInvoicePage() {
 
 								<div className="flex">
 									<div className="flex-shrink-0">
-										<img className="w-32" src="assets/images/logos/fuse.svg" alt="logo" />
+										<img width="32" src="assets/images/logos/fuse.svg" alt="logo" />
 									</div>
 
 									<Typography

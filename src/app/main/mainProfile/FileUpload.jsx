@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
-import Icon from '@material-ui/core/Icon';
-import Typography from '@material-ui/core/Typography';
-import { Input, Button } from '@material-ui/core';
+import React, { useRef, useState } from 'react';
+import { Icon, Button } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import ImageCropper from './ImageCropper';
 
-export default function FileUpload({ setFile, file, remove }) {
+export default function FileUpload({ setFile, file, remove, isCompany, nameSpace = 'company_create' }) {
+	const { t } = useTranslation(nameSpace);
 	const [image, setImage] = useState(null);
+	const inputRef = useRef(null);
 	const [viewCroper, setViewCroper] = useState(false);
 	const getPhoto = fileData => {
 		// e.preventDefault();
-		let reader = new FileReader();
+		const reader = new FileReader();
 		// setFile({
 		// 	...file,
 		// 	file: fileData
 		// });
 		reader.onloadend = () => {
 			setFile({
-				fileData: fileData,
+				fileData,
 				imagePreviewUrl: reader.result
 			});
 		};
@@ -33,30 +34,38 @@ export default function FileUpload({ setFile, file, remove }) {
 			</div>
 			<div className="text-center mt-10">
 				<Button variant="contained" onClick={remove}>
-					Remove
+					{t('REMOVE')}
 				</Button>
 			</div>
 		</>
 	) : (
 		<>
-			<div className="flex justify-center mt-16 mb-20">
-				<img className="profile-img" src="/assets/images/avatars/profile-img.png" alt="profile" />
-			</div>
+			{isCompany ? (
+				<Icon onClick={() => inputRef.current.click()} className="company-icon flex mx-auto">
+					business
+				</Icon>
+			) : (
+				<div className="flex justify-center mt-16 mb-20">
+					<img className="profile-img" src="/assets/images/avatars/profile-img.png" alt="profile" />
+				</div>
+			)}
+
 			<div className="flex justify-center mt-16 mb-20">
 				<input
 					id="add_user"
 					hidden
 					type="file"
+					ref={inputRef}
 					onChange={e => {
 						setImage(URL.createObjectURL(e.currentTarget.files[0]));
 						setViewCroper(true);
 					}}
 				/>
-				<label htmlFor="add_user" className="text-2xl cursor-pointer">
+				<label onClick={() => inputRef.current.click()} className="text-2xl cursor-pointer">
 					<Icon fontSize="inherit" className="align-middle">
 						add_circle
 					</Icon>{' '}
-					Upload photo
+					{t('UPLOAD_PHOTO')}
 				</label>
 			</div>
 		</>

@@ -1,23 +1,20 @@
+import React, { useState, useMemo } from 'react';
+import loadable from '@loadable/component';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import { useDebounce } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils';
-import Grow from '@material-ui/core/Grow';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
+import { Grow, Icon, IconButton, ListItem, ListItemText, Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useState, useMemo } from 'react';
 import * as ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Manager, Popper, Reference } from 'react-popper';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import FuseNavBadge from '../FuseNavBadge';
-import FuseNavItem from '../FuseNavItem';
+
+const FuseNavBadge = loadable(() => import('../FuseNavBadge'));
+const FuseNavItem = loadable(() => import('../FuseNavItem'));
 
 const useStyles = makeStyles(theme => ({
 	root: {

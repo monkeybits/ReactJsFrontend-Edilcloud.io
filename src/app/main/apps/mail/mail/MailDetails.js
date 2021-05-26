@@ -1,16 +1,13 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import _ from '@lodash';
-import Avatar from '@material-ui/core/Avatar';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import { Avatar, Divider, IconButton, Icon, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
-import MailChip from '../MailChip';
 import * as Actions from '../store/actions/index';
+import loadable from '@loadable/component';
+const MailChip = loadable(() => import('../MailChip'));
 
 function MailDetails(props) {
 	const dispatch = useDispatch();

@@ -289,7 +289,7 @@ function writeRouteFile(pages) {
 	// });
 
 	const routeObject =
-		"{ path     : '/documentation/material-ui-components/%s', component: React.lazy(() => import('app/main/documentation/material-ui-components/pages/%p'))}";
+		"{ path     : '/documentation/material-ui-components/%s', component: loadable(() => import('app/main/documentation/material-ui-components/pages/%p'))}";
 	const routes = pages.map(page => {
 		const componentName = _.upperFirst(_.camelCase(page));
 		return routeObject.allReplace({

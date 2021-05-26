@@ -1,29 +1,32 @@
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
+/* =============================================================================
+ ChatApp.js
+ ===============================================================================
+*This file is created for ChatApp
+TODO: ChatApp is created for do chats between company team mates
+*/
+import { AppBar, Avatar, Drawer, Hidden, Icon, IconButton, Toolbar, Typography, Button } from '@material-ui/core';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Chat from './Chat';
-import ChatsSidebar from './ChatsSidebar';
-import ContactSidebar from './ContactSidebar';
-import StatusIcon from './StatusIcon';
+import { withRouter } from 'react-router';
+import { LinearProgress } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import * as Actions from './store/actions';
 import reducer from './store/reducers';
-import UserSidebar from './UserSidebar';
-import { withRouter } from 'react-router';
+import { GET_CHAT } from './store/actions';
+import loadable from '@loadable/component';
 
-const drawerWidth = 400;
+const Chat = loadable(() => import('./Chat'));
+const ChatsSidebar = loadable(() => import('./ChatsSidebar'));
+const ContactSidebar = loadable(() => import('./ContactSidebar'));
+const UserSidebar = loadable(() => import('./UserSidebar'));
+
+const drawerWidth = 350;
 const headerHeight = 200;
 
 const useStyles = makeStyles(theme => ({
@@ -112,42 +115,143 @@ function ChatApp(props) {
 	const mobileChatsSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.mobileChatsSidebarOpen);
 	const userSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.userSidebarOpen);
 	const contactSidebarOpen = useSelector(({ chatApp }) => chatApp.sidebars.contactSidebarOpen);
+	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
+	const [isMounted, setIsMounted] = useState(false);
+	const { t } = useTranslation('chat');
 
 	const classes = useStyles(props);
-
+	const [loading, setLoading] = useState({
+		loadingCompanyInfo: false,
+		loadingGetContacts: false,
+		loadingGetChat: false
+	});
+	const handleSetLoading = data =>
+		setLoading(loading => ({
+			...loading,
+			...data
+		}));
 	useEffect(() => {
-		dispatch(Actions.companyInfo());
+		dispatch(Actions.companyInfo(handleSetLoading));
 	}, [dispatch]);
 
 	useEffect(() => {
 		if (company.can_access_chat) {
 			dispatch(Actions.getUserData());
-			dispatch(Actions.getContacts());
-			let callMessageList = setInterval(() => dispatch(Actions.getChat()), 1000);
-			return () => clearInterval(callMessageList);
-		} else {
-			props.history.push('/apps/todo/all');
+			if (!isMounted) {
+				dispatch(Actions.getContacts(handleSetLoading));
+				dispatch(Actions.getChat(handleSetLoading));
+				setIsMounted(true);
+			}
+			// let callMessageList = setInterval(() => dispatch(Actions.getChat()), 1000);
+			return () => {
+				// clearInterval(callMessageList);
+			};
 		}
+		props.history.push('/apps/todo/all');
 	}, [dispatch, company]);
-	return (
-		<div className={clsx(classes.root)}>
-			<div className={classes.topBg} />
+	useEffect(() => {
+		return () => {
+			setIsMounted(false);
+			dispatch({
+				type: GET_CHAT,
+				chat: [],
+				userChatData: {}
+			});
+		};
+	}, []);
 
-			<div className={clsx(classes.contentCardWrapper, 'container')}>
-				<div className={classes.contentCard}>
-					<Hidden mdUp>
+	if (loading.loadingCompanyInfo || loading.loadingGetChat || loading.loadingGetContacts) {
+		return (
+			<div className="flex flex-1 flex-col items-center justify-center">
+				<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+					{t('LOADING_CHATS')}...
+				</Typography>
+				<LinearProgress className="w-xs" color="secondary" />
+			</div>
+		);
+	}
+	return (
+		<>
+			<div className={clsx(classes.root, 'flex-col h-full')}>
+				{/* <div className={classes.topBg} /> */}
+
+				<ThemeProvider theme={mainTheme}>
+					<div className="flex flex-1 dashboard-todo-header w-full">
+						<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
+							<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
+								{t('CHAT')}
+							</Typography>
+							<div className="flex flex-1 items-center justify-end">
+								<FuseAnimate animation="transition.slideRightIn" delay={300}>
+									<Button
+										onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
+										className="whitespace-no-wrap normal-case"
+										variant="contained"
+										color="secondary"
+									>
+										<span className="xs:hidden sm:flex">Guida</span>
+									</Button>
+								</FuseAnimate>
+							</div>
+						</div>
+					</div>
+				</ThemeProvider>
+
+				<div
+					className={clsx(
+						classes.contentCardWrapper,
+						'container max-w-full chat-custom-h-full p-0 inner-height chat-inner-height'
+					)}
+				>
+					<div className={clsx(classes.contentCard, 'chat-bg')}>
+						<Hidden mdUp>
+							<Drawer
+								className="h-full absolute z-20"
+								variant="temporary"
+								anchor="left"
+								open={mobileChatsSidebarOpen}
+								onClose={() => dispatch(Actions.closeMobileChatsSidebar())}
+								classes={{
+									paper: clsx(classes.drawerPaper, 'absolute ltr:left-0 rtl:right-0')
+								}}
+								style={{ position: 'absolute' }}
+								ModalProps={{
+									keepMounted: true,
+									disablePortal: true,
+									BackdropProps: {
+										classes: {
+											root: 'absolute'
+										}
+									}
+								}}
+							>
+								<ChatsSidebar />
+							</Drawer>
+						</Hidden>
+						<Hidden smDown>
+							<Drawer
+								className="h-full z-20 b-right"
+								variant="permanent"
+								open
+								classes={{
+									paper: classes.drawerPaper
+								}}
+							>
+								<ChatsSidebar />
+							</Drawer>
+						</Hidden>
 						<Drawer
-							className="h-full absolute z-20"
+							className="h-full absolute z-30"
 							variant="temporary"
 							anchor="left"
-							open={mobileChatsSidebarOpen}
-							onClose={() => dispatch(Actions.closeMobileChatsSidebar())}
+							open={userSidebarOpen}
+							onClose={() => dispatch(Actions.closeUserSidebar())}
 							classes={{
-								paper: clsx(classes.drawerPaper, 'absolute ltr:left-0 rtl:right-0')
+								paper: clsx(classes.drawerPaper, 'absolute left-0')
 							}}
 							style={{ position: 'absolute' }}
 							ModalProps={{
-								keepMounted: true,
+								keepMounted: false,
 								disablePortal: true,
 								BackdropProps: {
 									classes: {
@@ -156,49 +260,13 @@ function ChatApp(props) {
 								}
 							}}
 						>
-							<ChatsSidebar />
+							<UserSidebar />
 						</Drawer>
-					</Hidden>
-					<Hidden smDown>
-						<Drawer
-							className="h-full z-20"
-							variant="permanent"
-							open
-							classes={{
-								paper: classes.drawerPaper
-							}}
-						>
-							<ChatsSidebar />
-						</Drawer>
-					</Hidden>
-					<Drawer
-						className="h-full absolute z-30"
-						variant="temporary"
-						anchor="left"
-						open={userSidebarOpen}
-						onClose={() => dispatch(Actions.closeUserSidebar())}
-						classes={{
-							paper: clsx(classes.drawerPaper, 'absolute left-0')
-						}}
-						style={{ position: 'absolute' }}
-						ModalProps={{
-							keepMounted: false,
-							disablePortal: true,
-							BackdropProps: {
-								classes: {
-									root: 'absolute'
-								}
-							}
-						}}
-					>
-						<UserSidebar />
-					</Drawer>
 
-					<main className={clsx(classes.contentWrapper, 'z-10')}>
-						{
+						<main className={clsx(classes.contentWrapper, 'z-10 Poppinsple-images-overflow-x chat-bg')}>
 							<>
-								<AppBar className="w-full" position="static" elevation={1}>
-									<Toolbar className="px-16">
+								<AppBar className="w-full border-0" position="static" elevation={1}>
+									<Toolbar className="bg-dark min-h-72 px-16">
 										<IconButton
 											color="inherit"
 											aria-label="Open drawer"
@@ -208,9 +276,9 @@ function ChatApp(props) {
 											<Icon>chat</Icon>
 										</IconButton>
 										<div
-											className="flex items-center cursor-pointer"
-											onClick={() => dispatch(Actions.openContactSidebar())}
-											onKeyDown={() => dispatch(Actions.openContactSidebar())}
+											className="flex items-center cursor-pointer chat-content-header"
+											// onClick={() => dispatch(Actions.openContactSidebar())}
+											// onKeyDown={() => dispatch(Actions.openContactSidebar())}
 											role="button"
 											tabIndex={0}
 										>
@@ -226,49 +294,55 @@ function ChatApp(props) {
 															: 'assets/images/avatars/profile.jpg'
 													}
 													alt={company.name}
+													className="w-48 h-48"
 												>
 													Group Chat
 												</Avatar>
 											</div>
-											<Typography color="inherit" className="text-18 font-600 px-4">
-												{company.name}
-											</Typography>
+											<div>
+												<Typography color="inherit" className="px-8 mb-4">
+													{company.name}
+												</Typography>
+												<Typography color="inherit" className="text-14 text-muted px-8">
+													{t('MAIN_PROFILE')}
+												</Typography>
+											</div>
 										</div>
 									</Toolbar>
 								</AppBar>
 
-								<div className={classes.content}>
-									<Chat className="flex flex-1 z-10" />
+								<div className={clsx(classes.content, 'mb-88')}>
+									<Chat className="flex flex-1 z-10 Poppinsple-images-overflow-x chat-bg" />
 								</div>
 							</>
-						}
-					</main>
+						</main>
 
-					<Drawer
-						className="h-full absolute z-30"
-						variant="temporary"
-						anchor="right"
-						open={contactSidebarOpen}
-						onClose={() => dispatch(Actions.closeContactSidebar())}
-						classes={{
-							paper: clsx(classes.drawerPaper, 'absolute ltr:right-0 rtl:left-0')
-						}}
-						style={{ position: 'absolute' }}
-						ModalProps={{
-							keepMounted: true,
-							disablePortal: true,
-							BackdropProps: {
-								classes: {
-									root: 'absolute'
+						<Drawer
+							className="h-full absolute z-30"
+							variant="temporary"
+							anchor="right"
+							open={contactSidebarOpen}
+							onClose={() => dispatch(Actions.closeContactSidebar())}
+							classes={{
+								paper: clsx(classes.drawerPaper, 'absolute ltr:right-0 rtl:left-0')
+							}}
+							style={{ position: 'absolute' }}
+							ModalProps={{
+								keepMounted: true,
+								disablePortal: true,
+								BackdropProps: {
+									classes: {
+										root: 'absolute'
+									}
 								}
-							}
-						}}
-					>
-						<ContactSidebar />
-					</Drawer>
+							}}
+						>
+							<ContactSidebar />
+						</Drawer>
+					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 

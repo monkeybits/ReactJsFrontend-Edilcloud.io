@@ -1,6 +1,6 @@
+import React, { useEffect } from 'react';
 import FuseNavigation from '@fuse/core/FuseNavigation';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from 'app/main/apps/chat/store/actions';
 
@@ -10,7 +10,7 @@ function Navigation(props) {
 	useEffect(() => {
 		dispatch(Actions.companyInfo());
 	}, [dispatch]);
-	
+
 	return (
 		<FuseNavigation
 			className={clsx('navigation', props.className)}

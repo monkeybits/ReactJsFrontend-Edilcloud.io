@@ -14,8 +14,11 @@ export const apiCall = (
 	onSuccess,
 	onFailure,
 	method = METHOD.POST,
-	DyanamicConfig = {},
-	isNeedFullResponse = false
+	DyanamicConfig = {
+		'Content-Type': 'application/json; charset=utf-8'
+	},
+	isNeedFullResponse = false,
+	unique_code = undefined
 ) => {
 	let request = {};
 	switch (method) {
@@ -37,29 +40,33 @@ export const apiCall = (
 	}
 	request
 		.then(response => {
+			// console.log({ myResponse: response });
+
 			if (isNeedFullResponse) {
 				onSuccess(response);
 			} else if (response.status == 200 || response.status == 201 || response.status == 204 || response.data) {
 				onSuccess(response.data);
 			} else {
-				onFailure('Something went wrong');
+				onFailure('Something went wrong', unique_code);
 			}
 		})
 		.catch(error => {
+			console.log({ myError: error });
 			if (error && error.response) {
 				switch (error.response.status) {
 					case 401:
 						onFailure(
 							error.response.data && typeof error.response.data.detail
 								? error.response.data.detail
-								: 'Session expired'
+								: 'Session expired',
+							unique_code
 						);
 						break;
 
 					default:
-						onFailure(error.response.data ? error.response.data : 'Something went wrong');
+						onFailure(error.response.data ? error.response.data : 'Something went wrong', unique_code);
 						break;
 				}
-			} else onFailure && onFailure('Something went wrong');
+			} else onFailure && onFailure('Something went wrong', unique_code);
 		});
 };

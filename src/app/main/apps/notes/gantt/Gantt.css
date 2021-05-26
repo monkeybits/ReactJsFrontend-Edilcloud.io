@@ -1,0 +1,108 @@
+/* .gantt-min-height {
+	min-height: calc(100vh - 195px);
+} */
+.nested_task {
+	/* background-color: #dedede !important; */
+	background-color: rgb(236 236 238 / 0.30) !important;
+}
+.nested_task .gantt_add {
+	display: none !important;
+}
+.nested_task.gantt_selected{
+	background-color: #fff3a1 !important
+}
+.hide_add .gantt_add {
+	display: none !important;
+}
+.hide_add.gantt_grid_head_add {
+	display: none !important;
+}
+.hide_tree_icon .gantt_tree_icon.gantt_open {
+	display: none !important;
+}
+.hide_tree_icon .gantt_folder_closed {
+	margin-left: 18px;
+}
+.hide_progress_drag .gantt_task_progress_drag {
+	display: none !important;
+}
+.hide_date_drag .gantt_task_drag.task_right {
+	display: none !important;
+}
+.hide_date_drag .gantt_task_drag.task_left {
+	display: none !important;
+}
+.important {
+	border: 2px solid red;
+	color: red;
+	background: red;
+}
+.important .gantt_task_progress {
+	background: #ff5956;
+}
+.nested_task_right {
+	border: 2px solid lightgreen;
+	color: lightgreen;
+	background: lightgreen;
+}
+.nested_task_right .gantt_task_progress {
+	background: green;
+}
+.status_line {
+	background-color: #0ca30a;
+}
+.weekend {
+	background: #f4f7f4;
+}
+
+.gantt_selected .weekend {
+	background: #f7eb91;
+}
+.gantt_modal_box {
+	min-width: 750px;
+	top: 50% !important;
+	left: 50% !important;
+	transform: translate(-50%, -50%);
+	font-family: inherit;
+}
+.gantt_modal_box table td {
+	padding: 0.75rem;
+	border-top: 1px solid #dee2e6;
+}
+.gantt_modal_box .gantt_popup_text {
+	max-height: 500px;
+	overflow-y: auto;
+	margin: 0px;
+}
+.gantt_modal_box .gantt_popup_title {
+	border-bottom: 1px solid #dee2e6;
+	height: 55px;
+	line-height: 55px;
+}
+.gantt_popup_button {
+	line-height: 28px;
+	background: #232428;
+	color: #fff;
+}
+.gantt_row.block_row_events  {
+	pointer-events: none !important;
+	touch-action: none;
+}
+.gantt_task_line.block_row_events  {
+	pointer-events: none !important;
+	touch-action: none;
+}
+.gantt_grid_scale, .gantt_task_scale {
+    color: #1E2129 !important;
+    font-weight: 700 !important;
+}
+.nested_task {
+    background-color: rgb(236 236 238 / 0.30) !important;
+}
+.gantt_grid_data .gantt_cell {
+    color: #5C616F !important;
+}
+/* .gantt_task_progress {
+	background-color: rgba(54, 54, 54, 0.2) !important;
+	opacity: 1 !important;
+} */

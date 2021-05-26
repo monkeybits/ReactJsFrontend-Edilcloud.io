@@ -1,7 +1,9 @@
 import _ from '@lodash';
 import * as Actions from '../actions';
 
-const initialState = null;
+const initialState = {
+	isOpenUpgradePlan: false
+};
 
 const boardReducer = (state = initialState, action) => {
 	switch (action.type) {
@@ -97,6 +99,18 @@ const boardReducer = (state = initialState, action) => {
 			return {
 				...state,
 				name: action.boardTitle
+			};
+		}
+		case Actions.OPEN_UPGRADE_PLAN_DIALOG: {
+			return {
+				...state,
+				isOpenUpgradePlan: true
+			};
+		}
+		case Actions.CLOSE_UPGRADE_PLAN_DIALOG: {
+			return {
+				...state,
+				isOpenUpgradePlan: false
 			};
 		}
 		default:

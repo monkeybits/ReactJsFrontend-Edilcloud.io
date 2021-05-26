@@ -1,10 +1,12 @@
+import React, { useRef } from 'react';
+import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
-import React, { useRef } from 'react';
-import FusePageSimpleHeader from './FusePageSimpleHeader';
-import FusePageSimpleSidebar from './FusePageSimpleSidebar';
+
+const FusePageSimpleSidebar = loadable(() => import('./FusePageSimpleSidebar'));
+const FusePageSimpleHeader = loadable(() => import('./FusePageSimpleHeader'));
 
 const headerHeight = 120;
 const toolbarHeight = 64;
@@ -137,6 +139,9 @@ const useStyles = makeStyles(theme => ({
 	sidebarContent: {},
 	backdrop: {
 		position: 'absolute'
+	},
+	button: {
+		margin: theme.spacing(1)
 	}
 }));
 
@@ -161,7 +166,13 @@ const FusePageSimple = React.forwardRef((props, ref) => {
 		<div className={clsx(classes.root, props.innerScroll && classes.innerScroll)} ref={rootRef}>
 			<div className={clsx(classes.header, classes.topBg)} />
 
-			<div className="flex flex-auto flex-col container z-10 h-full">
+			<div
+				className={
+					props.classes.customHeader
+						? props.classes.customHeader
+						: 'flex flex-auto flex-col container z-10 h-full'
+				}
+			>
 				{props.header && props.sidebarInner && <FusePageSimpleHeader header={props.header} classes={classes} />}
 
 				<div className={classes.wrapper}>

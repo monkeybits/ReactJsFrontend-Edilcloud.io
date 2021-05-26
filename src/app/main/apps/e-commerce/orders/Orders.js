@@ -2,8 +2,9 @@ import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
 import React from 'react';
 import reducer from '../store/reducers';
-import OrdersHeader from './OrdersHeader';
-import OrdersTable from './OrdersTable';
+import loadable from '@loadable/component';
+const OrdersHeader = loadable(() => import('./OrdersHeader'));
+const OrdersTable = loadable(() => import('./OrdersTable'));
 
 function Orders() {
 	return (

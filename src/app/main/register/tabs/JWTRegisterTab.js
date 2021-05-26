@@ -1,27 +1,41 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { TextFieldFormsy } from '@fuse/core/formsy';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import {
+	Button,
+	Icon,
+	InputAdornment,
+	CircularProgress,
+	FormControl,
+	FormHelperText,
+	IconButton
+} from '@material-ui/core';
 import * as authActions from 'app/auth/store/actions';
 import Formsy from 'formsy-react';
-import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { FormControl, FormHelperText } from '@material-ui/core';
 import { withRouter } from 'react-router';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function JWTRegisterTab({ history }) {
+	const { t } = useTranslation('register');
 	const dispatch = useDispatch();
 	const register = useSelector(({ auth }) => auth.register);
 
 	const [isFormValid, setIsFormValid] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
+	const [defaultEmail, setDefaultEmail] = useState('');
 	const formRef = useRef(null);
 	const [state, setState] = React.useState({
 		termsFile: false,
 		conditionFile: false
 	});
+
+	useEffect(() => {
+		const queryString = window.location.search;
+		const email = queryString.split('=')[1];
+		setDefaultEmail(email)
+	}, []);
+
 	useEffect(() => {
 		if (register.error && (register.error.username || register.error.password || register.error.email)) {
 			formRef.current.updateInputsWithError({
@@ -45,6 +59,7 @@ function JWTRegisterTab({ history }) {
 	const handleChange = event => {
 		setState({ ...state, [event.target.name]: event.target.checked });
 	};
+
 	return (
 		<div className="w-full">
 			<Formsy
@@ -53,12 +68,13 @@ function JWTRegisterTab({ history }) {
 				onInvalid={disableButton}
 				ref={formRef}
 				className="flex flex-col justify-center w-full"
+				autoComplete="off"
 			>
 				<TextFieldFormsy
-					className="mb-16"
+					className="mb-24"
 					type="text"
 					name="username"
-					label="Display name"
+					label={t('USERNAME')}
 					validations={{
 						minLength: 4
 					}}
@@ -77,12 +93,60 @@ function JWTRegisterTab({ history }) {
 					variant="outlined"
 					required
 				/>
+				<TextFieldFormsy
+					className="mb-24"
+					type="text"
+					name="first_name"
+					label={t('FIRST_NAME')}
+					// validations={{
+					// 	minLength:
+					// }}
+					// validationErrors={{
+					// 	minLength: 'Min character length is 6'
+					// }}
+					// InputProps={{
+					//	endAdornment: (
+					//		<InputAdornment position="end">
+					//			<Icon className="text-20" color="action">
+					//				person
+					//			</Icon>
+					//		</InputAdornment>
+					//	)
+					// }}
+					variant="outlined"
+					required
+				/>
 
 				<TextFieldFormsy
-					className="mb-16"
+					className="mb-24"
+					type="text"
+					name="last_name"
+					label={t('LAST_NAME')}
+					// validations={{
+					// 	minLength: 4
+					// }}
+					// validationErrors={{
+					// 	minLength: 'Min character length is 4'
+					// }}
+					// InputProps={{
+					//	endAdornment: (
+					//		<InputAdornment position="end">
+					//			<Icon className="text-20" color="action">
+					//				person
+					//			</Icon>
+					//		</InputAdornment>
+					//	)
+					// }}
+					variant="outlined"
+					required
+				/>
+
+				<TextFieldFormsy
+					className="mb-24"
 					type="text"
 					name="email"
-					label="Email"
+					value={defaultEmail}
+					label={t('EMAIL')}
 					validations="isEmail"
 					validationErrors={{
 						isEmail: 'Please enter a valid email'
@@ -101,20 +165,24 @@ function JWTRegisterTab({ history }) {
 				/>
 
 				<TextFieldFormsy
-					className="mb-16"
+					className="mb-24"
 					type="password"
 					name="password"
-					label="Password"
+					label={t('PASSWORD')}
 					validations="equalsField:password-confirm"
 					validationErrors={{
 						equalsField: 'Passwords do not match'
 					}}
 					InputProps={{
+						className: 'pr-2',
+						type: showPassword ? 'text' : 'password',
 						endAdornment: (
 							<InputAdornment position="end">
-								<Icon className="text-20" color="action">
-									vpn_key
-								</Icon>
+								<IconButton onClick={() => setShowPassword(!showPassword)}>
+									<Icon className="text-20" color="action">
+										{showPassword ? 'visibility' : 'visibility_off'}
+									</Icon>
+								</IconButton>
 							</InputAdornment>
 						)
 					}}
@@ -123,31 +191,41 @@ function JWTRegisterTab({ history }) {
 				/>
 
 				<TextFieldFormsy
-					className="mb-16"
+					className="mb-24"
 					type="password"
 					name="password-confirm"
-					label="Confirm Password"
+					label={t('C_PASSWORD')}
 					validations="equalsField:password"
 					validationErrors={{
 						equalsField: 'Passwords do not match'
 					}}
 					InputProps={{
+						className: 'pr-2',
+						type: showPassword ? 'text' : 'password',
 						endAdornment: (
 							<InputAdornment position="end">
-								<Icon className="text-20" color="action">
-									vpn_key
-								</Icon>
+								<IconButton onClick={() => setShowPassword(!showPassword)}>
+									<Icon className="text-20" color="action">
+										{showPassword ? 'visibility' : 'visibility_off'}
+									</Icon>
+								</IconButton>
 							</InputAdornment>
 						)
 					}}
 					variant="outlined"
 					required
 				/>
-				<FormControlLabel
+
+				{/* <FormControlLabel
 					control={
-						<Checkbox checked={state.termsFile} onChange={handleChange} name="termsFile" color="secondary" />
+						<Checkbox
+							checked={state.termsFile}
+							onChange={handleChange}
+							name="termsFile"
+							color="secondary"
+						/>
 					}
-					label="terms file"
+					label="Terms file"
 				/>
 				<FormControlLabel
 					control={
@@ -158,18 +236,31 @@ function JWTRegisterTab({ history }) {
 							color="secondary"
 						/>
 					}
-					label="conditions files"
-				/>
+					label="Conditions files"
+				/> */}
+				<div className="font-600 text-center mb-20 text-muted">
+					{t('BY_SIGNUP_AGREE')}
+					<Link className="text-primary font-600" to="#">
+						{' '}
+						{t('PRIVACY_POLICY')}{' '}
+					</Link>{' '}
+					{t('AND')}
+					<Link className="text-primary font-600 ml-2" to="#">
+						{t('TERMS_OF_SERVICE')}{' '}
+					</Link>
+				</div>
 				<Button
 					type="submit"
 					variant="contained"
+					size="large"
 					color="primary"
-					className="w-full mx-auto mt-16 normal-case"
-					aria-label="REGISTER"
+					className="w-full mx-auto mt-0 uppercase"
+					aria-label="Register"
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Register {register.loadingRegister && <CircularProgress size={15} color="secondary" />}
+					{t('GET_STARTED_BUTTON')}{' '}
+					{register.loadingRegister && <CircularProgress size={20} color="white" ClassName="ml-20" />}
 				</Button>
 				{register.sucessData && (
 					<FormControl>

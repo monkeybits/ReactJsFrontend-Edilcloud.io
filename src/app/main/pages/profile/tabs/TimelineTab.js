@@ -1,21 +1,21 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import {
+	AppBar,
+	Avatar,
+	Button,
+	Card,
+	CardActions,
+	CardContent,
+	CardHeader,
+	Icon,
+	IconButton,
+	Input,
+	List,
+	ListItem,
+	ListItemText,
+	Paper,
+	Typography
+} from '@material-ui/core';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
@@ -40,7 +40,7 @@ function TimelineTab() {
 						animation: 'transition.slideUpBigIn'
 					}}
 				>
-					<div>
+					{/* <div>
 						<Card className="w-full overflow-hidden">
 							<Input
 								className="p-16 w-full"
@@ -78,7 +78,7 @@ function TimelineTab() {
 						</Card>
 
 						<Divider className="my-32" />
-					</div>
+					</div> */}
 
 					{data.posts.map(post => (
 						<Card key={post.id} className="mb-32 overflow-hidden">
@@ -200,9 +200,9 @@ function TimelineTab() {
 									</div>
 								)}
 
-								<div className="flex flex-auto -mx-4">
-									<Avatar className="mx-4" src="assets/images/avatars/profile.jpg" />
-									<div className="flex-1 mx-4">
+								<div className="flex flex-auto">
+									<Avatar className="mr-12" src="assets/images/avatars/profile.jpg" />
+									<div className="flex-1">
 										<Paper elevation={0} className="w-full mb-16">
 											<Input
 												className="p-8 w-full border-1"
@@ -227,55 +227,6 @@ function TimelineTab() {
 							</AppBar>
 						</Card>
 					))}
-				</FuseAnimateGroup>
-			</div>
-
-			<div className="flex flex-col md:w-320">
-				<FuseAnimateGroup
-					enter={{
-						animation: 'transition.slideUpBigIn'
-					}}
-				>
-					<Card className="w-full">
-						<AppBar position="static" elevation={0}>
-							<Toolbar className="px-8">
-								<Typography variant="subtitle1" color="inherit" className="flex-1 px-12">
-									Latest Activity
-								</Typography>
-								<Button color="inherit" size="small">
-									See All
-								</Button>
-							</Toolbar>
-						</AppBar>
-						<CardContent className="p-0">
-							<List>
-								{data.activities.map(activity => (
-									<ListItem key={activity.id} className="px-12">
-										<Avatar className="mx-4" alt={activity.user.name} src={activity.user.avatar} />
-										<ListItemText
-											className="flex-1 mx-4"
-											primary={
-												<div className="flex">
-													<Typography
-														className="font-medium whitespace-no-wrap"
-														color="primary"
-														paragraph={false}
-													>
-														{activity.user.name}
-													</Typography>
-
-													<Typography className="px-4 truncate" paragraph={false}>
-														{activity.message}
-													</Typography>
-												</div>
-											}
-											secondary={activity.time}
-										/>
-									</ListItem>
-								))}
-							</List>
-						</CardContent>
-					</Card>
 				</FuseAnimateGroup>
 			</div>
 		</div>

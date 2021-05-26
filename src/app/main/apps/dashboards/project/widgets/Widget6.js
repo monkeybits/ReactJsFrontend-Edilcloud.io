@@ -1,6 +1,4 @@
-import Paper from '@material-ui/core/Paper';
-import Select from '@material-ui/core/Select';
-import Typography from '@material-ui/core/Typography';
+import { Paper, Select, Typography } from '@material-ui/core';
 import _ from '@lodash';
 import React, { useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';

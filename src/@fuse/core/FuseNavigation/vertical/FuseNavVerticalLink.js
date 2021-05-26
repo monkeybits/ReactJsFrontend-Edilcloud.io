@@ -1,17 +1,16 @@
+import React, { useMemo } from 'react';
+import loadable from '@loadable/component';
 import FuseUtils from '@fuse/utils';
-import Icon from '@material-ui/core/Icon';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { Icon, ListItem, ListItemText, useMediaQuery } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as Actions from 'app/store/actions';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import FuseNavBadge from '../FuseNavBadge';
+
+const FuseNavBadge = loadable(() => import('../FuseNavBadge'));
 
 const useStyles = makeStyles(theme => ({
 	item: props => ({
@@ -23,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 		'&.active': {
 			backgroundColor: theme.palette.secondary.main,
 			color: `${theme.palette.secondary.contrastText}!important`,
-			pointerEvents: 'none',
+			// pointerEvents: 'none',
 			transition: 'border-radius .15s cubic-bezier(0.4,0.0,0.2,1)',
 			'& .list-item-text-primary': {
 				color: 'inherit'

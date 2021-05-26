@@ -31,7 +31,7 @@ class EventEmitter {
 	emit(eventName, ...args) {
 		this._getEventListByName(eventName).forEach(
 			// eslint-disable-next-line func-names
-			function(fn) {
+			function (fn) {
 				fn.apply(this, args);
 			}.bind(this)
 		);
@@ -51,6 +51,23 @@ class FuseUtils {
 		searchText = searchText.toLowerCase();
 
 		return mainArr.filter(itemObj => this.searchInObj(itemObj, searchText));
+	}
+
+	static dataURItoFile(dataURI) {
+		const BASE64_MARKER = ';base64,';
+
+		// Format of a base64-encoded URL:
+		// data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYAAAAEOCAIAAAAPH1dAAAAK
+		const mime = dataURI.split(BASE64_MARKER)[0].split(':')[1];
+		const filename = `dataURI-file-${new Date().getTime()}.${mime.split('/')[1]}`;
+		const bytes = atob(dataURI.split(BASE64_MARKER)[1]);
+		const writer = new Uint8Array(new ArrayBuffer(bytes.length));
+
+		for (let i = 0; i < bytes.length; i++) {
+			writer[i] = bytes.charCodeAt(i);
+		}
+
+		return new File([writer.buffer], filename, { type: mime });
 	}
 
 	static searchInObj(itemObj, searchText) {
@@ -158,6 +175,18 @@ class FuseUtils {
 			allRoutes = [...allRoutes, ...this.setRoutes(config, defaultAuth)];
 		});
 		return allRoutes;
+	}
+
+	static notificationBackrondColor(scrollRef, className = 'bg-yellow-200') {
+		if (scrollRef.current) {
+			scrollRef.current.scrollIntoView(false);
+			scrollRef.current.classList.add(className);
+			setTimeout(() => {
+				if (scrollRef.current) {
+					scrollRef.current.classList.remove(className);
+				}
+			}, 5000);
+		}
 	}
 
 	static findById(obj, id) {

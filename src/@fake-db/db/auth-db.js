@@ -1,6 +1,4 @@
-import FuseUtils from '@fuse/utils';
 import _ from '@lodash';
-import jwt from 'jsonwebtoken';
 import mock from '../mock';
 /* eslint-disable camelcase */
 
@@ -95,9 +93,6 @@ const authDB = {
 		}
 	]
 };
-
-
-
 
 mock.onPost('/api/auth/user/update').reply(config => {
 	const data = JSON.parse(config.data);

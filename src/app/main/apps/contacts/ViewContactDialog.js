@@ -1,33 +1,17 @@
+/* =============================================================================
+ ViewContactDialog.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: view contact dialog 
+*/
 import { useForm } from '@fuse/hooks';
-import FuseUtils from '@fuse/utils/FuseUtils';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { AppBar, Avatar, Dialog, DialogContent, Toolbar, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect } from 'react';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
-import FormLabel from '@material-ui/core/FormLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
 import { SYSTEM_ROLES } from '../../../constants';
-import Checkbox from '@material-ui/core/Checkbox';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import * as Actions from './store/actions';
 
 const defaultFormState = {
 	first_name: '',
@@ -45,6 +29,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 function ViewContactDialog(props) {
+	const { t } = useTranslation('contacts');
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
@@ -83,7 +68,7 @@ function ViewContactDialog(props) {
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		let allData = {
+		const allData = {
 			...form,
 			role: SYSTEM_ROLES.filter(d => d.label == role)[0].key,
 			language: value == 'English' ? 'en' : 'it'
@@ -92,7 +77,7 @@ function ViewContactDialog(props) {
 			dispatch(Actions.addContact({ ...allData, id: undefined }));
 		} else {
 			const { first_name, last_name, email, id } = allData;
-			let newformData = {
+			const newformData = {
 				first_name,
 				last_name,
 				email,
@@ -126,16 +111,16 @@ function ViewContactDialog(props) {
 			maxWidth="xs"
 		>
 			<AppBar position="static" elevation={1}>
-				<Toolbar className="flex w-full">
+				<Toolbar className="flex w-full border-0">
 					<Typography variant="subtitle1" color="inherit">
-						View Contact
+						{t('VIEW_CONTACT')}
 					</Typography>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
 					<Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} />
 					{contactDialog.type === 'view' && (
 						<Typography variant="h6" color="inherit" className="pt-8">
-							{form.name}
+							{form.name} {form.last_name}
 						</Typography>
 					)}
 				</div>
@@ -144,35 +129,56 @@ function ViewContactDialog(props) {
 				<DialogContent classes={{ root: 'p-24' }}>
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96">
-							<Typography className="text-base">Name</Typography>
+							<Typography className="text-base">{t('NAME')}</Typography>
 						</div>
-						<Typography variant="h6" className="text-base">{form.first_name}</Typography>
+						<Typography variant="h6" className="text-base">
+							{form.first_name}
+						</Typography>
 					</div>
 
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
-							<Typography className="text-base">Last name</Typography>
+							<Typography className="text-base">{t('LAST_NAME')}</Typography>
 						</div>
-						<Typography variant="h6" className="text-base">{form.last_name}</Typography>
+						<Typography variant="h6" className="text-base">
+							{form.last_name}
+						</Typography>
 					</div>
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
-							<Typography className="text-base">Email</Typography>
+							<Typography className="text-base">{t('EMAIL')}</Typography>
 						</div>
 
-						<Typography variant="h6" className="text-base">{form.email}</Typography>
+						<Typography variant="h6" className="text-base">
+							<a href={`mailto:${form.email}`}>{form.email}</a>
+						</Typography>
+					</div>
+					{form.phone && (
+						<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+							<div className="min-w-96 ">
+								<Typography className="text-base">{t('PHONE')}</Typography>
+							</div>
+
+							<Typography variant="h6" className="text-base">
+								<a href={`tel:${form.phone}`}>{form.phone}</a>
+							</Typography>
+						</div>
+					)}
+					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+						<div className="min-w-96 ">
+							<Typography className="text-base">{t('ROLE')}</Typography>
+						</div>
+						<Typography variant="h6" className="text-base">
+							{form.role}
+						</Typography>
 					</div>
 					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
-							<Typography className="text-base">Role</Typography>
+							<Typography className="text-base">{t('LANGUAGE')}</Typography>
 						</div>
-						<Typography variant="h6" className="text-base">{form.role}</Typography>
-					</div>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
-						<div className="min-w-96 ">
-							<Typography className="text-base">Language</Typography>
-						</div>
-						<Typography variant="h6" className="text-base">{value}</Typography>
+						<Typography variant="h6" className="text-base">
+							{value}
+						</Typography>
 					</div>
 				</DialogContent>
 			</form>

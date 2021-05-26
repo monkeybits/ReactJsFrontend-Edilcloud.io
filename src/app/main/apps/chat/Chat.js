@@ -1,24 +1,31 @@
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
+import { Avatar, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
+import FuseUtils from '@fuse/utils';
+import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+import LinearProgressWithLabel from '../file-manager/LinearProgressWithLabel';
+
+const ViewFile = loadable(() => import('./ViewFile'));
+const MessageMoreOptions = loadable(() => import('./MessageMoreOptions'));
+const RetryToSendMessage = loadable(() => import('./RetryToSendMessage'));
+const SendMessageForm = loadable(() => import('./SendMessageForm'));
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
 		'&.contact': {
 			'& .bubble': {
-				backgroundColor: theme.palette.background.default,
+				backgroundColor: '#fff',
+				// backgroundColor: theme.palette.background.default,
 				// color: theme.palette.getContrastText(theme.palette.primary.dark),
+				color: '#1E2129',
+				boxShadow: '0 1px 3px #00000029',
 				borderTopLeftRadius: 5,
 				borderBottomLeftRadius: 5,
 				borderTopRightRadius: 5,
@@ -47,8 +54,10 @@ const useStyles = makeStyles(theme => ({
 			},
 			'& .bubble': {
 				marginLeft: 'auto',
-				backgroundColor: theme.palette.primary.dark,
-				color: theme.palette.getContrastText(theme.palette.primary.dark),
+				backgroundColor: '#4c54af1f',
+				// backgroundColor: theme.palette.primary.dark,
+				color: '#1E2129',
+				// color: theme.palette.getContrastText(theme.palette.primary.dark),
 				borderTopLeftRadius: 5,
 				borderBottomLeftRadius: 5,
 				borderTopRightRadius: 5,
@@ -56,7 +65,7 @@ const useStyles = makeStyles(theme => ({
 				'& .time': {
 					justifyContent: 'flex-end',
 					right: 0,
-					marginRight: 12
+					marginLeft: 6
 				}
 			},
 			'&.first-of-group': {
@@ -98,19 +107,40 @@ function Chat(props) {
 	const selectedContactId = useSelector(({ chatApp }) => chatApp.contacts.selectedContactId);
 	const chat = useSelector(({ chatApp }) => chatApp.chat);
 	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
+	const audioRef = useRef(null);
 
+	const inputRef = useRef(null);
 	const user = useSelector(({ chatApp }) => chatApp.user);
+	const [images, setImages] = useState(null);
+	const [progress, setProgress] = React.useState(0);
 
 	const classes = useStyles(props);
 	const chatRef = useRef(null);
 	const [messageText, setMessageText] = useState('');
 	const userInfo = decodeDataFromToken();
 	const userIdFromCompany = userInfo?.extra?.profile?.id;
+	const [hasRender, setHasRender] = React.useState(false);
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const isUploadingFiles = useSelector(({ chatApp }) => chatApp.chat.isUploadingFiles);
+	const scrollRef = useRef(null);
 
 	useEffect(() => {
-		if (chat) {
-			// scrollToBottom();
+		if (chat?.chats?.length) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 600);
 		}
+	}, [chat?.chats]);
+
+	useEffect(() => {
+		if (notificationPanel.viewing && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
+
+	useEffect(() => {
+		scrollToBottom();
 	}, [chat?.chats]);
 
 	function scrollToBottom() {
@@ -128,22 +158,15 @@ function Chat(props) {
 	function isLastMessageOfGroup(item, i) {
 		return i === chat.chats.length - 1 || (chat.chats[i + 1] && chat.chats[i + 1].sender.id != item.sender.id);
 	}
-	function onInputChange(ev) {
-		setMessageText(ev.target.value);
-	}
-
-	function onMessageSubmit(ev) {
-		ev.preventDefault();
-		if (messageText === '') {
-			return;
-		}
-
-		dispatch(Actions.sendMessage(messageText, setMessageText));
-	}
 
 	return (
 		<div className={clsx('flex flex-col relative chat-box', props.className)}>
 			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
+				{isUploadingFiles && (
+					<div className="linear-progress custom-color">
+						<LinearProgressWithLabel progress={progress} />
+					</div>
+				)}
 				{chat?.chats?.length ? (
 					<div className="flex flex-col pt-16 px-16 ltr:pl-48 rtl:pr-48 pb-30">
 						{chat.chats.map((item, i) => {
@@ -151,10 +174,10 @@ function Chat(props) {
 							const color = contacts.length && contacts?.filter(c => c.id == contact.id);
 							return (
 								<div
-									key={item.date_create}
+									key={i}
 									className={clsx(
 										classes.messageRow,
-										'flex flex-col flex-grow-0 flex-shrink-0 items-start justify-end relative px-20 pb-4',
+										'flex flex-col flex-grow-0 flex-shrink-0 items-start justify-end relative px-20 pb-12',
 										{ me: contact.id == userIdFromCompany },
 										{ contact: contact.id != userIdFromCompany },
 										{ 'first-of-group': isFirstMessageOfGroup(item, i) },
@@ -170,25 +193,60 @@ function Chat(props) {
 											{contact.first_name.split('')[0]}
 										</Avatar>
 									)}
-									<div className="bubble items-center justify-center p-12 max-w-50">
+
+									<div
+										className="bubble items-center justify-center p-12 max-w-50 relative"
+										ref={
+											notificationPanel.notificationData?.notification?.object_id == item.id
+												? scrollRef
+												: null
+										}
+									>
 										{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
 											<Typography
 												style={{ color: color?.[0]?.contactNameColor }}
-												className="text-xs mb-6"
+												className="subtitle1 mb-6"
 											>
-												{contact.first_name + ' ' + contact.last_name}
+												{`${contact.first_name} ${contact.last_name}`}
+												{!!contact.position && (
+													<Typography className="font-size-12 ">
+														{contact.position} - {contact.company?.name}
+													</Typography>
+												)}
 											</Typography>
 										)}
-										<div className="leading-normal">{item.body}</div>
+										<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
+										{!item.waitingToSend && contact.id == userIdFromCompany && (
+											<MessageMoreOptions
+												className="text-right chat-options"
+												item={item}
+												deleteMessage={Actions.deleteMessage}
+												setProgress={setProgress}
+											/>
+										)}
+										<div className="leading-normal py-4 font-size-16 mb-15">{item.body} </div>
+										<ViewFile files={item.files} />
+										<div className="flex items-center mt-8">
+											{
+												// isLastMessageOfGroup(item, i) && (
+												<Typography
+													className="time text-11 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+													color="textSecondary"
+												>
+													{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
+												</Typography>
+												// )
+											}
+											{contact.id == userIdFromCompany && item.waitingToSend ? (
+												<Icon className="float-right font-size-16 ml-10 text-check">
+													access_time
+												</Icon>
+											) : (
+												// <Icon className="float-right text-16 text-check">check</Icon>
+												<Icon className="float-right text-16 ml-10 text-check">done_all</Icon>
+											)}
+										</div>
 									</div>
-									{isLastMessageOfGroup(item, i) && (
-										<Typography
-											className="time text-11 mt-8 mb-12 ltr:left-0 rtl:right-0 whitespace-no-wrap"
-											color="textSecondary"
-										>
-											{moment(item.date_create).format('MMMM Do YYYY, h:mm:ss a')}
-										</Typography>
-									)}
 								</div>
 							);
 						})}
@@ -205,36 +263,8 @@ function Chat(props) {
 						</Typography>
 					</div>
 				)}
+				<SendMessageForm />
 			</FuseScrollbars>
-
-			<form onSubmit={onMessageSubmit} className="bottom-0 right-0 left-0 py-16 px-8">
-				<Paper className="flex items-center relative rounded-24" elevation={1}>
-					<TextField
-						autoFocus={false}
-						id="message-input"
-						className="flex-1"
-						InputProps={{
-							disableUnderline: true,
-							classes: {
-								root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-48 rtl:ml-48 my-8',
-								input: ''
-							},
-							placeholder: 'Type your message'
-						}}
-						InputLabelProps={{
-							shrink: false,
-							className: classes.bootstrapFormLabel
-						}}
-						onChange={onInputChange}
-						value={messageText}
-					/>
-					<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
-						<Icon className="text-24" color="action">
-							send
-						</Icon>
-					</IconButton>
-				</Paper>
-			</form>
 		</div>
 	);
 }

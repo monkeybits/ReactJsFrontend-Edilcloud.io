@@ -484,7 +484,7 @@ const scrumboardDB = {
 				{
 					id: '26022e4129ad3a5sc28b36cd',
 					name: 'High Priority',
-					class: 'bg-red text-white'
+					class: 'bg-red-500 text-white'
 				},
 				{
 					id: '56027e4119ad3a5dc28b36cd',

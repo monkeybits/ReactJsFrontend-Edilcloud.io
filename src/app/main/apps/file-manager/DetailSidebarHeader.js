@@ -1,94 +1,73 @@
+/* =============================================================================
+ TODO: DetailSidebarHeader.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: This is Header of right sidebar check company file manager UI 
+*/
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import React, { useState, useEffect } from 'react';
+import { IconButton, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import moment from 'moment';
-import {
-	DOWNLOAD_PHOTO,
-	DOWNLOAD_VIDEO,
-	DOWNLOAD_DOCUMENT,
-	PHOTO_DELETE,
-	VIDEO_DELETE,
-	DOCUMENT_DELETE,
-	FOLDER_DELETE
-} from 'app/services/apiEndPoints';
+import { PHOTO_DELETE, VIDEO_DELETE, DOCUMENT_DELETE, FOLDER_DELETE } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-import FileSaver from 'file-saver';
+import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
-import DeleteConfirmDialog from './DeleteConfirmDialog';
-import FileViewDialog from './FileViewDialog';
+import loadable from '@loadable/component';
+const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'));
+const FileViewDialog = loadable(() => import('./FileViewDialog'));
 
-function DetailSidebarHeader({ setProgress }) {
+function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const dispatch = useDispatch();
 	const folders = useSelector(({ fileManagerApp }) => fileManagerApp.files?.folders);
 	const files = useSelector(({ fileManagerApp }) => fileManagerApp.files?.allFiles);
-	const selectedItem = useSelector(({ fileManagerApp }) => files[fileManagerApp.selectedItemId]);
+	const selectedItem = useSelector(({ fileManagerApp }) => fileManagerApp.selectedItemId);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [isOpenViewFile, setIsOpenViewFile] = useState(false);
+	const folderPath = useSelector(({ fileManagerApp }) => fileManagerApp.files.folderPath);
 
 	if (!selectedItem) {
 		return null;
 	}
-	const onDownload = () => {
-		if (selectedItem) {
-			setProgress(0);
-			dispatch(Actions.onUploadHandleLoading(true));
-			let apiurl =
-				selectedItem.type == 'photo'
-					? DOWNLOAD_PHOTO(selectedItem.mainId)
-					: selectedItem.type == 'video'
-					? DOWNLOAD_VIDEO(selectedItem.mainId)
-					: DOWNLOAD_DOCUMENT(selectedItem.mainId);
-			apiCall(
-				apiurl,
-				{},
-				({ headers, data }) => {
-					var file = new File([data], `${selectedItem.title}`, {
-						type: headers['content-type']
-					});
-					FileSaver.saveAs(file);
-					dispatch(Actions.onUploadHandleLoading(false));
-				},
-				err => {
-					dispatch(Actions.onUploadHandleLoading(false));
-				},
-				METHOD.GET,
-				{
-					...getHeaderToken(),
-					responseType: 'blob',
-					onDownloadProgress: progressEvent => {
-						var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-						setProgress(percentCompleted);
-					}
-				},
-				true
-			);
-		}
-	};
 	const openDeleteFileDialog = () => setIsOpenDeleteDialog(true);
 	const colseDeleteFileDialog = () => setIsOpenDeleteDialog(false);
 	const handleDelete = () => {
 		const userInfo = decodeDataFromToken();
 		const cid = userInfo.extra?.profile?.company;
+		const fileType = selectedItem.type;
+		const { mainId } = selectedItem;
 		const url =
-			selectedItem.type == 'folder'
-				? FOLDER_DELETE(cid, selectedItem.path)
-				: selectedItem.type == 'photo'
+			fileType == 'folder'
+				? FOLDER_DELETE(selectedItem.mainId)
+				: fileType == 'photo'
 				? PHOTO_DELETE(selectedItem.mainId)
-				: selectedItem.type == 'video'
+				: fileType == 'video'
 				? VIDEO_DELETE(selectedItem.mainId)
 				: DOCUMENT_DELETE(selectedItem.mainId);
 		apiCall(
 			url,
 			{},
 			res => {
-				dispatch(Actions.deleteFile(selectedItem.id));
+				if (folderPath.length > 1) {
+					dispatch(Actions.folderDetail(cid));
+				}
+				if (fileType != 'folder') {
+					if (fileType == 'photo') {
+						dispatch(Actions.getPhotos(cid));
+					} else if (fileType == 'video') {
+						dispatch(Actions.getVideos(cid));
+					} else {
+						dispatch(Actions.getDocuments(cid));
+					}
+				}
+
+				dispatch(Actions.getFolders(cid));
+				dispatch(Actions.setSelectedItem(''));
 				colseDeleteFileDialog();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.DELETE,
 			getHeaderToken()
 		);
@@ -111,8 +90,8 @@ function DetailSidebarHeader({ setProgress }) {
 				onNo={colseDeleteFileDialog}
 			/>
 			<FileViewDialog isOpenViewFile={isOpenViewFile} closeViewFile={closeViewFile} />
-			<div className="flex flex-col justify-between h-full p-4 sm:p-12">
-				<div className="toolbar flex align-center justify-end">
+			<div className="flex flex-col justify-between">
+				{/* <div className="toolbar flex align-center justify-end">
 					<FuseAnimate animation="transition.expandIn" delay={200}>
 						<IconButton onClick={openDeleteFileDialog}>
 							<Icon>delete</Icon>
@@ -126,20 +105,32 @@ function DetailSidebarHeader({ setProgress }) {
 					<IconButton onClick={openViewFile}>
 						<Icon>visibility</Icon>
 					</IconButton>
-				</div>
+				</div> */}
 
-				<div className="p-12">
+				<div className="flex items-center justify-between border-b-1 px-20 py-6">
 					<FuseAnimate delay={200}>
-						<Typography variant="subtitle1" className="mb-8">
+						<Typography variant="subtitle1" className="font-700">
 							{selectedItem.title}
 						</Typography>
 					</FuseAnimate>
-					<FuseAnimate delay={300}>
+					<IconButton
+						edge="start"
+						color="inherit"
+						aria-label="close"
+						className="close-icon list-view-icon"
+						onClick={() => {
+							pageLayout.current.toggleRightSidebar();
+							dispatch(Actions.setSelectedItem(''));
+						}}
+					>
+						<CloseIcon />
+					</IconButton>
+					{/* <FuseAnimate delay={300}>
 						<Typography variant="caption" className="">
 							<span>Edited</span>
 							<span>: {moment(selectedItem.date_last_modify).format('MMMM Do YYYY, h:mm a')}</span>
 						</Typography>
-					</FuseAnimate>
+					</FuseAnimate> */}
 				</div>
 			</div>
 		</>

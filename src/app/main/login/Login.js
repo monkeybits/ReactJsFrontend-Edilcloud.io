@@ -1,17 +1,15 @@
+import React, { useState } from 'react';
+import loadable from '@loadable/component';
+import { Link } from 'react-router-dom';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { Card, CardContent, Tab, Tabs, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Auth0LoginTab from './tabs/Auth0LoginTab';
-import FirebaseLoginTab from './tabs/FirebaseLoginTab';
-import JWTLoginTab from './tabs/JWTLoginTab';
+
+const Auth0LoginTab = loadable(() => import('./tabs/Auth0LoginTab'));
+const FirebaseLoginTab = loadable(() => import('./tabs/FirebaseLoginTab'));
+const JWTLoginTab = loadable(() => import('./tabs/JWTLoginTab'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -35,7 +33,7 @@ function Login() {
 		<div className={clsx(classes.root, 'flex flex-col flex-1 flex-shrink-0 p-24 md:flex-row md:p-0')}>
 			<div className="flex flex-col flex-grow-0 items-center text-white p-16 text-center md:p-128 md:items-start md:flex-shrink-0 md:flex-1 md:text-left">
 				<FuseAnimate animation="transition.expandIn">
-					<img className="w-128 mb-32" src="assets/images/logos/fuse.svg" alt="logo" />
+					<img className="mb-32" width="128" src="assets/images/logos/fuse.svg" alt="logo" />
 				</FuseAnimate>
 
 				<FuseAnimate animation="transition.slideUpIn" delay={300}>

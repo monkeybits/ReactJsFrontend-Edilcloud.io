@@ -1,3 +1,4 @@
+import React from 'react';
 import {
 	createGenerateClassName,
 	jssPreset,
@@ -8,7 +9,6 @@ import {
 import { create } from 'jss';
 import jssExtend from 'jss-plugin-extend';
 import PropTypes from 'prop-types';
-import React from 'react';
 import Frame from 'react-frame-component';
 
 const styles = theme => ({
@@ -58,7 +58,7 @@ class DemoFrame extends React.Component {
 					__html: `
                     html {
                     font-size: 62.5%;
-                    font-family: Muli, Roboto, Helvetica Neue, Arial, sans-serif;
+                    font-family: Poppins, Roboto, Helvetica Neue, Arial, sans-serif;
                     }
                 `
 				}}

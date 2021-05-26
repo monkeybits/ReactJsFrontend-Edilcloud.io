@@ -1,21 +1,25 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { TextFieldFormsy } from '@fuse/core/formsy';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Typography from '@material-ui/core/Typography';
+import {
+	Button,
+	IconButton,
+	Icon,
+	InputAdornment,
+	CircularProgress,
+	FormControl,
+	FormHelperText
+} from '@material-ui/core';
 import * as authActions from 'app/auth/store/actions';
 import Formsy from 'formsy-react';
-import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormControl, FormHelperText, FormControlLabel, Checkbox } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 function JWTLoginTab(props) {
 	const dispatch = useDispatch();
 	const login = useSelector(({ auth }) => auth.login);
+	const { t } = useTranslation('login');
 
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +50,7 @@ function JWTLoginTab(props) {
 	function handleSubmit(model) {
 		setNonFieldError('');
 		dispatch(authActions.submitLogin(model));
+		dispatch(notificationActions.resetNotificationData());
 	}
 
 	return (
@@ -58,10 +63,10 @@ function JWTLoginTab(props) {
 				className="flex flex-col justify-center w-full"
 			>
 				<TextFieldFormsy
-					className="mb-16"
+					className="mb-24"
 					type="text"
 					name="email"
-					label="Username/Email"
+					label={t('USERNAME_OR_EMAIL')}
 					value="admin"
 					validations={{
 						minLength: 4
@@ -83,10 +88,10 @@ function JWTLoginTab(props) {
 				/>
 				<FormControl error>
 					<TextFieldFormsy
-						className="mb-16"
+						className="mb-24"
 						type="password"
 						name="password"
-						label="Password"
+						label={t('PASSWORD')}
 						value="admin"
 						validations={{
 							minLength: 4
@@ -120,20 +125,22 @@ function JWTLoginTab(props) {
 						/>
 					</FormControl> */}
 
-					<Link className="font-medium" to="/pages/auth/forgot-password">
-						Forgot Password?
+					<Link className="text-primary font-600" to="/pages/auth/forgot-password">
+						{t('FORGOT_PASSWORD')}
 					</Link>
 				</div>
 				<Button
 					type="submit"
 					variant="contained"
-					color="primary"
-					className="w-full mx-auto mt-16 normal-case"
-					aria-label="LOG IN"
+					size="large"
+					color="secondary"
+					className="w-full mx-auto mt-16 uppercase"
+					aria-label="Sign In"
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Login{'  '} {login.loadingLogin && <CircularProgress size={15} color="secondary" />}
+					{t('SIGN_IN_BUTTON')}
+					{'  '} {login.loadingLogin && <CircularProgress size={20} color="white" className="ml-20" />}
 				</Button>
 			</Formsy>
 		</div>

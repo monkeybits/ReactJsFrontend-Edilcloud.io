@@ -7,7 +7,7 @@ export const REGISTER_ERROR = 'REGISTER_ERROR';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_BEGIN = 'REGISTER_BEGIN';
 
-export function submitRegister({ username, password, email, history }) {
+export function submitRegister({ username, first_name, last_name, password, email, history }) {
 	return dispatch => {
 		dispatch({
 			type: REGISTER_BEGIN
@@ -15,12 +15,14 @@ export function submitRegister({ username, password, email, history }) {
 		jwtService
 			.createUser({
 				username,
+				first_name,
+				last_name,
 				password1: password,
 				password2: password,
 				email
 			})
 			.then(successData => {
-				history.push('/pages/auth/mail-confirm');
+				history.push('/pages/auth/mail-confirm', { email });
 				return dispatch({
 					type: REGISTER_SUCCESS,
 					payload: successData

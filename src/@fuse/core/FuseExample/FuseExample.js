@@ -1,12 +1,10 @@
-import FuseHighlight from '@fuse/core/FuseHighlight';
-import AppBar from '@material-ui/core/AppBar';
-import Card from '@material-ui/core/Card';
-import Icon from '@material-ui/core/Icon';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import loadable from '@loadable/component';
+import { AppBar, Card, Icon, Tab, Tabs } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import DemoFrame from './DemoFrame';
+
+const FuseHighlight = loadable(() => import('@fuse/core/FuseHighlight'));
 
 const propTypes = {
 	raw: PropTypes.object,

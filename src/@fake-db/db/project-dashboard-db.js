@@ -8,7 +8,7 @@ const projectDashboardAppDB = {
 				DT: 'Today',
 				DTM: 'Tomorrow'
 			},
-			currentRange: 'DT',
+			currnge: 'DT',
 			data: {
 				label: 'DUE TASKS',
 				count: {
@@ -1144,7 +1144,7 @@ const projectDashboardAppDB = {
 							{
 								id: 'budget_type',
 								value: 'Coding',
-								classes: 'bg-red text-white',
+								classes: 'bg-red-500 text-white',
 								icon: ''
 							},
 							{

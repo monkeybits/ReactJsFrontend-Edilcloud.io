@@ -11,6 +11,7 @@ const initialState = () => ({
 	routeParams: {},
 	filterKey: 'all',
 	contactDialog: {
+		name: 'Invite',
 		type: 'new',
 		props: {
 			open: false,
@@ -19,18 +20,39 @@ const initialState = () => ({
 		data: null
 	}
 });
-
+function getRandomColor() {
+	const letters = '0123456789ABCDEF';
+	let color = '#';
+	for (let i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+}
 const mergeArray = (oldArr = [], newArr = []) =>
 	[...newArr, ...oldArr].reduce((arr, current) => {
-		const x = arr.find(item => item.email === current.email);
+		const x = arr.find(item => (item.id && current.id ? item.id === current.id : false));
 		if (!x) {
 			return arr.concat([current]);
-		} else {
-			return arr;
 		}
+		return arr;
+	}, []);
+const mergeArrayByComapny = (oldArr = [], newArr = []) =>
+	[...newArr, ...oldArr].reduce((arr, current) => {
+		const x = arr.find(item =>
+			item.profile?.company?.name && current?.profile?.company?.name
+				? item.profile?.company?.name === current?.profile?.company?.name
+				: false
+		);
+		if (!x) {
+			return arr.concat([current]);
+		}
+		return arr;
 	}, []);
 const removeByEmail = (arr = [], email) => (arr.length ? arr.filter((d, i) => d.email != email) : []);
 const addTypeInArray = (arr = [], status) => (arr.length ? arr.map((d, i) => ({ ...d, status })) : []);
+const addColorInArray = (arr = [], color) =>
+	arr.length ? arr.map((d, i) => ({ ...d, color: d.color ? d.color : getRandomColor() })) : [];
+
 const contactsReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.RESET_CONTACTS: {
@@ -47,6 +69,9 @@ const contactsReducer = (state = initialState(), action) => {
 				...state,
 				entities: mergeArray(state.entities, addTypeInArray(action.payload, 'Approved')),
 				approved: addTypeInArray([...action.payload], 'Approved'),
+				approvedCompanies: addColorInArray(
+					mergeArrayByComapny(state.approved, addTypeInArray(action.payload, 'Approved'))
+				),
 				routeParams: action.routeParams
 			};
 		}
@@ -91,6 +116,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					name: action.payload,
 					type: 'new',
 					props: {
 						open: true
@@ -103,6 +129,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					...state.contactDialog,
 					type: 'new',
 					props: {
 						open: false
@@ -115,6 +142,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					name: 'Invite',
 					type: 'edit',
 					props: {
 						open: true
@@ -127,6 +155,7 @@ const contactsReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				contactDialog: {
+					name: 'Invite',
 					type: 'edit',
 					props: {
 						open: false

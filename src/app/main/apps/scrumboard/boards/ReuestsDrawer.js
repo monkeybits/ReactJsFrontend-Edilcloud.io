@@ -1,14 +1,11 @@
 import React from 'react';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import { SwipeableDrawer, Button, CircularProgress } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import Button from '@material-ui/core/Button';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { ACCEPT_INVITATION, REFUSE_INVITATION } from 'app/services/apiEndPoints';
 import { getHeaderToken } from 'app/services/serviceUtils';
-import { CircularProgress } from '@material-ui/core';
 
-function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSuccess }) {
+function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSuccess, acceptAPI, rejectAPI }) {
 	const [isLoading, setIsLoading] = React.useState({
 		isAccept: false,
 		isReject: false
@@ -26,13 +23,15 @@ function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSucces
 	const handleOnAccept = () => {
 		setLoadingAcceptTrue();
 		apiCall(
-			ACCEPT_INVITATION(request.uidb36, request.token),
+			acceptAPI,
 			{},
 			res => {
+				setIsShowRequests(false);
 				setLoadingAcceptFalse();
 				afterSuccess();
 			},
 			err => {
+				setIsShowRequests(false);
 				setLoadingAcceptFalse();
 			},
 			METHOD.PUT,
@@ -42,14 +41,16 @@ function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSucces
 	const handleOnReject = () => {
 		setLoadingRejectTrue();
 		apiCall(
-			REFUSE_INVITATION(request.uidb36, request.token),
+			rejectAPI,
 			{},
 			res => {
+				setIsShowRequests(false);
 				console.log(res);
 				setLoadingRejectFalse();
 				afterSuccess();
 			},
 			err => {
+				setIsShowRequests(false);
 				console.log(err);
 				setLoadingRejectFalse();
 			},

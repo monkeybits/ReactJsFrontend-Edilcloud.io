@@ -1,14 +1,14 @@
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import Paper from '@material-ui/core/Paper';
+import React from 'react';
+import loadable from '@loadable/component';
+import clsx from 'clsx';
+import { Drawer, Hidden, Paper } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import NavbarMobileToggleFab from 'app/fuse-layouts/shared-components//NavbarMobileToggleFab';
 import * as Actions from 'app/store/actions';
-import clsx from 'clsx';
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import NavbarLayout3 from './NavbarLayout3';
-import NavbarMobileLayout3 from './NavbarMobileLayout3';
+
+const NavbarLayout3 = loadable(() => import('./NavbarLayout3'));
+const NavbarMobileLayout3 = loadable(() => import('./NavbarMobileLayout3'));
 
 const navbarWidth = 280;
 

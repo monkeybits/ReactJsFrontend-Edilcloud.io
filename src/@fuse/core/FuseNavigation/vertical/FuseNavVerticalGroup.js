@@ -1,16 +1,17 @@
+import React, { useMemo } from 'react';
+import loadable from '@loadable/component';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import FuseUtils from '@fuse/utils';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { ListSubheader, useMediaQuery } from '@material-ui/core';
 import * as Actions from 'app/store/actions';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import FuseNavItem from '../FuseNavItem';
+
+const FuseNavItem = loadable(() => import('../FuseNavItem'));
 
 const useStyles = makeStyles(theme => ({
 	item: props => ({

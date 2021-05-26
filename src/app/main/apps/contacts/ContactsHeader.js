@@ -1,68 +1,79 @@
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import Hidden from '@material-ui/core/Hidden';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import Paper from '@material-ui/core/Paper';
-import { ThemeProvider } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+/* =============================================================================
+ ContactsHeader.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: This is contacts page Header
+*/
 import React from 'react';
+import { Typography, Icon, IconButton, Paper, Input, Button } from '@material-ui/core';
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import * as Actions from './store/actions';
 
 function ContactsHeader(props) {
 	const dispatch = useDispatch();
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
+	const { t } = useTranslation('contacts');
 
 	return (
-		<div className="flex flex-1 items-center justify-between p-8 sm:p-24">
-			<div className="flex flex-shrink items-center sm:w-224">
-				<Hidden lgUp>
-					<IconButton
-						onClick={ev => {
-							props.pageLayout.current.toggleLeftSidebar();
-						}}
-						aria-label="open left sidebar"
-					>
-						<Icon>menu</Icon>
-					</IconButton>
-				</Hidden>
+		<ThemeProvider theme={mainTheme}>
+			<div className="flex flex-1 dashboard-todo-header w-full">
+				<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
+					<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
+						{t('TEAM')}
+					</Typography>
 
-				<div className="flex items-center">
-					<FuseAnimate animation="transition.expandIn" delay={300}>
-						<Icon className="text-32">account_box</Icon>
-					</FuseAnimate>
-					<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-						<Typography variant="h6" className="mx-12 hidden sm:flex">
-							Contacts
-						</Typography>
-					</FuseAnimate>
+					<div className="flex flex-1 items-center justify-between">
+						<div className="flex items-center">
+							<IconButton
+								onClick={ev => props.pageLayout.current.toggleLeftSidebar()}
+								aria-label="open left sidebar"
+							>
+								<Icon className="text-white">filter_list</Icon>
+							</IconButton>
+						</div>
+
+						<div className="flex flex-1 items-center justify-center px-12">
+							<ThemeProvider theme={mainTheme}>
+								<FuseAnimate animation="transition.slideDownIn" delay={300}>
+									<Paper
+										className="flex items-center w-full max-w-512 px-8 py-4 rounded-8"
+										elevation={1}
+									>
+										<Icon color="action">search</Icon>
+										<Input
+											placeholder="Cerca Fase di lavoro o attività"
+											className="flex flex-1 mx-8"
+											disableUnderline
+											fullWidth
+											value={searchText}
+											inputProps={{
+												'aria-label': 'Search'
+											}}
+											onChange={ev => dispatch(Actions.setSearchText(ev))}
+										/>
+									</Paper>
+								</FuseAnimate>
+							</ThemeProvider>
+						</div>
+						<FuseAnimate animation="transition.slideRightIn" delay={300}>
+							<Button
+								onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
+								className="whitespace-no-wrap normal-case"
+								variant="contained"
+								color="secondary"
+							>
+								<span className="xs:hidden sm:flex">Guida</span>
+							</Button>
+						</FuseAnimate>
+					</div>
 				</div>
 			</div>
-
-			<div className="flex flex-1 items-center justify-center px-8 sm:px-12">
-				<ThemeProvider theme={mainTheme}>
-					<FuseAnimate animation="transition.slideLeftIn" delay={300}>
-						<Paper className="flex p-4 items-center w-full max-w-512 h-48 px-8 py-4" elevation={1}>
-							<Icon color="action">search</Icon>
-
-							<Input
-								placeholder="Search for anything"
-								className="flex flex-1 px-16"
-								disableUnderline
-								fullWidth
-								value={searchText}
-								inputProps={{
-									'aria-label': 'Search'
-								}}
-								onChange={ev => dispatch(Actions.setSearchText(ev))}
-							/>
-						</Paper>
-					</FuseAnimate>
-				</ThemeProvider>
-			</div>
-		</div>
+		</ThemeProvider>
 	);
 }
 

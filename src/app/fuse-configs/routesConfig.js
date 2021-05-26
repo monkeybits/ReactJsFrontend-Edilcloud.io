@@ -11,10 +11,14 @@ import RegisterConfig from 'app/main/register/RegisterConfig';
 import UserInterfaceConfig from 'app/main/user-interface/UserInterfaceConfig';
 import MainProfileConfig from 'app/main/mainProfile/MainProfileConfig';
 import CompanyCreationConfig from 'app/main/companyCreation/CompanyCreationConfig';
+import EditProfileConfig from 'app/main/editMainProfile/EditProfileConfig.js';
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { getMainProfileId } from 'app/services/serviceUtils';
 
+// ! added all page routes here
+//  TODO: create apps and import app routes here
 const routeConfigs = [
 	...appsConfigs,
 	...pagesConfigs,
@@ -28,21 +32,27 @@ const routeConfigs = [
 	CallbackConfig,
 	AccountActivationConfig,
 	MainProfileConfig,
-	CompanyCreationConfig
+	CompanyCreationConfig,
+	EditProfileConfig
 ];
-
+const path = localStorage.getItem('redirect_path');
 const routes = [
 	// if you want to make whole app auth protected by default change defaultAuth for example:
 	// ...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin','staff','user']),
 	// The individual route configs which has auth option won't be overridden.
-	...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin','staff','user']),
+	...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin', 'staff', 'user']),
 	{
 		path: '/',
 		exact: true,
-		component: () => <Redirect to="/apps/todo/all" />
+		component: () => <Redirect to={getMainProfileId() ? '/apps/todo/all' : '/apps/companies'} /> // when user have main profile it will redirect default on  /apps/todo/all  else have to redirect on /apps/companies
+	}, // if user login but not selected company then company page else todo page
+	{
+		path: '/index.html', // * in live website it will look for index.html but we don't have such path so will redirect it to below path besaed on coditions
+		exact: true,
+		component: () => <Redirect to={getMainProfileId() ? '/apps/todo/all' : '/apps/companies'} />
 	},
 	{
-		component: () => <Redirect to="/pages/errors/error-404" />
+		component: () => <Redirect to="/pages/errors/error-404" /> // !if any path not found it goes to 404 page
 	}
 ];
 

@@ -1,8 +1,7 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
-import axios from '../axiosConfig';
 import jwtDecode from 'jwt-decode';
+import axios from '../axiosConfig';
 import { USER_LOGIN, USER_TOKEN_VERIFY, USER_REGISTRATION } from '../apiEndPoints';
-import { authUserData } from 'app/auth/store/actions';
 import { saveToken } from '../serviceUtils';
 /* eslint-disable camelcase */
 
@@ -51,7 +50,11 @@ class JwtService extends FuseUtils.EventEmitter {
 	createUser = data => {
 		return new Promise((resolve, reject) => {
 			axios
-				.post(USER_REGISTRATION, data)
+				.post(USER_REGISTRATION, data, {
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
 				.then(response => {
 					if (response.data) {
 						// this.setSession(response.data.access_token);
@@ -84,7 +87,9 @@ class JwtService extends FuseUtils.EventEmitter {
 					}
 				})
 				.catch(error => {
-					reject(error.response.data);
+					reject(
+						error.response?.data ? error.response.data : { non_field_errors: ['Something went wrong!'] }
+					);
 				});
 		});
 	};
@@ -120,10 +125,11 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	setSession = access_token => {
 		if (access_token) {
-			saveToken(access_token)
+			saveToken(access_token);
 			axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 		} else {
 			localStorage.removeItem('jwt_access_token');
+			localStorage.removeItem('main_profile');
 			delete axios.defaults.headers.common.Authorization;
 		}
 	};
@@ -136,10 +142,15 @@ class JwtService extends FuseUtils.EventEmitter {
 		if (!access_token) {
 			return false;
 		}
-		const decoded = jwtDecode(access_token);
-		const currentTime = Date.now() / 1000;
-		if (decoded.exp < currentTime) {
-			console.warn('access token expired');
+		try {
+			const decoded = jwtDecode(access_token);
+			const currentTime = Date.now() / 1000;
+			if (decoded.exp < currentTime) {
+				console.warn('access token expired');
+				return false;
+			}
+		} catch (error) {
+			console.log(error);
 			return false;
 		}
 

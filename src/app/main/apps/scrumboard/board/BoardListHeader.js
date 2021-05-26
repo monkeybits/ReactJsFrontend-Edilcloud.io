@@ -1,17 +1,21 @@
 import { useForm } from '@fuse/hooks';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import loadable from '@loadable/component';
+import {
+	ClickAwayListener,
+	Icon,
+	IconButton,
+	InputAdornment,
+	ListItemIcon,
+	ListItemText,
+	MenuItem,
+	TextField,
+	Typography
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../store/actions';
+
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 function BoardListHeader(props) {
 	const dispatch = useDispatch();
@@ -101,16 +105,22 @@ function BoardListHeader(props) {
 					)}
 				</div>
 				<div className="">
-					<IconButton
-						aria-owns={anchorEl ? 'actions-menu' : null}
-						aria-haspopup="true"
-						onClick={handleMenuClick}
-						variant="outlined"
-						size="small"
+					<TippyMenu
+						icon={
+							<>
+								<IconButton
+									aria-owns={anchorEl ? 'actions-menu' : null}
+									aria-haspopup="true"
+									onClick={handleMenuClick}
+									variant="outlined"
+									size="small"
+								>
+									<Icon className="text-20">more_vert</Icon>
+								</IconButton>
+							</>
+						}
+						outsideClick
 					>
-						<Icon className="text-20">more_vert</Icon>
-					</IconButton>
-					<Menu id="actions-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
 						<MenuItem
 							onClick={() => {
 								dispatch(Actions.removeList(board.id, props.list.id));
@@ -127,7 +137,7 @@ function BoardListHeader(props) {
 							</ListItemIcon>
 							<ListItemText primary="Rename List" />
 						</MenuItem>
-					</Menu>
+					</TippyMenu>
 				</div>
 			</div>
 		</div>

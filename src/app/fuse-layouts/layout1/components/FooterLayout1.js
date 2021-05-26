@@ -1,10 +1,11 @@
-import AppBar from '@material-ui/core/AppBar';
-import { ThemeProvider } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import PoweredByLinks from 'app/fuse-layouts/shared-components/PoweredByLinks';
-import PurchaseButton from 'app/fuse-layouts/shared-components/PurchaseButton';
 import React from 'react';
+import loadable from '@loadable/component';
 import { useSelector } from 'react-redux';
+import { AppBar, Toolbar } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/styles';
+
+const PoweredByLinks = loadable(() => import('app/fuse-layouts/shared-components/PoweredByLinks'));
+const PurchaseButton = loadable(() => import('app/fuse-layouts/shared-components/PurchaseButton'));
 
 function FooterLayout1(props) {
 	const footerTheme = useSelector(({ fuse }) => fuse.settings.footerTheme);
@@ -22,9 +23,7 @@ function FooterLayout1(props) {
 						<PurchaseButton />
 					</div>
 
-					<div>
-						<PoweredByLinks />
-					</div>
+					<div>{/* <PoweredByLinks /> */}</div>
 				</Toolbar>
 			</AppBar>
 		</ThemeProvider>

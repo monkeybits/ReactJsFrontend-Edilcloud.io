@@ -1,11 +1,13 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Typography from '@material-ui/core/Typography';
+import {
+	GridList,
+	GridListTile,
+	GridListTileBar,
+	IconButton,
+	Icon,
+	ListSubheader,
+	Typography
+} from '@material-ui/core';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 

@@ -1,6 +1,60 @@
 @import-normalize ;
-
 @import 'tailwind-base.css';
+
+.material-icons {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'material-outline-icons' !important;
+    font-size: 24px;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Enable Ligatures ================ */
+    letter-spacing: 0;
+    -webkit-font-feature-settings: "liga";
+    -moz-font-feature-settings: "liga=1";
+    -moz-font-feature-settings: "liga";
+    -ms-font-feature-settings: "liga" 1;
+    font-feature-settings: "liga";
+    -webkit-font-variant-ligatures: discretionary-ligatures;
+    font-variant-ligatures: discretionary-ligatures;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.meteocons {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'meteocons' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+  
+    /* Enable Ligatures ================ */
+    letter-spacing: 0;
+    -webkit-font-feature-settings: "liga";
+    -moz-font-feature-settings: "liga=1";
+    -moz-font-feature-settings: "liga";
+    -ms-font-feature-settings: "liga" 1;
+    font-feature-settings: "liga";
+    -webkit-font-variant-ligatures: discretionary-ligatures;
+    font-variant-ligatures: discretionary-ligatures;
+  
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
 body.no-animate *,
 body.no-animate *::before,
@@ -11,8 +65,8 @@ body.no-animate *::after {
 
 html {
     font-size: 62.5%;
-    font-family: Muli, Roboto, Helvetica Neue, Arial, sans-serif;
-    background-color: #121212;
+    font-family: Poppins, Roboto, Helvetica Neue, Arial, sans-serif;
+    /* background-color: #121212; */
 }
 
 body {
@@ -61,11 +115,60 @@ a[role=button] {
     text-decoration: none;
 }
 
+.pl-menu-custom {
+    top: 10rem
+}
+
+.project-list-menu {
+    pointer-events: auto !important;
+}
+
+.play-icon-wrap {
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.tippy-content {
+    padding: 0 !important;
+}
+
+.bg-quick-start, .bg-gray-custom {
+    background-color: #ffffff;
+}
+
+.unset-position {
+    position: unset !important;
+}
+
 [role="tooltip"] {
     z-index: 9999;
 }
 
+.custom-quickstart-wrap {
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 36rem;
+}
+
+.heading-title span {
+    font-size: 1.7rem;
+}
+
+.link-text span {
+    font-size: 1.5rem;
+}
+
 /* Medium Devices, Desktops Only */
+@media only screen and (min-width: 577px) {
+    .custom-quickstart-wrap {
+        top: 90px;
+        right: 44px;
+        max-width: 36rem;
+    }
+}
+
 @media only screen and (min-width: 992px) {
     ::-webkit-scrollbar {
         width: 12px;

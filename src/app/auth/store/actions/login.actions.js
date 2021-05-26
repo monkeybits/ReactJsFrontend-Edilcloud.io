@@ -1,10 +1,11 @@
 import firebaseService from 'app/services/firebaseService';
 import jwtService from 'app/services/jwtService';
 import * as Actions from 'app/store/actions';
-import * as UserActions from './user.actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { APPROVE_LIST } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { APPROVE_LIST, GET_MAIN_PROFILE, REFRESH_TOKEN, REQUEST_LIST } from 'app/services/apiEndPoints';
+import { getHeaderToken, getTokenOnly, saveMainProfileId, saveToken } from 'app/services/serviceUtils';
+import * as authActions from 'app/auth/store/actions';
+import * as UserActions from './user.actions';
 
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -18,32 +19,7 @@ export function submitLogin({ email, password }) {
 		jwtService
 			.signInWithEmailAndPassword(email, password)
 			.then(user => {
-				apiCall(
-					APPROVE_LIST,
-					{},
-					({ results }) => {
-						if (Array.isArray(results)) {
-							let boards = results.filter(d => d.is_main);
-
-							if (boards.length) {
-								dispatch(UserActions.setUserData({ ...user, redirectUrl: '/apps/companies' }));
-
-								return dispatch({
-									type: LOGIN_SUCCESS
-								});
-							} else {
-								dispatch(UserActions.setUserData({ ...user, redirectUrl: '/main-profile' }));
-
-								return dispatch({
-									type: LOGIN_SUCCESS
-								});
-							}
-						}
-					},
-					err => console.log(err),
-					METHOD.GET,
-					getHeaderToken()
-				);
+				dispatch(onLogin(user));
 			})
 			.catch(error => {
 				return dispatch({
@@ -53,7 +29,98 @@ export function submitLogin({ email, password }) {
 			});
 	};
 }
+export const onLogin = user => dispatch =>
+	apiCall(
+		APPROVE_LIST,
+		{},
+		results => {
+			if (Array.isArray(results)) {
+				const boards = results.filter(d => d.is_main);
+				const companies = results.filter(d => d.company);
+				if (boards.length) {
+					if (companies?.length == 1) {
+						apiCall(
+							REQUEST_LIST,
+							{},
+							({ results }) => {
+								if (Array.isArray(results)) {
+									const filterdBoards = results.filter(d => d.company && d.status);
+									if (filterdBoards?.length > 0) {
+										dispatch(
+											UserActions.setUserData({
+												...user,
+												redirectUrl: '/apps/companies'
+											})
+										);
+									} else {
+										dispatch(afterLogin(companies[0].id));
+									}
+								}
+							},
+							err => {
+								dispatch(afterLogin(companies[0].id));
+							},
+							METHOD.GET,
+							getHeaderToken()
+						);
+					} else {
+						dispatch(UserActions.setUserData({ ...user, redirectUrl: '/apps/companies' }));
+					}
 
+					return dispatch({
+						type: LOGIN_SUCCESS
+					});
+				}
+				dispatch(UserActions.setUserData({ ...user, redirectUrl: '/main-profile' }));
+
+				return dispatch({
+					type: LOGIN_SUCCESS
+				});
+			}
+		},
+		err => {
+			// console.log(err)
+		},
+		METHOD.GET,
+		getHeaderToken()
+	);
+
+const afterLogin = company_profile_id => {
+	return dispatch =>
+		apiCall(
+			REFRESH_TOKEN(company_profile_id),
+			{
+				token: getTokenOnly()
+			},
+			res => {
+				dispatch(getMainProfile(res.main_profile));
+				saveMainProfileId(res.main_profile);
+				saveToken(res.token);
+				dispatch(authActions.getCompanyProfile(res.token));
+
+				// props.history.push('/apps/todo/all');
+			},
+			err => {
+				// setIsLoading(false);
+				// console.log(err);
+			},
+			METHOD.POST
+		);
+};
+
+const getMainProfile = mainProfileId => {
+	return dispatch =>
+		apiCall(
+			GET_MAIN_PROFILE(mainProfileId),
+			{},
+			res => dispatch(UserActions.setUserData({ ...res, redirectUrl: '/apps/todo/all' })),
+			err => {
+				// console.log({ err })
+			},
+			METHOD.GET,
+			getHeaderToken()
+		);
+};
 export function submitLoginWithFireBase({ username, password }) {
 	if (!firebaseService.auth) {
 		console.warn("Firebase Service didn't initialize, check your configuration");

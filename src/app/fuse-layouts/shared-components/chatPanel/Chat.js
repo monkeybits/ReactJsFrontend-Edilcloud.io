@@ -1,16 +1,20 @@
+import React, { useEffect, useMemo, useRef } from 'react';
+import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
+import { Avatar, Icon, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import moment from 'moment/moment';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { decodeDataFromToken } from 'app/services/serviceUtils';
+import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
+import LinearProgressWithLabel from '../../../main/apps/file-manager/LinearProgressWithLabel';
+const MessageMoreOptions = loadable(() => import('./MessageMoreOptions'));
+
+const ViewFile = loadable(() => import('./ViewFile'));
+const RetryToSendMessage = loadable(() => import('./RetryToSendMessage'));
+const SendMessageForm = loadable(() => import('./SendMessageForm'));
 
 const useStyles = makeStyles(theme => ({
 	messageRow: {
@@ -23,12 +27,16 @@ const useStyles = makeStyles(theme => ({
 		flex: '0 0 auto',
 		'&.contact': {
 			'& $bubble': {
-				backgroundColor: theme.palette.primary.main,
-				color: theme.palette.primary.contrastText,
+				backgroundColor: '#fff',
+				// backgroundColor: theme.palette.primary.main,
+				color: '#1E2129',
+				boxShadow: '0 1px 3px #00000029',
+				// color: theme.palette.primary.contrastText,
 				borderTopLeftRadius: 5,
 				borderBottomLeftRadius: 5,
 				borderTopRightRadius: 20,
 				borderBottomRightRadius: 20,
+				marginBottom: 8,
 				'& $time': {
 					marginLeft: 12
 				}
@@ -46,7 +54,6 @@ const useStyles = makeStyles(theme => ({
 		},
 		'&.me': {
 			paddingLeft: 40,
-
 			'& $avatar': {
 				order: 2,
 				margin: '0 0 0 16px'
@@ -54,16 +61,19 @@ const useStyles = makeStyles(theme => ({
 
 			'& $bubble': {
 				marginLeft: 'auto',
-				backgroundColor: theme.palette.grey[300],
-				color: theme.palette.getContrastText(theme.palette.grey[300]),
+				backgroundColor: '#bbc7ef4d',
+				color: '#1E2129',
+				// backgroundColor: theme.palette.grey[300],
+				// color: theme.palette.getContrastText(theme.palette.grey[300]),
 				borderTopLeftRadius: 20,
 				borderBottomLeftRadius: 20,
 				borderTopRightRadius: 5,
 				borderBottomRightRadius: 5,
+				marginBottom: 8,
 				'& $time': {
 					justifyContent: 'flex-end',
 					right: 0,
-					marginRight: 12
+					marginLeft: 6
 				}
 			},
 			'&.first-of-group': {
@@ -79,8 +89,8 @@ const useStyles = makeStyles(theme => ({
 			}
 		},
 		'&.contact + .me, &.me + .contact': {
-			paddingTop: 20,
-			marginTop: 20
+			// paddingTop: 20,
+			marginTop: 10
 		},
 		'&.first-of-group': {
 			'& $bubble': {
@@ -116,13 +126,13 @@ const useStyles = makeStyles(theme => ({
 		lineHeight: 1.2
 	},
 	time: {
-		position: 'absolute',
-		display: 'none',
+		position: 'relative',
+		// display: 'none',
 		width: '100%',
 		fontSize: 11,
 		marginTop: 8,
-		top: '100%',
-		left: 0,
+		// top: '100%',
+		// left: 0,
 		whiteSpace: 'nowrap'
 	},
 	bottom: {
@@ -135,15 +145,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Chat(props) {
-	const dispatch = useDispatch();
+	const [progress, setProgress] = React.useState(0);
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
+	const isUploadingFiles = useSelector(({ chatPanel }) => chatPanel.chat.isUploadingFiles);
 	const chat = useSelector(({ chatPanel }) => chatPanel.chat);
 	const user = useSelector(({ chatPanel }) => chatPanel.user);
-
+	const userInfo = decodeDataFromToken();
+	const userIdFromCompany = userInfo?.extra?.profile?.id;
 	const classes = useStyles();
 	const chatScroll = useRef(null);
-	const [messageText, setMessageText] = useState('');
+	const { t } = useTranslation('chat_panel');
 
 	useEffect(() => {
 		scrollToBottom();
@@ -153,74 +165,114 @@ function Chat(props) {
 		chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
 	}
 
-	const onInputChange = ev => {
-		setMessageText(ev.target.value);
-	};
-
-	const onMessageSubmit = ev => {
-		ev.preventDefault();
-		if (messageText === '') {
-			return;
-		}
-		dispatch(Actions.sendMessage(messageText, chat.id, user.id)).then(() => {
-			setMessageText('');
-		});
-	};
-
 	return (
 		<Paper elevation={3} className={clsx('flex flex-col', props.className)}>
 			{useMemo(() => {
-				const shouldShowContactAvatar = (item, i) => {
-					return (
-						item.who === selectedContactId &&
-						((chat.dialog[i + 1] && chat.dialog[i + 1].who !== selectedContactId) || !chat.dialog[i + 1])
-					);
-				};
-
 				const isFirstMessageOfGroup = (item, i) => {
-					return i === 0 || (chat.dialog[i - 1] && chat.dialog[i - 1].who !== item.who);
+					return i === 0 || (chat.chats[i - 1] && chat.chats[i - 1].sender.id != item.sender.id);
 				};
 
 				const isLastMessageOfGroup = (item, i) => {
-					return i === chat.dialog.length - 1 || (chat.dialog[i + 1] && chat.dialog[i + 1].who !== item.who);
+					return (
+						i === chat.chats.length - 1 ||
+						(chat.chats[i + 1] && chat.chats[i + 1].sender.id != item.sender.id)
+					);
 				};
 				return (
 					<FuseScrollbars ref={chatScroll} className="flex flex-1 flex-col overflow-y-auto">
+						{isUploadingFiles && (
+							<div className="linear-progress custom-color">
+								<LinearProgressWithLabel progress={progress} />
+							</div>
+						)}
 						{!chat ? (
 							<div className="flex flex-col flex-1 items-center justify-center p-24">
 								<Icon className="text-128" color="disabled">
 									chat
 								</Icon>
 								<Typography className="px-16 pb-24 mt-24 text-center" color="textSecondary">
-									Select a contact to start a conversation.
+									{t('CREATE_CHAT_MESSAGE')}
 								</Typography>
 							</div>
-						) : chat.dialog.length > 0 ? (
-							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40">
-								{chat.dialog.map((item, i) => {
-									const contact =
-										item.who === user.id
-											? user
-											: contacts.find(_contact => _contact.id === item.who);
+						) : chat?.chats?.length ? (
+							<div className="flex flex-col pt-16 ltr:pl-40 rtl:pr-40 pb-40 me-right-align right-panel-audio">
+								{chat.chats.map((item, i) => {
+									const contact = item.sender;
+									const color = contacts.length && contacts?.filter(c => c.id == contact.id);
 									return (
 										<div
 											key={item.time}
 											className={clsx(
 												classes.messageRow,
-												{ me: item.who === user.id },
-												{ contact: item.who !== user.id },
+												{ me: contact.id == userIdFromCompany },
+												{ contact: contact.id != userIdFromCompany },
 												{ 'first-of-group': isFirstMessageOfGroup(item, i) },
 												{ 'last-of-group': isLastMessageOfGroup(item, i) }
 											)}
 										>
-											{shouldShowContactAvatar(item, i) && (
-												<Avatar className={classes.avatar} src={contact.avatar} />
+											{isLastMessageOfGroup(item, i) && contact.id != userIdFromCompany && (
+												<Avatar
+													className="avatar absolute ltr:left-0 rtl:right-0 m-0 -mx-32 top-0"
+													src={contact.photo}
+												>
+													{contact.first_name.split('')[0]}
+												</Avatar>
 											)}
 											<div className={classes.bubble}>
-												<div className={classes.message}>{item.message}</div>
-												<Typography className={classes.time} color="textSecondary">
-													{moment(item.time).format('MMMM Do YYYY, h:mm:ss a')}
-												</Typography>
+												<div className={classes.message}>
+													{contact.id != userIdFromCompany && isFirstMessageOfGroup(item, i) && (
+														<Typography
+															style={{ color: color?.[0]?.contactNameColor }}
+															className="font-size-15 font-bold mb-6"
+														>
+															{`${contact.first_name} ${contact.last_name}`}
+															<Typography className="font-size-12 ">
+																Project Manager - Impresa Edile Lucchini
+															</Typography>
+														</Typography>
+													)}
+													<RetryToSendMessage isOffline={item.retryOption} chatItem={item} />
+													{!item.waitingToSend && contact.id == userIdFromCompany && (
+														<MessageMoreOptions
+															className="text-right chat-options"
+															item={item}
+															deleteMessage={Actions.deleteMessage}
+															setProgress={setProgress}
+														/>
+													)}
+													<div className="leading-normal py-4 font-size-16 mb-15">
+														{item.body}
+													</div>
+													<ViewFile
+														open={props.open}
+														setOpen={props.setOpen}
+														files={item.files}
+													/>
+													<div className="flex items-center mt-8">
+														{
+															// isLastMessageOfGroup(item, i) && (
+															<Typography
+																className="time text-12 font-500 ltr:left-0 rtl:right-0 whitespace-no-wrap"
+																color="textSecondary"
+															>
+																{moment(item.date_create).format(
+																	'MMMM Do YYYY, h:mm:ss a'
+																)}
+															</Typography>
+															// )
+														}
+														{contact.id == userIdFromCompany && item.waitingToSend ? (
+															<Icon className="float-right font-size-16 ml-10 text-check">
+																access_time
+															</Icon>
+														) : (
+															// <Icon className="float-right text-16 text-check">check</Icon>
+															<Icon className="float-right text-16 ml-10 text-check">
+																done_all
+															</Icon>
+														)}
+													</div>
+												</div>
 											</div>
 										</div>
 									);
@@ -234,43 +286,14 @@ function Chat(props) {
 									</Icon>
 								</div>
 								<Typography className="px-16 pb-24 text-center" color="textSecondary">
-									Start a conversation by typing your message below.
+									{t('START_CONVERSATION')}
 								</Typography>
 							</div>
 						)}
 					</FuseScrollbars>
 				);
 			}, [chat, classes, contacts, selectedContactId, user])}
-			{chat && (
-				<form onSubmit={onMessageSubmit} className={clsx(classes.bottom, 'py-16 px-8')}>
-					<Paper className={clsx(classes.inputWrapper, 'flex items-center relative')}>
-						<TextField
-							autoFocus={false}
-							id="message-input"
-							className="flex-1"
-							InputProps={{
-								disableUnderline: true,
-								classes: {
-									root: 'flex flex-grow flex-shrink-0 mx-16 ltr:mr-48 rtl:ml-48 my-8',
-									input: ''
-								},
-								placeholder: 'Type your message'
-							}}
-							InputLabelProps={{
-								shrink: false,
-								className: classes.bootstrapFormLabel
-							}}
-							onChange={onInputChange}
-							value={messageText}
-						/>
-						<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
-							<Icon className="text-24" color="action">
-								send
-							</Icon>
-						</IconButton>
-					</Paper>
-				</form>
-			)}
+			{chat && <SendMessageForm />}
 		</Paper>
 	);
 }

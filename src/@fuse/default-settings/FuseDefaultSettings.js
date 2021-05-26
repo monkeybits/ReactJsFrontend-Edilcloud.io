@@ -39,7 +39,7 @@ export function getParsedQuerySettings() {
  */
 export const defaultThemeOptions = {
 	typography: {
-		fontFamily: ['Muli', 'Roboto', '"Helvetica"', 'Arial', 'sans-serif'].join(','),
+		fontFamily: ['Poppins', 'Roboto', '"Helvetica"', 'Arial', 'sans-serif'].join(','),
 		fontWeightLight: 300,
 		fontWeightRegular: 400,
 		fontWeightMedium: 600,
@@ -144,7 +144,7 @@ export function mainThemeVariations(theme) {
 					type: 'light',
 					background: {
 						paper: '#FFFFFF',
-						default: '#F7F7F7'
+						default: '#ffffff'
 					}
 				},
 				...mustHaveThemeOptions

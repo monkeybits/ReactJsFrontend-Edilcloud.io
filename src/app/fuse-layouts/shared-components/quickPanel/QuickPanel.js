@@ -1,49 +1,155 @@
-import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Icon from '@material-ui/core/Icon';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import { makeStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
-import Typography from '@material-ui/core/Typography';
-import withReducer from 'app/store/withReducer';
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import loadable from '@loadable/component';
+import FuseScrollbars from '@fuse/core/FuseScrollbars';
+import { Drawer, Icon, Typography, IconButton, AppBar, Tabs, Tab, Box, Toolbar, ListItem, ListItemText } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import withReducer from 'app/store/withReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from './store/actions/index';
+import { apiCall, METHOD } from 'app/services/baseUrl';
+import { ALERTED_POSTS_TASKS, ALERTED_POSTS_ACTIVITY } from 'app/services/apiEndPoints';
+import { getHeaderToken } from 'app/services/serviceUtils';
+import PropTypes from 'prop-types';
 import reducer from './store/reducers';
+import * as Actions from './store/actions/index';
+
+const PostList = loadable(() => import('app/main/apps/notes/todo/PostList'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		width: 280
+		width: 450
+	}
+}));
+
+const useStylesAccordion = makeStyles(theme => ({
+	root: {
+		width: '100%'
+	},
+	heading: {
+		fontSize: theme.typography.pxToRem(15),
+		fontWeight: theme.typography.fontWeightRegular
+	}
+}));
+
+function TabPanel(props) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`simple-tabpanel-${index}`}
+			aria-labelledby={`simple-tab-${index}`}
+			{...other}
+		>
+			{value === index && (
+				<Box p={3}>
+					<Typography>{children}</Typography>
+				</Box>
+			)}
+		</div>
+	);
+}
+
+TabPanel.propTypes = {
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired
+};
+
+function a11yProps(index) {
+	return {
+		id: `simple-tab-${index}`,
+		'aria-controls': `simple-tabpanel-${index}`
+	};
+}
+
+const useStylesTabs = makeStyles(theme => ({
+	root: {
+		flexGrow: 1,
+		backgroundColor: theme.palette.background.paper
 	}
 }));
 
 function QuickPanel(props) {
 	const dispatch = useDispatch();
-	const data = useSelector(({ quickPanel }) => quickPanel.data);
 	const state = useSelector(({ quickPanel }) => quickPanel.state);
+	const projects = useSelector(({ notesApp }) => notesApp.project.entities);
 
 	const classes = useStyles();
-	const [checked, setChecked] = useState('notifications');
+	const [listTask, setListTask] = useState([]);
+	const [listActivity, setListActivity] = useState([]);
+	const [distinctProject, setDistinctProject] = useState([]);
 
-	const handleToggle = value => () => {
-		const currentIndex = checked.indexOf(value);
-		const newChecked = [...checked];
+	const onlyUnique = (value, index, self) => {
+		return self.indexOf(value) === index;
+	}
 
-		if (currentIndex === -1) {
-			newChecked.push(value);
-		} else {
-			newChecked.splice(currentIndex, 1);
+	useEffect(() => {
+		if (projects) {
+			let projectIds = []
+			listTask.map((task) => {
+				projectIds = [
+					...projectIds,
+					task.project.id
+				]
+			})
+			listActivity.map((activity) => {
+				projectIds = [
+					...projectIds,
+					activity.project.id
+				]
+			})
+			var distinctProject = projectIds.filter(onlyUnique);
+			setDistinctProject(distinctProject)
 		}
+	}, [projects, listTask, listActivity]);
 
-		setChecked(newChecked);
+	useEffect(() => {
+		if (state) {
+			getAlertPostTask();
+			getAlertPostActivity();
+		}
+		return () => {
+			setListActivity([]);
+			setListTask([]);
+		};
+	}, [state]);
+
+	const getAlertPostTask = () => {
+		apiCall(
+			ALERTED_POSTS_TASKS,
+			{},
+			results => {
+				const items = results.map(d => ({ ...d, type: 'tasks' }));
+				setListTask(items);
+			},
+			err => {
+				// console.log(err)
+			},
+			METHOD.GET,
+			getHeaderToken()
+		);
 	};
+
+	const getAlertPostActivity = () => {
+		apiCall(
+			ALERTED_POSTS_ACTIVITY,
+			{},
+			results => {
+				const items = results.map(d => ({ ...d, type: 'activity' }));
+				setListActivity(items);
+			},
+			err => {
+				// console.log(err)
+			},
+			METHOD.GET,
+			getHeaderToken()
+		);
+	};
+
+	const handleSelectProject = (event, id) => {
+		dispatch(Actions.openAlertQuickPanel(id))
+	}
 
 	useEffect(() => {
 		dispatch(Actions.getQuickPanelData());
@@ -52,92 +158,59 @@ function QuickPanel(props) {
 	return (
 		<Drawer
 			classes={{ paper: classes.root }}
+			className="alerted-post-modal-width"
 			open={state}
 			anchor="right"
 			onClose={ev => dispatch(Actions.toggleQuickPanel())}
 		>
 			<FuseScrollbars>
-				<ListSubheader component="div">Today</ListSubheader>
-
-				<div className="mb-0 py-16 px-24">
-					<Typography className="mb-12 text-32" color="textSecondary">
-						{moment().format('dddd')}
-					</Typography>
-					<div className="flex">
-						<Typography className="leading-none text-32" color="textSecondary">
-							{moment().format('DD')}
+				<div>
+					<Toolbar className="px-4 flex justify-between items-center notifications-header">
+						<Typography className="mx-16 text-16" color="inherit">
+							Projects
 						</Typography>
-						<Typography className="leading-none text-16" color="textSecondary">
-							th
-						</Typography>
-						<Typography className="leading-none text-32" color="textSecondary">
-							{moment().format('MMMM')}
-						</Typography>
+						<div className="px-4">
+							<IconButton onClick={ev => dispatch(Actions.toggleQuickPanel())} color="inherit">
+								<Icon>close</Icon>
+							</IconButton>
+						</div>
+					</Toolbar>
+					<div className="p-16">
+						{
+							projects.length > 0 &&
+							projects.map((project) => (
+								<>
+									{
+										distinctProject.includes(project.id) &&
+										<ListItem
+											button
+											className="flex items-center relative w-full p-10 min-h-20 shadow border-2 font-bold bg-gray-300 hover:bg-gray-300 rounded-8 mb-16"
+											onClick={(event) =>
+												handleSelectProject(event, project.id)
+											}
+											// component={item.url ? NavLinkAdapter : 'li'}
+											// to={item.url}
+											role="button"
+										>
+											<ListItemText
+												className="text-bold"
+												primary={project.name}
+											/>
+											<IconButton
+												disableRipple
+												className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
+											>
+												<Icon className="text-16 arrow-icon" color="inherit">
+													chevron_right
+												</Icon>
+											</IconButton>
+										</ListItem>
+									}
+								</>
+							))
+						}
 					</div>
 				</div>
-				<Divider />
-				<List>
-					<ListSubheader component="div">Events</ListSubheader>
-					{data &&
-						data.events.map(event => (
-							<ListItem key={event.id}>
-								<ListItemText primary={event.title} secondary={event.detail} />
-							</ListItem>
-						))}
-				</List>
-				<Divider />
-				<List>
-					<ListSubheader component="div">Notes</ListSubheader>
-					{data &&
-						data.notes.map(note => (
-							<ListItem key={note.id}>
-								<ListItemText primary={note.title} secondary={note.detail} />
-							</ListItem>
-						))}
-				</List>
-				<Divider />
-				<List>
-					<ListSubheader component="div">Quick Settings</ListSubheader>
-					<ListItem>
-						<ListItemIcon className="min-w-40">
-							<Icon>notifications</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Notifications" />
-						<ListItemSecondaryAction>
-							<Switch
-								color="primary"
-								onChange={handleToggle('notifications')}
-								checked={checked.indexOf('notifications') !== -1}
-							/>
-						</ListItemSecondaryAction>
-					</ListItem>
-					<ListItem>
-						<ListItemIcon className="min-w-40">
-							<Icon>cloud</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Cloud Sync" />
-						<ListItemSecondaryAction>
-							<Switch
-								color="secondary"
-								onChange={handleToggle('cloudSync')}
-								checked={checked.indexOf('cloudSync') !== -1}
-							/>
-						</ListItemSecondaryAction>
-					</ListItem>
-					<ListItem>
-						<ListItemIcon className="min-w-40">
-							<Icon>brightness_high</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Retro Thrusters" />
-						<ListItemSecondaryAction>
-							<Switch
-								color="primary"
-								onChange={handleToggle('retroThrusters')}
-								checked={checked.indexOf('retroThrusters') !== -1}
-							/>
-						</ListItemSecondaryAction>
-					</ListItem>
-				</List>
 			</FuseScrollbars>
 		</Drawer>
 	);

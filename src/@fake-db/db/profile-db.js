@@ -9,8 +9,11 @@ const profileDB = {
 					name: 'Alice Freeman',
 					avatar: 'assets/images/avatars/alice.jpg'
 				},
-				message: 'started following you.',
-				time: '13 mins. ago'
+				message: 'Sent you message',
+				time: '13 mins. ago',
+				route: '/apps/projects/16/chat',
+				linkText: 'Open message',
+				id: '13'
 			},
 			{
 				id: '2',

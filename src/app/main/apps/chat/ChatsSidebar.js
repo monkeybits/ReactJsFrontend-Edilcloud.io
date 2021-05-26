@@ -1,24 +1,29 @@
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import FuseUtils from '@fuse/utils';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import List from '@material-ui/core/List';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import {
+	AppBar,
+	Avatar,
+	Icon,
+	IconButton,
+	Input,
+	List,
+	ListItemIcon,
+	ListItemText,
+	Menu,
+	MenuItem,
+	Paper,
+	Toolbar,
+	Typography
+} from '@material-ui/core';
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ContactListItem from './ContactListItem';
-import StatusIcon from './StatusIcon';
+import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'));
+const ContactListItem = loadable(() => import('./ContactListItem'));
+const StatusIcon = loadable(() => import('./StatusIcon'));
 
 const statusArr = [
 	{
@@ -41,8 +46,12 @@ const statusArr = [
 
 function ChatsSidebar(props) {
 	const dispatch = useDispatch();
-	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities);
+	const contacts = useSelector(({ chatApp }) => chatApp.contacts.entities).filter(contact => contact.can_access_chat);
 	const user = useSelector(({ chatApp }) => chatApp.user);
+	const userAuth = useSelector(({ auth }) => auth.user);
+	const { t } = useTranslation('chat');
+
+	const userData = userAuth?.data?.user;
 
 	const [searchText, setSearchText] = useState('');
 	const [statusMenuEl, setStatusMenuEl] = useState(null);
@@ -86,22 +95,22 @@ function ChatsSidebar(props) {
 
 	return (
 		<div className="flex flex-col flex-auto h-full">
-			<AppBar position="static" color="default" elevation={1} className="">
-				<Toolbar className="flex justify-between items-center px-4">
+			<AppBar position="static" color="default" elevation={1} className="bg-white border-0">
+				<Toolbar className="flex justify-between items-center px-4 bg-dark min-h-72 chat-border-right">
 					{user && (
 						<div
-							className="relative w-40 h-40 p-0 mx-12 cursor-pointer"
+							className="relative w-48 h-48 p-0 mx-12 cursor-pointer chat-header-img"
 							onClick={() => dispatch(Actions.openUserSidebar())}
 							onKeyDown={() => dispatch(Actions.openUserSidebar())}
 							role="button"
 							tabIndex={0}
 						>
-							<Avatar src={user.avatar} alt={user.name} className="w-40 h-40">
+							<Avatar src={userData?.photo} alt={user.name} className="w-48 h-48">
 								{!user.avatar || user.avatar === '' ? user.name[0] : ''}
 							</Avatar>
 
 							<div
-								className="absolute right-0 bottom-0 -m-4 z-10 cursor-pointer"
+								className="absolute right-0 bottom-0 -m-2 z-10 cursor-pointer"
 								aria-owns={statusMenuEl ? 'switch-menu' : null}
 								aria-haspopup="true"
 								onClick={handleStatusMenuClick}
@@ -131,32 +140,37 @@ function ChatsSidebar(props) {
 					)}
 
 					<div>
-						<IconButton
-							aria-owns={moreMenuEl ? 'chats-more-menu' : null}
-							aria-haspopup="true"
-							onClick={handleMoreMenuClick}
-						>
-							<Icon>more_vert</Icon>
-						</IconButton>
-						<Menu
-							id="chats-more-menu"
-							anchorEl={moreMenuEl}
-							open={Boolean(moreMenuEl)}
-							onClose={handleMoreMenuClose}
+						<TippyMenu
+							icon={
+								<>
+									<IconButton
+										aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+										aria-haspopup="true"
+										onClick={handleMoreMenuClick}
+										className="text-white opacity-60"
+									>
+										<Icon>more_vert</Icon>
+									</IconButton>
+								</>
+							}
+							outsideClick
 						>
 							<MenuItem onClick={handleMoreMenuClose}>Profile</MenuItem>
 							<MenuItem onClick={handleMoreMenuClose}>Logout</MenuItem>
-						</Menu>
+						</TippyMenu>
 					</div>
 				</Toolbar>
 				{useMemo(
 					() => (
-						<Toolbar className="px-16">
-							<Paper className="flex p-4 items-center w-full px-8 py-4 rounded-8" elevation={1}>
+						<Toolbar className="mt-8 px-16">
+							<Paper
+								className="flex p-4 items-center w-full px-8 py-4 rounded-20 chat-search"
+								elevation={1}
+							>
 								<Icon color="action">search</Icon>
 
 								<Input
-									placeholder="Search or start new chat"
+									placeholder={t('SEARCH_PARTICIPANTS')}
 									className="flex flex-1 px-8"
 									disableUnderline
 									fullWidth
@@ -202,8 +216,11 @@ function ChatsSidebar(props) {
 									className="flex flex-col flex-shrink-0"
 								>
 									{contactsArr.length > 0 && (
-										<Typography className="font-300 text-20 px-16 py-16" color="secondary">
-											Contacts
+										<Typography
+											className="text-default font-weight-700 text-16 px-16 pb-8"
+											color="secondary"
+										>
+											{t('PARTICIPANTS')}
 										</Typography>
 									)}
 

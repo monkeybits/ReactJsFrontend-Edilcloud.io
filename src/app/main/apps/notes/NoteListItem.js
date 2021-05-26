@@ -1,14 +1,13 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Card from '@material-ui/core/Card';
-import Icon from '@material-ui/core/Icon';
-import Typography from '@material-ui/core/Typography';
+import { Card, Icon, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import NoteLabel from './NoteLabel';
-import NoteReminderLabel from './NoteReminderLabel';
-import setDescriptionStyle from './setDescriptionStyle';
 import * as Actions from './store/actions';
+import loadable from '@loadable/component';
+const NoteLabel = loadable(() => import('./NoteLabel'));
+const NoteReminderLabel = loadable(() => import('./NoteReminderLabel'));
+const setDescriptionStyle = loadable(() => import('./setDescriptionStyle'));
 
 function NoteListItem(props) {
 	const dispatch = useDispatch();

@@ -1,12 +1,9 @@
-import Avatar from '@material-ui/core/Avatar';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { Avatar, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import moment from 'moment';
 import React from 'react';
-import StatusIcon from './StatusIcon';
+import loadable from '@loadable/component';
+const StatusIcon = loadable(() => import('./StatusIcon'));
 
 const useStyles = makeStyles(theme => ({
 	contactListItem: {
@@ -27,7 +24,7 @@ function ContactListItem(props) {
 	return (
 		<ListItem
 			button
-			className={clsx(classes.contactListItem, 'px-16 py-12 min-h-92', {
+			className={clsx(classes.contactListItem, 'px-16 py-12 min-h-86 chat-border active', {
 				active: props.selectedContactId === props.contact.id
 			})}
 		>
@@ -43,32 +40,36 @@ function ContactListItem(props) {
 
 			<ListItemText
 				classes={{
-					root: 'min-w-px px-16',
+					root: 'min-w-px px-16 chat-contact-text',
 					secondary: 'truncate'
 				}}
 				primary={props.contact.name}
-				secondary={props.contact.role + '@' + props.contact.company?.name}
+				secondary={
+					props.contact.position
+						? `${props.contact.position}@${props.contact.company?.name}`
+						: props.contact.company?.name
+				}
 			/>
 
-			{props.contact.chatId && (
-				<div className="flex flex-col justify-center items-end">
-					{props.contact.lastMessageTime && (
-						<Typography className="whitespace-no-wrap mb-8">
+			{/* {props.contact.chatId && ( */}
+			<div className="flex flex-col justify-center items-end">
+				{/* {props.contact.lastMessageTime && ( */}
+				{/* <Typography className="whitespace-no-wrap mb-8">
 							{moment(props.contact.lastMessageTime).format('ll')}
-						</Typography>
-					)}
-					{props.contact.unread && (
-						<div
+						</Typography> */}
+				{/* )} */}
+				{/* {props.contact.unread && ( */}
+				{/* <div
 							className={clsx(
 								classes.unreadBadge,
-								'flex items-center justify-center min-w-24 h-24 rounded-full text-14 text-center'
+								'flex items-center justify-center min-w-24 h-24 rounded-full text-11 text-white text-center chat-badge leading-normal'
 							)}
 						>
-							{props.contact.unread}
-						</div>
-					)}
-				</div>
-			)}
+							11
+						</div> */}
+				{/* )} */}
+			</div>
+			{/* )} */}
 		</ListItem>
 	);
 }

@@ -1,11 +1,7 @@
-import Checkbox from '@material-ui/core/Checkbox';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
+import { Checkbox, IconButton, Icon, ListItemIcon, ListItemText, MenuItem } from '@material-ui/core';
 import React, { useState } from 'react';
-import ToolbarMenu from './ToolbarMenu';
+import loadable from '@loadable/component';
+const ToolbarMenu = loadable(() => import('./ToolbarMenu'));
 
 function LabelsMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

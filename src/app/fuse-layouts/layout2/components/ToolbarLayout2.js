@@ -1,16 +1,22 @@
+import React from 'react';
+import loadable from '@loadable/component';
 import FuseSearch from '@fuse/core/FuseSearch';
 import FuseShortcuts from '@fuse/core/FuseShortcuts';
-import AppBar from '@material-ui/core/AppBar';
-import Hidden from '@material-ui/core/Hidden';
+import { AppBar, Hidden, Toolbar } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import ChatPanelToggleButton from 'app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton';
-import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
-import QuickPanelToggleButton from 'app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton';
-import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
-import React from 'react';
 import { useSelector } from 'react-redux';
-import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
+
+const ChatPanelToggleButton = loadable(() =>
+	import('app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton')
+);
+const NavbarMobileToggleButton = loadable(() =>
+	import('app/fuse-layouts/shared-components/NavbarMobileToggleButton')
+);
+const QuickPanelToggleButton = loadable(() =>
+	import('app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton')
+);
+const UserMenu = loadable(() => import('app/fuse-layouts/shared-components/UserMenu'));
+const LanguageSwitcher = loadable(() => import('../../shared-components/LanguageSwitcher'));
 
 const useStyles = makeStyles(theme => ({
 	separator: {
@@ -30,7 +36,7 @@ function ToolbarLayout2(props) {
 		<ThemeProvider theme={toolbarTheme}>
 			<AppBar
 				id="fuse-toolbar"
-				className="flex relative z-10"
+				className="flex relative z-10 asdf"
 				color="default"
 				style={{ backgroundColor: toolbarTheme.palette.background.default }}
 			>

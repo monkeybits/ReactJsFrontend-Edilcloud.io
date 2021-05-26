@@ -8,23 +8,29 @@ export const SET_SELECTED_CONTACT_ID = '[CHAT APP] SET SELECTED CONTACT ID';
 export const REMOVE_SELECTED_CONTACT_ID = '[CHAT APP] REMOVE SELECTED CONTACT ID';
 
 function getRandomColor() {
-	var letters = '0123456789ABCDEF';
-	var color = '#';
-	for (var i = 0; i < 6; i++) {
+	const letters = '0123456789ABCDEF';
+	let color = '#';
+	for (let i = 0; i < 6; i++) {
 		color += letters[Math.floor(Math.random() * 16)];
 	}
 	return color;
 }
 
-export function getContacts() {
+export function getContacts(handleSetLoading = () => '') {
+	handleSetLoading({
+		loadingGetUserData: true
+	});
 	return (dispatch, getState) => {
 		return apiCall(
 			GET_STAFF_LIST,
 			{},
 			res => {
+				handleSetLoading({
+					loadingGetUserData: false
+				});
 				let results = [];
-				if (res.results.length) {
-					results = res.results.map(d => {
+				if (res.length) {
+					results = res.map(d => {
 						const { first_name, last_name, photo, company, position, email, phone } = d;
 						return {
 							...d,
@@ -43,7 +49,9 @@ export function getContacts() {
 				});
 			},
 			err => {
-				console.log(err);
+				handleSetLoading({
+					loadingGetUserData: false
+				});
 			},
 			METHOD.GET,
 			getHeaderToken()

@@ -1,12 +1,5 @@
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { Card, CardContent, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -94,7 +87,7 @@ const OrderInvoice = props => {
 							</div>
 
 							<div className={clsx(classes.seller, 'flex items-center p-16')}>
-								<img className="w-80" src="assets/images/logos/fuse.svg" alt="logo" />
+								<img width="80" src="assets/images/logos/fuse.svg" alt="logo" />
 
 								<div className={clsx(classes.divider, 'divider mx-8 h-96')} />
 
@@ -220,7 +213,7 @@ const OrderInvoice = props => {
 
 							<div className="flex">
 								<div className="flex-shrink-0">
-									<img className="w-32" src="assets/images/logos/fuse.svg" alt="logo" />
+									<img width="32" src="assets/images/logos/fuse.svg" alt="logo" />
 								</div>
 
 								<Typography className="font-medium mb-64 px-24" variant="caption" color="textSecondary">

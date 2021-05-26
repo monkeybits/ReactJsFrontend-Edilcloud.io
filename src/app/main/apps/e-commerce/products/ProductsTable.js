@@ -1,18 +1,13 @@
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import _ from '@lodash';
-import Checkbox from '@material-ui/core/Checkbox';
-import Icon from '@material-ui/core/Icon';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import { Checkbox, Icon, Table, TableBody, TableCell, TablePagination, TableRow } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as Actions from '../store/actions';
-import ProductsTableHead from './ProductsTableHead';
+import loadable from '@loadable/component';
+const ProductsTableHead = loadable(() => import('./ProductsTableHead'));
 
 function ProductsTable(props) {
 	const dispatch = useDispatch();
@@ -177,7 +172,7 @@ function ProductsTable(props) {
 											<i
 												className={clsx(
 													'inline-block w-8 h-8 rounded mx-8',
-													n.quantity <= 5 && 'bg-red',
+													n.quantity <= 5 && 'bg-red-500',
 													n.quantity > 5 && n.quantity <= 25 && 'bg-orange',
 													n.quantity > 25 && 'bg-green'
 												)}

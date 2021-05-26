@@ -34,7 +34,7 @@ export default class AsyncAutocomplete extends React.Component {
 	 * @return {Nothing} The state is updated but no value is returned
 	 */
 	retrieveDataAsynchronously(searchText) {
-		let _this = this;
+		const _this = this;
 
 		apiCall(
 			SEARCH_USER(String(searchText)),
@@ -117,7 +117,7 @@ export default class AsyncAutocomplete extends React.Component {
 
 	render() {
 		return (
-			<div className="custom-autocomplete block w-full mb-24">
+			<div className="custom-autocomplete block w-full mb-24 relative ">
 				<Autocomplete
 					inputProps={{ placeholder: this.props.placeholder, autoFocus: true }}
 					getItemValue={this.getItemValue}
@@ -126,6 +126,7 @@ export default class AsyncAutocomplete extends React.Component {
 					value={this.state.value}
 					onChange={this.onChange}
 					onSelect={this.onSelect}
+					open
 				/>
 			</div>
 		);

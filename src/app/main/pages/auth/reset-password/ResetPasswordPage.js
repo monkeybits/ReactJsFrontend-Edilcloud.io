@@ -1,24 +1,18 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { useForm } from '@fuse/hooks';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { Button, Card, CardContent, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
-import * as authActions from 'app/auth/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { RESET_PASSWORD } from 'app/services/apiEndPoints';
-import { getTokenOnly } from 'app/services/serviceUtils';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		background: `radial-gradient(${darken(theme.palette.primary.dark, 0.5)} 0%, ${theme.palette.primary.dark} 80%)`,
+		background: `#ffffff)`,
 		color: theme.palette.primary.contrastText
 	}
 }));
@@ -45,8 +39,8 @@ function ResetPasswordPage({ match: { params }, history }) {
 			{
 				new_password1: password,
 				new_password2: password,
-				uid: uid,
-				token: token
+				uid,
+				token
 			},
 			res => {
 				resetForm();
@@ -65,7 +59,7 @@ function ResetPasswordPage({ match: { params }, history }) {
 				<FuseAnimate animation="transition.expandIn">
 					<Card className="w-full max-w-384">
 						<CardContent className="flex flex-col items-center justify-center p-32">
-							<img className="w-128" src="assets/images/logos/fuse.svg" alt="logo" />
+							<img width="128" src="assets/images/logos/fuse.svg" alt="logo" />
 
 							<Typography variant="h6" className="mt-16 mb-32">
 								RESET YOUR PASSWORD

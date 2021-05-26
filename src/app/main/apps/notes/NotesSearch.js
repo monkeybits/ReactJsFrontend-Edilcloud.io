@@ -1,9 +1,12 @@
+/* =============================================================================
+ TODO:NotesSearch.js
+ ===============================================================================
+*This file is part of project list page 
+TODO: Search projects
+*/
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
+import { Icon, IconButton, Input, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

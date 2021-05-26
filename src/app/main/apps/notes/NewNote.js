@@ -1,12 +1,11 @@
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Paper from '@material-ui/core/Paper';
+import { ClickAwayListener, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import NoteForm from './note-form/NoteForm';
+import loadable from '@loadable/component';
+const NoteForm = loadable(() => import('./note-form/NoteForm'));
 
 const useStyles = makeStyles({
 	button: {

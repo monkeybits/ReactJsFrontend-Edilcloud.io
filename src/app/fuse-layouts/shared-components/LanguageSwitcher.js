@@ -1,15 +1,12 @@
-import Button from '@material-ui/core/Button';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import Popover from '@material-ui/core/Popover';
-import { useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import * as Actions from 'app/store/actions';
 import React, { useState } from 'react';
+import loadable from '@loadable/component';
+import { Button, ListItemIcon, ListItemText, MenuItem, Typography } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
+import * as Actions from 'app/store/actions';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 const languages = [
 	{
@@ -18,14 +15,9 @@ const languages = [
 		flag: 'us'
 	},
 	{
-		id: 'tr',
-		title: 'Turkish',
+		id: 'it',
+		title: 'Italian',
 		flag: 'tr'
-	},
-	{
-		id: 'ar',
-		title: 'Arabic',
-		flag: 'sa'
 	}
 ];
 
@@ -48,7 +40,7 @@ function LanguageSwitcher(props) {
 
 	function handleLanguageChange(lng) {
 		const newLangDir = i18n.dir(lng.id);
-
+		localStorage.setItem('language', lng.id);
 		/*
         Change Language
          */
@@ -66,31 +58,21 @@ function LanguageSwitcher(props) {
 
 	return (
 		<>
-			<Button className="h-64 w-64" onClick={userMenuClick}>
-				<img
-					className="mx-4 min-w-20"
-					src={`assets/images/flags/${currentLng.flag}.png`}
-					alt={currentLng.title}
-				/>
+			<TippyMenu
+				icon={
+					<>
+						<Button className="h-64 w-64 text-default" onClick={userMenuClick}>
+							<img
+								className="mx-4 min-w-20"
+								src={`assets/images/flags/${currentLng.flag}.png`}
+								alt={currentLng.title}
+							/>
 
-				<Typography className="mx-4 font-600">{currentLng.id}</Typography>
-			</Button>
-
-			<Popover
-				open={Boolean(menu)}
-				anchorEl={menu}
-				onClose={userMenuClose}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'center'
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'center'
-				}}
-				classes={{
-					paper: 'py-8'
-				}}
+							<Typography className="mx-4 font-600">{currentLng.id}</Typography>
+						</Button>
+					</>
+				}
+				outsideClick
 			>
 				{languages.map(lng => (
 					<MenuItem key={lng.id} onClick={() => handleLanguageChange(lng)}>
@@ -101,15 +83,15 @@ function LanguageSwitcher(props) {
 					</MenuItem>
 				))}
 
-				<MenuItem
+				{/* <MenuItem
 					component={Link}
 					to="/documentation/working-with-fuse-react/multi-language"
 					onClick={userMenuClose}
 					role="button"
 				>
 					<ListItemText primary="Learn More" />
-				</MenuItem>
-			</Popover>
+				</MenuItem> */}
+			</TippyMenu>
 		</>
 	);
 }

@@ -1,18 +1,27 @@
+/* =============================================================================
+ ContactsTable.js
+ ===============================================================================
+*This file is created for ContactsApp
+TODO: view of contact table
+*/
 import React from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
+import {
+	Checkbox,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableFooter,
+	TableHead,
+	TablePagination,
+	TableRow,
+	TableSortLabel
+} from '@material-ui/core';
 import MaUTable from '@material-ui/core/Table';
 import PropTypes from 'prop-types';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableFooter from '@material-ui/core/TableFooter';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
 import clsx from 'clsx';
-import ContactsTablePaginationActions from './ContactsTablePaginationActions';
+import loadable from '@loadable/component';
+const ContactsTablePaginationActions = loadable(() => import('./ContactsTablePaginationActions'));
 
 const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
 	const defaultRef = React.useRef();
@@ -91,7 +100,7 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
 
 	// Render the UI for your table
 	return (
-		<TableContainer className="min-h-full sm:border-1 sm:rounded-16">
+		<TableContainer className="min-h-full sm:border-1 sm:rounded-16 bg-white">
 			<MaUTable {...getTableProps()}>
 				<TableHead>
 					{headerGroups.map(headerGroup => (
