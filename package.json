@@ -30,6 +30,7 @@
         "custom-error": "^0.2.1",
         "date-fns": "2.13.0",
         "dhtmlx-gantt": "^7.0.9",
+        "dotenv": "^10.0.0",
         "file-saver": "^2.0.2",
         "firebase": "7.14.5",
         "formsy-react": "2.0.3",
@@ -125,9 +126,9 @@
     "devDependencies": {
         "@babel/core": "7.10.0",
         "@babel/node": "7.8.7",
+        "@babel/plugin-proposal-class-properties": "^7.13.0",
         "@babel/plugin-syntax-jsx": "^7.12.13",
         "@babel/plugin-transform-react-jsx": "^7.14.3",
-        "@babel/plugin-proposal-class-properties": "^7.13.0",
         "@babel/plugin-transform-runtime": "^7.14.2",
         "@babel/preset-env": "7.10.0",
         "@babel/preset-react": "^7.13.13",
