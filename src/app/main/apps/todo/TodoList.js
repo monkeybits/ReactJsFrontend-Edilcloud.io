@@ -19,6 +19,7 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import * as ConatctActions from 'app/main/apps/contacts/store/actions';
 import * as NotesActions from 'app/main/apps/notes/store/actions';
 import * as TodosActions from 'app/main/apps/notes/todo/store/actions';
+import * as Actions from './store/actions';
 import * as AccessibilityActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_POST_FOR_TASK } from 'app/services/apiEndPoints';
@@ -78,6 +79,10 @@ function TodoList(props) {
 			dispatch(TodosActions.getTodos(project_id, true));
 		}
 	}, [dispatch, projects]);
+
+	useDeepCompareEffect(() => {
+		dispatch(Actions.getTodos());
+	}, [dispatch]);
 
 	useEffect(() => {
 		setPosts([]);
@@ -164,12 +169,17 @@ function TodoList(props) {
 				);
 				resolve(data);
 			}).then(data => {
-				console.log('setFilterByKey????????????????????11')
-				setFilteredData(setFilterByKey(activeFilter, data, activeFilterKey));
-				handleDoFilter();
+				if(company && "name" in company) {
+					if(activeFilter === "companyFilter") {
+						setFilteredData(setFilterByKey(activeFilter, data, company.name));
+					} else {
+						setFilteredData(setFilterByKey(activeFilter, data, activeFilterKey));
+					}
+					handleDoFilter();
+				}
 			});
 		}
-	}, [searchText, orderBy, orderDescending, company]);
+	}, [searchText, orderBy, orderDescending, company, todos]);
 	/**
 	 * *below useeffect called filter change
 	 */
@@ -197,12 +207,10 @@ function TodoList(props) {
 									return element == 'peopleFilter' ? d.id : d.name;
 								}
 							});
-							console.log('setFilterByKey????????????????????22')
 							list = setFilterByKey(element, list, selectedFilters);
 						} else {
 							filters[element].map(d => {
 								if (d.isActive) {
-									console.log('setFilterByKey????????????????????33')
 									list = setFilterByKey(element, list, element == 'peopleFilter' ? d.id : d.name);
 								}
 							});
@@ -221,6 +229,7 @@ function TodoList(props) {
 	};
 
 	const setFilterByKey = (activeFilter, list, activeFilterKey) => {
+		console.log('activeFilterKey???????????????????????????????????', activeFilterKey)
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
 			if (_searchText.length === 0) {

@@ -78,7 +78,7 @@ function UserNavbarHeader(props) {
 					<Icon className="company-logo-icon">business</Icon>
 				</IconButton>
 			)}
-			<span className="trial intrial">{company.trial_used ? 'Plan' : 'Periodo di Prova'}</span>
+			<span className="trial intrial">{ "subscription" in company && company.subscription.status === "trialing" ? 'Periodo di Prova' : 'Plan'}</span>
 		</AppBar>
 	);
 }
