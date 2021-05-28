@@ -4,7 +4,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const dotenv = require('dotenv').config( {
-	path: path.join(__dirname, '.env.production')
+	path: path.join(__dirname, process.env.NODE_ENV !== 'production' ? '.env.development' : '.env.production')
 });
 
 const reScript = /\.(js|jsx|mjs)$/;
@@ -13,6 +13,15 @@ const reImage = /\.(bmp|gif|jpg|jpeg|png|svg)$/;
 const staticAssetName = '[path][name].[ext]?[hash:8]';
 
 module.exports = () => {
+	const env = dotenv.parsed;
+	
+	const envKeys = Object.keys(env).reduce((prev, next) => {
+		prev[`process.env.${next}`] = JSON.stringify(env[next]);
+		return prev;
+	}, {});
+
+	console.log('dotenv', envKeys)
+
 	return {
 		context: __dirname,
 		entry: path.join(__dirname, 'src/index.js'),
@@ -79,10 +88,7 @@ module.exports = () => {
 			]
 		},
 		plugins: [
-			new webpack.DefinePlugin({
-				'process.env.PUBLIC_URL': JSON.stringify(path.resolve(__dirname, 'public')),
-				'process.env.REACT_APP_BASE_URL': JSON.stringify(dotenv.parsed.REACT_APP_BASE_URL)
-			}),
+			new webpack.DefinePlugin(envKeys),
 			new webpack.ProgressPlugin(),
 			new CompressionPlugin(),
 			new HtmlWebPackPlugin({
