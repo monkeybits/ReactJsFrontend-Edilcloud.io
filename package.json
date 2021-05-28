@@ -20,7 +20,7 @@
         "@tippyjs/react": "^4.2.0",
         "auth0-lock": "11.24.1",
         "autosuggest-highlight": "3.1.1",
-        "axios": "0.19.2",
+        "axios": "0.21.1",
         "axios-mock-adapter": "1.18.1",
         "browser-image-compression": "^1.0.12",
         "chart.js": "2.9.3",
