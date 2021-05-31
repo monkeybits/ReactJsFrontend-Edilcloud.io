@@ -67,6 +67,7 @@ function FuseNavVerticalItem(props) {
 	// const getRole = () => userInfo?.extra?.profile.role;
 	const checkHasPermissOnChat = USER_CHATS_PATHS.filter(d => String(item.url).includes(d));
 	const checkHasPermissOnFile = FILE_MANAHER_PATHS.filter(d => String(item.url).includes(d));
+	
 	return (
 		<ListItem
 			button
@@ -77,7 +78,7 @@ function FuseNavVerticalItem(props) {
 			component={item.isOutsideLink ? 'a' : NavLinkAdapter}
 			href={
 				item.isOutsideLink
-					? `https://back-test.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`
+					? `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${company?.customer}`
 					: 'javascript:;'
 			}
 			// target="_blank"

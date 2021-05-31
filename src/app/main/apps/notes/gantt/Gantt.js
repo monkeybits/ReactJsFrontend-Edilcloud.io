@@ -8,39 +8,19 @@ import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { EDIT_TASK_TO_PROJECT, ADD_TASK_TO_PROJECT, EDIT_ACTIVITY_TO_TASK } from 'app/services/apiEndPoints';
+import { EDIT_TASK_TO_PROJECT, EDIT_ACTIVITY_TO_TASK } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import axios from 'app/services/axiosConfig';
-import { Button, LinearProgress } from '@material-ui/core';
-import { toast } from 'react-toastify';
+import { LinearProgress } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Typography from '@material-ui/core/Typography';
-import FuseAnimate from '@fuse/core/FuseAnimate';
 import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileVideo,
-	faFileAudio,
-	faFileImage,
-	faFileWord,
-	faFileCode,
-	faFileArchive,
 	faArrowAltCircleLeft,
 	faArrowAltCircleRight
 } from '@fortawesome/free-regular-svg-icons';
-import { faDownload, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { withTranslation } from 'react-i18next';
-import i18next from 'i18next';
 import FullscreenAsk from './FullscreenAsk';
-import { fileDragAndDrop } from './common/dhx_file_dnd';
 import * as Actions from '../todo/store/actions';
 
-// data: [
-// 	{ id: 1, text: 'Task #1', start_date: '15-04-2019', duration: 3, progress: 0.6 },
-// 	{ id: 2, text: 'Task #2', start_date: '18-04-2019', duration: 3, progress: 0.4 }
-// ],
-// links: [{ id: 1, source: 1, target: 2, type: '0' }]
 function ganttInitZoom() {
 	const zoomConfig = {
 		startDate: new Date(),
