@@ -4,7 +4,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const dotenv = require('dotenv').config( {
-	path: path.join(__dirname, process.env.NODE_ENV !== 'production' ? '.env.development' : '.env.production')
+	path: path.join(__dirname, '.env.development')
 });
 
 const reScript = /\.(js|jsx|mjs)$/;
@@ -19,8 +19,6 @@ module.exports = () => {
 		prev[`process.env.${next}`] = JSON.stringify(env[next]);
 		return prev;
 	}, {});
-
-	console.log('dotenv', envKeys)
 
 	return {
 		context: __dirname,
