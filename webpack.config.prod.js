@@ -4,7 +4,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const dotenv = require('dotenv').config( {
-	path: path.join(__dirname, '.env.development')
+	path: path.join(__dirname, '.env.production')
 });
 
 const reScript = /\.(js|jsx|mjs)$/;
