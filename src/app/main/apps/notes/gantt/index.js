@@ -218,6 +218,7 @@ function GanttWrapper(props) {
 				<ImportExcelDialog {...{ open, setOpen, target, setTarget }} onImport={() => importExcel(undefined)} />
 			</div>
 			<img className={isViewChart && 'hidden'} src="/assets/images/patterns/rotate_5146697.png" />
+			<Typography className={`text-center py-16 ${isViewChart && 'hidden'}`} color="textSecondary" variant="h5">Rotate screen horizontal to see gantt.</Typography>
 			<CreatePostDialog isGantt={props.value == 4} />
 			<TaskContentDialog isGantt={props.value == 4} />
 		</div>
