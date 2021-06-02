@@ -148,7 +148,7 @@ function Chat(props) {
 	const [progress, setProgress] = React.useState(0);
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const selectedContactId = useSelector(({ chatPanel }) => chatPanel.contacts.selectedContactId);
-	const isUploadingFiles = useSelector(({ chatPanel }) => chatPanel.chat.isUploadingFiles);
+	const isUploadingFiles = useSelector(({ chatPanel }) => chatPanel.chat?.isUploadingFiles);
 	const chat = useSelector(({ chatPanel }) => chatPanel.chat);
 	const user = useSelector(({ chatPanel }) => chatPanel.user);
 	const userInfo = decodeDataFromToken();
