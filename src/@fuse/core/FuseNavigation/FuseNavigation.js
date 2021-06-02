@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
-import { Divider, List } from '@material-ui/core';
+import { Divider, List, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ import FuseNavVerticalGroup from './vertical/FuseNavVerticalGroup';
 import FuseNavVerticalItem from './vertical/FuseNavVerticalItem';
 import FuseNavVerticalLink from './vertical/FuseNavVerticalLink';
 import FuseNavItem, { registerComponent } from './FuseNavItem';
+import PlanFormAskDialog from './PlanFormAskDialog';
 
 /*
 Register Fuse Navigation Components
@@ -99,6 +100,7 @@ const useStyles = makeStyles(theme => ({
 function FuseNavigation(props) {
 	const classes = useStyles(props);
 	const [companyValidate, setCompanyValidate] = useState(false);
+	const [isPlanModal, setIsPlanModal] = useState(false);
 	const { navigation, layout, active, dense, className } = props;
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 
@@ -133,14 +135,40 @@ function FuseNavigation(props) {
 		>
 			{navigation.map(_item => (
 				<>
-				{
-					_item.id !== "PLAN" &&
-					<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
-				}
-				{
-					companyValidate && _item.id === "PLAN" &&
-					<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
-				}
+					{
+						_item.id !== "PLAN" &&
+						<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
+					}
+					{
+						companyValidate && _item.id === "PLAN" &&
+						<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
+					}
+					{
+						!companyValidate && _item.id === "PLAN" &&
+						<Link
+							onClick={() => {
+								setIsPlanModal(true)
+							}}
+						>
+						<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={{
+							checkRole: true,
+							roles: ['d', 'o'],
+							id: '',
+							title: 'Plan',
+							translate: 'PLAN',
+							type: 'item',
+							icon: 'payment',
+							isOutsideLink: true,
+							tag: 'a'
+						}} nestedLevel={0} />
+						</Link>
+					}
+					<div>
+						<PlanFormAskDialog
+							isPlanModal={isPlanModal}
+							closePlanModal={() => setIsPlanModal(false)}
+						/>
+					</div>
 				</>
 			))}
 		</List>
