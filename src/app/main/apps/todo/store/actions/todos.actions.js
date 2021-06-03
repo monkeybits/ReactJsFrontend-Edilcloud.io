@@ -195,7 +195,10 @@ export function editActivity(todo, pid, setLoading, isGantt, editActivityTodoDia
 				if(editActivityTodoDialog) {
 					dispatch({
 						type: EDIT_ACTIVITY,
-						payload: todo
+						payload: {
+							...todo,
+							status: todo.progress
+						}
 					});
 				}
 				dispatch(closeEditActivityTodoDialog());
