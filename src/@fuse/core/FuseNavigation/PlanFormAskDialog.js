@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Dialog, IconButton, Typography, Button } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -54,7 +55,15 @@ const DialogContent = withStyles(theme => ({
 	}
 }))(MuiDialogContent);
 
-function PlanFormAskDialog({ isPlanModal, closePlanModal }) {
+
+const DialogActions = withStyles(theme => ({
+	root: {
+		margin: 0,
+		padding: theme.spacing(1)
+	}
+}))(MuiDialogActions);
+
+function PlanFormAskDialog({ isPlanModal, closePlanModal, onYes, onNo }) {
     const classes = useStyles();
 
 	return (
@@ -65,16 +74,24 @@ function PlanFormAskDialog({ isPlanModal, closePlanModal }) {
 			maxWidth="xs"
 			fullWidth="true"
             classes={{
-                container: classes.container,
-                root: classes.root,
+                container: 'popup-plan-container'
             }}
+			className="popup-root"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closePlanModal}>
 				Fill Billing Form
 			</DialogTitle>
 			<DialogContent dividers>
-
+				<div>First you need to fill billing form. Are you sure to continue?</div>
 			</DialogContent>
+			<DialogActions>
+				<Button autoFocus onClick={onYes} variant="contained" color="secondary">
+					Yes
+				</Button>
+				<Button autoFocus onClick={onNo} variant="contained" color="secondary">
+					No
+				</Button>
+			</DialogActions>
 		</Dialog>
 	);
 }
