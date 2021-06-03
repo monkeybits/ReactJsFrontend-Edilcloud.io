@@ -4,6 +4,8 @@ import { Divider, List, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import * as SettingActions from 'app/main/apps/settings/store/actions';
 import FuseNavHorizontalCollapse from './horizontal/FuseNavHorizontalCollapse';
 import FuseNavHorizontalGroup from './horizontal/FuseNavHorizontalGroup';
 import FuseNavHorizontalItem from './horizontal/FuseNavHorizontalItem';
@@ -14,6 +16,7 @@ import FuseNavVerticalItem from './vertical/FuseNavVerticalItem';
 import FuseNavVerticalLink from './vertical/FuseNavVerticalLink';
 import FuseNavItem, { registerComponent } from './FuseNavItem';
 import PlanFormAskDialog from './PlanFormAskDialog';
+import { useDispatch } from 'react-redux';
 
 /*
 Register Fuse Navigation Components
@@ -103,6 +106,8 @@ function FuseNavigation(props) {
 	const [isPlanModal, setIsPlanModal] = useState(false);
 	const { navigation, layout, active, dense, className } = props;
 	const company = useSelector(({ chatApp }) => chatApp?.company);
+	const history = useHistory();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (
@@ -150,7 +155,7 @@ function FuseNavigation(props) {
 								setIsPlanModal(true)
 							}}
 						>
-						<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={{
+						<FuseNavItem key={`plan`} type={`vertical-item`} item={{
 							checkRole: true,
 							roles: ['d', 'o'],
 							id: '',
@@ -158,8 +163,7 @@ function FuseNavigation(props) {
 							translate: 'PLAN',
 							type: 'item',
 							icon: 'payment',
-							isOutsideLink: true,
-							tag: 'a'
+							url: '#'
 						}} nestedLevel={0} />
 						</Link>
 					}
@@ -167,6 +171,14 @@ function FuseNavigation(props) {
 						<PlanFormAskDialog
 							isPlanModal={isPlanModal}
 							closePlanModal={() => setIsPlanModal(false)}
+							onYes={() => {
+								dispatch(SettingActions.filterByKey('billings'))
+								history.push({
+									pathname: '/apps/settings'
+								});
+								setIsPlanModal(false)
+							}}
+							onNo={() => setIsPlanModal(false)}
 						/>
 					</div>
 				</>
