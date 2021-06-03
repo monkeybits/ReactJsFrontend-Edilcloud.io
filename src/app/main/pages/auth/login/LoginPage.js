@@ -65,6 +65,7 @@ const languages = [
 function LoginPage() {
 	const [open, setOpen] = React.useState(false);
 	const [title, setTitle] = React.useState('Terms');
+	const [deviceType, setDeviceType] = React.useState('');
 	const [settings, setSettings] = useState({
 		clientId: 'com.monkeybits.edilcloud.signin',
 		redirectURI: 'https://test.edilcloud.io',
@@ -103,6 +104,24 @@ function LoginPage() {
 	// const userMenuClose = () => {
 	// 	setMenu(null);
 	// };
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+	}, []);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -201,66 +220,48 @@ function LoginPage() {
 								<Typography variant="subtitle1" className="text-muted text-center mb-40">
 									{t('APP_SUBHEADER')}
 								</Typography>
-								<Grid container spacing={2}>
-									<Grid item xs={6}>
-										<FacebookLoginComponent />
-										{/* <Button
-											variant="outlined"
-											color="primary"
-											size="large"
-											className="border-1 normal-case w-full"
-										>
-											<img
-												src="assets/images/social-icons/facebook.png"
-												className="h-20 mr-8"
-												alt="Facebook"
-											/>
-											Facebook
-										</Button> */}
-									</Grid>
-									<Grid item xs={6}>
-										<GoogleLoginComponent />
-										{/* <Button
-											variant="outlined"
-											color="primary"
-											size="large"
-											className="border-1 normal-case w-full"
-										>
-											<img
-												src="assets/images/social-icons/google.png"
-												className="h-20 mr-8"
-												alt="Google"
-											/>
-											Google
-										</Button> */}
-									</Grid>
-								</Grid>
-
-								<div className="flex mt-12 w-160 h-36">
-									<AppleLogin {...settings} callback={appleLoginSuccess} />
-								</div>
-
-								<div className="flex mt-12 w-160 h-36">
-									<AppleSignin
-										authOptions={{
-											clientId: 'com.monkeybits.edilcloud.signin',
-											scope: 'email name',
-											redirectURI: 'https://test.edilcloud.io',
-											state: 'state',
-											nonce: 'nonce',
-											usePopup: true
-										}}
-										uiType="dark"
-										className="apple-auth-btn"
-										noDefaultStyle={false}
-										buttonExtraChildren="Continue with Apple"
-										onSuccess={(response) => console.log('response', response)}
-										onError={(error) => console.error(error)}
-										skipScript={false}
-										iconProp={{ style: { marginTop: '10px' } }}
-										// render={(props) => <button {...props}>My Custom Button</button>}
-									/>
-								</div>
+								{
+									deviceType !== 'ios' &&
+									<>
+										<Grid container spacing={2}>
+											<Grid item xs={6}>
+												<FacebookLoginComponent />
+												{/* <Button
+													variant="outlined"
+													color="primary"
+													size="large"
+													className="border-1 normal-case w-full"
+												>
+													<img
+														src="assets/images/social-icons/facebook.png"
+														className="h-20 mr-8"
+														alt="Facebook"
+													/>
+													Facebook
+												</Button> */}
+											</Grid>
+											<Grid item xs={6}>
+												<GoogleLoginComponent />
+												{/* <Button
+													variant="outlined"
+													color="primary"
+													size="large"
+													className="border-1 normal-case w-full"
+												>
+													<img
+														src="assets/images/social-icons/google.png"
+														className="h-20 mr-8"
+														alt="Google"
+													/>
+													Google
+												</Button> */}
+											</Grid>
+										</Grid>	
+										<div className="flex mt-12 w-160 h-36">
+											<AppleLogin {...settings} callback={appleLoginSuccess} />
+										</div>
+									</>
+								}
 
 								<div className="my-28 flex items-center justify-center or-container">
 									<Divider className="w-32" />
