@@ -233,7 +233,9 @@ function Boards(props) {
 		}
 	};
 
-	return (
+	return isLoading ? (
+		<FuseSplashScreen />
+	) : (
 		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center h-full')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
 				<FuseAnimate>
