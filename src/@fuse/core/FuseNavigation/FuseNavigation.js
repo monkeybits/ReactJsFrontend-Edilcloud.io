@@ -111,15 +111,15 @@ function FuseNavigation(props) {
 
 	useEffect(() => {
 		if (
-			company.name &&
-			company.tax_code &&
-			company.vat_number &&
-			company.address &&
-			company.province &&
-			company.cap &&
-			company.country &&
-			company.pec &&
-			company.billing_email
+			company.name !== '' &&
+			company.tax_code !== '' &&
+			company.vat_number !== '' &&
+			company.address !== '' &&
+			company.province !== '' &&
+			company.cap !== '' &&
+			company.country !== '' &&
+			company.pec !== '' &&
+			company.billing_email !== ''
 		) {
 			setCompanyValidate(true);
 		} else {

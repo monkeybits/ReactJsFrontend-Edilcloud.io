@@ -441,6 +441,12 @@ export function removeTask(payload) {
 		payload
 	};
 }
+export function editActivityByList(payload) {
+	return {
+		type: EDIT_ACTIVITY,
+		payload
+	};
+}
 export function editActivity(todo, pid, setLoading, isGantt, editActivityTodoDialog = false) {
 	return dispatch => {
 		console.log(todo, todo.profile);
