@@ -1,14 +1,12 @@
-import Dialog from '@material-ui/core/Dialog';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import loadable from '@loadable/component';
 import React, { useEffect } from 'react';
+import { Dialog } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import TaskContentForm from './TaskContentForm';
 import * as Actions from '../store/actions';
-
+import loadable from '@loadable/component';
 const TaskAttachment = loadable(() => import('../TaskAttachment'));
+const TaskContentForm = loadable(() => import('./TaskContentForm'));
 
 const useStyles = makeStyles(theme => ({
 	paper: {

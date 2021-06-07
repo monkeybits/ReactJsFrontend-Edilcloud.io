@@ -7,7 +7,6 @@ import { withRouter, useHistory } from 'react-router-dom';
 import { getCompressFile } from 'app/services/serviceUtils';
 import { EDIT_PROFILE } from 'app/services/apiEndPoints';
 import clsx from 'clsx';
-import { darken } from '@material-ui/core/styles/colorManipulator';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import * as userActions from 'app/auth/store/actions';
 import { useTranslation } from 'react-i18next';

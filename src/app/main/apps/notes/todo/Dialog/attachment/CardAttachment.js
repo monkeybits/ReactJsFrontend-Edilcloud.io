@@ -1,19 +1,12 @@
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-	faFilePdf,
-	faFile,
-	faFileExcel,
-	faFileVideo,
-	faFileAudio,
-	faFileImage,
-	faFileWord
+	faFile
 } from '@fortawesome/free-regular-svg-icons';
 import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from 'app/services/apiEndPoints';
 import FileSaver from 'file-saver';
@@ -22,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import * as ICONS from 'app/main/apps/constants';
+
 import TippyMenu from 'app/TippyMenu';
 
 function CardAttachment(props) {

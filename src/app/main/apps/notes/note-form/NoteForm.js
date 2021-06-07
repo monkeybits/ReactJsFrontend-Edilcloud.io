@@ -1,24 +1,18 @@
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import { useForm, useUpdateEffect } from '@fuse/hooks';
 import _ from '@lodash';
-import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
-import NoteModel from 'app/main/apps/notes/model/NoteModel';
-import NoteLabel from 'app/main/apps/notes/NoteLabel';
-import NoteReminderLabel from 'app/main/apps/notes/NoteReminderLabel';
+import { Button, Fab, Icon, IconButton, Input, Tooltip, Typography } from '@material-ui/core';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { withRouter, useParams } from 'react-router-dom';
-import NoteFormList from './checklist/NoteFormList';
-import NoteFormLabelMenu from './NoteFormLabelMenu';
-import NoteFormReminder from './NoteFormReminder';
-import NoteFormUploadImage from './NoteFormUploadImage';
-
+import loadable from '@loadable/component';
+const NoteFormList = loadable(() => import('./checklist/NoteFormList'));
+const NoteFormLabelMenu = loadable(() => import('./NoteFormLabelMenu'));
+const NoteFormReminder = loadable(() => import('./NoteFormReminder'));
+const NoteFormUploadImage = loadable(() => import('./NoteFormUploadImage'));
+const NoteModel = loadable(() => import('app/main/apps/notes/model/NoteModel'));
+const NoteLabel = loadable(() => import('app/main/apps/notes/NoteLabel'));
+const NoteReminderLabel = loadable(() => import('app/main/apps/notes/NoteReminderLabel'));
 function NoteForm(props) {
 	const [showList, setShowList] = useState(false);
 	const routeParams = useParams();

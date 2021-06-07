@@ -27,6 +27,7 @@ import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/a
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
 import loadable from '@loadable/component';
+import FloatingButtonUpload from './FloatingButtonUpload'
 const MainSidebarHeader = loadable(() => import('./MainSidebarHeader'));
 const MainSidebarContent = loadable(() => import('./MainSidebarContent'));
 const FileGrid = loadable(() => import('./FileGrid'));
@@ -35,7 +36,6 @@ const DetailSidebarHeader = loadable(() => import('./DetailSidebarHeader'));
 const DetailSidebarContent = loadable(() => import('./DetailSidebarContent'));
 const Breadcrumb = loadable(() => import('./Breadcrumb'));
 const MoveFileDialog = loadable(() => import('./MoveFileDialog'));
-const FloatingButtonUpload = loadable(() => import('./FloatingButtonUpload'));
 const TransitionAlerts = loadable(() => import('./TransitionAlerts'));
 const LinearProgressWithLabel = loadable(() => import('./LinearProgressWithLabel'));
 

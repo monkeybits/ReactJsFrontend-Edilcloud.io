@@ -1,5 +1,6 @@
 import React from 'react';
-import ProjectTabs from './ProjectTabs';
+import loadable from '@loadable/component';
+const ProjectTabs = loadable(() => import('./ProjectTabs'));
 
 export default function ProjectContent({ value, setValue, setOpenDialog }) {
 	return (

@@ -2,29 +2,20 @@ import PropTypes from 'prop-types';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useForm } from '@fuse/hooks';
 import _ from '@lodash';
-import DialogContent from '@material-ui/core/DialogContent';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import { DialogContent, Icon, IconButton, InputAdornment, Box, TextField, Typography, Button, makeStyles, Slider, withStyles, CircularProgress, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import moment from 'moment';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, makeStyles, Slider, withStyles, CircularProgress } from '@material-ui/core';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { useParams } from 'react-router';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
-import ShowUpload from '../ShowUpload';
-import CreatePostForm from '../CreatePostForm';
-import CreateAttachments from './attachment/CreateAttachments';
 import * as Actions from '../store/actions';
-
+import loadable from '@loadable/component';
+const ShowUpload = loadable(() => import('../ShowUpload'));
+const CreatePostForm = loadable(() => import('../CreatePostForm'));
+const CreateAttachments = loadable(() => import('./attachment/CreateAttachments'));
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
