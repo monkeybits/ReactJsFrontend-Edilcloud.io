@@ -42,7 +42,7 @@ function ContactsApp(props) {
 	const navbar = useSelector(({ fuse }) => fuse.navbar);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const { folded } = config.navbar;
-
+	
 	useEffect(() => {
 		if (toggleSidebarMenu) {
 			setDefaultMenu(false);

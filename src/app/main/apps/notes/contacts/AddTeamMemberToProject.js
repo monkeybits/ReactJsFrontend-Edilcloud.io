@@ -75,9 +75,6 @@ function AddTeamMemberToProject(props) {
 	}
 
 	useEffect(() => {
-		dispatch({
-			type: NoteActions.RESET_PROEJECTS
-		});
 		dispatch(NoteActions.getProjects());
 	}, [dispatch]);
 

@@ -318,10 +318,18 @@ function FileManagerApp(props) {
 						<ThemeProvider theme={mainTheme}>
 							<div className="flex flex-1 dashboard-todo-header w-full">
 								<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
-									<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
-										{t('FILES')}
-									</Typography>
-									<div className="flex flex-1 items-center justify-end">
+									<div>
+										<Typography className="sm:flex pt-4 text-white mx-0 sm:mx-12" variant="h6">
+											{projectDetail.name}
+										</Typography>
+										<Typography className="sm:flex pb-8 text-white mx-0 sm:mx-12" variant="p">
+											{projectDetail.address}
+										</Typography>
+									</div>
+									<div className="flex flex-1 items-center justify-between">
+										<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
+											{t('FILES')}
+										</Typography>
 										<FuseAnimate animation="transition.slideRightIn" delay={300}>
 											<Button
 												onClick={ev =>
