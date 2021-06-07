@@ -31,7 +31,8 @@ export default function ContactCard(props) {
 		can_access_chat,
 		can_access_files,
 		onCardClick,
-		editPermission
+		editPermission,
+		profile
 	} = props;
 	const { t } = useTranslation('contacts_project');
 	const dispatch = useDispatch();
@@ -179,8 +180,8 @@ export default function ContactCard(props) {
 				<img className="round" src={image || avatar} alt="user" />
 				<h4 className="font-weight-600 mb-8">{`${name} ${lastName}`}</h4>
 				{/* <h6>{address}</h6> */}
-				<p className="font-500 text-muted mb-8">{position || 'N/A'}</p>
-				<p className="font-500 text-muted mb-8">{role}</p>
+				<p className="font-500 text-muted mb-8">{profile.position || 'N/A'}</p>
+				<p className="font-500 text-muted mb-8">{profile.role}</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
 				<a
 					className="flex font-700 mb-10 mx-28 whitespace-no-wrap normal-case custom-email-button justify-center items-center py-6 rounded-md"
