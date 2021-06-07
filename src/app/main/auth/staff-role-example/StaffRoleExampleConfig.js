@@ -1,5 +1,6 @@
 import { authRoles } from 'app/auth';
-import StaffRoleExample from './StaffRoleExample';
+import loadable from '@loadable/component';
+const StaffRoleExample = loadable(() => import('./StaffRoleExample'));
 
 const StaffRoleExampleConfig = {
 	settings: {

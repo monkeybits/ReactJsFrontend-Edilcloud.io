@@ -1,5 +1,6 @@
 import { authRoles } from 'app/auth';
-import GuestRoleExample from './GuestRoleExample';
+import loadable from '@loadable/component';
+const GuestRoleExample = loadable(() => import('./GuestRoleExample'));
 
 const GuestRoleExampleConfig = {
 	settings: {

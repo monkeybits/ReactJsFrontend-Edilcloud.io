@@ -1,5 +1,6 @@
 import { authRoles } from 'app/auth';
-import Callback from './Callback';
+import loadable from '@loadable/component';
+const Callback = loadable(() => import('./Callback'));
 
 const CallbackConfig = {
 	settings: {
