@@ -15,7 +15,7 @@ import {
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -64,6 +64,7 @@ function RegisterPage() {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [title, setTitle] = React.useState('Terms');
+	const [deviceType, setDeviceType] = React.useState('');
 	const [settings, setSettings] = useState({
 		clientId: 'com.monkeybits.edilcloud.signin',
 		redirectURI: 'https://test.edilcloud.io',
@@ -93,6 +94,24 @@ function RegisterPage() {
 	// const [menu, setMenu] = useState(null);
 
 	const currentLng = languages.find(lng => lng.id === i18n.language);
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+	}, []);
 
 	// const userMenuClick = event => {
 	// 	setMenu(event.currentTarget);
@@ -188,44 +207,49 @@ function RegisterPage() {
 								<Typography variant="subtitle1" className="text-muted text-center mb-40">
 									{t('APP_SUBHEADER')}
 								</Typography>
-								<Grid container spacing={2}>
-									<Grid item xs={6}>
-										<FacebookLoginComponent isRegister />
-										{/* <Button
-											variant="outlined"
-											color="primary"
-											size="large"
-											className="border-1 normal-case w-full"
-										>
-											<img
-												src="assets/images/social-icons/facebook.png"
-												className="h-20 mr-8"
-												alt="Facebook"
-											/>
-											Facebook
-										</Button> */}
-									</Grid>
-									<Grid item xs={6}>
-										<GoogleLoginComponent isRegister />
-										{/* <Button
-											variant="outlined"
-											color="primary"
-											size="large"
-											className="border-1 normal-case w-full"
-										>
-											<img
-												src="assets/images/social-icons/google.png"
-												className="h-20 mr-8"
-												alt="Google"
-											/>
-											Google
-										</Button> */}
-									</Grid>
-								</Grid>
+								{
+									deviceType !== 'ios' &&
+									<>
+										<Grid container spacing={2}>
+											<Grid item xs={6}>
+												<FacebookLoginComponent isRegister />
+												{/* <Button
+													variant="outlined"
+													color="primary"
+													size="large"
+													className="border-1 normal-case w-full"
+												>
+													<img
+														src="assets/images/social-icons/facebook.png"
+														className="h-20 mr-8"
+														alt="Facebook"
+													/>
+													Facebook
+												</Button> */}
+											</Grid>
+											<Grid item xs={6}>
+												<GoogleLoginComponent isRegister />
+												{/* <Button
+													variant="outlined"
+													color="primary"
+													size="large"
+													className="border-1 normal-case w-full"
+												>
+													<img
+														src="assets/images/social-icons/google.png"
+														className="h-20 mr-8"
+														alt="Google"
+													/>
+													Google
+												</Button> */}
+											</Grid>
+										</Grid>
 
-								<div className="flex mt-12 w-160 h-36">
-									<AppleRegister {...settings} callback={appleRegisterSuccess} />
-								</div>
+										<div className="flex mt-12 w-160 h-36">
+											<AppleRegister {...settings} callback={appleRegisterSuccess} />
+										</div>
+									</>
+								}
 
 								<div className="my-28 flex items-center justify-center or-container">
 									<Divider className="w-32" />
