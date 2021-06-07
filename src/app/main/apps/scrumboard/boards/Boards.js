@@ -37,7 +37,6 @@ import reducer from '../store/reducers';
 import * as Actions from '../store/actions';
 import { getToken, onMessageListener } from '../../../../../firebase';
 
-const Tutorial = loadable(() => import('./Tutorial'));
 const UpdatePlanDialog = loadable(() => import('./UpdatePlanDialog'));
 
 const useStyles = makeStyles(theme => ({
@@ -101,7 +100,6 @@ function Boards(props) {
 	/**
 	 * get user companies
 	 */
-
 	const getcompanyList = () => {
 		apiCall(
 			APPROVE_LIST,
@@ -232,12 +230,6 @@ function Boards(props) {
 		getRequest();
 		setIsShowRequests(false);
 	};
-	const handleMoreAction = (action, company) => {
-		if (action == 'Edit') {
-			dispatch(authActions.setUserCompanyData({ company }));
-			props.history.push('/edit-company');
-		}
-	};
 
 	return isLoading ? (
 		<FuseSplashScreen />
@@ -277,7 +269,7 @@ function Boards(props) {
 													setRequest(board);
 												}
 											} else {
-												dispatch(Actions.openUpgradePlanDialog());
+												dispatch(Actions.openUpgradePlanDialog(board));
 											}
 										}}
 										className={clsx(

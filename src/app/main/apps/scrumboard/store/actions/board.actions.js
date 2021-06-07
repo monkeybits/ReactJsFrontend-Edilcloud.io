@@ -200,9 +200,10 @@ export function addLabel(label) {
 	};
 }
 
-export function openUpgradePlanDialog() {
+export function openUpgradePlanDialog(board) {
 	return {
-		type: OPEN_UPGRADE_PLAN_DIALOG
+		type: OPEN_UPGRADE_PLAN_DIALOG,
+		payload: board
 	};
 }
 

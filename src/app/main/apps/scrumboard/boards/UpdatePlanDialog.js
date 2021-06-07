@@ -57,6 +57,7 @@ function UpdatePlanDialog(props) {
 	const dispatch = useDispatch();
 
 	const isOpenUpgradePlan = useSelector(({ scrumboardApp }) => scrumboardApp.board.isOpenUpgradePlan);
+	const upgradePlanDetail = useSelector(({ scrumboardApp }) => scrumboardApp.board.upgradePlanDetail);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const [loading, setLoading] = useState({
 		loadingCompanyInfo: false,
@@ -68,10 +69,6 @@ function UpdatePlanDialog(props) {
 			...loading,
 			...data
 		}));
-
-	useEffect(() => {
-		dispatch(ChatActions.companyInfo(handleSetLoading));
-	}, [dispatch]);
 
 	const handleClose = () => {
 		dispatch(Actions.closeUpgradePlanDialog());
@@ -91,7 +88,7 @@ function UpdatePlanDialog(props) {
 		) {
 			props.history.push('/apps/billing');
 		} else {
-			window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${company?.customer}`;
+			window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${upgradePlanDetail?.id}`;
 			// props.history.push(`https://back.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`);
 		}
 	};
