@@ -85,8 +85,9 @@ function Boards(props) {
 	onMessageListener().then(payload => {
 		setShow(true);
 		setNotification({title: payload.notification.title, body: payload.notification.body})
-		console.log('payload', payload);
-	  }).catch(err => console.log('failed: ', err));
+	  }).catch(err => {
+		//   console.log('failed: ', err)
+	  });
 
 	useEffect(() => {
 		localStorage.removeItem('main_profile');
@@ -116,7 +117,9 @@ function Boards(props) {
 					});
 				}
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -139,7 +142,9 @@ function Boards(props) {
 					});
 				}
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -150,30 +155,30 @@ function Boards(props) {
 	 */
 	const redirectAfterGetNewToken = company_profile_id => {
 		const myCustomUniqueUserId = company_profile_id;
-		console.log(`LOGGED IN WITH PROFILE ID: ${myCustomUniqueUserId.toString()}`);
+		// console.log(`LOGGED IN WITH PROFILE ID: ${myCustomUniqueUserId.toString()}`);
 
 		if (window.flutter_inappwebview?.callHandler) {
-			console.log('listenning to flutterInAppWebViewPlatformReady');
+			// console.log('listenning to flutterInAppWebViewPlatformReady');
 			window.flutter_inappwebview
 				.callHandler('OneSignalSetUser', myCustomUniqueUserId.toString())
 				.then(function (result) {
-					console.log(JSON.stringify(result));
+					// console.log(JSON.stringify(result));
 				});
-			console.log('finish listenning to flutterInAppWebViewPlatformReady');
+			// console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		} else {
-			console.log('listenning to flutterInAppWebViewPlatformReady');
+			// console.log('listenning to flutterInAppWebViewPlatformReady');
 			if (window.OneSignalSetUser?.postMessage) {
 				window.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
 			}
 
-			console.log('finish listenning to flutterInAppWebViewPlatformReady');
+			// console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		}
 		try {
 			window.webkit.messageHandlers.OneSignalSetUser.postMessage(
 				JSON.stringify({ userid: myCustomUniqueUserId })
 			);
 		} catch (e) {
-			console.log('error', e);
+			// console.log('error', e);
 		}
 		if (window.OneSignal)
 			window.OneSignal.push(function () {
@@ -196,7 +201,7 @@ function Boards(props) {
 			},
 			err => {
 				setIsLoading(false);
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.POST
 		);
@@ -209,7 +214,9 @@ function Boards(props) {
 			GET_MAIN_PROFILE(mainProfileId),
 			{},
 			res => dispatch(authActions.setUserData(res)),
-			err => console.log({ err }),
+			err => {
+				// console.log({ err })
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -227,7 +234,6 @@ function Boards(props) {
 	};
 	const handleMoreAction = (action, company) => {
 		if (action == 'Edit') {
-			console.log({ company });
 			dispatch(authActions.setUserCompanyData({ company }));
 			props.history.push('/edit-company');
 		}

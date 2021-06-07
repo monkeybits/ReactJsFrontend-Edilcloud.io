@@ -42,7 +42,7 @@ function ContactsApp(props) {
 	const navbar = useSelector(({ fuse }) => fuse.navbar);
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const { folded } = config.navbar;
-
+	
 	useEffect(() => {
 		if (toggleSidebarMenu) {
 			setDefaultMenu(false);
@@ -70,19 +70,22 @@ function ContactsApp(props) {
 		loadingRefuse: false,
 		loadingWaiting: false
 	});
+
 	const handleSetLoading = data =>
 		setLoading(loading => ({
 			...loading,
 			...data
 		}));
+		
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getContacts(routeParams.id, handleSetLoading));
 		dispatch(Actions.getUserData());
 		return dispatch(Actions.resetContact());
 	}, [dispatch, routeParams]);
+
 	const userInfo = decodeDataFromToken();
-	const companyIdFromCompany = userInfo?.extra?.profile?.company;
 	const roleFromCompany = userInfo?.extra?.profile?.role;
+
 	if (loading.loadingApprove || loading.loadingRefuse || loading.loadingWaiting) {
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center h-full">
@@ -93,6 +96,7 @@ function ContactsApp(props) {
 			</div>
 		);
 	}
+
 	return (
 		<>
 			<FusePageSimple

@@ -298,7 +298,9 @@ function TodoListItem(props) {
 			results => {
 				setTaskDetail(results);
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

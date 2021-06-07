@@ -14,15 +14,14 @@ function SettingListItem(props) {
 		apiCall(
 			UPDATE_SETTINGS_PREFERENCES,
 			{ ...setting },
-			res => {
-				console.log(res);
+			res => { },
+			err => {
+				// console.log(err)
 			},
-			err => console.log(err),
 			METHOD.PUT,
 			getHeaderToken()
 		);
 	};
-	console.log({ props });
 	return (
 		<div>
 			<ListItem className="px-24">

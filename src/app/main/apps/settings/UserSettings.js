@@ -19,8 +19,6 @@ function SettingApp() {
 
 	const filterKey = useSelector(({ SettingApp }) => SettingApp.setting.filterKey);
 
-	console.log('filterKey??????????????', filterKey);
-
 	const pageLayout = useRef(null);
 	// const routeParams = useParams();
 

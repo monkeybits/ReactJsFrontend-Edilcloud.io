@@ -174,8 +174,6 @@ function TaskContentForm(props) {
 	const [value, setValue] = React.useState(0);
 	const getName = profile => `${profile.first_name} ${profile.last_name}`;
 
-	console.log('taskContentData?????????????????????????', companies)
-	
 	useEffect(() => {
 		if (companies && companies.length && taskContentData) {
 			const company = [...companies]
@@ -250,10 +248,6 @@ function TaskContentForm(props) {
 		description: taskContentData?.parent == 1 ? taskContentData?.description : taskContentData?.note
 	});
 	const dueDate = cardForm && cardForm.due ? moment(cardForm.due).format(moment.HTML5_FMT.DATE) : '';
-
-	console.log('props.todo????????????????name', taskContentData?.parent == 1 ? taskContentData?.title : taskContentData?.name);
-    console.log('props.todo????????????????note', taskContentData?.parent == 1 ? taskContentData?.description : taskContentData?.note);
-    console.log('props.todo????????????????cardForm', cardForm);
 
 	// useUpdateEffect(() => {
 	// 	updateCard(board.id, cardForm);

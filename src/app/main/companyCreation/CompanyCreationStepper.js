@@ -133,14 +133,18 @@ function CompanyCreationStepper({ user, history }) {
 								const subCategory = [];
 								setTypologyList(typologyListRes);
 							},
-							listErr => console.log({ listErr }),
+							listErr => {
+								// console.log({ listErr })
+							},
 							METHOD.GET,
 							getHeaderToken()
 						);
 					});
 				}
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -152,13 +156,11 @@ function CompanyCreationStepper({ user, history }) {
 
 	useEffect(() => {
 		if (routeHistory) {
-			console.log({ routeHistory });
 			if (
-				routeHistory.location.pathname == '/apps/settings' ||
-				routeHistory.location.pathname == '/edit-company'
+				routeHistory.location.pathname === '/apps/settings' ||
+				routeHistory.location.pathname === '/edit-company'
 			) {
 				setIsEdit(true);
-				console.log({ company });
 				setFile({
 					imagePreviewUrl: company.logo
 				});
@@ -231,11 +233,12 @@ function CompanyCreationStepper({ user, history }) {
 		request
 			.then(res => {
 				setProgress(0);
-				if (isEdit) {
-					console.log('routeHistorynextPath', routeHistory.location.state.nextPath);
-					routeHistory.push(routeHistory.location.state.nextPath);
-				} else {
-					routeHistory.push('/apps/companies');
+				if(routeHistory.location.pathname !== '/apps/settings') {
+					if (isEdit) {
+						routeHistory.push(routeHistory.location.state.nextPath);
+					} else {
+						routeHistory.push('/apps/companies');
+					}
 				}
 			})
 			.catch(err => {

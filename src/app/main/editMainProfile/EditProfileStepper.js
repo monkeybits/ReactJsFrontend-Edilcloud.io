@@ -108,14 +108,11 @@ function VerticalLinearStepper({ user, history }) {
 			})
 			.then(({ data }) => {
 				dispatch(userActions.setUserData(data));
-				console.log({
-					data
-				});
 				const nextPath = history.location.state?.nextPath;
 				history.push(nextPath || '/apps/todo/all');
 			})
 			.catch(err => {
-				console.log(err);
+				// console.log(err);
 			});
 	};
 	return (

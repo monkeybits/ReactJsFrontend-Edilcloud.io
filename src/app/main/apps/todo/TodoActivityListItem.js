@@ -173,7 +173,9 @@ function TodoActivityListItem(props) {
 					setTaskDetail(res.results);
 					setOpen(true);
 				},
-				err => console.log(err),
+				err => {
+					// console.log(err)
+				},
 				METHOD.GET,
 				getHeaderToken()
 			);
@@ -204,7 +206,6 @@ function TodoActivityListItem(props) {
 			},
 			err => {
 				setCompleted(!status);
-				console.log(err);
 			},
 			METHOD.PUT,
 			getHeaderToken()

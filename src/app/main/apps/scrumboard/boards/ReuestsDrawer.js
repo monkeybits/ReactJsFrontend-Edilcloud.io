@@ -45,13 +45,11 @@ function ReuestsDrawer({ isShowRequests, setIsShowRequests, request, afterSucces
 			{},
 			res => {
 				setIsShowRequests(false);
-				console.log(res);
 				setLoadingRejectFalse();
 				afterSuccess();
 			},
 			err => {
 				setIsShowRequests(false);
-				console.log(err);
 				setLoadingRejectFalse();
 			},
 			METHOD.PUT,

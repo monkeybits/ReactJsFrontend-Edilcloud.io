@@ -46,7 +46,6 @@ const uuidv1 = require('uuid/v1');
  */
 const getAllFilesOfTimeline = timeline => {
 	if (Array.isArray(timeline) && timeline.length) {
-		console.log({ timeline });
 		return timeline.reduce(
 			(prev, current) => {
 				return { media_set: [...prev.media_set, ...current.media_set].map((d, index) => ({ ...d, index })) };
@@ -152,7 +151,6 @@ function CreatePostForm({ isTask, taskId }) {
 			},
 			err => {
 				setLoading(false);
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -197,7 +195,6 @@ function CreatePostForm({ isTask, taskId }) {
 			media_set,
 			unique_code
 		};
-		console.log('media_set', JSON.stringify(media_set));
 		const tempOfflinePosts = { ...offilePosts, [unique_code]: tempPost };
 		setOffilePosts(tempOfflinePosts);
 		dispatch(Actions.setUpload(true));
@@ -206,7 +203,6 @@ function CreatePostForm({ isTask, taskId }) {
 			formData,
 			res => {
 				dispatch(Actions.setUpload(false));
-				console.log('res', JSON.stringify(res));
 				delete tempOfflinePosts[res.unique_code];
 				setOffilePosts(tempOfflinePosts);
 				getPosts();
@@ -219,8 +215,6 @@ function CreatePostForm({ isTask, taskId }) {
 					...tempOfflinePosts[unique_code],
 					retryOption: true
 				};
-				console.log('err', JSON.stringify(err));
-				console.log('tempOfflinePosts', JSON.stringify(tempOfflinePosts));
 				setOffilePosts(tempOfflinePosts);
 				forceUpdate();
 			},
@@ -284,12 +278,12 @@ function CreatePostForm({ isTask, taskId }) {
 		const dataWithMimeType = string.substr(0, string.indexOf(';'));
 		const mimeT = dataWithMimeType.split(':')[1];
 		const fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
-		console.log('file???????????????????????', fileObject);
+		// console.log('file???????????????????????', fileObject);
 		files.push(fileObject);
 
 		const fileToCompress = files[0];
-		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
-		console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
+		// console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+		// console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
 		try {
 			if (fileToCompress.type?.split('/')[0] == 'image') {
 				// const compressedFile = await imageCompression(fileToCompress, {
@@ -298,13 +292,13 @@ function CreatePostForm({ isTask, taskId }) {
 				// 	useWebWorker: true
 				// });
 				const compressedFile = fileToCompress;
-				console.log(`with compressedFile(blob)`, JSON.stringify(compressedFile));
-				console.log(
-					`compressedFile into the file`,
-					JSON.stringify(new File([compressedFile], compressedFile.name))
-				);
-				console.log('compressedFile instanceof Blob', JSON.stringify(compressedFile instanceof Blob)); // true
-				console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+				// console.log(`with compressedFile(blob)`, JSON.stringify(compressedFile));
+				// console.log(
+				// 	`compressedFile into the file`,
+				// 	JSON.stringify(new File([compressedFile], compressedFile.name))
+				// );
+				// console.log('compressedFile instanceof Blob', JSON.stringify(compressedFile instanceof Blob)); // true
+				// console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 				setFile({
 					fileData: new File([compressedFile], compressedFile.name)
 				});
@@ -317,9 +311,9 @@ function CreatePostForm({ isTask, taskId }) {
 			let file = [];
 			for (let i = 0; i < files.length; i++) {
 				const fileType = files[i].type?.split('/');
-				console.log('file', JSON.stringify(files[i]));
-				console.log('fileType', JSON.stringify(fileType));
-				console.log('local url', JSON.stringify(URL.createObjectURL(files[i])));
+				// console.log('file', JSON.stringify(files[i]));
+				// console.log('fileType', JSON.stringify(fileType));
+				// console.log('local url', JSON.stringify(URL.createObjectURL(files[i])));
 				file = [
 					...file,
 					{
@@ -333,7 +327,7 @@ function CreatePostForm({ isTask, taskId }) {
 				setImages(file);
 			}
 		} catch (e) {
-			console.log('Error', e);
+			// console.log('Error', e);
 		}
 	};
 
@@ -384,24 +378,24 @@ function CreatePostForm({ isTask, taskId }) {
 	// }
 
 	const addPhoto = async files => {
-		console.log('files???????????????????', files);
+		// console.log('files???????????????????', files);
 		// const files = e.currentTarget.files;
 		const fileToCompress = files[0];
-		console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
-		console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
+		// console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+		// console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
 		if (fileToCompress.type?.split('/')[0] == 'image') {
 			const compressedFile = await imageCompression(fileToCompress, {
 				maxSizeMB: 0.1,
 				maxWidthOrHeight: 1024,
 				useWebWorker: true
 			});
-			console.log(`with compressedFile(blob)`, JSON.stringify(compressedFile));
-			console.log(
-				`compressedFile into the file`,
-				JSON.stringify(new File([compressedFile], compressedFile.name))
-			);
-			console.log('compressedFile instanceof Blob', JSON.stringify(compressedFile instanceof Blob)); // true
-			console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+			// console.log(`with compressedFile(blob)`, JSON.stringify(compressedFile));
+			// console.log(
+			// 	`compressedFile into the file`,
+			// 	JSON.stringify(new File([compressedFile], compressedFile.name))
+			// );
+			// console.log('compressedFile instanceof Blob', JSON.stringify(compressedFile instanceof Blob)); // true
+			// console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 			setFile({
 				fileData: new File([compressedFile], compressedFile.name)
 			});
@@ -414,9 +408,9 @@ function CreatePostForm({ isTask, taskId }) {
 		let file = [];
 		for (let i = 0; i < files.length; i++) {
 			const fileType = files[i].type?.split('/');
-			console.log('file', JSON.stringify(files[i]));
-			console.log('fileType', JSON.stringify(fileType));
-			console.log('local url', JSON.stringify(URL.createObjectURL(files[i])));
+			// console.log('file', JSON.stringify(files[i]));
+			// console.log('fileType', JSON.stringify(fileType));
+			// console.log('local url', JSON.stringify(URL.createObjectURL(files[i])));
 			file = [
 				...file,
 				{
@@ -476,7 +470,7 @@ function CreatePostForm({ isTask, taskId }) {
 				window.webkit.messageHandlers.UploadImage.postMessage('Start Image Loading');
 			}
 		} catch (e) {
-			console.log('error', e);
+			// console.log('error', e);
 		}
 	};
 

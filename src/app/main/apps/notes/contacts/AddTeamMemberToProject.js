@@ -28,9 +28,6 @@ import { useTranslation } from 'react-i18next';
 import * as ContactActions from './store/actions';
 import * as NoteActions from 'app/main/apps/notes/store/actions';
 
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
 const defaultFormState = {
 	email: ''
 };
@@ -75,9 +72,6 @@ function AddTeamMemberToProject(props) {
 	}
 
 	useEffect(() => {
-		dispatch({
-			type: NoteActions.RESET_PROEJECTS
-		});
 		dispatch(NoteActions.getProjects());
 	}, [dispatch]);
 

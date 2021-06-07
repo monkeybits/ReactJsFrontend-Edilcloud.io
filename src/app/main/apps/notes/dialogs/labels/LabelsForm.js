@@ -1,11 +1,6 @@
 import { useDebounce, useForm } from '@fuse/hooks';
 import _ from '@lodash';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Typography from '@material-ui/core/Typography';
+import { Icon, IconButton, Input, List, ListItem, Typography } from '@material-ui/core';
 import LabelModel from 'app/main/apps/notes/model/LabelModel';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import clsx from 'clsx';

@@ -80,8 +80,6 @@ function EditTaskTodoDialog() {
 	});
     const [value, setValue] = React.useState(0);
 
-    console.log('taskContentData?????????????????????????', taskContentData)
-	
     // this Method will be used to close the post dialog
     function closeTodoDialog() {
         return dispatch(Actions.closeEditTaskTodoDialog());

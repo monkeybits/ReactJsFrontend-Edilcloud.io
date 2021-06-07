@@ -51,7 +51,6 @@ export const apiCall = (
 			}
 		})
 		.catch(error => {
-			console.log({ myError: error });
 			if (error && error.response) {
 				switch (error.response.status) {
 					case 401:

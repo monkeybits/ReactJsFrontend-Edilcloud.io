@@ -1,28 +1,21 @@
+import React, { useState } from 'react';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import React, { useState, useEffect } from 'react';
+import { IconButton, Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import moment from 'moment';
 import {
-	DOWNLOAD_PHOTO,
-	DOWNLOAD_VIDEO,
-	DOWNLOAD_DOCUMENT,
 	PHOTO_DELETE,
 	VIDEO_DELETE,
 	DOCUMENT_DELETE,
-	FOLDER_DELETE_PROJECT,
 	FOLDER_DELETE
 } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
-import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-import FileSaver from 'file-saver';
+import { getHeaderToken } from 'app/services/serviceUtils';
 import { useParams } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
-import DeleteConfirmDialog from './DeleteConfirmDialog';
-import FileViewDialog from './FileViewDialog';
+import loadable from '@loadable/component';
+const DeleteConfirmDialog = loadable(() => import('./DeleteConfirmDialog'));
+const FileViewDialog = loadable(() => import('./FileViewDialog'));
 
 function DetailSidebarHeader({ setProgress, pageLayout }) {
 	const dispatch = useDispatch();
