@@ -80,14 +80,14 @@ function Boards(props) {
 	const [show, setShow] = useState(false);
 	const [notification, setNotification] = useState({title: '', body: ''});
 	const [isTokenFound, setTokenFound] = useState(false);
-	getToken(setTokenFound);
+	// getToken(setTokenFound);
 
-	onMessageListener().then(payload => {
-		setShow(true);
-		setNotification({title: payload.notification.title, body: payload.notification.body})
-	  }).catch(err => {
-		//   console.log('failed: ', err)
-	  });
+	// onMessageListener().then(payload => {
+	// 	setShow(true);
+	// 	setNotification({title: payload.notification.title, body: payload.notification.body})
+	//   }).catch(err => {
+	// 	//   console.log('failed: ', err)
+	//   });
 
 	useEffect(() => {
 		localStorage.removeItem('main_profile');

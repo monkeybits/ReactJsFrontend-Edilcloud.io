@@ -1,5 +1,4 @@
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { darken } from '@material-ui/core/styles/colorManipulator';
 import { TextField, Radio, Checkbox } from '@material-ui/core';
 import React from 'react';
 import { green } from '@material-ui/core/colors';

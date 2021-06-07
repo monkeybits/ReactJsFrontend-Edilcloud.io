@@ -11,8 +11,9 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import * as userActions from 'app/auth/store/actions';
 import { useTranslation } from 'react-i18next';
 import axios from '../../services/axiosConfig';
-import ProfileUpload from './FileUpload';
-import BasicInfo from './BasicInfo';
+import loadable from '@loadable/component';
+const ProfileUpload = loadable(() => import('./FileUpload'));
+const BasicInfo = loadable(() => import('./BasicInfo'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
