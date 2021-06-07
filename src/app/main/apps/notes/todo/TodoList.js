@@ -8,8 +8,6 @@ import { decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import * as Actions from './store/actions';
-
 const TodoListItem = loadable(() => import('./TodoListItem'));
 const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'));
 const TaskAttachment = loadable(() => import('./TaskAttachment'));

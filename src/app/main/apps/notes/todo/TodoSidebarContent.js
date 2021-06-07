@@ -1,8 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import {
 	Avatar,
-	Button,
 	Icon,
 	List,
 	ListItem,

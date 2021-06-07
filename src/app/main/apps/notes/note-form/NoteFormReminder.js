@@ -1,6 +1,5 @@
 import DateFnsUtils from '@date-io/date-fns';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
+import { Icon, IconButton } from '@material-ui/core';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import React, { useState } from 'react';
 

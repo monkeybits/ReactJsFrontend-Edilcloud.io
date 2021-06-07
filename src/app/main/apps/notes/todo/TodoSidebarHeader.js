@@ -1,9 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { Icon, MenuItem, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { darken } from '@material-ui/core/styles/colorManipulator';
-import clsx from 'clsx';
 
 // const useStyles = makeStyles(theme => ({
 // 	root: {
