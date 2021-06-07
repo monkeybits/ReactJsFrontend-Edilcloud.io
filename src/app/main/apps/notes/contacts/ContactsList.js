@@ -1,6 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseUtils from '@fuse/utils';
-import { Avatar, Icon, IconButton, Typography, Grid, Input, Paper, Hidden } from '@material-ui/core';
+import { Avatar, IconButton, Typography, Grid, Hidden } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';

@@ -121,7 +121,6 @@ function RegisterPage() {
 	}
 
 	const appleRegisterSuccess = data => {
-		console.log('data', data);
 		// this.startLoading();
 		if (data) {
 			apiCall(
@@ -132,7 +131,6 @@ function RegisterPage() {
 					photo: ''
 				},
 				res => {
-					console.log('dfdsgssdfsdfres', res);
 					const { token } = res;
 					const { history, dispatch } = this.props;
 					// if (this.props.isRegister) {
@@ -144,7 +142,6 @@ function RegisterPage() {
 					// }
 
 					new Promise((resolve, reject) => {
-						console.log('dfdsgsres', res);
 						if (res) {
 							jwtService.setSession(token);
 							resolve(res);
@@ -160,12 +157,11 @@ function RegisterPage() {
 						})
 						.catch(err => {
 							// this.removeLoading();
-							console.log('dfdsgs', err);
+							// console.log('dfdsgs', err);
 						});
 				},
 				err => {
 					// this.removeLoading();
-					console.log('dfdsgssdfsdfs', err);
 					toast.error(err?.error);
 				},
 				METHOD.POST

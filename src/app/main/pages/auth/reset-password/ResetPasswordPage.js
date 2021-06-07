@@ -47,7 +47,7 @@ function ResetPasswordPage({ match: { params }, history }) {
 				history.push('/pages/auth/login');
 			},
 			err => {
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.POST
 		);

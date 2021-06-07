@@ -21,12 +21,6 @@ class FacebookLoginComponent extends React.Component {
 		const photo = response.picture.data.url;
 		const provider = response.graphDomain;
 		this.startLoading();
-		console.log({
-			response,
-			access_token,
-			photo,
-			provider
-		});
 		apiCall(
 			this.props.isRegister ? API_FACEBOOK_AUTH_REGISTER : API_FACEBOOK_AUTH_LOGIN,
 			{
@@ -60,17 +54,16 @@ class FacebookLoginComponent extends React.Component {
 					})
 					.catch(err => {
 						this.removeLoading();
-						console.log(err);
+						// console.log(err);
 					});
 			},
 			err => {
 				this.removeLoading();
-				console.log(err);
+				// console.log(err);
 				toast.error(err?.error);
 			},
 			METHOD.POST
 		);
-		console.log(response);
 	};
 
 	startLoading = () =>
@@ -94,7 +87,9 @@ class FacebookLoginComponent extends React.Component {
 					scope="public_profile"
 					callback={this.responseFacebook}
 					disableMobileRedirect
-					onFailure={err => console.log(err)}
+					onFailure={err => {
+						// console.log(err)
+					}}
 					icon={<img src="/assets/images/social-icons/facebook.png" height="20" alt="Facebook" />}
 					textButton="Facebook"
 				/>

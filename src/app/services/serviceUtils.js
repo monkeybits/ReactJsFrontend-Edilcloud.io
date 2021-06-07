@@ -41,7 +41,6 @@ export const decodeDataFromToken = () => {
 			return jwtDecode(getTokenOnly());
 		}
 	} catch (e) {
-		console.log(e);
 		return null;
 	}
 };

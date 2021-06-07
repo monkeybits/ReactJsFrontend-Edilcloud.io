@@ -11,7 +11,6 @@ class VideoListItem extends Component {
 	}
 
 	onDuration = duration => {
-		console.log('onDuration', duration);
 		this.setState({ duration });
 	};
 
@@ -23,7 +22,6 @@ class VideoListItem extends Component {
 	};
 
 	ref = player => {
-		console.log(player);
 		this.player = player;
 	};
 
@@ -41,12 +39,12 @@ class VideoListItem extends Component {
 	};
 
 	onPlay = () => {
-		console.log('onPlay');
+		// console.log('onPlay');
 		this.setState({ playing: true });
 	};
 
 	onEnded = () => {
-		console.log('onEnded');
+		// console.log('onEnded');
 		// this.setState({ playing: this.state.loop })
 	};
 

@@ -1,20 +1,10 @@
-import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
-import { Button, TextField } from '@material-ui/core';
-
+import { IconButton, Button, Dialog, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
 import { useTranslation } from 'react-i18next';
 
 const styles = theme => ({

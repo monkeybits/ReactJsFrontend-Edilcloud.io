@@ -1,18 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
-import Avatar from '@material-ui/core/Avatar';
-import Divider from '@material-ui/core/Divider';
-
-import { AppBar, Toolbar, IconButton } from '@material-ui/core';
-
-import Icon from '@material-ui/core/Icon';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Paper from '@material-ui/core/Paper';
+import { AppBar, Toolbar, IconButton, Icon, List, ListItem, ListItemText, ListSubheader, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
@@ -57,11 +45,7 @@ function ContactsSidebarContent(props) {
 	const { t } = useTranslation('contacts_project');
 	const dispatch = useDispatch();
 	const companies = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.companies);
-	const user = useSelector(({ contactsAppProject }) => contactsAppProject.user);
-	const company = useSelector(({ chatApp }) => chatApp.company);
 	const filterKey = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.filterKey);
-	const filterKeyName = useSelector(({ contactsAppProject }) => contactsAppProject.contacts.filterKeyName);
-	const projectDetail = useSelector(({ notesApp }) => notesApp.project.projectDetail);
 	const classes = useStyles(props);
 	const getListItemClassName = key => (key == filterKey ? clsx(classes.listItem, 'active') : classes.listItem);
 	const getListItemClassNameForCompany = (key, id) =>

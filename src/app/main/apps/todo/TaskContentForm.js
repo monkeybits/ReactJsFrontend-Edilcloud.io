@@ -226,7 +226,6 @@ function TaskContentForm(props) {
 			setCompany(company);
 		}
 		if (taskContentData) {
-			console.log({ taskContentData, date_start: taskContentData.date_start });
 			if (taskContentData.isGantt) {
 				if (taskContentData.parent == 1) {
 					// parrent 1 means its activty
@@ -351,15 +350,8 @@ function TaskContentForm(props) {
 
 	const getIsDisabled = () =>
 		taskContentData?.assigned_company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
-	console.log({
-		getIsDisabled: getIsDisabled(),
-		projectDetail,
-		companyDetail: companyDetail.id,
-		getRole: getRole()
-	});
 
 	const getProjectCompanyTeamProfiles = value => {
-		console.log(routeParams.id, taskContentData, value);
 		// apiCall(
 		// 	GET_COMPANY_PROJECT_TEAM_MEMBER_LIST(routeParams.id, taskContentData.assigned_company.id, value),
 		// 	{},

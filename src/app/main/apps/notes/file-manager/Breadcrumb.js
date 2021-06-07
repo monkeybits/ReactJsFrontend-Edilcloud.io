@@ -1,6 +1,4 @@
-import { Button } from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
-import Typography from '@material-ui/core/Typography';
+import { Button, Icon, Typography } from '@material-ui/core';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';

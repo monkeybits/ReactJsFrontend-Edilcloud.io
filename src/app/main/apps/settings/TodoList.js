@@ -30,11 +30,9 @@ function TodoList(props) {
 			UPDATE_SETTINGS_PREFERENCES,
 			{ ...setting },
 			res => {
-				console.log(res);
 				toast.success('Updated');
 			},
 			err => {
-				console.log(err);
 				toast.error('try again after sometime..');
 			},
 			METHOD.PUT,

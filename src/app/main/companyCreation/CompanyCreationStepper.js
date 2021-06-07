@@ -133,14 +133,18 @@ function CompanyCreationStepper({ user, history }) {
 								const subCategory = [];
 								setTypologyList(typologyListRes);
 							},
-							listErr => console.log({ listErr }),
+							listErr => {
+								// console.log({ listErr })
+							},
 							METHOD.GET,
 							getHeaderToken()
 						);
 					});
 				}
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -152,7 +156,6 @@ function CompanyCreationStepper({ user, history }) {
 
 	useEffect(() => {
 		if (routeHistory) {
-			console.log({ routeHistory });
 			if (
 				routeHistory.location.pathname === '/apps/settings' ||
 				routeHistory.location.pathname === '/edit-company'
@@ -232,7 +235,6 @@ function CompanyCreationStepper({ user, history }) {
 				setProgress(0);
 				if(routeHistory.location.pathname !== '/apps/settings') {
 					if (isEdit) {
-						console.log('routeHistorynextPath', routeHistory.location.state.nextPath);
 						routeHistory.push(routeHistory.location.state.nextPath);
 					} else {
 						routeHistory.push('/apps/companies');

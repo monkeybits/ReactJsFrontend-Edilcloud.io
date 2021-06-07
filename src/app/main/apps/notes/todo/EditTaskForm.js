@@ -151,7 +151,6 @@ export default function EditTaskForm(props) {
             }
 		}
 		if (taskContentData) {
-			console.log({ taskContentData, date_start: taskContentData.date_start });
 			if (taskContentData.isGantt) {
 				if (taskContentData.parent == 1) {
 					// parrent 1 means its activty
@@ -186,7 +185,7 @@ export default function EditTaskForm(props) {
 	}, [companies, taskContentData]);
 
     const getProjectCompanyTeamProfiles = value => {
-		console.log(routeParams.id, taskContentData, value);
+		// console.log(routeParams.id, taskContentData, value);
 	};
 
     useEffect(() => {

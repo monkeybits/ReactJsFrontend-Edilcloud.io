@@ -158,7 +158,6 @@ const filtersReducer = (state = initialState(), action) => {
 				return d;
 			});
 			const allActivited = chnagedState.filter(d => d.isActive);
-			console.log({ allActivited });
 			if (allActivited?.length) {
 				tempUsedKeys.push(action.payload.activeFilter);
 			}
