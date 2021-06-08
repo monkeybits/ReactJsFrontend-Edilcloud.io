@@ -35,7 +35,7 @@ import ReuestsDrawer from './ReuestsDrawer';
 import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import reducer from '../store/reducers';
 import * as Actions from '../store/actions';
-import { getToken, onMessageListener } from '../../../../../firebase';
+// import { getToken, onMessageListener } from '../../../../../firebase';
 
 const UpdatePlanDialog = loadable(() => import('./UpdatePlanDialog'));
 
