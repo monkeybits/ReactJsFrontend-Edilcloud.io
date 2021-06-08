@@ -1,5 +1,5 @@
 // Scripts for firebase and firebase messaging
-importScripts('https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js');
+/* importScripts('https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.6.3/firebase-messaging.js');
 
 // Initialize the Firebase app in the service worker by passing the generated config
@@ -38,4 +38,4 @@ try {
   }
 } catch (e) {
   console.log('firebase', e)
-}
+} */

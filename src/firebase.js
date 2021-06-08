@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+/* import firebase from 'firebase/app';
 import 'firebase/messaging';
 
 var firebaseConfig = {
@@ -46,4 +46,4 @@ export const onMessageListener = () =>
         messaging.onMessage((payload) => {
             resolve(payload)
         });
-    });
+    }); */
