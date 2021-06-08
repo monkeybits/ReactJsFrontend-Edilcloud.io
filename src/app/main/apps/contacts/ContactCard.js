@@ -10,7 +10,7 @@ import ImageCropper from 'app/main/mainProfile/ImageCropper';
 import { decodeDataFromToken, getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DEACTIVATE_MEMBER, ACTIVATE_MEMBER } from 'app/services/apiEndPoints';
+import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
@@ -89,8 +89,8 @@ export default function ContactCard(props) {
 		inputFile.current.click();
 	}
 	const onDeactivate = () => {
-		const { id, email, status } = userData;
-		const url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
+		const { id, email } = userData;
+		const url = DELETE_MEMBER_FROM_PROJECT(id);
 		apiCall(
 			url,
 			{},
@@ -100,9 +100,9 @@ export default function ContactCard(props) {
 				dispatch(Actions.getContacts(routeParams));
 			},
 			err => {
-				// console.log(err)
+				// console.log(err),
 			},
-			METHOD.PUT,
+			METHOD.DELETE,
 			getHeaderToken()
 		);
 	};
@@ -116,10 +116,7 @@ export default function ContactCard(props) {
 				text={
 					userData && (
 						<>
-							<Typography>
-								{userData.status == 'Deactivated' ? t('DEACTIVATE_MSG') : t('ACTIVATE_MSG')}
-							</Typography>
-							{userData.status != 'Deactivated' && <Typography>{t('DEACTIVATE_ADVICE')}</Typography>}
+							<Typography>Are you sure want to delete ?</Typography>
 						</>
 					)
 				}

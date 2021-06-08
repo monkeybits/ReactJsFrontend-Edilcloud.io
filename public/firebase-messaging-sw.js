@@ -1,6 +1,6 @@
 // Scripts for firebase and firebase messaging
 importScripts('https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/8.6.3/firebase-analytics.js');
+importScripts('https://www.gstatic.com/firebasejs/8.6.3/firebase-messaging.js');
 
 // Initialize the Firebase app in the service worker by passing the generated config
 var firebaseConfig = {
@@ -9,7 +9,8 @@ var firebaseConfig = {
     // projectId: "edilcloud-testing",
     // storageBucket: "edilcloud-testing.appspot.com",
     // messagingSenderId: "918465750682",
-    // appId: "1:918465750682:web:e79f3d8207133d1eeee123"
+    // appId: "1:918465750682:web:e79f3d8207133d1eeee123",
+    // measurementId: "G-ZCZQYCPF4W"
     apiKey: "AIzaSyCdkNCTghgjICWAA3BMXJ8Tiubiu85hGOI",
     authDomain: "edilcloud-66a4c.firebaseapp.com",
     projectId: "edilcloud-66a4c",
@@ -20,16 +21,21 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// Retrieve firebase messaging
-const messaging = firebase.messaging();
+try {
+  if (firebase.messaging.isSupported()) {
+    const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage(function(payload) {
-  // console.log('Received background message ', payload);
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-  };
+    messaging.onBackgroundMessage(function(payload) {
+      console.log('Received background message ', payload);
+      const notificationTitle = payload.notification.title;
+      const notificationOptions = {
+        body: payload.notification.body,
+      };
 
-  self.registration.showNotification(notificationTitle,
-    notificationOptions);
-});
+      self.registration.showNotification(notificationTitle,
+        notificationOptions);
+    });
+  }
+} catch (e) {
+  console.log('firebase', e)
+}

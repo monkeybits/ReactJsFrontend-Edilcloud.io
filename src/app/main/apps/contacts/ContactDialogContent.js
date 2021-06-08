@@ -28,7 +28,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import EditIcon from '@material-ui/icons/Edit';
-import { SEARCH_USER_BY_EMAIL } from 'app/services/apiEndPoints';
+import { SEARCH_USER_BY_EMAIL, DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import CloseIcon from '@material-ui/icons/Close';
@@ -73,6 +73,7 @@ function ContactDialog(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
+	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
 	const [value, setValue] = useState('English');
 	const [role, setRole] = useState('');
 	const [canTryWithExisting, setCanTryWithExisting] = useState(true);
@@ -243,8 +244,23 @@ function ContactDialog(props) {
 	};
 
 	function handleRemove() {
-		dispatch(Actions.removeContact(form.id));
-		closeComposeDialog();
+		const url = DELETE_MEMBER_FROM_PROJECT(form.id);
+		apiCall(
+			url,
+			{},
+			res => {
+				dispatch(Actions.removeContact(form.email));
+				closeComposeDialog();
+				dispatch(Actions.getContacts(routeParams));
+			},
+			err => {
+				// console.log(err),
+			},
+			METHOD.DELETE,
+			getHeaderToken()
+		);
+		// dispatch(Actions.removeContact(form.id));
+		// closeComposeDialog();
 	}
 
 	function handleOpenFileClick(e) {

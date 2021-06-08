@@ -38,7 +38,8 @@ const locale = {
 	DEACTIVATE_MSG: 'Sei sicur di volere attivare il profilo?',
 	DEACTIVATE_ADVICE: 'L account sarà disattivato, ma potrà essere attivato successivamente',
 	ACTIVATE_MSG: 'Sei sicur di volere disattivare il profilo?',
-	VIEW_CONTACT: 'Vedi contatti'
+	VIEW_CONTACT: 'Vedi contatti',
+	DELETE_CONTACT_ASK: 'Are you sure want to delete ?'
 };
 
 export default locale;

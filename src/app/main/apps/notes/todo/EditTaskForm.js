@@ -199,7 +199,7 @@ export default function EditTaskForm(props) {
     // const dueDate = cardForm && cardForm.due ? moment(cardForm.due).format(moment.HTML5_FMT.DATE) : '';
     
     const getIsDisabled = () =>
-		taskContentData?.assigned_company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
+		getRole() == 'w' || getRole() == 'm';
 
     const isFormInvalid = () => cardForm.name && cardForm.name.length > 0 && taskDate.startDate && taskDate.endDate;
 
