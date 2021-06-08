@@ -82,10 +82,11 @@ function Boards(props) {
 	getToken(setTokenFound);
 
 	onMessageListener().then(payload => {
+		console.log('payload: ', payload)
 		setShow(true);
 		setNotification({title: payload.notification.title, body: payload.notification.body})
 	  }).catch(err => {
-		//   console.log('failed: ', err)
+		  console.log('failed: ', err)
 	  });
 
 	useEffect(() => {
