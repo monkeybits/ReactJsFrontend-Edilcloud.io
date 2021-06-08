@@ -93,6 +93,7 @@ function ViewContactDialog(props) {
 	const handleSelectChange = event => {
 		setRole(event.target.value);
 	};
+	
 	return (
 		<Dialog
 			classes={{
@@ -143,7 +144,7 @@ function ViewContactDialog(props) {
 							<Typography className="text-base">{t('EMAIL')}</Typography>
 						</div>
 
-						<Typography variant="h6" className="text-base">
+						<Typography variant="h6" className="text-base view-contact-popup-link">
 							<a href={`mailto:${form.email}`}>{form.email}</a>
 						</Typography>
 					</div>
@@ -153,7 +154,7 @@ function ViewContactDialog(props) {
 								<Typography className="text-base">{t('PHONE')}</Typography>
 							</div>
 
-							<Typography variant="h6" className="text-base">
+							<Typography variant="h6" className="text-base view-contact-popup-link">
 								<a href={`tel:${form.phone}`}>{form.phone}</a>
 							</Typography>
 						</div>
