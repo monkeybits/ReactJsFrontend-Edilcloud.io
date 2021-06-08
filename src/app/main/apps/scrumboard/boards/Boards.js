@@ -35,7 +35,7 @@ import ReuestsDrawer from './ReuestsDrawer';
 import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import reducer from '../store/reducers';
 import * as Actions from '../store/actions';
-// import { getToken, onMessageListener } from '../../../../../firebase';
+import { getToken, onMessageListener } from '../../../../../firebase';
 
 const UpdatePlanDialog = loadable(() => import('./UpdatePlanDialog'));
 
@@ -79,14 +79,14 @@ function Boards(props) {
 	const [show, setShow] = useState(false);
 	const [notification, setNotification] = useState({title: '', body: ''});
 	const [isTokenFound, setTokenFound] = useState(false);
-	// getToken(setTokenFound);
+	getToken(setTokenFound);
 
-	// onMessageListener().then(payload => {
-	// 	setShow(true);
-	// 	setNotification({title: payload.notification.title, body: payload.notification.body})
-	//   }).catch(err => {
-	// 	//   console.log('failed: ', err)
-	//   });
+	onMessageListener().then(payload => {
+		setShow(true);
+		setNotification({title: payload.notification.title, body: payload.notification.body})
+	  }).catch(err => {
+		//   console.log('failed: ', err)
+	  });
 
 	useEffect(() => {
 		localStorage.removeItem('main_profile');
