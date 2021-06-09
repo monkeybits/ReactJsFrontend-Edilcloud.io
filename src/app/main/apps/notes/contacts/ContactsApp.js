@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 function ContactsApp(props) {
 	const dispatch = useDispatch();
 	const { t } = useTranslation('contacts_project');
-	const [defaultMenu, setDefaultMenu] = useState(true);
+	const [defaultMenu, setDefaultMenu] = useState(false);
 	const [foldedAndOpened, setFoldedAndOpened] = useState(false);
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
@@ -46,9 +46,10 @@ function ContactsApp(props) {
 	useEffect(() => {
 		if (toggleSidebarMenu) {
 			setDefaultMenu(false);
-		} else {
-			setDefaultMenu(true);
-		}
+		} 
+		// else {
+		// 	setDefaultMenu(true);
+		// }
 	}, [toggleSidebarMenu]);
 
 	const foldedAndClosed = folded && !navbar.foldedOpen;

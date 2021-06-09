@@ -30,7 +30,7 @@ function NotesApp(props) {
 	const dispatch = useDispatch();
 	const userInfo = decodeDataFromToken();
 	const { t } = useTranslation('projects');
-	const [defaultMenu, setDefaultMenu] = useState(true);
+	const [defaultMenu, setDefaultMenu] = useState(false);
 	const [foldedAndOpened, setFoldedAndOpened] = useState(false);
 	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
 	const navbar = useSelector(({ fuse }) => fuse.navbar);
@@ -41,9 +41,10 @@ function NotesApp(props) {
 	useEffect(() => {
 		if (toggleSidebarMenu) {
 			setDefaultMenu(false);
-		} else {
-			setDefaultMenu(true);
-		}
+		} 
+		// else {
+		// 	setDefaultMenu(true);
+		// }
 	}, [toggleSidebarMenu]);
 
 	const foldedAndClosed = folded && !navbar.foldedOpen;

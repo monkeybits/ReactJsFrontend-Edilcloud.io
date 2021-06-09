@@ -201,7 +201,8 @@ function TodoActivityListItem(props) {
 				dispatch(Actions.editActivityByList({
 					...values,
 					task: props.todo.task,
-					id: props.todo.id
+					id: props.todo.id,
+					workers: props.todo.workers?.length ? props.todo.workers : undefined,
 				}));
 			},
 			err => {

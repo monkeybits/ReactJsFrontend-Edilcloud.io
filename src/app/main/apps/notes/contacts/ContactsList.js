@@ -265,7 +265,7 @@ function ContactsList(props) {
 	};
 	return (
 		<>
-			<div className="flex items-center left-icon-btn mb-24">
+			<div className="flex items-center left-icon-btn mb-52">
 				<div className="single-btn rounded h-40 mr-10 sm:mr-0">
 					<Hidden lgUp>
 						<IconButton
@@ -338,7 +338,7 @@ function ContactsList(props) {
 					<>
 						{/* <Typography className="truncate">{d.profile.company.name}</Typography>
 								<Divider className="my-12" /> */}
-						<Grid container spacing={12} className="team-grid">
+						<Grid container spacing={12} className="team-grid mb-52">
 							{filteredData.map((data, index) => {
 								return (
 									// company.id == data.profile?.company?.id ?

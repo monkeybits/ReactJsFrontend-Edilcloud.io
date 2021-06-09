@@ -58,7 +58,7 @@ function ContactsSidebarContent(props) {
 	return (
 		// <div className="p-0 lg:ltr:pr-24 lg:ltr:pl-0 lg:rtl:pr-0 lg:rtl:pl-24">
 		<FuseAnimate animation="transition.slideLeftIn" delay={200}>
-			<div className="lg:pl-48 pt-60">
+			<div>
 				{/* <div className="p-24 flex items-center">
 						<Avatar alt={user.name} src={company.logo}>
 							{' '}

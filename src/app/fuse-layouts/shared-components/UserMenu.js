@@ -107,11 +107,11 @@ function UserMenu(props) {
 						<MenuItem
 							onClick={() => {
 								dispatch(authActions.logoutUser());
-								if (window.OneSignal) {
-									window.OneSignal.push(function () {
-										window.OneSignal.setExternalUserId('');
-									});
-								}
+								// if (window.OneSignal) {
+								// 	window.OneSignal.push(function () {
+								// 		window.OneSignal.setExternalUserId('');
+								// 	});
+								// }
 								userMenuClose();
 							}}
 						>

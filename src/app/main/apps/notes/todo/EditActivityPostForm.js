@@ -196,26 +196,6 @@ function EditActivityPostForm(props) {
 	return (
 		<div className="w-full custom-task-content">
 			<div className="custom-tab-header2 flex justify-start relative">
-				<BottomNavigation
-					value={value}
-					onChange={(event, newValue) => {
-						setValue(newValue);
-					}}
-					showLabels
-					className="w-full h-64"
-				>
-					<BottomNavigationAction
-						label="Timeline"
-						className="min-w-auto max-w-full font-bold"
-						wrapped
-						{...a11yProps(0)}
-					/>
-					{/* <BottomNavigationAction
-						label="Activity"
-						className="min-w-auto max-w-full font-bold"
-						{...a11yProps(1)}
-					/> */}
-				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton
 						onClick={closeTodoDialog}
