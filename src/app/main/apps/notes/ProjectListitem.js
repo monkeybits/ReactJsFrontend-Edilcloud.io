@@ -42,6 +42,7 @@ import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css';
 import loadable from '@loadable/component';
 const DownloadPdf = loadable(() => import('./DownloadPdf'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -302,12 +303,55 @@ export default function ProjectListitem(props) {
 				<Typography>{description}</Typography>
 				<div className="flex overflow-x-auto nowrap about-image-section mt-16">
 					{!!profiles?.length &&
-						profiles.map(d => (
-							<Tooltip title={`${d.first_name} ${d.last_name}`} key={d.id}>
-								<Avatar className="mx-4 w-32 h-32" src={d.photo} />
-							</Tooltip>
-						))}
-					{/* <img src={d.photo ? d.photo : '/assets/images/avatars/profile.jpg'} /> */}
+						profiles.map((d, index) => (
+							<>
+								{
+									index < 5 &&
+									<Tooltip title={`${d.first_name} ${d.last_name}`} key={d.id}>
+										<Avatar className="mx-4 w-32 h-32" src={d.photo} />
+									</Tooltip>
+								}
+							</>
+						))
+					}
+					{!!profiles?.length &&
+					 profiles?.length > 5 &&
+						<TippyMenu
+							icon={
+								<>
+									<Button
+										aria-haspopup="true"
+										variant="outlined"
+										size="small"
+										className="rounded-full p-0 min-w-32 min-h-32 ml-4"
+									>
+										<Icon className="add-icon-avatar">add</Icon>
+										<Typography>{profiles?.length - 5}</Typography>
+									</Button>
+								</>
+							}
+							outsideClick
+						>
+							{
+								profiles.map((d, index) => (
+									<>
+										{
+											index >= 5 &&
+											<MenuItem
+												onClick={() => {
+													// handleMenuClose();
+													// props.removeAttachment(props.item.id);
+												}}
+											>
+												{d.first_name} {d.last_name}
+											</MenuItem>
+										}
+									</>
+								))
+							}
+							
+						</TippyMenu>
+					}
 				</div>
 			</TabPanel>
 			<TabPanel value={value} index={1} className="tab_panel">
