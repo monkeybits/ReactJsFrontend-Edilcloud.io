@@ -510,6 +510,9 @@ textarea.MuiOutlinedInput-input {
 .view-contact-popup-link a {
     color: #376aed
 }
+.add-icon-avatar {
+    font-size: 14px;
+}
 
 /* ********************************************************************************************
     Tab Header & Content
