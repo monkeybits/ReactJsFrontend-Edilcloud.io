@@ -623,12 +623,7 @@ export default function PostListItem({
 				color="default"
 				elevation={0}
 			>
-				<div className="flex flex-wrap items-center mb-12 cursor-pointer justify-between">
-					<div className="flex">
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-32 w-32 mr-8" />
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-32 w-32 mr-8" />
-						<Avatar aria-label="Recipe" src={post.author.photo} className="h-32 w-32 mr-8" />
-					</div>
+				<div className="flex flex-wrap items-center mb-12 cursor-pointer justify-center">
 					{/* {showComments() && ( */}
 					<div
 						className="flex items-start mb-12 cursor-pointer"
@@ -642,13 +637,13 @@ export default function PostListItem({
 						<Icon fontSize="small" className="mr-4">
 							comment
 						</Icon>
-						{/* <span className="text-base font-600 hover:underline">
+						<span className="text-base font-600 hover:underline">
 								{commentsLength() > 0
 									? commentsLength() === 1
 										? `${commentsLength()} comment`
 										: `${commentsLength()} comments`
 									: 'comment'}
-							</span> */}
+							</span>
 					</div>
 					{/* )} */}
 				</div>

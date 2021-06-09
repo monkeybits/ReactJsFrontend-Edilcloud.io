@@ -53,7 +53,7 @@ function ContactsSidebarContent(props) {
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className="flex-auto border-l-1 border-solid">
-				<div className="lg:pl-48 pt-60">
+				<div>
 					<List className="p-0">
 						<AppBar position="static" elevation={1}>
 							<Toolbar className="p-0">
@@ -68,7 +68,7 @@ function ContactsSidebarContent(props) {
 					</List>
 					x
 					<List className="team-page-filter text-default">
-						<div className="p-32 pt-0 ">
+						<div className="pt-0 ">
 							<ListSubheader className={classes.listSubheader} disableSticky>
 								Filtri Generali
 							</ListSubheader>
@@ -120,7 +120,7 @@ function ContactsSidebarContent(props) {
 					</List>
 					{!!companies?.length && (
 						<List>
-							<div className="p-32 pt-0 ">
+							<div className="pt-0 ">
 								<ListSubheader className={classes.listSubheader} disableSticky>
 									{t('COMAPNY')}
 								</ListSubheader>

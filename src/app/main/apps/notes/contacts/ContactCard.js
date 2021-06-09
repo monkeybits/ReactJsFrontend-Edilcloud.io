@@ -152,7 +152,7 @@ export default function ContactCard(props) {
 			/>
 			<div
 				ref={notificationPanel.notificationData?.notification?.object_id == id ? scrollRef : null}
-				className="card-container flex flex-col px-10 text-13"
+				className="card-container flex flex-col px-10 text-13 border-grey-600 border-1"
 			>
 				<span className={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				<div className="team-action">
@@ -183,24 +183,26 @@ export default function ContactCard(props) {
 				<p className="font-500 text-muted mb-8">{profile.position || 'N/A'}</p>
 				<p className="font-500 text-muted mb-8">{profile.role}</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
-				<a
-					className="flex font-700 mb-10 mx-28 whitespace-no-wrap normal-case custom-email-button justify-center items-center py-6 rounded-md"
-					href={`mailto:${email}`}
-				>
-					<Icon size="small" className="mr-8">
-						email
-					</Icon>
-					Email
-				</a>
-				<a
-					className="flex font-700 mb-10 mx-28 whitespace-no-wrap normal-case custom-email-button justify-center items-center py-6 rounded-md"
-					href={`tel:${phone}`}
-				>
-					<Icon size="small" className="mr-8">
-						phone
-					</Icon>
-					Phone
-				</a>
+				<div className="flex items-center justify-center mt-12 -mx-10">
+					<a
+						className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
+						href={`mailto:${email}`}
+					>
+						<Icon size="small" className="mr-8">
+							email
+						</Icon>
+						Email
+					</a>
+					<a
+						className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
+						href={`tel:${phone}`}
+					>
+						<Icon size="small" className="mr-8">
+							call
+						</Icon>
+						Call
+					</a>
+				</div>
 			</div>
 		</Grid>
 	);

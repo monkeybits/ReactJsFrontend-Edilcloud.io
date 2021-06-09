@@ -172,7 +172,7 @@ function TodoDialog(props) {
 			setCompany([]);
 			setTaskDate({
 				startDate: new Date(),
-				endDate: undefined
+				endDate: new Date()
 			});
 			setForm({
 				...defaultFormState,
@@ -465,17 +465,6 @@ function TodoDialog(props) {
 						)
 					)}
 
-					<FormControl className="mt-8 mb-16" required fullWidth>
-						<TextField
-							label={t('NOTES')}
-							name="notes"
-							multiline
-							rows="6"
-							value={form.notes}
-							onChange={handleChange}
-							variant="outlined"
-						/>
-					</FormControl>
 					<div className="flex -mx-4">
 						<div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
 							<KeyboardDatePicker
@@ -509,6 +498,19 @@ function TodoDialog(props) {
 							/>
 						</div>
 					</div>
+
+					<FormControl className="mb-16" required fullWidth>
+						<TextField
+							label={t('NOTES')}
+							name="notes"
+							multiline
+							rows="6"
+							value={form.notes}
+							onChange={handleChange}
+							variant="outlined"
+						/>
+					</FormControl>
+
 					<div className="w-full zoom-125">
 						<label>
 							<small>{t('TASK_PROGRESS')}</small>

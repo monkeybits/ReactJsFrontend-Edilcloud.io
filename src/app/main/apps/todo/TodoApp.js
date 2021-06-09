@@ -47,7 +47,7 @@ const useStyles = makeStyles({
 
 function TodoApp(props) {
 	const dispatch = useDispatch();
-	const [defaultMenu, setDefaultMenu] = useState(true);
+	const [defaultMenu, setDefaultMenu] = useState(false);
 	const [foldedAndOpened, setFoldedAndOpened] = useState(false);
 	const { t } = useTranslation('dashboard');
 	const classes = useStyles(props);
@@ -65,9 +65,10 @@ function TodoApp(props) {
 	useEffect(() => {
 		if (toggleSidebarMenu) {
 			setDefaultMenu(false);
-		} else {
-			setDefaultMenu(true);
 		}
+		//  else {
+		// 	setDefaultMenu(true);
+		// }
 	}, [toggleSidebarMenu]);
 
 	const foldedAndClosed = folded && !navbar.foldedOpen;

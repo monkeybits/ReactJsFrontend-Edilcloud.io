@@ -67,8 +67,8 @@ function TodoSidebarContent(props) {
 		dispatch(Actions.changeFilters({ activeFilter, activeFilterKey }));
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
-			<div className="flex-auto md:ml-20 border-l-1 border-solid">
-				<div className="pt-60 lg:pl-44">
+			<div className="flex-auto border-l-1 border-solid">
+				<div>
 					<List className="p-0">
 						<AppBar position="static" elevation={1}>
 							<Toolbar className="p-0">

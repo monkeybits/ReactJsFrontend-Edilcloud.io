@@ -744,10 +744,6 @@ textarea.MuiOutlinedInput-input {
 .makeStyles-innerScroll-26 {
     height: auto
 }
-.custom-email-button {
-    color: #fff !important;
-    background-color: #376aed;
-}
 .bordergrey {
     border: 1px #12121214 solid;
 }
@@ -996,7 +992,7 @@ textarea.MuiOutlinedInput-input {
 }
 .team-grid .card-container {
     padding-top: 40px;
-    padding-bottom: 15px;
+    /* padding-bottom: 15px; */
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 1px 3px 0 #00000029;
@@ -1729,7 +1725,7 @@ audio {
     top: 8px;
 }
 .timeline-modal .right-m-12 button svg  {
-    font-size: 1.6rem;
+    /* font-size: 1.6rem; */
     color: #5C616F;
 }
 .content-modal {

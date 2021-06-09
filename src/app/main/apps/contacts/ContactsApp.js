@@ -41,7 +41,7 @@ function ContactsApp(props) {
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
-	const [defaultMenu, setDefaultMenu] = useState(true);
+	const [defaultMenu, setDefaultMenu] = useState(false);
 	const [foldedAndOpened, setFoldedAndOpened] = useState(false);
 	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
 	const navbar = useSelector(({ fuse }) => fuse.navbar);
@@ -61,6 +61,15 @@ function ContactsApp(props) {
 
 	const userInfo = decodeDataFromToken();
 	const roleFromCompany = userInfo?.extra?.profile?.role;
+
+	useEffect(() => {
+		if (toggleSidebarMenu) {
+			setDefaultMenu(false);
+		}
+		// else {
+		// 	setDefaultMenu(true);
+		// }
+	}, [toggleSidebarMenu]);
 
 	useEffect(() => {
 		const foldedAndOpened = folded && navbar.foldedOpen;

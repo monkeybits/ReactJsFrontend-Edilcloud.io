@@ -324,19 +324,6 @@ export default function EditTaskForm(props) {
                     </div>
                 )
             )}
-            <div className="w-full mb-24">
-                <TextField
-                    label={t('DESCRIPTION')}
-                    name="description"
-                    value={cardForm.description}
-                    disabled={getIsDisabled()}
-                    onChange={handleChange}
-                    multiline
-                    rows="4"
-                    variant="outlined"
-                    fullWidth
-                />
-            </div>
             <div className="flex -mx-4">
                 <div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
                     <KeyboardDatePicker
@@ -370,6 +357,19 @@ export default function EditTaskForm(props) {
                         minDate={taskDate.startDate}
                     />
                 </div>
+            </div>
+            <div className="w-full mb-24">
+                <TextField
+                    label={t('DESCRIPTION')}
+                    name="description"
+                    value={cardForm.description}
+                    disabled={getIsDisabled()}
+                    onChange={handleChange}
+                    multiline
+                    rows="4"
+                    variant="outlined"
+                    fullWidth
+                />
             </div>
             {taskContentData?.isGantt && taskContentData?.parent == 1 ? null : (
                 <div className="mt-24 mx-12 zoom-125">

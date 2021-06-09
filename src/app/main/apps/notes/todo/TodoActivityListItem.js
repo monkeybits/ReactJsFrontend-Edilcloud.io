@@ -174,11 +174,12 @@ function TodoActivityListItem(props) {
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(props.todo.id),
 			values,
-			res => { 
+			res => {
 				dispatch(Actions.editActivityByList({
 					...values,
 					task: props.todo.task,
-					id: props.todo.id
+					id: props.todo.id,
+					workers: props.todo.workers?.length ? props.todo.workers : undefined,
 				}));
 			},
 			err => {
