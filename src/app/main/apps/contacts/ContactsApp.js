@@ -105,7 +105,7 @@ function ContactsApp(props) {
 			<FusePageSimple
 				classes={{
 					contentWrapper: 'h-full',
-					content: 'flex flex-col h-full',
+					content: 'flex flex-col h-full p-24',
 					leftSidebar: `mobile-h-full w-350 border-0 height-full-left ${
 						foldedAndOpened || defaultMenu ? 'ml-19' : ''
 					}`,
