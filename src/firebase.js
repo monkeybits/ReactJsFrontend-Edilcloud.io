@@ -21,11 +21,18 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-const messaging = firebase.messaging();
+let messaging = null
+try {
+  if (firebase.messaging.isSupported()) {
+    messaging = firebase.messaging();
+  }
+} catch (e) {
+  console.log('Error', e)
+}
 
 export const getToken = (setTokenFound) => {
     // return messaging.getToken({vapidKey: 'BHRyW3ZRnv9giFMD9DFotLg-TNT0HsH4txDPjhnkQrRc6n_n_PlakUB4hMZdqVWDvsWM3GYhsxlDowYPd8LBCPo'}).then((currentToken) => {
-    return messaging.getToken({vapidKey: 'BHRyW3ZRnv9giFMD9DFotLg-BMMbkB-0wGOQ_ycUIRyI0GIKg22-QuoDC6RLVZjOIXGSnKbQMNaOZr4dL3ZLSwtACLvDL8Rsg9aoHT-pu6syQ_0'}).then((currentToken) => {
+    return messaging && messaging.getToken({vapidKey: 'BHRyW3ZRnv9giFMD9DFotLg-BMMbkB-0wGOQ_ycUIRyI0GIKg22-QuoDC6RLVZjOIXGSnKbQMNaOZr4dL3ZLSwtACLvDL8Rsg9aoHT-pu6syQ_0'}).then((currentToken) => {
       if (currentToken) {
         console.log('current token for client: ', currentToken);
         setTokenFound(true);
@@ -44,7 +51,7 @@ export const getToken = (setTokenFound) => {
 
 export const onMessageListener = () =>
     new Promise((resolve) => {
-        messaging.onMessage((payload) => {
-            resolve(payload)
+        messaging && messaging.onMessage((payload) => {
+          resolve(payload)
         });
     });

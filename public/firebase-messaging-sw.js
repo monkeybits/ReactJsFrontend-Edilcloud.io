@@ -37,5 +37,5 @@ try {
     });
   }
 } catch (e) {
-  console.log('firebase', e)
+  console.log('Error', e)
 }
