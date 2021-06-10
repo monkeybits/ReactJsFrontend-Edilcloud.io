@@ -775,7 +775,8 @@ export default function PostListItem({
 					</Collapse>
 				)}
 
-				{open && commentBoxOpen && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
+				{/* {open && commentBoxOpen && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && ( */}
+				{open && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
 					<div className="flex flex-auto mt-10">
 						<Avatar className="mr-10" src={post.author.photo} />
 						<div className="flex-1">

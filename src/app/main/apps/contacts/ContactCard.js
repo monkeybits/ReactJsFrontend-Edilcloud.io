@@ -4,11 +4,15 @@
 *This file is created for ContactsApp
 TODO: contatcard is view of GRID
 */
-import { Grid, Typography, Button, Icon, Link } from '@material-ui/core';
+import { Grid, Typography, Button, Icon, Link, IconButton, Dialog } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import ImageCropper from 'app/main/mainProfile/ImageCropper';
-import { decodeDataFromToken, getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
+import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useRef, useState } from 'react';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import { withStyles } from '@material-ui/core/styles';
+import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -17,6 +21,40 @@ import * as Actions from './store/actions';
 import loadable from '@loadable/component';
 const DeleteConfirmDialog = loadable(() => import('../file-manager/DeleteConfirmDialog'));
 const MoreOption = loadable(() => import('./MoreOption'));
+
+const styles = theme => ({
+	root: {
+		margin: 0,
+		padding: theme.spacing(2)
+	},
+	closeButton: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+		color: theme.palette.grey[500]
+	}
+});
+
+const DialogTitle = withStyles(styles)(props => {
+	const { children, classes, onClose, ...other } = props;
+	return (
+		<MuiDialogTitle disableTypography className={classes.root} {...other}>
+			<Typography variant="h6">{children}</Typography>
+			{onClose ? (
+				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+					<CloseIcon />
+				</IconButton>
+			) : null}
+		</MuiDialogTitle>
+	);
+});
+
+const DialogContent = withStyles(theme => ({
+	root: {
+		padding: theme.spacing(2),
+		flexGrow: 1
+	}
+}))(MuiDialogContent);
 
 export default function ContactCard(props) {
 	const { t } = useTranslation('contacts');
@@ -41,6 +79,8 @@ export default function ContactCard(props) {
 	const dispatch = useDispatch();
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [userData, setUserData] = useState(null);
+	const [isNoDataModal, setIsNoDataModal] = useState(false);
+	const [selectedOption, setSelectedOption] = useState('');
 	const inputFile = useRef(null);
 	const [viewCroper, setViewCroper] = useState(false);
 	const routeParams = useSelector(({ contactsApp }) => contactsApp.contacts.routeParams);
@@ -108,6 +148,10 @@ export default function ContactCard(props) {
 	};
 	const preventDefault = event => event.preventDefault();
 
+	const handleClose = () => {
+		setIsNoDataModal(false)
+	}
+
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
@@ -169,77 +213,90 @@ export default function ContactCard(props) {
 				<p className="font-500 text-muted mb-8">{role}</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
 				<div className="flex items-center justify-center mt-12 -mx-10">
-					<a
-						className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
-						href={`mailto:${email}`}
-					>
-						<Icon size="small" className="mr-8">
-							email
-						</Icon>
-						Email
-					</a>
-					<a
-						className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
-						href={`tel:${phone}`}
-					>
-						<Icon size="small" className="mr-8">
-							call
-						</Icon>
-						Call
-					</a>
+					{
+						email ? (
+							<a
+								className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
+								href={`mailto:${email}`}
+							>
+								<Icon size="small" className="mr-8">
+									email
+								</Icon>
+								Email
+							</a>
+						) : (
+							<Button
+								disableRipple
+								className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1 border-solid"
+								color="inherit"
+								onClick={() => {
+									setIsNoDataModal(true)
+									setSelectedOption('an email')
+								}}
+							>
+								<Icon size="small" className="mr-8">
+									email
+								</Icon>
+								Email
+							</Button>
+						)
+					}
+					{
+						phone ? (
+							<a
+								className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
+								href={`tel:${phone}`}
+							>
+								<Icon size="small" className="mr-8">
+									call
+								</Icon>
+								Call
+							</a>
+						) : (
+							<Button
+								disableRipple
+								className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1 border-solid"
+								color="inherit"
+								onClick={() => {
+									setIsNoDataModal(true)
+									setSelectedOption('a phone number')
+								}}
+							>
+								<Icon size="small" className="mr-8">
+									call
+								</Icon>
+								Call
+							</Button>
+						)
+					}
 				</div>
-				{/* <div className="my-12 block mx-auto">
-					<Button
-						variant={permission.can_access_files ? 'contained' : 'outlined'}
-						size="small"
-						color="secondary"
-						className="mr-8"
-						onClick={() => {
-							if (editPermission) {
-								let permissionData = {
-									...permission,
-									can_access_files: !permission.can_access_files
-								};
-								handleSubmit(() => {
-									setPermission(permissionData);
-								}, permissionData);
-							}
-						}}
-					>
-						Access File
-					</Button>
-					<Button
-						variant={permission.can_access_chat ? 'contained' : 'outlined'}
-						size="small"
-						color="secondary"
-						onClick={() => {
-							if (editPermission) {
-								let permissionData = {
-									...permission,
-									can_access_chat: !permission.can_access_chat
-								};
-								handleSubmit(() => {
-									setPermission(permissionData);
-								}, permissionData);
-							}
-						}}
-					>
-						Access Chat
-					</Button>
-				</div> */}
-
-				{/* <div class="skills">
-					<h6>Skills</h6>
-					<ul>
-						<li>UI / UX</li>
-						<li>Front End Development</li>
-						<li>HTML</li>
-						<li>CSS</li>
-						<li>JavaScript</li>
-						<li>React</li>
-						<li>Node</li>
-					</ul>
-				</div> */}
+				<Dialog
+					open={isNoDataModal}
+					onClose={handleClose}
+					aria-labelledby="customized-dialog-title"
+					maxWidth="xs"
+					fullWidth="true"
+				>
+					<DialogTitle id="customized-dialog-title" onClose={handleClose}>
+						No Data
+					</DialogTitle>
+					<DialogContent dividers>
+						<Typography className="text-lg">
+							This user has not added {selectedOption}.
+						</Typography>
+						<div>
+							<div className="flex mt-24 justify-end">
+								<Button
+									onClick={handleClose}
+									variant="contained"
+									className="justify-start d-inline-block mb-20 mr-10 bg-blue-500 text-white"
+								>
+									Ok
+								</Button>
+							</div>
+						</div>
+					</DialogContent>
+				</Dialog>
 			</div>
 		</Grid>
 	);
