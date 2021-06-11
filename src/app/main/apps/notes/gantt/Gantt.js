@@ -10,16 +10,17 @@ import { withRouter } from 'react-router';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_TASK_TO_PROJECT, EDIT_ACTIVITY_TO_TASK } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import { LinearProgress } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { LinearProgress } from '@material-ui/core';
 import {
 	faArrowAltCircleLeft,
 	faArrowAltCircleRight
 } from '@fortawesome/free-regular-svg-icons';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { withTranslation } from 'react-i18next';
-import FullscreenAsk from './FullscreenAsk';
 import * as Actions from '../todo/store/actions';
+import { withTranslation } from 'react-i18next';
+import loadable from '@loadable/component';
+const FullscreenAsk = loadable(() => import('./FullscreenAsk'));
 
 function ganttInitZoom() {
 	const zoomConfig = {

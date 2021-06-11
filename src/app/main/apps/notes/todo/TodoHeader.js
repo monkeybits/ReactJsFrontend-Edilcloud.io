@@ -1,8 +1,6 @@
 import { Typography, Button, Icon, IconButton, Input, Paper } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
-
 import React from 'react';
-
 import { Link } from 'react-router-dom';
 import * as Actions from 'app/main/apps/todo/store/actions';
 import { useDispatch, useSelector } from 'react-redux';

@@ -150,7 +150,6 @@ class JwtService extends FuseUtils.EventEmitter {
 				return false;
 			}
 		} catch (error) {
-			console.log(error);
 			return false;
 		}
 

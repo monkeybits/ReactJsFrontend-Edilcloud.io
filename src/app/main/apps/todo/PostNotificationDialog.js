@@ -127,7 +127,6 @@ function PostNotificationDialog() {
 				company_ids: companyIds
 			},
 			res => {
-				console.log(res);
 				dispatch(Actions.closeNotificationDialog());
 				// setPost(cp => ({ ...cp, ...res }));
 				// setIsEditPost(false);
@@ -135,7 +134,6 @@ function PostNotificationDialog() {
 			},
 			err => {
 				setLoading(false);
-				console.log(err);
 			},
 			METHOD.PUT,
 			getHeaderToken()

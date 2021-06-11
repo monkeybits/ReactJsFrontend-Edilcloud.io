@@ -1,19 +1,12 @@
 import { useForm, useUpdateEffect } from '@fuse/hooks';
 import _ from '@lodash';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import List from '@material-ui/core/List';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
+import { Icon, IconButton, LinearProgress, List, ListItemIcon, ListItemText, MenuItem, Typography } from '@material-ui/core';
 import React, { useCallback, useRef, useState } from 'react';
-import TippyMenu from 'app/TippyMenu';
-import CardAddChecklistItem from './CardAddChecklistItem';
-import CardChecklistItem from './CardChecklistItem';
-import CardChecklistName from './CardChecklistName';
+import loadable from '@loadable/component';
+const TippyMenu = loadable(() => import('app/TippyMenu'));
+const CardAddChecklistItem = loadable(() => import('./CardAddChecklistItem'));
+const CardChecklistItem = loadable(() => import('./CardChecklistItem'));
+const CardChecklistName = loadable(() => import('./CardChecklistName'));
 
 function CardChecklist(props) {
 	const { onCheckListChange, checklist, index } = props;

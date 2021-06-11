@@ -18,7 +18,9 @@ export function getSettings() {
 					payload: res
 				});
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

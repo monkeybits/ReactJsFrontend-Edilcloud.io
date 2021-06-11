@@ -1,14 +1,7 @@
-import Avatar from '@material-ui/core/Avatar';
-import Checkbox from '@material-ui/core/Checkbox';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
+import { Avatar, Checkbox, Icon, ListItemText, MenuItem, FormControlLabel } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import PersonIcon from '@material-ui/icons/Person';
-import { Button } from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import ToolbarMenu from './ToolbarMenu';
+import loadable from '@loadable/component';
+const ToolbarMenu = loadable(() => import('./ToolbarMenu'));
 
 function MembersMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

@@ -22,13 +22,11 @@ import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
 import clsx from 'clsx';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { darken } from '@material-ui/core/styles/colorManipulator';
 import * as Actions from 'app/main/apps/chat/store/actions';
 import { useTranslation } from 'react-i18next';
 import axios from '../../services/axiosConfig';
 
 const FileUpload = loadable(() => import('../mainProfile/FileUpload'));
-const CompanyCategory = loadable(() => import('./CompanyCategory'));
 const CompanyDetails = loadable(() => import('./CompanyDetails'));
 
 const useStyles = makeStyles(theme => ({
@@ -133,14 +131,18 @@ function CompanyCreationStepper({ user, history }) {
 								const subCategory = [];
 								setTypologyList(typologyListRes);
 							},
-							listErr => console.log({ listErr }),
+							listErr => {
+								// console.log({ listErr })
+							},
 							METHOD.GET,
 							getHeaderToken()
 						);
 					});
 				}
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -152,13 +154,11 @@ function CompanyCreationStepper({ user, history }) {
 
 	useEffect(() => {
 		if (routeHistory) {
-			console.log({ routeHistory });
 			if (
-				routeHistory.location.pathname == '/apps/settings' ||
-				routeHistory.location.pathname == '/edit-company'
+				routeHistory.location.pathname === '/apps/settings' ||
+				routeHistory.location.pathname === '/edit-company'
 			) {
 				setIsEdit(true);
-				console.log({ company });
 				setFile({
 					imagePreviewUrl: company.logo
 				});
@@ -231,11 +231,12 @@ function CompanyCreationStepper({ user, history }) {
 		request
 			.then(res => {
 				setProgress(0);
-				if (isEdit) {
-					console.log('routeHistorynextPath', routeHistory.location.state.nextPath);
-					routeHistory.push(routeHistory.location.state.nextPath);
-				} else {
-					routeHistory.push('/apps/companies');
+				if(routeHistory.location.pathname !== '/apps/settings') {
+					if (isEdit) {
+						routeHistory.push(routeHistory.location.state.nextPath);
+					} else {
+						routeHistory.push('/apps/companies');
+					}
 				}
 			})
 			.catch(err => {

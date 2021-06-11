@@ -71,7 +71,7 @@ export default function ImagesPreview(props) {
 			{/* <Paper square elevation={0} className={classes.header}>
 				<Typography>{tutorialSteps[activeStep].label}</Typography>
 			</Paper> */}
-			{!props.hideModify && (
+			{/* {!props.hideModify && (
 				<div className="flex justify-end items-end">
 					<Button
 						size="small"
@@ -85,7 +85,7 @@ export default function ImagesPreview(props) {
 						Modify
 					</Button>
 				</div>
-			)}
+			)} */}
 			{props.images[activeStep].fileType == 'image' ? (
 				<img className="object-cover h-288 w-full" src={props.images[activeStep].imgPath} />
 			) : props.images[activeStep].fileType == 'video' ? (

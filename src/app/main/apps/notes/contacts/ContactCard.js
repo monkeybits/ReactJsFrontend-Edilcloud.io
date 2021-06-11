@@ -31,7 +31,8 @@ export default function ContactCard(props) {
 		can_access_chat,
 		can_access_files,
 		onCardClick,
-		editPermission
+		editPermission,
+		profile
 	} = props;
 	const { t } = useTranslation('contacts_project');
 	const dispatch = useDispatch();
@@ -137,7 +138,7 @@ export default function ContactCard(props) {
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3}>
+		<Grid className="px-6 mb-20 justify-center" item xs={6} sm={6} md={3} xl={3}>
 			<DeleteConfirmDialog
 				text={
 					<>
@@ -151,7 +152,7 @@ export default function ContactCard(props) {
 			/>
 			<div
 				ref={notificationPanel.notificationData?.notification?.object_id == id ? scrollRef : null}
-				className="card-container flex flex-col px-10 text-13"
+				className="card-container flex flex-col px-10 text-13 border-grey-600 border-1 mx-auto"
 			>
 				<span className={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				<div className="team-action">
@@ -179,27 +180,29 @@ export default function ContactCard(props) {
 				<img className="round" src={image || avatar} alt="user" />
 				<h4 className="font-weight-600 mb-8">{`${name} ${lastName}`}</h4>
 				{/* <h6>{address}</h6> */}
-				<p className="font-500 text-muted mb-8">{position || 'N/A'}</p>
-				<p className="font-500 text-muted mb-8">{role}</p>
+				<p className="font-500 text-muted mb-8">{profile.position || 'N/A'}</p>
+				<p className="font-500 text-muted mb-8">{profile.role}</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
-				<a
-					className="flex font-700 mb-10 mx-28 whitespace-no-wrap normal-case custom-email-button justify-center items-center py-6 rounded-md"
-					href={`mailto:${email}`}
-				>
-					<Icon size="small" className="mr-8">
-						email
-					</Icon>
-					Email
-				</a>
-				<a
-					className="flex font-700 mb-10 mx-28 whitespace-no-wrap normal-case custom-email-button justify-center items-center py-6 rounded-md"
-					href={`tel:${phone}`}
-				>
-					<Icon size="small" className="mr-8">
-						phone
-					</Icon>
-					Phone
-				</a>
+				<div className="flex items-center justify-center mt-12 -mx-10">
+					<a
+						className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
+						href={`mailto:${email}`}
+					>
+						<Icon size="small" className="mr-8">
+							email
+						</Icon>
+						Email
+					</a>
+					<a
+						className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
+						href={`tel:${phone}`}
+					>
+						<Icon size="small" className="mr-8">
+							call
+						</Icon>
+						Call
+					</a>
+				</div>
 			</div>
 		</Grid>
 	);

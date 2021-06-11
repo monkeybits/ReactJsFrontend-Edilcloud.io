@@ -151,7 +151,6 @@ export default function EditTaskForm(props) {
             }
 		}
 		if (taskContentData) {
-			console.log({ taskContentData, date_start: taskContentData.date_start });
 			if (taskContentData.isGantt) {
 				if (taskContentData.parent == 1) {
 					// parrent 1 means its activty
@@ -186,7 +185,7 @@ export default function EditTaskForm(props) {
 	}, [companies, taskContentData]);
 
     const getProjectCompanyTeamProfiles = value => {
-		console.log(routeParams.id, taskContentData, value);
+		// console.log(routeParams.id, taskContentData, value);
 	};
 
     useEffect(() => {
@@ -200,7 +199,7 @@ export default function EditTaskForm(props) {
     // const dueDate = cardForm && cardForm.due ? moment(cardForm.due).format(moment.HTML5_FMT.DATE) : '';
     
     const getIsDisabled = () =>
-		taskContentData?.assigned_company?.id != companyDetail.id || getRole() == 'w' || getRole() == 'm';
+		getRole() == 'w' || getRole() == 'm';
 
     const isFormInvalid = () => cardForm.name && cardForm.name.length > 0 && taskDate.startDate && taskDate.endDate;
 
@@ -325,19 +324,6 @@ export default function EditTaskForm(props) {
                     </div>
                 )
             )}
-            <div className="w-full mb-24">
-                <TextField
-                    label={t('DESCRIPTION')}
-                    name="description"
-                    value={cardForm.description}
-                    disabled={getIsDisabled()}
-                    onChange={handleChange}
-                    multiline
-                    rows="4"
-                    variant="outlined"
-                    fullWidth
-                />
-            </div>
             <div className="flex -mx-4">
                 <div className="mt-8 mb-16 mx-4 relative static-form-label flex-1">
                     <KeyboardDatePicker
@@ -371,6 +357,19 @@ export default function EditTaskForm(props) {
                         minDate={taskDate.startDate}
                     />
                 </div>
+            </div>
+            <div className="w-full mb-24">
+                <TextField
+                    label={t('DESCRIPTION')}
+                    name="description"
+                    value={cardForm.description}
+                    disabled={getIsDisabled()}
+                    onChange={handleChange}
+                    multiline
+                    rows="4"
+                    variant="outlined"
+                    fullWidth
+                />
             </div>
             {taskContentData?.isGantt && taskContentData?.parent == 1 ? null : (
                 <div className="mt-24 mx-12 zoom-125">

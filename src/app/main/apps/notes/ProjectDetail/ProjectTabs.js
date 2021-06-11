@@ -1,9 +1,7 @@
 // import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { AppBar, Typography, Box, BottomNavigation, BottomNavigationAction, Icon } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -11,19 +9,14 @@ import * as Actions from 'app/main/apps/notes/contacts/store/actions';
 import reducer from 'app/main/apps/notes/contacts/store/reducers';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import withReducer from 'app/store/withReducer';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import { Icon } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import * as TodoActions from 'app/main/apps/notes/todo/store/actions';
-import { Height } from '@material-ui/icons';
-import Gantt from '../gantt/index';
-import FileManagerApp from '../file-manager/FileManagerApp';
-import TodoApp from '../todo/TodoApp';
-import ChatApp from '../chat/ChatApp';
-import ContactsApp from '../contacts/ContactsApp';
-import ProjectInfo from './ProjectInfo';
-
+import loadable from '@loadable/component';
+const Gantt = loadable(() => import('../gantt/index'));
+const FileManagerApp = loadable(() => import('../file-manager/FileManagerApp'));
+const TodoApp = loadable(() => import('../todo/TodoApp'));
+const ChatApp = loadable(() => import('../chat/ChatApp'));
+const ContactsApp = loadable(() => import('../contacts/ContactsApp'));
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 

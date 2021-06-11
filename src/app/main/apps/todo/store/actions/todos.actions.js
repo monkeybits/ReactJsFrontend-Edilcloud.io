@@ -99,7 +99,6 @@ export function getTodos(params, isGantt = false, handleSetLoading = () => '') {
 				handleSetLoading({
 					loadingTodos: false
 				});
-				console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -172,6 +171,12 @@ export function removeTask(payload) {
 		payload
 	};
 }
+export function editActivityByList(payload) {
+	return {
+		type: EDIT_ACTIVITY,
+		payload
+	};
+}
 export function editActivity(todo, pid, setLoading, isGantt, editActivityTodoDialog = false) {
 	return dispatch => {
 		const values = {
@@ -195,14 +200,19 @@ export function editActivity(todo, pid, setLoading, isGantt, editActivityTodoDia
 				if(editActivityTodoDialog) {
 					dispatch({
 						type: EDIT_ACTIVITY,
-						payload: todo
+						payload: {
+							...todo,
+							status: todo.progress
+						}
 					});
 				}
 				dispatch(closeEditActivityTodoDialog());
 				setLoading(false);
 				toast.success('Updated');
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);
@@ -312,9 +322,6 @@ export function openAddActivityTodoDialog(data) {
 }
 
 export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, setLoading, handleSetLoading) {
-	console.log({
-		todo
-	});
 	return dispatch => {
 		const values =
 			todoDialogType == 'new'
@@ -349,7 +356,9 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 				dispatch(getTodos(pid, isGantt, handleSetLoading));
 				closeTodoDialog();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);

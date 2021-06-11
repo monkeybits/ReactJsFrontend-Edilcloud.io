@@ -1,33 +1,24 @@
 import _ from '@lodash';
 import loadable from '@loadable/component';
-import { Checkbox, IconButton } from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
-import ListItem from '@material-ui/core/ListItem';
+import { Checkbox, IconButton, Icon, ListItem, Typography, ListItemText, Avatar, Paper, Button, MenuItem, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ListItemText, List, Avatar, Paper } from '@material-ui/core';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { EDIT_ACTIVITY_TO_TASK, GET_ACTIVITY_OF_TASK, GET_STAFF_LIST, DELETE_ACTIVITY_OF_TASK } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import Button from '@material-ui/core/Button';
 import { useParams } from 'react-router';
-import MenuItem from '@material-ui/core/MenuItem';
 import * as ContactActions from 'app/main/apps/notes/contacts/store/actions';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { toast } from 'react-toastify';
 import Tippy from '@tippyjs/react';
 import { useTranslation } from 'react-i18next';
-import WorkerProfiles from './WorkerProfiles';
 import * as Actions from './store/actions';
-// import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css';
-
 const TippyMenu = loadable(() => import('app/TippyMenu'));
+const WorkerProfiles = loadable(() => import('./WorkerProfiles'));
 
 _.enhance = function (list, source) {
 	return _.map(list, function (element) {
@@ -183,7 +174,14 @@ function TodoActivityListItem(props) {
 		apiCall(
 			EDIT_ACTIVITY_TO_TASK(props.todo.id),
 			values,
-			res => { },
+			res => {
+				dispatch(Actions.editActivityByList({
+					...values,
+					task: props.todo.task,
+					id: props.todo.id,
+					workers: props.todo.workers?.length ? props.todo.workers : undefined,
+				}));
+			},
 			err => {
 				setCompleted(!status);
 			},

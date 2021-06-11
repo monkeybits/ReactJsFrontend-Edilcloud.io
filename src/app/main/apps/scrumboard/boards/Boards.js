@@ -35,8 +35,8 @@ import ReuestsDrawer from './ReuestsDrawer';
 import { GET_BOARDS, RESET_BOARDS } from '../store/actions';
 import reducer from '../store/reducers';
 import * as Actions from '../store/actions';
+import { getToken, onMessageListener } from '../../../../../firebase';
 
-const Tutorial = loadable(() => import('./Tutorial'));
 const UpdatePlanDialog = loadable(() => import('./UpdatePlanDialog'));
 
 const useStyles = makeStyles(theme => ({
@@ -76,6 +76,18 @@ function Boards(props) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isViewTutorial, setIsViewTutorial] = useState(true);
 	const [request, setRequest] = useState({});
+	const [show, setShow] = useState(false);
+	const [notification, setNotification] = useState({title: '', body: ''});
+	const [isTokenFound, setTokenFound] = useState(false);
+	getToken(setTokenFound);
+
+	onMessageListener().then(payload => {
+		console.log('payload: ', payload)
+		setShow(true);
+		setNotification({title: payload.notification.title, body: payload.notification.body})
+	  }).catch(err => {
+		  console.log('failed: ', err)
+	  });
 
 	useEffect(() => {
 		localStorage.removeItem('main_profile');
@@ -89,7 +101,6 @@ function Boards(props) {
 	/**
 	 * get user companies
 	 */
-
 	const getcompanyList = () => {
 		apiCall(
 			APPROVE_LIST,
@@ -105,7 +116,9 @@ function Boards(props) {
 					});
 				}
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -128,7 +141,9 @@ function Boards(props) {
 					});
 				}
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -139,35 +154,35 @@ function Boards(props) {
 	 */
 	const redirectAfterGetNewToken = company_profile_id => {
 		const myCustomUniqueUserId = company_profile_id;
-		console.log(`LOGGED IN WITH PROFILE ID: ${myCustomUniqueUserId.toString()}`);
+		// console.log(`LOGGED IN WITH PROFILE ID: ${myCustomUniqueUserId.toString()}`);
 
 		if (window.flutter_inappwebview?.callHandler) {
-			console.log('listenning to flutterInAppWebViewPlatformReady');
+			// console.log('listenning to flutterInAppWebViewPlatformReady');
 			window.flutter_inappwebview
 				.callHandler('OneSignalSetUser', myCustomUniqueUserId.toString())
 				.then(function (result) {
-					console.log(JSON.stringify(result));
+					// console.log(JSON.stringify(result));
 				});
-			console.log('finish listenning to flutterInAppWebViewPlatformReady');
+			// console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		} else {
-			console.log('listenning to flutterInAppWebViewPlatformReady');
+			// console.log('listenning to flutterInAppWebViewPlatformReady');
 			if (window.OneSignalSetUser?.postMessage) {
 				window.OneSignalSetUser.postMessage(myCustomUniqueUserId.toString());
 			}
 
-			console.log('finish listenning to flutterInAppWebViewPlatformReady');
+			// console.log('finish listenning to flutterInAppWebViewPlatformReady');
 		}
 		try {
 			window.webkit.messageHandlers.OneSignalSetUser.postMessage(
 				JSON.stringify({ userid: myCustomUniqueUserId })
 			);
 		} catch (e) {
-			console.log('error', e);
+			// console.log('error', e);
 		}
-		if (window.OneSignal)
-			window.OneSignal.push(function () {
-				window.OneSignal.setExternalUserId(myCustomUniqueUserId);
-			});
+		// if (window.OneSignal)
+		// 	window.OneSignal.push(function () {
+		// 		window.OneSignal.setExternalUserId(myCustomUniqueUserId);
+			// });
 		apiCall(
 			REFRESH_TOKEN(company_profile_id),
 			{
@@ -185,7 +200,7 @@ function Boards(props) {
 			},
 			err => {
 				setIsLoading(false);
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.POST
 		);
@@ -198,7 +213,9 @@ function Boards(props) {
 			GET_MAIN_PROFILE(mainProfileId),
 			{},
 			res => dispatch(authActions.setUserData(res)),
-			err => console.log({ err }),
+			err => {
+				// console.log({ err })
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -213,13 +230,6 @@ function Boards(props) {
 		getcompanyList();
 		getRequest();
 		setIsShowRequests(false);
-	};
-	const handleMoreAction = (action, company) => {
-		if (action == 'Edit') {
-			console.log({ company });
-			dispatch(authActions.setUserCompanyData({ company }));
-			props.history.push('/edit-company');
-		}
 	};
 
 	return isLoading ? (
@@ -260,7 +270,7 @@ function Boards(props) {
 													setRequest(board);
 												}
 											} else {
-												dispatch(Actions.openUpgradePlanDialog());
+												dispatch(Actions.openUpgradePlanDialog(board));
 											}
 										}}
 										className={clsx(

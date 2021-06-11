@@ -6,29 +6,21 @@ TODO: This file is created edit task / attchments / timeline
 */
 import PropTypes from 'prop-types';
 import loadable from '@loadable/component';
-import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useForm } from '@fuse/hooks';
 import _ from '@lodash';
 import {
 	DialogContent,
 	Icon,
 	IconButton,
-	InputAdornment,
 	Box,
-	TextField,
 	Typography,
-	Button,
 	makeStyles,
 	Slider,
-	withStyles,
-	CircularProgress,
-	BottomNavigation,
-	BottomNavigationAction
+	withStyles
 } from '@material-ui/core';
 import moment from 'moment';
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useParams } from 'react-router';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';

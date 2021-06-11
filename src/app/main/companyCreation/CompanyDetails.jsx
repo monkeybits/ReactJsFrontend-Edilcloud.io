@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { darken } from '@material-ui/core/styles/colorManipulator';
 import { TextField, Radio } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import { useTranslation } from 'react-i18next';

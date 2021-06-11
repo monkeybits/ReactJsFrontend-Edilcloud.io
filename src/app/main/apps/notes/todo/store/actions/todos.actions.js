@@ -118,7 +118,7 @@ export function getTodos(pid, isGantt, handleSetLoading = () => '') {
 					loadingTodos: false
 				});
 				dispatch(setLoading(false));
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -158,7 +158,7 @@ export function getTodosAlerted(pid, isGantt, handleSetLoading = () => '') {
 					loadingTodos: false
 				});
 				dispatch(setLoading(false));
-				console.log(err);
+				// console.log(err);
 			},
 			METHOD.GET,
 			getHeaderToken()
@@ -413,7 +413,9 @@ export function addTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt) {
 				// dispatch(resetAllFilters());
 				closeTodoDialog();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.POST,
 			getHeaderToken()
 		);
@@ -441,9 +443,14 @@ export function removeTask(payload) {
 		payload
 	};
 }
+export function editActivityByList(payload) {
+	return {
+		type: EDIT_ACTIVITY,
+		payload
+	};
+}
 export function editActivity(todo, pid, setLoading, isGantt, editActivityTodoDialog = false) {
 	return dispatch => {
-		console.log(todo, todo.profile);
 		const values = {
 			title: todo.title,
 			description: todo.notes,
@@ -465,15 +472,19 @@ export function editActivity(todo, pid, setLoading, isGantt, editActivityTodoDia
 				if(editActivityTodoDialog) {
 					dispatch({
 						type: EDIT_ACTIVITY,
-						payload: todo
+						payload: {
+							...todo,
+							status: todo.progress
+						}
 					});
 				}
 				dispatch(closeEditActivityTodoDialog());
-				console.log(res);
 				setLoading(false);
 				toast.success('Updated');
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);
@@ -485,7 +496,6 @@ export function editActivityFromGantt(todo, pid, closeTodoDialog, isGantt, setLo
 	// 	todo
 	// });
 	return dispatch => {
-		console.log({ todo });
 		const values = {
 			title: todo.name,
 			description: todo.description,
@@ -499,7 +509,6 @@ export function editActivityFromGantt(todo, pid, closeTodoDialog, isGantt, setLo
 			EDIT_ACTIVITY_TO_TASK(todo.id),
 			values,
 			res => {
-				console.log(res);
 				toast.success('Updated');
 				setLoading(false);
 				if (!isGantt) {
@@ -510,7 +519,9 @@ export function editActivityFromGantt(todo, pid, closeTodoDialog, isGantt, setLo
 				}
 				closeTodoDialog();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);
@@ -518,9 +529,6 @@ export function editActivityFromGantt(todo, pid, closeTodoDialog, isGantt, setLo
 }
 
 export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, setLoading) {
-	console.log({
-		todo
-	});
 	return dispatch => {
 		const values =
 			todoDialogType == 'new'
@@ -560,7 +568,9 @@ export function editTodo(todo, pid, todoDialogType, closeTodoDialog, isGantt, se
 				dispatch(resetAllFilters());
 				closeTodoDialog();
 			},
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.PUT,
 			getHeaderToken()
 		);

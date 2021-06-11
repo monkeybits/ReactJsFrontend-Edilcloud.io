@@ -127,7 +127,7 @@ function ViewContactDialog(props) {
 			</AppBar>
 			<form noValidate onSubmit={handleSubmit} className="flex flex-col md:overflow-hidden">
 				<DialogContent classes={{ root: 'p-24' }}>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+					<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96">
 							<Typography className="text-base">{t('NAME')}</Typography>
 						</div>
@@ -136,7 +136,7 @@ function ViewContactDialog(props) {
 						</Typography>
 					</div>
 
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+					<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">{t('LAST_NAME')}</Typography>
 						</div>
@@ -144,27 +144,27 @@ function ViewContactDialog(props) {
 							{form.last_name}
 						</Typography>
 					</div>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+					<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">{t('EMAIL')}</Typography>
 						</div>
 
-						<Typography variant="h6" className="text-base">
+						<Typography variant="h6" className="text-base view-contact-popup-link">
 							<a href={`mailto:${form.email}`}>{form.email}</a>
 						</Typography>
 					</div>
 					{form.phone && (
-						<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+						<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 							<div className="min-w-96 ">
 								<Typography className="text-base">{t('PHONE')}</Typography>
 							</div>
 
-							<Typography variant="h6" className="text-base">
+							<Typography variant="h6" className="text-base view-contact-popup-link">
 								<a href={`tel:${form.phone}`}>{form.phone}</a>
 							</Typography>
 						</div>
 					)}
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+					<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">{t('ROLE')}</Typography>
 						</div>
@@ -172,7 +172,7 @@ function ViewContactDialog(props) {
 							{form.role}
 						</Typography>
 					</div>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+					<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">{t('LANGUAGE')}</Typography>
 						</div>

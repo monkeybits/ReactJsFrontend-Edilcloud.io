@@ -1,11 +1,5 @@
 import _ from '@lodash';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Popover from '@material-ui/core/Popover';
+import { ClickAwayListener, Icon, IconButton, List, ListItem, ListItemText, Popover } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 

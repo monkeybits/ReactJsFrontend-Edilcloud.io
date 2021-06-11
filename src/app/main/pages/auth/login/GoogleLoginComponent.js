@@ -22,12 +22,6 @@ class GoogleLoginComponent extends React.Component {
 		const { email } = response.profileObj;
 		const provider = 'google-oauth2';
 		this.startLoading();
-		console.log({
-			response,
-			access_token,
-			photo,
-			provider
-		});
 		apiCall(
 			this.props.isRegister ? API_GOOGLE_AUTH_REGISTER : API_GOOGLE_AUTH_LOGIN,
 			{
@@ -61,17 +55,14 @@ class GoogleLoginComponent extends React.Component {
 					})
 					.catch(err => {
 						this.removeLoading();
-						console.log(err);
 					});
 			},
 			err => {
 				this.removeLoading();
-				console.log(err);
 				toast.error(err?.error);
 			},
 			METHOD.POST
 		);
-		console.log(response);
 	};
 
 	startLoading = () =>

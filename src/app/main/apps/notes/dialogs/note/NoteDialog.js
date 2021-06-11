@@ -1,6 +1,5 @@
 import { useDebounce } from '@fuse/hooks';
-import Dialog from '@material-ui/core/Dialog';
-import Slide from '@material-ui/core/Slide';
+import { Dialog, Slide } from '@material-ui/core';
 import NoteForm from 'app/main/apps/notes/note-form/NoteForm';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import React from 'react';

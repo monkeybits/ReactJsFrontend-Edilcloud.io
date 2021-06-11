@@ -1,6 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseUtils from '@fuse/utils';
-import { Avatar, Icon, IconButton, Typography, Grid, Input, Paper, Hidden } from '@material-ui/core';
+import { Avatar, IconButton, Typography, Grid, Hidden } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
@@ -265,7 +265,7 @@ function ContactsList(props) {
 	};
 	return (
 		<>
-			<div className="flex items-center left-icon-btn mb-24">
+			<div className="flex items-center left-icon-btn mb-52">
 				<div className="single-btn rounded h-40 mr-10 sm:mr-0">
 					<Hidden lgUp>
 						<IconButton
@@ -338,7 +338,7 @@ function ContactsList(props) {
 					<>
 						{/* <Typography className="truncate">{d.profile.company.name}</Typography>
 								<Divider className="my-12" /> */}
-						<Grid container spacing={12} className="team-grid">
+						<Grid container spacing={12} className="team-grid mb-52">
 							{filteredData.map((data, index) => {
 								return (
 									// company.id == data.profile?.company?.id ?

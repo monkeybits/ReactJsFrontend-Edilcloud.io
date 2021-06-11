@@ -1,10 +1,9 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import IconButton from '@material-ui/core/IconButton';
+import { IconButton, Button, TextField, LinearProgress, Dialog, Typography, Toolbar, AppBar } from '@material-ui/core';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, TextField, LinearProgress } from '@material-ui/core';
 import {
 	ADD_PHOTO_PROJECT,
 	ADD_FOLDER_PROJECT,
@@ -15,34 +14,30 @@ import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken, getCompressFile } from 'app/services/serviceUtils';
 import { withRouter } from 'react-router';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
+import { Autocomplete } from '@material-ui/lab';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Toolbar from '@material-ui/core/Toolbar';
-import AppBar from '@material-ui/core/AppBar';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faTh } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
-import MoveFileDialog from './MoveFileDialog';
-import FloatingButtonUpload from './FloatingButtonUpload';
-import TransitionAlerts from './TransitionAlerts.js';
-import LinearProgressWithLabel from './LinearProgressWithLabel';
 import reducer from './store/reducers';
-
 import * as Actions from './store/actions';
-import MainSidebarHeader from './MainSidebarHeader';
-import MainSidebarContent from './MainSidebarContent';
-import FileGrid from './FileGrid';
-import FileList from './FileList';
-import DetailSidebarHeader from './DetailSidebarHeader';
-import DetailSidebarContent from './DetailSidebarContent';
-import Breadcrumb from './Breadcrumb';
+import loadable from '@loadable/component';
+import FloatingButtonUpload from './FloatingButtonUpload'
+const MainSidebarHeader = loadable(() => import('./MainSidebarHeader'));
+const MainSidebarContent = loadable(() => import('./MainSidebarContent'));
+const FileGrid = loadable(() => import('./FileGrid'));
+const FileList = loadable(() => import('./FileList'));
+const DetailSidebarHeader = loadable(() => import('./DetailSidebarHeader'));
+const DetailSidebarContent = loadable(() => import('./DetailSidebarContent'));
+const Breadcrumb = loadable(() => import('./Breadcrumb'));
+const MoveFileDialog = loadable(() => import('./MoveFileDialog'));
+const TransitionAlerts = loadable(() => import('./TransitionAlerts'));
+const LinearProgressWithLabel = loadable(() => import('./LinearProgressWithLabel'));
 
 const styles = theme => ({
 	root: {
@@ -318,10 +313,18 @@ function FileManagerApp(props) {
 						<ThemeProvider theme={mainTheme}>
 							<div className="flex flex-1 dashboard-todo-header w-full">
 								<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
-									<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
-										{t('FILES')}
-									</Typography>
-									<div className="flex flex-1 items-center justify-end">
+									<div>
+										<Typography className="sm:flex pt-4 text-white mx-0 sm:mx-12" variant="h6">
+											{projectDetail.name}
+										</Typography>
+										<Typography className="sm:flex pb-8 text-white mx-0 sm:mx-12" variant="p">
+											{projectDetail.address}
+										</Typography>
+									</div>
+									<div className="flex flex-1 items-center justify-between">
+										<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
+											{t('FILES')}
+										</Typography>
 										<FuseAnimate animation="transition.slideRightIn" delay={300}>
 											<Button
 												onClick={ev =>

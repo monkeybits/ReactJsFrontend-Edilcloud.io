@@ -202,7 +202,9 @@ function EditActivityPostForm(props) {
 			),
 			{},
 			res => setProfiles(res),
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);
@@ -211,26 +213,6 @@ function EditActivityPostForm(props) {
 	return (
 		<div className="w-full custom-task-content">
 			<div className="custom-tab-header2 flex justify-start relative">
-				<BottomNavigation
-					value={value}
-					onChange={(event, newValue) => {
-						setValue(newValue);
-					}}
-					showLabels
-					className="w-full h-64"
-				>
-					<BottomNavigationAction
-						className="min-w-auto max-w-full font-bold"
-						label="Timeline"
-						wrapped
-						{...a11yProps(0)}
-					/>
-					{/* <BottomNavigationAction
-						className="min-w-auto max-w-full font-bold"
-						label="Activity"
-						{...a11yProps(1)}
-					/> */}
-				</BottomNavigation>
 				<div className="absolute right-m-12">
 					<IconButton
 						onClick={closeTodoDialog}

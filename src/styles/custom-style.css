@@ -245,7 +245,17 @@ a.text-muted:hover {
     border-radius: 4px;
     color: #376aed;
 } */
-
+/* ********************************************************************************************
+    Plan Popup
+*********************************************************************************************** */
+.popup-root > div {
+    background: rgba(0,0,0,.05);
+}
+.popup-plan-container > div {
+    box-shadow: none;
+    color: #000;
+    background: #fff;
+}
 /* ********************************************************************************************
     Form Group
 *********************************************************************************************** */
@@ -497,6 +507,12 @@ textarea.MuiOutlinedInput-input {
 .custom-edit-icon {
     right: 50px;
 }
+.view-contact-popup-link a {
+    color: #376aed
+}
+.add-icon-avatar {
+    font-size: 14px;
+}
 
 /* ********************************************************************************************
     Tab Header & Content
@@ -727,10 +743,6 @@ textarea.MuiOutlinedInput-input {
 }
 .makeStyles-innerScroll-26 {
     height: auto
-}
-.custom-email-button {
-    color: #fff !important;
-    background-color: #376aed;
 }
 .bordergrey {
     border: 1px #12121214 solid;
@@ -980,7 +992,7 @@ textarea.MuiOutlinedInput-input {
 }
 .team-grid .card-container {
     padding-top: 40px;
-    padding-bottom: 15px;
+    /* padding-bottom: 15px; */
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 1px 3px 0 #00000029;
@@ -1713,7 +1725,7 @@ audio {
     top: 8px;
 }
 .timeline-modal .right-m-12 button svg  {
-    font-size: 1.6rem;
+    /* font-size: 1.6rem; */
     color: #5C616F;
 }
 .content-modal {
@@ -1908,7 +1920,7 @@ audio {
 }
 #wrapped-tabpanel-2,
 #wrapped-tabpanel-3{
-    height: calc(100% - 98px);
+    /* height: calc(100% - 98px); */
 }
 #right-sidebar-file.custom-fuse-page-right-sidebar .permanent.height-full-left {
     height: 100% !important;

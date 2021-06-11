@@ -1,11 +1,8 @@
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
+import { Icon, IconButton, InputAdornment, MenuItem, TextField } from '@material-ui/core';
 import moment from 'moment';
 import React, { useState } from 'react';
-import ToolbarMenu from './ToolbarMenu';
+import loadable from '@loadable/component';
+const ToolbarMenu = loadable(() => import('./ToolbarMenu'));
 
 function DueMenu(props) {
 	const [anchorEl, setAnchorEl] = useState(null);

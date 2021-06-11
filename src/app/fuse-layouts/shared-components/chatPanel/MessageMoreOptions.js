@@ -94,8 +94,6 @@ export default function SimpleMenu(props) {
 		// handleClose(event);
 	};
 
-	console.log('props.item', props.item);
-
 	return (
 		<div className={props.className}>
 			<TippyMenu

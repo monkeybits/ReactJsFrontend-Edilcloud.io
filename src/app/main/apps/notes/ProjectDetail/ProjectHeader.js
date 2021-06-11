@@ -1,6 +1,5 @@
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import { Button, Icon, IconButton, Typography } from '@material-ui/core';
 import React from 'react';
+import { Icon, IconButton, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 

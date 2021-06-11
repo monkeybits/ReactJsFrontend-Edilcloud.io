@@ -18,18 +18,18 @@ import moment from 'moment';
 import FuseUtils from '@fuse/utils';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import TippyMenu from 'app/TippyMenu';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { PHOTO_DELETE, VIDEO_DELETE, DOCUMENT_DELETE, FOLDER_DELETE } from 'app/services/apiEndPoints';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import CloseIcon from '@material-ui/icons/Close';
 import * as Actions from './store/actions';
-import FileGridItem from './FileGridItem';
+import loadable from '@loadable/component';
+const FileGridItem = loadable(() => import('./FileGridItem'));
+const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 const styles = theme => ({
 	root: {
@@ -282,7 +282,7 @@ function FileGrid(props) {
 	}
 
 	return (
-		<div className="file-folder-grid px-24 mt-12">
+		<div className="file-folder-grid px-24 mt-12 mb-92">
 			{!!folders?.length && (
 				<>
 					{' '}

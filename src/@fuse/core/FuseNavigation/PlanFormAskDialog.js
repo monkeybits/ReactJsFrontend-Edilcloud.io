@@ -1,11 +1,26 @@
+/* =============================================================================
+ TODO: PlanFormAskDialog.js
+ ===============================================================================
+*This File is part of Company File manager
+TODO: This File is created to view view the media file 
+*/
 import React from 'react';
-import { IconButton, Button, Dialog, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { Dialog, IconButton, Typography, Button } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
-import { useTranslation } from 'react-i18next';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+	container: {
+        backgroundColor: 'transparent'
+    },
+    root: {
+        backgroundColor: 'transparent'
+    }
+}));
 
 const styles = theme => ({
 	root: {
@@ -40,6 +55,7 @@ const DialogContent = withStyles(theme => ({
 	}
 }))(MuiDialogContent);
 
+
 const DialogActions = withStyles(theme => ({
 	root: {
 		margin: 0,
@@ -47,31 +63,36 @@ const DialogActions = withStyles(theme => ({
 	}
 }))(MuiDialogActions);
 
-function DeleteConfirmDialog({ isOpenDeleteDialog, colseDeleteFileDialog, onYes, onNo, text }) {
-	const { t } = useTranslation('filemanaer_project');
+function PlanFormAskDialog({ isPlanModal, closePlanModal, onYes, onNo }) {
+    const classes = useStyles();
+
 	return (
 		<Dialog
-			onClose={colseDeleteFileDialog}
+			onClose={closePlanModal}
 			aria-labelledby="customized-dialog-title"
-			open={isOpenDeleteDialog}
+			open={isPlanModal}
 			maxWidth="xs"
 			fullWidth="true"
+            classes={{
+                container: 'popup-plan-container'
+            }}
+			className="popup-root"
 		>
-			<DialogTitle id="customized-dialog-title" onClose={colseDeleteFileDialog}>
-				{t('DELETE')}
+			<DialogTitle id="customized-dialog-title" onClose={closePlanModal}>
+				Fill Billing Form
 			</DialogTitle>
 			<DialogContent dividers>
-				<div>{text}</div>
+				<div>First you need to fill billing form. Are you sure to continue?</div>
 			</DialogContent>
 			<DialogActions>
 				<Button autoFocus onClick={onYes} variant="contained" color="secondary">
-					{t('YES')}
+					Yes
 				</Button>
 				<Button autoFocus onClick={onNo} variant="contained" color="secondary">
-					{t('NO')}
+					No
 				</Button>
 			</DialogActions>
 		</Dialog>
 	);
 }
-export default DeleteConfirmDialog;
+export default PlanFormAskDialog;

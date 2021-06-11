@@ -1,5 +1,6 @@
 import { authRoles } from 'app/auth';
-import AdminRoleExample from './AdminRoleExample';
+import loadable from '@loadable/component';
+const AdminRoleExample = loadable(() => import('./AdminRoleExample'));
 
 const AdminRoleExampleConfig = {
 	settings: {

@@ -1,31 +1,8 @@
 import { useForm } from '@fuse/hooks';
-import FuseUtils from '@fuse/utils/FuseUtils';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { AppBar, Avatar, Dialog, DialogContent, Toolbar, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect } from 'react';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
-import FormLabel from '@material-ui/core/FormLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import { makeStyles } from '@material-ui/core/styles';
 import { SYSTEM_ROLES } from 'app/constants';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
@@ -116,6 +93,7 @@ function ViewContactDialog(props) {
 	const handleSelectChange = event => {
 		setRole(event.target.value);
 	};
+	
 	return (
 		<Dialog
 			classes={{
@@ -144,7 +122,7 @@ function ViewContactDialog(props) {
 			</AppBar>
 			<form noValidate onSubmit={handleSubmit} className="flex flex-col md:overflow-hidden">
 				<DialogContent classes={{ root: 'p-24' }}>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+					<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96">
 							<Typography className="text-base">{t('NAME')}</Typography>
 						</div>
@@ -153,7 +131,7 @@ function ViewContactDialog(props) {
 						</Typography>
 					</div>
 
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+					<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">{t('LAST_NAME')}</Typography>
 						</div>
@@ -161,27 +139,27 @@ function ViewContactDialog(props) {
 							{form.last_name}
 						</Typography>
 					</div>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+					<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">{t('EMAIL')}</Typography>
 						</div>
 
-						<Typography variant="h6" className="text-base">
+						<Typography variant="h6" className="text-base view-contact-popup-link">
 							<a href={`mailto:${form.email}`}>{form.email}</a>
 						</Typography>
 					</div>
 					{form.phone && (
-						<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+						<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 							<div className="min-w-96 ">
 								<Typography className="text-base">{t('PHONE')}</Typography>
 							</div>
 
-							<Typography variant="h6" className="text-base">
+							<Typography variant="h6" className="text-base view-contact-popup-link">
 								<a href={`tel:${form.phone}`}>{form.phone}</a>
 							</Typography>
 						</div>
 					)}
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+					<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">{t('ROLE')}</Typography>
 						</div>
@@ -189,7 +167,7 @@ function ViewContactDialog(props) {
 							{form.role}
 						</Typography>
 					</div>
-					<div className="flex flex-auto justify-between items-center w-full h-full container p-0 lg:px-16 mb-12">
+					<div className="flex flex-auto justify-between items-center w-full container p-0 lg:px-16 mb-12">
 						<div className="min-w-96 ">
 							<Typography className="text-base">{t('LANGUAGE')}</Typography>
 						</div>

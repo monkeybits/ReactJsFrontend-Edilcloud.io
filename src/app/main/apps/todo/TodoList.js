@@ -100,7 +100,7 @@ function TodoList(props) {
 					setPosts(res.results);
 				},
 				err => {
-					console.log(err);
+					// console.log(err);
 				},
 				METHOD.GET,
 				getHeaderToken()
@@ -229,7 +229,6 @@ function TodoList(props) {
 	};
 
 	const setFilterByKey = (activeFilter, list, activeFilterKey) => {
-		console.log('activeFilterKey???????????????????????????????????', activeFilterKey)
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
 			if (_searchText.length === 0) {

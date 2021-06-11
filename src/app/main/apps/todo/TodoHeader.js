@@ -41,7 +41,7 @@ function TodoHeader(props) {
 					setPosts(res.results);
 				},
 				err => {
-					console.log(err);
+					// console.log(err);
 				},
 				METHOD.GET,
 				getHeaderToken()

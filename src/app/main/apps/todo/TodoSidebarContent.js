@@ -80,43 +80,7 @@ function TodoSidebarContent(props) {
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className="flex-auto border-l-1 border-solid">
-				{/*
-				// *The below old code was for UI, I just had to leave it here for you to see.
-				<div className="p-24">
-					<Button
-						onClick={() => {
-							dispatch(Actions.openNewTodoDialog());
-						}}
-						variant="contained"
-						color="primary"
-						className="w-full"
-					>
-						ADD TASK
-					</Button>
-				</div> */}
-
-				<div className="lg:pl-48 pt-60">
-					{/*
-					// *The below old code was for UI, I just had to leave it here for you to see.
-					<List>
-						{folders.length > 0 &&
-							folders.map(folder => (
-								<ListItem
-									button
-									component={NavLinkAdapter}
-									to={`/apps/todo/${folder.handle}`}
-									key={folder.id}
-									activeClassName="active"
-									className={classes.listItem}
-								>
-									<Icon className="list-item-icon" color="action">
-										{folder.icon}
-									</Icon>
-									<ListItemText primary={folder.title} disableTypography />
-								</ListItem>
-							))}
-					</List> */}
-
+				<div>
 					<AppBar position="static" elevation={1}>
 						<Toolbar className="p-0">
 							<IconButton className="p-32" color="inherit">
@@ -128,119 +92,104 @@ function TodoSidebarContent(props) {
 						</Toolbar>
 					</AppBar>
 					<List>
-						<div className="p-32 ">
-							<ListSubheader className={classes.listSubheader} disableSticky>
-								{t('GENERAL_FILTERS')}
-							</ListSubheader>
-
-							{genrealFilter.length > 0 &&
-								genrealFilter.map(filter => (
-									<ListItem
-										button
-										onClick={() => changeFilter('genrealFilter', filter.name)}
-										className={clsx(classes.listItem, { active: filter.isActive })}
-										activeClassName="active"
-										key={filter.name}
-									>
-										<Icon className="list-item-icon" color="action">
-											{filter.icon}
-										</Icon>
-										<ListItemText primary={t(filter.name)} disableTypography />
-									</ListItem>
-								))}
-						</div>
-					</List>
-
-					<List>
-						<div className="p-32 pt-0">
-							<ListSubheader className={classes.listSubheader} disableSticky>
-								{t('TIME_FILTERS')}
-							</ListSubheader>
-
-							{timeFilter.length > 0 &&
-								timeFilter.map(filter => (
-									<ListItem
-										button
-										onClick={() => changeFilter('timeFilter', filter.name)}
-										className={clsx(classes.listItem, { active: filter.isActive })}
-										activeClassName="active"
-										key={filter.name}
-									>
-										<Icon className="list-item-icon" color="action">
-											{filter.icon}
-										</Icon>
-										<ListItemText primary={t(filter.name)} disableTypography />
-									</ListItem>
-								))}
-						</div>
-					</List>
-
-					<List>
-						<div className="p-32 pt-0">
-							<ListSubheader className={classes.listSubheader} disableSticky>
-								{t('PROJECT_FILTERS')}
-							</ListSubheader>
-							{projectFilter.length > 0 &&
-								projectFilter.map(filter => (
-									<ListItem
-										button
-										onClick={() => changeFilter('projectFilter', filter.name)}
-										className={clsx(classes.listItem, { active: filter.isActive })}
-										activeClassName="active"
-										key={filter.name}
-									>
-										<Icon className="list-item-icon" color="action">
-											{filter.icon}
-										</Icon>
-										<ListItemText primary={filter.name} disableTypography />
-									</ListItem>
-								))}
-						</div>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							{t('GENERAL_FILTERS')}
+						</ListSubheader>
+						{genrealFilter.length > 0 &&
+							genrealFilter.map(filter => (
+								<ListItem
+									button
+									onClick={() => changeFilter('genrealFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.isActive })}
+									activeClassName="active"
+									key={filter.name}
+								>
+									<Icon className="list-item-icon" color="action">
+										{filter.icon}
+									</Icon>
+									<ListItemText primary={t(filter.name)} disableTypography />
+								</ListItem>
+							))}
 					</List>
 					<List>
-						<div className="p-32 pt-0">
-							<ListSubheader className={classes.listSubheader} disableSticky>
-								{t('COMPANY_FILTERS')}
-							</ListSubheader>
-							{companyFilter.length > 0 &&
-								companyFilter.map(filter => (
-									<ListItem
-										button
-										onClick={() => changeFilter('companyFilter', filter.name)}
-										className={clsx(classes.listItem, { active: filter.isActive })}
-										activeClassName="active"
-										key={filter.name}
-									>
-										<Avatar src={filter.logo} className={classes.small} />
-										<ListItemText primary={filter.name} disableTypography />
-									</ListItem>
-								))}
-						</div>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							{t('TIME_FILTERS')}
+						</ListSubheader>
+						{timeFilter.length > 0 &&
+							timeFilter.map(filter => (
+								<ListItem
+									button
+									onClick={() => changeFilter('timeFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.isActive })}
+									activeClassName="active"
+									key={filter.name}
+								>
+									<Icon className="list-item-icon" color="action">
+										{filter.icon}
+									</Icon>
+									<ListItemText primary={t(filter.name)} disableTypography />
+								</ListItem>
+							))}
 					</List>
 					<List>
-						<div className="p-32">
-							<ListSubheader className={classes.listSubheader} disableSticky>
-								{t('PEOPLE_FILTERS')}
-							</ListSubheader>
-
-							{peopleFilter.length > 0 &&
-								peopleFilter.map(filter => {
-									const name = `${filter.first_name} ${filter.last_name}`;
-									return (
-										<ListItem
-											button
-											key={filter.id}
-											onClick={() => changeFilter('peopleFilter', filter.id)}
-											className={clsx(classes.listItem, { active: filter.isActive })}
-										>
-											<Avatar className="h-24 w-24 mx-8" src={filter.photo} alt={filter.name}>
-												{[...name][0]}
-											</Avatar>
-											<ListItemText primary={name} disableTypography />
-										</ListItem>
-									);
-								})}
-						</div>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							{t('PROJECT_FILTERS')}
+						</ListSubheader>
+						{projectFilter.length > 0 &&
+							projectFilter.map(filter => (
+								<ListItem
+									button
+									onClick={() => changeFilter('projectFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.isActive })}
+									activeClassName="active"
+									key={filter.name}
+								>
+									<Icon className="list-item-icon" color="action">
+										{filter.icon}
+									</Icon>
+									<ListItemText primary={filter.name} disableTypography />
+								</ListItem>
+							))}
+					</List>
+					<List>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							{t('COMPANY_FILTERS')}
+						</ListSubheader>
+						{companyFilter.length > 0 &&
+							companyFilter.map(filter => (
+								<ListItem
+									button
+									onClick={() => changeFilter('companyFilter', filter.name)}
+									className={clsx(classes.listItem, { active: filter.isActive })}
+									activeClassName="active"
+									key={filter.name}
+								>
+									<Avatar src={filter.logo} className={classes.small} />
+									<ListItemText primary={filter.name} disableTypography />
+								</ListItem>
+							))}
+					</List>
+					<List>
+						<ListSubheader className={classes.listSubheader} disableSticky>
+							{t('PEOPLE_FILTERS')}
+						</ListSubheader>
+						{peopleFilter.length > 0 &&
+							peopleFilter.map(filter => {
+								const name = `${filter.first_name} ${filter.last_name}`;
+								return (
+									<ListItem
+										button
+										key={filter.id}
+										onClick={() => changeFilter('peopleFilter', filter.id)}
+										className={clsx(classes.listItem, { active: filter.isActive })}
+									>
+										<Avatar className="h-24 w-24 mx-8" src={filter.photo} alt={filter.name}>
+											{[...name][0]}
+										</Avatar>
+										<ListItemText primary={name} disableTypography />
+									</ListItem>
+								);
+							})}
 					</List>
 				</div>
 			</div>

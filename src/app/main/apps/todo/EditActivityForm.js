@@ -93,7 +93,9 @@ export default function EditActivityForm(props) {
 			),
 			{},
 			res => setProfiles(res),
-			err => console.log(err),
+			err => {
+				// console.log(err)
+			},
 			METHOD.GET,
 			getHeaderToken()
 		);

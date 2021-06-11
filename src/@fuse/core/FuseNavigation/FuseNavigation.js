@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
-import { Divider, List } from '@material-ui/core';
+import { Divider, List, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import * as SettingActions from 'app/main/apps/settings/store/actions';
 import FuseNavHorizontalCollapse from './horizontal/FuseNavHorizontalCollapse';
 import FuseNavHorizontalGroup from './horizontal/FuseNavHorizontalGroup';
 import FuseNavHorizontalItem from './horizontal/FuseNavHorizontalItem';
@@ -13,6 +15,8 @@ import FuseNavVerticalGroup from './vertical/FuseNavVerticalGroup';
 import FuseNavVerticalItem from './vertical/FuseNavVerticalItem';
 import FuseNavVerticalLink from './vertical/FuseNavVerticalLink';
 import FuseNavItem, { registerComponent } from './FuseNavItem';
+import PlanFormAskDialog from './PlanFormAskDialog';
+import { useDispatch } from 'react-redux';
 
 /*
 Register Fuse Navigation Components
@@ -99,20 +103,23 @@ const useStyles = makeStyles(theme => ({
 function FuseNavigation(props) {
 	const classes = useStyles(props);
 	const [companyValidate, setCompanyValidate] = useState(false);
+	const [isPlanModal, setIsPlanModal] = useState(false);
 	const { navigation, layout, active, dense, className } = props;
 	const company = useSelector(({ chatApp }) => chatApp?.company);
+	const history = useHistory();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (
-			company.name &&
-			company.tax_code &&
-			company.vat_number &&
-			company.address &&
-			company.province &&
-			company.cap &&
-			company.country &&
-			company.pec &&
-			company.billing_email
+			company.name !== '' &&
+			company.tax_code !== '' &&
+			company.vat_number !== '' &&
+			company.address !== '' &&
+			company.province !== '' &&
+			company.cap !== '' &&
+			company.country !== '' &&
+			company.pec !== '' &&
+			company.billing_email !== ''
 		) {
 			setCompanyValidate(true);
 		} else {
@@ -133,14 +140,47 @@ function FuseNavigation(props) {
 		>
 			{navigation.map(_item => (
 				<>
-				{
-					_item.id !== "PLAN" &&
-					<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
-				}
-				{
-					companyValidate && _item.id === "PLAN" &&
-					<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
-				}
+					{
+						_item.id !== "PLAN" &&
+						<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
+					}
+					{
+						companyValidate && _item.id === "PLAN" &&
+						<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
+					}
+					{
+						!companyValidate && _item.id === "PLAN" &&
+						<Link
+							onClick={() => {
+								setIsPlanModal(true)
+							}}
+						>
+						<FuseNavItem key={`plan`} type={`vertical-item`} item={{
+							checkRole: true,
+							roles: ['d', 'o'],
+							id: '',
+							title: 'Plan',
+							translate: 'PLAN',
+							type: 'item',
+							icon: 'payment',
+							url: '#'
+						}} nestedLevel={0} />
+						</Link>
+					}
+					<div>
+						<PlanFormAskDialog
+							isPlanModal={isPlanModal}
+							closePlanModal={() => setIsPlanModal(false)}
+							onYes={() => {
+								dispatch(SettingActions.filterByKey('billings'))
+								history.push({
+									pathname: '/apps/settings'
+								});
+								setIsPlanModal(false)
+							}}
+							onNo={() => setIsPlanModal(false)}
+						/>
+					</div>
 				</>
 			))}
 		</List>

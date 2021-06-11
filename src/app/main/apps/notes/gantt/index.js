@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import { useParams } from 'react-router';
-import { Backdrop, Fab, Icon, makeStyles, Typography, Button } from '@material-ui/core';
+import { makeStyles, Typography, Button } from '@material-ui/core';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import clsx from 'clsx';
 import { ADD_TASK_TO_PROJECT } from 'app/services/apiEndPoints';
 import axios from 'app/services/axiosConfig';
 import { toast } from 'react-toastify';
@@ -14,14 +13,15 @@ import moment from 'moment';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
 import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
-import ImportExcelDialog from './ImportExcelDialog';
-import CreateTasks from './CreateTasks';
-import useScript from './useScript';
-import TaskContentDialog from '../todo/Dialog/TaskContentDialog';
-import TodoDialog from '../todo/TodoDialog';
-import CreatePostDialog from '../todo/CreatePostDialog';
 import * as Actions from '../todo/store/actions';
-import Gantt from './Gantt';
+import loadable from '@loadable/component';
+import useScript from './useScript'
+const ImportExcelDialog = loadable(() => import('./ImportExcelDialog'));
+const CreateTasks = loadable(() => import('./CreateTasks'));
+// const useScript = loadable(() => import('./useScript'));
+const TaskContentDialog = loadable(() => import('../todo/Dialog/TaskContentDialog'));
+const CreatePostDialog = loadable(() => import('../todo/CreatePostDialog'));
+const Gantt = loadable(() => import('./Gantt'));
 
 const useStyles = makeStyles(theme => ({
 	backdrop: {
@@ -178,15 +178,24 @@ function GanttWrapper(props) {
 			});
 		}
 	};
+	
 	return (
 		<div>
 			<ThemeProvider theme={mainTheme}>
 				<div className="flex flex-1 dashboard-todo-header w-full">
 					<div className="project_list h-auto bg-dark-blue min-h-auto w-full p-16">
-						<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
-							Gantt
-						</Typography>
-						<div className="flex flex-1 items-center justify-end">
+						<div>
+							<Typography className="sm:flex pt-4 text-white mx-0 sm:mx-12" variant="h6">
+								{projectDetail.name}
+							</Typography>
+							<Typography className="sm:flex pb-8 text-white mx-0 sm:mx-12" variant="p">
+								{projectDetail.address}
+							</Typography>
+						</div>
+						<div className="flex flex-1 items-center justify-between">
+							<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
+								Gantt
+							</Typography>
 							<FuseAnimate animation="transition.slideRightIn" delay={300}>
 								<Button
 									onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}

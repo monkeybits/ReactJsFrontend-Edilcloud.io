@@ -1,10 +1,9 @@
+import React from 'react';
 import { useForm } from '@fuse/hooks';
 import _ from '@lodash';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import CommentModel from 'app/main/apps/scrumboard/model/CommentModel';
-import React from 'react';
+import { Avatar, Button, TextField } from '@material-ui/core';
+import loadable from '@loadable/component';
+const CommentModel = loadable(() => import('app/main/apps/scrumboard/model/CommentModel'));
 
 function CardComment(props) {
 	const { form, handleChange, resetForm } = useForm({

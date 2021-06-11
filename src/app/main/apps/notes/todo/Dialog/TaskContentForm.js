@@ -2,29 +2,20 @@ import PropTypes from 'prop-types';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useForm } from '@fuse/hooks';
 import _ from '@lodash';
-import DialogContent from '@material-ui/core/DialogContent';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import { DialogContent, Icon, IconButton, InputAdornment, Box, TextField, Typography, Button, makeStyles, Slider, withStyles, CircularProgress, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import moment from 'moment';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, makeStyles, Slider, withStyles, CircularProgress } from '@material-ui/core';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { useParams } from 'react-router';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
-import ShowUpload from '../ShowUpload';
-import CreatePostForm from '../CreatePostForm';
-import CreateAttachments from './attachment/CreateAttachments';
 import * as Actions from '../store/actions';
-
+import loadable from '@loadable/component';
+const ShowUpload = loadable(() => import('../ShowUpload'));
+const CreatePostForm = loadable(() => import('../CreatePostForm'));
+const CreateAttachments = loadable(() => import('./attachment/CreateAttachments'));
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -174,8 +165,6 @@ function TaskContentForm(props) {
 	const [value, setValue] = React.useState(0);
 	const getName = profile => `${profile.first_name} ${profile.last_name}`;
 
-	console.log('taskContentData?????????????????????????', companies)
-	
 	useEffect(() => {
 		if (companies && companies.length && taskContentData) {
 			const company = [...companies]
@@ -250,10 +239,6 @@ function TaskContentForm(props) {
 		description: taskContentData?.parent == 1 ? taskContentData?.description : taskContentData?.note
 	});
 	const dueDate = cardForm && cardForm.due ? moment(cardForm.due).format(moment.HTML5_FMT.DATE) : '';
-
-	console.log('props.todo????????????????name', taskContentData?.parent == 1 ? taskContentData?.title : taskContentData?.name);
-    console.log('props.todo????????????????note', taskContentData?.parent == 1 ? taskContentData?.description : taskContentData?.note);
-    console.log('props.todo????????????????cardForm', cardForm);
 
 	// useUpdateEffect(() => {
 	// 	updateCard(board.id, cardForm);
@@ -358,32 +343,7 @@ function TaskContentForm(props) {
 
 	return (
 		<div className="w-full custom-task-content">
-			<div className="custom-tab-header2 bg-white h-64 flex relative">
-				<BottomNavigation
-					value={value}
-					onChange={(event, newValue) => {
-						setValue(newValue);
-					}}
-					showLabels
-					className="w-full h-64"
-				>
-					<BottomNavigationAction
-						className="min-w-auto max-w-full font-bold"
-						label="Contents"
-						wrapped
-						{...a11yProps(0)}
-					/>
-					{/* <BottomNavigationAction
-						className="min-w-auto max-w-full font-bold hidden"
-						label="Drawings"
-						{...a11yProps(1)}
-					/>
-					<BottomNavigationAction
-						className="min-w-auto max-w-full font-bold"
-						label="Edit"
-						{...a11yProps(2)}
-					/> */}
-				</BottomNavigation>
+			<div className="custom-tab-header2 bg-white flex relative">
 				<div className="absolute right-m-12">
 					<IconButton
 						onClick={ev => dispatch(Actions.closeTaskContent())}

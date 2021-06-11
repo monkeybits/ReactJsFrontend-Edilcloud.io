@@ -5,22 +5,19 @@
 TODO: This File is created for showing add project form and on submit method we are creating new project and geting list of project
 */
 import { useForm } from '@fuse/hooks';
-import history from '@history';
-import { Button, withStyles, Avatar, CircularProgress, Grid, TextField } from '@material-ui/core';
+import { Button, withStyles, CircularProgress, Grid, TextField } from '@material-ui/core';
 import Formsy from 'formsy-react';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import { useParams } from 'react-router';
 import { ADD_TEAM_BY_CODE } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
-import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
+import { getHeaderToken } from 'app/services/serviceUtils';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import loadable from '@loadable/component';
 
 const DialogContent = withStyles(theme => ({
 	root: {

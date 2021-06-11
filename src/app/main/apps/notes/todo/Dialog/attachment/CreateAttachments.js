@@ -1,15 +1,14 @@
 import _ from '@lodash';
-import { Box, Button, CircularProgress, Divider } from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
-import Typography from '@material-ui/core/Typography';
+import { Box, Button, CircularProgress, Divider, Icon, Typography } from '@material-ui/core';
 import { ADD_ATTCHMENTS_TO_TASK } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { decodeDataFromToken, getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
-import ImagesPreview from 'app/main/apps/notes/todo/ImagesPreview';
-import ImagePreviewDialog from 'app/ImagePreviewDialog';
 import { useTranslation } from 'react-i18next';
-import CardAttachment from './CardAttachment';
+import loadable from '@loadable/component';
+const ImagesPreview = loadable(() => import('app/main/apps/notes/todo/ImagesPreview'));
+const ImagePreviewDialog = loadable(() => import('app/ImagePreviewDialog'));
+const CardAttachment = loadable(() => import('./CardAttachment'));
 
 function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) {
 	const { t } = useTranslation(nameSpace);

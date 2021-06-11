@@ -7,13 +7,13 @@ import { withRouter, useHistory } from 'react-router-dom';
 import { getCompressFile } from 'app/services/serviceUtils';
 import { EDIT_PROFILE } from 'app/services/apiEndPoints';
 import clsx from 'clsx';
-import { darken } from '@material-ui/core/styles/colorManipulator';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import * as userActions from 'app/auth/store/actions';
 import { useTranslation } from 'react-i18next';
 import axios from '../../services/axiosConfig';
-import ProfileUpload from './FileUpload';
-import BasicInfo from './BasicInfo';
+import loadable from '@loadable/component';
+const ProfileUpload = loadable(() => import('./FileUpload'));
+const BasicInfo = loadable(() => import('./BasicInfo'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -108,14 +108,11 @@ function VerticalLinearStepper({ user, history }) {
 			})
 			.then(({ data }) => {
 				dispatch(userActions.setUserData(data));
-				console.log({
-					data
-				});
 				const nextPath = history.location.state?.nextPath;
 				history.push(nextPath || '/apps/todo/all');
 			})
 			.catch(err => {
-				console.log(err);
+				// console.log(err);
 			});
 	};
 	return (

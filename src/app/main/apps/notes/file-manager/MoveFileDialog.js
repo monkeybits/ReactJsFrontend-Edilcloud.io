@@ -1,11 +1,7 @@
-import IconButton from '@material-ui/core/IconButton';
 import React, { useEffect, useState } from 'react';
+import { IconButton, Button, TextField, Dialog, Typography, Toolbar, AppBar } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, TextField } from '@material-ui/core';
 import {
-	MOVE_PHOTO_FILE,
-	MOVE_VIDEO_FILE,
-	MOVE_DOCUMENT_FILE,
 	FOLDER_EDIT,
 	PHOTO_EDIT,
 	VIDEO_EDIT,
@@ -13,17 +9,11 @@ import {
 } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
-
 import { withStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
-import Toolbar from '@material-ui/core/Toolbar';
-import AppBar from '@material-ui/core/AppBar';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import * as Actions from './store/actions';
