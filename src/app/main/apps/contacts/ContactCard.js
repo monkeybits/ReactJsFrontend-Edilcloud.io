@@ -76,6 +76,7 @@ export default function ContactCard(props) {
 		jobTitle,
 		phone
 	} = props;
+
 	const dispatch = useDispatch();
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [userData, setUserData] = useState(null);
@@ -243,15 +244,18 @@ export default function ContactCard(props) {
 					}
 					{
 						phone ? (
-							<a
-								className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
-								href={`tel:${phone}`}
+							<Button
+								disableRipple
+								className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1 border-solid"
+								color="inherit"
+								onclick={`window.open('tel:${phone}');`}
 							>
 								<Icon size="small" className="mr-8">
 									call
 								</Icon>
 								Call
-							</a>
+							</Button>
+							
 						) : (
 							<Button
 								disableRipple
