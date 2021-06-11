@@ -199,8 +199,6 @@ function DetailSidebarContent({ setProgress }) {
 		handleClose(event);
 	};
 	const openMenu = Boolean(anchorEl);
-
-	console.log('selectedItem???????????????????????????????', selectedItem)
 	return (
 		<>
 			<DeleteConfirmDialog
@@ -266,7 +264,7 @@ function DetailSidebarContent({ setProgress }) {
 						closeViewFile={closeViewFile}
 						setProgress={setProgress}
 					/>
-					<div className="px-24 py-12 border-b-1">
+					<div className="px-24 py-12 border-b-1 pb-76">
 						<Typography variant="subtitle2" className="py-10 uppercase text-gray-500">
 							{t('INFO')}
 						</Typography>
