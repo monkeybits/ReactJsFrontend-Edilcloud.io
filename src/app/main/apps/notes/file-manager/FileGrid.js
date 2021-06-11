@@ -282,7 +282,7 @@ function FileGrid(props) {
 	}
 
 	return (
-		<div className="file-folder-grid px-24 mt-12">
+		<div className="file-folder-grid px-24 mt-12 mb-92">
 			{!!folders?.length && (
 				<>
 					{' '}

@@ -334,7 +334,7 @@ function FileList(props) {
 		);
 	}
 	return (
-		<div className="file-folder-grid px-20">
+		<div className="file-folder-grid px-20 mb-92">
 			<FuseAnimate animation="transition.slideUpIn" delay={300}>
 				<Table className="bg-white rounded table-shadow">
 					{(currentFolderPath != '' || !!Object.entries(allFiles).length) && (
