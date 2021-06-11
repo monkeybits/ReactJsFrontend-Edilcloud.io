@@ -353,7 +353,7 @@
         height: -webkit-fill-available !important;
     }
     #wrapped-tabpanel-2, #wrapped-tabpanel-3 {
-        height: calc(100% - 93px);
+        /* height: calc(100% - 93px); */
     }
     .chat-inner-height {
         height: calc(100vh - 300px) !important;

@@ -155,7 +155,7 @@ export default function ContactCard(props) {
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3}>
+		<Grid className="px-6 mb-20 justify-center" item xs={6} sm={6} md={3} xl={3}>
 			<DeleteConfirmDialog
 				text={
 					userData && (
@@ -169,7 +169,7 @@ export default function ContactCard(props) {
 				onYes={onDeactivate}
 				onNo={colseDeleteContactDialog}
 			/>
-			<div className="card-container flex flex-col px-10 text-13 border-grey-600 border-1">
+			<div className="card-container flex flex-col px-10 text-13 border-grey-600 border-1  mx-auto">
 				<span className={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				{!!editPermission && (
 					<div className="team-action">

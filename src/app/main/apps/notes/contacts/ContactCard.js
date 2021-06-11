@@ -138,7 +138,7 @@ export default function ContactCard(props) {
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
 	) : (
-		<Grid className="px-6 mb-20" item xs={6} sm={6} md={3} xl={3}>
+		<Grid className="px-6 mb-20 justify-center" item xs={6} sm={6} md={3} xl={3}>
 			<DeleteConfirmDialog
 				text={
 					<>
@@ -152,7 +152,7 @@ export default function ContactCard(props) {
 			/>
 			<div
 				ref={notificationPanel.notificationData?.notification?.object_id == id ? scrollRef : null}
-				className="card-container flex flex-col px-10 text-13 border-grey-600 border-1"
+				className="card-container flex flex-col px-10 text-13 border-grey-600 border-1 mx-auto"
 			>
 				<span className={`pro ${String(status).toLowerCase()}`}>{status}</span>
 				<div className="team-action">
