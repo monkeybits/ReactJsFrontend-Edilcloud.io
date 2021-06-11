@@ -326,7 +326,7 @@ function TodoApp(props) {
 					content: 'flex bg-azure flex-col h-full pb-0',
 					leftSidebar: `mobile-h-full w-350 border-0 ${foldedAndOpened || defaultMenu ? 'ml-19' : ''}`,
 					header: 'h-72 sm:h-136 sm:min-h-136',
-					wrapper: 'p-24 team-tab'
+					wrapper: 'px-24 pt-24 team-tab'
 				}}
 				header={<TodoHeader pageLayout={pageLayout} />}
 				content={<TodoList pageLayout={pageLayout} {...props} />}
