@@ -109,6 +109,7 @@ export default function PostListItem({
 	const okStateConfirmDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.okStateConfirmDialog);
 	const statusPost = useSelector(({ todoAppNote }) => todoAppNote.todos.statusPost);
 	const scrollRef = useRef(null);
+	const user = useSelector(({ auth }) => auth.user);
 
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == currnetPost.id;
 
@@ -397,9 +398,6 @@ export default function PostListItem({
 	const onNotificationClick = () => {
 		dispatch(Actions.openNotificationDialog(post));
 	};
-
-	console.log('comment????????????????????????????postComments', postComments)
-	console.log('comment????????????????????????????offlinePostComments', offlinePostComments)
 
 	return (
 		<Card
@@ -781,7 +779,7 @@ export default function PostListItem({
 				{/* {open && commentBoxOpen && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && ( */}
 				{open && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
 					<div className="flex flex-auto mt-10">
-						<Avatar className="mr-10" src={post.author.photo} />
+						<Avatar className="mr-10" src={user.data.user.photo} />
 						<div className="flex-1">
 							<Paper elevation={0} className="w-full relative post-icons rounded-32 comment-box">
 								<Input
