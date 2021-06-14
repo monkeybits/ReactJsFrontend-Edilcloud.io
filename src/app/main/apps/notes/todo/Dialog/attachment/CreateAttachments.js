@@ -83,7 +83,7 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 					<div className="mb-24 image-center">
 						<input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden />
 						{images && <ImagesPreview images={images} hideModify />}
-						<div className="flex">
+						<div className="flex justify-center">
 							<Button className="add-file-btn mr-10" onClick={handleOpenFileClick}>
 								{t('ADD_FILE')}
 							</Button>
