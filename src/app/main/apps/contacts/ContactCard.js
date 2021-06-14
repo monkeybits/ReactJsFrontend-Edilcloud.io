@@ -14,7 +14,7 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import { withStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
+import { DELETE_MEMBER_FROM_CONTACT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
@@ -76,6 +76,9 @@ export default function ContactCard(props) {
 		jobTitle,
 		phone
 	} = props;
+
+	console.log('props?????????????????????????????', props)
+	console.log('props?????????????????????????????', phone)
 	const dispatch = useDispatch();
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 	const [userData, setUserData] = useState(null);
@@ -130,7 +133,7 @@ export default function ContactCard(props) {
 	}
 	const onDeactivate = () => {
 		const { id, email } = userData;
-		const url = DELETE_MEMBER_FROM_PROJECT(id);
+		const url = DELETE_MEMBER_FROM_CONTACT(id);
 		apiCall(
 			url,
 			{},
