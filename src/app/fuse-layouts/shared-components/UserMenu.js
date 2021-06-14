@@ -108,21 +108,21 @@ function UserMenu(props) {
 						<MenuItem
 							onClick={() => {
 								dispatch(authActions.logoutUser());
-		
+								
 								if (window.flutter_inappwebview?.callHandler) {
 									window.flutter_inappwebview
-										.callHandler('FirebaseUnsubscribeUser', company.id.toString())
+										.callHandler('FirebaseUnsubscribeUser', userInfo.extra.profile.id.toString())
 										.then(function (result) {
 											// console.log(JSON.stringify(result));
 										});
 								} else {
 									if (window.FirebaseUnsubscribeUser?.postMessage) {
-										window.FirebaseUnsubscribeUser.postMessage(company.id.toString());
+										window.FirebaseUnsubscribeUser.postMessage(userInfo.extra.profile.id.toString());
 									}
 								}
 								try {
 									window.webkit.messageHandlers.FirebaseUnsubscribeUser.postMessage(
-										JSON.stringify({ userid: company.id })
+										JSON.stringify({ userid: userInfo.extra.profile.id })
 									);
 								} catch (e) {
 									// console.log('error', e);
