@@ -11,6 +11,7 @@ const TippyMenu = loadable(() => import('app/TippyMenu'));
 function UserMenu(props) {
 	const dispatch = useDispatch();
 	const user = useSelector(({ auth }) => auth.user);
+	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const history = useHistory();
 
 	const mainProfileId = getMainProfileId();
@@ -107,6 +108,26 @@ function UserMenu(props) {
 						<MenuItem
 							onClick={() => {
 								dispatch(authActions.logoutUser());
+		
+								if (window.flutter_inappwebview?.callHandler) {
+									window.flutter_inappwebview
+										.callHandler('FirebaseUnsubscribeUser', company.id.toString())
+										.then(function (result) {
+											// console.log(JSON.stringify(result));
+										});
+								} else {
+									if (window.FirebaseUnsubscribeUser?.postMessage) {
+										window.FirebaseUnsubscribeUser.postMessage(company.id.toString());
+									}
+								}
+								try {
+									window.webkit.messageHandlers.FirebaseUnsubscribeUser.postMessage(
+										JSON.stringify({ userid: company.id })
+									);
+								} catch (e) {
+									// console.log('error', e);
+								}
+
 								// if (window.OneSignal) {
 								// 	window.OneSignal.push(function () {
 								// 		window.OneSignal.setExternalUserId('');
