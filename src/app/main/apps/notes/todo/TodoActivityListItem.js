@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import Tippy from '@tippyjs/react';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
+import FuseUtils from '@fuse/utils';
 import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css';
 const TippyMenu = loadable(() => import('app/TippyMenu'));
@@ -116,12 +117,7 @@ function TodoActivityListItem(props) {
 			scrollRef.current.scrollIntoView({
 				block: 'center'
 			});
-			scrollRef.current.classList.add('bg-yellow-200');
-			setTimeout(() => {
-				if (scrollRef.current) {
-					scrollRef.current.classList.remove('bg-yellow-200');
-				}
-			}, 5000);
+			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
 		}
 	}, [notificationPanel.viewing, scrollRef, hasRender]);
 
