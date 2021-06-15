@@ -123,7 +123,6 @@ function Chat(props) {
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const isUploadingFiles = useSelector(({ chatApp }) => chatApp.chat.isUploadingFiles);
 	const scrollRef = useRef(null);
-
 	useEffect(() => {
 		if (chat?.chats?.length) {
 			setTimeout(() => {
@@ -133,7 +132,8 @@ function Chat(props) {
 	}, [chat?.chats]);
 
 	useEffect(() => {
-		if (notificationPanel.viewing && hasRender && scrollRef.current) {
+		const notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && notification?.content_type == 'company' && hasRender && scrollRef.current) {
 			dispatch(notificationActions.removeFrmViewNotification());
 			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
 		}
