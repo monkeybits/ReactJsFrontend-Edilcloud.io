@@ -112,18 +112,14 @@ export default function CommentListItem({
 	];
 
 	useEffect(() => {
-		const notification = notificationPanel.notificationData?.notification;
-		if (notificationPanel.viewing && notification?.content_type == 'comment' && hasRender && scrollRef.current) {
-			dispatch(notificationActions.removeFrmViewNotification());
-			scrollRef.current.scrollIntoView(false);
-			scrollRef.current.classList.add('bg-yellow-200');
-			setTimeout(() => {
-				if (scrollRef.current) {
-					scrollRef.current.classList.remove('bg-yellow-200');
-				}
-			}, 5000);
-		}
-	}, [notificationPanel.viewing, scrollRef, hasRender]);
+		setTimeout(() => {
+			const notification = notificationPanel.notificationData?.notification;
+			if (notificationPanel.viewing && notification?.content_type == 'comment' && hasRender && scrollRef.current) {
+				dispatch(notificationActions.removeFrmViewNotification());
+				FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
+			}
+		}, 1000)
+	}, [comment, notificationPanel.viewing, scrollRef, hasRender])
 
 	const handlePostComment = e => {
 		e.preventDefault();
@@ -316,6 +312,7 @@ export default function CommentListItem({
 		<div
 			key={comment.id}
 			ref={notificationPanel.notificationData?.notification?.object_id == comment.id ? scrollRef : null}
+			className={comment.id}
 		>
 			<ListItem className="px-0 items-start">
 				<Avatar alt={comment.author.first_name} src={comment.author.photo} className="mr-12 h-48 w-48">

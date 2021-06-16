@@ -109,8 +109,9 @@ export default function PostListItem({
 	const okStateConfirmDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.okStateConfirmDialog);
 	const statusPost = useSelector(({ todoAppNote }) => todoAppNote.todos.statusPost);
 	const scrollRef = useRef(null);
+	const user = useSelector(({ auth }) => auth.user);
 
-	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == currnetPost.id;
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == post.id;
 
 	useEffect(() => {
 		setPost(currnetPost);
@@ -131,17 +132,14 @@ export default function PostListItem({
 	}, [post.comment_set]);
 
 	useEffect(() => {
-		const notification = notificationPanel.notificationData?.notification;
-		if (notificationPanel.viewing && notification?.content_type == 'post' && hasRender && scrollRef.current) {
-			dispatch(notificationActions.removeFrmViewNotification());
-			scrollRef.current.scrollIntoView(false);
-			scrollRef.current.classList.add('bg-yellow-200');
-			setTimeout(() => {
-				if (scrollRef.current) {
-					scrollRef.current.classList.remove('bg-yellow-200');
-				}
-			}, 5000);
-		}
+		setTimeout(() => {
+			const notification = notificationPanel.notificationData?.notification;
+			if (notificationPanel.viewing && notification?.content_type == 'post' && hasRender && scrollRef.current) {
+				dispatch(notificationActions.removeFrmViewNotification());
+				FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
+			}
+		}, 1000)
+		
 	}, [notificationPanel.viewing, scrollRef, hasRender]);
 
 	useEffect(() => {
@@ -778,7 +776,7 @@ export default function PostListItem({
 				{/* {open && commentBoxOpen && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && ( */}
 				{open && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
 					<div className="flex flex-auto mt-10">
-						<Avatar className="mr-10" src={post.author.photo} />
+						<Avatar className="mr-10" src={user.data.user.photo} />
 						<div className="flex-1">
 							<Paper elevation={0} className="w-full relative post-icons rounded-32 comment-box">
 								<Input

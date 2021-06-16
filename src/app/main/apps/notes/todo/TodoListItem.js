@@ -9,8 +9,9 @@ import loadable from '@loadable/component';
 import { blue } from '@material-ui/core/colors';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import FuseUtils from '@fuse/utils';
 import {
 	List,
 	Slider,
@@ -40,6 +41,7 @@ import moment from 'moment';
 import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
+import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 
 const TodoActivityListItem = loadable(() => import('./TodoActivityListItem'));
 const TippyMenu = loadable(() => import('app/TippyMenu'));
@@ -155,9 +157,13 @@ function TodoListItem(props) {
 	const getRole = () => userInfo?.extra?.profile.role;
 	const [loading, setLoading] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [hasRender, setHasRender] = React.useState(false);
 	const anchorRef = React.useRef();
 	const classes = useStyles(props);
 	const routeParams = useParams();
+	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == props.todo.id;
+	const scrollRef = useRef(null);
 	const [state, setState] = React.useState({
 		open: false,
 		anchorOriginVertical: 'bottom',
@@ -172,6 +178,24 @@ function TodoListItem(props) {
 	// const orderDescending = useSelector(({ todoApp }) => todoApp.todos.orderDescending);
 	const { t } = useTranslation('dashboard');
 	// const taskContentDialog = useSelector(({ todoApp }) => todoApp.todos.taskContentDialog);
+
+	useEffect(() => {
+		if (hasNotifcationOnThisItem) {
+			setTimeout(() => {
+				setHasRender(true);
+			}, 300);
+		} else {
+			setHasRender(true);
+		}
+	}, [hasNotifcationOnThisItem]);
+
+	useEffect(() => {
+		const notification = notificationPanel.notificationData?.notification;
+		if (notificationPanel.viewing && notification?.content_type == 'task' && hasRender && scrollRef.current) {
+			dispatch(notificationActions.removeFrmViewNotification());
+			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
+		}
+	}, [notificationPanel.viewing, scrollRef, hasRender]);
 
 	const handleClick = () => {
 		setOpen(!open);
@@ -318,7 +342,7 @@ function TodoListItem(props) {
 			<Card
 				elevation={1}
 				className="flex flex-col bordergrey overflow-inherit mb-6"
-				// ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
+				ref={notificationPanel.notificationData?.notification?.object_id == props.todo.id ? scrollRef : null}
 				onClick={e => {
 					dispatch(Actions.closeDrawingContent());
 					e.preventDefault();
