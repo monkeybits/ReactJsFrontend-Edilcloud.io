@@ -111,7 +111,7 @@ export default function PostListItem({
 	const scrollRef = useRef(null);
 	const user = useSelector(({ auth }) => auth.user);
 
-	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == currnetPost.id;
+	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == post.id;
 
 	useEffect(() => {
 		setPost(currnetPost);
@@ -132,17 +132,14 @@ export default function PostListItem({
 	}, [post.comment_set]);
 
 	useEffect(() => {
-		const notification = notificationPanel.notificationData?.notification;
-		if (notificationPanel.viewing && notification?.content_type == 'post' && hasRender && scrollRef.current) {
-			dispatch(notificationActions.removeFrmViewNotification());
-			scrollRef.current.scrollIntoView(false);
-			scrollRef.current.classList.add('bg-yellow-200');
-			setTimeout(() => {
-				if (scrollRef.current) {
-					scrollRef.current.classList.remove('bg-yellow-200');
-				}
-			}, 5000);
-		}
+		setTimeout(() => {
+			const notification = notificationPanel.notificationData?.notification;
+			if (notificationPanel.viewing && notification?.content_type == 'post' && hasRender && scrollRef.current) {
+				dispatch(notificationActions.removeFrmViewNotification());
+				FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
+			}
+		}, 1000)
+		
 	}, [notificationPanel.viewing, scrollRef, hasRender]);
 
 	useEffect(() => {
