@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faFile
 } from '@fortawesome/free-regular-svg-icons';
-import { DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO } from 'app/services/apiEndPoints';
+import { ATTACHMENT_DOWNLOAD } from 'app/services/apiEndPoints';
 import FileSaver from 'file-saver';
 import * as Actions from 'app/main/apps/notes/todo/store/actions';
 import { useDispatch } from 'react-redux';
@@ -33,14 +33,8 @@ function CardAttachment(props) {
 		const { item } = props;
 		const type = () => (item.type ? item.type.split('/')[0] : '');
 
-		const apiurl =
-			type() == 'image'
-				? DOWNLOAD_PHOTO(item.id)
-				: type() == 'video'
-				? DOWNLOAD_VIDEO(item.id)
-				: DOWNLOAD_DOCUMENT(item.id);
 		apiCall(
-			apiurl,
+			ATTACHMENT_DOWNLOAD(item.task, item.id),
 			{},
 			({ headers, data }) => {
 				const image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
