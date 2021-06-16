@@ -67,6 +67,8 @@ export const DOWNLOAD_PHOTO = did => `/api/frontend/media/photo/download/${did}/
 export const DOWNLOAD_VIDEO = did => `/api/frontend/media/video/download/${did}/`;
 export const DOWNLOAD_DOCUMENT = did => `/api/frontend/document/document/download/${did}/`;
 
+export const ATTACHMENT_DOWNLOAD = (taskId, attachmentId) => `/api/frontend/project/task/${taskId}/attachment_download/${attachmentId}/`;
+
 export const PHOTO_DELETE = pid => `/api/frontend/media/photo/delete/${pid}/`;
 export const VIDEO_DELETE = vid => `/api/frontend/media/video/delete/${vid}/ `;
 export const DOCUMENT_DELETE = did => `/api/frontend/document/document/delete/${did}/ `;

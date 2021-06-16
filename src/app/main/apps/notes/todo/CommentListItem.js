@@ -112,13 +112,13 @@ export default function CommentListItem({
 	];
 
 	useEffect(() => {
-		const notification = notificationPanel.notificationData?.notification;
-		// const commentRef = document.getElementById(comment.id);
-		// console.log('commentRef', commentRef)
-		if (notificationPanel.viewing && notification?.content_type == 'comment' && hasRender && scrollRef.current) {
-			dispatch(notificationActions.removeFrmViewNotification());
-			FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
-		}
+		setTimeout(() => {
+			const notification = notificationPanel.notificationData?.notification;
+			if (notificationPanel.viewing && notification?.content_type == 'comment' && hasRender && scrollRef.current) {
+				dispatch(notificationActions.removeFrmViewNotification());
+				FuseUtils.notificationBackrondColor(scrollRef, 'custom-notification-bg');
+			}
+		}, 1000)
 	}, [comment, notificationPanel.viewing, scrollRef, hasRender])
 
 	const handlePostComment = e => {
