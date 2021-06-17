@@ -1935,6 +1935,10 @@ audio {
     height: 100% !important;
 }
 
+.hide-overlay > div {
+    background-color: transparent;
+}
+
 @media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
     #wrapped-tabpanel-1{
         height: calc(100% - 70px);    

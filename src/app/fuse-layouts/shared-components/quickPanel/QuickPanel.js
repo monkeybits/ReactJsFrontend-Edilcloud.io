@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import { Drawer, Icon, Typography, IconButton, AppBar, Tabs, Tab, Box, Toolbar, ListItem, ListItemText } from '@material-ui/core';
+import { Drawer, Icon, Typography, IconButton, Box, Toolbar, ListItem, ListItemText, LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -79,12 +79,14 @@ function QuickPanel(props) {
 	const [listTask, setListTask] = useState([]);
 	const [listActivity, setListActivity] = useState([]);
 	const [distinctProject, setDistinctProject] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const onlyUnique = (value, index, self) => {
 		return self.indexOf(value) === index;
 	}
 
 	useEffect(() => {
+		setIsLoading(true)
 		if (projects) {
 			let projectIds = []
 			listTask.map((task) => {
@@ -101,6 +103,7 @@ function QuickPanel(props) {
 			})
 			var distinctProject = projectIds.filter(onlyUnique);
 			setDistinctProject(distinctProject)
+			setIsLoading(false)
 		}
 	}, [projects, listTask, listActivity]);
 
@@ -177,37 +180,46 @@ function QuickPanel(props) {
 					</Toolbar>
 					<div className="p-16">
 						{
-							projects.length > 0 &&
-							projects.map((project) => (
-								<>
-									{
-										distinctProject.includes(project.id) &&
-										<ListItem
-											button
-											className="flex items-center relative w-full p-10 min-h-20 shadow border-2 font-bold bg-gray-300 hover:bg-gray-300 rounded-8 mb-16"
-											onClick={(event) =>
-												handleSelectProject(event, project.id)
-											}
-											// component={item.url ? NavLinkAdapter : 'li'}
-											// to={item.url}
-											role="button"
-										>
-											<ListItemText
-												className="text-bold"
-												primary={project.name}
-											/>
-											<IconButton
-												disableRipple
-												className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
+							isLoading ? (
+								<div className="flex flex-1 flex-col items-center justify-center h-full">
+									<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+										Loading...
+									</Typography>
+									<LinearProgress className="w-xs" color="secondary" />
+								</div>
+							) : (
+								projects.length > 0 &&
+								projects.map((project) => (
+									<>
+										{
+											distinctProject.includes(project.id) &&
+											<ListItem
+												button
+												className="flex items-center relative w-full p-10 min-h-20 shadow border-2 font-bold bg-gray-300 hover:bg-gray-300 rounded-8 mb-16"
+												onClick={(event) =>
+													handleSelectProject(event, project.id)
+												}
+												// component={item.url ? NavLinkAdapter : 'li'}
+												// to={item.url}
+												role="button"
 											>
-												<Icon className="text-16 arrow-icon" color="inherit">
-													chevron_right
-												</Icon>
-											</IconButton>
-										</ListItem>
-									}
-								</>
-							))
+												<ListItemText
+													className="text-bold"
+													primary={project.name}
+												/>
+												<IconButton
+													disableRipple
+													className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
+												>
+													<Icon className="text-16 arrow-icon" color="inherit">
+														chevron_right
+													</Icon>
+												</IconButton>
+											</ListItem>
+										}
+									</>
+								))
+							)
 						}
 					</div>
 				</div>
