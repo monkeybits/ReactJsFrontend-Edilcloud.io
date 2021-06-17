@@ -153,7 +153,7 @@ export const GET_ALL_NOTIFICATIONS = (list, page) =>
 	`/api/frontend/notify/notification/recipient/${list}/?page=${page}`;
 export const GET_ALL_PAGES_NOTIFICATIONS = list =>
 	`/api/frontend/notify/notification/recipient/${list}/?no_page=no_page`;
-export const GET_TASK_BY_ID = tid => `/api/frontend/project/task/${tid}`;
+export const GET_TASK_BY_ID = tid => `/api/frontend/project/task/${tid}/`;
 export const GET_ACTIVITY_BY_ID = aid => `/api/frontend/project/activity/${aid}`;
 export const GET_SETTINGS_PREFERENCES = `/api/frontend/profile/preference/detail/`;
 export const UPDATE_SETTINGS_PREFERENCES = `/api/frontend/profile/preference/edit/`;
