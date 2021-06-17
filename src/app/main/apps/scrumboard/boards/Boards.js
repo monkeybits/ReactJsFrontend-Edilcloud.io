@@ -38,6 +38,7 @@ import * as Actions from '../store/actions';
 import { getToken, onMessageListener } from '../../../../../firebase';
 
 const UpdatePlanDialog = loadable(() => import('./UpdatePlanDialog'));
+const BillingFormDialog = loadable(() => import('./BillingFormDialog'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -357,6 +358,7 @@ function Boards(props) {
 					</div>
 				</div>
 				<UpdatePlanDialog {...props} />
+				<BillingFormDialog {...props} />
 			</div>
 			<ReuestsDrawer
 				afterSuccess={handleInvitation}

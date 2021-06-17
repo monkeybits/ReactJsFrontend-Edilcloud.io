@@ -1,4 +1,4 @@
-import { Grid, Typography, Icon } from '@material-ui/core';
+import { Grid, Typography, Icon, Button } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
@@ -39,6 +39,8 @@ export default function ContactCard(props) {
 	const inputFile = useRef(null);
 	const [viewCroper, setViewCroper] = useState(false);
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+	const [isNoDataModal, setIsNoDataModal] = useState(false);
+	const [selectedOption, setSelectedOption] = useState('');
 	const [userData, setUserData] = useState(null);
 	const [image, setImage] = useState(null);
 	const [permission, setPermission] = useState({
@@ -184,24 +186,62 @@ export default function ContactCard(props) {
 				<p className="font-500 text-muted mb-8">{profile.role}</p>
 				<p className="font-500 text-muted mb-8">{company}</p>
 				<div className="flex items-center justify-center mt-12 -mx-10">
-					<a
-						className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
-						href={`mailto:${email}`}
-					>
-						<Icon size="small" className="mr-8">
-							email
-						</Icon>
-						Email
-					</a>
-					<a
-						className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
-						href={`tel:${phone}`}
-					>
-						<Icon size="small" className="mr-8">
-							call
-						</Icon>
-						Call
-					</a>
+				{
+						email ? (
+							<a
+								className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
+								href={`mailto:${email}`}
+							>
+								<Icon size="small" className="mr-8">
+									email
+								</Icon>
+								Email
+							</a>
+						) : (
+							<Button
+								disableRipple
+								className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1 border-solid"
+								color="inherit"
+								onClick={() => {
+									setIsNoDataModal(true)
+									setSelectedOption('an email')
+								}}
+							>
+								<Icon size="small" className="mr-8">
+									email
+								</Icon>
+								Email
+							</Button>
+						)
+					}
+					{
+						phone ? (
+							<a
+								className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1"
+								href={`tel:${phone}`}
+							>
+								<Icon size="small" className="mr-8">
+									call
+								</Icon>
+								Call
+							</a>
+						) : (
+							<Button
+								disableRipple
+								className="flex w-full font-700 whitespace-no-wrap normal-case text-muted justify-center items-center py-8 border-grey-600 border-1 border-solid"
+								color="inherit"
+								onClick={() => {
+									setIsNoDataModal(true)
+									setSelectedOption('a phone number')
+								}}
+							>
+								<Icon size="small" className="mr-8">
+									call
+								</Icon>
+								Call
+							</Button>
+						)
+					}
 				</div>
 			</div>
 		</Grid>
