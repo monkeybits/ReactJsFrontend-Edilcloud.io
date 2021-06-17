@@ -13,7 +13,7 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { APPROVE_LIST, EDIT_POST } from 'app/services/apiEndPoints';
+import { COMPANY_DETAIL_BY_ID } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
 import * as ChatActions from '../../chat/store/actions';
@@ -64,6 +64,8 @@ function UpdatePlanDialog(props) {
 		loadingGetContacts: false,
 		loadingGetChat: false
 	});
+	const [companyInfo, setCompanyInfo] = useState({});
+
 	const handleSetLoading = data =>
 		setLoading(loading => ({
 			...loading,
@@ -74,23 +76,44 @@ function UpdatePlanDialog(props) {
 		dispatch(Actions.closeUpgradePlanDialog());
 	};
 
+	useEffect(() => {
+		if('id' in upgradePlanDetail) {
+			apiCall(
+				COMPANY_DETAIL_BY_ID(upgradePlanDetail.id),
+				{},
+				company => {
+					setCompanyInfo(company)
+				},
+				err => {
+					console.log('Err', err)
+				},
+				METHOD.GET,
+				getHeaderToken()
+			);
+		}
+	}, [upgradePlanDetail]);
+
 	const onConfirmPayment = () => {
 		if (
-			company.name === '' &&
-			company.tax_code === '' &&
-			company.vat_number === '' &&
-			company.address === '' &&
-			company.province === '' &&
-			company.cap === '' &&
-			company.country === '' &&
-			company.pec === '' &&
-			company.billing_email === ''
+			companyInfo.name !== '' &&
+			companyInfo.tax_code !== '' &&
+			companyInfo.vat_number !== '' &&
+			companyInfo.address !== '' &&
+			companyInfo.province !== '' &&
+			companyInfo.cap !== '' &&
+			companyInfo.country !== '' &&
+			companyInfo.pec !== '' &&
+			companyInfo.billing_email !== ''
 		) {
-			props.history.push('/apps/billing');
-		} else {
-			console.log('upgradePlanDetail', upgradePlanDetail)
-			window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${upgradePlanDetail?.customer}`;
+			// setBillingFormOpen(false)
+			console.log('///////////////////////////////////////////////11111')
+			// window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${upgradePlanDetail?.customer}`;
 			// props.history.push(`https://back.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`);
+		} else {
+			dispatch(Actions.showBillingFormDialog());
+			console.log('///////////////////////////////////////////////22222', companyInfo)
+			// setBillingFormOpen(true)
+			// props.history.push('/apps/billing');
 		}
 	};
 

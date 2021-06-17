@@ -2,12 +2,14 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import loadable from '@loadable/component';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
 import FuseUtils from '@fuse/utils';
+import { useHistory } from 'react-router-dom';
 import _ from '@lodash';
 import { Typography, Icon, IconButton, Input, Paper } from '@material-ui/core';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import * as Actions from './store/actions';
 const TodoListItem = loadable(() => import('./TodoListItem'));
 const EditActivityPostForm = loadable(() => import('./EditActivityPostForm'));
 const TaskAttachment = loadable(() => import('./TaskAttachment'));
@@ -16,6 +18,7 @@ const TaskContentForm = loadable(() => import('./Dialog/TaskContentForm'));
 function TodoList(props) {
 	const dispatch = useDispatch();
 	const { t } = useTranslation('todo_project');
+	const history = useHistory();
 	const todos = useSelector(({ todoAppNote }) => todoAppNote.todos.todoEntities);
 	const searchText = useSelector(({ todoAppNote }) => todoAppNote.todos.searchText);
 	const [hasRenderd, setHasRenderd] = useState(false);
@@ -35,6 +38,30 @@ function TodoList(props) {
 	const [todoId, setTodoId] = useState(null);
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	const taskContentDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
+
+	useEffect(() => {
+		let urlParams = window.location.href.split('projects')[1].split('/')
+		if(urlParams.length > 3) {
+			var project = urlParams[1]
+			var task = urlParams[3]
+			var post = urlParams[5]
+			let todoItem = {}
+			filteredData && filteredData.map((item) => {
+				if(item.id === parseInt(task)) {
+					todoItem = item
+				}
+			})
+			dispatch(Actions.closeDrawingContent());
+			dispatch(Actions.closeTimelineDialog());
+			dispatch(Actions.openTaskContent(todoItem));
+			setTimeout(() => {
+				history.push({
+					pathname: '/apps/projects/' + project + '/task'
+				});
+			}, 1000)
+			
+		}
+	}, [filteredData]);
 
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {

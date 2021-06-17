@@ -23,6 +23,8 @@ export const RENAME_LIST = '[SCRUMBOARD APP] RENAME LIST';
 export const REMOVE_LIST = '[SCRUMBOARD APP] REMOVE LIST';
 export const OPEN_UPGRADE_PLAN_DIALOG = '[SCRUMBOARD APP] OPEN UPGRADE PLAN DIALOG';
 export const CLOSE_UPGRADE_PLAN_DIALOG = '[SCRUMBOARD APP] CLOSE UPGRADE PLAN DIALOG';
+export const SHOW_BILLING_FORM_DIALOG = '[SCRUMBOARD APP] SHOW BILLING FORM DIALOG';
+export const CLOSE_BILLING_FORM_DIALOG = '[SCRUMBOARD APP] CLOSE BILLING FORM DIALOG';
 
 export function getBoard(params) {
 	const request = axios.get('/api/scrumboard-app/board', { params });
@@ -204,6 +206,18 @@ export function openUpgradePlanDialog(board) {
 	return {
 		type: OPEN_UPGRADE_PLAN_DIALOG,
 		payload: board
+	};
+}
+
+export function showBillingFormDialog() {
+	return {
+		type: SHOW_BILLING_FORM_DIALOG
+	};
+}
+
+export function closeBillingFormDialog() {
+	return {
+		type: CLOSE_BILLING_FORM_DIALOG
 	};
 }
 

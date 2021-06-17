@@ -3,7 +3,8 @@ import * as Actions from '../actions';
 
 const initialState = {
 	isOpenUpgradePlan: false,
-	upgradePlanDetail: {}
+	upgradePlanDetail: {},
+	showBillingFormDialog: false
 };
 
 const boardReducer = (state = initialState, action) => {
@@ -113,6 +114,18 @@ const boardReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isOpenUpgradePlan: false
+			};
+		}
+		case Actions.SHOW_BILLING_FORM_DIALOG: {
+			return {
+				...state,
+				showBillingFormDialog: true
+			};
+		}
+		case Actions.CLOSE_BILLING_FORM_DIALOG: {
+			return {
+				...state,
+				showBillingFormDialog: false
 			};
 		}
 		default:
