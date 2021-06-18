@@ -23,7 +23,7 @@
         "axios": "0.19.2",
         "axios-mock-adapter": "1.18.1",
         "browser-image-compression": "^1.0.12",
-        "chart.js": "2.9.3",
+        "chart.js": "2.9.4",
         "clsx": "1.1.0",
         "compression-webpack-plugin": "^7.1.2",
         "cross-fetch": "3.0.4",
