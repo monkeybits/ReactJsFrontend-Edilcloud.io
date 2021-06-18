@@ -13,21 +13,14 @@ import {
 	ListItemText
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { darken } from '@material-ui/core/styles/colorManipulator';
 import clsx from 'clsx';
-import jwtService from 'app/services/jwtService';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import * as MainActions from 'app/store/actions';
-import { apiCall, METHOD } from 'app/services/baseUrl';
-import { API_APPLE_AUTH_LOGIN } from 'app/services/apiEndPoints';
-import { toast } from 'react-toastify';
 import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import AppleLogin from 'react-apple-login';
-import AppleSignin from 'react-apple-signin-auth';
 
 const FacebookLoginComponent = loadable(() => import('./FacebookLoginComponent'));
 const GoogleLoginComponent = loadable(() => import('./GoogleLoginComponent'));
@@ -66,26 +59,6 @@ function LoginPage() {
 	const [open, setOpen] = React.useState(false);
 	const [title, setTitle] = React.useState('Terms');
 	const [deviceType, setDeviceType] = React.useState('');
-	const [settings, setSettings] = useState({
-		clientId: 'com.monkeybits.edilcloud.signin',
-		redirectURI: 'https://test.edilcloud.io',
-		scope: 'name email',
-		state: '',
-		//responseType: 'code id_token',
-		responseMode: 'form_post',
-		nonce: '',
-		usePopup: true,
-		designProp: {
-			height: 30,
-			width: 140,
-			color: 'black',
-			border: false,
-			type: 'sign-in',
-			border_radius: 15,
-			scale: 1,
-			locale: 'en_US'
-		}
-	});
 
 	const classes = useStyles();
 	const { t } = useTranslation('login');
@@ -148,55 +121,6 @@ function LoginPage() {
 		// userMenuClose();
 	}
 
-	const appleLoginSuccess = data => {
-		// this.startLoading();
-		if (data) {
-			apiCall(
-				API_APPLE_AUTH_LOGIN,
-				{
-					access_token: data.authorization.id_token,
-					provider: 'apple-id',
-					photo: ''
-				},
-				res => {
-					const { token } = res;
-					const { history, dispatch } = this.props;
-					// if (this.props.isRegister) {
-					// history.push('/pages/auth/mail-confirm', { email: '' });
-					// return dispatch({
-					// 	type: REGISTER_SUCCESS,
-					// 	payload: res
-					// });
-					// }
-
-					new Promise((resolve, reject) => {
-						if (res) {
-							jwtService.setSession(token);
-							resolve(res);
-						} else {
-							reject(res);
-						}
-					})
-						.then(res => {
-							// this.props.onLogin(res);
-							// setTimeout(() => {
-							// 	this.removeLoading();
-							// }, 2000);
-						})
-						.catch(err => {
-							// this.removeLoading();
-							// console.log('dfdsgs', err);
-						});
-				},
-				err => {
-					// this.removeLoading();
-					toast.error(err?.error);
-				},
-				METHOD.POST
-			);
-		}
-	};
-
 	return (
 		<>
 			<div
@@ -252,10 +176,7 @@ function LoginPage() {
 													Google
 												</Button> */}
 											</Grid>
-										</Grid>	
-										<div className="flex mt-12 w-160 h-36">
-											<AppleLogin {...settings} callback={appleLoginSuccess} />
-										</div>
+										</Grid>
 									</>
 								}
 
