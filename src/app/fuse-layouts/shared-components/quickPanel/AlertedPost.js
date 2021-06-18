@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import loadable from '@loadable/component';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import { Drawer, Icon, Typography, IconButton, AppBar, Tabs, Tab, Box, Toolbar, ListItem, ListItemText } from '@material-ui/core';
+import { Drawer, Icon, Typography, IconButton, Box, Toolbar, LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -81,6 +81,7 @@ function AlertPost(props) {
     const classes = useStyles();
     const [listTask, setListTask] = useState([]);
     const [listActivity, setListActivity] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (state) {
@@ -103,6 +104,7 @@ function AlertPost(props) {
     }, [taskAlertId, activityAlertId]);
 
     const getAlertPostTask = () => {
+        setIsLoading(true)
         apiCall(
             ALERTED_POSTS_TASKS,
             {},
@@ -114,6 +116,7 @@ function AlertPost(props) {
                 } else {
                     setListTask(items);
                 }
+                setIsLoading(false)
             },
             err => {
                 // console.log(err)
@@ -124,6 +127,7 @@ function AlertPost(props) {
     };
 
     const getAlertPostActivity = () => {
+        setIsLoading(true)
         apiCall(
             ALERTED_POSTS_ACTIVITY,
             {},
@@ -135,6 +139,7 @@ function AlertPost(props) {
                 } else {
                     setListActivity(items);
                 }
+                setIsLoading(false)
             },
             err => {
                 // console.log(err)
@@ -151,7 +156,7 @@ function AlertPost(props) {
     return (
         <Drawer
             classes={{ paper: classes.root }}
-            className="alerted-post-modal-width"
+            className="alerted-post-modal-width hide-overlay"
             open={isShowAlertedPost}
             anchor="right"
             onClose={ev => dispatch(Actions.closeAlertedPost())}
@@ -170,27 +175,27 @@ function AlertPost(props) {
                 <div className={classesTabs.root}>
                     <div className="bg-post-section write-post-img-full">
                         {
-                            taskAlertId !== null &&
-                            <PostList posts={listTask} showPrject />
-                        }
-                        {
-                            activityAlertId !== null &&
-                            <PostList posts={listActivity} showPrject showTask />
+                            isLoading ? (
+								<div className="flex flex-1 flex-col items-center justify-center h-full">
+									<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
+										Loading...
+									</Typography>
+									<LinearProgress className="w-xs" color="secondary" />
+								</div>
+							) : (
+                                <>
+                                    {
+                                        taskAlertId !== null &&
+                                        <PostList posts={listTask} showPrject />
+                                    }
+                                    {
+                                        activityAlertId !== null &&
+                                        <PostList posts={listActivity} showPrject showTask />
+                                    }
+                                </>
+                            )
                         }
                     </div>
-                    {
-                        (listTask.length === 0 || listActivity.length === 0) &&
-                        <div className="p-16">
-                            <div className="flex flex-1 items-center justify-center h-full">
-                                <img className="w-400" src="assets/images/errors/nogantt.png" />
-                            </div>
-                            <div className="flex flex-1 items-center justify-center">
-                                <Typography color="textSecondary" variant="h5">
-                                    Nessun post trovato
-                                </Typography>
-                            </div>
-                        </div>
-                    }
                 </div>
             </FuseScrollbars>
         </Drawer>

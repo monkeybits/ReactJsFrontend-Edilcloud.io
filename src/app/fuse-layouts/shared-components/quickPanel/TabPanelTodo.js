@@ -84,7 +84,8 @@ function TabPanelTodo(props) {
 	const [listActivity, setListActivity] = useState([]);
     const [distinctTask, setDistinctTask] = useState([]);
     const [distinctActivity, setDistinctActivity] = useState([]);
-
+    const [distinctActivityTask, setDistinctActivityTask] = useState([]);
+    
     const onlyUnique = (value, index, self) => {
 		return self.indexOf(value) === index;
 	}
@@ -93,6 +94,7 @@ function TabPanelTodo(props) {
         if (todos) {
             let taskIds = []
             let activityIds = []
+            let activityTaskIds = []
 			listTask.map((task) => {
 				taskIds = [
 					...taskIds,
@@ -102,13 +104,20 @@ function TabPanelTodo(props) {
 			listActivity.map((activity) => {
 				activityIds = [
 					...activityIds,
-					activity.sub_task.task
+					activity.sub_task.id
+				]
+                activityTaskIds = [
+					...activityTaskIds,
+					activity.sub_task.task.id
 				]
 			})
 			var distinctTask = taskIds.filter(onlyUnique);
 			var distinctActivity = activityIds.filter(onlyUnique);
+			var distinctActivityTask = activityTaskIds.filter(onlyUnique);
 			setDistinctTask(distinctTask)
 			setDistinctActivity(distinctActivity)
+			setDistinctActivity(distinctActivity)
+			setDistinctActivityTask(distinctActivityTask)
             let arr = Object.keys(todos).map((k) => todos[k])
             setTasks(arr)
         }
@@ -180,7 +189,7 @@ function TabPanelTodo(props) {
     return (
         <Drawer
             classes={{ paper: classes.root }}
-            className="alerted-post-modal-width"
+            className="alerted-post-modal-width hide-overlay"
             open={isShowAlertPost}
             anchor="right"
             onClose={ev => dispatch(Actions.toggleQuickPanel())}
@@ -203,13 +212,15 @@ function TabPanelTodo(props) {
                             tasks.map((task) => (
                                 <>
                                     {
-                                        (distinctTask.includes(task.id) || distinctActivity.includes(task.id)) &&
+                                        (distinctTask.includes(task.id) || distinctActivityTask.includes(task.id)) &&
                                         <div>
                                             <ListItem
                                                 button
-                                                className="flex items-center relative w-full p-10 min-h-20 shadow border-2 font-bold bg-gray-300 hover:bg-gray-300 rounded-8 mb-16"
+                                                className={`flex items-center relative w-full p-10 min-h-20 shadow border-2 font-bold bg-gray-300 hover:bg-gray-300 rounded-8 mb-16 ${!distinctTask.includes(task.id) ? 'opacity-50' : ''}`}
                                                 onClick={(event) => {
-                                                    handleSelectTask(event, task.id)
+                                                    if(distinctTask.includes(task.id)) {
+                                                        handleSelectTask(event, task.id)
+                                                    }
                                                 }}
                                                 // component={item.url ? NavLinkAdapter : 'li'}
                                                 // to={item.url}
@@ -236,30 +247,35 @@ function TabPanelTodo(props) {
                                                 {
                                                     task.activities.length > 0 &&
                                                     task.activities.map((activity) => (
-                                                        <ListItem
-                                                            button
-                                                            className="flex items-center relative w-full p-10 min-h-20 shadow mb-10 border-2 font-bold bg-gray-300 hover:bg-gray-300 rounded-8"
-                                                            onClick={(event) => {
-                                                                handleSelectActivity(event, activity.id)
-                                                            }}
-                                                            // component={item.url ? NavLinkAdapter : 'li'}
-                                                            // to={item.url}
-                                                            role="button"
-                                                        >
-                                                            <Icon className="mr-8">new_releases</Icon>
-                                                            <ListItemText
-                                                                className="text-bold"
-                                                                primary={activity.title}
-                                                            />
-                                                            <IconButton
-                                                                disableRipple
-                                                                className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
-                                                            >
-                                                                <Icon className="text-16 arrow-icon" color="inherit">
-                                                                    chevron_right
-                                                                </Icon>
-                                                            </IconButton>
-                                                        </ListItem>
+                                                        <>
+                                                            {
+                                                                distinctActivity.includes(activity.id) &&
+                                                                    <ListItem
+                                                                        button
+                                                                        className="flex items-center relative w-full p-10 min-h-20 shadow mb-10 border-2 font-bold bg-gray-300 hover:bg-gray-300 rounded-8"
+                                                                        onClick={(event) => {
+                                                                            handleSelectActivity(event, activity.id)
+                                                                        }}
+                                                                        // component={item.url ? NavLinkAdapter : 'li'}
+                                                                        // to={item.url}
+                                                                        role="button"
+                                                                    >
+                                                                        <Icon className="mr-8">new_releases</Icon>
+                                                                        <ListItemText
+                                                                            className="text-bold"
+                                                                            primary={activity.title}
+                                                                        />
+                                                                        <IconButton
+                                                                            disableRipple
+                                                                            className="w-40 h-40 -mx-12 p-0 focus:bg-transparent hover:bg-transparent"
+                                                                        >
+                                                                            <Icon className="text-16 arrow-icon" color="inherit">
+                                                                                chevron_right
+                                                                            </Icon>
+                                                                        </IconButton>
+                                                                    </ListItem>
+                                                            }
+                                                        </>
                                                     ))
                                                 }
                                             </div>

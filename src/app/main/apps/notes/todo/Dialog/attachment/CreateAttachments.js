@@ -23,6 +23,94 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 	useEffect(() => {
 		setMediaSets(attachments);
 	}, [attachments]);
+
+	useEffect(() => {
+		window.updateImage = updateImage;
+	}, []);
+
+	const dataURLtoFile = (dataurl, filename) => {
+		const arr = dataurl.split(',');
+		const mime = arr[0].match(/:(.*?);/)[1];
+		const bstr = atob(arr[1]);
+		let n = bstr.length;
+		const u8arr = new Uint8Array(n);
+
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+
+		return new File([u8arr], filename, { type: mime });
+	};
+	
+	const updateImage = async string => {
+		const files = [];
+		const extToMimes = {
+			'image/jpeg': '.jpg',
+			'image/png': '.png',
+			'application/pdf': '.pdf',
+			'application/json': '.json',
+			'application/vnd.ms-excel': '.xls',
+			'text/csv': '.csv',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
+			'audio/mp4': '.mp4a',
+			'video/mp4': '.mp4',
+			'application/mp4': '.mp4'
+		};
+
+		let randomName = '';
+		for (let i = 0; i < 8; i++) {
+			const random = Math.floor(Math.random() * 27);
+			randomName += String.fromCharCode(97 + random);
+		}
+
+		const dataWithMimeType = string.substr(0, string.indexOf(';'));
+		const mimeT = dataWithMimeType.split(':')[1];
+		const fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
+		files.push(fileObject);
+
+		// const fileToCompress = files[0];
+		try {
+			// if (fileToCompress.type?.split('/')[0] == 'image') {
+			// 	const compressedFile = fileToCompress;
+			// 	setFile({
+			// 		fileData: new File([compressedFile], compressedFile.name)
+			// 	});
+			// } else {
+			// 	setFile({
+			// 		fileData: fileToCompress
+			// 	});
+			// }
+
+			let file = [];
+			for (let i = 0; i < files.length; i++) {
+				const fileType = files[i].type?.split('/');
+				file = [
+					...file,
+					{
+						file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
+						imgPath: URL.createObjectURL(files[i]),
+						fileType: fileType[0],
+						extension: `.${fileType[1]}`,
+						type: fileType.join('/')
+					}
+				];
+				setImages(file);
+			}
+		} catch (e) {
+			// console.log('Error', e);
+		}
+	};
+
+	const onAddPhoto = () => {
+		try {
+			if (window.webkit.messageHandlers) {
+				window.webkit.messageHandlers.UploadImage.postMessage('Start Image Loading');
+			}
+		} catch (e) {
+			// console.log('error', e);
+		}
+	};
+	
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
 	}
@@ -84,7 +172,10 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 						<input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden />
 						{images && <ImagesPreview images={images} hideModify />}
 						<div className="flex justify-center">
-							<Button className="add-file-btn mr-10" onClick={handleOpenFileClick}>
+							<Button className="add-file-btn mr-10" onClick={() => {
+								handleOpenFileClick()
+								onAddPhoto()
+							}}>
 								{t('ADD_FILE')}
 							</Button>
 
