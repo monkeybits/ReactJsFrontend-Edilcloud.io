@@ -405,6 +405,9 @@ const filesReducer = (state = initialState(), action) => {
 				  }
 				: {
 						...state,
+						folderPath: newFolderPath,	
+						differenceFiles,	
+						updatedFolderValues: action.updatedFolderValues,
 						folders: addTypeInArray(action.payload.folders, 'folder'),
 						files: chnageIds(
 							sortByProperty(
@@ -420,7 +423,6 @@ const filesReducer = (state = initialState(), action) => {
 							)
 						)
 				  };
-
 		case Actions.UPDATE_FOLDER_PATH:
 			let newActionPayload = [];
 			action.payload.map(folder => {
@@ -451,7 +453,7 @@ const filesReducer = (state = initialState(), action) => {
 						});
 						newFold = {
 							...folder,
-							media: newMediaObj
+							// media: newMediaObj
 						};
 						newActionPayload = [...newActionPayload, newFold];
 					} else {
