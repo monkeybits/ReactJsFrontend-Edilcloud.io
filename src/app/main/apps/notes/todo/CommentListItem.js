@@ -27,6 +27,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
+import Dropzone from 'react-dropzone';
 const TippyMenu = loadable(() => import('app/TippyMenu'));
 const ReplyListItem = loadable(() => import('./ReplyListItem'));
 const ImagesPreview = loadable(() => import('./ImagesPreview'));
@@ -64,8 +65,28 @@ export default function CommentListItem({
 	const [hasRender, setHasRender] = React.useState(false);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [deviceType, setDeviceType] = React.useState('');
 	const scrollRef = useRef(null);
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == comment.id;
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+	}, []);
+
 	useEffect(() => {
 		if (
 			notificationPanel.notificationData?.notification?.content_type === 'comment' &&
@@ -296,8 +317,7 @@ export default function CommentListItem({
 		}
 	};
 
-	const addPhoto = async e => {
-		const { files } = e.currentTarget;
+	const addPhoto = async files => {
 		let file = [];
 		for (let i = 0; i < files.length; i++) {
 			const fileType = files[i].type?.split('/');
@@ -686,17 +706,32 @@ export default function CommentListItem({
 							disableUnderline
 							onChange={e => setText(e.target.value)}
 						/>
-						<IconButton
-							className="image p-0"
-							onClick={() => {
-								inputRef.current.click()
-								onAddPhoto()
-							}}
-							aria-label="Add photo"
-						>
-							<Icon>photo</Icon>
-						</IconButton>
-						<input hidden type="file" accept="image/*, video/*" ref={inputRef} onChange={addPhoto} />
+						<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto}>
+							{({ getRootProps, getInputProps }) => (
+								<section>
+									<div {...getRootProps()}>
+										<IconButton
+											// onClick={onAddPhoto}
+											aria-label="Add photo"
+											className="image p-0"
+										>
+											<Icon>photo</Icon>
+										</IconButton>
+										<input
+											// ref={inputRef}
+											// onChange={addPhoto}
+											{...getInputProps()}
+											multiple
+											hidden
+											type="file"
+											accept="image/*, video/*"
+										/>
+										{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+									</div>
+								</section>
+							)}
+						</Dropzone>
+						{/* <input hidden type="file" accept="image/*, video/*" ref={inputRef} onChange={addPhoto} /> */}
 						<IconButton
 							className="send p-0"
 							onClick={handlePostComment}

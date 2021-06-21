@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCompressFile } from 'app/services/serviceUtils';
 import AudioRecord from 'app/AudioRecord';
 import * as Actions from './store/actions';
+import Dropzone from 'react-dropzone';
 import SendMessageFilePreview from './SendMessageFilePreview';
 
 const useStyles = makeStyles(theme => ({
@@ -142,8 +143,28 @@ export default function SendMessageForm() {
 	const classes = useStyles();
 	const [messageText, setMessageText] = useState('');
 	const [images, setImages] = useState(null);
+	const [deviceType, setDeviceType] = React.useState('');
 	const inputRef = useRef(null);
 	const audioRef = useRef(null);
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+	}, []);
+	
 	const onInputChange = ev => {
 		setMessageText(ev.target.value);
 	};
@@ -248,8 +269,7 @@ export default function SendMessageForm() {
 		}
 	};
 
-	const addPhoto = async e => {
-		const { files } = e.currentTarget;
+	const addPhoto = async files => {
 		let file = [];
 		for (let i = 0; i < files.length; i++) {
 			const fileType = files[i].type?.split('/');
@@ -336,17 +356,32 @@ export default function SendMessageForm() {
 				/>
 				<AudioRecord afterRecordComplete={addAudio} ref={audioRef} sendDirectToChat={sendAudioDirectToChat} />
 
-				<input hidden multiple type="file" ref={inputRef} onChange={addPhoto} />
-				<IconButton
-					className="image mr-48"
-					onClick={() => {
-						inputRef.current.click()
-						onAddPhoto()
-					}}
-					aria-label="Add photo"
-				>
-					<Icon>photo</Icon>
-				</IconButton>
+				{/* <input hidden multiple type="file" ref={inputRef} onChange={addPhoto} /> */}
+				<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto}>
+					{({ getRootProps, getInputProps }) => (
+						<section>
+							<div {...getRootProps()}>
+								<IconButton
+									// onClick={onAddPhoto}
+									aria-label="Add photo"
+									className="image mr-48"
+								>
+									<Icon>photo</Icon>
+								</IconButton>
+								<input
+									// ref={inputRef}
+									// onChange={addPhoto}
+									{...getInputProps()}
+									multiple
+									hidden
+									type="file"
+									accept="image/*, video/*"
+								/>
+								{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+							</div>
+						</section>
+					)}
+				</Dropzone>
 				<IconButton className="absolute ltr:right-0 rtl:left-0 top-0" type="submit">
 					<Icon className="text-24" color="action">
 						send
