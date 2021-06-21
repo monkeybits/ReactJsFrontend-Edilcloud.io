@@ -6,6 +6,7 @@ import { decodeDataFromToken, getCompressFile, getHeaderToken } from 'app/servic
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
+import Dropzone from 'react-dropzone';
 const ImagesPreview = loadable(() => import('app/main/apps/notes/todo/ImagesPreview'));
 const ImagePreviewDialog = loadable(() => import('app/ImagePreviewDialog'));
 const CardAttachment = loadable(() => import('./CardAttachment'));
@@ -18,8 +19,28 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 	const [progress, setProgress] = useState(0);
 	const [activtStep, setActivtStep] = useState(0);
 	const [open, setOpen] = useState(false);
+	const [deviceType, setDeviceType] = React.useState('');
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+	}, []);
+	
 	useEffect(() => {
 		setMediaSets(attachments);
 	}, [attachments]);
@@ -114,8 +135,7 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
 	}
-	const addPhoto = async e => {
-		const { files } = e.currentTarget;
+	const addPhoto = async files => {
 		let file = [];
 		for (let i = 0; i < files.length; i++) {
 			const fileType = files[i].type?.split('/')[0];
@@ -169,15 +189,33 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 			{(getRole() == 'o' || getRole() == 'd') && (
 				<>
 					<div className="mb-24 image-center">
-						<input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden />
+						{/* <input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden /> */}
 						{images && <ImagesPreview images={images} hideModify />}
 						<div className="flex justify-center">
-							<Button className="add-file-btn mr-10" onClick={() => {
-								handleOpenFileClick()
-								onAddPhoto()
-							}}>
-								{t('ADD_FILE')}
-							</Button>
+							<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto}>
+								{({ getRootProps, getInputProps }) => (
+									<section>
+										<div {...getRootProps()}>
+											<Button
+												className="add-file-btn mr-10"
+												//onClick={onAddPhoto}
+											>
+												{t('ADD_FILE')}
+											</Button>
+											<input
+												// ref={inputRef}
+												// onChange={addPhoto}
+												{...getInputProps()}
+												multiple
+												hidden
+												type="file"
+												accept="image/*, video/*"
+											/>
+											{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+										</div>
+									</section>
+								)}
+							</Dropzone>
 
 							<Button className="upload-btn" onClick={handleUpload}>
 								{t('UPLOAD')}{' '}

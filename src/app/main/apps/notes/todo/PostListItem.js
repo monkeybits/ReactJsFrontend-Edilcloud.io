@@ -38,6 +38,7 @@ import * as notificationActions from 'app/fuse-layouts/shared-components/notific
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
 import loadable from '@loadable/component';
+import Dropzone from 'react-dropzone';
 const TippyMenu = loadable(() => import('app/TippyMenu'));
 const EditPostForm = loadable(() => import('./EditPostForm'));
 const PostedImages = loadable(() => import('./PostedImages'));
@@ -104,6 +105,7 @@ export default function PostListItem({
 	const [loading, setLoading] = useState(false);
 	const [alertLoading, setAlertLoading] = useState(false);
 	const [, updateState] = React.useState();
+	const [deviceType, setDeviceType] = React.useState('');
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const okStateConfirmDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.okStateConfirmDialog);
@@ -112,6 +114,24 @@ export default function PostListItem({
 	const user = useSelector(({ auth }) => auth.user);
 
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == post.id;
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+	}, []);
 
 	useEffect(() => {
 		setPost(currnetPost);
@@ -369,8 +389,7 @@ export default function PostListItem({
 		}
 	};
 	
-	const addPhoto = async e => {
-		const { files } = e.currentTarget;
+	const addPhoto = async files => {
 		let file = [];
 		for (let i = 0; i < files.length; i++) {
 			const fileType = files[i].type?.split('/');
@@ -387,6 +406,7 @@ export default function PostListItem({
 			setImages(file);
 		}
 	};
+
 	const replaceImageUrl = (url, index) => {
 		images[index] = {
 			...images[index],
@@ -877,23 +897,31 @@ export default function PostListItem({
 									value={text}
 									onChange={e => setText(e.target.value)}
 								/>
-								<IconButton
-									className="image p-0"
-									onClick={() => {
-										inputRef.current.click()
-										onAddPhoto()
-									}}
-									aria-label="Add photo"
-								>
-									<Icon>photo</Icon>
-								</IconButton>
-								<input
-									hidden
-									type="file"
-									accept="image/*, video/*"
-									ref={inputRef}
-									onChange={addPhoto}
-								/>
+								<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto}>
+									{({ getRootProps, getInputProps }) => (
+										<section>
+											<div {...getRootProps()}>
+												<IconButton
+													// onClick={onAddPhoto}
+													aria-label="Add photo"
+													className="image p-0"
+												>
+													<Icon>photo</Icon>
+												</IconButton>
+												<input
+													// ref={inputRef}
+													// onChange={addPhoto}
+													{...getInputProps()}
+													multiple
+													hidden
+													type="file"
+													accept="image/*, video/*"
+												/>
+												{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+											</div>
+										</section>
+									)}
+								</Dropzone>
 								<IconButton
 									className="send p-0"
 									onClick={handlePostComment}
