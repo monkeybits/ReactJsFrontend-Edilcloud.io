@@ -182,6 +182,23 @@ const arr_diff = (a1, a2) => {
 };
 
 const checkTypeAndReturn = (arr = [], type) => arr.filter(ar => ar.type != type);
+
+const updateFolderPath = (folderPath, payload) => {
+	let newFolderPath = []
+	folderPath.map((folder) => {
+		let index = payload.findIndex(p => p.id === folder.id);
+		if(index > -1) {
+			let id = payload[index].id
+			if(folder.id === id) {
+				newFolderPath.push(payload[index])
+			}
+		} else {
+			newFolderPath.push(folder)
+		}
+	});
+	return newFolderPath;
+}
+
 const filesReducer = (state = initialState(), action) => {
 	switch (action.type) {
 		case Actions.GET_ALL_FILES:
@@ -246,7 +263,8 @@ const filesReducer = (state = initialState(), action) => {
 				...state,
 				isUploadingFiles: false,
 				folders: cFolderPath[cFolderPath.length - 1] ? state.folders : addTypeInArray(action.payload, 'folder'),
-				rootFolders: action.payload
+				rootFolders: action.payload,
+				folderPath: updateFolderPath(cFolderPath, action.payload)
 			};
 		case Actions.SET_SEARCH_TEXT: {
 			return {
@@ -439,7 +457,7 @@ const filesReducer = (state = initialState(), action) => {
 						});
 						newFold = {
 							...folder,
-							media: newMediaObj
+							// media: newMediaObj
 						};
 						newActionPayload = [...newActionPayload, newFold];
 					} else {
