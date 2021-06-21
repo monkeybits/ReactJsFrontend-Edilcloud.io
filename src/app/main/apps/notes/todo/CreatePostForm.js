@@ -63,6 +63,25 @@ function CreatePostForm({ isTask, taskId }) {
 	const [images, setImages] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [postStatus, setPostStatus] = useState(true);
+	const [deviceType, setDeviceType] = React.useState('');
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+	}, []);
 
 	const postStatusOptions = [
 		{
@@ -426,12 +445,12 @@ function CreatePostForm({ isTask, taskId }) {
 								elevation={0}
 							>
 								<div className="add-photo-image flex">
-									<Dropzone onDrop={addPhoto}>
+									<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto }>
 										{({ getRootProps, getInputProps }) => (
 											<section>
 												<div {...getRootProps()}>
 													<IconButton
-														onClick={onAddPhoto}
+														// onClick={onAddPhoto}
 														aria-label="Add photo"
 														className="p-8"
 													>
