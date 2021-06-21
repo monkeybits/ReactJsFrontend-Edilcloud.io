@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next';
 import ImagesPreview from './ImagesPreview';
 import * as Actions from './store/actions';
 import loadable from '@loadable/component';
+import Dropzone from 'react-dropzone';
 const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 const uuidv1 = require('uuid/v1');
@@ -69,6 +70,7 @@ function EditPostForm(props) {
 		fileData: undefined,
 		imagePreviewUrl: undefined
 	});
+	const [deviceType, setDeviceType] = React.useState('');
 	const inputRef = useRef(null);
 	const todoDialog = useSelector(state =>
 		state.todoAppNote?.todos?.todoDialog ? state.todoAppNote.todos.todoDialog : state.todoApp.todos.todoDialog
@@ -97,6 +99,24 @@ function EditPostForm(props) {
 			}
 		}
 	];
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+	}, []);
 
 	useEffect(() => {
 		setText(props.currnetPost.text);
@@ -250,9 +270,8 @@ function EditPostForm(props) {
 		}
 	};
 
-	const addPhoto = async e => {
-		const { files } = e.currentTarget;
-		const fileToCompress = e.currentTarget.files[0];
+	const addPhoto = async files => {
+		const fileToCompress = files[0];
 		// console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 		// console.log(`File Index 0`, fileToCompress); // smaller than maxSizeMB
 		if (fileToCompress.type?.split('/')[0] == 'image') {
@@ -353,24 +372,31 @@ function EditPostForm(props) {
 							elevation={0}
 						>
 							<div className="add-photo-image flex">
-								<IconButton
-									onClick={() => {
-										inputRef.current.click()
-										onAddPhoto()
-									}}
-									aria-label="Add photo"
-									className="p-8"
-								>
-									<Icon>photo</Icon>
-								</IconButton>
-								<input
-									hidden
-									multiple
-									type="file"
-									accept="image/*, video/*"
-									ref={inputRef}
-									onChange={addPhoto}
-								/>
+								<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto}>
+									{({ getRootProps, getInputProps }) => (
+										<section>
+											<div {...getRootProps()}>
+												<IconButton
+													// onClick={onAddPhoto}
+													aria-label="Add photo"
+													className="p-8"
+												>
+													<Icon>photo</Icon>
+												</IconButton>
+												<input
+													// ref={inputRef}
+													// onChange={addPhoto}
+													{...getInputProps()}
+													multiple
+													hidden
+													type="file"
+													accept="image/*, video/*"
+												/>
+												{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+											</div>
+										</section>
+									)}
+								</Dropzone>
 								{getRole() !== 'w' && (
 									<div className="inline">
 										<TippyMenu

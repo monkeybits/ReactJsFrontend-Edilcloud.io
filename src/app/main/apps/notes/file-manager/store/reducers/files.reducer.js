@@ -259,7 +259,7 @@ const filesReducer = (state = initialState(), action) => {
 			return {
 				...state,
 				isUploadingFiles: false,
-				folders: cFolderPath[cFolderPath.length - 1] ? state.folders : addTypeInArray(action.payload, 'folder'),
+				folders: cFolderPath[cFolderPath.length - 1] ? cFolderPath.length === 1 ? action.payload : state.folders : addTypeInArray(action.payload, 'folder'),
 				rootFolders: action.payload,
 				folderPath: updateFolderPath(cFolderPath, action.payload)
 			};

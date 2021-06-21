@@ -445,7 +445,7 @@ function CreatePostForm({ isTask, taskId }) {
 								elevation={0}
 							>
 								<div className="add-photo-image flex">
-									<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto }>
+									<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto}>
 										{({ getRootProps, getInputProps }) => (
 											<section>
 												<div {...getRootProps()}>
