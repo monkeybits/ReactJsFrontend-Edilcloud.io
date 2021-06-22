@@ -902,7 +902,7 @@ export default function PostListItem({
 										<section>
 											<div {...getRootProps()}>
 												<IconButton
-													// onClick={onAddPhoto}
+													onClick={deviceType === 'ios' ? onAddPhoto : addPhoto}
 													aria-label="Add photo"
 													className="image p-0"
 												>
