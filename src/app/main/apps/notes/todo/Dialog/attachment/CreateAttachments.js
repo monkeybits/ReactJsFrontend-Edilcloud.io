@@ -183,7 +183,7 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 		);
 		setImages(null);
 	};
-
+	
 	return (
 		<>
 			{(getRole() == 'o' || getRole() == 'd') && (
@@ -217,28 +217,36 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 								)}
 							</Dropzone>
 
-							<Button className="upload-btn" onClick={handleUpload}>
-								{t('UPLOAD')}{' '}
-								{!!progress && (
-									<Box position="relative" display="inline-flex">
-										<CircularProgress color="secondary" variant="static" value={progress} />
-										<Box
-											top={0}
-											left={0}
-											bottom={0}
-											right={0}
-											position="absolute"
-											display="flex"
-											alignItems="center"
-											justifyContent="center"
-										>
-											<Typography variant="caption" component="div" color="textSecondary">
-												{progress}%
-											</Typography>
-										</Box>
-									</Box>
-								)}
-							</Button>
+							{
+								images !== null ? (
+									<Button className="upload-btn" onClick={handleUpload}>
+										{t('UPLOAD')}{' '}
+										{!!progress && (
+											<Box position="relative" display="inline-flex">
+												<CircularProgress color="secondary" variant="static" value={progress} />
+												<Box
+													top={0}
+													left={0}
+													bottom={0}
+													right={0}
+													position="absolute"
+													display="flex"
+													alignItems="center"
+													justifyContent="center"
+												>
+													<Typography variant="caption" component="div" color="textSecondary">
+														{progress}%
+													</Typography>
+												</Box>
+											</Box>
+										)}
+									</Button>
+								) : (
+									<Button className="upload-btn opacity-50 cursor-not-allowed">
+										{t('UPLOAD')}{' '}
+									</Button>		
+								)
+							}
 						</div>
 					</div>
 					<Divider />
