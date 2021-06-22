@@ -484,7 +484,7 @@ function CreatePostForm({ isTask, taskId }) {
 											<section>
 												<div {...getRootProps()}>
 													<IconButton
-														// onClick={onAddPhoto}
+														onClick={deviceType === 'ios' ? onAddPhoto : addPhoto}
 														aria-label="Add photo"
 														className="p-8"
 													>
