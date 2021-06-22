@@ -202,7 +202,7 @@ function LoginPage() {
 										aria-label="Register"
 										value="legacy"
 									>
-										<Link className="text-white font-600 inline" to="/pages/auth/register">
+										<Link className="w-full text-white font-600 inline" to="/pages/auth/register">
 											{t('SIGN_UP')}
 										</Link>
 									</Button>
