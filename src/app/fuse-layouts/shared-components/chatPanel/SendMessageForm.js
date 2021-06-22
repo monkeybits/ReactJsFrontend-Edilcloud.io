@@ -362,7 +362,7 @@ export default function SendMessageForm() {
 						<section>
 							<div {...getRootProps()}>
 								<IconButton
-									// onClick={onAddPhoto}
+									onClick={deviceType === 'ios' ? onAddPhoto : addPhoto}
 									aria-label="Add photo"
 									className="image mr-48"
 								>

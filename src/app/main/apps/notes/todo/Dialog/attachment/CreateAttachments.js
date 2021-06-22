@@ -198,7 +198,7 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 										<div {...getRootProps()}>
 											<Button
 												className="add-file-btn mr-10"
-												//onClick={onAddPhoto}
+												onClick={deviceType === 'ios' ? onAddPhoto : addPhoto}
 											>
 												{t('ADD_FILE')}
 											</Button>
