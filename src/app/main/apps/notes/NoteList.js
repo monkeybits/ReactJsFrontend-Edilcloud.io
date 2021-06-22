@@ -260,7 +260,7 @@ function NoteList(props) {
 					<div className="flex flex-1 mb-20px items-center justify-center ">
 						<img
 							width="600px"
-							src="https://www.edilcloud.io/wp-content/uploads/2021/01/Risorsa-4fsad-1.png"
+							src="assets/images/errors/nogantt.png"
 						/>
 					</div>
 					<div className="flex flex-1 mt-30 items-center justify-center ">
