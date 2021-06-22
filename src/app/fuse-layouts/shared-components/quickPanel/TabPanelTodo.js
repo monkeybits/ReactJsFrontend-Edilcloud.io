@@ -66,7 +66,8 @@ function a11yProps(index) {
 const useStylesTabs = makeStyles(theme => ({
     root: {
         flexGrow: 1,
-        backgroundColor: theme.palette.background.paper
+        backgroundColor: theme.palette.background.paper,
+        height: '100%'
     }
 }));
 
@@ -194,7 +195,7 @@ function TabPanelTodo(props) {
             anchor="right"
             onClose={ev => dispatch(Actions.toggleQuickPanel())}
         >
-            <FuseScrollbars>
+            <FuseScrollbars className="h-full">
                 <Toolbar className="px-4 flex justify-between items-center notifications-header">
                     <Typography className="mx-16 text-16" color="inherit">
                         Tasks & Activities

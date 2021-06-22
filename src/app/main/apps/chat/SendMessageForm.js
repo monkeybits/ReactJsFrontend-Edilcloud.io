@@ -276,11 +276,11 @@ export default function SendMessageForm(props) {
 		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
 	};
 	return (
-		<div className="fixed w-full chat-send-message-form chat-form-bg">
+		<div className="fixed w-full chat-send-message-form">
 			<form
 				autoComplete="off"
 				onSubmit={onMessageSubmit}
-				className="bottom-0 right-0 left-0 py-16 px-8 chat-form-bg"
+				className="py-16 px-8 chat-form-bg"
 			>
 				<div className="multiple-images flex flex-row overflow-x-auto">
 					{images &&

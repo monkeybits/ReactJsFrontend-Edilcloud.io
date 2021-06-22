@@ -4,7 +4,7 @@ import { Avatar, IconButton, Typography, Grid, Hidden } from '@material-ui/core'
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { decodeDataFromToken, getHeaderToken } from 'app/services/serviceUtils';
-import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
+import { REJECT_PROJECT_INVITATION } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import './contact-cards.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -247,7 +247,7 @@ function ContactsList(props) {
 
 	const onDeactivate = () => {
 		const { id, email } = userData;
-		const url = DELETE_MEMBER_FROM_PROJECT(id);
+		const url = REJECT_PROJECT_INVITATION(id);
 		apiCall(
 			url,
 			{},

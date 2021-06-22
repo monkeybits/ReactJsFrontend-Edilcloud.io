@@ -105,6 +105,7 @@ function TodoApp(props) {
 
 	useEffect(() => {
 		dispatch(Actions.closeDrawingContent());
+		dispatch(Actions.closeTaskContent())
 	}, [dispatch]);
 
 	useEffect(() => {

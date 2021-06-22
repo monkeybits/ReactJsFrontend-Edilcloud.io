@@ -3,7 +3,7 @@ import { useForm } from '@fuse/hooks';
 import { makeStyles } from '@material-ui/core/styles';
 import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Card, CardContent } from '@material-ui/core';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { withRouter, useHistory } from 'react-router-dom';
+import { withRouter, useHistory, useLocation } from 'react-router-dom';
 import { getCompressFile } from 'app/services/serviceUtils';
 import { EDIT_PROFILE } from 'app/services/apiEndPoints';
 import clsx from 'clsx';
@@ -56,6 +56,7 @@ function VerticalLinearStepper({ user, history }) {
 		email: user && user.email ? user.email : ''
 	});
 	const dispatch = useDispatch();
+	const location = useLocation();
 	const authuser = useSelector(({ auth }) => auth.user);
 
 	const classes = useStyles();
@@ -115,11 +116,14 @@ function VerticalLinearStepper({ user, history }) {
 				// console.log(err);
 			});
 	};
+
+	const isMainWrap = !!(location.pathname === '/edit-profile');
+
 	return (
 		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0')}>
-			<div className="flex flex-col w-full px-0">
+			<div className={`flex flex-col w-full px-0 ${isMainWrap ? 'items-center justify-center' : ''}`}>
 				<FuseAnimate animation="transition.expandIn">
-					<Card>
+					<Card className={`${isMainWrap ? 'w-full max-w-512' : ''}`}>
 						<CardContent className="flex flex-col">
 							<Paper square elevation={0} className={clsx(classes.resetContainer, 'pb-10')}>
 								<Typography>{t('EDIT_YOUR_PROFILE')}</Typography>
