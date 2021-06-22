@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import FuseUtils from '@fuse/utils';
-import { DELETE_MEMBER_FROM_PROJECT } from 'app/services/apiEndPoints';
+import { REJECT_PROJECT_INVITATION } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
@@ -120,7 +120,7 @@ export default function ContactCard(props) {
 	};
 	const onDeactivate = () => {
 		const { id, email } = userData;
-		const url = DELETE_MEMBER_FROM_PROJECT(id);
+		const url = REJECT_PROJECT_INVITATION(id);
 		apiCall(
 			url,
 			{},
