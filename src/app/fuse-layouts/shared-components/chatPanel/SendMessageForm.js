@@ -163,6 +163,12 @@ export default function SendMessageForm() {
 		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
 			setDeviceType('ios')
 		}
+
+		const iPad = (userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+		if (iPad !== false) {
+			setDeviceType('ios')
+		}
+
 	}, []);
 	
 	const onInputChange = ev => {
@@ -318,6 +324,7 @@ export default function SendMessageForm() {
 		];
 		dispatch(Actions.sendMessage(messageText, setMessageText, user, fileList, setImages));
 	};
+
 	return (
 		<form onSubmit={onMessageSubmit} className={clsx(classes.bottom, 'py-16 px-8')}>
 			<div className="multiple-images flex flex-row overflow-x-auto">
