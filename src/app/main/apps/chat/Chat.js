@@ -168,7 +168,7 @@ function Chat(props) {
 					</div>
 				)}
 				{chat?.chats?.length ? (
-					<div className="flex flex-col pt-16 px-16 ltr:pl-48 rtl:pr-48 pb-30">
+					<div className="flex flex-col pt-16 px-16 ltr:pl-48 rtl:pr-48 pb-30 chat-box-custom-h">
 						{chat.chats.map((item, i) => {
 							const contact = item.sender;
 							const color = contacts.length && contacts?.filter(c => c.id == contact.id);
