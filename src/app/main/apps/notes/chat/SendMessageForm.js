@@ -124,6 +124,11 @@ export default function SendMessageForm(props) {
 		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
 			setDeviceType('ios')
 		}
+
+		const iPad = (userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+		if (iPad !== false) {
+			setDeviceType('ios')
+		}
 	}, []);
 	
 	function onInputChange(ev) {
