@@ -281,7 +281,7 @@ export default function SendMessageForm(props) {
 		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
 	};
 	return (
-		<div className="fixed w-full chat-send-message-form">
+		<div className="fixed w-full chat-send-message-form z-50">
 			<form
 				autoComplete="off"
 				onSubmit={onMessageSubmit}
