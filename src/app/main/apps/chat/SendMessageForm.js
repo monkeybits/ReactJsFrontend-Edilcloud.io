@@ -281,13 +281,9 @@ export default function SendMessageForm(props) {
 		dispatch(Actions.sendMessage(messageText, setMessageText, fileList, setImages));
 	};
 	return (
-		<div className="fixed w-full chat-send-message-form z-50">
-			<form
-				autoComplete="off"
-				onSubmit={onMessageSubmit}
-				className="py-16 px-8 chat-form-bg"
-			>
-				<div className="multiple-images flex flex-row overflow-x-auto">
+		<div className="fixed w-full send-message-form">
+			<form autoComplete="off" onSubmit={onMessageSubmit} className="w-full my-20 py-16 px-8 chat-form-bg">
+				<div className="multiple-images flex flex-row overflow-x-auto custom-form-fixed-position">
 					{images &&
 						images.map((item, index) => (
 							<SendMessageFilePreview
