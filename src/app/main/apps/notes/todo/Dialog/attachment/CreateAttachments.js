@@ -140,7 +140,8 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 	function handleOpenFileClick(e) {
 		inputFile.current.click();
 	}
-	const addPhoto = async files => {
+	const addPhoto = async e => {
+		const { files } = e.currentTarget;
 		let file = [];
 		for (let i = 0; i < files.length; i++) {
 			const fileType = files[i].type?.split('/')[0];
@@ -194,33 +195,16 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 			{(getRole() == 'o' || getRole() == 'd') && (
 				<>
 					<div className="mb-24 image-center">
-						{/* <input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden /> */}
+						<input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden />
 						{images && <ImagesPreview images={images} hideModify />}
 						<div className="flex justify-center">
-							<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto}>
-								{({ getRootProps, getInputProps }) => (
-									<section>
-										<div {...getRootProps()}>
 											<Button
 												className="add-file-btn mr-10"
-												onClick={deviceType === 'ios' ? onAddPhoto : addPhoto}
+												onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick}
 											>
 												{t('ADD_FILE')}
 											</Button>
-											<input
-												// ref={inputRef}
-												// onChange={addPhoto}
-												{...getInputProps()}
-												multiple
-												hidden
-												type="file"
-												accept="image/*, video/*"
-											/>
 											{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
-										</div>
-									</section>
-								)}
-							</Dropzone>
 
 							{
 								images !== null ? (
