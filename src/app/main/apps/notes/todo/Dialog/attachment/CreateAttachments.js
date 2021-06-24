@@ -198,13 +198,13 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 						<input multiple type="file" id="file" ref={inputFile} onChange={addPhoto} hidden />
 						{images && <ImagesPreview images={images} hideModify />}
 						<div className="flex justify-center">
-											<Button
-												className="add-file-btn mr-10"
-												onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick}
-											>
-												{t('ADD_FILE')}
-											</Button>
-											{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+							<Button
+								className="add-file-btn mr-10"
+								onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick}
+							>
+								{t('ADD_FILE')}
+							</Button>
+							{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
 
 							{
 								images !== null ? (

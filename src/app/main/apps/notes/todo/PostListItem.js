@@ -384,6 +384,11 @@ export default function PostListItem({
 		}
 	};
 
+	
+	function handleOpenFileClick(e) {
+		inputRef.current.click();
+	}
+
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
@@ -394,7 +399,8 @@ export default function PostListItem({
 		}
 	};
 	
-	const addPhoto = async files => {
+	const addPhoto = async e => {
+		const { files } = e.currentTarget;
 		let file = [];
 		for (let i = 0; i < files.length; i++) {
 			const fileType = files[i].type?.split('/');
@@ -902,31 +908,20 @@ export default function PostListItem({
 									value={text}
 									onChange={e => setText(e.target.value)}
 								/>
-								<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto}>
-									{({ getRootProps, getInputProps }) => (
-										<section>
-											<div {...getRootProps()}>
-												<IconButton
-													onClick={deviceType === 'ios' ? onAddPhoto : addPhoto}
-													aria-label="Add photo"
-													className="image p-0"
-												>
-													<Icon>photo</Icon>
-												</IconButton>
-												<input
-													// ref={inputRef}
-													// onChange={addPhoto}
-													{...getInputProps()}
-													multiple
-													hidden
-													type="file"
-													accept="image/*, video/*"
-												/>
-												{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
-											</div>
-										</section>
-									)}
-								</Dropzone>
+								<IconButton
+									onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick}
+									aria-label="Add photo"
+									className="image p-0"
+								>
+									<Icon>photo</Icon>
+								</IconButton>
+								<input
+									hidden
+									type="file"
+									accept="image/*, video/*"
+									ref={inputRef}
+									onChange={addPhoto}
+								/>
 								<IconButton
 									className="send p-0"
 									onClick={handlePostComment}

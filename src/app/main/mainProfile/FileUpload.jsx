@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Icon, Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import ImageCropper from './ImageCropper';
@@ -8,6 +8,31 @@ export default function FileUpload({ setFile, file, remove, isCompany, nameSpace
 	const [image, setImage] = useState(null);
 	const inputRef = useRef(null);
 	const [viewCroper, setViewCroper] = useState(false);
+	const [deviceType, setDeviceType] = React.useState('');
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+
+		const iPad = (userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+		if (iPad !== false) {
+			setDeviceType('ios')
+		}
+	}, []);
+
 	const getPhoto = fileData => {
 		// e.preventDefault();
 		const reader = new FileReader();
@@ -23,6 +48,68 @@ export default function FileUpload({ setFile, file, remove, isCompany, nameSpace
 		};
 
 		reader.readAsDataURL(fileData);
+	};
+
+	useEffect(() => {
+		window.updateImage = updateImage;
+	}, []);
+
+	const dataURLtoFile = (dataurl, filename) => {
+		const arr = dataurl.split(',');
+		const mime = arr[0].match(/:(.*?);/)[1];
+		const bstr = atob(arr[1]);
+		let n = bstr.length;
+		const u8arr = new Uint8Array(n);
+
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+
+		return new File([u8arr], filename, { type: mime });
+	};
+
+	function handleOpenFileClick(e) {
+		inputRef.current.click();
+	}
+	
+	const updateImage = async string => {
+		const files = [];
+		const extToMimes = {
+			'image/jpeg': '.jpg',
+			'image/png': '.png',
+			'application/pdf': '.pdf',
+			'application/json': '.json',
+			'application/vnd.ms-excel': '.xls',
+			'text/csv': '.csv',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
+			'audio/mp4': '.mp4a',
+			'video/mp4': '.mp4',
+			'application/mp4': '.mp4'
+		};
+
+		let randomName = '';
+		for (let i = 0; i < 8; i++) {
+			const random = Math.floor(Math.random() * 27);
+			randomName += String.fromCharCode(97 + random);
+		}
+
+		const dataWithMimeType = string.substr(0, string.indexOf(';'));
+		const mimeT = dataWithMimeType.split(':')[1];
+		const fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
+		files.push(fileObject);
+
+		const fileToCompress = files[0];
+		setImage(URL.createObjectURL(fileToCompress));
+	};
+
+	const onAddPhoto = () => {
+		try {
+			if (window.webkit.messageHandlers) {
+				window.webkit.messageHandlers.UploadImage.postMessage('Start Image Loading');
+			}
+		} catch (e) {
+			// console.log('error', e);
+		}
 	};
 
 	return viewCroper ? (
@@ -41,7 +128,7 @@ export default function FileUpload({ setFile, file, remove, isCompany, nameSpace
 	) : (
 		<>
 			{isCompany ? (
-				<Icon onClick={() => inputRef.current.click()} className="company-icon flex mx-auto">
+				<Icon onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick} className="company-icon flex mx-auto">
 					business
 				</Icon>
 			) : (
@@ -61,7 +148,7 @@ export default function FileUpload({ setFile, file, remove, isCompany, nameSpace
 						setViewCroper(true);
 					}}
 				/>
-				<label onClick={() => inputRef.current.click()} className="text-2xl cursor-pointer">
+				<label onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick} className="text-2xl cursor-pointer">
 					<Icon fontSize="inherit" className="align-middle">
 						add_circle
 					</Icon>{' '}
