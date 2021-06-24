@@ -350,10 +350,15 @@ function CreatePostForm({ isTask, taskId }) {
 		return new File([u8arr], filename, { type: mime });
 	};
 
-	const addPhoto = async files => {
+	function handleOpenFileClick(e) {
+		inputRef.current.click();
+	}
+
+	const addPhoto = async e => {
 		// console.log('files???????????????????', files);
 		// const files = e.currentTarget.files;
-		const fileToCompress = files[0];
+		const { files } = e.currentTarget;
+		const fileToCompress = e.currentTarget.files[0];
 		// console.log(`File size ${fileToCompress.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 		// console.log(`File Index 0`, JSON.stringify(fileToCompress)); // smaller than maxSizeMB
 		if (fileToCompress.type?.split('/')[0] == 'image') {
@@ -484,31 +489,13 @@ function CreatePostForm({ isTask, taskId }) {
 								key={`app_${images ? images.length : 0}`}
 							>
 								<div className="add-photo-image flex">
-									<Dropzone onDrop={deviceType === 'ios' ? onAddPhoto : addPhoto}>
-										{({ getRootProps, getInputProps }) => (
-											<section>
-												<div {...getRootProps()}>
-													<IconButton
-														onClick={deviceType === 'ios' ? onAddPhoto : addPhoto}
-														aria-label="Add photo"
-														className="p-8"
-													>
-														<Icon>add_a_photo</Icon>
-													</IconButton>
-													<input
-														// ref={inputRef}
-														// onChange={addPhoto}
-														{...getInputProps()}
-														multiple
-														hidden
-														type="file"
-														accept="image/*, video/*"
-													/>
-													{/* <p>Drag 'n' drop some files here, or click to select files</p> */}
-												</div>
-											</section>
-										)}
-									</Dropzone>
+									<IconButton
+										onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick}
+										aria-label="Add photo"
+										className="p-8"
+									>
+										<Icon>add_a_photo</Icon>
+									</IconButton>
 									<TippyMenu
 										icon={
 											<>
@@ -538,6 +525,14 @@ function CreatePostForm({ isTask, taskId }) {
 											</MenuItem>
 										))}
 									</TippyMenu>
+									<input
+										hidden
+										multiple
+										type="file"
+										accept="image/*"
+										ref={inputRef}
+										onChange={addPhoto}
+									/>
 								</div>
 								<Button
 									onClick={createPost}
