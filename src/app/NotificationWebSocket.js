@@ -2,7 +2,7 @@
 import React, { createContext } from 'react';
 import { useDispatch } from 'react-redux';
 import * as notificationPanelActions from 'app/fuse-layouts/shared-components/notification/store/actions';
-import { WS_BASE_NOTIFICATION_DEV, WS_BASE_NOTIFICATION_LOCAL } from './config';
+import { WS_BASE_NOTIFICATION } from './services/config';
 import { decodeDataFromToken } from './services/serviceUtils';
 
 const WebSocketNotificationContext = createContext(null);
@@ -12,13 +12,8 @@ export { WebSocketNotificationContext };
 export default ({ children }) => {
 	// let socket;
 	let ws;
-	let WS_BASE;
 	const dispatch = useDispatch();
-	if (process.env.NODE_ENV !== 'production') {
-		WS_BASE = WS_BASE_NOTIFICATION_LOCAL;
-	} else {
-		WS_BASE = WS_BASE_NOTIFICATION_DEV;
-	}
+
 	const passMessage = ({ message }) => {
 		dispatch((dispatch, getState) => {
 			// if (getState().notificationPanel?.state) {
@@ -27,7 +22,7 @@ export default ({ children }) => {
 		});
 	};
 	const createSocket = () => {
-		global.notificationSocket = new WebSocket(WS_BASE);
+		global.notificationSocket = new WebSocket(WS_BASE_NOTIFICATION);
 		global.notificationSocket.onmessage = function (e) {
 			const data = JSON.parse(e.data);
 			const userInfo = decodeDataFromToken();

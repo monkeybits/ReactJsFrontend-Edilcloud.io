@@ -2,7 +2,7 @@
 import React, { createContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as chatPanelActions from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
-import { WS_BASE_LOCAL, WS_BASE_DEV } from './config';
+import { WS_BASE } from './services/config';
 import * as companyChatActions from './main/apps/chat/store/actions';
 import * as ProjectChatActions from './main/apps/notes/chat/store/actions';
 import { decodeDataFromToken } from './services/serviceUtils';
@@ -14,14 +14,9 @@ export { WebSocketContext };
 export default ({ children }) => {
 	// let socket;
 	let ws;
-	let WS_BASE;
 	const dispatch = useDispatch();
 	const company = useSelector(({ chatApp }) => chatApp.company);
-	if (process.env.NODE_ENV !== 'production') {
-		WS_BASE = WS_BASE_LOCAL;
-	} else {
-		WS_BASE = WS_BASE_DEV;
-	}
+	
 	const passMessage = msg => {
 		const userInfo = decodeDataFromToken();
 		const getUserId = () => userInfo?.extra?.profile.id;
