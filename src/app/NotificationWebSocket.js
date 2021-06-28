@@ -13,7 +13,6 @@ export default ({ children }) => {
 	// let socket;
 	let ws;
 	const dispatch = useDispatch();
-
 	const passMessage = ({ message }) => {
 		dispatch((dispatch, getState) => {
 			// if (getState().notificationPanel?.state) {

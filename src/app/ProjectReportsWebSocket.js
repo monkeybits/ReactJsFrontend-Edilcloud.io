@@ -14,7 +14,6 @@ export default ({ children }) => {
 	let ws;
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const dispatch = useDispatch();
-
 	function download_file(fileURL, fileName) {
 		// for non-IE
 		if (!window.ActiveXObject) {

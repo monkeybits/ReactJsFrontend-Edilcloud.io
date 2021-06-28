@@ -16,7 +16,6 @@ export default ({ children }) => {
 	let ws;
 	const dispatch = useDispatch();
 	const company = useSelector(({ chatApp }) => chatApp.company);
-	
 	const passMessage = msg => {
 		const userInfo = decodeDataFromToken();
 		const getUserId = () => userInfo?.extra?.profile.id;
