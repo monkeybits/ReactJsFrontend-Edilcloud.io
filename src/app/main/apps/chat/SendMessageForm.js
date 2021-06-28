@@ -302,7 +302,7 @@ export default function SendMessageForm(props) {
 							/>
 						))}
 				</div>
-				<Paper className="flex items-center relative rounded-24" elevation={1}>
+				<Paper className="flex items-center relative rounded-24 chat-form-bg" elevation={1}>
 					<TextField
 						autoFocus={false}
 						id="message-input"
