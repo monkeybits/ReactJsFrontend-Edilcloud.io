@@ -311,7 +311,7 @@ function ChatApp(props) {
 									</Toolbar>
 								</AppBar>
 
-								<div className={clsx(classes.content, 'mb-88')}>
+								<div className={clsx(classes.content)}>
 									<Chat className="flex flex-1 z-10 Poppinsple-images-overflow-x chat-bg" />
 								</div>
 							</>

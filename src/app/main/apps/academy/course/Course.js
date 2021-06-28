@@ -11,6 +11,7 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import SwipeableViews from 'react-swipeable-views';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
+import ReactPlayer from 'react-player';
 
 const useStyles = makeStyles(theme => ({
 	stepLabel: {
@@ -94,19 +95,35 @@ function Course(props) {
 								enableMouseEvents
 								onChangeIndex={handleChangeActiveStep}
 							>
-								{course.steps.map((step, index) => (
-									<div
+								{course.steps.map((step, index) => {
+									return <div
 										className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64"
 										key={step.id}
 									>
 										<Paper className="w-full max-w-lg rounded-8 p-16 md:p-24" elevation={1}>
 											<div
-												dangerouslySetInnerHTML={{ __html: step.content }}
 												dir={theme.direction}
-											/>
+											>
+												<div className="flex mb-52">
+													<img src="https://app.edilcloud.io/assets/images/logos/fuse.svg" />
+												</div>
+												<div>
+													<ReactPlayer
+														// ref={this.ref}
+														url="https://app.edilcloud.io/assets/videos/sample.mp4"
+														// style={{ width: '100%', height: '100%', left: '0px', top: '0px' }}
+														controls
+														// onDuration={this.onDuration}
+														// onPlay={this.onPlay}
+														loop={false}
+														// onEnded={this.onEnded}
+														playing={true}
+													/>
+												</div>
+											</div>
 										</Paper>
 									</div>
-								))}
+								})}
 							</SwipeableViews>
 						</FuseScrollbars>
 

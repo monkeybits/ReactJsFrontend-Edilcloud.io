@@ -146,6 +146,7 @@ function CreatePostForm({ isTask, taskId }) {
 			? dispatch(Actions.closeActivityTodoDialog())
 			: dispatch(Actions.closeActivityTodoDialog());
 	}
+	
 	const getPosts = () => {
 		setLoading(true);
 		apiCall(
@@ -164,6 +165,7 @@ function CreatePostForm({ isTask, taskId }) {
 			getHeaderToken()
 		);
 	};
+
 	const createPost = async () => {
 		const formData = new FormData();
 		const unique_code = uuidv1();
@@ -316,7 +318,11 @@ function CreatePostForm({ isTask, taskId }) {
 		const fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
 		files.push(fileObject);
 
+		console.log('file?????????????????file', files)
+
 		const fileToCompress = files[0];
+
+		console.log('file?????????????????file', fileToCompress)
 		try {
 			if (fileToCompress.type?.split('/')[0] == 'image') {
 				const compressedFile = fileToCompress;
@@ -342,6 +348,7 @@ function CreatePostForm({ isTask, taskId }) {
 						type: fileType.join('/')
 					}
 				];
+				console.log('file?????????????????file', file)
 				setImages(file);
 			}
 		} catch (e) {
