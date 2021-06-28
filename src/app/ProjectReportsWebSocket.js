@@ -2,7 +2,7 @@
 import React, { createContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FileSaver from 'file-saver';
-import { WS_BASE_PROJECT_REPORT_DEV, WS_BASE_PROJECT_REPORT_LOCAL } from './config';
+import { WS_BASE_PROJECT_REPORT } from './services/config';
 import { decodeDataFromToken } from './services/serviceUtils';
 
 const WebSocketProjectReportContext = createContext(null);
@@ -12,14 +12,8 @@ export { WebSocketProjectReportContext };
 export default ({ children }) => {
 	// let socket;
 	let ws;
-	let WS_BASE;
 	const company = useSelector(({ chatApp }) => chatApp.company);
 	const dispatch = useDispatch();
-	if (process.env.NODE_ENV !== 'production') {
-		WS_BASE = WS_BASE_PROJECT_REPORT_LOCAL;
-	} else {
-		WS_BASE = WS_BASE_PROJECT_REPORT_DEV;
-	}
 	function download_file(fileURL, fileName) {
 		// for non-IE
 		if (!window.ActiveXObject) {
@@ -60,7 +54,7 @@ export default ({ children }) => {
 		FileSaver.saveAs(msg.message.url, name);
 	};
 	const createSocket = () => {
-		global.projectReportsWebSocket = new WebSocket(WS_BASE);
+		global.projectReportsWebSocket = new WebSocket(WS_BASE_PROJECT_REPORT);
 		global.projectReportsWebSocket.onmessage = function (e) {
 			const data = JSON.parse(e.data);
 			const userInfo = decodeDataFromToken();
