@@ -161,7 +161,7 @@ function Chat(props) {
 
 	return (
 		<div className={clsx('flex flex-col relative chat-box', props.className)}>
-			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto mb-84">
+			<FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
 				{isUploadingFiles && (
 					<div className="linear-progress custom-color">
 						<LinearProgressWithLabel progress={progress} />
@@ -250,6 +250,7 @@ function Chat(props) {
 								</div>
 							);
 						})}
+						<div className="flex relative min-h-96"></div>
 					</div>
 				) : (
 					<div className="flex flex-col flex-1">

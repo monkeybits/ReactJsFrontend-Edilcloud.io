@@ -188,6 +188,8 @@ export default function SendMessageForm(props) {
 		const fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
 		files.push(fileObject);
 
+		console.log('file?????????????????file', files)
+
 		// const fileToCompress = files[0];
 		try {
 			// if (fileToCompress.type?.split('/')[0] == 'image') {
@@ -214,6 +216,7 @@ export default function SendMessageForm(props) {
 						type: fileType.join('/')
 					}
 				];
+				console.log('file?????????????????file', file)
 				setImages(file);
 			}
 		} catch (e) {
