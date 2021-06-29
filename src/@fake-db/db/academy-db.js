@@ -19,7 +19,8 @@ const demoSteps = [
 			'To verify that the CLI has been installed correctly, open a console and run:' +
 			'<br><br>' +
 			'<code>ng version</code>' +
-			'<br><br>' +
+			'<br><br>',
+		section1: 
 			'<h2>Install dependencies</h2>' +
 			'<br>' +
 			"To moderate the images we'll need a few Node.js packages:" +
@@ -31,9 +32,10 @@ const demoSteps = [
 			'<br>' +
 			'<li>' +
 			'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-			'</li>' +
-			'<br>' +
-			'<li>' +
+			'</li></ul>' +
+			'<br>',
+		section2:
+			'<ul><li>' +
 			'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
 			'</li>' +
 			'</ul>' +
@@ -42,7 +44,7 @@ const demoSteps = [
 			'<br><br>' +
 			'<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
 			'<br><br>' +
-			'This will install the three packages locally and add them as declared dependencies in your package.js file.'
+			'This will install the three packages locally and add them as declared dependencies in your package.js file.',
 	},
 	{
 		id: '1',
@@ -60,7 +62,8 @@ const demoSteps = [
 			'To verify that the CLI has been installed correctly, open a console and run:' +
 			'<br><br>' +
 			'<code>ng version</code>' +
-			'<br><br>' +
+			'<br><br>',
+		section1: 
 			'<h2>Install dependencies</h2>' +
 			'<br>' +
 			"To moderate the images we'll need a few Node.js packages:" +
@@ -72,9 +75,10 @@ const demoSteps = [
 			'<br>' +
 			'<li>' +
 			'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-			'</li>' +
-			'<br>' +
-			'<li>' +
+			'</li></ul>' +
+			'<br>',
+		section2:
+			'<ul><li>' +
 			'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
 			'</li>' +
 			'</ul>' +
@@ -83,7 +87,7 @@ const demoSteps = [
 			'<br><br>' +
 			'<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
 			'<br><br>' +
-			'This will install the three packages locally and add them as declared dependencies in your package.js file.'
+			'This will install the three packages locally and add them as declared dependencies in your package.js file.',
 	},
 	{
 		id: '2',
@@ -101,7 +105,8 @@ const demoSteps = [
 			'To verify that the CLI has been installed correctly, open a console and run:' +
 			'<br><br>' +
 			'<code>ng version</code>' +
-			'<br><br>' +
+			'<br><br>',
+		section1: 
 			'<h2>Install dependencies</h2>' +
 			'<br>' +
 			"To moderate the images we'll need a few Node.js packages:" +
@@ -113,9 +118,10 @@ const demoSteps = [
 			'<br>' +
 			'<li>' +
 			'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-			'</li>' +
-			'<br>' +
-			'<li>' +
+			'</li></ul>' +
+			'<br>',
+		section2:
+			'<ul><li>' +
 			'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
 			'</li>' +
 			'</ul>' +
@@ -124,7 +130,7 @@ const demoSteps = [
 			'<br><br>' +
 			'<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
 			'<br><br>' +
-			'This will install the three packages locally and add them as declared dependencies in your package.js file.'
+			'This will install the three packages locally and add them as declared dependencies in your package.js file.',
 	},
 	{
 		id: '3',
@@ -142,7 +148,8 @@ const demoSteps = [
 			'To verify that the CLI has been installed correctly, open a console and run:' +
 			'<br><br>' +
 			'<code>ng version</code>' +
-			'<br><br>' +
+			'<br><br>',
+		section1: 
 			'<h2>Install dependencies</h2>' +
 			'<br>' +
 			"To moderate the images we'll need a few Node.js packages:" +
@@ -154,9 +161,10 @@ const demoSteps = [
 			'<br>' +
 			'<li>' +
 			'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-			'</li>' +
-			'<br>' +
-			'<li>' +
+			'</li></ul>' +
+			'<br>',
+		section2:
+			'<ul><li>' +
 			'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
 			'</li>' +
 			'</ul>' +
@@ -165,7 +173,7 @@ const demoSteps = [
 			'<br><br>' +
 			'<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
 			'<br><br>' +
-			'This will install the three packages locally and add them as declared dependencies in your package.js file.'
+			'This will install the three packages locally and add them as declared dependencies in your package.js file.',
 	},
 	{
 		id: '4',
@@ -183,7 +191,8 @@ const demoSteps = [
 			'To verify that the CLI has been installed correctly, open a console and run:' +
 			'<br><br>' +
 			'<code>ng version</code>' +
-			'<br><br>' +
+			'<br><br>',
+		section1: 
 			'<h2>Install dependencies</h2>' +
 			'<br>' +
 			"To moderate the images we'll need a few Node.js packages:" +
@@ -195,9 +204,10 @@ const demoSteps = [
 			'<br>' +
 			'<li>' +
 			'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-			'</li>' +
-			'<br>' +
-			'<li>' +
+			'</li></ul>' +
+			'<br>',
+		section2:
+			'<ul><li>' +
 			'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
 			'</li>' +
 			'</ul>' +
@@ -206,7 +216,7 @@ const demoSteps = [
 			'<br><br>' +
 			'<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
 			'<br><br>' +
-			'This will install the three packages locally and add them as declared dependencies in your package.js file.'
+			'This will install the three packages locally and add them as declared dependencies in your package.js file.',
 	},
 	{
 		id: '5',
@@ -224,7 +234,8 @@ const demoSteps = [
 			'To verify that the CLI has been installed correctly, open a console and run:' +
 			'<br><br>' +
 			'<code>ng version</code>' +
-			'<br><br>' +
+			'<br><br>',
+		section1: 
 			'<h2>Install dependencies</h2>' +
 			'<br>' +
 			"To moderate the images we'll need a few Node.js packages:" +
@@ -236,9 +247,10 @@ const demoSteps = [
 			'<br>' +
 			'<li>' +
 			'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-			'</li>' +
-			'<br>' +
-			'<li>' +
+			'</li></ul>' +
+			'<br>',
+		section2:
+			'<ul><li>' +
 			'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
 			'</li>' +
 			'</ul>' +
@@ -247,7 +259,7 @@ const demoSteps = [
 			'<br><br>' +
 			'<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
 			'<br><br>' +
-			'This will install the three packages locally and add them as declared dependencies in your package.js file.'
+			'This will install the three packages locally and add them as declared dependencies in your package.js file.',
 	},
 	{
 		id: '6',
@@ -265,7 +277,8 @@ const demoSteps = [
 			'To verify that the CLI has been installed correctly, open a console and run:' +
 			'<br><br>' +
 			'<code>ng version</code>' +
-			'<br><br>' +
+			'<br><br>',
+		section1: 
 			'<h2>Install dependencies</h2>' +
 			'<br>' +
 			"To moderate the images we'll need a few Node.js packages:" +
@@ -277,9 +290,10 @@ const demoSteps = [
 			'<br>' +
 			'<li>' +
 			'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-			'</li>' +
-			'<br>' +
-			'<li>' +
+			'</li></ul>' +
+			'<br>',
+		section2:
+			'<ul><li>' +
 			'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
 			'</li>' +
 			'</ul>' +
@@ -288,7 +302,7 @@ const demoSteps = [
 			'<br><br>' +
 			'<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
 			'<br><br>' +
-			'This will install the three packages locally and add them as declared dependencies in your package.js file.'
+			'This will install the three packages locally and add them as declared dependencies in your package.js file.',
 	},
 	{
 		id: '7',
@@ -306,7 +320,8 @@ const demoSteps = [
 			'To verify that the CLI has been installed correctly, open a console and run:' +
 			'<br><br>' +
 			'<code>ng version</code>' +
-			'<br><br>' +
+			'<br><br>',
+		section1: 
 			'<h2>Install dependencies</h2>' +
 			'<br>' +
 			"To moderate the images we'll need a few Node.js packages:" +
@@ -318,9 +333,10 @@ const demoSteps = [
 			'<br>' +
 			'<li>' +
 			'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-			'</li>' +
-			'<br>' +
-			'<li>' +
+			'</li></ul>' +
+			'<br>',
+		section2:
+			'<ul><li>' +
 			'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
 			'</li>' +
 			'</ul>' +
@@ -329,7 +345,7 @@ const demoSteps = [
 			'<br><br>' +
 			'<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
 			'<br><br>' +
-			'This will install the three packages locally and add them as declared dependencies in your package.js file.'
+			'This will install the three packages locally and add them as declared dependencies in your package.js file.',
 	},
 	{
 		id: '8',
@@ -347,7 +363,8 @@ const demoSteps = [
 			'To verify that the CLI has been installed correctly, open a console and run:' +
 			'<br><br>' +
 			'<code>ng version</code>' +
-			'<br><br>' +
+			'<br><br>',
+		section1: 
 			'<h2>Install dependencies</h2>' +
 			'<br>' +
 			"To moderate the images we'll need a few Node.js packages:" +
@@ -359,9 +376,10 @@ const demoSteps = [
 			'<br>' +
 			'<li>' +
 			'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-			'</li>' +
-			'<br>' +
-			'<li>' +
+			'</li></ul>' +
+			'<br>',
+		section2:
+			'<ul><li>' +
 			'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
 			'</li>' +
 			'</ul>' +
@@ -370,7 +388,7 @@ const demoSteps = [
 			'<br><br>' +
 			'<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
 			'<br><br>' +
-			'This will install the three packages locally and add them as declared dependencies in your package.js file.'
+			'This will install the three packages locally and add them as declared dependencies in your package.js file.',
 	},
 	{
 		id: '9',
@@ -388,7 +406,8 @@ const demoSteps = [
 			'To verify that the CLI has been installed correctly, open a console and run:' +
 			'<br><br>' +
 			'<code>ng version</code>' +
-			'<br><br>' +
+			'<br><br>',
+		section1: 
 			'<h2>Install dependencies</h2>' +
 			'<br>' +
 			"To moderate the images we'll need a few Node.js packages:" +
@@ -400,9 +419,10 @@ const demoSteps = [
 			'<br>' +
 			'<li>' +
 			'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-			'</li>' +
-			'<br>' +
-			'<li>' +
+			'</li></ul>' +
+			'<br>',
+		section2:
+			'<ul><li>' +
 			'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
 			'</li>' +
 			'</ul>' +
@@ -411,7 +431,7 @@ const demoSteps = [
 			'<br><br>' +
 			'<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
 			'<br><br>' +
-			'This will install the three packages locally and add them as declared dependencies in your package.js file.'
+			'This will install the three packages locally and add them as declared dependencies in your package.js file.',
 	},
 	{
 		id: '10',
