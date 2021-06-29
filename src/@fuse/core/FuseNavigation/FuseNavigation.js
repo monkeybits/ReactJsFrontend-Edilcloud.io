@@ -197,6 +197,25 @@ function FuseNavigation(props) {
 									/>
 								</Link>
 							}
+							{
+								!companyValidate && _item.id === "PLAN" &&
+								<Link
+									onClick={() => {
+										setIsPlanModal(true)
+									}}
+								>
+								<FuseNavItem key={`plan`} type={`vertical-item`} item={{
+									checkRole: true,
+									roles: ['d', 'o'],
+									id: '',
+									title: 'Plan',
+									translate: 'PLAN',
+									type: 'item',
+									icon: 'payment',
+									url: '#'
+								}} nestedLevel={0} />
+								</Link>
+							}
 							</>
 						) : (
 							<>
@@ -253,6 +272,7 @@ function FuseNavigation(props) {
 									if (window.webkit.messageHandlers) {
 										window.webkit.messageHandlers.PaymentRedirect.postMessage(`${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${company.customer}`);
 									}
+									setIsPlanIOSModal(false)
 								} catch (e) {
 									// console.log('error', e);
 								}
