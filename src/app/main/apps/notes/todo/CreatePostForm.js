@@ -275,7 +275,7 @@ function CreatePostForm({ isTask, taskId }) {
 	// };
 
 	useEffect(() => {
-		window.updateImage = updateImage;
+		window.createPostFormNote = createPostFormNote;
 	}, []);
 
 	const dataURLtoFile = (dataurl, filename) => {
@@ -292,7 +292,7 @@ function CreatePostForm({ isTask, taskId }) {
 		return new File([u8arr], filename, { type: mime });
 	};
 	
-	const updateImage = async string => {
+	const createPostFormNote = async string => {
 		const files = [];
 		const extToMimes = {
 			'image/jpeg': '.jpg',
@@ -318,11 +318,7 @@ function CreatePostForm({ isTask, taskId }) {
 		const fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
 		files.push(fileObject);
 
-		console.log('file?????????????????file', files)
-
 		const fileToCompress = files[0];
-
-		console.log('file?????????????????file', fileToCompress)
 		try {
 			if (fileToCompress.type?.split('/')[0] == 'image') {
 				const compressedFile = fileToCompress;
@@ -348,7 +344,6 @@ function CreatePostForm({ isTask, taskId }) {
 						type: fileType.join('/')
 					}
 				];
-				console.log('file?????????????????file', file)
 				setImages(file);
 			}
 		} catch (e) {
@@ -363,7 +358,7 @@ function CreatePostForm({ isTask, taskId }) {
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('Start Image Loading');
+				window.webkit.messageHandlers.UploadImage.postMessage('createPostFormNote');
 			}
 		} catch (e) {
 			// console.log('error', e);

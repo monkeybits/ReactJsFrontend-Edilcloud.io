@@ -236,7 +236,7 @@ export default function CommentListItem({
 	};
 	
 	useEffect(() => {
-		window.updateImage = updateImage;
+		window.commentList = commentList;
 	}, []);
 
 	const dataURLtoFile = (dataurl, filename) => {
@@ -253,7 +253,7 @@ export default function CommentListItem({
 		return new File([u8arr], filename, { type: mime });
 	};
 	
-	const updateImage = async string => {
+	const commentList = async string => {
 		const files = [];
 		const extToMimes = {
 			'image/jpeg': '.jpg',
@@ -319,7 +319,7 @@ export default function CommentListItem({
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('Start Image Loading');
+				window.webkit.messageHandlers.UploadImage.postMessage('commentList');
 			}
 		} catch (e) {
 			// console.log('error', e);

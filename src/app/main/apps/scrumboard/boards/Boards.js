@@ -207,6 +207,27 @@ function Boards(props) {
 		);
 	};
 	/**
+	 * its company click
+	 * we need to genrate a new token when user click on a company
+	 */
+	 const getRefreshToken = company_profile_id => {
+		apiCall(
+			REFRESH_TOKEN(company_profile_id),
+			{
+				token: getTokenOnly()
+			},
+			res => {
+				saveToken(res.token);
+				setIsLoading(false);
+			},
+			err => {
+				setIsLoading(false);
+				// console.log(err);
+			},
+			METHOD.POST
+		);
+	};
+	/**
 	 * get Main profile data
 	 */
 	const getMainProfile = mainProfileId => {
@@ -271,6 +292,7 @@ function Boards(props) {
 													setRequest(board);
 												}
 											} else {
+												getRefreshToken(board.company_profile_id)
 												dispatch(Actions.openUpgradePlanDialog(board));
 											}
 										}}
