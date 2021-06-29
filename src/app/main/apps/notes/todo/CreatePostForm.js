@@ -363,7 +363,7 @@ function CreatePostForm({ isTask, taskId }) {
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('Start Image Loading');
+				window.webkit.messageHandlers.UploadImage.postMessage('CreatePostFormNote');
 			}
 		} catch (e) {
 			// console.log('error', e);

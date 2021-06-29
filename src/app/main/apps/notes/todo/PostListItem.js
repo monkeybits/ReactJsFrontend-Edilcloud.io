@@ -392,7 +392,7 @@ export default function PostListItem({
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('Start Image Loading');
+				window.webkit.messageHandlers.UploadImage.postMessage('PostList');
 			}
 		} catch (e) {
 			// console.log('error', e);

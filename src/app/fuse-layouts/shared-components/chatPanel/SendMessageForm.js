@@ -268,11 +268,9 @@ export default function SendMessageForm() {
 	}
 
 	const onAddPhoto = () => {
-		console.log('Start Image Loading')
 		try {
 			if (window.webkit.messageHandlers) {
-				console.log('Start Image Loading Message Handler')
-				window.webkit.messageHandlers.UploadImage.postMessage('Start Image Loading');
+				window.webkit.messageHandlers.UploadImage.postMessage('SendMessageChatPanel');
 			}
 		} catch (e) {
 			// console.log('error', e);

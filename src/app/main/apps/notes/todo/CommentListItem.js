@@ -319,7 +319,7 @@ export default function CommentListItem({
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('Start Image Loading');
+				window.webkit.messageHandlers.UploadImage.postMessage('CommentList');
 			}
 		} catch (e) {
 			// console.log('error', e);
