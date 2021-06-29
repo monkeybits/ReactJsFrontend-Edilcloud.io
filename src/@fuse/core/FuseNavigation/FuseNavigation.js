@@ -16,6 +16,7 @@ import FuseNavVerticalItem from './vertical/FuseNavVerticalItem';
 import FuseNavVerticalLink from './vertical/FuseNavVerticalLink';
 import FuseNavItem, { registerComponent } from './FuseNavItem';
 import PlanFormAskDialog from './PlanFormAskDialog';
+import PlanIosDialog from './PlanIosDialog';
 import { useDispatch } from 'react-redux';
 
 /*
@@ -104,10 +105,35 @@ function FuseNavigation(props) {
 	const classes = useStyles(props);
 	const [companyValidate, setCompanyValidate] = useState(false);
 	const [isPlanModal, setIsPlanModal] = useState(false);
+	const [isPlanIOSModal, setIsPlanIOSModal] = useState(false);
+	const [deviceType, setDeviceType] = React.useState('');
 	const { navigation, layout, active, dense, className } = props;
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const history = useHistory();
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+
+		const iPad = (userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+		if (iPad !== false) {
+			setDeviceType('ios')
+		}
+	}, []);
 
 	useEffect(() => {
 		if (
@@ -141,31 +167,68 @@ function FuseNavigation(props) {
 			{navigation.map(_item => (
 				<>
 					{
-						_item.id !== "PLAN" &&
-						<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
-					}
-					{
-						companyValidate && _item.id === "PLAN" &&
-						<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
-					}
-					{
-						!companyValidate && _item.id === "PLAN" &&
-						<Link
-							onClick={() => {
-								setIsPlanModal(true)
-							}}
-						>
-						<FuseNavItem key={`plan`} type={`vertical-item`} item={{
-							checkRole: true,
-							roles: ['d', 'o'],
-							id: '',
-							title: 'Plan',
-							translate: 'PLAN',
-							type: 'item',
-							icon: 'payment',
-							url: '#'
-						}} nestedLevel={0} />
-						</Link>
+						deviceType === 'ios' ? (
+							<>
+							{
+								_item.id !== "PLAN" &&
+								<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
+							}
+							{
+								companyValidate && _item.id === "PLAN" &&
+								<Link
+									onClick={() => {
+										setIsPlanIOSModal(true)
+									}}
+								>
+									<FuseNavItem
+										key={`plan`}
+										type={`vertical-item`}
+										item={{
+											checkRole: true,
+											roles: ['d', 'o'],
+											id: '',
+											title: 'Plan',
+											translate: 'PLAN',
+											type: 'item',
+											icon: 'payment',
+											url: '#'
+										}}
+										nestedLevel={0}
+									/>
+								</Link>
+							}
+							</>
+						) : (
+							<>
+								{
+									_item.id !== "PLAN" &&
+									<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
+								}
+								{
+									companyValidate && _item.id === "PLAN" &&
+									<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
+								}
+								{
+									!companyValidate && _item.id === "PLAN" &&
+									<Link
+										onClick={() => {
+											setIsPlanModal(true)
+										}}
+									>
+									<FuseNavItem key={`plan`} type={`vertical-item`} item={{
+										checkRole: true,
+										roles: ['d', 'o'],
+										id: '',
+										title: 'Plan',
+										translate: 'PLAN',
+										type: 'item',
+										icon: 'payment',
+										url: '#'
+									}} nestedLevel={0} />
+									</Link>
+								}
+							</>
+						)
 					}
 					<div>
 						<PlanFormAskDialog
@@ -179,6 +242,21 @@ function FuseNavigation(props) {
 								setIsPlanModal(false)
 							}}
 							onNo={() => setIsPlanModal(false)}
+						/>
+					</div>
+					<div>
+						<PlanIosDialog
+							isPlanModal={isPlanIOSModal}
+							closePlanModal={() => setIsPlanIOSModal(false)}
+							onOk={() => {
+								try {
+									if (window.webkit.messageHandlers) {
+										window.webkit.messageHandlers.PaymentRedirect.postMessage(`${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${company.customer}`);
+									}
+								} catch (e) {
+									// console.log('error', e);
+								}
+							}}
 						/>
 					</div>
 				</>
