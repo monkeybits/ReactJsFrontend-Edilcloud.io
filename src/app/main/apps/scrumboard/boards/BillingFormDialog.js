@@ -140,7 +140,7 @@ function BillingFormDialog(props) {
 		const formData = new FormData();
 		const token = localStorage.getItem('jwt_access_token');
 		for (const key in companyInfo) {
-			if (companyInfo[key] && !(key in form) && key !== 'logo') {
+			if (companyInfo[key] && !(key in form) && key !== 'logo' && key !== 'slug') {
 				formData.append(key, companyInfo[key]);
 			}
 		}
@@ -160,9 +160,9 @@ function BillingFormDialog(props) {
 					setLoading(false);
 					toast.success('Successfully saved!');
 
-					// if (document.referrer.includes('apps/companies')) {
+					if(res.status === 200) {
 						window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${companyInfo?.customer}`;
-					// }
+					}
 				}
 			})
 			.catch(error => {

@@ -105,15 +105,10 @@ function UpdatePlanDialog(props) {
 			companyInfo.pec !== '' &&
 			companyInfo.billing_email !== ''
 		) {
-			// setBillingFormOpen(false)
-			console.log('///////////////////////////////////////////////11111')
-			// window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${upgradePlanDetail?.customer}`;
+			window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${companyInfo.customer}`;
 			// props.history.push(`https://back.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`);
 		} else {
 			dispatch(Actions.showBillingFormDialog());
-			console.log('///////////////////////////////////////////////22222', companyInfo)
-			// setBillingFormOpen(true)
-			// props.history.push('/apps/billing');
 		}
 	};
 
