@@ -103,24 +103,32 @@ function Course(props) {
 										<Paper className="w-full max-w-lg rounded-8 p-16 md:p-24" elevation={1}>
 											<div
 												dir={theme.direction}
-											>
-												<div className="flex mb-52">
-													<img src="https://app.edilcloud.io/assets/images/logos/fuse.svg" />
-												</div>
-												<div>
-													<ReactPlayer
-														// ref={this.ref}
-														url="https://app.edilcloud.io/assets/videos/sample.mp4"
-														// style={{ width: '100%', height: '100%', left: '0px', top: '0px' }}
-														controls
-														// onDuration={this.onDuration}
-														// onPlay={this.onPlay}
-														loop={false}
-														// onEnded={this.onEnded}
-														playing={true}
-													/>
-												</div>
+												dangerouslySetInnerHTML={{ __html: step.content }}
+											/>
+											<div className="flex my-44">
+												<img src="https://app.edilcloud.io/assets/images/logos/fuse.svg" />
 											</div>
+											<div
+												dir={theme.direction}
+												dangerouslySetInnerHTML={{ __html: step.section1 }}
+											/>
+											<div className="flex my-44">
+												<ReactPlayer
+													// ref={this.ref}
+													url="https://www.youtube.com/watch?v=qDDONLWhiKo"
+													// style={{ width: '100%', height: '100%', left: '0px', top: '0px' }}
+													controls
+													// onDuration={this.onDuration}
+													// onPlay={this.onPlay}
+													loop={false}
+													// onEnded={this.onEnded}
+													playing={true}
+												/>
+											</div>
+											<div
+												dir={theme.direction}
+												dangerouslySetInnerHTML={{ __html: step.section2 }}
+											/>
 										</Paper>
 									</div>
 								})}
