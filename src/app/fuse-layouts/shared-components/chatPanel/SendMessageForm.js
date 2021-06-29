@@ -187,7 +187,7 @@ export default function SendMessageForm() {
 	};
 
 	useEffect(() => {
-		window.updateImage = updateImage;
+		window.sendMessageChatPanel = sendMessageChatPanel;
 	}, []);
 
 	const dataURLtoFile = (dataurl, filename) => {
@@ -204,7 +204,7 @@ export default function SendMessageForm() {
 		return new File([u8arr], filename, { type: mime });
 	};
 	
-	const updateImage = async string => {
+	const sendMessageChatPanel = async string => {
 		const files = [];
 		const extToMimes = {
 			'image/jpeg': '.jpg',
@@ -270,7 +270,7 @@ export default function SendMessageForm() {
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('SendMessageChatPanel');
+				window.webkit.messageHandlers.UploadImage.postMessage('sendMessageChatPanel');
 			}
 		} catch (e) {
 			// console.log('error', e);

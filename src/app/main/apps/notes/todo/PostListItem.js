@@ -308,7 +308,7 @@ export default function PostListItem({
 	};
 		
 	useEffect(() => {
-		window.updateImage = updateImage;
+		window.postList = postList;
 	}, []);
 
 	const dataURLtoFile = (dataurl, filename) => {
@@ -325,7 +325,7 @@ export default function PostListItem({
 		return new File([u8arr], filename, { type: mime });
 	};
 	
-	const updateImage = async string => {
+	const postList = async string => {
 		const files = [];
 		const extToMimes = {
 			'image/jpeg': '.jpg',
@@ -392,7 +392,7 @@ export default function PostListItem({
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('PostList');
+				window.webkit.messageHandlers.UploadImage.postMessage('postList');
 			}
 		} catch (e) {
 			// console.log('error', e);

@@ -51,7 +51,7 @@ export default function FileUpload({ setFile, file, remove, isCompany, nameSpace
 	};
 
 	useEffect(() => {
-		window.updateImage = updateImage;
+		window.fileUpload = fileUpload;
 	}, []);
 
 	const dataURLtoFile = (dataurl, filename) => {
@@ -72,7 +72,7 @@ export default function FileUpload({ setFile, file, remove, isCompany, nameSpace
 		inputRef.current.click();
 	}
 	
-	const updateImage = async string => {
+	const fileUpload = async string => {
 		const files = [];
 		const extToMimes = {
 			'image/jpeg': '.jpg',
@@ -105,7 +105,7 @@ export default function FileUpload({ setFile, file, remove, isCompany, nameSpace
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('FileUpload');
+				window.webkit.messageHandlers.UploadImage.postMessage('fileUpload');
 			}
 		} catch (e) {
 			// console.log('error', e);

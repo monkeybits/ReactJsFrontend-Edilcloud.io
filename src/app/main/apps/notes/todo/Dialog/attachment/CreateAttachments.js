@@ -51,7 +51,7 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 	}, [attachments]);
 
 	useEffect(() => {
-		window.updateImage = updateImage;
+		window.createAttachments = createAttachments;
 	}, []);
 
 	const dataURLtoFile = (dataurl, filename) => {
@@ -68,7 +68,7 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 		return new File([u8arr], filename, { type: mime });
 	};
 	
-	const updateImage = async string => {
+	const createAttachments = async string => {
 		const files = [];
 		const extToMimes = {
 			'image/jpeg': '.jpg',
@@ -130,7 +130,7 @@ function CreateAttachments({ taskId, attachments, nameSpace = 'todo_project' }) 
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('CreateAttachments');
+				window.webkit.messageHandlers.UploadImage.postMessage('createAttachments');
 			}
 		} catch (e) {
 			// console.log('error', e);

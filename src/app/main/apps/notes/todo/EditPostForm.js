@@ -189,7 +189,7 @@ function EditPostForm(props) {
 
 	
 	useEffect(() => {
-		window.updateImage = updateImage;
+		window.editPostFormNote = editPostFormNote;
 	}, []);
 
 	const dataURLtoFile = (dataurl, filename) => {
@@ -206,7 +206,7 @@ function EditPostForm(props) {
 		return new File([u8arr], filename, { type: mime });
 	};
 	
-	const updateImage = async string => {
+	const editPostFormNote = async string => {
 		const files = [];
 		const extToMimes = {
 			'image/jpeg': '.jpg',
@@ -272,7 +272,7 @@ function EditPostForm(props) {
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('EditPostFormNote');
+				window.webkit.messageHandlers.UploadImage.postMessage('editPostFormNote');
 			}
 		} catch (e) {
 			// console.log('error', e);

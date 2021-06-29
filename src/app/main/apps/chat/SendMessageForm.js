@@ -145,7 +145,7 @@ export default function SendMessageForm(props) {
 	}
 	
 	useEffect(() => {
-		window.updateImage = updateImage;
+		window.sendMessageChat = sendMessageChat;
 	}, []);
 
 	const dataURLtoFile = (dataurl, filename) => {
@@ -162,7 +162,7 @@ export default function SendMessageForm(props) {
 		return new File([u8arr], filename, { type: mime });
 	};
 	
-	const updateImage = async string => {
+	const sendMessageChat = async string => {
 		const files = [];
 		const extToMimes = {
 			'image/jpeg': '.jpg',
@@ -231,7 +231,7 @@ export default function SendMessageForm(props) {
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('SendMessageChat');
+				window.webkit.messageHandlers.UploadImage.postMessage('sendMessageChat');
 			}
 		} catch (e) {
 			// console.log('error', e);
