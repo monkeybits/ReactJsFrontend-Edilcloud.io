@@ -7,6 +7,7 @@ TODO: This file fetch request from other company and user compamies.
 import _ from '@lodash';
 import loadable from '@loadable/component';
 import FuseAnimate from '@fuse/core/FuseAnimate';
+import PlanIosDialog from '@fuse/core/FuseNavigation/PlanIosDialog';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import withReducer from 'app/store/withReducer';
@@ -75,11 +76,13 @@ function Boards(props) {
 	const classes = useStyles(props);
 	const [isShowRequests, setIsShowRequests] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isPlanIOSModal, setIsPlanIOSModal] = useState(false);
 	const [isViewTutorial, setIsViewTutorial] = useState(true);
 	const [request, setRequest] = useState({});
 	const [show, setShow] = useState(false);
 	const [notification, setNotification] = useState({title: '', body: ''});
 	const [isTokenFound, setTokenFound] = useState(false);
+	const [planCustomer, setPlanCustomer] = useState('');
 	getToken(setTokenFound);
 
 	onMessageListener().then(payload => {
@@ -257,7 +260,7 @@ function Boards(props) {
 	return isLoading ? (
 		<FuseSplashScreen />
 	) : (
-		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center h-full')}>
+		<div className={clsx(classes.root, 'flex flex-grow flex-shrink-0 flex-col items-center sm:h-full')}>
 			<div className="flex flex-grow flex-shrink-0 flex-col items-center container px-16 md:px-24">
 				<FuseAnimate>
 					<Typography className="mt-44 sm:mt-56 sm:py-24 text-32" color="inherit">
@@ -379,8 +382,28 @@ function Boards(props) {
 						</div>
 					</div>
 				</div>
-				<UpdatePlanDialog {...props} />
-				<BillingFormDialog {...props} />
+				<UpdatePlanDialog {...props} setIsPlanIOSModal={(res, customer) => {
+					setIsPlanIOSModal(res)
+					setPlanCustomer(customer)
+				}} />
+				<BillingFormDialog {...props} setIsPlanIOSModal={(res, customer) => {
+					setIsPlanIOSModal(res)
+					setPlanCustomer(customer)
+				}} />
+				<PlanIosDialog
+					isPlanModal={isPlanIOSModal}
+					closePlanModal={() => setIsPlanIOSModal(false)}
+					onOk={() => {
+						try {
+							if (window.webkit.messageHandlers) {
+								window.webkit.messageHandlers.PaymentRedirect.postMessage(`${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${planCustomer}`);
+							}
+							setIsPlanIOSModal(false)
+						} catch (e) {
+							// console.log('error', e);
+						}
+					}}
+				/>
 			</div>
 			<ReuestsDrawer
 				afterSuccess={handleInvitation}
