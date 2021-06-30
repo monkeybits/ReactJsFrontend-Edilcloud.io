@@ -65,6 +65,31 @@ function BillingFormDialog(props) {
 	const showBillingFormDialog = useSelector(({ scrumboardApp }) => scrumboardApp.board.showBillingFormDialog);
 	const upgradePlanDetail = useSelector(({ scrumboardApp }) => scrumboardApp.board.upgradePlanDetail);
 	const [companyInfo, setCompanyInfo] = useState({});
+	const [deviceType, setDeviceType] = React.useState('');
+	const [isSaveSuccess, setIsSaveSuccess] = React.useState(true);
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+
+		const iPad = (userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+		if (iPad !== false) {
+			setDeviceType('ios')
+		}
+	}, []);
 
 	useEffect(() => {
 		if('id' in upgradePlanDetail) {
@@ -159,10 +184,16 @@ function BillingFormDialog(props) {
 				if (res) {
 					setLoading(false);
 					toast.success('Successfully saved!');
-
-					if(res.status === 200) {
-						window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${companyInfo?.customer}`;
-					}
+					setIsSaveSuccess(false)
+					// if(res.status === 200) {
+					// 	if(deviceType === 'ios') {
+					// 		dispatch(Actions.closeUpgradePlanDialog());
+					// 		dispatch(Actions.closeBillingFormDialog());
+					// 		props.setIsPlanIOSModal(true, companyInfo.customer)
+					// 	} else {
+					// 		window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${companyInfo?.customer}`;
+					// 	}
+					// }
 				}
 			})
 			.catch(error => {
@@ -170,6 +201,16 @@ function BillingFormDialog(props) {
 				toast.warn('Something went wrong.');
 			});
 	};
+
+	const onChoosePlan = () => {
+		if(deviceType === 'ios') {
+			dispatch(Actions.closeUpgradePlanDialog());
+			dispatch(Actions.closeBillingFormDialog());
+			props.setIsPlanIOSModal(true, companyInfo.customer)
+		} else {
+			window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${companyInfo?.customer}`;
+		}
+	}
 
 	return (
 		<Dialog
@@ -313,6 +354,18 @@ function BillingFormDialog(props) {
 							{t('SAVE')}
 							{loading && <CircularProgress size={15} color="white" className="ml-6" />}
 						</Button>
+						<Button
+							onClick={onChoosePlan}
+							variant="contained"
+							color="bg-blue-500"
+							size="small"
+							aria-label="Choose plan"
+							className="justify-center d-inline-block mt-10 ml-6"
+							disabled={isSaveSuccess}
+						>
+							{t('CHOOSE_PLAN')}
+							{loading && <CircularProgress size={15} color="white" className="ml-6" />}
+						</Button>						
 					</div>
 				</form>
 			</DialogContent>

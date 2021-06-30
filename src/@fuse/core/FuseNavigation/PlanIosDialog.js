@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
 const styles = theme => ({
 	root: {
 		margin: 0,
-		padding: theme.spacing(2)
+		padding: theme.spacing(2),
+		padding: '2.8rem'
 	},
 	closeButton: {
 		position: 'absolute',
@@ -78,11 +79,11 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk }) {
 			className="popup-root"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closePlanModal}></DialogTitle>
-			<DialogContent dividers>
+			<DialogContent>
 				<div>ti stiamo per indirizzare alla pagine web dei pagamenti: esegui il pagamento dal browser e poi torna sull'app di edilcloud.</div>
 			</DialogContent>
 			<DialogActions>
-				<Button autoFocus onClick={onOk} variant="contained" color="secondary">
+				<Button autoFocus onClick={onOk} color="white" className="bg-blue-500 text-white hover:bg-blue-500">
 					Ok
 				</Button>
 			</DialogActions>
