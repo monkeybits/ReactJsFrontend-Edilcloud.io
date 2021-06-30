@@ -18,8 +18,6 @@ function BillingContent(props) {
 	const { t } = useTranslation('setting_app');
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 
-	console.log('company???????????????????????????????', company.customer)
-
 	const { form, handleChange, resetForm, setForm } = useForm({
 		name: '',
 		tax_code: '',

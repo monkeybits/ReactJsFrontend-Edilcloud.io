@@ -64,7 +64,31 @@ function UpdatePlanDialog(props) {
 		loadingGetContacts: false,
 		loadingGetChat: false
 	});
+	const [deviceType, setDeviceType] = React.useState('');
 	const [companyInfo, setCompanyInfo] = useState({});
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+
+		const iPad = (userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+		if (iPad !== false) {
+			setDeviceType('ios')
+		}
+	}, []);
 
 	const handleSetLoading = data =>
 		setLoading(loading => ({
@@ -105,8 +129,12 @@ function UpdatePlanDialog(props) {
 			companyInfo.pec !== '' &&
 			companyInfo.billing_email !== ''
 		) {
-			window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${companyInfo.customer}`;
-			// props.history.push(`https://back.edilcloud.io/api/frontend/payments/customer-portal?customer_id=${company?.customer}`);
+			if(deviceType === 'ios') {
+				dispatch(Actions.closeUpgradePlanDialog());
+				props.setIsPlanIOSModal(true, companyInfo.customer)
+			} else {
+				window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${companyInfo.customer}`;
+			}
 		} else {
 			dispatch(Actions.showBillingFormDialog());
 		}
