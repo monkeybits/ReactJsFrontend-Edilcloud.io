@@ -107,7 +107,6 @@ export default function PostListItem({
 	const [alertLoading, setAlertLoading] = useState(false);
 	const [, updateState] = React.useState();
 	const [deviceType, setDeviceType] = React.useState('');
-	const [selectImageComment, setSelectImageComment] = React.useState('');
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const okStateConfirmDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.okStateConfirmDialog);
@@ -327,64 +326,66 @@ export default function PostListItem({
 		return new File([u8arr], filename, { type: mime });
 	};
 	
-	const postList = async string => {
-		const files = [];
-		const extToMimes = {
-			'image/jpeg': '.jpg',
-			'image/png': '.png',
-			'application/pdf': '.pdf',
-			'application/json': '.json',
-			'application/vnd.ms-excel': '.xls',
-			'text/csv': '.csv',
-			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
-			'audio/mp4': '.mp4a',
-			'video/mp4': '.mp4',
-			'application/mp4': '.mp4'
-		};
-
-		let randomName = '';
-		for (let i = 0; i < 8; i++) {
-			const random = Math.floor(Math.random() * 27);
-			randomName += String.fromCharCode(97 + random);
-		}
-
-		const dataWithMimeType = string.substr(0, string.indexOf(';'));
-		const mimeT = dataWithMimeType.split(':')[1];
-		const fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
-		files.push(fileObject);
-
-		// const fileToCompress = files[0];
-		try {
-			// if (fileToCompress.type?.split('/')[0] == 'image') {
-			// 	const compressedFile = fileToCompress;
-			// 	setFile({
-			// 		fileData: new File([compressedFile], compressedFile.name)
-			// 	});
-			// } else {
-			// 	setFile({
-			// 		fileData: fileToCompress
-			// 	});
-			// }
-
-			let file = [];
-			for (let i = 0; i < files.length; i++) {
-				const fileType = files[i].type?.split('/');
-				file = [
-					...file,
-					{
-						file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
-						imgPath: URL.createObjectURL(files[i]),
-						fileType: fileType[0],
-						extension: `.${fileType[1]}`,
-						type: fileType.join('/')
-					}
-				];
-				if(selectImageComment === key) {
+	const postList = async (string, receiveKey) => {
+		console.log('key???????????????', receiveKey)
+		console.log('key???????????????', key)
+		if(receiveKey === key) {
+			const files = [];
+			const extToMimes = {
+				'image/jpeg': '.jpg',
+				'image/png': '.png',
+				'application/pdf': '.pdf',
+				'application/json': '.json',
+				'application/vnd.ms-excel': '.xls',
+				'text/csv': '.csv',
+				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
+				'audio/mp4': '.mp4a',
+				'video/mp4': '.mp4',
+				'application/mp4': '.mp4'
+			};
+	
+			let randomName = '';
+			for (let i = 0; i < 8; i++) {
+				const random = Math.floor(Math.random() * 27);
+				randomName += String.fromCharCode(97 + random);
+			}
+	
+			const dataWithMimeType = string.substr(0, string.indexOf(';'));
+			const mimeT = dataWithMimeType.split(':')[1];
+			const fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
+			files.push(fileObject);
+	
+			// const fileToCompress = files[0];
+			try {
+				// if (fileToCompress.type?.split('/')[0] == 'image') {
+				// 	const compressedFile = fileToCompress;
+				// 	setFile({
+				// 		fileData: new File([compressedFile], compressedFile.name)
+				// 	});
+				// } else {
+				// 	setFile({
+				// 		fileData: fileToCompress
+				// 	});
+				// }
+	
+				let file = [];
+				for (let i = 0; i < files.length; i++) {
+					const fileType = files[i].type?.split('/');
+					file = [
+						...file,
+						{
+							file: fileType[0] == 'image' ? await getCompressFile(files[i]) : files[i],
+							imgPath: URL.createObjectURL(files[i]),
+							fileType: fileType[0],
+							extension: `.${fileType[1]}`,
+							type: fileType.join('/')
+						}
+					];
 					setImages(file);
 				}
+			} catch (e) {
+				// console.log('Error', e);
 			}
-		} catch (e) {
-			// console.log('Error', e);
 		}
 	};
 
@@ -396,8 +397,7 @@ export default function PostListItem({
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('postList');
-				setSelectImageComment(key)
+				window.webkit.messageHandlers.UploadImageKey.postMessage('postList', key);
 			}
 		} catch (e) {
 			// console.log('error', e);
