@@ -329,7 +329,7 @@ export default function PostListItem({
 	const postList = async (string, receiveKey) => {
 		console.log('key???????????????', receiveKey)
 		console.log('key???????????????', index)
-		if(receiveKey === index) {
+		if(parseInt(receiveKey) === parseInt(index)) {
 			const files = [];
 			const extToMimes = {
 				'image/jpeg': '.jpg',
