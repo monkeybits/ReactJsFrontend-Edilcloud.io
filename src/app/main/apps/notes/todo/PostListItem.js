@@ -914,7 +914,7 @@ export default function PostListItem({
 									onChange={e => setText(e.target.value)}
 								/>
 								<IconButton
-									onClick={deviceType !== 'ios' ? onAddPhoto : handleOpenFileClick}
+									onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick}
 									aria-label="Add photo"
 									className="image p-0"
 								>
