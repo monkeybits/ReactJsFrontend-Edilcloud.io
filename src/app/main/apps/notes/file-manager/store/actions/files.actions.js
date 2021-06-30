@@ -55,7 +55,7 @@ export function getFiles(cid, handleSetLoading = () => '') {
 		dispatch(getPhotos(cid, handleSetLoading));
 		dispatch(getVideos(cid, handleSetLoading));
 		dispatch(getDocuments(cid, handleSetLoading));
-		dispatch(getFolders(cid, handleSetLoading));
+		dispatch(getFolders(cid, true, handleSetLoading));
 		dispatch(foldersPaths(cid, handleSetLoading));
 	};
 }
@@ -140,7 +140,7 @@ export function getDocuments(cid, handleSetLoading = () => '') {
 		);
 	};
 }
-export function getFolders(pid, handleSetLoading = () => '') {
+export function getFolders(pid, isRoot = false, handleSetLoading = () => '') {
 	handleSetLoading({
 		loadingFolders: true
 	});
@@ -154,7 +154,8 @@ export function getFolders(pid, handleSetLoading = () => '') {
 				});
 				dispatch({
 					type: GET_FOLDERS,
-					payload: folders
+					payload: folders,
+					isRoot
 				});
 			},
 			err => {
