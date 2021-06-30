@@ -397,7 +397,7 @@ export default function PostListItem({
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImageKey.postMessage('postList', key);
+				window.webkit.messageHandlers.UploadImageKey.postMessage(`["funcName" : "postList", "Key": ${key}]`);
 			}
 		} catch (e) {
 			// console.log('error', e);
