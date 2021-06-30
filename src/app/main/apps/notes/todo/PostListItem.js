@@ -48,7 +48,7 @@ const ImagesPreview = loadable(() => import('./ImagesPreview'));
 const uuidv1 = require('uuid/v1');
 
 export default function PostListItem({
-	key,
+	index,
 	currnetPost,
 	isTask,
 	taskId,
@@ -328,8 +328,8 @@ export default function PostListItem({
 	
 	const postList = async (string, receiveKey) => {
 		console.log('key???????????????', receiveKey)
-		console.log('key???????????????', key)
-		if(receiveKey === key) {
+		console.log('key???????????????', index)
+		if(receiveKey === index) {
 			const files = [];
 			const extToMimes = {
 				'image/jpeg': '.jpg',
@@ -397,7 +397,7 @@ export default function PostListItem({
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImageKey.postMessage(`["funcName" : "postList", "Key": ${key}]`);
+				window.webkit.messageHandlers.UploadImageKey.postMessage(`["funcName" : "postList", "Key": ${index}]`);
 			}
 		} catch (e) {
 			// console.log('error', e);
@@ -914,7 +914,7 @@ export default function PostListItem({
 									onChange={e => setText(e.target.value)}
 								/>
 								<IconButton
-									onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick}
+									onClick={deviceType !== 'ios' ? onAddPhoto : handleOpenFileClick}
 									aria-label="Add photo"
 									className="image p-0"
 								>
