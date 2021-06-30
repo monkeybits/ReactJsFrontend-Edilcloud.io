@@ -48,6 +48,7 @@ const ImagesPreview = loadable(() => import('./ImagesPreview'));
 const uuidv1 = require('uuid/v1');
 
 export default function PostListItem({
+	key,
 	currnetPost,
 	isTask,
 	taskId,
@@ -106,6 +107,7 @@ export default function PostListItem({
 	const [alertLoading, setAlertLoading] = useState(false);
 	const [, updateState] = React.useState();
 	const [deviceType, setDeviceType] = React.useState('');
+	const [selectImageComment, setSelectImageComment] = React.useState('');
 	const forceUpdate = React.useCallback(() => updateState({}), []);
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const okStateConfirmDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.okStateConfirmDialog);
@@ -377,7 +379,9 @@ export default function PostListItem({
 						type: fileType.join('/')
 					}
 				];
-				setImages(file);
+				if(selectImageComment === key) {
+					setImages(file);
+				}
 			}
 		} catch (e) {
 			// console.log('Error', e);
@@ -393,6 +397,7 @@ export default function PostListItem({
 		try {
 			if (window.webkit.messageHandlers) {
 				window.webkit.messageHandlers.UploadImage.postMessage('postList');
+				setSelectImageComment(key)
 			}
 		} catch (e) {
 			// console.log('error', e);
