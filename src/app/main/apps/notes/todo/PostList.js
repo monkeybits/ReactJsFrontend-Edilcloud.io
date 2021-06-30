@@ -46,7 +46,7 @@ function PostList({
 			isOffline={isOffline}
 			isTask={isTask}
 			taskId={taskId}
-			key={index}
+			index={index}
 			currnetPost={post}
 			afterDeletePost={() => deletePostByIndex(index)}
 			callRetryAfterSuccess={callRetryAfterSuccess}

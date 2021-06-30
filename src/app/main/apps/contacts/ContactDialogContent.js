@@ -298,11 +298,11 @@ function ContactDialog(props) {
 									? form.photo
 									: form.avatar
 							}
-							onClick={handleOpenFileClick}
+							// onClick={handleOpenFileClick}
 						/>
-						<a onClick={handleOpenFileClick} className="edit-icon text-center rounded-full cursor-pointer">
+						{/* <a onClick={handleOpenFileClick} className="edit-icon text-center rounded-full cursor-pointer">
 							<EditIcon fontSize="small" />
-						</a>
+						</a> */}
 						{/* <a onClick={handleOpenFileClick} className="delete-icon text-center rounded-full cursor-pointer" >
 							<DeleteIcon fontSize="small"  />
 						</a> */}

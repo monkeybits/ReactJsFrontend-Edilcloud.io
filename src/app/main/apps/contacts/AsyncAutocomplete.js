@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Avatar } from '@material-ui/core';
 // Import the Autocomplete Component
 import Autocomplete from 'react-autocomplete';
 import { apiCall, METHOD } from 'app/services/baseUrl';
@@ -96,8 +96,13 @@ export default class AsyncAutocomplete extends React.Component {
 	 */
 	renderItem(item, isHighlighted) {
 		return (
-			<div className="bg-white p-12 text-base" style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-				{item.first_name} {item.last_name} {item.company?.name ? `(${item.company.name})` : ''}
+			<div className="flex bg-white">
+				<Avatar className="mx-12" alt={`${item.first_name} ${item.last_name}`} src={item?.photo ? item?.photo : 'assets/images/avatars/profile.jpg'}>
+					{item.first_name} {item.last_name}
+				</Avatar>
+				<div className="bg-white p-12 text-base" style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+					{item.first_name} {item.last_name} {item.company?.name ? `(${item.company.name})` : ''}
+				</div>
 			</div>
 		);
 	}
