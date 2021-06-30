@@ -81,6 +81,7 @@ const useStyles = makeStyles({
 		}
 	}
 });
+
 const useStylesList = makeStyles(theme => ({
 	root: {
 		borderRadius: '5%',
@@ -88,6 +89,7 @@ const useStylesList = makeStyles(theme => ({
 		boxShadow: '0 3px 6px #00000029'
 	}
 }));
+
 function FileGrid(props) {
 	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
@@ -121,26 +123,12 @@ function FileGrid(props) {
 			: fileType == 'xlsx'
 			? { color: 'green' }
 			: {};
+
 	const userInfo = decodeDataFromToken();
+
 	const getRole = () => userInfo?.extra?.profile.role;
+
 	const setAllFilesInit = () => {
-		// let modifyfolders = folders?.filter(
-		// 	f =>
-		// 		f.path.includes(currentFolderPath) &&
-		// 		f.path.split('/').length <= folderPath.length &&
-		// 		!folderPath.includes(f.path)
-		// );
-		// if (modifyfolders) {
-		// 	modifyfolders = modifyfolders.map(item => {
-		// 		let title = item.path.split('/');
-		// 		title = title[title.length - 1];
-		// 		return { ...item, title, type: 'folder' };
-		// 	});
-		// 	setCurrentFolders(modifyfolders);
-		// 	let tempFiles = files.filter(f => f.folder_relative_path == currentFolderPath);
-		// 	setCurrentFiles(tempFiles);
-		// 	dispatch(Actions.setAllFiles([...modifyfolders, ...tempFiles]));
-		// }
 		if (currentFolderPath == '' && Array.isArray(rootFiles)) {
 			setCurrentFiles(rootFiles);
 		} else if (Array.isArray(files)) {
@@ -150,6 +138,7 @@ function FileGrid(props) {
 			setCurrentFiles([]);
 		}
 	};
+
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 
@@ -167,10 +156,12 @@ function FileGrid(props) {
 	useEffect(() => {
 		setAllFilesInit();
 	}, [files, folders, files.photos, files.videos, files.documents, props.viewTable, rootFiles]);
+
 	useEffect(() => {
 		dispatch(Actions.setSelectedItem(''));
 		setAllFilesInit();
 	}, [currentFolderPath]);
+
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
 			const arr = Object.keys(entities).map(id => entities[id]);
@@ -187,6 +178,7 @@ function FileGrid(props) {
 			setAllFilesInit();
 		}
 	}, [searchText]);
+
 	useEffect(() => {
 		let modifyfolders = folders?.filter(
 			f =>
