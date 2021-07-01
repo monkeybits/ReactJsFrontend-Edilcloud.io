@@ -39,29 +39,28 @@ function TodoList(props) {
 	const todoDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.todoDialog);
 	const taskContentDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.taskContentDialog);
 
-	useEffect(() => {
-		let urlParams = window.location.href.split('projects')[1].split('/')
-		if(urlParams.length > 3) {
-			var project = urlParams[1]
-			var task = urlParams[3]
-			var post = urlParams[5]
-			let todoItem = {}
-			filteredData && filteredData.map((item) => {
-				if(item.id === parseInt(task)) {
-					todoItem = item
-				}
-			})
-			dispatch(Actions.closeDrawingContent());
-			dispatch(Actions.closeTimelineDialog());
-			dispatch(Actions.openTaskContent(todoItem));
-			setTimeout(() => {
-				history.push({
-					pathname: '/apps/projects/' + project + '/task'
-				});
-			}, 1000)
-			
-		}
-	}, [filteredData]);
+	// useEffect(() => {
+	// 	let urlParams = window.location.href.split('projects')[1].split('/')
+	// 	if(urlParams.length > 3) {
+	// 		var project = urlParams[1]
+	// 		var task = urlParams[3]
+	// 		var post = urlParams[5]
+	// 		let todoItem = {}
+	// 		filteredData && filteredData.map((item) => {
+	// 			if(item.id === parseInt(task)) {
+	// 				todoItem = item
+	// 			}
+	// 		})
+	// 		dispatch(Actions.closeDrawingContent());
+	// 		dispatch(Actions.closeTimelineDialog());
+	// 		dispatch(Actions.openTaskContent(todoItem));
+	// 		setTimeout(() => {
+	// 			history.push({
+	// 				pathname: '/apps/projects/' + project + '/task'
+	// 			});
+	// 		}, 1000)
+	// 	}
+	// }, [filteredData]);
 
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
