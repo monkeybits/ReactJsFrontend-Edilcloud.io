@@ -14,7 +14,7 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import { withStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_MEMBER_FROM_CONTACT } from 'app/services/apiEndPoints';
+import { ACTIVATE_MEMBER, DEACTIVATE_MEMBER } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
@@ -130,8 +130,8 @@ export default function ContactCard(props) {
 		inputFile.current.click();
 	}
 	const onDeactivate = () => {
-		const { id, email } = userData;
-		const url = DELETE_MEMBER_FROM_CONTACT(id);
+		const { id, email, status } = userData;
+		const url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
 		apiCall(
 			url,
 			{},
@@ -143,7 +143,7 @@ export default function ContactCard(props) {
 			err => {
 				// console.log(err),
 			},
-			METHOD.DELETE,
+			METHOD.PUT,
 			getHeaderToken()
 		);
 	};
@@ -161,7 +161,7 @@ export default function ContactCard(props) {
 				text={
 					userData && (
 						<>
-							<Typography>Are you sure want to delete ?</Typography>
+							<Typography>Are you sure want to deactivate ?</Typography>
 						</>
 					)
 				}
