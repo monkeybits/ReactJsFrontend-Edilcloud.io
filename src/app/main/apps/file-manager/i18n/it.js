@@ -7,6 +7,7 @@ const locale = {
 	EDIT: 'Modifica',
 	NAME: 'Nome',
 	DELETE: 'Cancella',
+	CHANGE: 'Modificare',
 	YES: 'Si',
 	NO: 'No',
 	MY_DRIVE: 'I miei files',
