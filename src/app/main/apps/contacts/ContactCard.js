@@ -161,7 +161,8 @@ export default function ContactCard(props) {
 				text={
 					userData && (
 						<>
-							<Typography>Are you sure want to deactivate ?</Typography>
+							<Typography>Are you sure want to {userData.status === 'Deactivated' ? 'activate' : 'deactivate' }?</Typography>
+							<Typography>Account will be {userData.status === 'Deactivated' ? 'activated' : 'deactivated' } until you not {userData.status === 'Deactivated' ? 'deactivate' : 'activate' } this user again!</Typography>
 						</>
 					)
 				}

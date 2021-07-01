@@ -65,7 +65,7 @@ function DeleteConfirmDialog({ isOpenDeleteDialog, colseDeleteFileDialog, onYes,
 			fullWidth="true"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={colseDeleteFileDialog}>
-				{t('DELETE')}
+				{t('CHANGE')}
 			</DialogTitle>
 			<DialogContent dividers>
 				<div>{text}</div>
