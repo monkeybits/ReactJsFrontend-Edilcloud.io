@@ -309,8 +309,9 @@ export default function PostListItem({
 	};
 		
 	useEffect(() => {
-		window.postList = postList;
-	}, []);
+		const methodName = 'postList_' + index
+		window[methodName] = postList;
+	}, [index]);
 
 	const dataURLtoFile = (dataurl, filename) => {
 		const arr = dataurl.split(',');
@@ -329,7 +330,7 @@ export default function PostListItem({
 	const postList = async (string, receiveKey) => {
 		console.log('key???????????????', receiveKey)
 		console.log('key???????????????', index)
-		if(parseInt(receiveKey) === parseInt(index)) {
+		// if(parseInt(receiveKey) === parseInt(index)) {
 			const files = [];
 			const extToMimes = {
 				'image/jpeg': '.jpg',
@@ -386,7 +387,7 @@ export default function PostListItem({
 			} catch (e) {
 				// console.log('Error', e);
 			}
-		}
+		// }
 	};
 
 	
@@ -397,7 +398,7 @@ export default function PostListItem({
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImageKey.postMessage(`["funcName" : "postList", "Key": ${index}]`);
+				window.webkit.messageHandlers.UploadImageKey.postMessage(`["funcName" : "postList_${index}", "Key": ${index}]`);
 			}
 		} catch (e) {
 			// console.log('error', e);
@@ -914,7 +915,7 @@ export default function PostListItem({
 									onChange={e => setText(e.target.value)}
 								/>
 								<IconButton
-									onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick}
+									onClick={deviceType !== 'ios' ? onAddPhoto : handleOpenFileClick}
 									aria-label="Add photo"
 									className="image p-0"
 								>
