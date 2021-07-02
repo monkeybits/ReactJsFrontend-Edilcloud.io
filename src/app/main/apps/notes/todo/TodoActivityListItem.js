@@ -517,7 +517,7 @@ function TodoActivityListItem(props) {
 					</div>
 				</div>
 
-				<div className="flex ml-auto items-end">
+				<div className="flex ml-auto items-end h-full mb-auto">
 					<TippyMenu
 						icon={
 							<>
