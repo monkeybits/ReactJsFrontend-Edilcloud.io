@@ -203,7 +203,7 @@ function NotificationPanel(props) {
 													className="borderbottom"
 													threshold={0.3}
 													swipeLeft={{
-														content: <div>Delete</div>,
+														content: <div className="bg-red-500 text-white flex h-full w-full items-center self-center text-15 font-semibold box-border p-24">Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -215,7 +215,7 @@ function NotificationPanel(props) {
 														}
 													}}
 													swipeRight={{
-														content: <div>Delete</div>,
+														content: <div className="bg-red-500 text-white flex h-full w-full items-center self-center text-15 font-semibold box-border p-24">Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -232,7 +232,7 @@ function NotificationPanel(props) {
 												>
 													<ListItem
 														key={activity.id}
-														className="px-12 bg-blue-200 hover:bg-blue-200 borderbottom items-start border-b-1 border-grey-400 cursor-pointer"
+														className="px-12 py-16 bg-blue-200 hover:bg-blue-200 borderbottom items-start border-b-1 border-grey-400 cursor-pointer"
 														onClick={(event) => onClickUnReadNotification(
 															event,
 															activity,
@@ -313,7 +313,7 @@ function NotificationPanel(props) {
 												<SwipeableListItem
 													threshold={0.3}
 													swipeLeft={{
-														content: <div>Delete</div>,
+														content: <div className="bg-red-500 text-white flex h-full w-full items-center self-center text-15 font-semibold box-border p-24">Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -325,7 +325,7 @@ function NotificationPanel(props) {
 														}
 													}}
 													swipeRight={{
-														content: <div>Delete</div>,
+														content: <div className="bg-red-500 text-white flex h-full w-full items-center self-center text-15 font-semibold box-border p-24">Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -342,7 +342,7 @@ function NotificationPanel(props) {
 												>
 													<ListItem
 														key={activity.id}
-														className="px-12 items-start border-b-1 border-grey-400 cursor-pointer"
+														className="px-12 py-16 items-start border-b-1 border-grey-400 cursor-pointer"
 														onClick={(event) => onClickReadNotification(
 															event,
 															activity,
