@@ -13,10 +13,12 @@ import {
 	Box,
 	CircularProgress,
 	Card,
-	CardContent
+	CardContent,
+	IconButton
 } from '@material-ui/core';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory, withRouter, useLocation } from 'react-router-dom';
+import CloseIcon from '@material-ui/icons/Close';
 import { TYPOLOGY_LIST, TYPOLOGY_LIST_BY_CODE, USER_ADD_COMPANY, USER_EDIT_COMPANY } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { getHeaderToken, getCompressFile } from 'app/services/serviceUtils';
@@ -276,6 +278,13 @@ function CompanyCreationStepper({ user, history }) {
 			<div className={`flex flex-col w-full ${isMainWrap ? 'items-center justify-center' : ''}`}>
 				<FuseAnimate animation="transition.expandIn">
 					<Card className={`${isMainWrap ? 'w-full max-w-512' : ''}`}>
+						<div className="absolute top-0 right-0">
+							<IconButton aria-label="close" onClick={() => {
+								routeHistory.goBack();
+							}}>
+								<CloseIcon />
+							</IconButton>
+						</div>
 						<CardContent className={`flex flex-col ${isMainWrap ? 'items-center justify-center' : ''}`}>
 							<Stepper activeStep={activeStep} orientation="vertical">
 								{steps.map((label, index) => (

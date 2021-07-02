@@ -1,9 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import { useForm } from '@fuse/hooks';
 import { makeStyles } from '@material-ui/core/styles';
-import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Card, CardContent } from '@material-ui/core';
+import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Card, CardContent, IconButton } from '@material-ui/core';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { withRouter, useHistory, useLocation } from 'react-router-dom';
+import CloseIcon from '@material-ui/icons/Close';
 import { getCompressFile } from 'app/services/serviceUtils';
 import { EDIT_PROFILE } from 'app/services/apiEndPoints';
 import clsx from 'clsx';
@@ -120,10 +121,20 @@ function VerticalLinearStepper({ user, history }) {
 	const isMainWrap = !!(location.pathname === '/edit-profile');
 
 	return (
-		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0')}>
+		<div className={clsx(classes.root, `flex flex-col flex-auto flex-shrink-0 ${isMainWrap ? 'items-center justify-center p-20 md:p-40' : ''}`)}>
 			<div className={`flex flex-col w-full px-0 ${isMainWrap ? 'items-center justify-center' : ''}`}>
 				<FuseAnimate animation="transition.expandIn">
 					<Card className={`${isMainWrap ? 'w-full max-w-512' : ''}`}>
+						{
+							isMainWrap &&
+							<div className="absolute top-0 right-0">
+								<IconButton aria-label="close" onClick={() => {
+									history.goBack();
+								}}>
+									<CloseIcon />
+								</IconButton>
+							</div>
+						}
 						<CardContent className="flex flex-col">
 							<Paper square elevation={0} className={clsx(classes.resetContainer, 'pb-10')}>
 								<Typography>{t('EDIT_YOUR_PROFILE')}</Typography>

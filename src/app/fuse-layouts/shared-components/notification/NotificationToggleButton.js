@@ -30,7 +30,6 @@ function NotificationToggleButton(props) {
 
 	const readAllNotification = () => {
 		dispatch(notificationActions.toggleNotification());
-		dispatch(notificationActions.readAllNotifications());
 	};
 	return (
 		<IconButton className="w-64 h-64 text-default" onClick={readAllNotification}>
