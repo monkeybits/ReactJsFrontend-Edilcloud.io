@@ -26,7 +26,7 @@ import {
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken, getTokenOnly, saveToken, saveMainProfileId } from 'app/services/serviceUtils';
 import * as authActions from 'app/auth/store/actions';
-import { Icon, Typography, Badge, Avatar } from '@material-ui/core';
+import { CircularProgress, Icon, Typography, Badge, Avatar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import { useTranslation } from 'react-i18next';
@@ -269,7 +269,7 @@ function Boards(props) {
 				</FuseAnimate>
 				<div>
 					<div className="flex flex-wrap w-full justify-center py-32 px-16">
-						{!!boards.length &&
+						{!!boards.length ? (
 							boards.map(board => (
 								<div className="w-224 h-224 p-16" key={board.id}>
 									<Link
@@ -358,7 +358,14 @@ function Boards(props) {
 										</span>
 									</Link>
 								</div>
-							))}
+							))
+						) : (
+							<div className="w-224 h-224 p-16">
+								<div className="flex flex-col items-center justify-center w-full h-full rounded py-24 border-white border-1 border-dashed">
+									<CircularProgress className="w-xs" color="white" />
+								</div>
+							</div>
+						)}
 						<div className="w-224 h-224 p-16">
 							<div
 								className={clsx(

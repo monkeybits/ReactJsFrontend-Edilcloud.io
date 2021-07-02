@@ -172,7 +172,7 @@ function NotificationPanel(props) {
 													className="borderbottom"
 													threshold={0.3}
 													swipeLeft={{
-														content: <div className="bg-red-500">Delete</div>,
+														content: <div>Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -184,7 +184,7 @@ function NotificationPanel(props) {
 														}
 													}}
 													swipeRight={{
-														content: <div className="bg-red-500">Delete</div>,
+														content: <div>Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -201,7 +201,7 @@ function NotificationPanel(props) {
 												>
 													<ListItem
 														key={activity.id}
-														className="px-12 bg-blue-200 borderbottom items-start"
+														className="px-12 items-start border-b-1 border-grey-400"
 													>
 														<Avatar
 															className="mx-4 mt-10"
@@ -212,18 +212,27 @@ function NotificationPanel(props) {
 															className="flex-1 mx-4"
 															primary={
 																<>
-																	<div className="flex">
+																	<div className="flex justify-between py-4">
 																		<Typography
-																			className="font-medium whitespace-no-wrap"
+																			className="font-bold whitespace-no-wrap"
 																			color="primary"
 																			paragraph={false}
 																		>
 																			{notification.sender.first_name}{' '}
-																			{notification.sender.last_name}
+																			{notification.sender.last_name}{' - '}
+																			{notification.sender.company.name}
+																		</Typography>
+																		<Typography>
+																			{
+																				moment(activity.date_create)
+																					.endOf('day')
+																					.fromNow()
+																			}
 																		</Typography>
 																	</div>
-																	<div className="flex">
+																	<div className="flex pb-4">
 																		<Typography
+																			className="font-semibold"
 																			color="textPrimary"
 																			paragraph={false}
 																		>
@@ -233,7 +242,7 @@ function NotificationPanel(props) {
 																	{notification.body?.url && (
 																		<div className="flex">
 																			<Link
-																				className="notifications-secondary"
+																				className="notifications-secondary font-medium"
 																				onClick={() => {
 																					dispatch(
 																						Actions.toggleNotification()
@@ -252,9 +261,9 @@ function NotificationPanel(props) {
 																	)}
 																</>
 															}
-															secondary={moment(activity.date_create)
-																.endOf('day')
-																.fromNow()}
+															// secondary={moment(activity.date_create)
+															// 	.endOf('day')
+															// 	.fromNow()}
 														/>
 													</ListItem>
 													<Divider />
@@ -268,7 +277,7 @@ function NotificationPanel(props) {
 												<SwipeableListItem
 													threshold={0.3}
 													swipeLeft={{
-														content: <div className="bg-red-500">Delete</div>,
+														content: <div>Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -280,7 +289,7 @@ function NotificationPanel(props) {
 														}
 													}}
 													swipeRight={{
-														content: <div className="bg-red-500">Delete</div>,
+														content: <div>Delete</div>,
 														action: () => {
 															dispatch(
 																Actions.deleteNotificationDataByIndex(
@@ -295,7 +304,7 @@ function NotificationPanel(props) {
 													// 	console.info(`Swipe progress: ${progress}%`)
 													// }
 												>
-													<ListItem key={activity.id} className="px-12 items-start">
+													<ListItem key={activity.id} className="px-12 items-start border-b-1 border-grey-400">
 														<Avatar
 															className="mx-4 mt-10"
 															alt={notification.sender.first_name}
@@ -305,18 +314,27 @@ function NotificationPanel(props) {
 															className="flex-1 mx-4"
 															primary={
 																<>
-																	<div className="flex">
+																	<div className="flex justify-between py-4">
 																		<Typography
-																			className="font-medium whitespace-no-wrap"
+																			className="font-bold whitespace-no-wrap"
 																			color="primary"
 																			paragraph={false}
 																		>
 																			{notification.sender.first_name}{' '}
-																			{notification.sender.last_name}
+																			{notification.sender.last_name}{' - '}
+																			{notification.sender.company.name}
+																		</Typography>
+																		<Typography>
+																			{
+																				moment(activity.date_create)
+																					.endOf('day')
+																					.fromNow()
+																			}
 																		</Typography>
 																	</div>
-																	<div className="flex">
+																	<div className="flex pb-4">
 																		<Typography
+																			className="font-semibold"
 																			color="textSecondary"
 																			paragraph={false}
 																		>
@@ -326,7 +344,7 @@ function NotificationPanel(props) {
 																	{notification.body?.url && (
 																		<div className="flex">
 																			<Link
-																				className="notifications-secondary"
+																				className="notifications-secondary font-medium"
 																				onClick={() => {
 																					dispatch(
 																						Actions.toggleNotification()
@@ -348,9 +366,9 @@ function NotificationPanel(props) {
 																	)}
 																</>
 															}
-															secondary={moment(activity.date_create)
-																.endOf('day')
-																.fromNow()}
+															// secondary={moment(activity.date_create)
+															// 	.endOf('day')
+															// 	.fromNow()}
 														/>
 													</ListItem>
 												</SwipeableListItem>
