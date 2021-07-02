@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import * as Actions from './store/actions';
 import * as ConatctActions from '../contacts/store/actions';
+import * as NotificationActions from '../../../fuse-layouts/shared-components/notification/store/actions';
 import reducer from './store/reducers';
 
 const StatusConfirmDialog = loadable(() => import('./StatusConfirmDialog'));
@@ -61,6 +62,13 @@ function TodoApp(props) {
 	const navbar = useSelector(({ fuse }) => fuse.navbar);
 	const toggleSidebarMenu = useSelector(({ fuse }) => fuse.settings.toggleSidebarMenu);
 	const { folded } = config.navbar;
+
+	useEffect(() => {
+		let isUrlCheck = window.location.href.includes("apps/todo/all/notification");
+		if(isUrlCheck) {
+			dispatch(NotificationActions.toggleNotification())
+		}
+	}, []);
 
 	useEffect(() => {
 		if (toggleSidebarMenu) {
