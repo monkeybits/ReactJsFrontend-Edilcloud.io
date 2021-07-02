@@ -265,7 +265,7 @@ function AddProjectForm() {
 									<span className="flex items-center">
 										<Avatar className="w-32 h-32" src={member.photo} />
 										<span className="mx-8">
-											{member.first_name} {member.last_name}
+											{member.first_name} {member.last_name} - {member.company.name}
 										</span>
 									</span>
 								)
