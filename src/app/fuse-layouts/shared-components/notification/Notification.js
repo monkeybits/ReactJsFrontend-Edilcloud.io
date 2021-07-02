@@ -20,6 +20,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { GET_ALL_NOTIFICATIONS, GET_ALL_PAGES_NOTIFICATIONS } from 'app/services/apiEndPoints';
@@ -47,6 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 function NotificationPanel(props) {
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const state = useSelector(({ notificationPanel }) => notificationPanel.state);
 	const notifications = useSelector(({ notificationPanel }) => notificationPanel.notifications);
 	const readNotifications = useSelector(({ notificationPanel }) => notificationPanel.readNotifications);
@@ -136,6 +138,35 @@ function NotificationPanel(props) {
 			);
 		}
 	};
+	const onClickReadNotification = (event, activity, url) => {
+		dispatch(
+			Actions.toggleNotification()
+		);
+		dispatch(
+			Actions.addNotificationData(
+				activity
+			)
+		);
+		history.push({
+			pathname: url
+		});
+	}
+
+	const onClickUnReadNotification = (event, activity, url) => {
+		dispatch(
+			Actions.toggleNotification()
+		);
+		dispatch(Actions.readAllNotifications());
+		dispatch(
+			Actions.addNotificationData(
+				activity
+			)
+		);
+		history.push({
+			pathname: url
+		});
+	}
+
 	// if (!data.activities.length) {
 	// 	return null;
 	// }
@@ -195,13 +226,18 @@ function NotificationPanel(props) {
 															);
 														}
 													}}
-													// onSwipeProgress={progress =>
-													// 	console.info(`Swipe progress: ${progress}%`)
-													// }
+												// onSwipeProgress={progress =>
+												// 	console.info(`Swipe progress: ${progress}%`)
+												// }
 												>
 													<ListItem
 														key={activity.id}
-														className="px-12 items-start border-b-1 border-grey-400"
+														className="px-12 bg-blue-200 hover:bg-blue-200 borderbottom items-start border-b-1 border-grey-400 cursor-pointer"
+														onClick={(event) => onClickUnReadNotification(
+															event,
+															activity,
+															notification.body.url)
+														}
 													>
 														<Avatar
 															className="mx-4 mt-10"
@@ -261,9 +297,9 @@ function NotificationPanel(props) {
 																	)}
 																</>
 															}
-															// secondary={moment(activity.date_create)
-															// 	.endOf('day')
-															// 	.fromNow()}
+														// secondary={moment(activity.date_create)
+														// 	.endOf('day')
+														// 	.fromNow()}
 														/>
 													</ListItem>
 													<Divider />
@@ -300,11 +336,19 @@ function NotificationPanel(props) {
 															);
 														}
 													}}
-													// onSwipeProgress={progress =>
-													// 	console.info(`Swipe progress: ${progress}%`)
-													// }
+												// onSwipeProgress={progress =>
+												// 	console.info(`Swipe progress: ${progress}%`)
+												// }
 												>
-													<ListItem key={activity.id} className="px-12 items-start border-b-1 border-grey-400">
+													<ListItem
+														key={activity.id}
+														className="px-12 items-start border-b-1 border-grey-400 cursor-pointer"
+														onClick={(event) => onClickReadNotification(
+															event,
+															activity,
+															notification.body.url.replace('https://localhost:3000', ''))
+														}
+													>
 														<Avatar
 															className="mx-4 mt-10"
 															alt={notification.sender.first_name}
@@ -366,9 +410,9 @@ function NotificationPanel(props) {
 																	)}
 																</>
 															}
-															// secondary={moment(activity.date_create)
-															// 	.endOf('day')
-															// 	.fromNow()}
+														// secondary={moment(activity.date_create)
+														// 	.endOf('day')
+														// 	.fromNow()}
 														/>
 													</ListItem>
 												</SwipeableListItem>
