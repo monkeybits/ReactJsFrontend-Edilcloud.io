@@ -89,6 +89,20 @@ function UserMenu(props) {
 							</ListItemIcon>
 							<ListItemText primary="Edit main profile" />
 						</MenuItem>
+						<MenuItem
+							component={Link}
+							to={{
+								pathname: '/billing',
+								state: { nextPath: history.location.pathname }
+							}}
+							onClick={userMenuClose}
+							role="button"
+						>
+							<ListItemIcon className="min-w-40">
+								<Icon>receipt</Icon>
+							</ListItemIcon>
+							<ListItemText primary="Billing" />
+						</MenuItem>
 						{getRole() == 'o' && (
 							<MenuItem
 								component={Link}

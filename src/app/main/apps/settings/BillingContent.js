@@ -2,6 +2,7 @@ import { Typography, TextField, Button, CircularProgress } from '@material-ui/co
 import { useForm } from '@fuse/hooks';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { USER_EDIT_COMPANY } from 'app/services/apiEndPoints';
 import { toast } from 'react-toastify';
@@ -9,6 +10,7 @@ import axios from '../../../services/axiosConfig';
 
 function BillingContent(props) {
 	const dispatch = useDispatch();
+	const location = useLocation();
 	const [formValidate, setFormValidate] = useState(true);
 	const [loading, setLoading] = useState(false);
 
@@ -102,8 +104,10 @@ function BillingContent(props) {
 			});
 	};
 
+	const isMainWrap = !!(location.pathname === '/apps/settings');
+
 	return (
-		<form name="billingForm" className="flex flex-col justify-center w-md">
+		<form name="billingForm" className={`flex flex-col justify-center w-full ${isMainWrap ? 'pr-16' : ''}`}>
 			<Typography className="text-black text-24 mb-16">Billing</Typography>
 			<TextField
 				// error={error.name.length}
