@@ -12,6 +12,7 @@ import UserInterfaceConfig from 'app/main/user-interface/UserInterfaceConfig';
 import MainProfileConfig from 'app/main/mainProfile/MainProfileConfig';
 import CompanyCreationConfig from 'app/main/companyCreation/CompanyCreationConfig';
 import EditProfileConfig from 'app/main/editMainProfile/EditProfileConfig.js';
+import BillingConfig from 'app/main/billing/BillingConfig';
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
@@ -33,7 +34,8 @@ const routeConfigs = [
 	AccountActivationConfig,
 	MainProfileConfig,
 	CompanyCreationConfig,
-	EditProfileConfig
+	EditProfileConfig,
+	BillingConfig
 ];
 const path = localStorage.getItem('redirect_path');
 const routes = [
