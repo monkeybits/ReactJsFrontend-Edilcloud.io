@@ -58,6 +58,7 @@ const DialogActions = withStyles(theme => ({
 
 function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesArray, nameSpace = 'chat' }) {
 	const [step, setStep] = useState(activtStep);
+	const [downloadDisable, setDownloadDisable] = useState(false);
 	useEffect(() => {
 		setStep(activtStep);
 	}, [activtStep]);
@@ -77,6 +78,7 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 		return null;
 	}
 	const handleDownload = () => {
+		setDownloadDisable(true)
 		const item = imagesArray[step];
 		const type = () => (item.type ? item.type.split('/')[0] : '');
 		apiCall(
@@ -123,7 +125,9 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 			},
 			true
 		);
+		setDownloadDisable(false)
 	};
+
 	const getPreviewByType = item => {
 		const type = () => (item.type ? item.type.split('/')[0] : '');
 		switch (type()) {
@@ -164,7 +168,7 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 				{getPreviewByType(imagesArray[step])}
 			</DialogContent>
 			<DialogActions>
-				<Button variant="contained" color="primary" onClick={handleDownload}>
+				<Button disabled={downloadDisable} variant="contained" color="primary" onClick={handleDownload}>
 					{t('DOWNLOAD')}
 				</Button>
 				<Button disabled={step == 0} onClick={handlePrevious}>
