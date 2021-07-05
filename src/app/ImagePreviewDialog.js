@@ -94,14 +94,13 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 				const image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
 				const file = `data:${headers['content-type'].toLowerCase()};base64,${image}`;
 				if (window) {
-					if (type() == 'image') {
+					if (type() === 'image') {
 						if (window.DownloadFiles) {
 							window.DownloadFiles.postMessage(item.media_url);
 						}
 						if (window.flutter_inappwebview)
 							window.flutter_inappwebview.callHandler('DownloadFiles', item.media_url);
-					}
-					if (type() == 'video') {
+					} else if (type() === 'video') {
 						if (window.DownloadFiles) {
 							window.DownloadFiles.postMessage(item.media_url);
 						}
