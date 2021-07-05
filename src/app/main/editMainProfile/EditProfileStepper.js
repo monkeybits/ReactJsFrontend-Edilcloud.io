@@ -54,7 +54,8 @@ function VerticalLinearStepper({ user, history }) {
 	const { form, handleChange, resetForm, setForm } = useForm({
 		fname: user && user.user.first_name,
 		lname: user && user.user.last_name,
-		email: user && user.email ? user.email : ''
+		email: user && user.email ? user.email : '',
+		phone: user && user.user.phone ? user.user.phone : ''
 	});
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -79,7 +80,8 @@ function VerticalLinearStepper({ user, history }) {
 		setForm({
 			fname: user && user.user.first_name,
 			lname: user && user.user.last_name,
-			email: user && user.user.email ? user.user.email : ''
+			email: user && user.user.email ? user.user.email : '',
+			phone: user && user.user.phone ? user.user.phone : ''
 		});
 		setValue(user && user.user?.language == 'en' ? 'English' : 'Italian');
 		setFile({
@@ -94,6 +96,7 @@ function VerticalLinearStepper({ user, history }) {
 		const values = {
 			first_name: form.fname,
 			last_name: form.lname,
+			phone: form.phone,
 			language: value == 'English' ? 'en' : 'it',
 			photo: file && file.fileData ? await getCompressFile(file.fileData) : undefined
 		};
