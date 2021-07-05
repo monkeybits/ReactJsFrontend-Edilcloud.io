@@ -68,6 +68,17 @@ function BasicInfo({ form, handleChange, resetForm, value, setValue }) {
 				required
 				fullWidth
 			/>
+			<TextField
+				className="mb-8"
+				label={t('PHONE')}
+				type="number"
+				name="phone"
+				value={form.phone}
+				onChange={handleChange}
+				variant="outlined"
+				required
+				fullWidth
+			/>
 
 			<Autocomplete
 				options={['English', 'Italian']}

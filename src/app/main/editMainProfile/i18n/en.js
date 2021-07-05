@@ -7,6 +7,7 @@ const locale = {
 	FIRST_NAME: 'First Name',
 	LAST_NAME: 'Last Name',
 	EMAIL: 'Email',
+	PHONE: 'Phone',
 	LANGUAGE: 'Language',
 	EDIT_YOUR_PROFILE: 'Edit your profile',
 	BASIC_INFORMATION: 'Basic Information',

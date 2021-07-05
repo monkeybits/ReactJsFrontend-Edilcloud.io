@@ -129,7 +129,7 @@ function ContactList(props) {
 						<div className={classes.unreadBadge}>{contact.talks[0].unread_count}</div>
 					)}
 					<div className={clsx(contact.status, classes.status)} />
-					<Avatar src={contact.logo} alt={contact.name}>
+					<Avatar src={contact.logo} alt={contact.name} className="bg-blue-500">
 						{!contact.logo || contact.logo === '' ? contact.name[0] : ''}
 					</Avatar>
 					<div className="chatText truncate flex-1">

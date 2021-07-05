@@ -49,8 +49,7 @@ function CardAttachment(props) {
 						}
 						if (window.flutter_inappwebview)
 							window.flutter_inappwebview.callHandler('DownloadFiles', item.media_url);
-					}
-					if (type() == 'video') {
+					} else if (type() == 'video') {
 						if (window.DownloadFiles) {
 							window.DownloadFiles.postMessage(item.media_url);
 						}
