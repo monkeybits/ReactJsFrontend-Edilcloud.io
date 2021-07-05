@@ -10,7 +10,7 @@ import { Button, Dialog, IconButton } from '@material-ui/core';
 import FileSaver from 'file-saver';
 import * as ICONS from 'app/main/apps/constants';
 import { useTranslation } from 'react-i18next';
-import { ATTACHMENT_DOWNLOAD } from './services/apiEndPoints';
+import {  DOWNLOAD_DOCUMENT, DOWNLOAD_PHOTO, DOWNLOAD_VIDEO, ATTACHMENT_DOWNLOAD } from './services/apiEndPoints';
 import { apiCall, METHOD } from './services/baseUrl';
 import { getHeaderToken } from './services/serviceUtils';
 
@@ -81,8 +81,14 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 		setDownloadDisable(true)
 		const item = imagesArray[step];
 		const type = () => (item.type ? item.type.split('/')[0] : '');
+		const apiurl =
+			type() == 'image'
+				? DOWNLOAD_PHOTO(item.id)
+				: type() == 'video'
+				? DOWNLOAD_VIDEO(item.id)
+				: DOWNLOAD_DOCUMENT(item.id);
 		apiCall(
-			ATTACHMENT_DOWNLOAD(item.task, item.id),
+			item?.task ? ATTACHMENT_DOWNLOAD(item.task, item.id) : apiurl,
 			{},
 			({ headers, data }) => {
 				const image = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
