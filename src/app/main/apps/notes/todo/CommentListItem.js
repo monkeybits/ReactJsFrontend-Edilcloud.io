@@ -31,7 +31,7 @@ import Dropzone from 'react-dropzone';
 const TippyMenu = loadable(() => import('app/TippyMenu'));
 const ReplyListItem = loadable(() => import('./ReplyListItem'));
 const ImagesPreview = loadable(() => import('./ImagesPreview'));
-const PostedImages = loadable(() => import('./PostedImages'));
+const PostedImage = loadable(() => import('./PostedImage'));
 
 const uuidv1 = require('uuid/v1');
 
@@ -470,7 +470,7 @@ export default function CommentListItem({
 							}
 						/>
 						<div className="posted-images comment-post-img">
-							<PostedImages images={comment.media_set} hideNavigation />
+							<PostedImage images={comment.media_set} hideNavigation />
 						</div>
 						{tempAuthor.id == comment.author.id && (
 							<div className="actions-dropdown resize-action-btn absolute top-0 right-0">
@@ -529,7 +529,7 @@ export default function CommentListItem({
 			</ListItem>
 			{/* {!isEditing && (
 				<div className="posted-images comment-post-img mt-4 mb-10">
-					<PostedImages images={comment.media_set} hideNavigation />
+					<PostedImage images={comment.media_set} hideNavigation />
 				</div>
 			)} */}
 			{!isOffline && isEditing && getRole() != 'w' ? (

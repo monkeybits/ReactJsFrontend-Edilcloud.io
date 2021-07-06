@@ -56,7 +56,7 @@ const DialogActions = withStyles(theme => ({
 	}
 }))(MuiDialogActions);
 
-function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesArray, nameSpace = 'chat' }) {
+function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesArray, nameSpace = 'chat', isSingle = false }) {
 	const [step, setStep] = useState(activtStep);
 	const [downloadDisable, setDownloadDisable] = useState(false);
 	useEffect(() => {
@@ -176,12 +176,17 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 				<Button disabled={downloadDisable} variant="contained" color="primary" onClick={handleDownload}>
 					{t('DOWNLOAD')}
 				</Button>
-				<Button disabled={step == 0} onClick={handlePrevious}>
-					{t('PREVIOUS')}
-				</Button>
-				<Button disabled={step == imagesArray.length - 1} onClick={handleNext}>
-					{t('NEXT')}
-				</Button>
+				{
+					!isSingle &&
+					<>
+						<Button disabled={step == 0} onClick={handlePrevious}>
+							{t('PREVIOUS')}
+						</Button>
+						<Button disabled={step == imagesArray.length - 1} onClick={handleNext}>
+							{t('NEXT')}
+						</Button>
+					</>
+				}
 			</DialogActions>
 		</Dialog>
 	);

@@ -496,25 +496,6 @@ export default function PostListItem({
 
 	const onStatusChange = () => {
 		dispatch(Actions.openStatusConfirmDialog(post));
-		// setLoading(true);
-		// apiCall(
-		// 	EDIT_POST(post.id),
-		// 	{
-		// 		...post,
-		// 		is_public: !post.is_public
-		// 	},
-		// 	res => {
-		// 		setPost(cp => ({ ...cp, ...res }));
-		// 		// setIsEditPost(false);
-		// 		setLoading(false);
-		// 	},
-		// 	err => {
-		// 		setLoading(false);
-		// 		console.log(err);
-		// 	},
-		// 	METHOD.PUT,
-		// 	getHeaderToken()
-		// );
 	};
 
 	const onNotificationClick = () => {
@@ -823,9 +804,13 @@ export default function PostListItem({
 							className="justify-center w-1/3 text-18 font-500 my-8 posts-social-icon text-black"
 						>
 							<Icon fontSize="small" className="mr-4">
+								security
+							</Icon>
+							<span>{t('PRIVACY')}</span>
+							{/* <Icon fontSize="small" className="mr-4">
 								{post.is_public ? 'visibility' : 'visibility_off'}
 							</Icon>
-							<span>{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span>
+							<span>{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span> */}
 						</IconButton>
 					)}
 				</div>
