@@ -3,7 +3,7 @@ import loadable from '@loadable/component';
 import { Avatar, Button, Icon, ListItemIcon, ListItemText, MenuItem, Typography } from '@material-ui/core';
 import * as authActions from 'app/auth/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { getMainProfileId, decodeDataFromToken } from 'app/services/serviceUtils';
 
 const TippyMenu = loadable(() => import('app/TippyMenu'));
@@ -11,6 +11,7 @@ const TippyMenu = loadable(() => import('app/TippyMenu'));
 function UserMenu(props) {
 	const dispatch = useDispatch();
 	const user = useSelector(({ auth }) => auth.user);
+	const location = useLocation();
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const history = useHistory();
 
@@ -27,13 +28,15 @@ function UserMenu(props) {
 	};
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
+
+	const isCompanies = !!(location.pathname === '/apps/companies');
 	return (
 		<>
 			<TippyMenu
 				icon={
 					<>
 						<Button className="h-64" onClick={userMenuClick}>
-							<Avatar className="bg-blue-500" alt="user photo" src={userData?.photo}>
+							<Avatar alt="user photo" src={userData?.photo}>
 								{userData?.first_name?.split('')?.[0]}{' '}
 							</Avatar>
 
@@ -89,36 +92,41 @@ function UserMenu(props) {
 							</ListItemIcon>
 							<ListItemText primary="Edit main profile" />
 						</MenuItem>
-						<MenuItem
-							component={Link}
-							to={{
-								pathname: '/billing',
-								state: { nextPath: history.location.pathname }
-							}}
-							onClick={userMenuClose}
-							role="button"
-						>
-							<ListItemIcon className="min-w-40">
-								<Icon>receipt</Icon>
-							</ListItemIcon>
-							<ListItemText primary="Billing" />
-						</MenuItem>
-						{getRole() == 'o' && (
-							<MenuItem
-								component={Link}
-								to={{
-									pathname: '/edit-company',
-									state: { nextPath: history.location.pathname }
-								}}
-								onClick={userMenuClose}
-								role="button"
-							>
-								<ListItemIcon className="min-w-40">
-									<Icon>store</Icon>
-								</ListItemIcon>
-								<ListItemText primary="Edit Company" />
-							</MenuItem>
-						)}
+						{
+							!isCompanies && 
+							<>
+								<MenuItem
+									component={Link}
+									to={{
+										pathname: '/billing',
+										state: { nextPath: history.location.pathname }
+									}}
+									onClick={userMenuClose}
+									role="button"
+								>
+									<ListItemIcon className="min-w-40">
+										<Icon>receipt</Icon>
+									</ListItemIcon>
+									<ListItemText primary="Billing" />
+								</MenuItem>
+								{getRole() == 'o' && (
+									<MenuItem
+										component={Link}
+										to={{
+											pathname: '/edit-company',
+											state: { nextPath: history.location.pathname }
+										}}
+										onClick={userMenuClose}
+										role="button"
+									>
+										<ListItemIcon className="min-w-40">
+											<Icon>store</Icon>
+										</ListItemIcon>
+										<ListItemText primary="Edit Company" />
+									</MenuItem>
+								)}
+							</>
+						}
 						<MenuItem
 							onClick={() => {
 								dispatch(authActions.logoutUser());

@@ -51,6 +51,7 @@ export const CLOSE_DRAWING_CONTENT_DIALOG = '[TODO APP] CLOSE DRAWING CONTENT DI
 export const REMOVE_ACTIVITY = '[TODO APP] REMOVE ACTIVITY';
 export const REMOVE_TASK = '[TODO APP] REMOVE TASK';
 export const EDIT_ACTIVITY = '[TODO APP] EDIT ACTIVITY';
+export const STATUS_CHANGE = '[TODO APP] STATUS CHANGE (PROJECT)';
 
 export const EDIT_TASK_TODO_DIALOG = '[TODO APP] EDIT TASK TODO DIALOG (PROJECT)';
 export const OPEN_DELETE_CONFIRM_DIALOG = '[TODO APP] OPEN DELETE CONFIRM DIALOG (PROJECT)';
@@ -317,6 +318,12 @@ export function openStatusConfirmDialog(data) {
 export function closeStatusConfirmDialog() {
 	return {
 		type: CLOSE_STATUS_CONFIRM_DIALOG
+	};
+}
+
+export function statusChange() {
+	return {
+		type: STATUS_CHANGE
 	};
 }
 

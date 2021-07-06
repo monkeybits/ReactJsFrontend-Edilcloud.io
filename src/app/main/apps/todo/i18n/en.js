@@ -25,6 +25,7 @@ const locale = {
 	SEND_NOTIFICATION: 'Notification',
 	STATUS_PUBLIC: 'Public Post',
 	STATUS_PRIVATE: 'Private Post',
+	PRIVACY: 'Privacy',
 	ENDS: 'Ends',
 	DUE_DATE: 'Due Date',
 	TITLE: 'Title',

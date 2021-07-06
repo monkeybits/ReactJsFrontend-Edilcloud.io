@@ -54,7 +54,7 @@ const DialogActions = withStyles(theme => ({
 	}
 }))(MuiDialogActions);
 
-function DeleteConfirmDialog({ isOpenDeleteDialog, colseDeleteFileDialog, onYes, onNo, text }) {
+function DeleteConfirmDialog({ isOpenDeleteDialog, colseDeleteFileDialog, onYes, onNo, text, status }) {
 	const { t } = useTranslation('filemanager');
 	return (
 		<Dialog
@@ -65,7 +65,7 @@ function DeleteConfirmDialog({ isOpenDeleteDialog, colseDeleteFileDialog, onYes,
 			fullWidth="true"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={colseDeleteFileDialog}>
-				{t('CHANGE')}
+				{status === 'Waiting' ? t('DELETE') : t('CHANGE')}
 			</DialogTitle>
 			<DialogContent dividers>
 				<div>{text}</div>

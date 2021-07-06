@@ -30,6 +30,7 @@ const initialState = {
 	notificationPost: {},
 	isStateConfirmDialog: false,
 	statusPost: {},
+	statusChange: false,
 	okStateConfirmDialog: false,
 	openDrawingContent: false,
 	editTaskTodoDialog: false,
@@ -316,7 +317,15 @@ const todosReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isStateConfirmDialog: false,
-				okStateConfirmDialog: false
+				okStateConfirmDialog: false,
+				statusChange: false,
+				statusPost: {}
+			};
+		}
+		case Actions.STATUS_CHANGE: {
+			return {
+				...state,
+				statusChange: true
 			};
 		}
 		case Actions.OK_STATUS_CONFIRM_DIALOG: {

@@ -14,7 +14,7 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import { withStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { ACTIVATE_MEMBER, DEACTIVATE_MEMBER } from 'app/services/apiEndPoints';
+import { ACTIVATE_MEMBER, DEACTIVATE_MEMBER, DELETE_MEMBER_FROM_CONTACT } from 'app/services/apiEndPoints';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
@@ -131,7 +131,7 @@ export default function ContactCard(props) {
 	}
 	const onDeactivate = () => {
 		const { id, email, status } = userData;
-		const url = status == 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
+		const url = status === 'Waiting' ? DELETE_MEMBER_FROM_CONTACT(id) : status === 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
 		apiCall(
 			url,
 			{},
@@ -143,7 +143,7 @@ export default function ContactCard(props) {
 			err => {
 				// console.log(err),
 			},
-			METHOD.PUT,
+			status === 'Waiting' ? METHOD.DELETE : METHOD.PUT,
 			getHeaderToken()
 		);
 	};
@@ -161,8 +161,11 @@ export default function ContactCard(props) {
 				text={
 					userData && (
 						<>
-							<Typography>Are you sure want to {userData.status === 'Deactivated' ? 'activate' : 'deactivate' }?</Typography>
-							<Typography>Account will be {userData.status === 'Deactivated' ? 'activated' : 'deactivated' } until you not {userData.status === 'Deactivated' ? 'deactivate' : 'activate' } this user again!</Typography>
+							<Typography>Are you sure want to {userData.status === 'Waiting' ? 'Delete' : userData.status === 'Deactivated' ? 'activate' : 'deactivate' }?</Typography>
+							{
+								(userData.status === 'Deactivated' || userData.status === 'Approved') &&
+								<Typography>Account will be {userData.status === 'Deactivated' ? 'activated' : 'deactivated' } until you not {userData.status === 'Deactivated' ? 'deactivate' : 'activate' } this user again!</Typography>
+							}
 						</>
 					)
 				}
@@ -170,6 +173,7 @@ export default function ContactCard(props) {
 				colseDeleteFileDialog={colseDeleteContactDialog}
 				onYes={onDeactivate}
 				onNo={colseDeleteContactDialog}
+				status={userData?.status}
 			/>
 			<div className="card-container flex flex-col px-10 text-13 border-grey-600 border-1  mx-auto">
 				<span className={`pro ${String(status).toLowerCase()}`}>{status}</span>
