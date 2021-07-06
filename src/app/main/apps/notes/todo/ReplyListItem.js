@@ -24,7 +24,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
-const PostedImages = loadable(() => import('./PostedImages'));
+const PostedImage = loadable(() => import('./PostedImage'));
 const TippyMenu = loadable(() => import('app/TippyMenu'));
 
 export default function ReplyListItem({
@@ -208,7 +208,7 @@ export default function ReplyListItem({
 							}
 						/>
 						<div className="posted-images comment-post-img">
-							<PostedImages images={comment.media_set} hideNavigation />
+							<PostedImage images={comment.media_set} hideNavigation />
 						</div>
 						{tempAuthor.id == comment.author.id && (
 							<div className="actions-dropdown resize-action-btn absolute top-0 right-0 mt-8">

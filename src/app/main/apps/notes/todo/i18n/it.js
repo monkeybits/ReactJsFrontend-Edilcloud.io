@@ -61,6 +61,7 @@ const locale = {
 	SEND_NOTIFICATION: 'Notifica',
 	STATUS_PUBLIC: 'Post Pubblico',
 	STATUS_PRIVATE: 'Post Privato',
+	PRIVACY: 'Privacy',
 	ALERT: 'Allerta',
 	COMMENTS: 'Commenti',
 	RETRY: 'Riprova',

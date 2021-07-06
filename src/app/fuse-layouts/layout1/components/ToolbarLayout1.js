@@ -61,6 +61,7 @@ function ToolbarLayout1(props) {
 			setTotalCount(result);
 		}
 	}, [contacts, company]);
+	const isCompanies = !!(location.pathname === '/apps/companies');
 	return (
 		<ThemeProvider theme={toolbarTheme}>
 			<AppBar
@@ -95,21 +96,27 @@ function ToolbarLayout1(props) {
 						<LanguageSwitcher />
 
 						{/* {!location.pathname?.includes('companies') && ( */}
-						<>
-							<div className={clsx(classes.separator, 'custom-separator')} />
-							<NotificationWebSocket>
-								<NotificationToggleButton totalCount={count} />
-							</NotificationWebSocket>
-						</>
+						{
+							!isCompanies &&
+							<>
+								<div className={clsx(classes.separator, 'custom-separator')} />
+								<NotificationWebSocket>
+									<NotificationToggleButton totalCount={count} />
+								</NotificationWebSocket>
+							</>
+						}
 						{/* )} */}
 
 						{/* {!location.pathname?.includes('companies') && ( */}
-						<>
-							<div className={clsx(classes.separator, 'custom-separator')} />
-							<QuickPanelToggleButton>
-								<Icon>new_releases</Icon>
-							</QuickPanelToggleButton>
-						</>
+						{
+							!isCompanies &&
+							<>
+								<div className={clsx(classes.separator, 'custom-separator')} />
+								<QuickPanelToggleButton>
+									<Icon>new_releases</Icon>
+								</QuickPanelToggleButton>
+							</>
+						}
 						{/* )} */}
 					</div>
 

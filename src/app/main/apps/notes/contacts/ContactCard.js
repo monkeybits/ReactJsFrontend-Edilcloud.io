@@ -151,6 +151,7 @@ export default function ContactCard(props) {
 				colseDeleteFileDialog={colseDeleteContactDialog}
 				onYes={onDeactivate}
 				onNo={colseDeleteContactDialog}
+				status="Waiting"
 			/>
 			<div
 				ref={notificationPanel.notificationData?.notification?.object_id == id ? scrollRef : null}
