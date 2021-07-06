@@ -7,10 +7,10 @@ Todo: This File is created for Status Confirm in dialog
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import _ from '@lodash';
 import { withStyles } from '@material-ui/core/styles';
-import { Dialog, IconButton, Typography, Button } from '@material-ui/core';
+import { Dialog, IconButton, Typography, Button, InputLabel, MenuItem, ListItemIcon, Icon, Select } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../notes/todo/store/actions';
 
@@ -50,8 +50,25 @@ const DialogContent = withStyles(theme => ({
 
 function StatusConfirmDialog() {
 	const dispatch = useDispatch();
+	const [postStatus, setPostStatus] = useState('Public');
+
+	const postStatusOptions = [
+		{
+			icon: 'public',
+			name: 'Public'
+		},
+		{
+			icon: 'lock',
+			name: 'Private'
+		}
+	];
+
+	const handleChange = (event) => {
+		setPostStatus(event.target.value);
+	};
 
 	const isStateConfirmDialog = useSelector(({ todoAppNote }) => todoAppNote.todos.isStateConfirmDialog);
+	const statusChange = useSelector(({ todoAppNote }) => todoAppNote.todos.statusChange);
 
 	const handleClose = () => {
 		dispatch(Actions.closeStatusConfirmDialog());
@@ -60,37 +77,77 @@ function StatusConfirmDialog() {
 	return (
 		<Dialog
 			open={isStateConfirmDialog}
-			// onClose={handleClose}
+			onClose={handleClose}
 			aria-labelledby="customized-dialog-title"
 			maxWidth="xs"
 			fullWidth="true"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={handleClose}>
-				Vuoi cambiare stato?
+				{!statusChange ? 'Seleziona lo stato' : 'Vuoi cambiare stato?'}
 			</DialogTitle>
 			<DialogContent dividers>
 				<Typography className="text-lg">
-					Sei sicuro di voler cambiare stato a questo post?
+					{!statusChange ? '' : 'Sei sicuro di voler cambiare stato a questo post?'}
 					{/* {userData.status == 'Deactivated' ? t('DEACTIVATE_MSG') : t('ACTIVATE_MSG')} */}
 				</Typography>
+				{
+					!statusChange &&
+					<>
+						<Select
+							className="w-full mt-6 mb-24"
+							value={postStatus}
+							onChange={handleChange}
+							>
+							{postStatusOptions.map(option => (
+								<MenuItem
+									key={option.name}
+									value={option.name}
+									className="flex items-center"
+								>
+									<ListItemIcon className="min-w-16">
+										<Icon size="small">{option.icon}</Icon>
+									</ListItemIcon>
+									<Typography variant="inherit" className="text-18 ml-6"> {option.name}</Typography>
+								</MenuItem>
+							))}
+						</Select>
+						
+					</>
+				}
 				<div>
 					<div className="flex mt-24 justify-end">
-						<Button
-							onClick={() => {
-								dispatch(Actions.okStatusConfirmDialog());
-							}}
-							variant="contained"
-							className="justify-start d-inline-block mb-20 mr-10 bg-blue-500 text-white"
-						>
-							Yes
-							{/* {loading && <CircularProgress size={20} color="secondary" />} */}
-						</Button>
+						{
+							!statusChange &&
+								<Button
+									onClick={() => {
+										dispatch(Actions.statusChange());
+									}}
+									variant="contained"
+									className="justify-start d-inline-block mb-20 mr-10 bg-blue-500 text-white"
+								>
+									Ok
+									{/* {loading && <CircularProgress size={20} color="secondary" />} */}
+								</Button>
+						}
+						{
+							statusChange &&
+								<Button
+									onClick={() => {
+										dispatch(Actions.okStatusConfirmDialog());
+									}}
+									variant="contained"
+									className="justify-center d-inline-block mb-20 mr-10 bg-blue-500 text-white"
+								>
+									Yes
+									{/* {loading && <CircularProgress size={20} color="secondary" />} */}
+								</Button>
+						}
 						<Button
 							onClick={() => {
 								dispatch(Actions.closeStatusConfirmDialog());
 							}}
 							variant="contained"
-							className="justify-start d-inline-block mb-20 bg-gray-500 text-white"
+							className="justify-center d-inline-block mb-20 bg-gray-500 text-white"
 						>
 							No
 							{/* {loading && <CircularProgress size={20} color="secondary" />} */}
