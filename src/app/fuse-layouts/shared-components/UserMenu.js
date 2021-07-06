@@ -36,7 +36,7 @@ function UserMenu(props) {
 				icon={
 					<>
 						<Button className="h-64" onClick={userMenuClick}>
-							<Avatar className="bg-blue-500" alt="user photo" src={userData?.photo}>
+							<Avatar alt="user photo" src={userData?.photo}>
 								{userData?.first_name?.split('')?.[0]}{' '}
 							</Avatar>
 
