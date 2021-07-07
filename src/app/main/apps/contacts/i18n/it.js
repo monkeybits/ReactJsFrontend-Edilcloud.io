@@ -29,6 +29,7 @@ const locale = {
 	PHONE: 'Telefono',
 	EDIT: 'Modifica',
 	DELETE: 'Cancella',
+	DEACTIVATE: 'Disattivare',
 	REACTIVATE: 'Attiva',
 	FIRST_NAME: 'Nome',
 	COMAPNY: 'Azienda',

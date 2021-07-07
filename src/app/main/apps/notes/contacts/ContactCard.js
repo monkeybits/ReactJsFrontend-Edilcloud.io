@@ -1,7 +1,11 @@
-import { Grid, Typography, Icon, Button } from '@material-ui/core';
+import { Grid, Typography, Icon, Button, Dialog, IconButton } from '@material-ui/core';
 import { SYSTEM_ROLES } from 'app/constants';
 import { getCompressFile, getHeaderToken } from 'app/services/serviceUtils';
 import React, { useEffect, useRef, useState } from 'react';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import { withStyles } from '@material-ui/core/styles';
+import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import * as notificationActions from 'app/fuse-layouts/shared-components/notification/store/actions';
 import FuseUtils from '@fuse/utils';
@@ -13,6 +17,40 @@ import loadable from '@loadable/component';
 const ImageCropper = loadable(() => import('app/main/mainProfile/ImageCropper'));
 const DeleteConfirmDialog = loadable(() => import('../../file-manager/DeleteConfirmDialog'));
 const MoreOption = loadable(() => import('./MoreOption'));
+
+const styles = theme => ({
+	root: {
+		margin: 0,
+		padding: theme.spacing(2)
+	},
+	closeButton: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+		color: theme.palette.grey[500]
+	}
+});
+
+const DialogTitle = withStyles(styles)(props => {
+	const { children, classes, onClose, ...other } = props;
+	return (
+		<MuiDialogTitle disableTypography className={classes.root} {...other}>
+			<Typography variant="h6">{children}</Typography>
+			{onClose ? (
+				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+					<CloseIcon />
+				</IconButton>
+			) : null}
+		</MuiDialogTitle>
+	);
+});
+
+const DialogContent = withStyles(theme => ({
+	root: {
+		padding: theme.spacing(2),
+		flexGrow: 1
+	}
+}))(MuiDialogContent);
 
 export default function ContactCard(props) {
 	const {
@@ -136,6 +174,9 @@ export default function ContactCard(props) {
 			getHeaderToken()
 		);
 	};
+	const handleCloseModal = () => {
+		setIsNoDataModal(false)
+	}
 	const openMenu = Boolean(anchorEl);
 	return viewCroper ? (
 		<ImageCropper image={image} viewCroper={viewCroper} onCrop={getPhoto} onHide={() => setViewCroper(false)} />
@@ -244,6 +285,33 @@ export default function ContactCard(props) {
 						)
 					}
 				</div>
+				<Dialog
+					open={isNoDataModal}
+					onClose={handleCloseModal}
+					aria-labelledby="customized-dialog-title"
+					maxWidth="xs"
+					fullWidth="true"
+				>
+					<DialogTitle id="customized-dialog-title" onClose={handleCloseModal}>
+						No Data
+					</DialogTitle>
+					<DialogContent dividers>
+						<Typography className="text-lg">
+							This user has not added {selectedOption}.
+						</Typography>
+						<div>
+							<div className="flex mt-24 justify-end">
+								<Button
+									onClick={handleCloseModal}
+									variant="contained"
+									className="justify-start d-inline-block mb-20 mr-10 bg-blue-500 text-white"
+								>
+									Ok
+								</Button>
+							</div>
+						</div>
+					</DialogContent>
+				</Dialog>
 			</div>
 		</Grid>
 	);
