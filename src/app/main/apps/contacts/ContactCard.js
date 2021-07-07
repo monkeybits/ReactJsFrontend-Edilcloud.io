@@ -131,7 +131,7 @@ export default function ContactCard(props) {
 	}
 	const onDeactivate = () => {
 		const { id, email, status } = userData;
-		const url = status === 'Waiting' ? DELETE_MEMBER_FROM_CONTACT(id) : status === 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
+		const url = (status === 'Waiting' || status === 'Refused') ? DELETE_MEMBER_FROM_CONTACT(id) : status === 'Deactivated' ? ACTIVATE_MEMBER(id) : DEACTIVATE_MEMBER(id);
 		apiCall(
 			url,
 			{},
@@ -143,7 +143,7 @@ export default function ContactCard(props) {
 			err => {
 				// console.log(err),
 			},
-			status === 'Waiting' ? METHOD.DELETE : METHOD.PUT,
+			(status === 'Waiting' || status === 'Refused') ? METHOD.DELETE : METHOD.PUT,
 			getHeaderToken()
 		);
 	};

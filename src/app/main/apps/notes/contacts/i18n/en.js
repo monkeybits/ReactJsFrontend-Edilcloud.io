@@ -30,6 +30,7 @@ const locale = {
 	EDIT: 'Edit',
 	DELETE: 'Delete',
 	REACTIVATE: 'Reactivate',
+	DEACTIVATE: 'Deactivate',
 	FIRST_NAME: 'First Name',
 	COMAPNY: 'Company',
 	STATUS: 'Status',
