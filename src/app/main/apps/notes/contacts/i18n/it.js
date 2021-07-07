@@ -30,6 +30,7 @@ const locale = {
 	EDIT: 'Modifica',
 	DELETE: 'Cancella',
 	REACTIVATE: 'Ri-attiva',
+	DEACTIVATE: 'Disattivare',
 	FIRST_NAME: 'Nome',
 	COMAPNY: 'Aziende',
 	STATUS: 'Stato',
