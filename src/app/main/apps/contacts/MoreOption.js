@@ -19,7 +19,7 @@ export default function MoreOption(props) {
 		{ name: 'EDIT', icon: 'edit', handler: props.editHandler, view: true },
 		{
 			name: props.status === 'Deactivated' ? 'REACTIVATE' : props.status === 'Approved' ? 'DEACTIVATE' : 'DELETE',
-			icon: 'delete',
+			icon: props.status === 'Deactivated' ? 'directions_run' : props.status === 'Approved' ? 'not_interested' : 'delete',
 			handler: props.deleteHandler,
 			view: props.canHaveDeleteOption
 		}

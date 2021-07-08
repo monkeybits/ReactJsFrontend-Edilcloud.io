@@ -22,7 +22,6 @@ import { ClearBrowserCacheBoundary } from 'react-clear-browser-cache';
 import * as serviceWorker from './serviceWorker';
 import './styles/custom-style.css';
 import './styles/responsive.css';
-import ErrorBoundary from './ErrorBoundary';
 // import App from 'app/App'
 const App = loadable(() => import('app/App'));
 
