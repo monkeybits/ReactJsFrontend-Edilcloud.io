@@ -90,7 +90,7 @@ function CreatePostForm({ isTask, taskId }) {
 
 	const postStatusOptions = [
 		{
-			icon: 'public',
+			icon: 'lock_open',
 			name: 'Public',
 			handler: () => {
 				setPostStatus(true);
