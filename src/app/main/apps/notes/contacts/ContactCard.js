@@ -170,7 +170,7 @@ export default function ContactCard(props) {
 			err => {
 				// console.log(err),
 			},
-			METHOD.PUT,
+			METHOD.DELETE,
 			getHeaderToken()
 		);
 	};
