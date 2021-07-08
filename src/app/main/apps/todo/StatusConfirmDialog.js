@@ -54,7 +54,7 @@ function StatusConfirmDialog() {
 
 	const postStatusOptions = [
 		{
-			icon: 'public',
+			icon: 'lock_open',
 			name: 'Public'
 		},
 		{

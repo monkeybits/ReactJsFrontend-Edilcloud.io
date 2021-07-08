@@ -671,7 +671,9 @@ export default function PostListItem({
 				}
 				subheader={
 					<div className="flex items-center text-14 font-600">
-						<Icon className="font-600 text-white text-18">public</Icon>
+						<Icon className="font-600 text-white text-18">
+							{post.is_public ? 'lock_open' : 'lock'}
+						</Icon>
 						<span className="ml-4 sm:mr-16 text-white mr-4">
 							{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}
 						</span>
