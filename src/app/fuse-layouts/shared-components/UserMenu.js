@@ -5,7 +5,6 @@ import * as authActions from 'app/auth/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { getMainProfileId, decodeDataFromToken } from 'app/services/serviceUtils';
-import * as ScrumboardActions from 'app/main/apps/scrumboard/store/actions';
 
 const TippyMenu = loadable(() => import('app/TippyMenu'));
 
@@ -105,8 +104,8 @@ function UserMenu(props) {
 										// }
 									// }
 									onClick={() => {
-										dispatch(ScrumboardActions.showBillingFormDialog());
-										setUserMenu(null);
+										dispatch(authActions.showBillingFormDialog());
+										// setUserMenu(null);
 									}}
 									role="button"
 								>
