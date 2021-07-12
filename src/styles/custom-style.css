@@ -1063,6 +1063,10 @@ textarea.MuiOutlinedInput-input {
 .MuiCheckbox-colorSecondary.Mui-checked {
     color: #376aed;
 }
+.custom-right-arrow {
+    font-size: 16px;
+    padding-left: 4px;
+}
 
 /* ********************************************************************************************
     Todo App

@@ -5,6 +5,7 @@ import * as authActions from 'app/auth/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { getMainProfileId, decodeDataFromToken } from 'app/services/serviceUtils';
+import * as ScrumboardActions from 'app/main/apps/scrumboard/store/actions';
 
 const TippyMenu = loadable(() => import('app/TippyMenu'));
 
@@ -97,17 +98,23 @@ function UserMenu(props) {
 							<>
 								<MenuItem
 									component={Link}
-									to={{
-										pathname: '/billing',
-										state: { nextPath: history.location.pathname }
+									// to={
+										// {
+										// 	pathname: '/billing',
+										// 	state: { nextPath: history.location.pathname }
+										// }
+									// }
+									onClick={() => {
+										dispatch(ScrumboardActions.showBillingFormDialog());
+										setUserMenu(null);
 									}}
-									onClick={userMenuClose}
 									role="button"
 								>
 									<ListItemIcon className="min-w-40">
 										<Icon>receipt</Icon>
 									</ListItemIcon>
-									<ListItemText primary="Billing" />
+									<ListItemText primary=" Account manager" />
+									<Icon className="custom-right-arrow">arrow_forward_ios</Icon>
 								</MenuItem>
 								{getRole() == 'o' && (
 									<MenuItem

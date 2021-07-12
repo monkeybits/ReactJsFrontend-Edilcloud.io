@@ -10,7 +10,7 @@ const TodoHeader = loadable(() => import('./TodoHeader'));
 const TodoSidebarContent = loadable(() => import('./TodoSidebarContent'));
 const TodoList = loadable(() => import('./TodoList'));
 const UserStorageChart = loadable(() => import('./UserStorageChart'));
-const BillingContent = loadable(() => import('./BillingContent'));
+// const BillingContent = loadable(() => import('./BillingContent'));
 const CompanyCreationStepper = loadable(() => import('app/main/companyCreation/CompanyCreationStepper'));
 const EditProfileStepper = loadable(() => import('app/main/editMainProfile/EditProfileStepper'));
 
@@ -46,7 +46,6 @@ function SettingApp() {
 					<>
 						{filterKey === 'edit_profile' && <EditProfileStepper />}
 						{filterKey === 'company' && <CompanyCreationStepper />}
-						{filterKey === 'billings' && <BillingContent />}
 						{filterKey === 'storage' && <UserStorageChart />}
 						{filterKey === 'notifications' && <TodoList />}
 					</>

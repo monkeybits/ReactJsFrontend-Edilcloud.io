@@ -129,7 +129,7 @@ function UpdatePlanDialog(props) {
 			companyInfo.pec !== '' &&
 			companyInfo.billing_email !== ''
 		) {
-			if(deviceType === 'ios') {
+			if(deviceType === 'ios' || deviceType === 'android') {
 				dispatch(Actions.closeUpgradePlanDialog());
 				props.setIsPlanIOSModal(true, companyInfo.customer)
 			} else {

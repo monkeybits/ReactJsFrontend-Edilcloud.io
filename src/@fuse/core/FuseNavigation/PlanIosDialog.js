@@ -4,7 +4,7 @@
 *This File is part of Company File manager
 TODO: This File is created to view view the media file 
 */
-import React from 'react';
+import React, {useEffect} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Dialog, IconButton, Typography, Button } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -66,6 +66,31 @@ const DialogActions = withStyles(theme => ({
 
 function PlanIosDialog({ isPlanModal, closePlanModal, onOk }) {
     const classes = useStyles();
+	const [deviceType, setDeviceType] = React.useState('');
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+
+		const iPad = (userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+		if (iPad !== false) {
+			setDeviceType('ios')
+		}
+	}, []);
+
 	return (
 		<Dialog
 			onClose={closePlanModal}
@@ -80,7 +105,44 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk }) {
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closePlanModal}></DialogTitle>
 			<DialogContent>
-				<div>ti stiamo per indirizzare alla pagine web dei pagamenti: esegui il pagamento dal browser e poi torna sull'app di edilcloud.</div>
+				<div>You need to update your account manager at <span>
+					{
+						deviceType === 'android' &&
+						<Button
+							color="primary"
+							className="text-blue-500 underline p-0 normal-case"
+							onClick={() => {
+								if (window.flutter_inappwebview?.callHandler) {
+									window.flutter_inappwebview
+										.callHandler('RedirectSubdomain', `https://account.edilcloud.io`)
+										.then(function (result) {
+											// console.log(JSON.stringify(result));
+										});
+								}
+							}}
+						>
+							account.edilcloud.io
+						</Button>
+					}
+					{
+						deviceType === 'ios' &&
+						<Button
+							color="primary"
+							className="text-blue-500 underline p-0 normal-case"
+							onClick={() => {
+								try {
+									if (window.webkit.messageHandlers) {
+										window.webkit.messageHandlers.copyButtonTapped.postMessage(`https://account.edilcloud.io`);
+									}
+								} catch (e) {
+									// console.log('error', e);
+								}
+							}}
+						>
+							account.edilcloud.io
+						</Button>
+					}
+				</span></div>
 			</DialogContent>
 			<DialogActions>
 				<Button autoFocus onClick={onOk} color="white" className="bg-blue-500 text-white hover:bg-blue-500">
