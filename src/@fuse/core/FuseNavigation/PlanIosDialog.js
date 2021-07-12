@@ -112,13 +112,9 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk }) {
 							color="primary"
 							className="text-blue-500 underline p-0 normal-case"
 							onClick={() => {
-								if (window.flutter_inappwebview?.callHandler) {
-									window.flutter_inappwebview
-										.callHandler('RedirectSubdomain', `https://account.edilcloud.io`)
-										.then(function (result) {
-											// console.log(JSON.stringify(result));
-										});
-								}
+								window.webkit.messageHandlers.RedirectSubdomain.postMessage(
+									JSON.stringify({ url: `https://account.edilcloud.io` })
+								);
 							}}
 						>
 							account.edilcloud.io
