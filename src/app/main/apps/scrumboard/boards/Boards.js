@@ -83,7 +83,31 @@ function Boards(props) {
 	const [notification, setNotification] = useState({title: '', body: ''});
 	const [isTokenFound, setTokenFound] = useState(false);
 	const [planCustomer, setPlanCustomer] = useState('');
+	const [deviceType, setDeviceType] = React.useState('');
 	getToken(setTokenFound);
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+
+		const iPad = (userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+		if (iPad !== false) {
+			setDeviceType('ios')
+		}
+	}, []);
 
 	onMessageListener().then(payload => {
 		console.log('payload: ', payload)
@@ -277,26 +301,44 @@ function Boards(props) {
 										onClick={e => {
 											e.preventDefault();
 											e.stopPropagation();
-											if (
-												board.subscription.status === 'trialing' ||
-												board.subscription.status === 'active'
-											) {
-												setRequest(board);
-												if (board.isApproved) {
-													setIsLoading(true);
-													// dispatch(
-													// 	FuseActions.setDefaultSettings(
-													// 		_.set({}, 'layout.config.toolbar.display', false)
-													// 	)
-													// );
-													redirectAfterGetNewToken(board.company_profile_id);
-												} else {
-													setIsShowRequests(true);
+											if(deviceType === 'ios' || deviceType === 'android') {
+												if (
+													board.subscription.status === 'active'
+												) {
 													setRequest(board);
-												}
+													if (board.isApproved) {
+														setIsLoading(true);
+														// dispatch(
+														// 	FuseActions.setDefaultSettings(
+														// 		_.set({}, 'layout.config.toolbar.display', false)
+														// 	)
+														// );
+														redirectAfterGetNewToken(board.company_profile_id);
+													} else {
+														setIsShowRequests(true);
+														setRequest(board);
+													}
+												} else {
+													getRefreshToken(board.company_profile_id)
+													dispatch(Actions.openUpgradePlanDialog(board));
+												}	
 											} else {
-												getRefreshToken(board.company_profile_id)
-												dispatch(Actions.openUpgradePlanDialog(board));
+												if (
+													board.subscription.status === 'trialing' ||
+													board.subscription.status === 'active'
+												) {
+													setRequest(board);
+													if (board.isApproved) {
+														setIsLoading(true);
+														redirectAfterGetNewToken(board.company_profile_id);
+													} else {
+														setIsShowRequests(true);
+														setRequest(board);
+													}
+												} else {
+													getRefreshToken(board.company_profile_id)
+													dispatch(Actions.openUpgradePlanDialog(board));
+												}
 											}
 										}}
 										className={clsx(
@@ -402,9 +444,6 @@ function Boards(props) {
 					closePlanModal={() => setIsPlanIOSModal(false)}
 					onOk={() => {
 						try {
-							if (window.webkit.messageHandlers) {
-								window.webkit.messageHandlers.PaymentRedirect.postMessage(`${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${planCustomer}`);
-							}
 							setIsPlanIOSModal(false)
 						} catch (e) {
 							// console.log('error', e);

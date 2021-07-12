@@ -167,7 +167,7 @@ function FuseNavigation(props) {
 			{navigation.map(_item => (
 				<>
 					{
-						deviceType === 'ios' ? (
+						deviceType === 'ios' || deviceType === 'android' ? (
 							<>
 							{
 								_item.id !== "PLAN" &&
@@ -269,9 +269,9 @@ function FuseNavigation(props) {
 							closePlanModal={() => setIsPlanIOSModal(false)}
 							onOk={() => {
 								try {
-									if (window.webkit.messageHandlers) {
-										window.webkit.messageHandlers.PaymentRedirect.postMessage(`${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${company.customer}`);
-									}
+									// if (window.webkit.messageHandlers) {
+									// 	window.webkit.messageHandlers.PaymentRedirect.postMessage(`${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${company.customer}`);
+									// }
 									setIsPlanIOSModal(false)
 								} catch (e) {
 									// console.log('error', e);

@@ -78,13 +78,6 @@ function TodoSidebarContent(props) {
 						</ListItem>
 						<ListItem
 							button
-							onClick={() => dispatch(Actions.filterByKey('billings'))}
-							className={getListItemClassName('billings')}
-						>
-							<ListItemText className={classes.listSubheader} primary="BILLINGS" disableTypography />
-						</ListItem>
-						<ListItem
-							button
 							onClick={() => dispatch(Actions.filterByKey('storage'))}
 							className={getListItemClassName('storage')}
 						>
