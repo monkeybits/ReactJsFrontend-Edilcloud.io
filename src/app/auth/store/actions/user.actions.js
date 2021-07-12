@@ -15,6 +15,8 @@ export const SET_USER_DATA = '[USER] SET DATA';
 export const SET_USER_COMPANY_DATA = '[USER] SET COMPANY DATA';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
+export const SHOW_BILLING_FORM_DIALOG = '[USER] SHOW BILLING FORM DIALOG';
+export const CLOSE_BILLING_FORM_DIALOG = '[USER] CLOSE BILLING FORM DIALOG';
 
 const authUserData = {
 	uuid: 'XgbuVEXBU5gtSKdbQRP1Zbbby1i1',
@@ -60,6 +62,18 @@ const authUserData = {
 		shortcuts: ['calendar', 'mail', 'contacts']
 	}
 };
+
+export function showBillingFormDialog() {
+	return {
+		type: SHOW_BILLING_FORM_DIALOG
+	};
+}
+
+export function closeBillingFormDialog() {
+	return {
+		type: CLOSE_BILLING_FORM_DIALOG
+	};
+}
 /**
  * Set user data from Auth0 token data
  */

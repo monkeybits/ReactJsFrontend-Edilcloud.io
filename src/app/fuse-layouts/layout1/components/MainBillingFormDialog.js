@@ -18,10 +18,10 @@ import { useTranslation } from 'react-i18next';
 import { COMPANY_DETAIL_BY_ID, USER_EDIT_COMPANY } from 'app/services/apiEndPoints';
 import { METHOD, apiCall } from 'app/services/baseUrl';
 import { getHeaderToken } from 'app/services/serviceUtils';
-import * as ChatActions from '../../chat/store/actions';
-import * as Actions from '../store/actions';
+// import * as Actions from '../store/actions';
 import { toast } from 'react-toastify';
-import axios from '../../../../services/axiosConfig';
+import axios from 'app/services/axiosConfig';
+import * as authActions from 'app/auth/store/actions';
 
 const styles = theme => ({
 	root: {
@@ -57,13 +57,13 @@ const DialogContent = withStyles(theme => ({
 	}
 }))(MuiDialogContent);
 
-function BillingFormDialog(props) {
+function MainBillingFormDialog(props) {
 	const { t } = useTranslation('setting_app');
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
 	const [formValidate, setFormValidate] = useState(true);
-	const showBillingFormDialog = useSelector(({ scrumboardApp }) => scrumboardApp.board.showBillingFormDialog);
-	const upgradePlanDetail = useSelector(({ scrumboardApp }) => scrumboardApp.board.upgradePlanDetail);
+	const showBillingFormDialog = useSelector(({ auth }) => auth.user.showBillingFormDialog);
+	const company = useSelector(({ chatApp }) => chatApp.company);
 	const [companyInfo, setCompanyInfo] = useState({});
 	const [deviceType, setDeviceType] = React.useState('');
 	const [isSaveSuccess, setIsSaveSuccess] = React.useState(true);
@@ -92,9 +92,9 @@ function BillingFormDialog(props) {
 	}, []);
 
 	useEffect(() => {
-		if('id' in upgradePlanDetail) {
+		if('id' in company) {
 			apiCall(
-				COMPANY_DETAIL_BY_ID(upgradePlanDetail.id),
+				COMPANY_DETAIL_BY_ID(company.id),
 				{},
 				company => {
 					setCompanyInfo(company)
@@ -106,7 +106,7 @@ function BillingFormDialog(props) {
 				getHeaderToken()
 			);
 		}
-	}, [upgradePlanDetail]);
+	}, [company]);
 
 	const { form, handleChange, resetForm, setForm } = useForm({
 		name: '',
@@ -157,7 +157,7 @@ function BillingFormDialog(props) {
 	}, [companyInfo]);
 
 	const handleClose = () => {
-		dispatch(Actions.closeBillingFormDialog());
+		dispatch(authActions.closeBillingFormDialog());
 	};
 
 	const onSave = () => {
@@ -185,15 +185,14 @@ function BillingFormDialog(props) {
 					setLoading(false);
 					toast.success('Successfully saved!');
 					setIsSaveSuccess(false)
-					// if(res.status === 200) {
-					// 	if(deviceType === 'ios') {
-					// 		dispatch(Actions.closeUpgradePlanDialog());
-					// 		dispatch(Actions.closeBillingFormDialog());
-					// 		props.setIsPlanIOSModal(true, companyInfo.customer)
-					// 	} else {
-					// 		window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${companyInfo?.customer}`;
-					// 	}
-					// }
+					if(res.status === 200) {
+						if(deviceType === 'ios') {
+							dispatch(authActions.closeBillingFormDialog());
+							props.setIsPlanIOSModal(true, companyInfo.customer)
+						} else {
+							window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${companyInfo?.customer}`;
+						}
+					}
 				}
 			})
 			.catch(error => {
@@ -201,16 +200,6 @@ function BillingFormDialog(props) {
 				toast.warn('Something went wrong.');
 			});
 	};
-
-	const onChoosePlan = () => {
-		if(deviceType === 'ios') {
-			dispatch(Actions.closeUpgradePlanDialog());
-			dispatch(Actions.closeBillingFormDialog());
-			props.setIsPlanIOSModal(true, companyInfo.customer)
-		} else {
-			window.location = `${process.env.REACT_APP_BASE_URL}/api/frontend/payments/customer-portal?customer_id=${companyInfo?.customer}`;
-		}
-	}
 
 	return (
 		<Dialog
@@ -225,7 +214,7 @@ function BillingFormDialog(props) {
 				<IconButton aria-label="close" className="absolute right-0 top-0" onClick={handleClose}>
 					<CloseIcon />
 				</IconButton>
-				<form name="billingForm" className="flex flex-col justify-center w-md">
+				<form name="billingForm" className="flex flex-col justify-center w-md m-auto">
 					<Typography className="text-black text-24 mb-16">Billing</Typography>
 					<TextField
 						// error={error.name.length}
@@ -354,7 +343,7 @@ function BillingFormDialog(props) {
 							{t('SAVE')}
 							{loading && <CircularProgress size={15} color="white" className="ml-6" />}
 						</Button>
-						<Button
+						{/* <Button
 							onClick={onChoosePlan}
 							variant="contained"
 							color="bg-blue-500"
@@ -365,7 +354,7 @@ function BillingFormDialog(props) {
 						>
 							{t('CHOOSE_PLAN')}
 							{loading && <CircularProgress size={15} color="white" className="ml-6" />}
-						</Button>						
+						</Button> */}
 					</div>
 				</form>
 			</DialogContent>
@@ -373,4 +362,4 @@ function BillingFormDialog(props) {
 	);
 }
 
-export default BillingFormDialog;
+export default MainBillingFormDialog;
