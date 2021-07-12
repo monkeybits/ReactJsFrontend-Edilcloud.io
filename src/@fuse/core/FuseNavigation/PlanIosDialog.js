@@ -112,9 +112,9 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk }) {
 							color="primary"
 							className="text-blue-500 underline p-0 normal-case"
 							onClick={() => {
-								window.webkit.messageHandlers.RedirectSubdomain.postMessage(
-									JSON.stringify({ url: `https://account.edilcloud.io` })
-								);
+								if (window.RedirectSubdomain?.postMessage) {
+									window.RedirectSubdomain.postMessage(`https://account.edilcloud.io`);
+								}
 							}}
 						>
 							account.edilcloud.io
