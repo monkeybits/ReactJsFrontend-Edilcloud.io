@@ -127,26 +127,26 @@ const navigationConfig = [
 	// 		}
 	// 	]
 	// },
-	{
-		id: 'PLAN',
-		title: 'PLAN',
-		translate: 'PLAN',
-		type: 'group',
-		children: [
-			{
-				checkRole: true,
-				roles: ['d', 'o'],
-				id: '',
-				title: 'Plan',
-				translate: 'PLAN',
-				type: 'item',
-				icon: 'payment',
-				isOutsideLink: true,
-				tag: 'a',
-				url: 'api/frontend/payments/customer-portal/?customer_id='
-			}
-		]
-	},
+	// {
+	// 	id: 'PLAN',
+	// 	title: 'PLAN',
+	// 	translate: 'PLAN',
+	// 	type: 'group',
+	// 	children: [
+	// 		{
+	// 			checkRole: true,
+	// 			roles: ['d', 'o'],
+	// 			id: '',
+	// 			title: 'Plan',
+	// 			translate: 'PLAN',
+	// 			type: 'item',
+	// 			icon: 'payment',
+	// 			isOutsideLink: true,
+	// 			tag: 'a',
+	// 			url: 'api/frontend/payments/customer-portal/?customer_id='
+	// 		}
+	// 	]
+	// },
 	{
 		id: 'LOGOUT',
 		title: 'LOGOUT',
