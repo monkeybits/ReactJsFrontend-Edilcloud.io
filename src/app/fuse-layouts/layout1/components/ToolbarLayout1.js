@@ -21,6 +21,7 @@ const NotificationToggleButton = loadable(() =>
 const UserMenu = loadable(() => import('app/fuse-layouts/shared-components/UserMenu'));
 const NotificationWebSocket = loadable(() => import('app/NotificationWebSocket'));
 const LanguageSwitcher = loadable(() => import('../../shared-components/LanguageSwitcher'));
+const MainBillingFormDialog = loadable(() => import('./MainBillingFormDialog'));
 
 const useStyles = makeStyles(theme => ({
 	separator: {
@@ -130,6 +131,14 @@ function ToolbarLayout1(props) {
 
 						<ChatPanelToggleButton totalCount={totalCount} />
 					</Hidden>
+
+					<MainBillingFormDialog
+						// {...props}
+						// setIsPlanIOSModal={(res, customer) => {
+						// 	setIsPlanIOSModal(res)
+						// 	setPlanCustomer(customer)
+						// }}
+					/>
 				</Toolbar>
 			</AppBar>
 		</ThemeProvider>

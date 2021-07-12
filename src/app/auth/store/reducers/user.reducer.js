@@ -7,7 +7,8 @@ const initialState = {
 		photoURL: 'assets/images/avatars/Velazquez.jpg',
 		email: 'johndoe@withinpixels.com',
 		shortcuts: ['calendar', 'mail', 'contacts', 'todo']
-	}
+	},
+	showBillingFormDialog: false
 };
 
 const user = (state = initialState, action) => {
@@ -30,6 +31,18 @@ const user = (state = initialState, action) => {
 		case Actions.REMOVE_USER_DATA: {
 			return {
 				...initialState
+			};
+		}
+		case Actions.SHOW_BILLING_FORM_DIALOG: {
+			return {
+				...state,
+				showBillingFormDialog: true
+			};
+		}
+		case Actions.CLOSE_BILLING_FORM_DIALOG: {
+			return {
+				...state,
+				showBillingFormDialog: false
 			};
 		}
 		case Actions.USER_LOGGED_OUT: {
