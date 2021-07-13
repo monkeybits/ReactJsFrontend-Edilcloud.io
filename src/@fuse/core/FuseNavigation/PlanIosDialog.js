@@ -6,7 +6,7 @@ TODO: This File is created to view view the media file
 */
 import React, {useEffect} from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Dialog, IconButton, Typography, Button } from '@material-ui/core';
+import { Dialog, IconButton, Typography, Button, Link } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
@@ -137,6 +137,10 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk }) {
 						>
 							account.edilcloud.io
 						</Button>
+					}
+					{
+						deviceType !== 'ios' && deviceType !== 'android' &&
+						<Link className="text-blue-500 underline p-0 normal-case custom-link-popup" target="_blank" href='https://account.edilcloud.io'>account.edilcloud.io</Link>
 					}
 				</span></div>
 			</DialogContent>
