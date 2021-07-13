@@ -40,6 +40,7 @@ function ToolbarLayout1(props) {
 	const count = useSelector(({ notificationPanel }) => notificationPanel.count);
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
 	const showPlanIosDialog = useSelector(({ auth }) => auth.user.showPlanIosDialog);
+	const planIosFrom = useSelector(({ auth }) => auth.user.planIosFrom);
 	const [totalCount, setTotalCount] = useState(0);
 	const location = useLocation();
 	const dispatch = useDispatch();
@@ -153,6 +154,7 @@ function ToolbarLayout1(props) {
 								// console.log('error', e);
 							}
 						}}
+						from={planIosFrom}
 					/>
 				</Toolbar>
 			</AppBar>

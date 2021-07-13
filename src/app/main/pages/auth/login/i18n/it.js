@@ -1,7 +1,7 @@
 const locale = {
 	APP_HEADING: 'Il cantiere edile in tempo reale',
 	APP_SUBHEADER: 'Collabora con i tuoi dipendenti e con le altre aziende, tieni traccia di tutto.',
-	OR_SIGN_IN_WITH_EMAIL: 'Oppure fai login con email',
+	OR_SIGN_IN_WITH_EMAIL: 'Fai login con email',
 	USERNAME_OR_EMAIL: 'Nome utente o Email',
 	PASSWORD: 'Password',
 	FORGOT_PASSWORD: 'Hai dimenticato la password?',
