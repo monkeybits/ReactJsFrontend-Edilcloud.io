@@ -101,7 +101,7 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk }) {
             classes={{
                 container: 'popup-plan-container'
             }}
-			className="popup-root"
+			// className="popup-root"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closePlanModal}></DialogTitle>
 			<DialogContent>

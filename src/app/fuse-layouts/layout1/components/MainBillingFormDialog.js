@@ -214,7 +214,7 @@ function MainBillingFormDialog(props) {
 				<IconButton aria-label="close" className="absolute right-0 top-0" onClick={handleClose}>
 					<CloseIcon />
 				</IconButton>
-				<form name="billingForm" className="flex flex-col justify-center w-md m-auto">
+				<form name="billingForm" className="flex flex-col justify-center w-full m-auto">
 					<Typography className="text-black text-24 mb-16">Billing</Typography>
 					<TextField
 						// error={error.name.length}
