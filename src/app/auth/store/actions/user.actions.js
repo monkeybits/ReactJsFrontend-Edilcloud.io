@@ -77,9 +77,10 @@ export function closeBillingFormDialog() {
 	};
 }
 
-export function showPlanIosDialog() {
+export function showPlanIosDialog(from = '') {
 	return {
-		type: SHOW_PLAN_IOS_DIALOG
+		type: SHOW_PLAN_IOS_DIALOG,
+		from
 	};
 }
 

@@ -302,7 +302,8 @@ function Boards(props) {
 											e.preventDefault();
 											e.stopPropagation();
 											if (
-												board.subscription.status === 'active'
+												board.subscription.status === 'active' ||
+												board.subscription.status === 'trialing'
 											) {
 												setRequest(board);
 												if (board.isApproved) {
@@ -313,8 +314,6 @@ function Boards(props) {
 													setRequest(board);
 												}
 											} else {
-												// getRefreshToken(board.company_profile_id)
-												// dispatch(Actions.openUpgradePlanDialog(board));
 												setIsPlanIOSModal(true)
 											}
 										}}

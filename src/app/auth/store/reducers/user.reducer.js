@@ -9,7 +9,8 @@ const initialState = {
 		shortcuts: ['calendar', 'mail', 'contacts', 'todo']
 	},
 	showBillingFormDialog: false,
-	showPlanIosDialog: false
+	showPlanIosDialog: false,
+	planIosFrom: ''
 };
 
 const user = (state = initialState, action) => {
@@ -49,13 +50,15 @@ const user = (state = initialState, action) => {
 		case Actions.SHOW_PLAN_IOS_DIALOG: {
 			return {
 				...state,
-				showPlanIosDialog: true
+				showPlanIosDialog: true,
+				planIosFrom: action.from
 			};
 		}
 		case Actions.CLOSE_PLAN_IOS_DIALOG: {
 			return {
 				...state,
-				showPlanIosDialog: false
+				showPlanIosDialog: false,
+				planIosFrom: ''
 			};
 		}
 		case Actions.USER_LOGGED_OUT: {
