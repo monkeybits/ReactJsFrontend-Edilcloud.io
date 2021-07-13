@@ -309,6 +309,7 @@ function NotificationPanel(props) {
 									{!!readNotifications?.length &&
 										readNotifications.map((activity, index) => {
 											const { notification } = activity;
+											console.log('notification??????????????????????', notification)
 											return (
 												<SwipeableListItem
 													threshold={0.3}
@@ -346,7 +347,7 @@ function NotificationPanel(props) {
 														onClick={(event) => onClickReadNotification(
 															event,
 															activity,
-															notification.body.url.replace('https://localhost:3000', ''))
+															'url' in notification.body && notification.body.url.replace('https://localhost:3000', ''))
 														}
 													>
 														<Avatar
