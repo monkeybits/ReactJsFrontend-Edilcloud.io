@@ -1067,6 +1067,10 @@ textarea.MuiOutlinedInput-input {
     font-size: 16px;
     padding-left: 4px;
 }
+.custom-link-popup {
+    color: #376aed !important;
+    text-decoration: underline !important;
+}
 
 /* ********************************************************************************************
     Todo App

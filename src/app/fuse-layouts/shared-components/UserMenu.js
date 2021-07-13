@@ -121,19 +121,8 @@ function UserMenu(props) {
 							<>
 								<MenuItem
 									component={Link}
-									// to={
-										// {
-										// 	pathname: '/billing',
-										// 	state: { nextPath: history.location.pathname }
-										// }
-									// }
 									onClick={() => {
-										if(deviceType === 'ios' || deviceType === 'android') {
-											dispatch(authActions.showPlanIosDialog());
-										} else {
-											dispatch(authActions.showBillingFormDialog());
-										}
-										// setUserMenu(null);
+										dispatch(authActions.showPlanIosDialog());
 									}}
 									role="button"
 								>
