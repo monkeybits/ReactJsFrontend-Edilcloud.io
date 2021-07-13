@@ -25,8 +25,6 @@ import 'tippy.js/themes/light-border.css';
 const TippyMenu = loadable(() => import('app/TippyMenu'));
 const TermsModal = loadable(() => import('../login/TermsModal'));
 const JWTRegisterTab = loadable(() => import('app/main/register/tabs/JWTRegisterTab'));
-const FacebookLoginComponent = loadable(() => import('../login/FacebookLoginComponent'));
-const GoogleLoginComponent = loadable(() => import('../login/GoogleLoginComponent'));
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -132,45 +130,6 @@ function RegisterPage() {
 								<Typography variant="subtitle1" className="text-muted text-center mb-40">
 									{t('APP_SUBHEADER')}
 								</Typography>
-								{
-									deviceType !== 'ios' &&
-									<>
-										<Grid container spacing={2}>
-											<Grid item xs={6}>
-												<FacebookLoginComponent isRegister />
-												{/* <Button
-													variant="outlined"
-													color="primary"
-													size="large"
-													className="border-1 normal-case w-full"
-												>
-													<img
-														src="assets/images/social-icons/facebook.png"
-														className="h-20 mr-8"
-														alt="Facebook"
-													/>
-													Facebook
-												</Button> */}
-											</Grid>
-											<Grid item xs={6}>
-												<GoogleLoginComponent isRegister />
-												{/* <Button
-													variant="outlined"
-													color="primary"
-													size="large"
-													className="border-1 normal-case w-full"
-												>
-													<img
-														src="assets/images/social-icons/google.png"
-														className="h-20 mr-8"
-														alt="Google"
-													/>
-													Google
-												</Button> */}
-											</Grid>
-										</Grid>
-									</>
-								}
 
 								<div className="my-28 flex items-center justify-center or-container">
 									<Divider className="w-32" />

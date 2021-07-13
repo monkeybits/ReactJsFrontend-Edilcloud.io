@@ -22,8 +22,6 @@ import * as MainActions from 'app/store/actions';
 import 'tippy.js/themes/light-border.css';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
-const FacebookLoginComponent = loadable(() => import('./FacebookLoginComponent'));
-const GoogleLoginComponent = loadable(() => import('./GoogleLoginComponent'));
 const TippyMenu = loadable(() => import('app/TippyMenu'));
 const TermsModal = loadable(() => import('./TermsModal'));
 const JWTLoginTab = loadable(() => import('app/main/login/tabs/JWTLoginTab'));
@@ -140,45 +138,6 @@ function LoginPage() {
 								<Typography variant="subtitle1" className="text-muted text-center mb-40">
 									{t('APP_SUBHEADER')}
 								</Typography>
-								{
-									deviceType !== 'ios' &&
-									<>
-										<Grid container spacing={2}>
-											<Grid item xs={6}>
-												<FacebookLoginComponent />
-												{/* <Button
-													variant="outlined"
-													color="primary"
-													size="large"
-													className="border-1 normal-case w-full"
-												>
-													<img
-														src="assets/images/social-icons/facebook.png"
-														className="h-20 mr-8"
-														alt="Facebook"
-													/>
-													Facebook
-												</Button> */}
-											</Grid>
-											<Grid item xs={6}>
-												<GoogleLoginComponent />
-												{/* <Button
-													variant="outlined"
-													color="primary"
-													size="large"
-													className="border-1 normal-case w-full"
-												>
-													<img
-														src="assets/images/social-icons/google.png"
-														className="h-20 mr-8"
-														alt="Google"
-													/>
-													Google
-												</Button> */}
-											</Grid>
-										</Grid>
-									</>
-								}
 
 								<div className="my-28 flex items-center justify-center or-container">
 									<Divider className="w-32" />

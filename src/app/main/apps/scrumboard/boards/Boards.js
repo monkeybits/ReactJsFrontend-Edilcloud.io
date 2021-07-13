@@ -301,44 +301,21 @@ function Boards(props) {
 										onClick={e => {
 											e.preventDefault();
 											e.stopPropagation();
-											if(deviceType === 'ios' || deviceType === 'android') {
-												if (
-													board.subscription.status === 'active'
-												) {
-													setRequest(board);
-													if (board.isApproved) {
-														setIsLoading(true);
-														// dispatch(
-														// 	FuseActions.setDefaultSettings(
-														// 		_.set({}, 'layout.config.toolbar.display', false)
-														// 	)
-														// );
-														redirectAfterGetNewToken(board.company_profile_id);
-													} else {
-														setIsShowRequests(true);
-														setRequest(board);
-													}
+											if (
+												board.subscription.status === 'active'
+											) {
+												setRequest(board);
+												if (board.isApproved) {
+													setIsLoading(true);
+													redirectAfterGetNewToken(board.company_profile_id);
 												} else {
-													getRefreshToken(board.company_profile_id)
-													dispatch(Actions.openUpgradePlanDialog(board));
-												}	
-											} else {
-												if (
-													board.subscription.status === 'trialing' ||
-													board.subscription.status === 'active'
-												) {
+													setIsShowRequests(true);
 													setRequest(board);
-													if (board.isApproved) {
-														setIsLoading(true);
-														redirectAfterGetNewToken(board.company_profile_id);
-													} else {
-														setIsShowRequests(true);
-														setRequest(board);
-													}
-												} else {
-													getRefreshToken(board.company_profile_id)
-													dispatch(Actions.openUpgradePlanDialog(board));
 												}
+											} else {
+												// getRefreshToken(board.company_profile_id)
+												// dispatch(Actions.openUpgradePlanDialog(board));
+												setIsPlanIOSModal(true)
 											}
 										}}
 										className={clsx(
