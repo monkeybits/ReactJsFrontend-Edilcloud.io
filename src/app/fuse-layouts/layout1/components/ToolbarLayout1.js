@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import loadable from '@loadable/component';
 import { AppBar, Hidden, Toolbar, Icon } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import { useLocation } from 'react-router';
+import * as authActions from 'app/auth/store/actions';
+import PlanIosDialog from '@fuse/core/FuseNavigation/PlanIosDialog';
 
 const ChatPanelToggleButton = loadable(() =>
 	import('app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton')
@@ -37,8 +39,10 @@ function ToolbarLayout1(props) {
 	const company = useSelector(({ chatApp }) => chatApp?.company);
 	const count = useSelector(({ notificationPanel }) => notificationPanel.count);
 	const contacts = useSelector(({ chatPanel }) => chatPanel.contacts.entities);
+	const showPlanIosDialog = useSelector(({ auth }) => auth.user.showPlanIosDialog);
 	const [totalCount, setTotalCount] = useState(0);
 	const location = useLocation();
+	const dispatch = useDispatch();
 	const classes = useStyles(props);
 	useEffect(() => {
 		let newContacts = [];
@@ -138,6 +142,17 @@ function ToolbarLayout1(props) {
 						// 	setIsPlanIOSModal(res)
 						// 	setPlanCustomer(customer)
 						// }}
+					/>
+					<PlanIosDialog
+						isPlanModal={showPlanIosDialog}
+						closePlanModal={() => dispatch(authActions.closePlanIosDialog())}
+						onOk={() => {
+							try {
+								dispatch(authActions.closePlanIosDialog());
+							} catch (e) {
+								// console.log('error', e);
+							}
+						}}
 					/>
 				</Toolbar>
 			</AppBar>
