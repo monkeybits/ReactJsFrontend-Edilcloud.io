@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import loadable from '@loadable/component';
 import { Avatar, Button, Icon, ListItemIcon, ListItemText, MenuItem, Typography } from '@material-ui/core';
 import * as authActions from 'app/auth/store/actions';
@@ -18,10 +18,34 @@ function UserMenu(props) {
 	const mainProfileId = getMainProfileId();
 	const [userMenu, setUserMenu] = useState(null);
 	const [userId, setUserId] = useState(null);
+	const [deviceType, setDeviceType] = React.useState('');
 	const userData = user?.data?.user;
 	const userMenuClick = event => {
 		setUserMenu(event.currentTarget);
 	};
+
+	useEffect(() => {
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			setDeviceType('window phone')
+		}
+
+		if (/android/i.test(userAgent)) {
+			setDeviceType('android')
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			setDeviceType('ios')
+		}
+
+		const iPad = (userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+		if (iPad !== false) {
+			setDeviceType('ios')
+		}
+	}, []);
 
 	const userMenuClose = () => {
 		setUserMenu(null);
@@ -104,7 +128,11 @@ function UserMenu(props) {
 										// }
 									// }
 									onClick={() => {
-										dispatch(authActions.showBillingFormDialog());
+										if(deviceType === 'ios' || deviceType === 'android') {
+											dispatch(authActions.showPlanIosDialog());
+										} else {
+											dispatch(authActions.showBillingFormDialog());
+										}
 										// setUserMenu(null);
 									}}
 									role="button"

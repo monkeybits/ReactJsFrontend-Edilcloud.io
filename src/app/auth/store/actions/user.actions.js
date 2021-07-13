@@ -17,6 +17,8 @@ export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
 export const SHOW_BILLING_FORM_DIALOG = '[USER] SHOW BILLING FORM DIALOG';
 export const CLOSE_BILLING_FORM_DIALOG = '[USER] CLOSE BILLING FORM DIALOG';
+export const SHOW_PLAN_IOS_DIALOG = '[USER] SHOW PLAN IOS DIALOG';
+export const CLOSE_PLAN_IOS_DIALOG = '[USER] CLOSE PLAN IOS DIALOG';
 
 const authUserData = {
 	uuid: 'XgbuVEXBU5gtSKdbQRP1Zbbby1i1',
@@ -72,6 +74,18 @@ export function showBillingFormDialog() {
 export function closeBillingFormDialog() {
 	return {
 		type: CLOSE_BILLING_FORM_DIALOG
+	};
+}
+
+export function showPlanIosDialog() {
+	return {
+		type: SHOW_PLAN_IOS_DIALOG
+	};
+}
+
+export function closePlanIosDialog() {
+	return {
+		type: CLOSE_PLAN_IOS_DIALOG
 	};
 }
 /**

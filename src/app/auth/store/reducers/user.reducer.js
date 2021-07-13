@@ -8,7 +8,8 @@ const initialState = {
 		email: 'johndoe@withinpixels.com',
 		shortcuts: ['calendar', 'mail', 'contacts', 'todo']
 	},
-	showBillingFormDialog: false
+	showBillingFormDialog: false,
+	showPlanIosDialog: false
 };
 
 const user = (state = initialState, action) => {
@@ -43,6 +44,18 @@ const user = (state = initialState, action) => {
 			return {
 				...state,
 				showBillingFormDialog: false
+			};
+		}
+		case Actions.SHOW_PLAN_IOS_DIALOG: {
+			return {
+				...state,
+				showPlanIosDialog: true
+			};
+		}
+		case Actions.CLOSE_PLAN_IOS_DIALOG: {
+			return {
+				...state,
+				showPlanIosDialog: false
 			};
 		}
 		case Actions.USER_LOGGED_OUT: {
