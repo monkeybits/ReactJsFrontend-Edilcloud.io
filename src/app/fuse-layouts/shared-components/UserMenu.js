@@ -122,7 +122,7 @@ function UserMenu(props) {
 								<MenuItem
 									component={Link}
 									onClick={() => {
-										dispatch(authActions.showPlanIosDialog());
+										dispatch(authActions.showPlanIosDialog('menu'));
 									}}
 									role="button"
 								>

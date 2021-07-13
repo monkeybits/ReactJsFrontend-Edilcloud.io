@@ -64,7 +64,7 @@ const DialogActions = withStyles(theme => ({
 	}
 }))(MuiDialogActions);
 
-function PlanIosDialog({ isPlanModal, closePlanModal, onOk }) {
+function PlanIosDialog({ isPlanModal, closePlanModal, onOk, from = '' }) {
     const classes = useStyles();
 	const [deviceType, setDeviceType] = React.useState('');
 
@@ -105,7 +105,7 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk }) {
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closePlanModal}></DialogTitle>
 			<DialogContent>
-				<div>You need to update your account manager at <span>
+				<div>{from === 'menu' ? 'You can update your account manager on ' : 'You need to update your account manager at '}<span>
 					{
 						deviceType === 'android' &&
 						<Button
