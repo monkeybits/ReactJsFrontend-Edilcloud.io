@@ -314,17 +314,14 @@ function TodoListItem(props) {
 				className="flex flex-col bordergrey overflow-inherit mb-6"
 				onClick={e => {
 					dispatch(Actions.closeDrawingContent());
-					// if (getRole() == 'o' || getRole() == 'd') {
 					e.preventDefault();
 					e.stopPropagation();
 					dispatch(Actions.closeTimelineDialog());
 					dispatch(Actions.openTaskContent(props.todo));
 					props.setTodoId(props.todo.id);
 					dispatch(ContactActions.getApprovedContacts(props.todo.project.id));
-					// }
 				}}
 			>
-				{/* card body */}
 				<div
 					className="flex flex-shrink-0 items-center justify-between px-24 h-64 rounded-t"
 					style={{
@@ -358,61 +355,63 @@ function TodoListItem(props) {
 								>
 									<Icon>attach_file</Icon>
 								</IconButton>
-								<TippyMenu
-									icon={
-										<>
-											<IconButton
-												// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
-												aria-haspopup="true"
-												// onClick={handleMoreMenuClick}
-												className="text-white opacity-60"
-											>
-												<Icon>more_vert</Icon>
-											</IconButton>
-										</>
-									}
-									outsideClick
-								>
-									<MenuItem
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											if (props.todo.assigned_company) {
-												dispatch(Actions.openAddActivityTodoDialog(props.todo));
-											}
-										}}
+								{props.todo.assigned_company?.id === company.id && (
+									<TippyMenu
+										icon={
+											<>
+												<IconButton
+													// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+													aria-haspopup="true"
+													// onClick={handleMoreMenuClick}
+													className="text-white opacity-60"
+												>
+													<Icon>more_vert</Icon>
+												</IconButton>
+											</>
+										}
+										outsideClick
 									>
-										<Button>
-											<Icon className="mr-10">add_circle_outline</Icon>
-											SOTTOFASE
-										</Button>
-									</MenuItem>
-									<MenuItem
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											dispatch(Actions.editTaskTodoDialog(props.todo));
-										}}
-									>
-										<Button>
-											<Icon className="mr-10">edit</Icon>
-											Edit
-										</Button>
-									</MenuItem>
-									<MenuItem
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
-											// deleteTaskOfProject(props.todo);
-										}}
-									>
-										<Button>
-											<Icon className="mr-10">delete</Icon>
-											Delete
-										</Button>
-									</MenuItem>
-								</TippyMenu>
+										<MenuItem
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												if (props.todo.assigned_company) {
+													dispatch(Actions.openAddActivityTodoDialog(props.todo));
+												}
+											}}
+										>
+											<Button>
+												<Icon className="mr-10">add_circle_outline</Icon>
+												SOTTOFASE
+											</Button>
+										</MenuItem>
+										<MenuItem
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												dispatch(Actions.editTaskTodoDialog(props.todo));
+											}}
+										>
+											<Button>
+												<Icon className="mr-10">edit</Icon>
+												Edit
+											</Button>
+										</MenuItem>
+										<MenuItem
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
+												// deleteTaskOfProject(props.todo);
+											}}
+										>
+											<Button>
+												<Icon className="mr-10">delete</Icon>
+												Delete
+											</Button>
+										</MenuItem>
+									</TippyMenu>
+								)}
 							</div>
 						</>
 					) : getRole() == 'd' || getRole() == 'o' ? (
@@ -464,9 +463,7 @@ function TodoListItem(props) {
 									icon={
 										<>
 											<IconButton
-												// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
 												aria-haspopup="true"
-												// onClick={handleMoreMenuClick}
 												className="text-white opacity-60"
 											>
 												<Icon>more_vert</Icon>
@@ -475,20 +472,6 @@ function TodoListItem(props) {
 									}
 									outsideClick
 								>
-									{/* <MenuItem
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											if (props.todo.assigned_company) {
-												dispatch(Actions.openAddActivityTodoDialog(props.todo));
-											}
-										}}
-									>
-										<Button>
-											<Icon className="mr-10">add_circle_outline</Icon>
-											SOTTOFASE
-										</Button>
-									</MenuItem> */}
 									<MenuItem
 										onClick={ev => {
 											ev.preventDefault();
@@ -501,19 +484,6 @@ function TodoListItem(props) {
 											Edit
 										</Button>
 									</MenuItem>
-									{/* <MenuItem
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
-											// deleteTaskOfProject(props.todo);
-										}}
-									>
-										<Button>
-											<Icon className="mr-10">delete</Icon>
-											Delete
-										</Button>
-									</MenuItem> */}
 								</TippyMenu>
 						</>
 					) : (
@@ -532,20 +502,14 @@ function TodoListItem(props) {
 							moment().diff(moment(props.todo.date_end)) > 0 ? (
 								<>
 									<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
-										{/* <Icon className="text-16">access_time</Icon> */}
-										{/* <span className="mx-4"> */}
 										{t('START')} {moment(props.todo.date_start).format('MMM Do YY')}
-										{/* </span> */}
 									</div>
 									<div
 										className={clsx(
 											'flex items-center px-8 py-4 rounded bg-red-500 text-white font-size-12 ml-12'
 										)}
 									>
-										{/* <Icon className="text-16">access_time</Icon> */}
-										{/* <span className="mx-4"> */}
 										{t('ENDS')} {moment(props.todo.date_end).format('MMM Do YY')}
-										{/* </span> */}
 									</div>
 								</>
 							) : (
@@ -555,40 +519,28 @@ function TodoListItem(props) {
 											'flex items-center px-8 py-4 bg-green-500 rounded text-white font-size-12'
 										)}
 									>
-										{/* <Icon className="text-16">access_time</Icon> */}
-										{/* <span className="mx-4"> */}
 										{t('START')} {moment(props.todo.date_start).format('MMM Do YY')}
-										{/* </span> */}
 									</div>
 									<div
 										className={clsx(
 											'flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12'
 										)}
 									>
-										{/* <Icon className="text-16">access_time</Icon> */}
-										{/* <span className="mx-4"> */}
 										{t('ENDS')} {moment(props.todo.date_end).format('MMM Do YY')}
-										{/* </span> */}
 									</div>
 								</>
 							)
 						) : (
 							<>
 								<div className={clsx('flex items-center px-8 py-4 rounded font-size-12')}>
-									{/* <Icon className="text-16">access_time</Icon> */}
-									{/* <span className="mx-4"> */}
 									{t('START')} {moment(props.todo.date_start).format('MMM Do YY')}
-									{/* </span> */}
 								</div>
 								<div
 									className={clsx(
 										'flex items-center px-8 py-4 bg-custom-light-grey rounded font-size-12 ml-12'
 									)}
 								>
-									{/* <Icon className="text-16">access_time</Icon> */}
-									{/* <span className="mx-4"> */}
 									{t('ENDS')} {moment(props.todo.date_end).format('MMM Do YY')}
-									{/* </span> */}
 								</div>
 							</>
 						)}
@@ -605,38 +557,7 @@ function TodoListItem(props) {
 					{props.todo.assigned_company?.id == company.id && getRole() != 'w' && (
 						<div className="flex items-center justify-center mt-8">
 							<div>
-								{/* <Tooltip
-											title="There is a issue with some tree are not clean on site"
-											placement="top"
-										>
-											<IconButton
-												onClick={e => {
-													e.stopPropagation();
-													e.preventDefault();
-												}}
-											>
-												<Icon>info_outlined</Icon>
-											</IconButton>
-										</Tooltip> */}
 							</div>
-							{/* <div className="custom-outlined-btn"> */}
-							{/* <Button
-											variant="outlined"
-											color="primary"
-											className={classes.button}
-											startIcon={<PlaylistAddOutlinedIcon />}
-											onClick={ev => {
-												ev.preventDefault();
-												ev.stopPropagation();
-												if (props.todo.assigned_company) {
-													dispatch(Actions.openAddActivityTodoDialog(props.todo));
-												}
-											}}
-										>
-											Add
-										</Button> */}
-
-							{/* </div> */}
 						</div>
 					)}
 				</CardContent>
@@ -714,8 +635,7 @@ function TodoListItem(props) {
 					color="secondary"
 				/>
 			</Card>
-			{/* <Collapse in={open} timeout="auto" unmountOnExit> */}
-			{props.todo.assigned_company?.id == company.id && (
+			{/* {props.todo.assigned_company?.id === company.id && ( */}
 				<List className="p-0">
 					<FuseAnimateGroup
 						enter={{
@@ -727,12 +647,7 @@ function TodoListItem(props) {
 							_.orderBy(
 								taskDetail,
 								['id'],
-								// orderBy == 'date_start'
-								// 	? ['datetime_start']
-								// 	: orderBy == 'date_end'
-								// 	? ['datetime_end']
-								// 	: [orderBy],
-								'asc' //	[orderDescending ? 'desc' : 'asc']
+								'asc'
 							).map(todo => (
 								<TodoActivityListItem
 									setTodoId={props.setTodoId}
@@ -744,8 +659,7 @@ function TodoListItem(props) {
 							))}
 					</FuseAnimateGroup>
 				</List>
-			)}
-			{/* </Collapse> */}
+			{/* )} */}
 		</div>
 	);
 }

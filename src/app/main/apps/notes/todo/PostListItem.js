@@ -328,8 +328,6 @@ export default function PostListItem({
 	};
 	
 	const postList = async (string, receiveKey) => {
-		console.log('key???????????????', receiveKey)
-		console.log('key???????????????', index)
 		// if(parseInt(receiveKey) === parseInt(index)) {
 			const files = [];
 			const extToMimes = {
@@ -525,148 +523,60 @@ export default function PostListItem({
 								{
 									currnetPost.retryOption && !isRetryingPost ? (
 										<Button onClick={retryToPost}>Retry</Button>
-									) : null // <Box position="relative" display="inline-flex">
-									// 	<CircularProgress size={20} className="mt-10 mr-24" color="secondary" />
-									// 	<Box
-									// 		top={20}
-									// 		left={0}
-									// 		bottom={0}
-									// 		right={0}
-									// 		position="absolute"
-									// 		display="flex"
-									// 		alignItems="center"
-									// 		justifyContent="center"
-									// 	>
-									// 		<FontAwesomeIcon
-									// 			icon={faUpload}
-									// 			className="text-default"
-									// 			style={{ fontSize: '1.6rem' }}
-									// 		/>
-									// 	</Box>
-									// </Box>
+									) : null
 								}
 							</>
 						)}
-						{/* <IconButton
-							onClick={ev => {
-								ev.preventDefault();
-								ev.stopPropagation();
-								handleAlertPost();
-							}}
-							className="text-default p-8"
-						>
-							{post.alert ? (
-								<Icon style={{ color: red[500] }}>new_releases</Icon>
-							) : (
-								<Icon>new_releases</Icon>
-							)}
-						</IconButton> */}
-						{/* {tempAuthor.id == post.author.id && ( */}
-						<div className="inline">
-							<TippyMenu
-								icon={
-									<>
-										<IconButton
-											aria-label="more"
-											aria-controls="long-menu"
-											aria-haspopup="true"
-											className="sm:p-8 text-white py-8 px-0"
-										>
-											<MoreVertIcon />
-										</IconButton>
-									</>
-								}
-								outsideClick
-							>
-								{options.map(option => (
-									<MenuItem
-										key={option.name}
-										selected={option.name === 'Pyxis'}
-										onClick={option.handler}
-									>
-										<ListItemIcon>
-											<Icon>{option.icon}</Icon>
-										</ListItemIcon>
-										<Typography variant="inherit"> {t(option.name)}</Typography>
-									</MenuItem>
-								))}
-							</TippyMenu>
-						</div>
-						{/* )} */}
-						{/* <IconButton className="text-default p-8" aria-label="more">
-							<Icon>more_vert</Icon>
-						</IconButton> */}
+						{
+							user.data.user_id === post.author.user.id &&
+							<div className="inline">
+								<TippyMenu
+									icon={
+										<>
+											<IconButton
+												aria-label="more"
+												aria-controls="long-menu"
+												aria-haspopup="true"
+												className="sm:p-8 text-white py-8 px-0"
+											>
+												<MoreVertIcon />
+											</IconButton>
+										</>
+									}
+									outsideClick
+								>
+									{
+										options.map(option => (
+											<MenuItem
+												key={option.name}
+												selected={option.name === 'Pyxis'}
+												onClick={option.handler}
+											>
+												<ListItemIcon>
+													<Icon>{option.icon}</Icon>
+												</ListItemIcon>
+												<Typography variant="inherit"> {t(option.name)}</Typography>
+											</MenuItem>
+										))
+									}
+								</TippyMenu>
+							</div>
+						}
 					</div>
 				}
 				title={
 					<span>
-						{/* <div className="flex">
-							<Typography
-								className="font-700 capitalize sm:text-14 lg:text-lg"
-								color="primary"
-								paragraph={false}
-							>
-								{post.author.first_name} {post.author.last_name}
-							</Typography>
-							{post.type === 'post' && <span>posted on your timeline</span>}
-							{post.type === 'something' && <span>shared something with you</span>}
-							{post.type === 'video' && <span>shared a video with you</span>}
-							{post.type === 'article' && <span>shared an article with you</span>}
-							<span className="sm:text-14 lg:text-lg pl-6 font-600">added a new video to</span>
-							<Typography
-								className="font-700 capitalize sm:text-14 lg:text-lg pl-6"
-								color="primary"
-								paragraph={false}
-							>
-								{post.task.name}
-							</Typography>
-						</div> */}
 						<div className="flex flex-wrap">
 							<p>
 								<span className="font-700 capitalize text-15 text-white lg:text-lg">
 									{post.author.first_name} {post.author.last_name}
 								</span>
-								{/* {post.type === 'post' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> posted on your timeline </span>}
-								{post.type === 'something' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared something with you </span>}
-								{post.type === 'video' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared a video with you </span>}
-								{post.type === 'article' && <span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> shared an article with you </span>}
-								<span className="text-15 lg:text-lg pl-2 sm:pl-6 font-600"> added a new video to </span>
-								<span className="font-700 capitalize text-15 lg:text-lg pl-2 sm:pl-6">
-									{'task' in post ? post.task.name : ''}
-								</span> */}
 							</p>
 						</div>
 						<div className="text-13 sm:text-15 lg:text-base text-white font-600">
 							{post.author.position}
 							{'company' in post.author ? ` - ${post.author.company.name}` : ''}
 						</div>
-						{/* <div className="">
-							{showPrject && (
-								<>
-									<div className="mr-4 flex">
-										<Icon className="text-16 mt-10 mr-4">work_outline</Icon>
-										<Typography
-											variant="h6"
-											className="font-600 capitalize"
-											color="primary"
-											paragraph={false}
-										>
-											{post.project.name}
-										</Typography>
-									</div>
-									<div className="mx-4">
-										<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
-											{post.task.name}
-										</Typography>
-									</div>
-									<div className="mx-4 pt-6">
-										<Typography className="font-600 capitalize" color="secondary" paragraph={false}>
-											{post.sub_task.title}
-										</Typography>
-									</div>
-								</>
-							)}
-						</div> */}
 					</span>
 				}
 				subheader={
@@ -699,28 +609,8 @@ export default function PostListItem({
 					<div>
 						<PostedImages images={post.media_set} showClick media={media} />
 					</div>
-					{/* {post.media && <img src={post.media} alt="post" />} */}
 				</CardContent>
 			)}
-
-			{/* {getRole() != 'w' && !isTask && (
-				<CardActions disableSpacing className="bg-custom-primary px-12 py-4 flex justify-center">
-					<Button size="small" className="text-white text-13" aria-label="Add to favorites">
-						<Icon className="text-white text-14">favorite</Icon>
-						<Typography className="normal-case text-white text-13 mx-4">Like</Typography>
-						<Typography className="normal-case text-13">({post.like})</Typography>
-					</Button>
-					<Button aria-label="Share" className="text-white text-13" onClick={sharePost}>
-						<Icon className="text-white text-14">share</Icon>
-						<Typography className="normal-case text-white text-13 mx-4">{t('SHARE')}</Typography>
-						{!!post.share && (
-							<>
-								<Typography className="normal-case text-13">({post.share})</Typography>
-							</>
-						)}
-					</Button>
-				</CardActions>
-			)} */}
 
 			{/* ----------------- Show Comments and likes ---------------*/}
 			<AppBar
@@ -730,7 +620,6 @@ export default function PostListItem({
 				elevation={0}
 			>
 				<div className="flex flex-wrap items-center mb-12 cursor-pointer justify-center">
-					{/* {showComments() && ( */}
 					<div
 						className="flex items-start mb-12 cursor-pointer"
 						onClick={ev => {
@@ -744,14 +633,13 @@ export default function PostListItem({
 							comment
 						</Icon>
 						<span className="text-base font-600 hover:underline">
-								{commentsLength() > 0
-									? commentsLength() === 1
-										? `${commentsLength()} comment`
-										: `${commentsLength()} comments`
-									: 'comment'}
-							</span>
+							{commentsLength() > 0
+								? commentsLength() === 1
+									? `${commentsLength()} comment`
+									: `${commentsLength()} comments`
+								: 'comment'}
+						</span>
 					</div>
-					{/* )} */}
 				</div>
 
 				<div className="flex justify-around social-border my-8">
@@ -809,10 +697,6 @@ export default function PostListItem({
 								security
 							</Icon>
 							<span>{t('PRIVACY')}</span>
-							{/* <Icon fontSize="small" className="mr-4">
-								{post.is_public ? 'visibility' : 'visibility_off'}
-							</Icon>
-							<span>{post.is_public ? t('STATUS_PUBLIC') : t('STATUS_PRIVATE')}</span> */}
 						</IconButton>
 					)}
 				</div>
@@ -822,9 +706,6 @@ export default function PostListItem({
 						<List className="pt-0">
 							{postComments.map((comment, index) => {
 								if (loadMorePostIds.includes(post.id) && loadMorePost) {
-									{
-										/* if(index <=2 ) { */
-									}
 									return (
 										<CommentListItem
 											tempAuthor={tempAuthor}
@@ -837,9 +718,6 @@ export default function PostListItem({
 											needToGetComments={getComments}
 										/>
 									);
-									{
-										/* } */
-									}
 								}
 								if (index <= 2) {
 									return (
@@ -875,7 +753,6 @@ export default function PostListItem({
 								onClick={() => {
 									loadMorePostFunc(post.id);
 								}}
-								// aria-label="Add photo"
 							>
 								<span className="font-700 mr-4 hover:underline">{`View ${
 									postComments.length - 3
@@ -885,7 +762,6 @@ export default function PostListItem({
 					</Collapse>
 				)}
 
-				{/* {open && commentBoxOpen && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && ( */}
 				{open && (!isOffline || currnetPost.successAfterRetry) && getRole() != 'w' && (
 					<div className="flex flex-auto mt-10">
 						<Avatar className="mr-10" src={user.data.user.photo} />
