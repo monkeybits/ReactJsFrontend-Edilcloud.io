@@ -385,61 +385,62 @@ function TodoListItem(props) {
 								>
 									<Icon>attach_file</Icon>
 								</IconButton>
-
-								<TippyMenu
-									icon={
-										<>
-											<IconButton
-												// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
-												aria-haspopup="true"
-												// onClick={handleMoreMenuClick}
-												className="text-white opacity-60"
-											>
-												<Icon>more_vert</Icon>
-											</IconButton>
-										</>
-									}
-									outsideClick
-								>
-									<MenuItem
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											if (props.todo.assigned_company) {
-												dispatch(Actions.openAddActivityTodoDialog(props.todo));
-											}
-										}}
+								{props.todo.assigned_company?.id === company.id && (
+									<TippyMenu
+										icon={
+											<>
+												<IconButton
+													// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+													aria-haspopup="true"
+													// onClick={handleMoreMenuClick}
+													className="text-white opacity-60"
+												>
+													<Icon>more_vert</Icon>
+												</IconButton>
+											</>
+										}
+										outsideClick
 									>
-										<Button>
-											<Icon className="mr-10">add_circle_outline</Icon>
-											SOTTOFASE
-										</Button>
-									</MenuItem>
-									<MenuItem
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											dispatch(Actions.editTaskTodoDialog(props.todo));
-										}}
-									>
-										<Button>
-											<Icon className="mr-10">edit</Icon>
-											Edit
-										</Button>
-									</MenuItem>
-									<MenuItem
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
-										}}
-									>
-										<Button>
-											<Icon className="mr-10">delete</Icon>
-											Delete
-										</Button>
-									</MenuItem>
-								</TippyMenu>
+										<MenuItem
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												if (props.todo.assigned_company) {
+													dispatch(Actions.openAddActivityTodoDialog(props.todo));
+												}
+											}}
+										>
+											<Button>
+												<Icon className="mr-10">add_circle_outline</Icon>
+												SOTTOFASE
+											</Button>
+										</MenuItem>
+										<MenuItem
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												dispatch(Actions.editTaskTodoDialog(props.todo));
+											}}
+										>
+											<Button>
+												<Icon className="mr-10">edit</Icon>
+												Edit
+											</Button>
+										</MenuItem>
+										<MenuItem
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
+											}}
+										>
+											<Button>
+												<Icon className="mr-10">delete</Icon>
+												Delete
+											</Button>
+										</MenuItem>
+									</TippyMenu>
+								)}
 							</div>
 						</>
 					) : getRole() == 'd' || getRole() == 'o' ? (
@@ -502,20 +503,6 @@ function TodoListItem(props) {
 								}
 								outsideClick
 							>
-								{/* <MenuItem
-										onClick={ev => {
-											ev.preventDefault();
-											ev.stopPropagation();
-											if (props.todo.assigned_company) {
-												dispatch(Actions.openAddActivityTodoDialog(props.todo));
-											}
-										}}
-									>
-										<Button>
-											<Icon className="mr-10">add_circle_outline</Icon>
-											SOTTOFASE
-										</Button>
-									</MenuItem> */}
 								<MenuItem
 									onClick={ev => {
 										ev.preventDefault();
@@ -794,7 +781,7 @@ function TodoListItem(props) {
 				{/* </div> */}
 			</Card>
 			{/* <Collapse in={open} timeout="auto" unmountOnExit> */}
-			{props.todo.assigned_company?.id == company.id && (
+			{/* {props.todo.assigned_company?.id == company.id && ( */}
 				<List className="p-0">
 					<FuseAnimateGroup
 						enter={{
@@ -818,7 +805,7 @@ function TodoListItem(props) {
 							))}
 					</FuseAnimateGroup>
 				</List>
-			)}
+			{/* )} */}
 			{/* </Collapse> */}
 		</div>
 	);

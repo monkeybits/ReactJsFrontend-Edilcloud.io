@@ -471,7 +471,7 @@ function TodoList(props) {
 			</FuseAnimate>
 		);
 	}
-
+	
 	return (
 		// <List className="p-0">
 		<FuseAnimateGroup

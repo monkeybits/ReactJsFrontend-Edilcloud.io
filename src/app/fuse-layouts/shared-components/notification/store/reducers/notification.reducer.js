@@ -39,7 +39,8 @@ const quickPanel = (state = initialState, action) => {
 		case Actions.PUSH_NOTOFICATION_PANEL_DATA: {
 			return {
 				...state,
-				notifications: [action.payload, ...state.notifications]
+				notifications: [...state.notifications]
+				// notifications: [action.payload, ...state.notifications]
 			};
 		}
 		case Actions.ADD_NOTOFICATION_PANEL_DATA: {
