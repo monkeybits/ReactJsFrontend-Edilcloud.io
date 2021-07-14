@@ -119,19 +119,21 @@ function UserMenu(props) {
 						{
 							!isCompanies && 
 							<>
-								<MenuItem
-									component={Link}
-									onClick={() => {
-										dispatch(authActions.showPlanIosDialog('menu'));
-									}}
-									role="button"
-								>
-									<ListItemIcon className="min-w-40">
-										<Icon>receipt</Icon>
-									</ListItemIcon>
-									<ListItemText primary=" Account manager" />
-									<Icon className="custom-right-arrow">arrow_forward_ios</Icon>
-								</MenuItem>
+								{(getRole() === 'o' || getRole() === 'd') && (
+									<MenuItem
+										component={Link}
+										onClick={() => {
+											dispatch(authActions.showPlanIosDialog('menu'));
+										}}
+										role="button"
+									>
+										<ListItemIcon className="min-w-40">
+											<Icon>receipt</Icon>
+										</ListItemIcon>
+										<ListItemText primary=" Account manager" />
+										<Icon className="custom-right-arrow">arrow_forward_ios</Icon>
+									</MenuItem>
+								)}
 								{getRole() == 'o' && (
 									<MenuItem
 										component={Link}
