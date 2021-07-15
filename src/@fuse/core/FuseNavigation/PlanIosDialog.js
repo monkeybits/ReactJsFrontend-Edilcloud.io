@@ -4,6 +4,9 @@
 *This File is part of Company File manager
 TODO: This File is created to view view the media file 
 */
+import i18next from 'i18next';
+import en from './i18n/en';
+import tr from './i18n/it';
 import React, {useEffect} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Dialog, IconButton, Typography, Button, Link } from '@material-ui/core';
@@ -12,6 +15,10 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
+
+i18next.addResourceBundle('en', 'boards', en);
+i18next.addResourceBundle('it', 'boards', tr);
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -67,6 +74,7 @@ const DialogActions = withStyles(theme => ({
 function PlanIosDialog({ isPlanModal, closePlanModal, onOk, from = '' }) {
     const classes = useStyles();
 	const [deviceType, setDeviceType] = React.useState('');
+	const { t } = useTranslation('boards');
 
 	useEffect(() => {
 		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -105,7 +113,7 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk, from = '' }) {
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closePlanModal}></DialogTitle>
 			<DialogContent>
-				<div>{from === 'menu' ? 'You can update your account manager on ' : 'You need to update your account manager at '}<span>
+				<div>{t('UPDATE_MESSAGE')} <span>
 					{
 						deviceType === 'android' &&
 						<Button
@@ -122,21 +130,24 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk, from = '' }) {
 					}
 					{
 						deviceType === 'ios' &&
-						<Button
-							color="primary"
-							className="text-blue-500 underline p-0 normal-case"
-							onClick={() => {
-								try {
-									if (window.webkit.messageHandlers) {
-										window.webkit.messageHandlers.copyButtonTapped.postMessage(`https://account.edilcloud.io`);
+						<>
+							<span>{t('COPY_TEXT')}</span>
+							<Button
+								color="primary"
+								className="text-blue-500 underline p-0 normal-case"
+								onClick={() => {
+									try {
+										if (window.webkit.messageHandlers) {
+											window.webkit.messageHandlers.copyButtonTapped.postMessage(`https://account.edilcloud.io`);
+										}
+									} catch (e) {
+										// console.log('error', e);
 									}
-								} catch (e) {
-									// console.log('error', e);
-								}
-							}}
-						>
-							account.edilcloud.io
-						</Button>
+								}}
+							>
+								account.edilcloud.io
+							</Button>
+						</>
 					}
 					{
 						deviceType !== 'ios' && deviceType !== 'android' &&
