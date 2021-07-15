@@ -119,6 +119,7 @@ function TodoActivityListItem(props) {
 	const { t } = useTranslation('dashboard');
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
+
 	useEffect(() => {
 		if (props.todo?.status && props.todo.status == 'completed') {
 			setCompleted(true);
@@ -367,7 +368,7 @@ function TodoActivityListItem(props) {
 							</div>
 						</div>
 						<div className="flex items-center">
-							{props.task.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o') && (
+							{props.task.assigned_company?.id == company.id && (getRole() == 'd' || getRole() == 'o' || getRole() == 'm') && (
 								<Tippy
 									className="custom-tippy"
 									placement="bottom"
@@ -543,49 +544,52 @@ function TodoActivityListItem(props) {
 							/>
 						</div>
 					</div>
-
-					<div className="flex ml-auto items-end h-full mb-auto">
-						<TippyMenu
-							icon={
-								<>
-									<IconButton
-										// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
-										aria-haspopup="true"
-										// onClick={handleMoreMenuClick}
-										// className="text-white opacity-60"
-									>
-										<Icon>more_vert</Icon>
-									</IconButton>
-								</>
-							}
-							outsideClick
-						>
-							<MenuItem
-								onClick={ev => {
-									ev.preventDefault();
-									ev.stopPropagation();
-									dispatch(Actions.editActivityTodoDialog({ todo: props.todo, task: props.task }));
-								}}
+					{
+						getRole() !== 'w' &&
+						props.task.assigned_company.id === company.id &&
+						<div className="flex ml-auto items-end h-full mb-auto">
+							<TippyMenu
+								icon={
+									<>
+										<IconButton
+											// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+											aria-haspopup="true"
+											// onClick={handleMoreMenuClick}
+											// className="text-white opacity-60"
+										>
+											<Icon>more_vert</Icon>
+										</IconButton>
+									</>
+								}
+								outsideClick
 							>
-								<Button>
-									<Icon className="mr-10">edit</Icon>
-									Edit
-								</Button>
-							</MenuItem>
-							<MenuItem
-								onClick={ev => {
-									ev.preventDefault();
-									ev.stopPropagation();
-									dispatch(Actions.openDeleteConfirmDialog('Activity', props.todo));
-								}}
-							>
-								<Button>
-									<Icon className="mr-10">delete</Icon>
-									Delete
-								</Button>
-							</MenuItem>
-						</TippyMenu>
-					</div>
+								<MenuItem
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										dispatch(Actions.editActivityTodoDialog({ todo: props.todo, task: props.task }));
+									}}
+								>
+									<Button>
+										<Icon className="mr-10">edit</Icon>
+										Edit
+									</Button>
+								</MenuItem>
+								<MenuItem
+									onClick={ev => {
+										ev.preventDefault();
+										ev.stopPropagation();
+										dispatch(Actions.openDeleteConfirmDialog('Activity', props.todo));
+									}}
+								>
+									<Button>
+										<Icon className="mr-10">delete</Icon>
+										Delete
+									</Button>
+								</MenuItem>
+							</TippyMenu>
+						</div>
+					}
 					<div className={clsx(classes.labels, 'flex -mx-2')}>
 						{props.todo.labels?.map(label => (
 							<TodoChip

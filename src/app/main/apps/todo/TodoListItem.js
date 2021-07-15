@@ -355,7 +355,7 @@ function TodoListItem(props) {
 								>
 									<Icon>attach_file</Icon>
 								</IconButton>
-								{props.todo.assigned_company?.id === company.id && (
+								{getRole() !== 'w' && props.todo.assigned_company?.id === company.id && (
 									<TippyMenu
 										icon={
 											<>
@@ -397,19 +397,22 @@ function TodoListItem(props) {
 												Edit
 											</Button>
 										</MenuItem>
-										<MenuItem
-											onClick={ev => {
-												ev.preventDefault();
-												ev.stopPropagation();
-												dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
-												// deleteTaskOfProject(props.todo);
-											}}
-										>
-											<Button>
-												<Icon className="mr-10">delete</Icon>
-												Delete
-											</Button>
-										</MenuItem>
+										{
+											getRole() !== 'm' &&
+											<MenuItem
+												onClick={ev => {
+													ev.preventDefault();
+													ev.stopPropagation();
+													dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
+													// deleteTaskOfProject(props.todo);
+												}}
+											>
+												<Button>
+													<Icon className="mr-10">delete</Icon>
+													Delete
+												</Button>
+											</MenuItem>
+										}
 									</TippyMenu>
 								)}
 							</div>
