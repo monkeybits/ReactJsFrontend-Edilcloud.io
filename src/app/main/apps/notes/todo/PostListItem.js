@@ -683,7 +683,7 @@ export default function PostListItem({
 						</Icon>
 						<span>{t('SEND_NOTIFICATION')}</span>
 					</IconButton>
-					{getRole() !== 'w' && (
+					{getRole() !== 'w' && user.data.user_id === post.author.user.id && (
 						<IconButton
 							aria-label="more"
 							aria-controls="long-menu"
