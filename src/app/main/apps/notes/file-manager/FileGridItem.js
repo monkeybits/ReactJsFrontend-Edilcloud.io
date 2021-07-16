@@ -15,7 +15,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import * as ICONS from 'app/main/apps/constants';
 import { apiCall, METHOD } from 'app/services/baseUrl';
 import { DOWNLOAD_PHOTO, DOWNLOAD_VIDEO, DOWNLOAD_DOCUMENT } from 'app/services/apiEndPoints';
-import { getHeaderToken } from 'app/services/serviceUtils';
+import { getHeaderToken, decodeDataFromToken } from 'app/services/serviceUtils';
 import FileSaver from 'file-saver';
 import { useTranslation } from 'react-i18next';
 import * as Actions from './store/actions';
@@ -55,6 +55,8 @@ const useStyles = makeStyles(theme => ({
 export default function FileGridItem({ tileData, pageLayout, handleDelete, setProgress }) {
 	const { t } = useTranslation('filemanaer_project');
 	const dispatch = useDispatch();
+	const userInfo = decodeDataFromToken();
+	const getRole = () => userInfo?.extra?.profile.role;
 	const allFiles = useSelector(({ fileManagerAppProject }) => fileManagerAppProject.files?.allFiles);
 	const classes = useStyles();
 	const handleOpenData = (ev, tile) => {
@@ -76,7 +78,8 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				ev.preventDefault();
 				ev.stopPropagation();
 				handleDelete(n);
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		},
 		{
 			name: 'DOWNLOAD',
@@ -85,7 +88,8 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				ev.preventDefault();
 				ev.stopPropagation();
 				onDownload(n);
-			}
+			},
+			hasPermission: true
 		},
 		{
 			name: 'MOVE_TO',
@@ -94,14 +98,16 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				ev.preventDefault();
 				ev.stopPropagation();
 				dispatch(Actions.openMoveFileDialog(n));
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		},
 		{
 			name: 'VIEW',
 			icon: <Icon>info</Icon>,
 			handleClickEvent: (ev, n) => {
 				handleOpenData(ev, n);
-			}
+			},
+			hasPermission: true
 		},
 		{
 			name: 'RENAME',
@@ -110,7 +116,8 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				ev.preventDefault();
 				ev.stopPropagation();
 				dispatch(Actions.openRenameFileDialog(n));
-			}
+			},
+			hasPermission: getRole() == 'o' || getRole() == 'd'
 		}
 	];
 	const onDownload = tile => {
@@ -296,17 +303,19 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 										}
 										outsideClick
 									>
-										{options.map(({ name, icon, handleClickEvent }) => (
-											<MenuItem
-												key={name}
-												onClick={e => {
-													// menuRef.current.handleMenuClose();
-													handleClickEvent(e, tile);
-												}}
-											>
-												<ListItemIcon>{icon}</ListItemIcon>
-												<Typography variant="inherit"> {t(name)}</Typography>
-											</MenuItem>
+										{options.map(({ name, icon, handleClickEvent, hasPermission }) => (
+											hasPermission ? (
+												<MenuItem
+													key={name}
+													onClick={e => {
+														// menuRef.current.handleMenuClose();
+														handleClickEvent(e, tile);
+													}}
+												>
+													<ListItemIcon>{icon}</ListItemIcon>
+													<Typography variant="inherit"> {t(name)}</Typography>
+												</MenuItem>
+											) : null
 										))}
 									</TippyMenu>
 								}
