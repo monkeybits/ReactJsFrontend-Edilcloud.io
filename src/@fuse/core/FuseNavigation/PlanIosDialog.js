@@ -75,6 +75,7 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk, from = '' }) {
     const classes = useStyles();
 	const [deviceType, setDeviceType] = React.useState('');
 	const { t } = useTranslation('boards');
+	const { i18n } = useTranslation();
 
 	useEffect(() => {
 		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -113,47 +114,7 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk, from = '' }) {
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closePlanModal}></DialogTitle>
 			<DialogContent>
-				<div>{t('UPDATE_MESSAGE')} <span>
-					{
-						deviceType === 'android' &&
-						<Button
-							color="primary"
-							className="text-blue-500 underline p-0 normal-case"
-							onClick={() => {
-								if (window.RedirectSubdomain?.postMessage) {
-									window.RedirectSubdomain.postMessage(`https://account.edilcloud.io`);
-								}
-							}}
-						>
-							account.edilcloud.io
-						</Button>
-					}
-					{
-						deviceType === 'ios' &&
-						<>
-							<span>{t('COPY_TEXT')}</span>
-							<Button
-								color="primary"
-								className="text-blue-500 underline p-0 normal-case"
-								onClick={() => {
-									try {
-										if (window.webkit.messageHandlers) {
-											window.webkit.messageHandlers.copyButtonTapped.postMessage(`https://account.edilcloud.io`);
-										}
-									} catch (e) {
-										// console.log('error', e);
-									}
-								}}
-							>
-								account.edilcloud.io
-							</Button>
-						</>
-					}
-					{
-						deviceType !== 'ios' && deviceType !== 'android' &&
-						<Link className="text-blue-500 underline p-0 normal-case custom-link-popup" target="_blank" href='https://account.edilcloud.io'>account.edilcloud.io</Link>
-					}
-				</span></div>
+				<div>{t('UPDATE_MESSAGE')} <span className="text-blue-500">EdilCloud</span> {i18n.language === 'en' ? 'website.' : ''}</div>
 			</DialogContent>
 			<DialogActions>
 				<Button autoFocus onClick={onOk} color="white" className="bg-blue-500 text-white hover:bg-blue-500">
