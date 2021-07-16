@@ -73,7 +73,7 @@ export default function FileGridItem({ tileData, pageLayout, handleDelete, setPr
 				ev.stopPropagation();
 				onDownload(n);
 			},
-			hasPermission: getRole() == 'o' || getRole() == 'd'
+			hasPermission: true
 		},
 		{
 			name: 'MOVE_TO',
