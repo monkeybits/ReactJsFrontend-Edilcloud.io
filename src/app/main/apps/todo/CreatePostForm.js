@@ -126,7 +126,7 @@ function CreatePostForm({ isTask, taskId }) {
 	const getRole = () => userInfo?.extra?.profile.role;
 
 	useEffect(() => {
-		window.createPostForm = createPostForm;
+		window.createPostFormDashboard = createPostFormDashboard;
 	}, []);
 
 	useEffect(() => {
@@ -277,7 +277,7 @@ function CreatePostForm({ isTask, taskId }) {
 	 * below function is used to add media file before post it will store all files locallay on state called "fileData"
 	 */
 
-	const createPostForm = async string => {
+	const createPostFormDashboard = async string => {
 		const files = [];
 		const extToMimes = {
 			'image/jpeg': '.jpg',
@@ -445,7 +445,7 @@ function CreatePostForm({ isTask, taskId }) {
 	const onAddPhoto = () => {
 		try {
 			if (window.webkit.messageHandlers) {
-				window.webkit.messageHandlers.UploadImage.postMessage('createPostForm');
+				window.webkit.messageHandlers.UploadImage.postMessage('createPostFormDashboard');
 			}
 		} catch (e) {
 			// console.log('error', e);
