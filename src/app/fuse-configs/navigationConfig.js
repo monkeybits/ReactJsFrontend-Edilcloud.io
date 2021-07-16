@@ -84,14 +84,6 @@ const navigationConfig = [
 				type: 'item',
 				icon: 'class',
 				url: '/apps/academy/courses'
-			},
-			{
-				id: '',
-				title: 'Help Center',
-				translate: 'HELP_CENTER',
-				type: 'item',
-				icon: 'help_center',
-				url: 'https://edilcloud.io/helpcenter/'
 			}
 		]
 	},

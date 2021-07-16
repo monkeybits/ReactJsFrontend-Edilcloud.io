@@ -60,16 +60,6 @@ function ContactsHeader(props) {
 								</FuseAnimate>
 							</ThemeProvider>
 						</div>
-						<FuseAnimate animation="transition.slideRightIn" delay={300}>
-							<Button
-								onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
-								className="whitespace-no-wrap normal-case"
-								variant="contained"
-								color="secondary"
-							>
-								<span className="xs:hidden sm:flex">Guida</span>
-							</Button>
-						</FuseAnimate>
 					</div>
 				</div>
 			</div>

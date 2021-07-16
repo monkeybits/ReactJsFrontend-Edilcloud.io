@@ -434,90 +434,88 @@ function CreatePostForm({ isTask, taskId }) {
 	return (
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1">
-				{getRole() != 'w' && (
-					<div>
-						<Card className="w-full overflow-hidden post-form mb-20 post-card-clx">
-							<Input
-								id="addPost"
-								className="p-16 w-full write-post"
-								classes={{ root: 'text-14' }}
-								placeholder={t('WRITE_SOMETHING')}
-								multiline
-								rows="3"
-								margin="none"
-								disableUnderline
-								onChange={e => setText(e.target.value)}
-							/>
-							{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
+				<div>
+					<Card className="w-full overflow-hidden post-form mb-20 post-card-clx">
+						<Input
+							id="addPost"
+							className="p-16 w-full write-post"
+							classes={{ root: 'text-14' }}
+							placeholder={t('WRITE_SOMETHING')}
+							multiline
+							rows="3"
+							margin="none"
+							disableUnderline
+							onChange={e => setText(e.target.value)}
+						/>
+						{images && <ImagesPreview images={images} replaceUrl={replaceImageUrl} />}
 
-							<AppBar
-								className="card-footer flex flex-row border-t-1 items-center justify-between pt-8 pb-6 pr-12 pl-10"
-								position="static"
-								color="default"
-								elevation={0}
-							>
-								<div className="add-photo-image flex">
-									<IconButton
-										onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick}
-										aria-label="Add photo"
-										className="p-8"
-									>
-										<Icon>photo</Icon>
-									</IconButton>
-									<TippyMenu
-										icon={
-											<>
-												{/* <InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel> */}
-												<InputLabel id="demo-simple-select-label" className="p-8 border-2 mx-8">
-													{postStatus ? 'Public' : 'Private'}
-													<span className="arrow-icon">
-														{' '}
-														<KeyboardArrowDownIcon />{' '}
-													</span>{' '}
-												</InputLabel>
-											</>
-										}
-										// ref={menuRef}
-										outsideClick
-									>
-										{postStatusOptions.map(option => (
-											<MenuItem
-												key={option.name}
-												selected={option.name === 'Pyxis'}
-												onClick={option.handler}
-											>
-												<ListItemIcon>
-													<Icon>{option.icon}</Icon>
-												</ListItemIcon>
-												<Typography variant="inherit"> {t(option.name)}</Typography>
-											</MenuItem>
-										))}
-									</TippyMenu>
-									<input
-										hidden
-										multiple
-										type="file"
-										accept="image/*"
-										ref={inputRef}
-										onChange={addPhoto}
-									/>
-								</div>
-								<Button
-									onClick={createPost}
-									variant="contained"
-									color="primary"
-									size="large"
-									aria-label="post"
-									disabled={!text.length && !images?.length}
+						<AppBar
+							className="card-footer flex flex-row border-t-1 items-center justify-between pt-8 pb-6 pr-12 pl-10"
+							position="static"
+							color="default"
+							elevation={0}
+						>
+							<div className="add-photo-image flex">
+								<IconButton
+									onClick={deviceType === 'ios' ? onAddPhoto : handleOpenFileClick}
+									aria-label="Add photo"
+									className="p-8"
 								>
-									{t('POST')}
-								</Button>
-							</AppBar>
-						</Card>
+									<Icon>photo</Icon>
+								</IconButton>
+								<TippyMenu
+									icon={
+										<>
+											{/* <InputLabel id="demo-simple-select-label">{t('LANGUAGE')}</InputLabel> */}
+											<InputLabel id="demo-simple-select-label" className="p-8 border-2 mx-8">
+												{postStatus ? 'Public' : 'Private'}
+												<span className="arrow-icon">
+													{' '}
+													<KeyboardArrowDownIcon />{' '}
+												</span>{' '}
+											</InputLabel>
+										</>
+									}
+									// ref={menuRef}
+									outsideClick
+								>
+									{postStatusOptions.map(option => (
+										<MenuItem
+											key={option.name}
+											selected={option.name === 'Pyxis'}
+											onClick={option.handler}
+										>
+											<ListItemIcon>
+												<Icon>{option.icon}</Icon>
+											</ListItemIcon>
+											<Typography variant="inherit"> {t(option.name)}</Typography>
+										</MenuItem>
+									))}
+								</TippyMenu>
+								<input
+									hidden
+									multiple
+									type="file"
+									accept="image/*"
+									ref={inputRef}
+									onChange={addPhoto}
+								/>
+							</div>
+							<Button
+								onClick={createPost}
+								variant="contained"
+								color="primary"
+								size="large"
+								aria-label="post"
+								disabled={!text.length && !images?.length}
+							>
+								{t('POST')}
+							</Button>
+						</AppBar>
+					</Card>
 
-						{/* <Divider className="my-32" /> */}
-					</div>
-				)}
+					{/* <Divider className="my-32" /> */}
+				</div>
 				{loading && (
 					<div className="flex flex-1 flex-col items-center justify-center">
 						<Typography style={{ height: 'auto' }} className="text-20 mb-16" color="textSecondary">
