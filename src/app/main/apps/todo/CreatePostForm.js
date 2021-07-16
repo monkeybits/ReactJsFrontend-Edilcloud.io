@@ -304,7 +304,9 @@ function CreatePostForm({ isTask, taskId }) {
 		const fileObject = dataURLtoFile(string, randomName + extToMimes[mimeT]);
 		files.push(fileObject);
 
+		console.log('files??????', files)
 		const fileToCompress = files[0];
+		console.log('fileToCompress??????', fileToCompress)
 		try {
 			if (fileToCompress.type?.split('/')[0] == 'image') {
 				const compressedFile = fileToCompress;
@@ -330,10 +332,11 @@ function CreatePostForm({ isTask, taskId }) {
 						type: fileType.join('/')
 					}
 				];
+				console.log('file??????', file)
 				setImages(file);
 			}
 		} catch (e) {
-			// console.log('Error', e);
+			console.log('Error', e);
 		}
 	};
 
@@ -457,6 +460,7 @@ function CreatePostForm({ isTask, taskId }) {
 		return null;
 	}
 
+	console.log('images??????', images)
 	return (
 		<div className="md:flex max-w-2xl">
 			<div className="flex flex-col flex-1">
