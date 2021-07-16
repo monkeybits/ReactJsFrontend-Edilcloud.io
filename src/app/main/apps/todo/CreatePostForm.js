@@ -278,6 +278,7 @@ function CreatePostForm({ isTask, taskId }) {
 	 */
 
 	const createPostFormDashboard = async string => {
+		console.log('String??????', string)
 		const files = [];
 		const extToMimes = {
 			'image/jpeg': '.jpg',
