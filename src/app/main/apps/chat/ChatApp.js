@@ -181,18 +181,6 @@ function ChatApp(props) {
 							<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
 								{t('CHAT')}
 							</Typography>
-							<div className="flex flex-1 items-center justify-end">
-								<FuseAnimate animation="transition.slideRightIn" delay={300}>
-									<Button
-										onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
-										className="whitespace-no-wrap normal-case"
-										variant="contained"
-										color="secondary"
-									>
-										<span className="xs:hidden sm:flex">Guida</span>
-									</Button>
-								</FuseAnimate>
-							</div>
 						</div>
 					</div>
 				</ThemeProvider>
