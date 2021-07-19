@@ -194,12 +194,12 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										(i) il diritto di utilizzare, mediante accesso autenticato all’infrastruttura cloud messa a disposizione dal Fornitore, l’Applicazione Internet Edilcloud.io(alla quale il Cliente potrà accedere attraverso l’URL www.edilcloud.io  oppure tramite software dedicato, di seguito, definita “Applicazione”) ospitata sull’infrastruttura tecnologica tecnica del Fornitore (situata interamente all'interno del territorio europeo);
+										(i) il diritto di utilizzare, mediante accesso autenticato all’infrastruttura cloud messa a disposizione dal Fornitore, l’Applicazione Internet Edilcloud(alla quale il Cliente potrà accedere attraverso l’URL www.edilcloud  oppure tramite software dedicato, di seguito, definita “Applicazione”) ospitata sull’infrastruttura tecnologica tecnica del Fornitore (situata interamente all'interno del territorio europeo);
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										(ii) le funzionalità gestionali e di reportistica adatte all’uso professionale o per una piccola azienda come meglio descritti nel sito http://www.Edilcloud.io.it (di seguito definiti i “Servizi Collegati” e, insieme all’Applicazione, “Edilcloud.io”).
+										(ii) le funzionalità gestionali e di reportistica adatte all’uso professionale o per una piccola di seguito definiti i “Servizi Collegati” e, insieme all’Applicazione, “Edilcloud”).
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -214,7 +214,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										Listino Prezzi disponibile sul sito <a href="www.edilcloud.io.it/piani/" _target="blank" className="mailto-color">www.edilcloud.io.it/piani/</a>
+										Listino Prezzi disponibile sul sito www.edilcloud.io.it/piani/
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -224,7 +224,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										1.1 Il Contratto tra il Fornitore e l’Acquirente è perfezionato all’invio da parte di MONKEY BITS S.R.L. della Conferma di iscrizione comunicata a mezzo e-mail all'indirizzo di posta elettronica indicato dal Cliente durante la fase di registrazione secondo quanto meglio specificato nell’art. 4 del presente contratto. L’Iscrizione, previa integrale accettazione delle presenti Condizioni Generali da parte del Cliente, costituisce momento perfezionativo del Contratto e consente l’attivazione di Edilcloud.io da parte di MONKEY BITS S.R.L.
+										1.1 Il Contratto tra il Fornitore e l’Acquirente è perfezionato all’invio da parte di MONKEY BITS S.R.L. della Conferma di iscrizione comunicata a mezzo e-mail all'indirizzo di posta elettronica indicato dal Cliente durante la fase di registrazione secondo quanto meglio specificato nell’art. 4 del presente contratto. L’Iscrizione, previa integrale accettazione delle presenti Condizioni Generali da parte del Cliente, costituisce momento perfezionativo del Contratto e consente l’attivazione di Edilcloud da parte di MONKEY BITS S.R.L.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -239,7 +239,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										2.1 Il Cliente è tenuto al pagamento dei corrispettivi per la fruizione di Edilcloud.io e dei Servizi Collegati indicati nel listino MONKEY BITS S.R.L. (che l’utente dichiara sin d’ora di conoscere e di seguito definito il “Listino”). Il Fornitore si riserva la facoltà di apportare modifiche al Listino fermo restando che il nuovo listino sarà applicato dopo la scadenza dei servizi a pagamento sottoscritto dal Cliente.
+										2.1 Il Cliente è tenuto al pagamento dei corrispettivi per la fruizione di Edilcloud e dei Servizi Collegati indicati nel listino MONKEY BITS S.R.L. (che l’utente dichiara sin d’ora di conoscere e di seguito definito il “Listino”). Il Fornitore si riserva la facoltà di apportare modifiche al Listino fermo restando che il nuovo listino sarà applicato dopo la scadenza dei servizi a pagamento sottoscritto dal Cliente.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -264,12 +264,12 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										4.1 Il Cliente può scegliere di registrarsi tramite (i) sistemi di autenticazione interni all’Applicazione, (ii) tramite accesso all’App Edilcloud.io dal proprio tablet o smartphone.
+										4.1 Il Cliente può scegliere di registrarsi tramite (i) sistemi di autenticazione interni all’Applicazione, (ii) tramite accesso all’App Edilcloud dal proprio tablet o smartphone.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										4.2 Nei casi (i) e (ii) il Cliente dovrà inserire le proprie credenziali per accedere a Edilcloud.io. Tali credenziali sono costituite da uno username e da una password (Chiavi di accesso).
+										4.2 Nei casi (i) e (ii) il Cliente dovrà inserire le proprie credenziali per accedere a Edilcloud. Tali credenziali sono costituite da uno username e da una password (Chiavi di accesso).
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -290,6 +290,10 @@ export default function TermsModal({ open, setOpen, title }) {
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
 										4.6 A tale proposito, il Cliente prende atto ed accetta:
+									</Typography>
+								</DialogContentText>
+								<DialogContentText tabIndex={-1}>
+									<Typography color="textSecondary">
 										che la conoscenza da parte di terzi delle Chiavi di Accesso (o accesso attraverso sistemi di autenticazione esterni) potrebbe consentire a questi ultimi l’indebito utilizzo dell’Applicazione e dei Servizi Collegati;
 									</Typography>
 								</DialogContentText>
@@ -315,12 +319,12 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										5.1 Il Cliente ha la possibilità di attivare diversi tipi di abbonamenti a Edilcloud.io. Per l’elenco degli abbonamenti si rimanda all’area del sito <a href="www.edilcloud.io/piani/" _target="blank" className="mailto-color">www.edilcloud.io/piani/</a>
+										5.1 Il Cliente ha la possibilità di attivare diversi tipi di abbonamenti a Edilcloud. 
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										5.2 Il Cliente avrà la possibilità di attivare un abbonamento a pagamento a Edilcloud.io di durata limitata. Per l’attivazione saranno necessari la sottoscrizione delle Condizioni Generali di Contratto.
+										5.2 Il Cliente avrà la possibilità di attivare un abbonamento a pagamento a Edilcloud di durata limitata. Per l’attivazione saranno necessari la sottoscrizione delle Condizioni Generali di Contratto.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -335,12 +339,12 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										5.5 L’utente può consentire l’accesso alle informazioni memorizzate in Edilcloud.io ad altri utenti solamente secondo le modalità previste dall’Applicazione e solo nei casi ivi previsti ed espressamente indicati.
+										5.5 L’utente può consentire l’accesso alle informazioni memorizzate in Edilcloud ad altri utenti solamente secondo le modalità previste dall’Applicazione e solo nei casi ivi previsti ed espressamente indicati.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										5.6 Il Cliente può utilizzare Edilcloud.io esclusivamente nei modi espressamente indicati nel presente Contratto ed in conformità alle norme di legge. Nel far ciò, il Cliente dovrà attenersi a qualsiasi limitazione tecnica dell’Applicazione e dei Servizi Collegati e alle modalità di utilizzo previste. A titolo esemplificativo e non esaustivo, il Cliente non potrà:
+										5.6 Il Cliente può utilizzare Edilcloud esclusivamente nei modi espressamente indicati nel presente Contratto ed in conformità alle norme di legge. Nel far ciò, il Cliente dovrà attenersi a qualsiasi limitazione tecnica dell’Applicazione e dei Servizi Collegati e alle modalità di utilizzo previste. A titolo esemplificativo e non esaustivo, il Cliente non potrà:
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -355,12 +359,12 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										utilizzare Edilcloud.io in contrasto con norme di legge;
+										utilizzare Edilcloud in contrasto con norme di legge;
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										5.7 Il Cliente prende atto che per utilizzare Edilcloud.io dovrà dotarsi delle apparecchiature elettriche, elettroniche o di qualsivoglia altro genere, dei software, dei servizi telefonici e/o di rete e di quant’altro necessario e che, pertanto, Edilcloud.io non comprende l’erogazione da parte del Fornitore di strumenti necessari per l’accesso alla rete internet. Il Cliente si impegna inoltre a mantenere il Fornitore indenne da ogni pretesa che possa essere avanzata nei confronti di quest’ultimo a qualsiasi titolo o in qualsiasi modo collegate alla inidoneità dei sistemi hardware e/o di rete e/o di software atti a consentire la corretta fruizione di Edilcloud.io. Il Cliente riconosce che la rete internet non è controllata dal Fornitore e che, per la peculiare struttura della suddetta rete, nessuna entità pubblica o privata e neppure il Fornitore è in grado di garantire e monitorare le prestazioni e la funzionalità dei rami della rete e di controllare i contenuti delle informazioni che sono trasmesse mediante la propria rete. Per questo motivo nessuna responsabilità potrà essere imputata al Fornitore per la trasmissione o la ricezione di informazioni illegali di qualsiasi natura e specie.
+										5.7 Il Cliente prende atto che per utilizzare Edilcloud dovrà dotarsi delle apparecchiature elettriche, elettroniche o di qualsivoglia altro genere, dei software, dei servizi telefonici e/o di rete e di quant’altro necessario e che, pertanto, Edilcloud non comprende l’erogazione da parte del Fornitore di strumenti necessari per l’accesso alla rete internet. Il Cliente si impegna inoltre a mantenere il Fornitore indenne da ogni pretesa che possa essere avanzata nei confronti di quest’ultimo a qualsiasi titolo o in qualsiasi modo collegate alla inidoneità dei sistemi hardware e/o di rete e/o di software atti a consentire la corretta fruizione di Edilcloud. Il Cliente riconosce che la rete internet non è controllata dal Fornitore e che, per la peculiare struttura della suddetta rete, nessuna entità pubblica o privata e neppure il Fornitore è in grado di garantire e monitorare le prestazioni e la funzionalità dei rami della rete e di controllare i contenuti delle informazioni che sono trasmesse mediante la propria rete. Per questo motivo nessuna responsabilità potrà essere imputata al Fornitore per la trasmissione o la ricezione di informazioni illegali di qualsiasi natura e specie.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -380,12 +384,12 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										7. ESECUZIONE DI EDILCLOUD.IO
+										7. ESECUZIONE DI EDILCLOUD
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										7.1 Il Cliente prende atto ed accetta che Edilcloud.io è fornito “così com’è” ed è caratterizzata da tecnologia in continua evoluzione; per questi motivi le caratteristiche tecniche di Edilcloud.io e le condizioni dell'offerta potranno essere modificate quando ciò sia reso necessario dall’evoluzione tecnologica e da esigenze di fornitura e/o organizzazione.
+										7.1 Il Cliente prende atto ed accetta che Edilcloud è fornito “così com’è” ed è caratterizzata da tecnologia in continua evoluzione; per questi motivi le caratteristiche tecniche di Edilcloud e le condizioni dell'offerta potranno essere modificate quando ciò sia reso necessario dall’evoluzione tecnologica e da esigenze di fornitura e/o organizzazione.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -405,7 +409,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										8.2 Il Cliente prende atto ed accetta che, qualora abbia comunicato al Fornitore dati falsi, non attuali o incompleti, quest’ultimo si riserva il diritto di sospendere l’accesso a Edilcloud.io e/o di risolvere il Contratto ai sensi dell’articolo 1456 del codice civile, trattenendo le somme pagate dal Cliente e riservandosi il diritto di chiedere il risarcimento del maggior danno. Resta in ogni caso inteso che tutti i dati comunicati dal Cliente al Fornitore saranno coperti dall’obbligo di riservatezza di cui al presente Contratto.
+										8.2 Il Cliente prende atto ed accetta che, qualora abbia comunicato al Fornitore dati falsi, non attuali o incompleti, quest’ultimo si riserva il diritto di sospendere l’accesso a Edilcloud e/o di risolvere il Contratto ai sensi dell’articolo 1456 del codice civile, trattenendo le somme pagate dal Cliente e riservandosi il diritto di chiedere il risarcimento del maggior danno. Resta in ogni caso inteso che tutti i dati comunicati dal Cliente al Fornitore saranno coperti dall’obbligo di riservatezza di cui al presente Contratto.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -420,12 +424,12 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										10. LIMITI ALL’UTILIZZO DI EDILCLOUD.IO
+										10. LIMITI ALL’UTILIZZO DI EDILCLOUD
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										10.1 Con l’attivazione di Edilcloud.io, il Cliente è ritenuto unico ed esclusivo responsabile per l’utilizzo di Edilcloud.io. Il Cliente riconosce di essere l’unico responsabile per i contenuti immessi, presenti, transitati e/o conservati sui server che ospitano Edilcloud.io e si obbliga ad utilizzare Edilcloud.io esclusivamente per scopi leciti e ammessi dalle disposizioni di legge di volta in volta applicabili, dalle regole di diligenza, della morale e dell’ordine pubblico ed in ogni caso, senza ledere qualsivoglia diritto di terzi.
+										10.1 Con l’attivazione di Edilcloud, il Cliente è ritenuto unico ed esclusivo responsabile per l’utilizzo di Edilcloud. Il Cliente riconosce di essere l’unico responsabile per i contenuti immessi, presenti, transitati e/o conservati sui server che ospitano Edilcloud e si obbliga ad utilizzare Edilcloud esclusivamente per scopi leciti e ammessi dalle disposizioni di legge di volta in volta applicabili, dalle regole di diligenza, della morale e dell’ordine pubblico ed in ogni caso, senza ledere qualsivoglia diritto di terzi.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -440,12 +444,12 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										10.4 Il Cliente dovrà attenersi ai limiti indicati nel proprio piano di cui i limiti sono visibili all’area del sito <a href="www.edilcloud.io/piani/" _target="blank" className="mailto-color">www.edilcloud.io/piani/</a>. 
+										10.4 Il Cliente dovrà attenersi ai limiti indicati nel proprio piano di cui i limiti sono visibili all’area del sito.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										Per tutto il periodo di BETA (periodo definito in corso d’opera da MONKEY BITS S.R.L.) i limiti indicati al punto 10.4 sono da considerarsi validi. Alla fine del suddetto periodo BETA, agli iscritti verrà mandata una mail per sottoscrivere un nuovo contratto visibile all’area sito <a href="www.edilcloud.io/piani/" _target="blank" className="mailto-color">www.edilcloud.io/piani/</a>, quindi con decorrenza dal 1° gennaio al 31 dicembre di ogni anno. Alla fine del periodo di beta saranno inviate le modifiche ai piani tariffari valide per l’anno corrente dal 1° gennaio al 31 dicembre di ogni anno.
+										Per tutto il periodo di BETA (periodo definito in corso d’opera da MONKEY BITS S.R.L.) i limiti indicati al punto 10.4 sono da considerarsi validi. Alla fine del suddetto periodo BETA, agli iscritti verrà mandata una mail per sottoscrivere un nuovo contratto, quindi con decorrenza dal 1° gennaio al 31 dicembre di ogni anno. Alla fine del periodo di beta saranno inviate le modifiche ai piani tariffari valide per l’anno corrente dal 1° gennaio al 31 dicembre di ogni anno.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -455,7 +459,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										11.1 Il Fornitore, anche mediante il Cloud Service Provider, farà ogni ragionevole sforzo per garantire la massima disponibilità del servizio Edilcloud.io. Il Cliente prende atto ed accetta che il Fornitore potrà sospendere e/o interrompere Edilcloud.io per garantire gli interventi di manutenzione ordinaria o straordinaria che si rendano opportuni e/o necessari sia ai locali che ospitano l’infrastruttura che ai server e/o apparecchiature ivi contenute. In tali casi, il Fornitore si impegna a ripristinare, o a fare in modo che il Cloud Services Provider ripristini, Edilcloud.io o l’infrastruttura virtuale, a seconda del caso, nel minor tempo possibile al fine di ridurre il disagio creato al Cliente.
+										11.1 Il Fornitore, anche mediante il Cloud Service Provider, farà ogni ragionevole sforzo per garantire la massima disponibilità del servizio Edilcloud. Il Cliente prende atto ed accetta che il Fornitore potrà sospendere e/o interrompere Edilcloud per garantire gli interventi di manutenzione ordinaria o straordinaria che si rendano opportuni e/o necessari sia ai locali che ospitano l’infrastruttura che ai server e/o apparecchiature ivi contenute. In tali casi, il Fornitore si impegna a ripristinare, o a fare in modo che il Cloud Services Provider ripristini, Edilcloud o l’infrastruttura virtuale, a seconda del caso, nel minor tempo possibile al fine di ridurre il disagio creato al Cliente.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -470,7 +474,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										in caso di guasti e/o malfunzionamenti alla rete e agli apparati di fornitura di Edilcloud.io dipendenti da caso fortuito o forza maggiore o che comportino pericolo per la rete, per le persone e/o per le cose, nonché nel caso di modifiche e/o manutenzioni non programmabili e/o prevedibili e tecnicamente indispensabili;
+										in caso di guasti e/o malfunzionamenti alla rete e agli apparati di fornitura di Edilcloud dipendenti da caso fortuito o forza maggiore o che comportino pericolo per la rete, per le persone e/o per le cose, nonché nel caso di modifiche e/o manutenzioni non programmabili e/o prevedibili e tecnicamente indispensabili;
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -480,17 +484,17 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										in caso di errato o non conforme utilizzo di Edilcloud.io da parte dal Cliente o comunque mancati adempimenti del Cliente ad obblighi di legge in materia di utilizzo dei servizi informatici e della rete internet;
+										in caso di errato o non conforme utilizzo di Edilcloud da parte dal Cliente o comunque mancati adempimenti del Cliente ad obblighi di legge in materia di utilizzo dei servizi informatici e della rete internet;
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										in caso di problemi di Edilcloud.io che non siano rimediabili senza sospendere o interrompere Edilcloud.io, in ogni caso informando il Cliente circa i tempi di intervento e di risoluzione delle problematiche riscontrate;
+										in caso di problemi di Edilcloud che non siano rimediabili senza sospendere o interrompere Edilcloud, in ogni caso informando il Cliente circa i tempi di intervento e di risoluzione delle problematiche riscontrate;
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										11.3 In ogni caso il Cliente dovrà comunicare al Fornitore entro 24 (ventiquattro) ore solari eventuali irregolarità o disfunzioni di Edilcloud.io. Eventuali danni causati da una comunicazione non tempestiva del Cliente non saranno imputabili al Fornitore.
+										11.3 In ogni caso il Cliente dovrà comunicare al Fornitore entro 24 (ventiquattro) ore solari eventuali irregolarità o disfunzioni di Edilcloud. Eventuali danni causati da una comunicazione non tempestiva del Cliente non saranno imputabili al Fornitore.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -515,12 +519,12 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										13.2 Il Cliente prende atto e accetta che il Fornitore non rilascia dichiarazioni e garanzie espresse o implicite sul fatto che Edilcloud.io sia adatta a soddisfare le esigenze del Cliente o che sia esente da errori. Il Cliente prende atto che il Fornitore, in nessun caso, potrà essere ritenuto responsabile per qualsiasi danno dovesse derivare al Cliente o a terzi in conseguenza di ritardi, mancato svolgimento o malfunzionamenti e/o interruzioni nell’erogazione di Edilcloud.io. In ogni caso, nei limiti massimi consentiti dalla legge, la responsabilità del Fornitore non potrà mai eccedere l’ammontare della somma spesa negli ultimi 12 mesi dal Cliente.
+										13.2 Il Cliente prende atto e accetta che il Fornitore non rilascia dichiarazioni e garanzie espresse o implicite sul fatto che Edilcloud sia adatta a soddisfare le esigenze del Cliente o che sia esente da errori. Il Cliente prende atto che il Fornitore, in nessun caso, potrà essere ritenuto responsabile per qualsiasi danno dovesse derivare al Cliente o a terzi in conseguenza di ritardi, mancato svolgimento o malfunzionamenti e/o interruzioni nell’erogazione di Edilcloud. In ogni caso, nei limiti massimi consentiti dalla legge, la responsabilità del Fornitore non potrà mai eccedere l’ammontare della somma spesa negli ultimi 12 mesi dal Cliente.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										13.3 Il Cliente prende altresì atto che il Fornitore in nessun caso potrà essere ritenuto responsabile per qualsiasi danno dovesse derivare al Cliente stesso o a terzi in conseguenza dell’uso di Edilcloud.io così come delle elaborazioni generate dall’Applicazione o mediante i Servizi Collegati, essendo il Cliente tenuto in ogni caso a verificare la correttezza delle elaborazioni ottenute utilizzando l’Applicazione o i Servizi Collegati.
+										13.3 Il Cliente prende altresì atto che il Fornitore in nessun caso potrà essere ritenuto responsabile per qualsiasi danno dovesse derivare al Cliente stesso o a terzi in conseguenza dell’uso di Edilcloud così come delle elaborazioni generate dall’Applicazione o mediante i Servizi Collegati, essendo il Cliente tenuto in ogni caso a verificare la correttezza delle elaborazioni ottenute utilizzando l’Applicazione o i Servizi Collegati.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -535,7 +539,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										14.1 Il Cliente è tenuto ad utilizzare Edilcloud.io nel rispetto dei diritti di proprietà intellettuale e/o industriale del Fornitore e/o di terzi. Il Cliente accetta e riconosce che la titolarità dell’Applicazione, inclusi i codici sorgente e gli eventuali adattamenti, sviluppi e migliorie apportati dal Fornitore, della relativa documentazione, nonché tutti i diritti di utilizzazione economica sugli stessi, rimangano in capo al Fornitore. Qualsiasi materiale che formi oggetto di diritti di proprietà intellettuale e/o industriale in favore di terzi e che sia messo a disposizione del Cliente tramite Edilcloud.io, sarà utilizzato dal Cliente nel rispetto di tali diritti. Il Cliente assume ogni responsabilità in proposito, e si impegna a manlevare ed a tenere indenne, ora per allora, il Fornitore da qualsiasi conseguenza pregiudizievole.
+										14.1 Il Cliente è tenuto ad utilizzare Edilcloud nel rispetto dei diritti di proprietà intellettuale e/o industriale del Fornitore e/o di terzi. Il Cliente accetta e riconosce che la titolarità dell’Applicazione, inclusi i codici sorgente e gli eventuali adattamenti, sviluppi e migliorie apportati dal Fornitore, della relativa documentazione, nonché tutti i diritti di utilizzazione economica sugli stessi, rimangano in capo al Fornitore. Qualsiasi materiale che formi oggetto di diritti di proprietà intellettuale e/o industriale in favore di terzi e che sia messo a disposizione del Cliente tramite Edilcloud, sarà utilizzato dal Cliente nel rispetto di tali diritti. Il Cliente assume ogni responsabilità in proposito, e si impegna a manlevare ed a tenere indenne, ora per allora, il Fornitore da qualsiasi conseguenza pregiudizievole.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -545,7 +549,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										14.3 La titolarità di tutti i diritti sui marchi, loghi, nomi, e altri segni distintivi comunque associati a Edilcloud.io è del Fornitore e/o del Cloud Service Provider, con la conseguenza che il Cliente non potrà in alcun modo utilizzarli senza la preventiva autorizzazione scritta del Fornitore e/o del Cloud Service Provider.
+										14.3 La titolarità di tutti i diritti sui marchi, loghi, nomi, e altri segni distintivi comunque associati a Edilcloud è del Fornitore e/o del Cloud Service Provider, con la conseguenza che il Cliente non potrà in alcun modo utilizzarli senza la preventiva autorizzazione scritta del Fornitore e/o del Cloud Service Provider.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -565,7 +569,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										16.1 La durata del Contratto è convenuta dalla data di attivazione di Edilcloud.io per un periodo pari alla durata dell’abbonamento scelto come indicato nel Listino.
+										16.1 La durata del Contratto è convenuta dalla data di attivazione di Edilcloud per un periodo pari alla durata dell’abbonamento scelto come indicato nel Listino.
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -685,7 +689,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										24.1 Il presente Contratto annulla e sostituisce ogni altra precedente intesa eventualmente intervenuta tra il Fornitore ed il Cliente riconducibile per qualsiasi motivo allo stesso utente (con la medesima email) ed avente ad oggetto il Servizio e costituisce la manifestazione ultima ed integrale degli accordi conclusi tra le Parti su tale oggetto.
+										24.1 Il presente Contratto annulla e sostituisce ogni altra precedente intesa eventualmente intervenuta tra il Fornitore ed il Cliente riconducibile per qualsiasi motivo allo stesso utente (con la medesima email) ed avente ad oggetto il Servizio e costituisce la manifestazione ultima ed integrale degli accordi conclusi tra le Parti su tale oggetto. 
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
@@ -760,7 +764,7 @@ export default function TermsModal({ open, setOpen, title }) {
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
 									<Typography color="textSecondary">
-										Sito Edilcloud.io: <a href="www.edilcloud.io" _target="blank" className="mailto-color">www.edilcloud.io</a>
+										Sito Edilcloud.io: www.edilcloud.io
 									</Typography>
 								</DialogContentText>
 								<DialogContentText tabIndex={-1}>
