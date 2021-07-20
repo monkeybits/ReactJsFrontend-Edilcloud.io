@@ -122,7 +122,7 @@ function TodoHeader(props) {
 						</div>
 						<FuseAnimate animation="transition.slideRightIn" delay={300}>
 							<Button
-								onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility())}
+								onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility('todo'))}
 								// component={Link}
 								// to="/apps/e-commerce/products/new"
 								className="whitespace-no-wrap normal-case"

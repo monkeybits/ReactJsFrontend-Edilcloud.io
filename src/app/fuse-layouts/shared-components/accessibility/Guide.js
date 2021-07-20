@@ -7,6 +7,7 @@ import reducer from 'app/main/apps/notes/store/reducers';
 import { decodeDataFromToken } from 'app/services/serviceUtils';
 import GuideListItem from './GuideListItem';
 import * as Actions from './store/actions';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -24,14 +25,31 @@ const useStyles = makeStyles(theme => ({
 function Guide(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles();
+	const { i18n } = useTranslation();
 	const [open, setOpen] = React.useState(false);
 
 	const userInfo = decodeDataFromToken();
 	const getRole = () => userInfo?.extra?.profile.role;
 
 	const projects = useSelector(({ notesApp }) => notesApp?.project?.entities);
+	const accessibilityFrom = useSelector(({ accessibilityPanel }) => accessibilityPanel.accessibilityFrom);
 
-	const [quickStartList, setQuickStartList] = React.useState([
+	const [quickStartList, setQuickStartList] = React.useState(
+	accessibilityFrom === 'projects' ? [
+		{
+			title: i18n.language === 'en' ? 'The functionalities of the Edilcloud construction site' : 'Scopri le funzionalità del cantiere Edilcloud',
+			content: '',
+			contentTitle: '',
+			contentDescription:
+				i18n.language === 'en' ? 'Watch the video to understand how you can best use the EdilCloud project' : 'Guarda il video per capire come puoi utilizzare al meglio il progetto di EdilCloud',
+			link: '',
+			linkText: '',
+			linkTextAll: '',
+			image: '',
+			video: 'assets/videos/sample.mp4',
+			iconSelection: ''
+		}
+	] : [
 		{
 			title: 'Aggiungi i Tuoi Collaboratori',
 			content: 'Testing',
@@ -121,6 +139,7 @@ function Guide(props) {
 			iconSelection: 'knowledge'
 		}
 	]);
+	
 	return (
 		<List component="nav" aria-labelledby="nested-list-subheader" className={classes.root}>
 			{quickStartList.map((d, i) => {
