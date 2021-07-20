@@ -553,10 +553,10 @@ class Gantt extends Component {
 					}
 					const userInfo = decodeDataFromToken();
 					const getRole = () => userInfo?.extra?.profile.role;
-					if (getRole() == 'o' || getRole() == 'd') {
+					// if (getRole() == 'o' || getRole() == 'd') {
 						return this.props.openTaskContent({ ...captureData.data, isGantt: true });
-					}
-					return null;
+					// }
+					// return null;
 				}
 			}
 		};
@@ -594,6 +594,9 @@ class Gantt extends Component {
 				const userInfo = decodeDataFromToken();
 				const getRole = () => userInfo?.extra?.profile.role;
 				let className = '';
+				if(getRole() === 'w') {
+					className += ' hide_add';
+				}
 				if (task.$level >= 1) {
 					className += ' nested_task';
 				}
@@ -620,7 +623,7 @@ class Gantt extends Component {
 					getRole() == 'm' ||
 					getRole() == 'w'
 				) {
-					className += ' block_row_events';
+					// className += ' block_row_events';
 				}
 				return className;
 			};
