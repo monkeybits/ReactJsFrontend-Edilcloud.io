@@ -193,18 +193,6 @@ function LoginPage() {
 									</MenuItem>
 								))}
 							</TippyMenu>
-							{/* <Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
-								// value={age}
-								// onChange={handleChange}
-							>
-								{languages.map(lng => (
-									<MenuItem key={lng.id} onClick={() => handleLanguageChange(lng)}>
-										<ListItemText primary={lng.title} />
-									</MenuItem>
-								))}
-							</Select> */}
 						</FormControl>
 						<div className="flex">
 							<a href="javascript:;" className="text-muted mr-20">
