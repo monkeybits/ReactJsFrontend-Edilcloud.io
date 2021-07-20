@@ -220,18 +220,6 @@ function ChatApp(props) {
 									</FuseAnimate>
 								</ThemeProvider>
 							</div>
-
-							<FuseAnimate animation="transition.slideRightIn" delay={300}>
-								<Button
-									component={Link}
-									to="/apps/e-commerce/products/new"
-									className="whitespace-no-wrap normal-case"
-									variant="contained"
-									color="secondary"
-								>
-									<span className="flex">Nuovo</span>
-								</Button>
-							</FuseAnimate>
 						</div>
 					</div>
 				</div>
