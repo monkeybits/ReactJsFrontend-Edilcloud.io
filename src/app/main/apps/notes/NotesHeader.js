@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { ThemeProvider } from '@material-ui/core/styles';
 import * as Actions from 'app/main/apps/notes/store/actions';
+import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 
 function NotesHeader(props) {
 	const searchText = useSelector(({ notesApp }) => notesApp.project.searchText);
@@ -62,13 +63,14 @@ function NotesHeader(props) {
 		</div>
 		<FuseAnimate animation="transition.slideRightIn" delay={300}>
 			<Button
-				component={Link}
-				to="/apps/e-commerce/products/new"
+				onClick={ev => dispatch(accessibilityPanelActions.toggleAccessibility('projects'))}
+				// component={Link}
+				// to="/apps/e-commerce/products/new"
 				className="whitespace-no-wrap normal-case"
 				variant="contained"
 				color="secondary"
 			>
-				<span className="xs:hidden sm:flex">Nuovo progetto</span>
+				<span className="xs:hidden sm:flex">Guida</span>
 				<span className="flex sm:hidden"></span>
 			</Button>
 		</FuseAnimate>

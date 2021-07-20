@@ -10,9 +10,10 @@ export const IS_POST = '[Accessibility] IS POST';
 export const IS_DOWNLOAD_APP = '[Accessibility] IS DOWNLOAD APP';
 export const SET_COUNT_APP_PANEL = '[Accessibility] SET COUNT APP PANEL';
 
-export function toggleAccessibility() {
+export function toggleAccessibility(from = '') {
 	return {
-		type: TOGGLE_ACCESSIBILITY_PANEL
+		type: TOGGLE_ACCESSIBILITY_PANEL,
+		from
 	};
 }
 

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
 import Guide from './Guide';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -26,7 +27,9 @@ const useStyles = makeStyles(theme => ({
 
 function AccessibilityPanel(props) {
 	const dispatch = useDispatch();
+	const { i18n } = useTranslation();
 	const state = useSelector(({ accessibilityPanel }) => accessibilityPanel.state);
+	const accessibilityFrom = useSelector(({ accessibilityPanel }) => accessibilityPanel.accessibilityFrom);
 	const classes = useStyles();
 
 	return (
@@ -48,7 +51,7 @@ function AccessibilityPanel(props) {
 						<AppBar position="inherit" elevation={0}>
 							<Toolbar className="px-8 pt-36 pb-56 text-center bg-blue-500">
 								<Typography variant="h5" color="inherit" className="flex-1 px-12">
-									Benvenuti in EdilCloud
+									{accessibilityFrom === 'projects' ? i18n.language === 'en' ? 'EdilCloud project' : 'Progetto Edilcloud' : 'Benvenuti in EdilCloud'}
 								</Typography>
 							</Toolbar>
 						</AppBar>
