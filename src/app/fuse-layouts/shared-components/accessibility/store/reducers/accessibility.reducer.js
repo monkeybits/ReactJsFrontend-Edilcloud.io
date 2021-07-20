@@ -11,7 +11,8 @@ const initialState = {
 	isTask: '',
 	isPost: '',
 	isDownload: '',
-	count: 0
+	count: 0,
+	accessibilityFrom: ''
 };
 
 const accessibilityPanel = (state = initialState, action) => {
@@ -25,7 +26,8 @@ const accessibilityPanel = (state = initialState, action) => {
 		case Actions.TOGGLE_ACCESSIBILITY_PANEL: {
 			return {
 				...state,
-				state: !state.state
+				state: !state.state,
+				accessibilityFrom: action.from
 			};
 		}
 		case Actions.OPEN_ACCESSIBILITY_PANEL: {
