@@ -76,7 +76,8 @@ export default function ProjectListitem(props) {
 			profiles,
 			isApproved,
 			talks,
-			address
+			address,
+			creator
 		} = projects[projectIndex];
 	}
 
@@ -99,6 +100,9 @@ export default function ProjectListitem(props) {
 	const notificationPanel = useSelector(({ notificationPanel }) => notificationPanel);
 	const scrollRef = useRef(null);
 	const hasNotifcationOnThisItem = notificationPanel.notificationData?.notification?.object_id == id;
+
+	console.log('creator??????????????????????????????????????????????', creator)
+	console.log('creator??????????????????????????????????????????????userInfo', userInfo.user_id)
 
 	useEffect(() => {
 		if (project) {
@@ -228,6 +232,7 @@ export default function ProjectListitem(props) {
 				className="bg-dark-blue"
 				action={
 					!!isApproved &&
+					userInfo.user_id === creator.id &&
 					(getRole() == 'o' || getRole() == 'd') && (
 						<div>
 							{/* <IconButton onClick={handleClick} aria-label="settings">
@@ -283,9 +288,12 @@ export default function ProjectListitem(props) {
 				}
 			/>
 			<div className="project_card_action">
-				<IconButton disabled={getRole() == 'w' || getRole() == 'm'} onClick={handleClick} aria-label="settings">
-					<MoreHorizIcon />
-				</IconButton>
+				{
+					userInfo?.user_id === creator?.id &&
+					<IconButton disabled={getRole() == 'w' || getRole() == 'm'} onClick={handleClick} aria-label="settings">
+						<MoreHorizIcon />
+					</IconButton>
+				}
 			</div>
 			<Tabs
 				value={value}
