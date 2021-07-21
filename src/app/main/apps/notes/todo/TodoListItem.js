@@ -448,13 +448,24 @@ function TodoListItem(props) {
 						</>
 					) : getRole() == 'd' || getRole() == 'o' ? (
 						<>
-							<div ref={anchorRef} onClick={handleMenuOpen}>
-								<IconButton>
-									<Icon> business</Icon>
-									<Typography className="ml-10">Assign to a company</Typography>
-								</IconButton>
-								{loading && <CircularProgress size={15} color="secondary" />}
-							</div>
+							{
+								projectDetail.company?.id == company.id ? (
+									<div ref={anchorRef} onClick={handleMenuOpen}>
+										<IconButton>
+											<Icon> business</Icon>
+											<Typography className="ml-10">Assign to a company</Typography>
+										</IconButton>
+										{loading && <CircularProgress size={15} color="secondary" />}
+									</div>
+								) : (
+									<div>
+										<IconButton>
+											<Icon> business</Icon>
+										</IconButton>
+										{loading && <CircularProgress size={15} color="secondary" />}
+									</div>
+								)
+							}
 							<Popover
 								open={state.open}
 								anchorEl={anchorRef.current}
@@ -491,46 +502,49 @@ function TodoListItem(props) {
 									</MenuList>
 								</Paper>
 							</Popover>
-							<TippyMenu
-								icon={
-									<>
-										<IconButton
-											// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
-											aria-haspopup="true"
-											// onClick={handleMoreMenuClick}
-											className="opacity-60"
-										>
-											<Icon>more_vert</Icon>
-										</IconButton>
-									</>
-								}
-								outsideClick
-							>
-								<MenuItem
-									onClick={ev => {
-										ev.preventDefault();
-										ev.stopPropagation();
-										dispatch(Actions.editTaskTodoDialog(props.todo));
-									}}
+							{
+								projectDetail.company?.id == company.id &&
+								<TippyMenu
+									icon={
+										<>
+											<IconButton
+												// aria-owns={moreMenuEl ? 'chats-more-menu' : null}
+												aria-haspopup="true"
+												// onClick={handleMoreMenuClick}
+												className="opacity-60"
+											>
+												<Icon>more_vert</Icon>
+											</IconButton>
+										</>
+									}
+									outsideClick
 								>
-									<Button>
-										<Icon className="mr-10">edit</Icon>
-											Edit
-										</Button>
-								</MenuItem>
-								<MenuItem
+									<MenuItem
 										onClick={ev => {
 											ev.preventDefault();
 											ev.stopPropagation();
-											dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
+											dispatch(Actions.editTaskTodoDialog(props.todo));
 										}}
 									>
 										<Button>
-											<Icon className="mr-10">delete</Icon>
-											Delete
-										</Button>
+											<Icon className="mr-10">edit</Icon>
+												Edit
+											</Button>
 									</MenuItem>
-							</TippyMenu>
+									<MenuItem
+											onClick={ev => {
+												ev.preventDefault();
+												ev.stopPropagation();
+												dispatch(Actions.openDeleteConfirmDialog('Task', props.todo));
+											}}
+										>
+											<Button>
+												<Icon className="mr-10">delete</Icon>
+												Delete
+											</Button>
+										</MenuItem>
+								</TippyMenu>
+							}
 						</>
 					) : (
 						<Typography className="font-medium truncate ht-auto" color="inherit">

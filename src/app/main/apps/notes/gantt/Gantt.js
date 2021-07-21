@@ -434,7 +434,7 @@ class Gantt extends Component {
 				{ name: 'start_date', label: t('START_DATE'), width: 100 },
 				{ name: 'end_date', label: t('END_DATE'), width: 100 },
 				{ name: 'company', label: t('COMPANY'), width: 100 },
-				{ name: 'add', width: 44, min_width: 44, max_width: 44 }
+				// { name: 'add', width: 44, min_width: 44, max_width: 44 }
 			];
 			// start block for resize
 			gantt.config.layout = {
