@@ -14,6 +14,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { useMediaQuery } from 'react-responsive';
 import * as accessibilityPanelActions from 'app/fuse-layouts/shared-components/accessibility/store/actions';
 import * as Actions from '../todo/store/actions';
+import * as ChatActions from 'app/main/apps/chat/store/actions';
 import loadable from '@loadable/component';
 import useScript from './useScript'
 const ImportExcelDialog = loadable(() => import('./ImportExcelDialog'));
@@ -55,6 +56,7 @@ function GanttWrapper(props) {
 	const orientation = 'portrait';
 	useDeepCompareEffect(() => {
 		dispatch(Actions.getTodos(routeParams.id, true));
+		dispatch(ChatActions.companyInfo());
 		return () => {
 			dispatch({
 				type: Actions.GET_TODOS,

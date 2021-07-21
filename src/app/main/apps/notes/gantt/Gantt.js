@@ -309,8 +309,8 @@ class Gantt extends Component {
 			(company && projectDetail.company && JSON.stringify(company) != JSON.stringify(this.props.company)) ||
 			JSON.stringify(projectDetail.company) != JSON.stringify(this.props.projectDetail.company)
 		) {
-			this.templatePermissions(projectDetail, company);
-			return true;
+			return this.templatePermissions(projectDetail, company);
+			// return true;
 		}
 		if (this.props.todos.isLoadingTodos != nextProps.todos.isLoadingTodos) {
 			return true;
@@ -354,7 +354,6 @@ class Gantt extends Component {
 			this.setState({
 				open: true
 			});
-			// gantt.collapse();
 			return false;
 		}
 		if (nextProps.value == 4) {
@@ -362,20 +361,9 @@ class Gantt extends Component {
 			return false;
 		}
 		return false;
-		// if (this.props.zoom !== nextProps.zoom && this.state.tasks) {
-		// 	this.createGantt(this.state.tasks);
-		// 	return true;
-		// }
-
-		// if (!this.state.tasks) {
-		// 	return true;
-		// }
 	}
 
 	ganttInit = todos => {
-		// gantt.config.start_date = new Date([2018]);
-		// gantt.config.end_date = new Date([2022]);
-
 		const tasks = {
 			data: Object.values(todos.entities).map((data, i) => {
 				return data.parent == 0
@@ -482,14 +470,6 @@ class Gantt extends Component {
 			}
 			return moment(date).format('YYYY-MM-DD');
 		};
-		// gantt.attachEvent('onTaskDrag', function (id, mode, task, original) {
-		// 	//any custom logic here
-		// 	let end_date = new Date(task.end_date);
-		// 	end_date.setDate(end_date.getDate() - 1);
-		// 	gantt.getTask(id).end_date = end_date;
-		// 	// gantt.render();
-		// 	console.log('task', gantt.getTask(id));
-		// });
 		// end block for resize
 		if (gantt._onTemplatesReadyHandler) {
 			gantt.detachEvent(gantt._onTemplatesReadyHandler);
@@ -532,8 +512,6 @@ class Gantt extends Component {
 				if (savedTask.$new == true) {
 					if (savedTask.$level == 1) {
 						const captureData = gantt.getTask(savedTask.parent);
-						// let captureData = this.state.tasks.data.filter(task => task.id == savedTask.parent);
-						// captureData = captureData && captureData.length ? captureData[0] : undefined;
 						this.props.openAddActivityTodoDialog({ ...captureData.data, isGantt: true });
 					} else {
 						this.props.openNewTodoDialog({ isGantt: true });
@@ -541,9 +519,7 @@ class Gantt extends Component {
 					delete savedTask.$new;
 					gantt.deleteTask(id);
 				} else {
-					const captureData = savedTask; // this.state.tasks.data.filter(task => task.id == id);
-					// captureData = captureData && captureData.length ? captureData[0] : undefined;
-
+					const captureData = savedTask;
 					if (captureData.data.parent) {
 						return this.props.openTimelineDialog({
 							todo: captureData.data,
@@ -551,12 +527,7 @@ class Gantt extends Component {
 							isGantt: true
 						});
 					}
-					const userInfo = decodeDataFromToken();
-					const getRole = () => userInfo?.extra?.profile.role;
-					// if (getRole() == 'o' || getRole() == 'd') {
-						return this.props.openTaskContent({ ...captureData.data, isGantt: true });
-					// }
-					// return null;
+					return this.props.openTaskContent({ ...captureData.data, isGantt: true });
 				}
 			}
 		};
@@ -577,24 +548,17 @@ class Gantt extends Component {
 	};
 
 	templatePermissions = (projectDetail, company) => {
-		const userInfo = decodeDataFromToken();
-		const getRole = () => userInfo?.extra?.profile.role;
 		if (projectDetail.company && company) {
 			gantt.templates.grid_header_class = (CN, C) => {
 				if (CN == 'add') {
 					return 'hide_add';
-					// if (projectDetail.company?.id != company.id) {
-					// 	return 'hide_add';
-					// } else if (getRole() == 'w' || getRole() == 'm') {
-					// 	return 'hide_add';
-					// }
 				}
 			};
 			gantt.templates.grid_row_class = (start, end, task) => {
 				const userInfo = decodeDataFromToken();
 				const getRole = () => userInfo?.extra?.profile.role;
 				let className = '';
-				if(getRole() === 'w') {
+				if(task.data.assigned_company?.id !== company.id || getRole() === 'w') {
 					className += ' hide_add';
 				}
 				if (task.$level >= 1) {
@@ -609,8 +573,6 @@ class Gantt extends Component {
 				return className;
 			};
 			gantt.templates.task_class = (start, end, task) => {
-				const userInfo = decodeDataFromToken();
-				const getRole = () => userInfo?.extra?.profile.role;
 				let className = '';
 				if (task.parent) {
 					className += ' nested_task_right hide_progress_drag';
@@ -618,16 +580,10 @@ class Gantt extends Component {
 				if (task.parent == 0 && projectDetail.company?.id != company.id) {
 					className += ' hide_date_drag';
 				}
-				if (
-					(task.parent == 0 && company.id != projectDetail.company?.id) ||
-					getRole() == 'm' ||
-					getRole() == 'w'
-				) {
-					// className += ' block_row_events';
-				}
 				return className;
 			};
 		}
+		return true;
 	};
 
 	createMarker = tasks => {
