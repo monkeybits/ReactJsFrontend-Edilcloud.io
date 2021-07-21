@@ -419,13 +419,24 @@ function TodoListItem(props) {
 						</>
 					) : getRole() == 'd' || getRole() == 'o' ? (
 						<>
-							<div ref={anchorRef} onClick={handleMenuOpen}>
-								<IconButton className="text-white">
-									<Icon>business</Icon>
-									<Typography className="ml-10">Assign to a company</Typography>
-								</IconButton>
-								{loading && <CircularProgress size={15} color="secondary" />}
-							</div>
+							{
+								projectDetail.company?.id == company.id ? (
+									<div ref={anchorRef} onClick={handleMenuOpen}>
+										<IconButton className="text-white">
+											<Icon>business</Icon>
+											<Typography className="ml-10">Assign to a company</Typography>
+										</IconButton>
+										{loading && <CircularProgress size={15} color="secondary" />}
+									</div>
+								) : (
+									<div>
+										<IconButton className="text-white">
+											<Icon>business</Icon>
+										</IconButton>
+										{loading && <CircularProgress size={15} color="secondary" />}
+									</div>
+								)
+							}
 							<Popover
 								open={state.open}
 								anchorEl={anchorRef.current}
@@ -462,7 +473,9 @@ function TodoListItem(props) {
 									</MenuList>
 								</Paper>
 							</Popover>
-							<TippyMenu
+							{
+								projectDetail.company?.id == company.id &&
+								<TippyMenu
 									icon={
 										<>
 											<IconButton
@@ -488,6 +501,7 @@ function TodoListItem(props) {
 										</Button>
 									</MenuItem>
 								</TippyMenu>
+							}
 						</>
 					) : (
 						<Typography className="font-medium truncate ht-auto" color="inherit">
