@@ -110,17 +110,16 @@ function PlanIosDialog({ isPlanModal, closePlanModal, onOk, from = '' }) {
             classes={{
                 container: 'popup-plan-container'
             }}
-			// className="popup-root"
 		>
 			<DialogTitle id="customized-dialog-title" onClose={closePlanModal}></DialogTitle>
 			<DialogContent>
-				<div>{t('UPDATE_MESSAGE')} <span className="text-blue-500">EdilCloud</span> {i18n.language === 'en' ? 'website.' : ''}</div>
+				<div className={'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-10 sm:p-32 bg-white'}>
+					<img width="250" src="assets/images/logos/fuse.svg" />
+					<img width="250" src="assets/images/splash/Construction-amico.svg" />
+					<div className="text-center font-bold text-black py-4">{t('TITLE')}</div>
+					<div className="text-center text-black py-4">{t('DESCRIPTION')}</div>
+				</div>
 			</DialogContent>
-			<DialogActions>
-				<Button autoFocus onClick={onOk} color="white" className="bg-blue-500 text-white hover:bg-blue-500">
-					Ok
-				</Button>
-			</DialogActions>
 		</Dialog>
 	);
 }

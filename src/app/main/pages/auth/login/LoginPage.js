@@ -149,23 +149,45 @@ function LoginPage() {
 
 								<JWTLoginTab />
 
-								<div className="flex items-center justify-center w-full pt-16">
-									<span className="text-custom font-600 mr-6"> {t('DONT_HAVE_AN_ACCOUNT_ASK')}</span>
-								</div>
-								<div className="flex items-center  justify-center w-full ">
-									<Button
-										type="submit"
-										variant="contained"
-										size="large"
-										className="w-full bg-dark-blue mx-auto mt-16 uppercase"
-										aria-label="Register"
-										value="legacy"
-									>
-										<Link className="w-full text-white font-600 inline" to="/pages/auth/register">
-											{t('SIGN_UP')}
-										</Link>
-									</Button>
-								</div>
+								{
+									deviceType !== 'ios' &&
+									<>
+
+										<div className="flex items-center justify-center w-full pt-16">
+											<span className="text-custom font-600 mr-6"> {t('DONT_HAVE_AN_ACCOUNT_ASK')}</span>
+										</div>
+										<div className="flex items-center  justify-center w-full ">
+											<Button
+												type="button"
+												variant="contained"
+												size="large"
+												className="w-full bg-dark-blue mx-auto mt-16 uppercase text-white font-600 inline"
+												aria-label="Register"
+												value="legacy"
+												onClick={() => {
+													if(deviceType === 'android') {
+														if (window.flutter_inappwebview?.callHandler) {
+															window.flutter_inappwebview
+																.callHandler('RedirectSubdomain', `https://account.edilcloud.io`)
+																.then(function (result) {
+																	// console.log(JSON.stringify(result));
+																});
+														}
+													} else {
+														window.open(
+															'https://account.edilcloud.io',
+															'_blank'
+														);
+													}
+												}}
+											>
+												{/* <Link className="w-full text-white font-600 inline" to="/pages/auth/register"> */}
+													{t('SIGN_UP')}
+												{/* </Link> */}
+											</Button>
+										</div>
+									</>
+								}
 							</CardContent>
 						</Card>
 					</FuseAnimate>
