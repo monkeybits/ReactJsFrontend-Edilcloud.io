@@ -90,22 +90,6 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 			/>
 			<FileViewDialog isOpenViewFile={isOpenViewFile} closeViewFile={closeViewFile} />
 			<div className="flex flex-col justify-between">
-				{/* <div className="toolbar flex align-center justify-end">
-					<FuseAnimate animation="transition.expandIn" delay={200}>
-						<IconButton onClick={openDeleteFileDialog}>
-							<Icon>delete</Icon>
-						</IconButton>
-					</FuseAnimate>
-					<FuseAnimate animation="transition.expandIn" delay={200}>
-						<IconButton onClick={onDownload}>
-							<Icon>cloud_download</Icon>
-						</IconButton>
-					</FuseAnimate>
-					<IconButton onClick={openViewFile}>
-						<Icon>visibility</Icon>
-					</IconButton>
-				</div> */}
-
 				<div className="flex items-center justify-between border-b-1 px-20 py-6">
 					<FuseAnimate delay={200}>
 						<Typography variant="subtitle1" className="font-700">
@@ -124,13 +108,6 @@ function DetailSidebarHeader({ setProgress, pageLayout }) {
 					>
 						<CloseIcon />
 					</IconButton>
-
-					{/* <FuseAnimate delay={300}>
-						<Typography variant="caption" className="">
-							<span>Edited</span>
-							<span>: {moment(selectedItem.date_last_modify).format('MMMM Do YYYY, h:mm a')}</span>
-						</Typography>
-					</FuseAnimate> */}
 				</div>
 			</div>
 		</>
