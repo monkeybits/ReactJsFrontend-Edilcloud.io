@@ -11,7 +11,8 @@ class FuseAuthorization extends Component {
 		const { routes } = context;
 		this.state = {
 			accessGranted: true,
-			routes
+			routes,
+			deviceType: ''
 		};
 	}
 
@@ -47,21 +48,49 @@ class FuseAuthorization extends Component {
 		const { pathname, state } = location;
 		const redirectUrl = state && state.redirectUrl ? state.redirectUrl : '/';
 
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		var deviceType = '';
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+			deviceType = 'window phone'
+		}
+
+		if (/android/i.test(userAgent)) {
+			deviceType = 'android'
+		}
+
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			deviceType = 'ios'
+		}
+
+		const iPad = (userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+		if (iPad !== false) {
+			deviceType = 'ios'
+		}
+
 		/*
         User is guest
         Redirect to Login Page
         */
 		if (!userRole || userRole.length === 0) {
-			history.push({
-				pathname: '/pages/auth/login',
-				state: { redirectUrl: pathname }
-			});
+			if(deviceType === 'ios') {
+				history.push({
+					pathname: '/pages/auth/splash'
+				});
+			} else {
+				history.push({
+					pathname: '/pages/auth/login',
+					state: { redirectUrl: pathname }
+				});
+			}
 		} else {
 			/*
-        User is member
-        User must be on unAuthorized page or just logged in
-        Redirect to dashboard or redirectUrl
-        */
+			User is member
+			User must be on unAuthorized page or just logged in
+			Redirect to dashboard or redirectUrl
+			*/
 			history.push({
 				pathname: redirectUrl
 			});
