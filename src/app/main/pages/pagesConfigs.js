@@ -22,6 +22,7 @@ import PricingStyle3PageConfig from './pricing/style-3/PricingStyle3PageConfig';
 import ProfilePageConfig from './profile/ProfilePageConfig';
 import ClassicSearchPageConfig from './search/classic/ClassicSearchPageConfig';
 import ModernSearchPageConfig from './search/modern/ModernSearchPageConfig';
+import SplashPageConfig from './auth/splash-screen/SplashPageConfig';
 
 const pagesConfigs = [
 	LoginPageConfig,
@@ -47,7 +48,8 @@ const pagesConfigs = [
 	ClassicSearchPageConfig,
 	ModernSearchPageConfig,
 	FaqPageConfig,
-	KnowledgeBasePageConfig
+	KnowledgeBasePageConfig,
+	SplashPageConfig
 ];
 
 export default pagesConfigs;

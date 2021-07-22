@@ -1,6 +1,6 @@
 const locale = {
-	UPDATE_MESSAGE: 'Do you want to change your Account Manager settings? Go to the',
-    COPY_TEXT: 'Click on the link to copy it '
+	TITLE: 'Are you looking for your Account settings?',
+    DESCRIPTION: 'On the EdiCloud website you can manage your account manager.'
 };
 
 export default locale;
