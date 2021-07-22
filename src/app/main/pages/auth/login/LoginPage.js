@@ -168,14 +168,14 @@ function LoginPage() {
 													if(deviceType === 'android') {
 														if (window.flutter_inappwebview?.callHandler) {
 															window.flutter_inappwebview
-																.callHandler('RedirectSubdomain', `https://account.edilcloud.io`)
+																.callHandler('RedirectSubdomain', `https://account.edilcloud.io/pages/auth/register`)
 																.then(function (result) {
 																	// console.log(JSON.stringify(result));
 																});
 														}
 													} else {
 														window.open(
-															'https://account.edilcloud.io',
+															'https://account.edilcloud.io/pages/auth/register',
 															'_blank'
 														);
 													}

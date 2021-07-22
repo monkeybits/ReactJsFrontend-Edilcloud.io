@@ -1,6 +1,6 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import { IconButton, Button, TextField, LinearProgress, Dialog, Typography, Toolbar, AppBar } from '@material-ui/core';
+import { IconButton, Button, TextField, LinearProgress, Dialog, Typography, Toolbar, AppBar, Paper, Icon, Input } from '@material-ui/core';
 import withReducer from 'app/store/withReducer';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -321,10 +321,36 @@ function FileManagerApp(props) {
 											{projectDetail.address}
 										</Typography>
 									</div>
-									<div className="flex flex-1 items-center justify-between">
-										<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
-											{t('FILES')}
-										</Typography>
+									<div className="flex flex-1 w-full items-center justify-between">
+										<div className="flex items-center">
+											<Typography className="sm:flex pt-4 pb-8 text-white mx-0 sm:mx-12" variant="h6">
+												{t('FILES')}
+											</Typography>
+										</div>
+										<div className="flex flex-1 items-center justify-center px-12">
+											<ThemeProvider theme={mainTheme}>
+												<FuseAnimate animation="transition.slideDownIn" delay={300}>
+													<Paper
+														className="flex items-center w-full max-w-512 px-8 py-4 rounded-8"
+														elevation={1}
+													>
+														<Icon color="action">search</Icon>
+
+														<Input
+															placeholder="Cerca persone del team"
+															className="flex flex-1 mx-8"
+															disableUnderline
+															fullWidth
+															value={searchText}
+															inputProps={{
+																'aria-label': 'Search'
+															}}
+															onChange={ev => dispatch(Actions.setSearchText(ev))}
+														/>
+													</Paper>
+												</FuseAnimate>
+											</ThemeProvider>
+										</div>
 									</div>
 								</div>
 							</div>
