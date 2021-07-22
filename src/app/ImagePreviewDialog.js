@@ -173,9 +173,9 @@ function ImagePreviewDialog({ isOpenViewFile, closeViewFile, activtStep, imagesA
 				{getPreviewByType(imagesArray[step])}
 			</DialogContent>
 			<DialogActions>
-				<Button disabled={downloadDisable} variant="contained" color="primary" onClick={handleDownload}>
+				{/* <Button disabled={downloadDisable} variant="contained" color="primary" onClick={handleDownload}>
 					{t('DOWNLOAD')}
-				</Button>
+				</Button> */}
 				{
 					!isSingle &&
 					<>
